@@ -1,6 +1,6 @@
 **版本管理**
 
-```git
+```shell
 $ cd /c/user/my_project		#切换目录
 
 $ git init					#创建工作区
@@ -107,4 +107,5 @@ $ git cherry-pick <commit>	#复制特定提交
 
 ```
 
-<img src="https://i.stack.imgur.com/FMD5h.png" alt="这里写图片描述" style="zoom:50%;" />
+<img src="https:#i.stack.imgur.com/FMD5h.png" alt="分支管理" style="zoom:50%;" />
+
