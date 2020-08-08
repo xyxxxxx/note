@@ -107,5 +107,3 @@ $ git cherry-pick <commit>	#复制特定提交
 
 ```
 
-<img src="https:#i.stack.imgur.com/FMD5h.png" alt="分支管理" style="zoom:50%;" />
-
