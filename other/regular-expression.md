@@ -1,5 +1,3 @@
-[toc]
-
 ## 元字符
 
 | char                             | quantifiers          | position           |

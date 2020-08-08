@@ -1,6 +1,6 @@
 ## XML
 
-XML是可扩展标记语言（eXtensible Markup Language）的缩写，是一种数据表示格式，可以描述复杂的数据结构，常用于传输和存储数据
+XML是可扩展标记语言（eXtensible Markup Language）的缩写，是一种数据表示格式，可以描述复杂的数据结构，常用于传输和存储数据。
 
 例如一个描述书籍的XML文档：
 
@@ -74,7 +74,7 @@ XML文件格式的正确性可以通过拖拽至浏览器验证
 
 ### Java
 
-**DOM**
+#### DOM
 
 DOM一次性读取XML，并在内存中表示为树形结构。以之前的Java核心技术.xml为例，解析为DOM结构：
 
@@ -126,7 +126,7 @@ void printNode(Node n, int indent) {
 
 
 
-**SAX**
+#### SAX
 
 SAX（Simple API for XML）是一种基于流的解析方式，边读取XML边解析，并以事件回调的方式让调用者获取数据
 
@@ -183,7 +183,7 @@ class MyHandler extends DefaultHandler {
 
 
 
-**Jackson**
+#### Jackson
 
 观察Java核心技术.xml，发现其完全对应类：
 
