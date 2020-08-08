@@ -39,7 +39,7 @@ $ git mv <fname1> <fname2>  #文件更名
 
 **远程仓库**
 
-```git
+```shell
 $ git remote -v				#查看远程库信息
 
 $ git remote add origin git@github.com:FishpondA/testproj.git #设定远程版本库
@@ -60,7 +60,7 @@ $ git branch --set-upstream <branch> origin/<branch>#建立本地和远程分支
 
 **标签管理**
 
-```git
+```shell
 $ git tag v1.0	#打标签
 $ git tag		#查看所有标签
 $ git tag v0.9 <commit>	#对历史commit打标签
@@ -80,7 +80,7 @@ $ git push origin --delete <tagname>
 
 **分支管理**
 
-```git
+```shell
 $ git branch <branch>	#创建分支
 $ git switch <branch>	#切换分支
 $ git switch -c <branch>	#创建分支并切换

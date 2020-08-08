@@ -78,7 +78,7 @@ XML文件格式的正确性可以通过拖拽至浏览器验证
 
 DOM一次性读取XML，并在内存中表示为树形结构。以之前的Java核心技术.xml为例，解析为DOM结构：
 
-![](https://raw.githubusercontent.com/xyxxxxx/image/master/adipfojh4ovejnthkfqe.PNG?token=APPSQPCHRNGWPJ43KN2T3Y27F2ZPO)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/adipfojh4ovejnthkfqe.PNG)
 
 
 
