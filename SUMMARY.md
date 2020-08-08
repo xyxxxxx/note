@@ -1,10 +1,8 @@
 # CS学习笔记
 
-
-
 ## 后端
 
-* [C]()
+* [C](C/c.md)
 	* [注意](C/notice.md)
 	* [运行环境与开发工具](C/runtime-environment-devtool.md)
 	* [类型，运算，语句](C/type-operator-expression.md)
@@ -23,11 +21,11 @@
 	* [Makefile](C/makefile.md)
 
 
-* [C++]()
+* [C++](C++/cpp.md)
 	* [运行环境与开发工具](C++/runtime-environment-devtool.md)
 
 
-* [Java]()
+* [Java](Java/java.md)
 	* [运行环境与开发工具](Java/runtime-environment-devtool.md)
 	* [JVM](Java/jvm.md)
     * [J2SE]()
@@ -51,7 +49,7 @@
     * [设计模式](Java/J2EE/design-pattern.md)
 
 
-* [Python]()
+* [Python](Python/python.md)
 	* [运行环境与开发工具](Python/runtime-environment-devtool.md)
 
 
