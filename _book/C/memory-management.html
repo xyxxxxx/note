@@ -1,0 +1,1427 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>内存管理 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-insert-logo/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="network-programming.html" />
+    
+    
+    <link rel="prev" href="file-management.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">C</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="notice.html">
+            
+                <a href="notice.html">
+            
+                    
+                    注意
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="runtime-environment-devtool.html">
+            
+                <a href="runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="type-operator-expression.html">
+            
+                <a href="type-operator-expression.html">
+            
+                    
+                    类型，运算，语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="control-flow.html">
+            
+                <a href="control-flow.html">
+            
+                    
+                    流程控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="function.html">
+            
+                <a href="function.html">
+            
+                    
+                    函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="compilation.html">
+            
+                <a href="compilation.html">
+            
+                    
+                    编译过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="pointer.html">
+            
+                <a href="pointer.html">
+            
+                    
+                    指针
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="array-string.html">
+            
+                <a href="array-string.html">
+            
+                    
+                    数组，字符串
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="structure.html">
+            
+                <a href="structure.html">
+            
+                    
+                    结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="io.html">
+            
+                <a href="io.html">
+            
+                    
+                    IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="error-handling.html">
+            
+                <a href="error-handling.html">
+            
+                    
+                    错误处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="file-management.html">
+            
+                <a href="file-management.html">
+            
+                    
+                    文件管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.14" data-path="memory-management.html">
+            
+                <a href="memory-management.html">
+            
+                    
+                    内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="network-programming.html">
+            
+                <a href="network-programming.html">
+            
+                    
+                    网络编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="lib.html">
+            
+                <a href="lib.html">
+            
+                    
+                    库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="makefile.html">
+            
+                <a href="makefile.html">
+            
+                    
+                    Makefile
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">C++</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../C++/runtime-environment-devtool.html">
+            
+                <a href="../C++/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Java</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../Java/runtime-environment-devtool.html">
+            
+                <a href="../Java/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../Java/jvm.html">
+            
+                <a href="../Java/jvm.html">
+            
+                    
+                    JVM
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">J2SE</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" >
+            
+                <span>
+            
+                    
+                    [Java程序基本结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" >
+            
+                <span>
+            
+                    
+                    [数据类型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" >
+            
+                <span>
+            
+                    
+                    [流程控制]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" >
+            
+                <span>
+            
+                    
+                    [类]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [泛型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" >
+            
+                <span>
+            
+                    
+                    [IO]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" >
+            
+                <span>
+            
+                    
+                    [异常处理]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" >
+            
+                <span>
+            
+                    
+                    [单元测试]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" >
+            
+                <span>
+            
+                    
+                    [反射]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" >
+            
+                <span>
+            
+                    
+                    [注解]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.11" >
+            
+                <span>
+            
+                    
+                    [多线程]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">J2EE</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" >
+            
+                <span>
+            
+                    
+                    [Maven]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" >
+            
+                <span>
+            
+                    
+                    [网络编程]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <span>
+            
+                    
+                    [Spring]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <span>
+            
+                    
+                    [Spring MVC]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" >
+            
+                <span>
+            
+                    
+                    [MyBatis]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" >
+            
+                <span>
+            
+                    
+                    [设计模式]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Python</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../Python/runtime-environment-devtool.html">
+            
+                <a href="../Python/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Go</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../Go/runtime-environment-devtool.html">
+            
+                <a href="../Go/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" >
+            
+                <span>
+            
+                    
+                    [Go程序基本结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" >
+            
+                <span>
+            
+                    
+                    [数据类型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" >
+            
+                <span>
+            
+                    
+                    [流程控制]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" >
+            
+                <span>
+            
+                    
+                    [函数]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" >
+            
+                <span>
+            
+                    
+                    [数据结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" >
+            
+                <span>
+            
+                    
+                    [包]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" >
+            
+                <span>
+            
+                    
+                    [结构与方法]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" >
+            
+                <span>
+            
+                    
+                    [接口与反射]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.10" >
+            
+                <span>
+            
+                    
+                    [IO]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" >
+            
+                <span>
+            
+                    
+                    [错误处理与单元测试]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.12" >
+            
+                <span>
+            
+                    
+                    [go程与通道]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Linux</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../Linux/common-command.html">
+            
+                <a href="../Linux/common-command.html">
+            
+                    
+                    常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">数据库</li>
+        
+        
+    
+
+    
+        
+        <li class="header">MySQL</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../database/MySQL/crud.html">
+            
+                <a href="../database/MySQL/crud.html">
+            
+                    
+                    CRUD
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">redis</li>
+        
+        
+    
+
+    
+        
+        <li class="header">数据结构与算法</li>
+        
+        
+    
+
+    
+        
+        <li class="header">算法</li>
+        
+        
+    
+        <li class="chapter " data-level="13.1" data-path="../DSA/algorithm/divide-and-conquer.html">
+            
+                <a href="../DSA/algorithm/divide-and-conquer.html">
+            
+                    
+                    分而治之
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.2" data-path="../DSA/algorithm/dp.html">
+            
+                <a href="../DSA/algorithm/dp.html">
+            
+                    
+                    动态规划
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.3" data-path="../DSA/algorithm/greedy-algorithm.html">
+            
+                <a href="../DSA/algorithm/greedy-algorithm.html">
+            
+                    
+                    贪心算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.4" data-path="../DSA/algorithm/backtracking.html">
+            
+                <a href="../DSA/algorithm/backtracking.html">
+            
+                    
+                    回溯算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.5" data-path="../DSA/algorithm/other.html">
+            
+                <a href="../DSA/algorithm/other.html">
+            
+                    
+                    其它
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">数据结构</li>
+        
+        
+    
+        <li class="chapter " data-level="14.1" data-path="../DSA/data-structure/array-linked-list.html">
+            
+                <a href="../DSA/data-structure/array-linked-list.html">
+            
+                    
+                    数组，链表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.2" data-path="../DSA/data-structure/stack-queue.html">
+            
+                <a href="../DSA/data-structure/stack-queue.html">
+            
+                    
+                    栈，队列
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.3" data-path="../DSA/data-structure/binary-search-tree.html">
+            
+                <a href="../DSA/data-structure/binary-search-tree.html">
+            
+                    
+                    二叉搜索树
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.4" data-path="../DSA/data-structure/heap.html">
+            
+                <a href="../DSA/data-structure/heap.html">
+            
+                    
+                    堆
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.5" data-path="../DSA/data-structure/hash-table.html">
+            
+                <a href="../DSA/data-structure/hash-table.html">
+            
+                    
+                    散列表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.6" data-path="../DSA/data-structure/graph.html">
+            
+                <a href="../DSA/data-structure/graph.html">
+            
+                    
+                    图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">leetcode</li>
+        
+        
+    
+        <li class="chapter " data-level="15.1" data-path="../DSA/leetcode-example.html">
+            
+                <a href="../DSA/leetcode-example.html">
+            
+                    
+                    leetcode例题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">OS</li>
+        
+        
+    
+        <li class="chapter " data-level="16.1" data-path="../OS/process.html">
+            
+                <a href="../OS/process.html">
+            
+                    
+                    进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.2" data-path="../OS/memory.html">
+            
+                <a href="../OS/memory.html">
+            
+                    
+                    内存
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.3" data-path="../OS/file-system.html">
+            
+                <a href="../OS/file-system.html">
+            
+                    
+                    文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.4" data-path="../OS/io.html">
+            
+                <a href="../OS/io.html">
+            
+                    
+                    IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">前端</li>
+        
+        
+    
+
+    
+        
+        <li class="header">HTML</li>
+        
+        
+    
+
+    
+        
+        <li class="header">CSS</li>
+        
+        
+    
+
+    
+        
+        <li class="header">JavaScript</li>
+        
+        
+    
+
+    
+        
+        <li class="header">TypeScript</li>
+        
+        
+    
+
+    
+        
+        <li class="header">其它</li>
+        
+        
+    
+        <li class="chapter " data-level="22.1" data-path="../other/git.html">
+            
+                <a href="../other/git.html">
+            
+                    
+                    Git
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.2" data-path="../other/gitbook.html">
+            
+                <a href="../other/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.3" data-path="../other/json.html">
+            
+                <a href="../other/json.html">
+            
+                    
+                    json
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.4" data-path="../other/latex.html">
+            
+                <a href="../other/latex.html">
+            
+                    
+                    LaTeX
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.5" data-path="../other/markdown.html">
+            
+                <a href="../other/markdown.html">
+            
+                    
+                    Markdown
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.6" data-path="../other/regular-expression.html">
+            
+                <a href="../other/regular-expression.html">
+            
+                    
+                    正则表达式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.7" data-path="../other/xml.html">
+            
+                <a href="../other/xml.html">
+            
+                    
+                    XML
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >内存管理</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x5185;&#x5B58;&#x7BA1;&#x7406;">&#x5185;&#x5B58;&#x7BA1;&#x7406;</h1>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-title">calloc</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num, <span class="hljs-keyword">int</span> size)</span></span>;  <span class="hljs-comment">//void * &#x8868;&#x793A;&#x6307;&#x5411;&#x672A;&#x786E;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x6307;&#x9488;,&#x8D4B;&#x503C;&#x65F6;&#x9700;&#x8981;&#x5F3A;&#x5236;&#x8F6C;&#x578B;zhuanxing</span>
+<span class="hljs-comment">//&#x52A8;&#x6001;&#x5206;&#x914D; num &#x4E2A;&#x957F;&#x5EA6;&#x4E3A; size &#x7684;&#x8FDE;&#x7EED;&#x7A7A;&#x95F4;&#xFF0C;&#x5E76;&#x5C06;&#x6BCF;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x90FD;&#x521D;&#x59CB;&#x5316;&#x4E3A; 0</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-title">malloc</span><span class="hljs-params">(size_t n)</span></span>;
+<span class="hljs-comment">//&#x52A8;&#x6001;&#x5206;&#x914D;&#x4E00;&#x5757;n&#x5B57;&#x8282;&#x5927;&#x5C0F;&#x7684;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;&#x8FD4;&#x56DE;&#x6307;&#x5411;&#x5B83;&#x7684;&#x6307;&#x9488;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-title">realloc</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *address, <span class="hljs-keyword">int</span> newsize)</span></span>;
+<span class="hljs-comment">//&#x91CD;&#x65B0;&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;&#x628A;&#x5185;&#x5B58;&#x5757;&#x6269;&#x5C55;&#x5230; newsize&#x3002;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">free</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *address)</span></span>;
+<span class="hljs-comment">//&#x91CA;&#x653E; address &#x6240;&#x6307;&#x5411;&#x7684;&#x5185;&#x5B58;&#x5757;,&#x91CA;&#x653E;&#x7684;&#x662F;&#x52A8;&#x6001;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;</span>
+</code></pre>
+<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+   <span class="hljs-keyword">char</span> name[<span class="hljs-number">100</span>];              <span class="hljs-comment">//given length str</span>
+   <span class="hljs-keyword">char</span> *description;           <span class="hljs-comment">//uncertain length str</span>
+
+   <span class="hljs-built_in">strcpy</span>(name, <span class="hljs-string">&quot;Zara Ali&quot;</span>);
+
+   description = (<span class="hljs-keyword">char</span> *)<span class="hljs-built_in">malloc</span>( <span class="hljs-number">30</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>) ); <span class="hljs-comment">//allocate memory dynamically</span>
+   <span class="hljs-keyword">if</span>( description == <span class="hljs-literal">NULL</span> )    <span class="hljs-comment">//allocation failed</span>
+   {
+      <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Error - unable to allocate required memory\n&quot;</span>);
+   }
+   <span class="hljs-keyword">else</span>
+   {
+      <span class="hljs-built_in">strcpy</span>( description, <span class="hljs-string">&quot;Zara ali a DPS student.&quot;</span>);
+   }
+
+   description = (<span class="hljs-keyword">char</span> *) <span class="hljs-built_in">realloc</span>( description, <span class="hljs-number">100</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>) );
+   <span class="hljs-keyword">if</span>( description == <span class="hljs-literal">NULL</span> )
+   {
+      <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Error - unable to allocate required memory\n&quot;</span>);
+   }
+   <span class="hljs-keyword">else</span>
+   {
+      <span class="hljs-built_in">strcat</span>( description, <span class="hljs-string">&quot;She is in class 10th&quot;</span>);
+   }
+
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Name = %s\n&quot;</span>, name );
+   <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Description: %s\n&quot;</span>, description );
+
+   <span class="hljs-built_in">free</span>(description);           <span class="hljs-comment">//free memory</span>
+}
+</code></pre>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="file-management.html" class="navigation navigation-prev " aria-label="Previous page: 文件管理">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="network-programming.html" class="navigation navigation-next " aria-label="Next page: 网络编程">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"内存管理","level":"1.14","depth":1,"next":{"title":"网络编程","level":"1.15","depth":1,"path":"C/network-programming.md","ref":"C/network-programming.md","articles":[]},"previous":{"title":"文件管理","level":"1.13","depth":1,"path":"C/file-management.md","ref":"C/file-management.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["expandable-chapters","back-to-top-button","code","splitter","-lunr","-search","search-pro","insert-logo","custom-favicon","popup","livereload"],"pluginsConfig":{"livereload":{},"splitter":{},"search-pro":{},"popup":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":"images/icon.ico","back-to-top-button":{},"custom-favicon":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none; max-height: 30px; min-height: 30px","url":"images/logo.png"},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"C/memory-management.md","mtime":"2020-08-08T07:30:28.996Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-08T10:19:18.459Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-insert-logo/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

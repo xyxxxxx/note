@@ -1,0 +1,1483 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>网络编程 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-insert-logo/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="lib.html" />
+    
+    
+    <link rel="prev" href="memory-management.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">C</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="notice.html">
+            
+                <a href="notice.html">
+            
+                    
+                    注意
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="runtime-environment-devtool.html">
+            
+                <a href="runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="type-operator-expression.html">
+            
+                <a href="type-operator-expression.html">
+            
+                    
+                    类型，运算，语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="control-flow.html">
+            
+                <a href="control-flow.html">
+            
+                    
+                    流程控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="function.html">
+            
+                <a href="function.html">
+            
+                    
+                    函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="compilation.html">
+            
+                <a href="compilation.html">
+            
+                    
+                    编译过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="pointer.html">
+            
+                <a href="pointer.html">
+            
+                    
+                    指针
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="array-string.html">
+            
+                <a href="array-string.html">
+            
+                    
+                    数组，字符串
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="structure.html">
+            
+                <a href="structure.html">
+            
+                    
+                    结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="io.html">
+            
+                <a href="io.html">
+            
+                    
+                    IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="error-handling.html">
+            
+                <a href="error-handling.html">
+            
+                    
+                    错误处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="file-management.html">
+            
+                <a href="file-management.html">
+            
+                    
+                    文件管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="memory-management.html">
+            
+                <a href="memory-management.html">
+            
+                    
+                    内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.15" data-path="network-programming.html">
+            
+                <a href="network-programming.html">
+            
+                    
+                    网络编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="lib.html">
+            
+                <a href="lib.html">
+            
+                    
+                    库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="makefile.html">
+            
+                <a href="makefile.html">
+            
+                    
+                    Makefile
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">C++</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../C++/runtime-environment-devtool.html">
+            
+                <a href="../C++/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Java</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../Java/runtime-environment-devtool.html">
+            
+                <a href="../Java/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../Java/jvm.html">
+            
+                <a href="../Java/jvm.html">
+            
+                    
+                    JVM
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">J2SE</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" >
+            
+                <span>
+            
+                    
+                    [Java程序基本结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" >
+            
+                <span>
+            
+                    
+                    [数据类型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" >
+            
+                <span>
+            
+                    
+                    [流程控制]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" >
+            
+                <span>
+            
+                    
+                    [类]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    [泛型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" >
+            
+                <span>
+            
+                    
+                    [IO]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" >
+            
+                <span>
+            
+                    
+                    [异常处理]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" >
+            
+                <span>
+            
+                    
+                    [单元测试]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" >
+            
+                <span>
+            
+                    
+                    [反射]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" >
+            
+                <span>
+            
+                    
+                    [注解]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.11" >
+            
+                <span>
+            
+                    
+                    [多线程]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">J2EE</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" >
+            
+                <span>
+            
+                    
+                    [Maven]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" >
+            
+                <span>
+            
+                    
+                    [网络编程]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <span>
+            
+                    
+                    [Spring]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <span>
+            
+                    
+                    [Spring MVC]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" >
+            
+                <span>
+            
+                    
+                    [MyBatis]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" >
+            
+                <span>
+            
+                    
+                    [设计模式]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Python</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../Python/runtime-environment-devtool.html">
+            
+                <a href="../Python/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Go</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../Go/runtime-environment-devtool.html">
+            
+                <a href="../Go/runtime-environment-devtool.html">
+            
+                    
+                    运行环境与开发工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" >
+            
+                <span>
+            
+                    
+                    [Go程序基本结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" >
+            
+                <span>
+            
+                    
+                    [数据类型]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" >
+            
+                <span>
+            
+                    
+                    [流程控制]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" >
+            
+                <span>
+            
+                    
+                    [函数]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" >
+            
+                <span>
+            
+                    
+                    [数据结构]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" >
+            
+                <span>
+            
+                    
+                    [包]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" >
+            
+                <span>
+            
+                    
+                    [结构与方法]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" >
+            
+                <span>
+            
+                    
+                    [接口与反射]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.10" >
+            
+                <span>
+            
+                    
+                    [IO]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" >
+            
+                <span>
+            
+                    
+                    [错误处理与单元测试]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.12" >
+            
+                <span>
+            
+                    
+                    [go程与通道]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Linux</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../Linux/common-command.html">
+            
+                <a href="../Linux/common-command.html">
+            
+                    
+                    常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">数据库</li>
+        
+        
+    
+
+    
+        
+        <li class="header">MySQL</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../database/MySQL/crud.html">
+            
+                <a href="../database/MySQL/crud.html">
+            
+                    
+                    CRUD
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">redis</li>
+        
+        
+    
+
+    
+        
+        <li class="header">数据结构与算法</li>
+        
+        
+    
+
+    
+        
+        <li class="header">算法</li>
+        
+        
+    
+        <li class="chapter " data-level="13.1" data-path="../DSA/algorithm/divide-and-conquer.html">
+            
+                <a href="../DSA/algorithm/divide-and-conquer.html">
+            
+                    
+                    分而治之
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.2" data-path="../DSA/algorithm/dp.html">
+            
+                <a href="../DSA/algorithm/dp.html">
+            
+                    
+                    动态规划
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.3" data-path="../DSA/algorithm/greedy-algorithm.html">
+            
+                <a href="../DSA/algorithm/greedy-algorithm.html">
+            
+                    
+                    贪心算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.4" data-path="../DSA/algorithm/backtracking.html">
+            
+                <a href="../DSA/algorithm/backtracking.html">
+            
+                    
+                    回溯算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="13.5" data-path="../DSA/algorithm/other.html">
+            
+                <a href="../DSA/algorithm/other.html">
+            
+                    
+                    其它
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">数据结构</li>
+        
+        
+    
+        <li class="chapter " data-level="14.1" data-path="../DSA/data-structure/array-linked-list.html">
+            
+                <a href="../DSA/data-structure/array-linked-list.html">
+            
+                    
+                    数组，链表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.2" data-path="../DSA/data-structure/stack-queue.html">
+            
+                <a href="../DSA/data-structure/stack-queue.html">
+            
+                    
+                    栈，队列
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.3" data-path="../DSA/data-structure/binary-search-tree.html">
+            
+                <a href="../DSA/data-structure/binary-search-tree.html">
+            
+                    
+                    二叉搜索树
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.4" data-path="../DSA/data-structure/heap.html">
+            
+                <a href="../DSA/data-structure/heap.html">
+            
+                    
+                    堆
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.5" data-path="../DSA/data-structure/hash-table.html">
+            
+                <a href="../DSA/data-structure/hash-table.html">
+            
+                    
+                    散列表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="14.6" data-path="../DSA/data-structure/graph.html">
+            
+                <a href="../DSA/data-structure/graph.html">
+            
+                    
+                    图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">leetcode</li>
+        
+        
+    
+        <li class="chapter " data-level="15.1" data-path="../DSA/leetcode-example.html">
+            
+                <a href="../DSA/leetcode-example.html">
+            
+                    
+                    leetcode例题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">OS</li>
+        
+        
+    
+        <li class="chapter " data-level="16.1" data-path="../OS/process.html">
+            
+                <a href="../OS/process.html">
+            
+                    
+                    进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.2" data-path="../OS/memory.html">
+            
+                <a href="../OS/memory.html">
+            
+                    
+                    内存
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.3" data-path="../OS/file-system.html">
+            
+                <a href="../OS/file-system.html">
+            
+                    
+                    文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="16.4" data-path="../OS/io.html">
+            
+                <a href="../OS/io.html">
+            
+                    
+                    IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">前端</li>
+        
+        
+    
+
+    
+        
+        <li class="header">HTML</li>
+        
+        
+    
+
+    
+        
+        <li class="header">CSS</li>
+        
+        
+    
+
+    
+        
+        <li class="header">JavaScript</li>
+        
+        
+    
+
+    
+        
+        <li class="header">TypeScript</li>
+        
+        
+    
+
+    
+        
+        <li class="header">其它</li>
+        
+        
+    
+        <li class="chapter " data-level="22.1" data-path="../other/git.html">
+            
+                <a href="../other/git.html">
+            
+                    
+                    Git
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.2" data-path="../other/gitbook.html">
+            
+                <a href="../other/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.3" data-path="../other/json.html">
+            
+                <a href="../other/json.html">
+            
+                    
+                    json
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.4" data-path="../other/latex.html">
+            
+                <a href="../other/latex.html">
+            
+                    
+                    LaTeX
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.5" data-path="../other/markdown.html">
+            
+                <a href="../other/markdown.html">
+            
+                    
+                    Markdown
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.6" data-path="../other/regular-expression.html">
+            
+                <a href="../other/regular-expression.html">
+            
+                    
+                    正则表达式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="22.7" data-path="../other/xml.html">
+            
+                <a href="../other/xml.html">
+            
+                    
+                    XML
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >网络编程</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>C network programming</p>
+<p>[toc]</p>
+<p><img src="https://img-blog.csdn.net/20180205104507262?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2FpbmlhbzAwMDAwMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h1 id="socket&#x7F16;&#x7A0B;&#x7B80;&#x4ECB;">Socket&#x7F16;&#x7A0B;&#x7B80;&#x4ECB;</h1>
+<h2 id="socket&#x5730;&#x5740;&#x7ED3;&#x6784;">socket&#x5730;&#x5740;&#x7ED3;&#x6784;</h2>
+<h3 id="ipv4-socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x2014;&#x2014;sockaddrin">IPv4 socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x2014;&#x2014;sockaddr_in</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> sockaddr_in                 <span class="hljs-comment">// POSIX&#x5B9A;&#x4E49;</span>
+  {
+<span class="hljs-comment">//  uint8_t          sin_len       // &#x6B64;&#x7ED3;&#x6784;&#x4F53;&#x957F;&#x5EA6;(16)     </span>
+    <span class="hljs-keyword">sa_family_t</span>      sin_family    <span class="hljs-comment">// &#x5730;&#x5740;&#x65CF;</span>
+    <span class="hljs-keyword">in_port_t</span>        sin_port;       <span class="hljs-comment">// Port number</span>
+    <span class="hljs-keyword">struct</span> in_addr   sin_addr;     <span class="hljs-comment">// Internet address</span>
+    <span class="hljs-keyword">char</span>             sin_zero[<span class="hljs-number">8</span>];  <span class="hljs-comment">// unused, &#x603B;&#x662F;&#x5C06;&#x5176;&#x7F6E;0</span>
+  };
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> <span class="hljs-keyword">int</span> <span class="hljs-keyword">sa_family_t</span>;  <span class="hljs-comment">//&#x5730;&#x5740;&#x65CF;&#x7C7B;&#x578B;,&#x5373;16&#x4F4D;&#x65E0;&#x7B26;&#x53F7;&#x6574;&#x6570;</span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">uint16_t</span> <span class="hljs-keyword">in_port_t</span>;     <span class="hljs-comment">//&#x7AEF;&#x53E3;&#x53F7;&#x7C7B;&#x578B;,&#x5373;16&#x4F4D;&#x65E0;&#x7B26;&#x53F7;&#x6574;&#x6570;</span>
+
+<span class="hljs-keyword">struct</span> in_addr                  <span class="hljs-comment">//&#x65E9;&#x671F;in_addr&#x7ED3;&#x6784;&#x66FE;&#x4E3A;&#x591A;&#x79CD;&#x7ED3;&#x6784;&#x7684;union</span>
+  {
+    <span class="hljs-keyword">in_addr_t</span> s_addr;
+  };
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">uint32_t</span> <span class="hljs-keyword">in_addr_t</span>;     <span class="hljs-comment">//internet&#x5730;&#x5740;&#x7C7B;&#x578B;,&#x5373;32&#x4F4D;&#x65E0;&#x7B26;&#x53F7;&#x6574;&#x6570;</span>
+
+<span class="hljs-comment">/*******************************************/</span>
+serv_addr.sin_family = AF_INET;
+serv_addr.sin_addr.s_addr = inet_addr(<span class="hljs-string">&quot;127.0.0.1&quot;</span>); <span class="hljs-comment">//inet_addr()&#x5C06;IP&#x5730;&#x5740;&#x5B57;&#x7B26;&#x4E32;&#x8F6C;&#x6362;&#x4E3A;in_addr_t&#x7C7B;&#x578B;</span>
+serv_addr.sin_port = htons(<span class="hljs-number">1234</span>); <span class="hljs-comment">//htons()&#x5C06;&#x4E3B;&#x673A;&#x5B57;&#x8282;&#x5E8F;&#x8F6C;&#x6362;&#x4E3A;&#x7F51;&#x7EDC;&#x5B57;&#x8282;&#x5E8F;,&#x5373;&#x4ECE;&#x5C0F;&#x7AEF;&#x6A21;&#x5F0F;&#x8F6C;&#x6362;&#x4E3A;&#x5927;&#x7AEF;&#x6A21;&#x5F0F;</span>
+                                  <span class="hljs-comment">//&#x4F8B;&#x5982;&#x7AEF;&#x53E3;18 &#x5728;x86 CPU&#x4E0A;&#x5B9E;&#x9645;&#x5B58;&#x50A8;&#x4E3A;1200,&#x800C;&#x5728;&#x62A5;&#x6587;&#x4E2D;&#x4E3A;0012</span>
+</code></pre>
+<h3 id="&#x901A;&#x7528;socket&#x5730;&#x5740;&#x7ED3;&#x6784;">&#x901A;&#x7528;socket&#x5730;&#x5740;&#x7ED3;&#x6784;</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> sockaddr
+  {
+<span class="hljs-comment">//  uint8_t          sa_len    </span>
+    <span class="hljs-keyword">sa_family_t</span>      sa_family       <span class="hljs-comment">// &#x5730;&#x5740;&#x65CF;</span>
+    <span class="hljs-keyword">char</span>             sa_data[<span class="hljs-number">14</span>];     <span class="hljs-comment">// Address data</span>
+  };
+</code></pre>
+<p>socket&#x51FD;&#x6570;&#x5C06;&#x6307;&#x5411;&#x8BE5;&#x901A;&#x7528;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x7684;&#x6307;&#x9488;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4E4B;&#x4E00;&#xFF0C;&#x5982;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bind</span><span class="hljs-params">(<span class="hljs-keyword">int</span>,<span class="hljs-keyword">struct</span> sockaddr *, socklen_t)</span>
+</span></code></pre>
+<p>&#x56E0;&#x6B64;&#x6307;&#x5411;&#x7279;&#x5B9A;&#x534F;&#x8BAE;&#x65CF;&#x7684;socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x90FD;&#x5FC5;&#x987B;&#x5F3A;&#x5236;&#x8F6C;&#x578B;&#x4E3A;&#x901A;&#x7528;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x7684;&#x6307;&#x9488;</p>
+<h3 id="ipv6-socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x2014;&#x2014;sockaddrin6">IPv6 socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x2014;&#x2014;sockaddr_in6</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> sockaddr_in6
+{
+<span class="hljs-comment">//  uint8_t         sin6_len;          // &#x6B64;&#x7ED3;&#x6784;&#x4F53;&#x957F;&#x5EA6;(28)</span>
+    <span class="hljs-keyword">sa_family_t</span>     sin6_family        <span class="hljs-comment">// &#x5730;&#x5740;&#x65CF;</span>
+    <span class="hljs-keyword">in_port_t</span>       sin6_port;           <span class="hljs-comment">// Port number</span>
+    <span class="hljs-keyword">uint32_t</span>        sin6_flowinfo;     <span class="hljs-comment">// &#x4F4E;&#x4F4D;20 bit flow label, &#x9AD8;&#x4F4D;12 bit&#x4FDD;&#x7559;</span>
+    <span class="hljs-keyword">struct</span> in6_addr sin6_addr;         <span class="hljs-comment">// Internet address</span>
+    <span class="hljs-keyword">uint32_t</span>        sin6_scope_id;     <span class="hljs-comment">// &#x6807;&#x8BB0;&#x5730;&#x5740;&#x7684;&#x8303;&#x56F4;</span>
+}
+</code></pre>
+<h3 id="&#x65B0;&#x901A;&#x7528;socket&#x5730;&#x5740;&#x7ED3;&#x6784;">&#x65B0;&#x901A;&#x7528;socket&#x5730;&#x5740;&#x7ED3;&#x6784;</h3>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> sockaddr_storage {
+<span class="hljs-comment">//  uint8_t         ss_len;</span>
+    <span class="hljs-keyword">sa_family_t</span>     ss_family;
+    <span class="hljs-keyword">char</span>            ss_padding[<span class="hljs-number">118</span>];
+    <span class="hljs-keyword">uint32_t</span>        ss_align;
+}
+
+<span class="hljs-comment">//sockaddr_storage&#x80FD;&#x6EE1;&#x8DB3;&#x6700;&#x82DB;&#x523B;&#x7684;&#x5BF9;&#x9F50;&#x8981;&#x6C42;</span>
+<span class="hljs-comment">//sockaddr_storage&#x8DB3;&#x591F;&#x5927;&#x4EE5;&#x80FD;&#x591F;&#x5BB9;&#x7EB3;&#x4EFB;&#x4F55;&#x5730;&#x5740;&#x7ED3;&#x6784;</span>
+</code></pre>
+<h3 id="socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x6BD4;&#x8F83;">socket&#x5730;&#x5740;&#x7ED3;&#x6784;&#x6BD4;&#x8F83;</h3>
+<p><img src="https://i.loli.net/2020/08/07/4dqrwleMtP8J3EC.png" alt="111.png"></p>
+<p>&#x7531;&#x4E8E;Unix&#x57DF;&#x7ED3;&#x6784;&#x548C;&#x6570;&#x636E;&#x94FE;&#x8DEF;&#x7ED3;&#x6784;&#x662F;&#x53EF;&#x53D8;&#x957F;&#x5EA6;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x9664;&#x4E86;&#x4F20;&#x9012;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x7684;&#x6307;&#x9488;&#x7ED9;&#x5957;&#x63A5;&#x5B57;&#x51FD;&#x6570;&#xFF0C;&#x4E5F;&#x9700;&#x8981;&#x4F20;&#x9012;&#x8BE5;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x7684;&#x957F;&#x5EA6;&#x3002;</p>
+<h2 id="socket&#x51FD;&#x6570;">socket&#x51FD;&#x6570;</h2>
+<p><code>bind</code>,<code>connet</code>,<code>sendto</code>&#x4ECE;&#x8FDB;&#x7A0B;&#x5230;&#x5185;&#x6838;&#x4F20;&#x9012;&#x5730;&#x5740;&#x7ED3;&#x6784;&#xFF0C;&#x5982;</p>
+<pre><code class="lang-c">connect(sockfd, (<span class="hljs-keyword">struct</span> sockaddr *)&amp;serv, <span class="hljs-keyword">sizeof</span>(serv));
+</code></pre>
+<p><code>accept</code>,<code>recvfrom</code>,<code>getsockname</code>,<code>getpeername</code>&#x4ECE;&#x5185;&#x6838;&#x5230;&#x8FDB;&#x7A0B;&#x4F20;&#x9012;&#x5730;&#x5740;&#x7ED3;&#x6784;&#xFF0C;&#x5982;</p>
+<pre><code class="lang-c"><span class="hljs-keyword">struct</span> sockaddr_un cli;
+<span class="hljs-keyword">socklen_t</span> len;
+
+len-<span class="hljs-keyword">sizeof</span>(sli);
+getpeername(unixfd,(<span class="hljs-keyword">struct</span> sockaddr *)&amp;cli, &amp;len);
+</code></pre>
+<p>&#x4F20;&#x9012;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x957F;&#x5EA6;&#x7684;&#x6307;&#x9488;&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF0C;&#x5BF9;&#x4E8E;&#x53EF;&#x53D8;&#x957F;&#x5EA6;&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x5185;&#x6838;&#x4F1A;&#x4FEE;&#x6539;&#x957F;&#x5EA6;&#x4E3A;&#x5B9E;&#x9645;&#x957F;&#x5EA6;</p>
+<h2 id="&#x5B57;&#x8282;&#x6392;&#x5E8F;&#x51FD;&#x6570;">&#x5B57;&#x8282;&#x6392;&#x5E8F;&#x51FD;&#x6570;</h2>
+<p>&#x8003;&#x8651;&#x4E00;&#x4E2A;16&#x4F4D;&#x6574;&#x6570;&#x5B58;&#x50A8;&#x5728;2&#x4E2A;&#x5B57;&#x8282;&#x4E2D;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;</p>
+<p><strong>socket</strong></p>
+<p>socket&#x662F;&#x5E94;&#x7528;&#x5C42;&#x8FDB;&#x5165;&#x4F20;&#x8F93;&#x5C42;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;socket&#x7F16;&#x5199;&#x4F7F;&#x7528;TCP&#x6216;UDP&#x534F;&#x8BAE;&#x7684;&#x7F51;&#x7EDC;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">socket</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> __domain, <span class="hljs-keyword">int</span> __type, <span class="hljs-keyword">int</span> __protocol)</span>
+<span class="hljs-comment">/*  &#x53C2;&#x6570;domain&#x6307;&#x901A;&#x4FE1;&#x57DF;/&#x5730;&#x5740;&#x65CF;(&#x5373;IPv4,IPv6,...)
+        PF_INET/AF_INET IPv4&#x534F;&#x8BAE;
+        PF_UNIX/PF_LOCAL/AF_UNIX/AF_LOCAL &#x8FDB;&#x7A0B;&#x901A;&#x4FE1;&#x534F;&#x8BAE;
+
+    &#x53C2;&#x6570;type&#x6307;socket&#x7684;&#x7C7B;&#x578B;
+        SOCK_STREAM &#x53EF;&#x9760;&#x7684;&#x53CC;&#x5411;&#x7684;&#x6709;&#x8FDE;&#x63A5;&#x6D41;,&#x5373;TCP
+        SOCK_DGRAM  &#x4E0D;&#x53EF;&#x9760;&#x7684;&#x65E0;&#x8FDE;&#x63A5;&#x7684;&#x62A5;&#x6587;,&#x5373;UDP
+        SOCK_SEQPACKET &#x6709;&#x5E8F;&#x7684;&#x53EF;&#x9760;&#x7684;&#x53CC;&#x5411;&#x7684;&#x6709;&#x8FDE;&#x63A5;&#x7684;&#x4F20;&#x8F93;
+
+    &#x53C2;&#x6570;protocol&#x901A;&#x5E38;&#x7F6E;0,&#x81EA;&#x52A8;&#x9009;&#x62E9;type&#x652F;&#x6301;&#x7684;&#x534F;&#x8BAE;
+
+    &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5C0F;&#x6574;&#x6570;&#x63CF;&#x8FF0;&#x7B26;,&#x5931;&#x8D25;&#x5219;&#x8FD4;&#x56DE;&#x8D1F;&#x6570;
+*/</span>
+</span></code></pre>
+<blockquote>
+<p>&#x53C2;&#x8003;<a href="https://zhuanlan.zhihu.com/p/24916785" target="_blank">https://zhuanlan.zhihu.com/p/24916785</a></p>
+</blockquote>
+<pre><code class="lang-c">
+
+</code></pre>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="memory-management.html" class="navigation navigation-prev " aria-label="Previous page: 内存管理">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="lib.html" class="navigation navigation-next " aria-label="Next page: 库">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"网络编程","level":"1.15","depth":1,"next":{"title":"库","level":"1.16","depth":1,"path":"C/lib.md","ref":"C/lib.md","articles":[]},"previous":{"title":"内存管理","level":"1.14","depth":1,"path":"C/memory-management.md","ref":"C/memory-management.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["expandable-chapters","back-to-top-button","code","splitter","-lunr","-search","search-pro","insert-logo","custom-favicon","popup","livereload"],"pluginsConfig":{"livereload":{},"splitter":{},"search-pro":{},"popup":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":"images/icon.ico","back-to-top-button":{},"custom-favicon":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none; max-height: 30px; min-height: 30px","url":"images/logo.png"},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"C/network-programming.md","mtime":"2020-08-07T02:44:34.887Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-08T10:19:18.459Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-insert-logo/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

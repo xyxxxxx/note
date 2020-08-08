@@ -1,6 +1,6 @@
 {
     "plugins": [
-        "chapter-fold",
+        "expandable-chapters-small",
         "back-to-top-button",
         "code",
         "splitter",
