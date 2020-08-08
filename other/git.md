@@ -35,6 +35,8 @@ $ git rm <file>				#从版本中清除文件,作用同git add <file>
 $ git mv <fname1> <fname2>  #文件更名
 ```
 
+
+
 **远程仓库**
 
 ```git
