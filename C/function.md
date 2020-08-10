@@ -1,38 +1,61 @@
 # 函数
 
-## 定义函数
+## 函数定义
 
 ```c
-int isprime(int n) /*函数的返回值类型，函数名，参数类型和名*/
+int isprime(int n) //函数的返回值类型，函数名，参数声明
 {
     int i;
-    for(i=2;i<=n/2;i++);
-    	if(n%i==0)
+    for(i = 2; i <= n/2; i++){
+        if(n%i == 0){
             return 0;
-    	return 1; /*函数返回值*/    
+        }
+    }
+    return 1; //函数返回值
 }
 
-int age(int n)/*等差数列递归*/
-{	if(n==1) return 10;
- 	else	return age(n-1)+2;
+
+
+```
+
+```c
+#include <stdio.h>
+
+int return_one()  //强烈建议对于无参数函数声明void
+{
+    return 1;
 }
 
-double px(double x,int n)/*递归*/
-{	if(n==1)
-    	return x;
- 	else
-    	return x*(1-px(x,n-1));
-}   
-
-void int_turn(int n)
-{if(n>=10)
-	{printf("%d",n%10);
-     int_turn(n/10);    
-	}
- else
-     printf("%d",n);
-}  
+int main()
+{
+    printf("%d\n",return_one(1)); //否则不会进行参数检查
+    return 0;
+}
 ```
 
 
+
+## 函数调用
+
+```c
+
+```
+
+调用函数时可以不接收其返回值
+
+
+
+## 外部变量
+
+函数内定义的变量称为内部变量，而函数外定义的变量称为外部变量。函数一定是外部的，因为C不允许在函数内定义函数。外部变量和函数可以被多个函数使用，并且以同样的名称使用，即使这些文件是分开编译的。
+
+外部变量为函数间的通信提供了另一种方式。如果很多变量在函数间共用时，作为外部变量比参数更加便捷和高效。
+
+内部变量在函数调用时产生，在函数返回时消亡，相比之下外部变量则能够一直存在。
+
+
+
+
+
+## 函数作为参数
 

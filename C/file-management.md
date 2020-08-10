@@ -7,6 +7,14 @@
 //for func that returns int, return 0 if ok, -1 if err
 
 
+//file operation
+ssize_t read(int fd, void *buff, size_t n);   // 从文件描述符(流)fd读取n个字节写入字符数组buff的前n个索引
+                                              // return number of bytes transferred, 0 if EOF, -1 if err
+ssize_t write(int fd, void *buff, size_t n);  // 将字符数组buff的前n个索引(字节)写入文件描述符(流)fd
+                                              // return number of bytes written, -1 if err
+int unlink(const char* path);                 // 删除文件
+
+
 //dir
 char *getcwd(char *buf, size_t size); // 获取当前目录的绝对路径并存储到buf中,参数size为buf的长度
 int chdir(const char *path); // 将path设定为当前目录
@@ -23,11 +31,8 @@ int chmod(const char *path, mode_t mode); // 权限修改,
 							//S_IRGRP S_IWGRP S_IXGRP S_IRWXG
 							//S_IROTH S_IWOTH S_IXOTH S_IRWXO
 
-
-//rw
-ssize_t read(int fd, void *buff, size_t n);   // 从文件描述符(流)fd读取n个字节写入字符数组buff的前n个索引
-ssize_t write(int fd, void *buff, size_t n);  // 将字符数组buff的前n个索引(字节)写入文件描述符(流)fd
-
+//sys
+exit(0)      //退出程序并结束进程,0 正常退出,1 异常退出
 ```
 
 
@@ -36,26 +41,10 @@ ssize_t write(int fd, void *buff, size_t n);  // 将字符数组buff的前n个�
 
 # 目录管理
 
+`dirent.h`包含了文件系统相关的结构体和函数。
+
 ```c
-#include <dirent.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-int main()
-{
-    DIR * dir;                   //目录流结构体
-    struct dirent * ptr;
-    int i;
-    dir = opendir("/etc/rc.d");  //根据路径打开目录,返回指向目录结构变量的指针
-    while((ptr = readdir(dir)) != NULL) //读取目录流,返回dirent结构变量
-    {
-        printf("d_name : %s\n", ptr->d_name);
-    }
-    closedir(dir);
-    return 0;
-}
-
-struct dirent                    //文件信息结构体
+struct dirent
   {
 #ifndef __USE_FILE_OFFSET64
     __ino_t d_ino;               //i节点号
@@ -66,7 +55,48 @@ struct dirent                    //文件信息结构体
 #endif
     unsigned short int d_reclen; //文件长度
     unsigned char d_type;        //文件类型
-    char d_name[256];		     //文件名
+    char d_name[256];		     //文件名+'\0'
   };
+
+typedef struct {
+    int fd;
+    dirent d;
+} DIR;
+
+DIR *opendir(char *dirname);
+dirent *readdir(DIR *dfd);
+void closedir(DIR *dfd);
+```
+
+```c
+#include <dirent.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main()
+{
+    DIR * dfd;
+    struct dirent * dp;
+    int i;
+    dfd = opendir("/etc/rc");    //根据路径打开目录,返回指向DIR结构体变量的指针
+    while((dp = readdir(dfd)) != NULL) //读取目录,返回dirent结构体变量
+    {
+        printf("d_name : %s\n", dp->d_name);
+    }
+    closedir(dfd);
+    return 0;
+}
+```
+
+
+
+系统调用`stat`返回文件i节点中的所有信息
+
+```c
+int stat(char *, struct stat *);
+
+char *name;
+struct stat stbuf;
+stat(name, &stbuf);   //将i节点的所有信息存储到stbuf中, return -1 if err
 ```
 

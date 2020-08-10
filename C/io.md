@@ -13,14 +13,13 @@ int fclose(FILE *fp);                     //return 0 if succeeded,
 
 FILE * fp;
 fp = fopen ("file.txt", "w+");
-
 ```
 
-| r    | 已有文件，只读         | r+   | 已有文件，读写       |
-| ---- | ---------------------- | ---- | -------------------- |
-| w    | 新文件，只写           | w+   | 新文件，读写         |
-| a    | 已有或新文件，追加     | a+   | 已有或新文件，读追加 |
-| ～b  | 字节文件(而非文本文件) |      |                      |
+| r    | 已有文件，只读             | r+   | 已有文件，读写       |
+| ---- | -------------------------- | ---- | -------------------- |
+| w    | 新文件，只写               | w+   | 新文件，读写         |
+| a    | 已有或新文件，追加         | a+   | 已有或新文件，读追加 |
+| ～b  | 字节文件（UNIX系统不需要） |      |                      |
 
 ```c
 //fflush将输出流的缓冲区的剩余数据全部写出
@@ -190,7 +189,12 @@ int main ()
    fputs("This is runoob.com", fp);
   
    fseek( fp, 7, SEEK_SET );
-   //SEEK_SET 文件开头    SEEK_CUR 指针当前位置	SEEK_END 文件末尾
+/*
+                SEEK_SET 文件开头
+                SEEK_CUR 指针当前位置
+                SEEK_END 文件末尾
+*/
+   
    fputs(" C Programming Langauge", fp);
    fclose(fp);
    
@@ -208,12 +212,16 @@ int main ()
 **error**
 
 ```c
-//feof检测流是否已设定文件结束标识符EOF，返回0表示未设定
+//feof检测文件是否设定EOF，返回0表示未设定
+#define feof(fp) (((fp)->flag & _EOF) != 0)
+
 if( feof(fp) ){ 
     break ;
 }
 
-//ferror检测流是否已设定错误标识，返回0表示未设定
+//ferror检测文件是否设定错误标识，返回0表示未设定
+#define ferror(fp) (((fp)->flag & _ERR) != 0)
+
 if( ferror(fp) )
 {
     printf("读取文件：file.txt 时发生错误\n");

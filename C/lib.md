@@ -1,12 +1,21 @@
-# 库
+# 通用规则
 
-## <stdio.h>
++ 以下划线开始的函数，结构体，类型，变量名表示仅在库中被使用，相当于Java的private
++ 
+
+
+
+
+
+# <stdio.h>
 
 参见IO
 
 
 
-## <stdlib.h>
+
+
+# <stdlib.h>
 
 参见内存管理
 
@@ -41,7 +50,9 @@ exit(status)     //程序终止,status=0正常终止,=-1因错误而终止
 
 
 
-## <string.h>
+
+
+# <string.h>
 
 ```c
 strcpy(str1,str2) /*str1用str2赋值*/
@@ -68,7 +79,9 @@ memchr(str, c, n)     //查找c在str的前n个字符中首次出现的位置
 
 
 
-## <ctype.h>
+
+
+# <ctype.h>
 
 ```c
 //判定变量类型
@@ -76,7 +89,9 @@ memchr(str, c, n)     //查找c在str的前n个字符中首次出现的位置
 
 
 
-## <stdarg.h>
+
+
+# <stdarg.h>
 
 ```c
 //获取可变个数的参数
@@ -115,5 +130,5 @@ int sum(int num_args, ...)
 
 
 
-## <math.h>
+# <math.h>
 
