@@ -132,4 +132,7 @@
 * [LaTeX](other/latex.md)
 * [Markdown](other/markdown.md)
 * [正则表达式](other/regular-expression.md)
-* [XML](other/xml.md)
+
+## 工具
+
+* [词汇表]()

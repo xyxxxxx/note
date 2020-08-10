@@ -79,12 +79,15 @@ memchr(str, c, n)     //查找c在str的前n个字符中首次出现的位置
 
 
 
-
-
 # <ctype.h>
 
 ```c
 //判定变量类型
+
+
+isdigit(c)        // 0-9
+    
+tolower(c)        // A-Z -> a-z    
 ```
 
 
