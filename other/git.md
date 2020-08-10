@@ -82,9 +82,9 @@ $ git push origin --delete <tagname>
 
 ```shell
 $ git branch <branch>	#创建分支
-$ git switch <branch>	#切换分支
-$ git switch -c <branch>	#创建分支并切换
-$ git switch -c <branch> origin/<branch>	#在本地创建对应于远程分支的分支
+$ git checkout <branch>	#切换分支
+$ git checkout -c <branch>	#创建分支并切换
+$ git checkout -c <branch> origin/<branch>	#在本地创建对应于远程分支的分支
 
 $ git branch			#查看所有分支
 
