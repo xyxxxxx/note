@@ -177,7 +177,27 @@ void dirwalk(char *dir, void (*fcn)(char *)){
 
 ## 内存分配
 
+> 内存的分配和回收方式参见[内存]()
 
+`malloc`负责管理一部分内存，其中的空闲区被维护成一个空闲块链表，其中每一块都有一个首部，包含指向下一块的指针以及本块大小，首部被定义为一个联合：
+
+```c
+typedef long Align;　// 4或8字节
+
+union header{
+    struct{
+        union header *ptr; //指向下一块的指针
+        unsigned size;     //块大小
+    } s;
+    Align x;        // 用于占用固定大小
+}
+
+typedef union header Header;
+```
+
+为了便于对齐，首部被定义为固定大小，所有块都是该大小的整数倍。
+
+`malloc`会为需求的内存大小分配刚好能够容纳之的首部大小单元个数，并增加一个首部单元（也计入块大小）。`malloc`返回一个指向空闲单元的指针。
 
 
 
