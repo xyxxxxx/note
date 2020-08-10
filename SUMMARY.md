@@ -18,6 +18,7 @@
 	* [内存管理](C/memory-management.md)
 	* [网络编程](C/network-programming.md)
 	* [库](C/lib.md)
+	* [数据结构的实现](C/ds-implementation.md)
 	* [Makefile](C/makefile.md)
 
 
