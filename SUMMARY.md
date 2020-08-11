@@ -126,13 +126,13 @@
 
 ## 其它
 
-* [Git](other/git.md)
-* [Gitbook](other/gitbook.md)
-* [json](other/json.md)
-* [LaTeX](other/latex.md)
-* [Markdown](other/markdown.md)
-* [正则表达式](other/regular-expression.md)
+* [Git](others/git.md)
+* [Gitbook](others/gitbook.md)
+* [json](others/json.md)
+* [LaTeX](others/latex.md)
+* [Markdown](others/markdown.md)
+* [正则表达式](others/regular-expression.md)
 
 ## 工具
 
-* [词汇表]()
+* [词汇表](tools/vocabulary.md)

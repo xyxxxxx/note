@@ -37,6 +37,7 @@
 | binary search                     | 二分查找         |
 | binary tree                       | 二叉树           |
 | BIOS, Basic Input Output System   | 基本输入输出系统 |
+| bitwise                           | 位的             |
 | bottom                            | 栈底             |
 | BST, Binary Search Tree           | 二叉查找树       |
 | bucket                            | 桶               |
@@ -259,6 +260,8 @@
 | -------------------------------- | ------------ |
 | object                           | 对象         |
 | OOP, Object Oriented Programming | 面向对象编程 |
+| operand                          | 运算数       |
+| operator                         | 算子         |
 | OS, Operating System             | 操作系统     |
 | output                           | 输出         |
 | overflow                         | 上溢         |

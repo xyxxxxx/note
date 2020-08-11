@@ -4,12 +4,15 @@
 
 ```C
 if (条件) {语句组}
------
+
 if (条件)
 	{语句组1}
-else
+else if
 	{语句组2}
------
+else
+	{语句组3}
+
+
 switch (表达式)/* int or char*/
 {case constant1:
  	sentence1
@@ -22,6 +25,8 @@ switch (表达式)/* int or char*/
  	sentence
 }
 ```
+
+
 
 ## 循环结构
 
