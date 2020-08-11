@@ -58,6 +58,14 @@ int fprintf(FILE *stream, const char *format, ...)
 int fscanf(FILE *stream, const char *format, ...)
 ```
 
+```c
+//sprintf发送格式化字符到str指向的字符数组，字符数组中原有的内容被覆盖
+int sprintf(char *str, const char *format, ...)
+
+```
+
+
+
 |       |                                              |
 | ----- | -------------------------------------------- |
 | %d    | int                                          |

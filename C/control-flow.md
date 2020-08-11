@@ -77,5 +77,9 @@ for(初值;条件;增量){ //适用于变量初始化和范围确定
 for(;;){          // infinite loop
     sentence;
 }
+
+for(i = 0, j = strlen(s)-1; i < j; i++, j--) //利用逗号复合语句
+    c = s[i], s[i] = s[j], s[j] = c;
+
 ```
 

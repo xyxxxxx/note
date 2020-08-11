@@ -7,7 +7,7 @@
 
 
 
-# <stdio.h>
+# stdio.h
 
 参见IO
 
@@ -15,7 +15,7 @@
 
 
 
-# <stdlib.h>
+# stdlib.h
 
 参见内存管理
 
@@ -52,34 +52,37 @@ exit(status)     //程序终止,status=0正常终止,=-1因错误而终止
 
 
 
-# <string.h>
+# string.h
 
 ```c
-strcpy(str1,str2) /*str1用str2赋值*/
-                  
-strcat(str1,str2) //字符串拼接
-strcmp(str1,str2) /*字符串比较*/
-strchr(cs,c)      //查找cs中c首次出现的位置，返回指向该位置的指针
-strlen(str)       /*字符串长度*/  
+char *strcpy(char *dest, const char *src) //将src指向的字符串复制到dest指向的字符串，dest指向字符串的原有内容被丢弃，返回指针dest
+
+char *strcat(char *dest, const char *src) //将src指向的字符串追加到dest指向的字符串的结尾,返回指针dest
+    
+int strcmp(const char *str1, const char *str2)　//比较字符串, return negative, 0, positive if str1 <, =, > str2
+
+char *strchr(const char *str, int ch) //查找str指向的字符串中字符ch首次出现的位置，返回指向该位置的指针，查找失败则返回NULL
+    
+size_t strlen(const char *str) //返回str指向的字符串的长度，不包括\0
 ```
 
 ```c
-memcpy(str1, str2, n) //复制str2(指针位置)的前n个字符到str1(指针位置)
-memmove(str1, str2, n)    
-memset(str, c, n)     //复制字符c到str指向的字符串的前n个字符,返回str
-memcmp(str1, str2, n) //比较str1和str2的前n个字符
-memchr(str, c, n)     //查找c在str的前n个字符中首次出现的位置
+void *memcpy(void *dest, const void *src, size_t n) //将src指向的内存块的前n个字节复制到dest指向的内存块的前n个字节，dest指向的内存块的其它字节不变，返回指针dest
+
+void *memmove(void *dest, const void *src, size_t n) //与memcpy功能相同，但如果内存块存在区域重叠时是比memcpy更安全的方法
+
+void *memset(void *str, int c, size_t n) //复制字符c到str指向的内存块的前n个字节，dest指向的内存块的其它字节不变,返回指针str
+
+int memcmp(const void *str1, const void *str2, size_t n) //比较str1指向的内存块和str2指向的内存块的前n个字节的大小
+    
+void *memchr(const void *str, int c, size_t n) //查找字符c在str指向的内存块的前n个字节中首次出现的位置
 ```
 
 
 
-```
-
-```
 
 
-
-# <ctype.h>
+# ctype.h
 
 ```c
 //判定变量类型
@@ -94,7 +97,7 @@ tolower(c)        // A-Z -> a-z
 
 
 
-# <stdarg.h>
+# stdarg.h
 
 ```c
 //获取可变个数的参数
@@ -133,5 +136,20 @@ int sum(int num_args, ...)
 
 
 
-# <math.h>
+# math.h
 
+
+
+
+
+# unistd.h, sys/stat.h, sys/mman.h
+
+参见[文件管理]()
+
+
+
+
+
+# dirent.h
+
+参见[目录管理]()

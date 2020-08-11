@@ -53,3 +53,18 @@ int main()
 }
 ```
 
+
+
+
+
+`sys/mman.h`采用内存映射文件的方式进行文件I/O的操作。
+
+```c
+void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offsize);　//将文件内容映射到内存中
+
+
+int munmap(void *, size_t);
+```
+
+
+
