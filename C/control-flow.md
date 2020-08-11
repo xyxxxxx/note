@@ -2,6 +2,8 @@
 
 ## 条件结构
 
+### `if`
+
 ```C
 if (条件) {语句组}
 
@@ -11,8 +13,13 @@ else if
 	{语句组2}
 else
 	{语句组3}
+```
 
 
+
+### `switch`
+
+```c
 switch (表达式)/* int or char*/
 {case constant1:
  	sentence1
@@ -30,21 +37,45 @@ switch (表达式)/* int or char*/
 
 ## 循环结构
 
+### `while`
+
 ```c
-while (condition)
-	{
-    	sentence;
-	}
------
+while (condition) // if non-zero, execute sentence
+{
+    sentence;
+}
+
+while (1) // infinite loop
+{
+	sentence;    
+}
+    
+break;    //跳出循环
+continue; //立即进行下一次循环
+```
+
+
+
+### `do while`
+
+```c
 do
 	{
     sentence;
 	} while(condition)  
------
-for(初值;条件;增量) /*适用于变量范围确定*/
------
-break 跳出循环
-continue 立即进行下一次循环
 ```
 
-# 
+
+
+### `for`
+
+```c
+for(初值;条件;增量){ //适用于变量初始化和范围确定
+	sentence;    
+}
+
+for(;;){          // infinite loop
+    sentence;
+}
+```
+
