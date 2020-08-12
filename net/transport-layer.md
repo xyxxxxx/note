@@ -28,11 +28,11 @@
 
   + 熟知端口号或系统端口号（0~1023）被指派给TCP/IP最重要的一些应用程序
 
-    ![](https://raw.githubusercontent.com/xyxxxxx/image/master/wti9yogj5io2hnjktb.PNG)
-
   + 登记端口号（1024~49151），供没有熟知端口号的应用程序使用
 
 + 客户端使用的端口号（49152~65535）仅在客户进程运行时才动态选择，也称为短暂端口号
+
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/wti9yogj5io2hnjktb.PNG)
 
 
 
@@ -80,7 +80,7 @@ TCP的主要特点：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/j3y5iojgtioenhetjkteg.PNG)
 
-https://github.com/xyxxxxx/image/blob/master/350ypmgrwknejlfeq.PNG
+
 
 ### TCP连接
 
@@ -111,7 +111,7 @@ TCP连接的端点是socket
 $$
 U=\frac{T_D}{T_D+RTT+T_A}
 $$
-![xvnjknhtjkyehnjke5y3](C:\Users\Xiao Yuxuan\Documents\pic\xvnjknhtjkyehnjke5y3.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/xvnjknhtjkyehnjke5y3.PNG)
 
 **连续ARQ协议**
 
