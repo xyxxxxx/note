@@ -4,7 +4,7 @@
 
 通信的真正端点不是主机，而是主机中的进程
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\wrjiojy3oihjnuohetb.PNG" alt="wrjiojy3oihjnuohetb" style="zoom:67%;" />
+![](https://i.loli.net/2020/08/12/tnBdPwMhJvzGY2x.png)
 
 网络层为<u>主机之间</u>提供逻辑通信，而运输层为<u>应用进程之间</u>提供端到端的逻辑通信
 
@@ -14,13 +14,13 @@
 
 ### 主要协议
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\isdfonhetkjnjkeht.PNG" alt="isdfonhetkjnjkeht" style="zoom:67%;" />
+![](https://i.loli.net/2020/08/12/VlwuAUD8XMacO6s.png)
 
 **用户数据报协议UDP(User Datagram Protocol)** 在传送数据之前<u>不需要先建立连接</u>，远地主机的运输层收到UDP报文后，不需要给出任何确认
 
 **传输控制协议TCP(Transmission Control Protocol)** 提供<u>面向连接的服务</u>，在传送数据之前必须先建立连接，数据传送结束后要释放连接。由于TCP提供可靠的面向连接的运输服务，因此增加了许多开销，如确认、流量控制、计时器和连接管理等.
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\teiohuj47iujhmgklejhe.PNG" alt="teiohuj47iujhmgklejhe" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/teiohuj47iujhmgklejhe.PNG)
 
 运输层使用**协议端口号(protocol port number)**，简称为**端口(port)**，使用16位端口号（1~65535）来标志一个端口，端口号只具有本地意义，只标志本计算机应用层中各进程和运输层交互时的层间接口。端口号分为以下两大类：
 
@@ -28,7 +28,7 @@
 
   + 熟知端口号或系统端口号（0~1023）被指派给TCP/IP最重要的一些应用程序
 
-    ![wti9yogj5io2hnjktb](C:\Users\Xiao Yuxuan\Documents\pic\wti9yogj5io2hnjktb.PNG)
+    ![](https://raw.githubusercontent.com/xyxxxxx/image/master/wti9yogj5io2hnjktb.PNG)
 
   + 登记端口号（1024~49151），供没有熟知端口号的应用程序使用
 
@@ -50,7 +50,7 @@ UDP的主要特点：
 
 + **面向报文**，即对应用程序向下交付的报文，添加首部后就向下交付IP层
 
-  <img src="C:\Users\Xiao Yuxuan\Documents\pic\tjieoyjnoigrwno245ut.PNG" alt="tjieoyjnoigrwno245ut" style="zoom:67%;" />
+  ![](https://raw.githubusercontent.com/xyxxxxx/image/master/tjieoyjnoigrwno245ut.PNG)
 
 + **没有拥塞控制**，网络出现的拥塞不会使源主机的发送速率降低
 
@@ -60,11 +60,11 @@ UDP的主要特点：
 
 ### 首部格式
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\wrjiogtjoi56ynhejto.PNG" alt="wrjiogtjoi56ynhejto" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/wrjiogtjoi56ynhejto.PNG)
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\r90y3j5hoitn3jh6u.PNG" alt="r90y3j5hoitn3jh6u" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/r90y3j5hoitn3jh6u.PNG)
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\j3ih5ojuy5iohnwvjkwgt.PNG" alt="j3ih5ojuy5iohnwvjkwgt" style="zoom:80%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/j3ih5ojuy5iohnwvjkwgt.PNG)
 
 ## TCP
 
@@ -78,23 +78,27 @@ TCP的主要特点：
 + 提供**全双工通信**，即允许双方进程在任何时候都能发送数据，TCP连接的两端都设有发送缓存和接收缓存
 + **面向字节流**
 
-![j3y5iojgtioenhetjkteg](C:\Users\Xiao Yuxuan\Documents\pic\j3y5iojgtioenhetjkteg.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/j3y5iojgtioenhetjkteg.PNG)
+
+https://github.com/xyxxxxx/image/blob/master/350ypmgrwknejlfeq.PNG
 
 ### TCP连接
 
-TCP连接的端点是socket，即IP地址拼接端口号，例如192.3.4.5:80
+TCP连接的端点是socket
 
 ### 可靠传输
 
 **停止等待协议**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\350ypmgrwknejlfeq.PNG" alt="350ypmgrwknejlfeq" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/350ypmgrwknejlfeq.PNG)
+
+
 
 + A在发送完一个分组后，必须暂时保留已发送的分组的副本，收到相应的确认后才能清除
 + 分组和确认分组必须编号
 + 超时计时器设置的重传时间应比分组传输的平均往返时间更长一些 
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\k46okytepowrmg.PNG" alt="k46okytepowrmg" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/k46okytepowrmg.PNG)
 
 + B收到重传的分组：不向上层交付，但向A发送确认
 + A收到重复的确认：收下即丢弃
@@ -103,7 +107,7 @@ TCP连接的端点是socket，即IP地址拼接端口号，例如192.3.4.5:80
 
 **信道利用率**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\iohj3yuiongjbeth.PNG" alt="iohj3yuiongjbeth" style="zoom:80%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/iohj3yuiongjbeth.PNG)
 $$
 U=\frac{T_D}{T_D+RTT+T_A}
 $$
@@ -111,7 +115,7 @@ $$
 
 **连续ARQ协议**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\y4j0i5jgrwiowh.PNG" alt="y4j0i5jgrwiowh" style="zoom: 67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/y4j0i5jgrwiowh.PNG)
 
 略
 
@@ -119,7 +123,7 @@ $$
 
 ### 首部格式
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\04u6jkthgiotniy4tfw.PNG" alt="04u6jkthgiotniy4tfw" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/04u6jkthgiotniy4tfw.PNG)
 
 (1) **源端口和目的端口**，各2字节
 
@@ -153,15 +157,15 @@ $$
 
 ### 可靠运输的实现
 
-![fipsojhu36ioyngljongwr](C:\Users\Xiao Yuxuan\Documents\pic\fipsojhu36ioyngljongwr.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fipsojhu36ioyngljongwr.PNG)
 
-![89j5griwonhteiugrjnwrv](C:\Users\Xiao Yuxuan\Documents\pic\89j5griwonhteiugrjnwrv.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/89j5griwonhteiugrjnwrv.PNG)
 
-![hfwruighn3yinjibgrw](C:\Users\Xiao Yuxuan\Documents\pic\hfwruighn3yinjibgrw.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/hfwruighn3yinjibgrw.PNG)
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\jfspiojtki4ofndjvbht.PNG" alt="jfspiojtki4ofndjvbht" style="zoom:80%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/jfspiojtki4ofndjvbht.PNG)
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\njvisniu5yb62i5uhg9wro.PNG" alt="njvisniu5yb62i5uhg9wro" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/njvisniu5yb62i5uhg9wro.PNG)
 
 **超时重传时间的选择**
 
@@ -179,7 +183,7 @@ $$
 
 **滑动窗口实现流量控制**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\kxpoijyio53tjfuihetf.PNG" alt="kxpoijyio53tjfuihetf" style="zoom:80%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/kxpoijyio53tjfuihetf.PNG)
 
 **传输效率**
 
@@ -191,7 +195,7 @@ $$
 
 拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载；流量控制往往是点对点通信量的控制
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\90y5wjygiorwjy25ugnwr.PNG" alt="90y5wjygiorwjy25ugnwr" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/90y5wjygiorwjy25ugnwr.PNG)
 
 **拥塞控制方法**
 
@@ -211,7 +215,7 @@ $$
 
 TCP建立连接的过程称为**握手**，握手需要在客户和服务器之间交换三个TCP报文段：
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\sjigfoh3mu6klunjky5.PNG" alt="sjigfoh3mu6klunjky5" style="zoom: 67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/sjigfoh3mu6klunjky5.PNG)
 
 1. B的TCP服务器进程先创建传输控制块TCB，然后进入LISTEN状态，准备接受客户进程的连接请求
 2. A的TCP客户进程先创建传输控制块TCB，然后希望建立TCP连接时向B发出<u>连接请求报文段</u>，其SYN=1，seq=x（规定SYN=1的报文段不能携带数据），TCP客户进程进入SYN-SENT状态
@@ -225,7 +229,7 @@ TCP建立连接的过程称为**握手**，握手需要在客户和服务器之�
 
 **连接释放**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\fjioh3nokwnhtjh35.PNG" alt="fjioh3nokwnhtjh35" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fjioh3nokwnhtjh35.PNG)
 
 数据传输结束，A和B仍处于ESTABLISHED状态
 
@@ -246,7 +250,7 @@ TCP建立连接的过程称为**握手**，握手需要在客户和服务器之�
 
 **TCP有限状态机**
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\tk3i5ojy36uiogejkeht.PNG" alt="tk3i5ojy36uiogejkeht" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/tk3i5ojy36uiogejkeht.PNG)
 
 
 

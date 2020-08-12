@@ -2,7 +2,7 @@
 
 网络层向上只提供简单灵活的、无连接的、尽最大努力交付的数据报服务：网络在发送分组时不需要先建立连接，每一个分组独立发送；网络层不提供服务质量的承诺，即传送的分组可能出错、丢失、重复或失序，也不保证分组交付的时限
 
-<img src="C:\Users\Xiao Yuxuan\Documents\pic\giornh3yjhognvwrj.PNG" alt="giornh3yjhognvwrj" style="zoom: 67%;" />
+<img src="C:\Users\Xiao Yuxuan\Documents\pic\giornh3yjhognvwrj.PNG" alt="giornh3yjhognvwrj"  />
 
 
 

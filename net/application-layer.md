@@ -25,7 +25,7 @@ mail.cctv.com
 
 国家顶级域名下注册的二级域名由国家自行确定，例如日本的教育和企业机构的二级域名定为ac和co
 
-<img src="https://i.loli.net/2020/08/11/txMGzVokpgbUq85.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/dphom46kumlk3htnj.PNG)
 
 
 
@@ -33,13 +33,13 @@ mail.cctv.com
 
 一个DNS服务器负责管辖的范围称为**区(zone)**：
 
-![](https://i.loli.net/2020/08/11/YcGeBSnZwfCOhKV.png)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/mgpomu4i6ohnejly35.PNG)
 
 域名服务器分为四种类型：
 
 (1) **根域名服务器(root name server)** 是最高层次的域名服务器，所有根域名服务器都知道所有的顶级域名服务器的域名和IP地址。目前世界上有13组根域名服务器
 
-<img src="https://i.loli.net/2020/08/11/BsUiYmDT8IFbv26.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fgpmomu4iohnejiy35.PNG)
 
 根域名服务器并非直接把待查询的域名转换为IP地址，而是告诉本地域名服务器下一步应该询问的顶级域名服务器
 
@@ -51,7 +51,7 @@ mail.cctv.com
 
 为提高域名服务器的可靠性，DNS域名服务器把数据复制到几个域名服务器保存
 
-<img src="https://i.loli.net/2020/08/11/bjPVL7A4GNkJT8a.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/903ykhgohihjeiongj.PNG)
 
 
 
@@ -69,11 +69,11 @@ FTP只提供文件传送的一些基本服务，其使用TCP可靠的运输服�
 
 FTP使用客户服务器方式，一个FTP服务器进程可同时为多个客户进程提供服务。FTP服务器进程由两部分组成：主进程，负责接受新的请求；从属进程，负责处理单个请求. 其工作步骤如下：
 
-<img src="https://i.loli.net/2020/08/11/YlUkJKF97oBSxC1.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/mkfolwrnhtjonjwrgnjhirwg.PNG)
 
-<img src="https://i.loli.net/2020/08/11/NVQ4n3f7GvhKPom.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/i4590hteoi3joi35y.PNG)
 
-<img src="https://i.loli.net/2020/08/11/2TG6duc8OXfxlHU.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/iofdnho3j5ntj5oyujooewf.PNG)
 
 
 
@@ -94,7 +94,7 @@ TFTP也是用客户服务器方式，但使用UDP数据报，其主要优点是�
 
 TFTP的主要特点是：
 
-<img src="https://i.loli.net/2020/08/11/OALMzZa2319iuJV.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/jy829jgr2ionhtogrnoqj.PNG)
 
 
 
@@ -133,7 +133,7 @@ https://<主机>:<端口>/<路径>
 
 HTTP的默认端口号是80，HTTPS的默认端口号是443，通常可省略. 若省略路径，则URL指向互联网上的某个**主页(home page)**
 
-<img src="https://i.loli.net/2020/08/11/QE7KmvqHDsw5zTu.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/dfnklnhjklgnjkh5yq.PNG)
 
 
 
@@ -141,11 +141,11 @@ HTTP的默认端口号是80，HTTPS的默认端口号是443，通常可省略. �
 
 HTTP是**面向事务的**应用层协议，是万维网上能够可靠地交换文件的重要基础。
 
-<img src="https://i.loli.net/2020/08/11/M8EYSXTlNi4sGOx.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/gdmikou4n6okly35nuouhjgn.PNG)
 
 HTTP使用了面向连接的TCP作为运输层协议，保证了数据的可靠传输，但是HTTP协议本身是无连接的。HTTP协议是无状态的(stateless)，即每次访问同一个服务器上的页面时，服务器的响应相同。
 
-<img src="https://i.loli.net/2020/08/11/du6AjgVFwrH7kGI.png" style="zoom:80%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/etjiojy5oirgjkg25yg.PNG)
 
 
 
@@ -159,7 +159,7 @@ HTTP/1.0的主要缺点是，每请求一个文档就需要两倍的RTT开销。
 
 HTTP报文分为请求报文和响应报文：
 
-<img src="https://i.loli.net/2020/08/11/gq4Fs6cmvYErkZI.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/dgolkhmklgfnjkbgrkhwg.PNG)
 
 HTTP是**面向文本的(text-oriented)**，报文中每个字段都是ASCII码串，字段长度也不固定。
 
@@ -237,11 +237,11 @@ Cookie具有过期时间，到期后会自动删除。
 
 **代理服务器(proxy server)**是一种网络实体，又称为万维网高速缓存(Web cache)，其把最近的一些请求和响应暂存在本地磁盘中，当新请求到达时，若代理服务器发现这个请求与暂时存放的请求相同，则返回暂存的响应. 代理服务器可以在客户端或服务器端工作，也可在中间系统工作。
 
-<img src="https://i.loli.net/2020/08/11/XcTlsgdqapGjVky.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fdiony35mojgrkhwt.PNG)
 
-<img src="https://i.loli.net/2020/08/11/VqLoBbnA4MQkKWp.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/jy358iogrmwjlwgjnfewrg.PNG)
 
-<img src="https://i.loli.net/2020/08/11/V6DjHXFvr41tSyO.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fdgoiyn3u6ojgrnkwht.PNG)
 
 
 
@@ -259,7 +259,7 @@ Cookie具有过期时间，到期后会自动删除。
 
 通用网关接口CGI定义了动态文档应如何创建，万维网服务器中新增加的应用程序称为CGI程序：
 
-<img src="https://i.loli.net/2020/08/11/vWRMPNYrx7pBGQ3.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/gkpfohju46oiyrejdgowr.PNG)
 
 CGI程序的正式名字是CGI**脚本(script)**，脚本指被另一个程序解释或执行的程序。有一些专门的脚本语言，如Perl，REXX，JavaScript等。
 
@@ -267,7 +267,7 @@ CGI程序的正式名字是CGI**脚本(script)**，脚本指被另一个程序�
 
 **活动文档(active document)**技术支持屏幕连续更新，即把所有的工作都转移给浏览器端。每当浏览器请求一个活动文档，服务器就返回一段活动文档程序副本，并在浏览器端运行。
 
-<img src="https://i.loli.net/2020/08/11/trUZWp1siaLNhD3.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/fdionywkrgljnvjkw4t.PNG)
 
 
 
@@ -279,13 +279,13 @@ CGI程序的正式名字是CGI**脚本(script)**，脚本指被另一个程序�
 
 一个电子邮件系统应具有三个主要组成构件：用户代理、邮件服务器以及邮件发送协议和邮件读取协议. POP3是**邮局协议**的版本3.
 
-<img src="https://i.loli.net/2020/08/11/DZLlFAIgMnNsKEb.png" style="zoom:67%;" />
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/lafmkglwngj4ugtbhkwtg.PNG)
 
 用户代理UA(User Agent)即用户与电子邮件系统的接口，在大多数情况下是运行在用户电脑中的一个程序。
 
 发送步骤：
 
-![](https://i.loli.net/2020/08/11/Zawk7LsvIminj1E.png)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/adopjgywpojgnjohw5y.PNG)
 
 ### SMTP
 
