@@ -153,9 +153,28 @@ getpeername(unixfd,(struct sockaddr *)&cli, &len);
 
 # `inet_aton`, `inet_addr`和`inet_ntoa`函数
 
+地址转换函数在ASCII字符串与网络字节序的二进制值之间转换网际地址。`inet_aton`, `inet_addr`和`inet_ntoa`函数在点分十进制串与它长度为32位的网络字节序二进制值之间转换IPv4地址。
+
+```c
+#include <arpa/inet.h>
+
+int inet_aton(const char *strptr, struct in_addr *addrptr);
+    //将strptr所指点分十进制串转换为32位网络字节序二进制值，并存储在addrptr指向的结构体变量
+    //若字符串有效则为1，否则为0
+in_addr_t inet_addr(const char *strptr);
+    //若字符串有效则为32位网络字节序二进制值，否则为INADDR_NONE
+char *inet_ntoa(struct in_addr inaddr);
+    //返回指向一个点分十进制串的指针
+```
+
+
+
+
+
 
 
 
 
 # `inet_pton`, `inet_ntop`函数
 
+`inet_pton`, `inet_ntop`函数对于IPv4地址和IPv6地址都适用。
