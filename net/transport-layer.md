@@ -50,7 +50,8 @@ UDP的主要特点：
 
 + **面向报文**，即对应用程序向下交付的报文，添加首部后就向下交付IP层
 
-  ![](https://raw.githubusercontent.com/xyxxxxx/image/master/tjieoyjnoigrwno245ut.PNG)
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/tjieoyjnoigrwno245ut.PNG)
+
 
 + **没有拥塞控制**，网络出现的拥塞不会使源主机的发送速率降低
 
