@@ -54,6 +54,7 @@
 | cache                              | 高速缓存         |
 | call                               | 调用             |
 | cast                               | 类型转换         |
+| catch                              | 捕获             |
 | children                           | 子节点           |
 | class                              | 类               |
 | client                             | 客户             |
@@ -355,6 +356,7 @@
 | server                | 服务器               |
 | session               | 会话                 |
 | shell                 | UNIX系统的命令解释器 |
+| signal                | 信号                 |
 | slash                 | /                    |
 | slice                 | 切片                 |
 | socket                | 套接字               |

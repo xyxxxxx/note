@@ -57,7 +57,10 @@ int socket (int __domain, int __type, int __protocol)
 
 # 并发服务器
 
-
+![Screenshot from 2020-08-13 12-54-41.png](https://i.loli.net/2020/08/13/rE49yiHtTqXkGV8.png)
+![Screenshot from 2020-08-13 12-54-51.png](https://i.loli.net/2020/08/13/CdGWtgAuYHvwM7K.png)
+![Screenshot from 2020-08-13 12-55-13.png](https://i.loli.net/2020/08/13/8dXPMQSkTtAHGoq.png)
+![Screenshot from 2020-08-13 12-55-24.png](https://i.loli.net/2020/08/13/zIvUQHsx7nCY6AB.png)
 
 
 
@@ -68,3 +71,6 @@ int socket (int __domain, int __type, int __protocol)
 
 
 # `getsockname`和`getpeername`函数
+
+
+
