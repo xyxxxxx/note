@@ -85,8 +85,8 @@ int sprintf(char *str, const char *format, ...)
 | \b   | 退格             |
 |      | 空格             |
 | \\\  | \                |
-|      |                  |
-|      |                  |
+
+
 
 **getchar, putchar**
 
@@ -139,7 +139,10 @@ int main( )
 ```c
 //fgets从流stream中读入n-1个字符(或者读至行末)并存储到buffer
 //fputs将字符串写入流stream中并换行
-char *fgets( char *buf, int n, FILE *fp ); //
+
+char *fgets( char *buf, int n, FILE *fp );
+  //return buf if ok, NULL if EOF or "" or err
+
 int fputs(char *s, FILE *fp);
 ```
 
