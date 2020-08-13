@@ -63,7 +63,7 @@
 | compiler                           | 编译器           |
 | complete binary tree               | 完全二叉树       |
 | compress                           | 压缩             |
-| concurrency                        | 并发             |
+| concurrency, concurrent            | 并发             |
 | congestion                         | 拥塞             |
 | constant                           | 常量             |
 | context                            | 上下文；容器     |
@@ -186,6 +186,7 @@
 | internal fragmentation          | 内部碎片     |
 | IPC, InterProcess Communication | 进程间通信   |
 | IP address                      | IP地址       |
+| iterative server                | 迭代服务器   |
 
 
 

@@ -1,12 +1,14 @@
-![](https://img-blog.csdn.net/20180205104507262?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2FpbmlhbzAwMDAwMQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+# socket
+
+socket是应用层进入传输层的接口，我们使用socket编写使用TCP或UDP协议的网络应用程序。
 
 
 
-# Socket编程简介
 
-## socket地址结构
 
-### IPv4 socket地址结构——sockaddr_in
+# socket地址结构
+
+## IPv4 socket地址结构——sockaddr_in
 
 ```c
 struct sockaddr_in                 // POSIX定义
@@ -38,7 +40,9 @@ serv_addr.sin_port = htons(1234); //htons()将主机字节序转换为网络字�
 
 ```
 
-### 通用socket地址结构
+
+
+## 通用socket地址结构
 
 ```c
 struct sockaddr
@@ -57,7 +61,9 @@ int bind(int,struct sockaddr *, socklen_t)
 
 因此指向特定协议族的socket地址结构都必须强制转型为通用地址结构的指针
 
-### IPv6 socket地址结构——sockaddr_in6
+
+
+## IPv6 socket地址结构——sockaddr_in6
 
 ```c
 struct sockaddr_in6
@@ -71,7 +77,9 @@ struct sockaddr_in6
 }
 ```
 
-### 新通用socket地址结构
+
+
+## 新通用socket地址结构
 
 ```c
 struct sockaddr_storage {
@@ -85,7 +93,9 @@ struct sockaddr_storage {
 //sockaddr_storage足够大以能够容纳任何地址结构
 ```
 
-### socket地址结构比较
+
+
+## socket地址结构比较
 
 ![111.png](https://i.loli.net/2020/08/07/4dqrwleMtP8J3EC.png)
 
@@ -93,7 +103,7 @@ struct sockaddr_storage {
 
 
 
-## socket函数
+# 值－结果参数
 
 `bind`,` connet`,` sendto`从进程到内核传递地址结构，如
 
@@ -115,36 +125,11 @@ getpeername(unixfd,(struct sockaddr *)&cli, &len);
 
 
 
-## 字节排序函数
+# 字节排序函数
 
 考虑一个16位整数存储在2个字节中，内存中
 
 
-
-**socket**
-
-socket是应用层进入传输层的接口，我们使用socket编写使用TCP或UDP协议的网络应用程序。
-
-
-
-```c
-int socket (int __domain, int __type, int __protocol)
-/*  参数domain指通信域/地址族(即IPv4,IPv6,...)
-    	PF_INET/AF_INET IPv4协议
-    	PF_UNIX/PF_LOCAL/AF_UNIX/AF_LOCAL 进程通信协议
-    
-    参数type指socket的类型
-    	SOCK_STREAM 可靠的双向的有连接流,即TCP
-    	SOCK_DGRAM  不可靠的无连接的报文,即UDP
-    	SOCK_SEQPACKET 有序的可靠的双向的有连接的传输
-    
-    参数protocol通常置0,自动选择type支持的协议
-    
-    返回一个小整数描述符,失败则返回负数
-*/
-```
-
-> 参考https://zhuanlan.zhihu.com/p/24916785
 
 
 
