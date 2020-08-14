@@ -131,14 +131,26 @@ getpeername(unixfd,(struct sockaddr *)&cli, &len);
 
 # 字节排序函数
 
-考虑一个16位整数存储在2个字节中，内存中
+考虑一个16位整数存储在2个字节中，内存中存储这两个字节有两种方法：小端字节序（little-endian）和大端（big-endian）字节序。
+
+![Screenshot from 2020-08-14 10-13-25.png](https://i.loli.net/2020/08/14/CFsy2pXAxYKOvHT.png)
 
 
 
+遗憾的是，这两种字节序之间没有标准可循。我们把某个给定系统所用的字节序称为主机字节序（host byte order），网络协议指定的字节序称为网络字节序（network byte order）。IP协议使用大端字节序来传送这些多字节整数。
 
+两种字节序之间的转换使用以下函数：
 
 ```c
+#include <netinet/in.h>
 
+//返回网络字节序的值
+uint16_t htons(uint16_t host16bitvalue);
+uint32_t htonl(uint32_t host32bitvalue);
+    
+//返回主机字节序的值
+uint16_t ntohs(uint16_t net16bitvalue);
+uint32_t ntohl(uint32_t net32bitvalue);
 ```
 
 
@@ -147,7 +159,31 @@ getpeername(unixfd,(struct sockaddr *)&cli, &len);
 
 # 字节操纵函数
 
+```c
+#include <strings.h>
+void bzero(void *dest, size_t nbytes);
+    //将目标字节串的前n个字节置0
+    //通常用于把一个socket地址结构初始化为0
+void bcopy(const void *src, void *dest, size_t nbytes);
+    //将前n个字节从源字节串复制到目标字节串
+int bcmp(const void *ptr1, const void *ptr2, size_t nbytes);
+    //return -1, 0, 1 if <, =, >
+```
 
+> `const *`表示函数不会更改指针指向的变量，否则函数可能更改变量并作为返回值
+
+```c
+#include <string.h>
+void memset(void *dest, int c, size_t nbytes);
+    //将目标字节串的前n个字节置c
+    //通常用于把一个socket地址结构初始化为0
+void memcpy(void *dest, const void *src, size_t nbytes);
+    //将前n个字节从源字节串复制到目标字节串
+void memmove(void *dest, const void *src, size_t nbytes);
+    //作用与memcpy相同,但是当源字符串与目标字符串重叠时此函数是安全的
+int memcmp(const void *ptr1, const void *ptr2, size_t nbytes);
+    //return -1, 0, 1 if <, =, >
+```
 
 
 
@@ -160,16 +196,14 @@ getpeername(unixfd,(struct sockaddr *)&cli, &len);
 
 int inet_aton(const char *strptr, struct in_addr *addrptr);
     //将strptr所指点分十进制串转换为32位网络字节序二进制值，并存储在addrptr指向的结构体变量
-    //若字符串有效则为1，否则为0
+    //若字符串有效则返回1，否则返回0
 in_addr_t inet_addr(const char *strptr);
-    //若字符串有效则为32位网络字节序二进制值，否则为INADDR_NONE
+    //若字符串有效则返回32位网络字节序二进制值，否则返回INADDR_NONE
+    //不能处理255.255.255.255
 char *inet_ntoa(struct in_addr inaddr);
+    //将32位网络字节序二进制值转换成点分十进制串
     //返回指向一个点分十进制串的指针
 ```
-
-
-
-
 
 
 
@@ -178,3 +212,18 @@ char *inet_ntoa(struct in_addr inaddr);
 # `inet_pton`, `inet_ntop`函数
 
 `inet_pton`, `inet_ntop`函数对于IPv4地址和IPv6地址都适用。
+
+```c
+#include <arpa/inet.h>
+
+int inet_pton(int family, const char *strptr, void *addrptr);
+              //AF_INET, AF_INET6
+    //从表达格式(strptr)转换到数值格式(addrptr)
+    //return 1 if ok, 0 if illegal expression, -1 if err
+const char *inet_ntop(int family, const void *addrptr, char *strptr, size_t len);
+    //从数值格式(addrptr)转换到表达格式(strptr)
+    //参数len是目标存储单元的大小;如果len不足以容纳表达格式结果,则返回一个空指针
+    //return 
+```
+
+![Screenshot from 2020-08-14 10-10-15.png](https://i.loli.net/2020/08/14/V4bLcnKOxah9Fur.png)

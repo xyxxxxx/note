@@ -141,7 +141,9 @@
 
 **实体**表示任何可以发送或接收信息的硬件或软件，**协议**是控制两个对等实体进行通信的规则的集合；在协议的控制下，两个对等实体的通信使得本层能够向上一层提供服务。服务是垂直的，协议是水平的
 
-TCP/IP体系
+
+
+# TCP/IP体系
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\rfgiowjhyeionhetj.PNG" alt="rfgiowjhyeionhetj" style="zoom:80%;" />
 

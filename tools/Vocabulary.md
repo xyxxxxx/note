@@ -34,6 +34,7 @@
 | balanced binary tree              | 平衡二叉树       |
 | bandwidth                         | 带宽             |
 | BBST, Balanced Binary Search Tree | 平衡二叉查找树   |
+| big-end                           | 大端             |
 | binary search                     | 二分查找         |
 | binary tree                       | 二叉树           |
 | BIOS, Basic Input Output System   | 基本输入输出系统 |
@@ -216,6 +217,7 @@
 | linked list             | 链表       |
 | listen                  | 监听       |
 | listener                | 监听器     |
+| little-end              | 小端       |
 | load balancing          | 负载平衡   |
 | locality                | 局部性     |
 | log                     | 日志       |
