@@ -1,5 +1,3 @@
-
-
 参照《UNIX网络编程 卷1》第五章进行实验。
 
 > 源代码位于https://github.com/unpbook/unpv13e

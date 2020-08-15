@@ -72,7 +72,8 @@
 ## 数据库
 
 * [MySQL](database/MySQL/mysql.md)
-	* [CRUD](database/MySQL/crud.md)
+	* [教程](database/MySQL/tutorial.md)
+	* [基本命令](database/MySQL/basic-commands.md)
 * [redis](database/redis/redis.md)
 
 ## 前端
@@ -99,7 +100,7 @@
     * [文件系统](system/OS/file-system.md)
     * [IO](system/OS/io.md)
 * [Linux](system/Linux/linux.md)
-	* [常用命令](system/Linux/common-command.md)
+	* [常用命令](system/Linux/common-commands.md)
 
 
 ## 计算机网络
