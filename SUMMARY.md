@@ -74,6 +74,7 @@
 * [MySQL](database/MySQL/mysql.md)
 	* [教程](database/MySQL/tutorial.md)
 	* [基本命令](database/MySQL/basic-commands.md)
+	* [练习](database/MySQL/exercise.md)
 * [redis](database/redis/redis.md)
 
 ## 前端
