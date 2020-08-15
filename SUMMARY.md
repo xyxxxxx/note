@@ -143,6 +143,28 @@
 * [Markdown](others/markdown.md)
 * [正则表达式](others/regular-expression.md)
 
+## 数学
+
++ [代数](math/algebra/algebra.md)
+  + [初等代数](math/algebra/elementary-algebra.md)
+  + [线性代数](math/algebra/linear-algebra.md)
+  + [抽象代数](math/algebra/abstract-algebra.md)
++ [分析](math/analysis/analysis.md)
+  + [一元微积分](math/analysis/calculus.md)
+  + [多元微积分](math/analysis/multivariate-calculus.md)
+  + [微分方程](math/analysis/differential-equation.md)
+  + [数学物理方法](math/analysis/mathematical-physics.md)
++ [应用数学](math/applied-mathematics/applied-mathematics.md)
+  + [概率论](math/applied-mathematics/probability-theory.md)
+  + [统计学](math/applied-mathematics/statistics.md)
++ [离散数学](math/discrete-mathematics/discrete-mathematics.md)
+  + [数理逻辑](math/discrete-mathematics/mathematical-logic.md)
+  + [集合论](math/discrete-mathematics/set-theory.md)
+  + [组合数学](math/discrete-mathematics/enumerative-combinatorics.md)
+  + [图论](math/discrete-mathematics/graph-theory.md)
+  + [数论](math/discrete-mathematics/number-theory.md)
+  + [多项式](math/discrete-mathematics/polynomial.md)
+
 ## 工具
 
 * [词汇表](tools/vocabulary.md)
