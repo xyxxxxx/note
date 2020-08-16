@@ -119,12 +119,16 @@
 ## 数据结构与算法
 
 * [算法](DSA/algorithm/algorithm.md)
+    * [常用算法](DSA/algorithm/common-algorithm.md)
     * [分而治之](DSA/algorithm/divide-and-conquer.md)
     * [动态规划](DSA/algorithm/dp.md)
     * [贪心算法](DSA/algorithm/greedy-algorithm.md)
     * [回溯算法](DSA/algorithm/backtracking.md)
+* [线性规划](DSA/algorithm/linear-programming.md)
+    * [网络流算法](DSA/algorithm/network-flow-algorithm.md)
+    * [算法分析](DSA/algorithm/analysis-of-algorithm.md)
     * [其它](DSA/algorithm/other.md)
-
+    
 * [数据结构](DSA/data-structure/data-structure.md)
     * [数组，链表](DSA/data-structure/array-linked-list.md)
     * [栈，队列](DSA/data-structure/stack-queue.md)
