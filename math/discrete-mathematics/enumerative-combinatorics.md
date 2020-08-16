@@ -36,7 +36,7 @@
 
    ![Catalan number 4x4 grid example.svg](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Catalan_number_4x4_grid_example.svg/1920px-Catalan_number_4x4_grid_example.svg.png) 
 
-3. Cn表示n个+1和n个-1构成2n项数列$a_1,a_2,...,a_{2n}$的个数，其部分和满足$a_1+a_2+...+a_k>=0,k=1,2,...,2n$
+3. Cn表示n个+1和n个-1构成2n项数列$$a_1,a_2,...,a_{2n}$$的个数，其部分和满足$$a_1+a_2+...+a_k>=0,k=1,2,...,2n$$
 
 4. Cn表示n组括号的合法运算式的个数（理解为X=放一个 Y=乘最后两个元素）
 

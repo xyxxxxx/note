@@ -20,30 +20,30 @@
 
 **总体population，个体individuality，样本sample標本，简单随机样本simple random sample無作為標本，样品，样本容量**
 
-样本为随机变量，用$X_1,X_2,\cdots,X_n$表示；样本在抽取后的确定观测值用$x_1,x_2,\cdots,x_n$
+样本为随机变量，用$$X_1,X_2,\cdots,X_n$$表示；样本在抽取后的确定观测值用$$x_1,x_2,\cdots,x_n$$
 
 
 
 ## 常用统计量
 
-**统计量** $X_1,X_2,\cdots,X_n$为取自某总体的样本，若样本函数$T=T(X_1,X_2,\cdots,X_n)$中不含有任何位置参数，则T称为统计量. 统计量的分布称为抽样分布
+**统计量** $$X_1,X_2,\cdots,X_n$$为取自某总体的样本，若样本函数$$T=T(X_1,X_2,\cdots,X_n)$$中不含有任何位置参数，则T称为统计量. 统计量的分布称为抽样分布
 
-**样本均值sample mean標本平均 $\overline{X}$**
+**样本均值sample mean標本平均 $$\overline{X}$$**
 
-+ 若总体$X\sim N(\mu,\sigma^2)$，则$\overline{X}\sim N(\mu,\frac{\sigma^2}{n})$
-+ 若总体不服从正态分布，$E(X)=\mu,Var(X)=\sigma^2$，则由中心极限定理，n较大时$\overline{X}$渐进分布为$N(\mu,\frac{\sigma^2}{n})$
++ 若总体$$X\sim N(\mu,\sigma^2)$$，则$$\overline{X}\sim N(\mu,\frac{\sigma^2}{n})$$
++ 若总体不服从正态分布，$$E(X)=\mu,Var(X)=\sigma^2$$，则由中心极限定理，n较大时$$\overline{X}$$渐进分布为$$N(\mu,\frac{\sigma^2}{n})$$
 
-**样本方差sample variance $S^2$**
+**样本方差sample variance $$S^2$$**
 $$
 S^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\overline{X})^2
 $$
-**定理** 设总体X具有二阶中心矩，$E(X)=\mu$，$Var(X)=\sigma^2<+\infty$，$X_1,X_2,\cdots,X_n$为样本，$\overline{X}和S^2$分别是样本均值和样本方差，则$E(S^2)=\sigma^2$. 样本方差是总体方差的无偏估计，样本均值是总体均值的无偏估计.
+**定理** 设总体X具有二阶中心矩，$$E(X)=\mu$$，$$Var(X)=\sigma^2<+\infty$$，$$X_1,X_2,\cdots,X_n$$为样本，$$\overline{X}和S^2$$分别是样本均值和样本方差，则$$E(S^2)=\sigma^2$$. 样本方差是总体方差的无偏估计，样本均值是总体均值的无偏估计.
 
-**样本k阶原点矩sample moment of order k about the origin $a_k$**
+**样本k阶原点矩sample moment of order k about the origin $$a_k$$**
 $$
 a_k=\frac{1}{n}\sum_{i=1}^nX_i^k
 $$
-**样本k阶中心矩sample central moment of order k $b_k$**
+**样本k阶中心矩sample central moment of order k $$b_k$$**
 $$
 b_k=\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^k
 $$
@@ -52,41 +52,41 @@ $$
 
 ## 常用统计分布
 
-**$\chi^2$分布,カイ二乗分布** $X_1,X_2,\cdots,X_n$相互独立且服从标准正态分布，则随机变量
+**$$\chi^2$$分布,カイ二乗分布** $$X_1,X_2,\cdots,X_n$$相互独立且服从标准正态分布，则随机变量
 $$
 Y=X_1^2+\cdots+X_n^2
 $$
-的分布称为自由度为n的$\chi^2$分布，记作$Y\sim\chi^2(n)$
+的分布称为自由度为n的$$\chi^2$$分布，记作$$Y\sim\chi^2(n)$$
 
-$X\sim\chi^2(n),则E(X)=n,Var(X)=2n$
+$$X\sim\chi^2(n),则E(X)=n,Var(X)=2n$$
 
-$X_1\sim\chi^2(m),X_2\sim\chi^2(n)，则X_1+X_2\sim\chi^2(m+n)$
+$$X_1\sim\chi^2(m),X_2\sim\chi^2(n)，则X_1+X_2\sim\chi^2(m+n)$$
 
-**定理** $X_1,X_2,\cdots,X_n$是来自正态总体$N(\mu,\sigma^2)$的样本，则
+**定理** $$X_1,X_2,\cdots,X_n$$是来自正态总体$$N(\mu,\sigma^2)$$的样本，则
 
-1. $\overline{X}和S^2$相互独立
-2. $\overline{X}\sim N(\mu,\sigma^2/n)$
-3. $\frac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$
+1. $$\overline{X}和S^2$$相互独立
+2. $$\overline{X}\sim N(\mu,\sigma^2/n)$$
+3. $$\frac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$$
 
 
 
-**t分布** $X_1\sim N(0,1),X_2\sim \chi^2(n),X_1,X_2$相互独立，则随机变量
+**t分布** $$X_1\sim N(0,1),X_2\sim \chi^2(n),X_1,X_2$$相互独立，则随机变量
 $$
 Y=\frac{X_1}{\sqrt{X_2/n}}
 $$
-的分布称为自由度为n的t分布，记作$Y\sim t(n)$
+的分布称为自由度为n的t分布，记作$$Y\sim t(n)$$
 
 > t>30时，t分布基本等同于正态分布
 
-**F分布** $X_1\sim \chi^2(m),X_2\sim \chi^2(n),X_1,X_2$相互独立，则随机变量
+**F分布** $$X_1\sim \chi^2(m),X_2\sim \chi^2(n),X_1,X_2$$相互独立，则随机变量
 $$
 Y=\frac{X_1/m}{X_2/n}
 $$
-的分布称为自由度为m与n的F分布，记作$Y\sim F(m,n)$
+的分布称为自由度为m与n的F分布，记作$$Y\sim F(m,n)$$
 
 
 
-**分位点** 连续型随机变量的分布函数$F(x)$，$F(a)=P(X\le a)=\alpha$，称a为该分布的$\alpha$分位点
+**分位点** 连续型随机变量的分布函数$$F(x)$$，$$F(a)=P(X\le a)=\alpha$$，称a为该分布的$$\alpha$$分位点
 
 
 
@@ -94,7 +94,7 @@ $$
 
 # 参数点估计,point estimation
 
-构造适当的统计量$\hat\theta=\hat\theta(X_1,X_2,\cdots,X_n)$，估计总体分布的参数$\theta$，就称$\hat\theta$为参数$\theta$的点估计
+构造适当的统计量$$\hat\theta=\hat\theta(X_1,X_2,\cdots,X_n)$$，估计总体分布的参数$$\theta$$，就称$$\hat\theta$$为参数$$\theta$$的点估计
 
 
 
@@ -188,7 +188,7 @@ $$
 
 ## 单正态总体
 
-### $\sigma$已知$\mu$的置信区间
+### $$\sigma$$已知$$\mu$$的置信区间
 
 $$
 枢轴量G=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)
@@ -200,7 +200,7 @@ $$
 
 
 
-### $\sigma$未知$\mu$的置信区间
+### $$\sigma$$未知$$\mu$$的置信区间
 
 $$
 \frac{\overline{X}-\mu}{S/\sqrt{n}}\sim t(n-1)
@@ -208,7 +208,7 @@ $$
 
 
 
-### $\sigma$未知$\sigma^2$的置信区间
+### $$\sigma$$未知$$\sigma^2$$的置信区间
 
 $$
 \frac{(n-1)S^2}{\sigma^2}\sim \chi^2(n-1)
@@ -232,13 +232,13 @@ $$
 
 
 
-### $\mu_2-\mu_1:\sigma_1,\sigma_2$已知情形
+### $$\mu_2-\mu_1:\sigma_1,\sigma_2$$已知情形
 
 ![czefojr13knjghtbgnyh](C:\Users\Xiao Yuxuan\Documents\pic\czefojr13knjghtbgnyh.PNG)
 
 
 
-### $\mu_2-\mu_1:\sigma_1=\sigma_2$情形
+### $$\mu_2-\mu_1:\sigma_1=\sigma_2$$情形
 
 ![zcxfqeojrwgithny351](C:\Users\Xiao Yuxuan\Documents\pic\zcxfqeojrwgithny351.PNG)
 
@@ -246,7 +246,7 @@ $$
 
 
 
-### $\sigma_2^2/\sigma_1^2$
+### $$\sigma_2^2/\sigma_1^2$$
 
 ![zbfthkoj6nk3y5jhbt](C:\Users\Xiao Yuxuan\Documents\pic\zbfthkoj6nk3y5jhbt.PNG)
 
@@ -278,9 +278,9 @@ $$
 
 基本步骤
 
-1. 建立假设$H_0:\theta\in \Theta_0,H_1:\theta\in \Theta_1$
-2. 选择检验统计量，给出拒绝域W的形式（接受域$\overline{W}$
-3. 选择显著性水平$\alpha$，$\alpha=P(拒绝H_0|H_0为真)=P_\theta(X\in W)$
+1. 建立假设$$H_0:\theta\in \Theta_0,H_1:\theta\in \Theta_1$$
+2. 选择检验统计量，给出拒绝域W的形式（接受域$$\overline{W}$$
+3. 选择显著性水平$$\alpha$$，$$\alpha=P(拒绝H_0|H_0为真)=P_\theta(X\in W)$$
 
 ![difee3rgfvbgnjyrhd](C:\Users\Xiao Yuxuan\Documents\pic\difee3rgfvbgnjyrhd.PNG)
 
@@ -309,7 +309,7 @@ $$
 + 假设检验中两类错误的概率<u>不能同时减小</u>
 + 原假设是经验上认为正常的假设
 + 理想的检验应该是，在控制犯第一类错误的基础上尽量少犯第二类错误
-+ 犯第一类错误的概率不高于显著性水平$\alpha$
++ 犯第一类错误的概率不高于显著性水平$$\alpha$$
 + 显著性检验具有“保护原假设”的特点
 + 增加样本量可以降低犯第二类错误的概率
 
@@ -323,8 +323,8 @@ $$
 
 **p值检验法**
 
-1. 若p值$\le \alpha$，则在显著性水平$\alpha$下拒绝$H_0$
-2. 若p值$> \alpha$，则在显著性水平$\alpha$下接受$H_0$
+1. 若p值$$\le \alpha$$，则在显著性水平$$\alpha$$下拒绝$$H_0$$
+2. 若p值$$> \alpha$$，则在显著性水平$$\alpha$$下接受$$H_0$$
 
 
 
@@ -334,7 +334,7 @@ $$
 
 
 
-### $\sigma$已知：Z检验
+### $$\sigma$$已知：Z检验
 
 $$
 Z=\frac{\overline{X}-\mu_0}{\sigma/\sqrt{n}}
@@ -356,7 +356,7 @@ $$
 
 
 
-### $\sigma$未知：t检验
+### $$\sigma$$未知：t检验
 
 ![zxeqjirwgon524itjnjgb](C:\Users\Xiao Yuxuan\Documents\pic\zxeqjirwgon524itjnjgb.PNG)
 

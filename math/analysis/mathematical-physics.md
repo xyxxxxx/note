@@ -6,7 +6,7 @@
 
 **实部Re, 虚部Im** Re z=x, Im z=y
 
-**复共轭complex conjugation/c.c.** $\overline{z}=x-iy$
+**复共轭complex conjugation/c.c.** $$\overline{z}=x-iy$$
 $$
 x=\frac{z+\overline{z}}{2},y=\frac{z-\overline{z}}{2i}
 $$
@@ -14,7 +14,7 @@ $$
 
 复向量←→复平面的点←→复数z=x+iy
 
-平面坐标(x,y)←→极坐标($\rho,\varphi$)，$\varphi$辐角，记作Arg z，其中arg z$\in [0,2\pi)$，$\rho$模，记作$|z|$
+平面坐标(x,y)←→极坐标($$\rho,\varphi$$)，$$\varphi$$辐角，记作Arg z，其中arg z$$\in [0,2\pi)$$，$$\rho$$模，记作$$|z|$$
 $$
 x=\rho \cos \varphi,y=\rho \sin \varphi\\
 \rho^2=x^2+y^2,\tan\varphi=y/x\\
@@ -31,15 +31,15 @@ $$
 
 **复数运算**
 
-加法的交换律和结合律成立，且有$|z_1+z_2|\le |z_1|+|z_2|$
+加法的交换律和结合律成立，且有$$|z_1+z_2|\le |z_1|+|z_2|$$
 
-减法$|z_1-z_2|\ge |z_1|-|z_2|$
+减法$$|z_1-z_2|\ge |z_1|-|z_2|$$
 
 乘法的交换律，结合律和分配律成立
 
 ## 复变函数
 
-**复变函数** $w=f(z),z\in E$
+**复变函数** $$w=f(z),z\in E$$
 
 **初等函数**
 $$
@@ -52,8 +52,8 @@ ch~z=\frac{1}{2}(e^x+e^{-x})\\
 z^s=e^{s\ln z}
 $$
 
-+ sin z和cos z具有实周期$2\pi$；模可以大于1
-+ e^z, sh z, ch z具有虚周期$2\pi i$
++ sin z和cos z具有实周期$$2\pi$$；模可以大于1
++ e^z, sh z, ch z具有虚周期$$2\pi i$$
 + ln z有无限多值
 
 ## 导数
@@ -118,7 +118,7 @@ $$
 
 **周期函数的傅里叶展开**
 
-函数f(x)以2l为周期，即$f(x+2l)=f(x)$
+函数f(x)以2l为周期，即$$f(x+2l)=f(x)$$
 
 则取三角函数族
 $$
@@ -147,7 +147,7 @@ $$
 
 **奇函数和偶函数的傅里叶展开**
 
-若周期函数是奇函数，则$a_0=a_k=0$，有
+若周期函数是奇函数，则$$a_0=a_k=0$$，有
 $$
 f(x)=\sum_{k=1}^{\infty}b_k\sin\frac{k\pi x}{l}
 $$
@@ -157,7 +157,7 @@ b_k=\frac{2}{l}\int_{0}^{l}f(\xi)\sin\frac{k\pi \xi}{l}d\xi\\
 $$
 
 
-若周期函数是偶函数，则$b_k=0$，有
+若周期函数是偶函数，则$$b_k=0$$，有
 $$
 f(x)=a_0+\sum_{k=1}^{\infty}a_k\cos\frac{k\pi x}{l}
 $$
@@ -189,20 +189,20 @@ $$
 
 ### 实数形式的傅里叶变换
 
-条件：f(x)在任一有限区间满足**Dirichlet conditions**，并在$(-\infty,\infty)$区间上绝对可积.
+条件：f(x)在任一有限区间满足**Dirichlet conditions**，并在$$(-\infty,\infty)$$区间上绝对可积.
 
-将f(x)看作是某个周期函数，满足$2l→\infty$，则
+将f(x)看作是某个周期函数，满足$$2l→\infty$$，则
 $$
 f(x)=a_0+\sum_{k=1}^{\infty}(a_k\cos \omega_kx+b_k\sin\omega_kx)
 $$
-代入傅里叶系数表达式，取$l→\infty$的极限，得到**傅里叶积分**和**傅里叶变换式**
+代入傅里叶系数表达式，取$$l→\infty$$的极限，得到**傅里叶积分**和**傅里叶变换式**
 $$
 f(x)=\int_0^\infty A(\omega)\cos \omega xd\omega+\int_0^\infty B(\omega)\sin \omega xd\omega\\
 A(\omega)=\frac{1}{\pi}\int_{-\infty}^{\infty}f(\xi)\cos \omega \xi d\xi\\
 B(\omega)=\frac{1}{\pi}\int_{-\infty}^{\infty}f(\xi)\sin \omega \xi d\xi
 $$
 
-**傅里叶积分定理** 若函数f(x)在$(-\infty,\infty)$区间上满足：(1) f(x)在任一有限区间上满足Dirichlet conditions；(2) $\int_{-\infty}^\infty|f(x)|dx$收敛（绝对可积），则f(x)可以表示为傅里叶积分，且傅里叶积分值=(f(x+0)+f(x-0))/2
+**傅里叶积分定理** 若函数f(x)在$$(-\infty,\infty)$$区间上满足：(1) f(x)在任一有限区间上满足Dirichlet conditions；(2) $$\int_{-\infty}^\infty|f(x)|dx$$收敛（绝对可积），则f(x)可以表示为傅里叶积分，且傅里叶积分值=(f(x+0)+f(x-0))/2
 
 傅里叶积分又可改写为
 $$
@@ -231,7 +231,7 @@ $$
 f(x)=\int_{-\infty}^{\infty}F(\omega)e^{i\omega x}d\omega\\
 F(\omega)=\frac{1}{2\pi}\int_{-\infty}^{\infty}f(x)e^{-i\omega x}dx
 $$
-记作$F(\omega)=\mathscr{F}[f(x)],f(x)=\mathscr{F}^{-1}[F(\omega)]$，分别称为傅里叶变换的**像函数**和**原函数**
+记作$$F(\omega)=\mathscr{F}[f(x)],f(x)=\mathscr{F}^{-1}[F(\omega)]$$，分别称为傅里叶变换的**像函数**和**原函数**
 
 
 
@@ -272,7 +272,7 @@ $$
   其中f_1(x)*f_2(x)=\int_{-\infty}^{\infty}f_1(u)f_2(x-u)du
   $$
 
-## 单位阶跃函数和$\delta$函数
+## 单位阶跃函数和$$\delta$$函数
 
 ### 单位阶跃函数u(t)
 
@@ -303,7 +303,7 @@ $$
 
 常用于初始值问题——已知某个物理量在初始时刻t=0的值f(0)，置f(t)=0,t<0, 求解f(t), t>0
 
-构造函数$g(t)=e^{-\sigma t}f(t)$以保证g(t)在区间$(-\infty,\infty)$上绝对可积，对其进行傅里叶变换
+构造函数$$g(t)=e^{-\sigma t}f(t)$$以保证g(t)在区间$$(-\infty,\infty)$$上绝对可积，对其进行傅里叶变换
 $$
 G(\omega)=\frac{1}{2\pi} \int_{-\infty}^\infty g(t)e^{-\omega t}dt=\frac{1}{2\pi}\int_0^\infty f(t)e^{-(\sigma+i\omega)t}dt\\
 记s=\sigma+i\omega,G(\omega)=F(s)/2\pi,则\\
@@ -316,9 +316,9 @@ $$
 
 **基本性质**
 
-+ $F(s)$是在$\sigma>\sigma_0$的半平面上的解析函数
++ $$F(s)$$是在$$\sigma>\sigma_0$$的半平面上的解析函数
 
-+ $|s|→\infty, |Arg~s|\le\frac{\pi}{2}-\varepsilon$时，$F(s)$存在且满足
++ $$|s|→\infty, |Arg~s|\le\frac{\pi}{2}-\varepsilon$$时，$$F(s)$$存在且满足
   $$
   \lim_{p→\infty}F(s)=0
   $$

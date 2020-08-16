@@ -52,7 +52,7 @@ $$
 $$
 a_{n+2}=c_1a_{n+1}+c_2a_n\\
 $$
-其特征方程$x^2=c_1x+c_2$的根为$\lambda_1,\lambda_2$，如果$\lambda_1 \neq \lambda_2$，
+其特征方程$$x^2=c_1x+c_2$$的根为$$\lambda_1,\lambda_2$$，如果$$\lambda_1 \neq \lambda_2$$，
 $$
 \left\{ 
 \begin{array}{c}
@@ -68,7 +68,7 @@ a_{n+1}-\lambda_2a_{n}=\lambda_1^n(a_{1}-\lambda_2a_0)
 \end{array}
 \right.,消去a_n即得
 $$
-如果$\lambda_1 = \lambda_2$，
+如果$$\lambda_1 = \lambda_2$$，
 $$
 a_{n+2}-\lambda a_{n+1}=\lambda (a_{n+1}-\lambda a_n)
 \\\Rightarrow a_{n+1}-\lambda a_{n}=\lambda^{n} (a_{1}-\lambda a_0),同除\lambda^{n}即得
