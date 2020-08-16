@@ -1,22 +1,3 @@
 {
-    "plugins": [
-        "expandable-chapters-small",
-        "back-to-top-button",
-        "code",
-        "splitter",
-        "-lunr", 
-        "-search", 
-        "search-pro",
-        "insert-logo",
-        "custom-favicon",
-        "popup"
-    ],
-    "pluginsConfig": {
-        "insert-logo": {
-          "url": "images/logo.png",
-          "style": "background: none; max-height: 30px; min-height: 30px"
-        },
-        "favicon": "images/icon.ico"
-    }
-  
+    "plugins": ["mathjax"]
 }
