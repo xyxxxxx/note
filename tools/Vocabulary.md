@@ -50,31 +50,32 @@
 
 ## C
 
-|                                    |                  |
-| ---------------------------------- | ---------------- |
-| cache                              | 高速缓存         |
-| call                               | 调用             |
-| cast                               | 类型转换         |
-| catch                              | 捕获             |
-| children                           | 子节点           |
-| class                              | 类               |
-| client                             | 客户             |
-| comment                            | 注释             |
-| commit                             | 提交修改         |
-| compile                            | 编译             |
-| compiler                           | 编译器           |
-| complete binary tree               | 完全二叉树       |
-| compress                           | 压缩             |
-| concurrency, concurrent            | 并发             |
-| congestion                         | 拥塞             |
-| constant                           | 常量             |
-| context                            | 上下文；容器     |
-| converge                           | 收敛             |
-| cookie                             |                  |
-| CPU, central process unit          | 中央处理器       |
-| CRUD, Create, Read, Update, Delete | 数据库的基本操作 |
-| CSS                                | 层叠样式表       |
-|                                    |                  |
+|                                    |                              |
+| ---------------------------------- | ---------------------------- |
+| cache                              | 高速缓存                     |
+| call                               | 调用                         |
+| cast                               | 类型转换                     |
+| catch                              | 捕获                         |
+| children                           | 子节点                       |
+| class                              | 类                           |
+| client                             | 客户                         |
+| comment                            | 注释                         |
+| commit                             | 提交修改                     |
+| compilation system                 | 编译系统                     |
+| compile                            | 编译                         |
+| compiler                           | 编译器                       |
+| complete binary tree               | 完全二叉树                   |
+| compress                           | 压缩                         |
+| concurrency, concurrent            | 并发                         |
+| congestion                         | 拥塞                         |
+| constant                           | 常量                         |
+| context                            | 上下文；容器                 |
+| converge                           | 收敛                         |
+| cookie                             |                              |
+| CPU, central process unit          | 中央处理器                   |
+| CRUD, Create, Read, Update, Delete | 增删改查（数据库的基本操作） |
+| CSS                                | 层叠样式表                   |
+|                                    |                              |
 
 
 
@@ -443,6 +444,7 @@
 |                                   |            |
 | --------------------------------- | ---------- |
 | WLAN, Wireless Local Area Network | 无线局域网 |
+| word                              | 字         |
 | working directory                 | 工作目录   |
 | WWW, World Wide Web               | 万维网     |
 |                                   |            |
