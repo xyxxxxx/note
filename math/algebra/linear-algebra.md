@@ -647,9 +647,9 @@ $$
 # 矩阵分析
 
 $$
-\frac{\part Ax}{\part x}=A^T\\
-\frac{\part Ax}{\part x^T}=A\\
-\frac{\part x^TAx}{\part x}=(A+A^T)x\\
+\frac{\partial Ax}{\partial x}=A^T\\
+\frac{\partial Ax}{\partial x^T}=A\\
+\frac{\partial x^TAx}{\partial x}=(A+A^T)x\\
 $$
 
 
@@ -686,7 +686,7 @@ $$tr{\pmb A}=\sum a_{ii}=\sum \lambda_i,tr(\pmb{AB})=tr(\pmb{BA}),tr(\pmb{ABC})=
 
 $$\vert {\pmb A} \vert=\Pi \lambda_i$$
 
-$$\frac{\part Ax}{\part x}=A^T,\frac{\part Ax}{\part x^T}=A,\frac{\part x^TAx}{\part x}=(A+A^T)x\\$$
+$$\frac{\partial Ax}{\partial x}=A^T,\frac{\partial Ax}{\partial x^T}=A,\frac{\partial x^TAx}{\partial x}=(A+A^T)x\\$$
 
 
 

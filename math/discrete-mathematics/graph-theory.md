@@ -10,7 +10,7 @@ $$
 
 **笛卡儿积** 设A,B为集合，用A中元素作为第一元素，B中元素作为第二元素构成有序对，所有有序对组成的集合
 $$
-A \times B=\{ <a,b>|a\in A \and b\in B \}
+A \times B=\{ <a,b>|a\in A \wedge b\in B \}
 $$
 称为A和B的笛卡尔积
 
@@ -64,17 +64,17 @@ $$
 
 + 对于无向图$$G=\langle V,E\rangle$$，$$\forall v\in V$$，则v的
 
-  **邻域** $$N_G(v)=\{u|u\in V \and (u,v)\in E\and u \neq v \}$$
+  **邻域** $$N_G(v)=\{u|u\in V \wedge (u,v)\in E\wedge u \neq v \}$$
 
   **闭邻域** $$\overline{N}_G(v)=N_G(v) \bigcup \{v\} $$
 
-  **关联集** $$I_G(v)=\{e|e\in E\and e与v关联\}$$
+  **关联集** $$I_G(v)=\{e|e\in E\wedge e与v关联\}$$
 
 + 对于有向图$$D=\langle V,E\rangle$$，$$\forall v\in V$$，则v的
 
-  **后继元集** $$\Gamma_D^+(v)=\{u|u\in V \and <v,u>\in E\and u \neq v \}$$
+  **后继元集** $$\Gamma_D^+(v)=\{u|u\in V \wedge <v,u>\in E\wedge u \neq v \}$$
 
-  **先驱元集** $$\Gamma_D^-(v)=\{u|u\in V \and<u,v> \in E\and u \neq v \}$$
+  **先驱元集** $$\Gamma_D^-(v)=\{u|u\in V \wedge<u,v> \in E\wedge u \neq v \}$$
 
   **邻域** $$N_D(v)=\Gamma_D^+(v)\bigcup \Gamma_D^-(v)$$
 
@@ -116,7 +116,7 @@ $$
 
 ![image.png](https://i.loli.net/2020/01/12/fq9gKITorRlE3Xy.png)
 
-**补图** n阶无向简单图$$G=\langle V,E\rangle$$，令$$\overline{E}=\{(u,v):u\in V \and v\in V \and u\neq v \and (u,v) \notin E \}$$，则$$\overline{G}=\langle V,\overline{E}\rangle$$是G的**补图**
+**补图** n阶无向简单图$$G=\langle V,E\rangle$$，令$$\overline{E}=\{(u,v):u\in V \wedge v\in V \wedge u\neq v \wedge (u,v) \notin E \}$$，则$$\overline{G}=\langle V,\overline{E}\rangle$$是G的**补图**
 
 若图$$G\cong \overline{G}$$，则称G是**自补图**
 
