@@ -32,7 +32,7 @@
 
 ## 导数
 
-记作$f'(x),\frac{{\rm d}f}{{\rm d}x}$
+记作$$f'(x),\frac{{\rm d}f}{{\rm d}x}$$
 
 
 
