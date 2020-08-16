@@ -46,7 +46,7 @@ $$
 
 + 顶点数称为图的**阶**，n个顶点的图称为**n阶图**
 
-+ 顶点集为空的图规定为**空图**，记作$$\empty$$
++ 顶点集为空的图规定为**空图**，记作$$\varnothing$$
 
 + **标定图** 图中每个顶点和边都指定一个符号
 
@@ -112,7 +112,7 @@ $$
 
 **子图** 两个图$$G=\langle V,E\rangle,G'=\langle V',E'\rangle$$，若$$V'\subseteq V,E'\subseteq E$$，则称G‘是G的**子图**，G是G’的**母图**，记作$$G'\subseteq G$$；若$$V'\subset V,E'\subset E$$，则称G‘是G的**真子图**
 
-设$$G=\langle V,E\rangle, V_1\subset V, V_1 \neq \empty$$，则称以V1为顶点集，以G中两个端点都在V1中的边组成边集E1的图为**G的V1导出的子图**；设$$E_1\subset E, E_1\neq \empty$$，称以E1为边集，以与E1中的边关联的顶点为顶点集V1的图为**G的E1导出的子图**
+设$$G=\langle V,E\rangle, V_1\subset V, V_1 \neq \varnothing$$，则称以V1为顶点集，以G中两个端点都在V1中的边组成边集E1的图为**G的V1导出的子图**；设$$E_1\subset E, E_1\neq \varnothing$$，称以E1为边集，以与E1中的边关联的顶点为顶点集V1的图为**G的E1导出的子图**
 
 ![image.png](https://i.loli.net/2020/01/12/fq9gKITorRlE3Xy.png)
 
@@ -245,7 +245,7 @@ $$
 
 ## 图的运算
 
-**不交** 设图$$G_1=\langle V_1,E_1\rangle，G_2=\langle V_2,E_2\rangle$$，若$$V_1 \bigcap V_2=\empty$$，则称G1和G2是**不交**的，若$$E_1 \bigcap E_2=\empty$$，则称G1和G2是**边不交**的
+**不交** 设图$$G_1=\langle V_1,E_1\rangle，G_2=\langle V_2,E_2\rangle$$，若$$V_1 \bigcap V_2=\varnothing$$，则称G1和G2是**不交**的，若$$E_1 \bigcap E_2=\varnothing$$，则称G1和G2是**边不交**的
 
 设$$G_1=\langle V_1,E_1\rangle，G_2=\langle V_2,E_2\rangle$$为不含孤立点的两个图
 
@@ -256,8 +256,8 @@ $$
 
 具有以下性质
 
-+ $$G_1=G_2, ~则G_1\bigcup G_2=G_1\bigcap G_2=G_1=G_2,G_1-G_2=\empty$$
-+ 当G1和G2边不重时，$$G_1\bigcap G_2=\empty,G_1-G_2=G_1,G_1 \oplus G_2=G_1\bigcup G_2$$
++ $$G_1=G_2, ~则G_1\bigcup G_2=G_1\bigcap G_2=G_1=G_2,G_1-G_2=\varnothing$$
++ 当G1和G2边不重时，$$G_1\bigcap G_2=\varnothing,G_1-G_2=G_1,G_1 \oplus G_2=G_1\bigcup G_2$$
 + $$G_1\oplus G_2=(G_1\bigcup G_2)-(G_1\bigcap G_2) $$
 
 
