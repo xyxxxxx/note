@@ -2,7 +2,7 @@
 
 **无序积 ** 设A,B为集合，则
 $$
-A\&B=\{\{a,b\} |a\in A\and b\in B \}
+A\&B=\{\{a,b\} |a\in A\wedge b\in B \}
 $$
 称为A与B的无序积
 

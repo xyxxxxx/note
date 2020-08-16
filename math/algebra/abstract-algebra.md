@@ -30,19 +30,19 @@ $$
 
 ## 代数系统
 
-**代数系统** 非空集合S和S上k个一元或二元运算$$f_1,f_2,\cdots,f_k$$组成的系统称为一个代数系统，记作$$\langle S,f_1,f_2,\cdots,f_k \rangle$$. 如$$\langle \mathbb{Z},+,0 \rangle,\langle P(S),\bigcup,\bigcap,\sim,\empty,S \rangle$$
+**代数系统** 非空集合S和S上k个一元或二元运算$$f_1,f_2,\cdots,f_k$$组成的系统称为一个代数系统，记作$$\langle S,f_1,f_2,\cdots,f_k \rangle$$. 如$$\langle \mathbb{Z},+,0 \rangle,\langle P(S),\bigcup,\bigcap,\sim,\varnothing,S \rangle$$
 
-**同类型代数系统** 两个代数系统中运算的个数相同，对应运算的元数相同，且代数常熟个数相同. 如$$V_1=\langle \mathbb{R},+,\cdot,-,0,1\rangle和V_2=\langle P(B),\bigcup,\bigcap,\sim,\empty,B\rangle$$
+**同类型代数系统** 两个代数系统中运算的个数相同，对应运算的元数相同，且代数常熟个数相同. 如$$V_1=\langle \mathbb{R},+,\cdot,-,0,1\rangle和V_2=\langle P(B),\bigcup,\bigcap,\sim,\varnothing,B\rangle$$
 
 
 
 **格** $$V=\langle S,*,\circ\rangle$$，其中$$*和\circ$$是满足交换律，结合律，幂等律和吸收律的二元运算
 
-**子代数系统** 代数系统$$V=\langle S,f_1,f_2,\cdots,f_k \rangle$$，$$B \sube S$$，B对$$f_1,\cdots,f_k$$封闭，且含有与S相同的常数，则B是V的子代数系统
+**子代数系统** 代数系统$$V=\langle S,f_1,f_2,\cdots,f_k \rangle$$，$$B \subseteq S$$，B对$$f_1,\cdots,f_k$$封闭，且含有与S相同的常数，则B是V的子代数系统
 
 **积代数** 同类型代数系统$$V_1=\langle A,\circ \rangle,V_2=\langle B,*\rangle$$，在集合$$A\times B$$上定义如下二元运算$$\cdot$$$$\forall \langle a_1,b_1 \rangle,\langle a_2,b_2 \rangle \in A\times B$$有
 $$
-\lang a_1,b_1 \rang\cdot \lang a_2,b_2 \rang=\lang a_1\circ a_2,b_1*b_2 \rang
+\langle a_1,b_1 \rangle\cdot \langle a_2,b_2 \rangle=\langle a_1\circ a_2,b_1*b_2 \rangle
 $$
 称$$V=\langle A\times B, \cdot\rangle$$为V1和V2的积代数，记作$$V_1\times V_2$$
 
@@ -166,13 +166,13 @@ $$
 
 **定理** $$H\le G$$，定义二元关系R，$$\forall a,b \in G$$，
 $$
-\lang a,b \rang \in R\Leftrightarrow ab^{-1}\in R
+\langle a,b \rangle \in R\Leftrightarrow ab^{-1}\in R
 $$
 则R是G上的等价关系，且$$[a]_R=Ha$$
 
 **推论** $$H\le G$$，
 
-1. $$\forall a,b \in G,Ha=Hb或Ha\bigcap Hb=\empty$$
+1. $$\forall a,b \in G,Ha=Hb或Ha\bigcap Hb=\varnothing$$
 2. $$\bigcup \{Ha|a\in G \}=G$$
 
 > 即给定群G的一个子群H，集合$$\{Ha|a\in G\}$$恰好构成G的一个划分
@@ -193,7 +193,7 @@ $$
 
 + $$|G|=n$$，则$$\forall a\in G,~|a|$$是n的因子，且$$a^n=e$$
 
-+ $$|G|$$为素数，则$$\exist a\in G,G=\langle a\rangle$$；G为Abel群
++ $$|G|$$为素数，则$$\exists a\in G,G=\langle a\rangle$$；G为Abel群
 
   
 
@@ -201,7 +201,7 @@ $$
 
 ## 循环群与置换群
 
-**循环群cyclic group** $$\exist a\in G$$使得$$G=\langle a \rangle$$，则称G是循环群，a是生成元；若a是n阶元，则G为**n阶循环群**；若a为无限阶元，则G为**无限循环群**
+**循环群cyclic group** $$\exists a\in G$$使得$$G=\langle a \rangle$$，则称G是循环群，a是生成元；若a是n阶元，则G为**n阶循环群**；若a为无限阶元，则G为**无限循环群**
 
 **定理** 设循环群$$G=\langle a \rangle$$
 
@@ -324,7 +324,7 @@ $$
 $$
 则$$\gamma_a$$必为G到G的同构映射，称为a导出的内自同构
 
-**不变子集** 映射$$f:A→A$$，T是A的子集，$$f(T)\sube T$$，则T是f的不变子集
+**不变子集** 映射$$f:A→A$$，T是A的子集，$$f(T)\subseteq T$$，则T是f的不变子集
 
 **不变子群|正规子群normal subgroup** 群G，H是G的子群，$$\forall a\in G,\forall h\in H$$，都有
 $$
@@ -545,7 +545,7 @@ e.g.模n整数环，实矩阵环
 
 **定理** $$A_1,A_2,\cdots,A_k$$都是环R的理想，则$$A=\bigcap_i A_i$$也是R的理想
 
-**生成理想** 环R，T是R的非空子集，令$$B=\{I是R的理想，T\sube I \}$$得到的理想$$\bigcap_{I\in B}I$$称为R的由子集T生成的理想，记作$$(T)$$；特别地，如果T只有一个元素a，则记作(a)
+**生成理想** 环R，T是R的非空子集，令$$B=\{I是R的理想，T\subseteq I \}$$得到的理想$$\bigcap_{I\in B}I$$称为R的由子集T生成的理想，记作$$(T)$$；特别地，如果T只有一个元素a，则记作(a)
 
 **定理** T是环R的非空子集，R中所有形如下式的元素集合即为(T)
 $$
@@ -650,7 +650,7 @@ Z到<Z_3,O+,O*>的映射$$\varphi(x)=x (\mod 3)$$
 
 **像|核** 环R，S，环同态映射$$\varphi:R→S$$，集合
 $$
-Img(\varphi)=\{s\in S|\exist r\in R,s=\varphi(r) \}\\
+Img(\varphi)=\{s\in S|\exists r\in R,s=\varphi(r) \}\\
 $$
 是映射$$\varphi$$的像，集合
 $$
