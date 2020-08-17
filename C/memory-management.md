@@ -1,7 +1,9 @@
 # 内存管理
 
 ```c
-void *calloc(int num, int size);  //void * 表示指向未确定类型的指针,赋值时需要强制转型zhuanxing
+#include <stdlib.h>
+
+void *calloc(int num, int size);  //void * 表示指向未确定类型的指针,赋值时需要强制转型
 //动态分配 num 个长度为 size 的连续空间，并将每一个字节都初始化为 0
 
 void *malloc(size_t n);

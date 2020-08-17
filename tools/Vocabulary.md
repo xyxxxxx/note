@@ -168,28 +168,29 @@
 | hop                             | 跳数                          |
 | HTML, HyperText Markup Language | 超文本标记语言                |
 | HTTP                            |                               |
-|                                 |                               |
+| hyperthreading                  | 超线程                        |
 
 
 
 ## I
 
-|                                 |              |
-| ------------------------------- | ------------ |
-| I/O                             | 输入输出     |
-| IGP, Interior Gateway Protocol  | 内部网关协议 |
-| indent                          | 缩进         |
-| index                           | 索引         |
-| index-node                      | i节点        |
-| inorder                         | 中序         |
-| input                           | 输入         |
-| insertion                       | 插入         |
-| insertion sort                  | 插入排序     |
-| interface                       | 界面         |
-| internal fragmentation          | 内部碎片     |
-| IPC, InterProcess Communication | 进程间通信   |
-| IP address                      | IP地址       |
-| iterative server                | 迭代服务器   |
+|                                   |                            |
+| --------------------------------- | -------------------------- |
+| I/O                               | 输入输出                   |
+| IGP, Interior Gateway Protocol    | 内部网关协议               |
+| indent                            | 缩进                       |
+| index                             | 索引                       |
+| index-node                        | i节点                      |
+| inorder                           | 中序                       |
+| input                             | 输入                       |
+| insertion                         | 插入                       |
+| insertion sort                    | 插入排序                   |
+| interface                         | 界面                       |
+| internal fragmentation            | 内部碎片                   |
+| IPC, InterProcess Communication   | 进程间通信                 |
+| IP address                        | IP地址                     |
+| ISA, Instruction Set Architecture | 指令集体系结构，指令集架构 |
+| iterative server                  | 迭代服务器                 |
 
 
 
@@ -280,6 +281,7 @@
 | ------------------------------------------ | ------------------ |
 | packet                                     | 包，分组           |
 | paging                                     | 分页               |
+| parallelism                                | 并行               |
 | parameter                                  | 形参               |
 | parent                                     | 父节点             |
 | parenthesis                                | 括号               |
