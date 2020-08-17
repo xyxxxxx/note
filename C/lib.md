@@ -56,8 +56,10 @@ exit(status)     //程序终止,status=0正常终止,=-1因错误而终止
 
 ```c
 char *strcpy(char *dest, const char *src) //将src指向的字符串复制到dest指向的字符串，dest指向字符串的原有内容被丢弃，返回指针dest
-
+//可能引起内存上溢
+    
 char *strcat(char *dest, const char *src) //将src指向的字符串追加到dest指向的字符串的结尾,返回指针dest
+//可能引起栈溢出    
     
 int strcmp(const char *str1, const char *str2)　//比较字符串, return negative, 0, positive if str1 <, =, > str2
 
@@ -129,6 +131,39 @@ int sum(int num_args, ...)
    va_end(ap);                   //清理指针
  
    return val;
+}
+```
+
+
+
+# signal.h
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
+
+void sighandler(int);
+
+int main()
+{
+   signal(SIGINT, sighandler); //接收信号SIGINT
+                               //内核向进程发出信号，进程捕捉信号(发生软件中断)，并执行信号处理函数，之后进程继续执行
+
+   while(1) 
+   {
+      printf("开始休眠一秒钟...\n");
+      sleep(1);
+   }
+
+   return(0);
+}
+
+void sighandler(int signum) //信号处理函数
+{
+   printf("捕获信号 %d，跳出...\n", signum);
+   exit(1);
 }
 ```
 
