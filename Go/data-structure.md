@@ -16,8 +16,6 @@ var arrKeyValue = [5]string{3: "Chris", 4: "Ron"} //指定索引赋值
 + 当声明数组时所有的元素都会被自动初始化为默认值 0
 + Go 语言中的数组是一种 **值类型**（不像 C/C++ 中是指向首元素的指针）
 
-
-
 ```go
 var arr1 = new([5]int)	//arr1的类型是*[5]int
 var arr2 [5]int			//arr2的类型是[5]int
@@ -96,6 +94,8 @@ new([100]int)[0:50]         //隐式间接引用,相当于 (*new([100]int))[0:50
 
 <img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true" style="zoom: 50%;" />
 
+
+
 ```go
 // new() 和 make() 的区别
 p := new([]int)      //如图7.3上,即new了一个int切片(未初始化),返回一个指向该切片的指针
@@ -105,6 +105,25 @@ p := make([]int, 0)  //如图7.3下,即创建了长度和容量为0一个切片,
 ```
 
 <img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.3.png?raw=true" style="zoom: 67%;" />
+
+> `new(T)`为类型为T的新项分配已置零的内存空间，并返回它的地址。
+>
+> `make()`只用于创建切片、映射和信道，并且返回创建的数据结构。
+
+
+
+```go
+//分配二维切片: XSize=1920, YSize=1080, 分配切片[1080][1920]picture
+
+picture := make([][]uint8, YSize)
+for i := range picture {
+	picture[i] = make([]uint8, XSize)
+}
+```
+
+
+
+
 
 
 
@@ -263,6 +282,8 @@ func main() {
 
 
 ## map的排序
+
+
 
 
 

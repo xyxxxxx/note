@@ -67,7 +67,10 @@
     * [IO](Go/io.md)
     * [错误处理与单元测试](Go/error-handling-and-unit-test.md)
     * [go程与通道](Go/goroutine-channel.md)
+    * [库](Go/lib.md)
     * [网络编程](Go/network-programming.md)
+    * [Go代码规范](Go/code-specification)
+    * [Go modules](Go/go-modules.md)
     * [设计模式的Go实现](Go/go-implementation-of-design-pattern.md)
 
 

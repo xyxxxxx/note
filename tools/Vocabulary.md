@@ -241,6 +241,7 @@
 | memory hierarchy  | 分层存储器体系 |
 | memory manager    | 存储管理器     |
 | merge sort        | 归并排序       |
+| migrate           | 迁移           |
 | module            | 模块           |
 | multicast         | 多播           |
 
