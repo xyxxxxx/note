@@ -4,11 +4,11 @@
 var b bool = true
 ```
 
-布尔型的值只可以是常量 true 或者 false。
+布尔型的值只可以是常量 `true` 或者`false`。
 
 两个类型相同的值可以使用相等 `==` 或者不等 `!=` 运算符来进行比较并获得一个布尔型的值。
 
-当相等运算符两边的值是完全相同的值的时候会返回 true，否则返回 false，并且只有在两个的值的类型相同的情况下才可以使用。
+当相等运算符两边的值是完全相同的值的时候会返回 `true`，否则返回 `false`，并且只有在两个的值的类型相同的情况下才可以使用。
 
 布尔型的常量和变量也可以通过和逻辑运算符（非 `!`、和 `&&`、或 `||`）结合来产生另外一个布尔值，这样的逻辑语句就其本身而言，并不是一个完整的 Go 语句。
 
@@ -97,12 +97,12 @@ func main() {
 
 Go 拥有复数类型 complex64 (32 位实数和虚数)，complex128 (64 位实数和虚数)。
 
-复数使用 `re+imI` 来表示，其中 `re` 代表实数部分，`im` 代表虚数部分，`I` 代表根号 -1。
+复数使用 `re+imI` 来表示，其中 `re` 代表实数部分，`im` 代表虚数部分，`I`或`i` 代表根号 -1。
 
 ```go
 var c1 complex64 = 5 + 10i
 
-c = complex(re, im)
+c1 = complex(re, im)
 ```
 
 格式化输出中，可以使用 `%v` 来表示复数，但当你希望只表示其中的一个部分的时候需要使用 `%f`。
@@ -152,7 +152,7 @@ Go 中拥有以下逻辑运算符：`==`、`!=`、`<`、`<=`、`>`、`>=`。
 
 对于整数和浮点数，你可以使用一元运算符 `++`（+1）和 `--`（-1），但只能用于后缀。
 
-> 带有 `++` 和 `--` 的只能作为语句，而非表达式（ C、C++ 和 Java 中允许）
+> 带有 `++` 和 `--` 的只能作为语句，而非表达式（ 虽然在C、C++ 和 Java 中允许）
 
 在运算时 **溢出** 不会产生错误，Go 会简单地将超出位数抛弃。如果你需要范围无限大的整数或者有理数（意味着只被限制于计算机内存），你可以使用标准库中的 `big` 包，该包提供了类似 `big.Int` 和 `big.Rat` 这样的类型。
 
@@ -229,13 +229,13 @@ var ch byte = 'A' 或 var ch byte = 65 或 var ch byte = '\x41'
 //byte是uint8的别名
 ```
 
-上述3种写法是等效的
+上述3种写法是等效的。
 
 
 
 Go 同样支持 Unicode（UTF-8），因此字符同样称为 Unicode 代码点或者 runes，并在内存中使用 int 来表示。在文档中，一般使用格式 U+hhhh 来表示，其中 h 表示一个 16 进制数。其实 `rune` 也是 Go 当中的一个类型，并且是 `int32` 的别名。
 
-在书写 Unicode 字符时，需要在 16 进制数之前加上前缀 `\u` 或者 `\U`。因为 Unicode 至少占用 2 个字节，所以我们使用 `int16` 或者 `int` 类型来表示。如果需要使用到 4 字节，则会加上 `\U` 前缀；前缀 `\u` 则总是紧跟着长度为 4 的 16 进制数，前缀 `\U` 紧跟着长度为 8 的 16 进制数。
+在书写 Unicode 字符时，需要在 16 进制数之前加上前缀 `\u` 或者 `\U`。因为 Unicode 至少占用 2 个字节，所以我们使用 `int16` 或者 `int` 类型来表示。如果需要使用到 4 字节，则会加上 `\U` 前缀；前缀 `\u` 总是紧跟着长度为 4 的 16 进制数，前缀 `\U` 紧跟着长度为 8 的 16 进制数。
 
 ```go
 var ch int = '\u0041'
@@ -306,19 +306,19 @@ fmt.Println(s) //输出 “hello, world!”
 
 `HasPrefix` 判断字符串 `s` 是否以 `prefix` 开头：
 
-```
+```go
 strings.HasPrefix(s, prefix string) bool
 ```
 
 `HasSuffix` 判断字符串 `s` 是否以 `suffix` 结尾：
 
-```
+```go
 strings.HasSuffix(s, suffix string) bool
 ```
 
 `Contains` 判断字符串 `s` 是否包含 `substr`：
 
-```
+```go
 strings.Contains(s, substr string) bool
 ```
 
@@ -328,19 +328,19 @@ strings.Contains(s, substr string) bool
 
 `Index` 返回字符串 `str` 在字符串 `s` 中的索引（`str` 的第一个字符的索引），-1 表示字符串 `s` 不包含字符串 `str`：
 
-```
+```go
 strings.Index(s, str string) int
 ```
 
 `LastIndex` 返回字符串 `str` 在字符串 `s` 中最后出现位置的索引（`str` 的第一个字符的索引），-1 表示字符串 `s` 不包含字符串 `str`：
 
-```
+```go
 strings.LastIndex(s, str string) int
 ```
 
 如果需要查询<u>非 ASCII 编码的字符在父字符串中的位置</u>，建议使用以下函数来对字符进行定位：
 
-```
+```go
 strings.IndexRune(s string, r rune) int
 ```
 
@@ -350,7 +350,7 @@ strings.IndexRune(s string, r rune) int
 
 `Replace` 用于将字符串 `str` 中的前 `n` 个字符串 `old` 替换为字符串 `new`，并返回一个新的字符串，如果 `n = -1` 则替换所有字符串 `old` 为字符串 `new`：
 
-```
+```go
 strings.Replace(str, old, new, n) string
 ```
 
@@ -360,7 +360,7 @@ strings.Replace(str, old, new, n) string
 
 `Count` 用于计算字符串 `str` 在字符串 `s` 中出现的非重叠次数：
 
-```
+```go
 strings.Count(s, str string) int
 ```
 
@@ -370,7 +370,7 @@ strings.Count(s, str string) int
 
 `Repeat` 用于重复 `count` 次字符串 `s` 并返回一个新的字符串：
 
-```
+```go
 strings.Repeat(s, count int) string
 ```
 
@@ -380,13 +380,13 @@ strings.Repeat(s, count int) string
 
 `ToLower` 将字符串中的 Unicode 字符全部转换为相应的小写字符：
 
-```
+```go
 strings.ToLower(s) string
 ```
 
 `ToUpper` 将字符串中的 Unicode 字符全部转换为相应的大写字符：
 
-```
+```go
 strings.ToUpper(s) string
 ```
 
@@ -535,9 +535,9 @@ var intP *int
 intP = &i1
 ```
 
-intP 存储了 i1 的内存地址；它指向了 i1 的位置，它引用了变量 i1。
+`intP` 存储了 `i1` 的内存地址；它指向了 `i1` 的位置，它引用了变量 `i1`。
 
-**一个指针变量可以指向任何一个值的内存地址**。可以在指针类型前面加上 * 号（前缀）来获取指针所指向的内容，这里的 * 号是一个类型更改器。使用一个指针引用一个值被称为**间接引用**。
+**一个指针变量可以指向任何一个值的内存地址**。可以在指针类型前面加上 \* 号（前缀）来获取指针所指向的内容，这里的 \* 号是一个类型更改器。使用一个指针引用一个值被称为**间接引用**。
 
 未初始化的指针的零值为 `nil`，未指向任何地址
 
@@ -562,7 +562,7 @@ Here is the string s: ciao
 */
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.9_fig4.5.png?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.9_fig4.5.png?raw=true" style="zoom:67%;" />
 
 > 你不能获取字面量或常量的地址
 

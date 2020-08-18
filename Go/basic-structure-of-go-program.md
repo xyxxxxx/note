@@ -303,19 +303,19 @@ func main() {
 
 所有像 int、float、bool 和 string 这些基本类型都属于**值类型**，使用这些类型的变量直接指向存在内存中的值：
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.1.jpg?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.1.jpg?raw=true" style="zoom:67%;" />
 
 另外，像数组和结构这些复合类型也是值类型。
 
 当使用等号 `=` 将一个变量的值赋值给另一个变量时，如：`j = i`，实际上是在内存中将 i 的值进行了拷贝：
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.2.jpg?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.2.jpg?raw=true" style="zoom:67%;" />
 
 你可以通过 `&i` 来获取变量 `i` 的内存地址，例如：0xf840000040（每次的地址都可能不一样）。值类型的变量的值存储在栈中。
 
 更复杂的数据通常会需要使用多个字，这些数据一般使用引用类型保存。一个引用类型的变量 r1 存储的是 r1 的值所在的内存地址（数字），或内存地址中第一个字所在的位置。
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.3.jpg?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.4.2_fig4.3.jpg?raw=true" style="zoom:67%;" />
 
 这个内存地址被称之为指针，这个指针实际上也被存在另外的某一个字中。同一个引用类型的指针指向的多个字可以是在连续的内存地址中（内存布局是连续的），这也是计算效率最高的一种存储形式；也可以将这些字分散存放在内存中，每个字都指示了下一个字所在的内存地址。
 

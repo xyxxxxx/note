@@ -11,7 +11,7 @@ var arrAge = [...]int{18, 20, 15, 22, 16}         //编译器统计数量
 var arrKeyValue = [5]string{3: "Chris", 4: "Ron"} //指定索引赋值
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.1_fig7.1.png?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.1_fig7.1.png?raw=true" style="zoom:67%;" />
 
 + 当声明数组时所有的元素都会被自动初始化为默认值 0
 + Go 语言中的数组是一种 **值类型**（不像 C/C++ 中是指向首元素的指针）
@@ -49,14 +49,12 @@ func main() {
 
 ```go
 //使用for range遍历
-	for i,_:= range arr1 {
+	for i, _ := range arr1 {
     ...
     }
 ```
 
 **多维数组**
-
-`[3][5]int`，`[2][2][2]float64`
 
 ```go
 [3][5]int
@@ -87,7 +85,7 @@ s1 := []int{1,2,3}
 s2 := s1[:]
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.png?raw=true" alt="img" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.png?raw=true" style="zoom:67%;" />
 
 **make()创建切片**
 
@@ -96,7 +94,7 @@ v := make([]int, 50, 100)	//分配一个长度为100的元素为0的int数组,�
 new([100]int)[0:50]         //隐式间接引用,相当于 (*new([100]int))[0:50] 
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true" alt="img" style="zoom: 50%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true" style="zoom: 50%;" />
 
 ```go
 // new() 和 make() 的区别
@@ -106,7 +104,7 @@ p := make([]int, 0)  //如图7.3下,即创建了长度和容量为0一个切片,
                      // p != nil,因为指向了一个长度为0的数组
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.3.png?raw=true" alt="img" style="zoom: 67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.3.png?raw=true" style="zoom: 67%;" />
 
 
 
@@ -284,7 +282,7 @@ stack := make([]int,0,len)  //创建用作栈的slice
 
 stack = append(stack, p)    //进栈语句
 
-i = stack[len(stack)]       //出栈语句 
-lps = lps[:len(lps)-1]
+i = stack[len(stack)-1]     //出栈语句 
+stack = stack[:len(stack)-1]
 ```
 

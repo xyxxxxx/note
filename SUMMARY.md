@@ -42,12 +42,12 @@
     * [注解]
     * [多线程]
   * [J2EE]()
-       * [Maven]
-            * [网络编程]
-            * [Spring]
-            * [Spring MVC]
-            * [MyBatis]
-            * [设计模式](Java/J2EE/design-pattern.md)
+    * [Maven]
+    * [网络编程]
+    * [Spring]
+    * [Spring MVC]
+    * [MyBatis]
+  * [设计模式](Java/design-pattern.md)
 
 
 * [Python](Python/python.md)
@@ -68,6 +68,7 @@
     * [错误处理与单元测试](Go/error-handling-and-unit-test.md)
     * [go程与通道](Go/goroutine-channel.md)
     * [网络编程](Go/network-programming.md)
+    * [设计模式的Go实现](Go/go-implementation-of-design-pattern.md)
 
 
 ## 数据库
