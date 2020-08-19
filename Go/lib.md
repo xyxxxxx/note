@@ -15,3 +15,11 @@ fmt.Fprint(os.Stdout, "Hello ", 711, "\n")
            //os.Stdout os.Stderr
 ```
 
+```go
+//Stringer接口定义的String方法是Print对象的方法
+//定义了该方法的类型的对象foo可以调用fmt.Print(foo)打印自己
+type Stringer interface {
+    String() string
+}
+```
+

@@ -153,13 +153,13 @@ import "fmt"
 
 func main() {
 	var i interface{}
-	describe(i)
+	describe(i)   //(<nil>, <nil>)
 
     i = 42      //空接口变量可以保存任何类型的值,因为任何类型都实现了空接口中定义的方法(即没有方法)
-	describe(i)
+	describe(i)   //(42, int)
 
 	i = "hello"
-	describe(i)
+	describe(i)   //(hello, string)
 }
 
 func describe(i interface{}) {
@@ -270,6 +270,3 @@ func main() {
 
 # Printf和反射
 
-​    2
-
-1      3
