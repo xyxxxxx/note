@@ -143,15 +143,11 @@ HTTP是**面向事务的**应用层协议，是万维网上能够可靠地交换
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/gdmikou4n6okly35nuouhjgn.PNG)
 
-HTTP使用了面向连接的TCP作为运输层协议，保证了数据的可靠传输，但是HTTP协议本身是无连接的。HTTP协议是无状态的(stateless)，即每次访问同一个服务器上的页面时，服务器的响应相同。
+HTTP使用了面向连接的TCP作为运输层协议，保证了数据的可靠传输，但是HTTP协议本身是<u>无连接的</u>。HTTP协议是<u>无状态的(stateless)</u>，即每次访问同一个服务器上的页面时，服务器的响应相同。
+
+HTTP协议默认端口号是80。
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/etjiojy5oirgjkg25yg.PNG)
-
-
-
-### 持续连接
-
-HTTP/1.0的主要缺点是，每请求一个文档就需要两倍的RTT开销。HTTP/1.1协议则使用了持续连接(persistent connection)，有两种工作方式：非流水线方式(without pipelining)和流水线方式(with pipelining)。
 
 
 
@@ -165,19 +161,47 @@ HTTP是**面向文本的(text-oriented)**，报文中每个字段都是ASCII码�
 
 
 
-**请求报文**
+请求报文中的方法有4种，分别是`GET`，`POST`，`PUT`，`DELETE`：
 
++ `GET`用于信息获取，而且应该是安全的和幂等的
 
+  ```
+  GET /books/?sex=female&name=Alice HTTP/1.1
+  Host: www.example.com
+  User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+  Gecko/20050225 Firefox/1.0.1
+  Connection: Keep-Alive
+  ```
+
++ `POST`表示可能修改服务器上资源的请求
+
+  ```
+  POST / HTTP/1.1
+  Host: www.example.com
+  User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+  Gecko/20050225 Firefox/1.0.1
+  Content-Type: application/x-www-form-urlencoded
+  Content-Length: 40
+  Connection: Keep-Alive
+  
+  sex=female&name=Alice
+  ```
+
+  
+
+响应报文示例
 
 ```
-GET
+HTTP/1.1 200 OK
+
+Server:Apache Tomcat/5.0.12
+Date:Mon,6Oct2003 13:23:42 GMT
+Content-Length:112
+
+<html>...
 ```
 
 
-
-
-
-HTTP**响应报文**
 
 
 
@@ -205,6 +229,30 @@ HTTP**响应报文**
 
 
 
+### 持续连接
+
+HTTP/1.0的主要缺点是，每请求一个文档就需要两倍的RTT开销。HTTP/1.1协议则使用了持续连接(persistent connection)，有两种工作方式：非流水线方式(without pipelining)和流水线方式(with pipelining)。
+
+
+
+### 会话跟踪
+
+客户端打开与服务器的连接发出请求到服务器响应客户端请求的全过程称为会话。会话跟踪指的是对同一个用户对服务器的连续的请求和接受响应的监视。浏览器与服务器之间的通信是通过HTTP协议进行通信的，而HTTP协议是”无状态”的协议，它不能保存客户的信息，即一次响应完成之后连接就断开了，下一次的请求需要重新连接，这样就需要判断是否是同一个用户，所以才有会话跟踪技术来实现这种要求。
+
+会话跟踪常用以下方法：
+
+**URL 重写**
+
+URL重写的技术就是在URL结尾添加一个附加数据以标识该会话，把会话ID通过URL的信息传递过去，以便在服务器端进行识别不同的用户。
+
+
+
+**隐藏表单域**
+
+将会话ID添加到HTML表单元素中提交到服务器，此表单元素并不在客户端显示
+
+
+
 **Cookie**
 
 Cookie是在HTTP服务器和客户之间传递的状态信息。当用户A浏览某个使用Cookie的网站时，该网站的服务器就为A产生一个<u>唯一的识别码</u>，并以此为索引在服务器的<u>后端数据库中产生一个项目</u>，然后在给A的HTTP响应报文中添加首部行Set-cookie，例如
@@ -229,7 +277,15 @@ Cookie主要应用于：
 
 Cookie具有过期时间，到期后会自动删除。
 
+Cookie可以被客户端禁用。
+
 使用Cookie可能造成用户隐私的保护问题，网站服务器可能把用户的信息出卖给第三方。
+
+
+
+**Session**
+
+
 
 
 

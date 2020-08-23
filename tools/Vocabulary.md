@@ -286,6 +286,7 @@
 | parameter                                  | 形参               |
 | parent                                     | 父节点             |
 | parenthesis                                | 括号               |
+| parse                                      | 解析               |
 | partial order                              | 偏序               |
 | path                                       | 路径               |
 | pattern                                    | 模式               |
