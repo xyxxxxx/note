@@ -269,6 +269,16 @@ fmt.Fprintf(outputFile, "Some test data.\n")
 
 
 
+`[]byte`和`string`之间的转换可以使用简单的类型转换：
+
+```go
+str1 := "hello"
+bytes := []byte(str1)
+str2 := string(bytes)
+```
+
+
+
 
 
 # 文件拷贝
