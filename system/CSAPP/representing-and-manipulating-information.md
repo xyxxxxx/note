@@ -127,3 +127,31 @@ C语言标准并没有明确定义有符号数应该使用哪种类型的右移�
 
 
 # 整数表示
+
+## 整型数据类型
+
+C语言支持多种整型数据类型来表示有限范围的整数，这些类型如图所示。
+
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/jcizxvklonoui5rjio24tty.PNG)
+
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/vcjkiohjnmtgioj376y.PNG)
+
+
+
+## 无符号数的编码
+
+略
+
+
+
+## 补码编码
+
+最常见的有符号数的计算机表示方式是**补码（two’s-complement）**形式。补码编码的定义中，最高有效位$$x_{w-1}$$也称为符号位，其权重为$$-2^{w-1}$$。
+
+如图展示了针对不同字长的几个重要数字的位模式和数值。
+
+![](https://raw.githubusercontent.com/xyxxxxx/image/master/vncjinuioh25yuoi25y.PNG)
+
+关于这些数字有几点值得注意：第一，补码的范围是不对称的，$$TMin$$没有与之对应的整数，这导致了补码运算的某些特殊的属性，并且容易造成程序中细微的错误；第二，-1和$$UMax$$有同样的位表示——一个全1的串，数值0在两种表示中都是全0的串。
+
+C语言标准并没有要求用补码形式来表示有符号整数，但是几乎所有的机器都是这么做的。程序员如果希望代码具有最大可移植性，能够在所有可能的机器上运行，那么
