@@ -1,19 +1,6 @@
 # built-in functions
 
-> https://docs.python.org/3/library/functions.html#abs
-
-```python
-abs()	#绝对值
-bin()	#转换为二进制
-enumerate()	#对list每个元素添加索引，得到二维list
-float()	#转换为float
-int()	#转换为int
-
-max()	#最大值
-min()	#最小值
-str()	#转换为str
-sum()	#求和
-```
+> https://docs.python.org/3/library/functions.html
 
 
 
@@ -24,6 +11,8 @@ sum()	#求和
 ```python
 #定义函数
 def my_abs(x):
+    '''my_abs returns the absolute value of number x
+    '''
     if x >= 0:
         return x	#return以返回空值
     else:
@@ -31,7 +20,7 @@ def my_abs(x):
 
 #空函数
 def complex():
-    pass	#pass占位以保证语法正确
+    pass	        #pass作为占位可以保证语法正确
 ```
 
 
@@ -42,8 +31,9 @@ def complex():
 
 ## 参数
 
+### 默认参数
+
 ```python
-#多个参数
 def enroll(name, gender, age=6, city='Beijing'):	#设定age,city默认值，默认值必须使用不变对象
     print('name:', name)
     print('gender:', gender)
@@ -51,38 +41,98 @@ def enroll(name, gender, age=6, city='Beijing'):	#设定age,city默认值，默�
     print('city:', city)
 
 enroll('Bob', 'M', 7)
-enroll('Adam', 'M', city='Tianjin')    
-
-#可变参数
-def calc(numbers):	#1.将所有参数以list或tuple传入
-    sum = 0
-    for n in numbers:
-        sum = sum + n * n
-    return sum
-
-def calc(*numbers):	#2.*表示传入tuple,多个参数/list可转换
-    sum = 0
-    for n in numbers:
-        sum = sum + n * n
-    return sum
-
-#关键字参数
-def person(name, age, **kw):	#kw为关键字参数，可以传入任意值或不传入值
-        if 'city' in kw:		#关键字检查
-        pass
-    print('name:', name, 'age:', age, 'other:', kw)
-    
-person('Bob', 35, city='Beijing')
-extra = {'city': 'Beijing', 'job': 'Engineer'}
-person('Jack', 24, **extra)		#**表示传入dict
-
-def person(name, age, *, city=Beijing, job):	# *后的city,job为关键字参数，可以传入这2个值或不传入
-    print(name, age, city, job)
-
-person('Jack', 24, job='Engineer')    
+enroll('Adam', 'M', city='Tianjin')
 ```
 
-参数组合使用时，顺序必须为：必选参数、默认参数、可变参数、命名关键字参数和关键字参数
+```python
+# 多次调用之间共享默认值
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(1))  # [1]
+print(f(2))  # [1, 2]
+print(f(3))  # [1, 2, 3]
+```
+
+```python
+def f(a, L=None):
+    if L is None:
+       	L = []
+    L.append(a)
+    return L
+
+print(f(1))  # [1]
+print(f(2))  # [2]
+print(f(3))  # [3]
+```
+
+
+
+### 可变参数
+
+可变参数`*args`匹配剩余的参数，以元组的方式存储在`args`：
+
+```python
+def argsFunc(a, *args):
+	print(a)
+	print(args)
+	
+argsFunc(1, 2, 3, 4)
+# t = [2,3,4]
+# argsFunc(1, *t)
+
+# output
+# 1
+# (2, 3, 4)
+```
+
+
+
+### 关键字参数
+
+关键字参数`**kwargs`匹配剩余的形式为`arg=value`的键值对，以`dict`的方式存储在`kwargs`：
+
+```python
+def kwargsFunc(**kwargs):
+    if 'x' in kwargs:    # 检查是否存在key
+    	print(kwargs)
+    
+kwargsFunc(x=1,y=2,z=3)
+# kw = {'x':1, 'y':2, 'z':3}
+# kwargsFunc(**kw)       # 这里的**表示解包map
+
+# output
+# {'x': 1, 'y': 2, 'z': 3}
+```
+
+
+
+### 特殊参数
+
+特殊符号`/`，`*`用于确定参数是按位置传递还是按关键字传递还是两者皆可，例如：
+
+```python
+# / 前的参数仅限位置参数
+def pos_only_arg(arg, /):
+     print(arg)
+
+pos_only_arg(1)       # 1
+pos_only_arg(arg=1)   # err
+```
+
+```python
+# * 后的参数仅限关键字参数
+def kwd_only_arg(*, arg):
+     print(arg)
+        
+kwd_only_arg(3)       # err
+kwd_only_arg(arg=3)   # 3
+```
+
+
+
+参数组合使用时，顺序必须为：必选参数、默认参数、可变参数和关键字参数
 
 ```python
 #参数组合使用
@@ -91,14 +141,6 @@ def f1(a, b, c=0, *args, **kw):
     
 f1(1, 2, 3, 'a', 'b', x=99)
 #a = 1 b = 2 c = 3 args = ('a', 'b') kw = {'x': 99} 
-#args为命名关键字参数,kw为五明明关键字参数
-
-
-def f2(a, b, c=0, *, d, **kw):
-    print('a =', a, 'b =', b, 'c =', c, 'd =', d, 'kw =', kw)
-
-f2(1, 2, d=99, ext=None)
-#a = 1 b = 2 c = 0 d = 99 kw = {'ext': None}
 ```
 
 
@@ -116,6 +158,18 @@ def move(x, y, step, angle=0):
 
 x, y = move(100, 100, 60, math.pi / 6)	#为2个变量赋值
 r = move(100, 100, 60, math.pi / 6)		#返回1个tuple
+```
+
+```python
+#0个返回值
+def fib(n):
+    """Print a Fibonacci series up to n."""
+    a, b = 0, 1
+    while a < n:
+        print(a, end=' ')
+        a, b = b, a+b
+    print()
+    #由于没有return语句，函数结束时返回None
 ```
 
 
@@ -175,12 +229,12 @@ f()	#返回函数值
 #  匿名函数lambda
 
 ```python
-list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
-#              参数 返回值
-
 #匿名函数赋值
 f = lambda x: x*x
 f(5)	#25
+
+list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
+#              参数 返回值
 
 ```
 

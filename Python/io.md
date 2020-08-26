@@ -1,15 +1,15 @@
-# 交互窗口I/O
+# shell I/O
 
 ## 输出
 
 ```python
-print('abc')	#输出字符串
+print('abc')	        #输出字符串
 print('abc','def','gh')	#输出多个字符串
 print(100)	#输出整数
 print(100+100)	#输出计算结果
 
-print('Hi, %s, you have $%d.' % ('Michael', 1000000))	#输出变量
-print('Hi, {0}, you have ${1}.' .format('Michael', 1000000))
+print('Hi, %s, you have $%d.' % ('Michael', 1000000))	      #格式化输出
+print('Hi, {0}, you have ${1}.' .format('Michael', 1000000))  #格式化输出
 ```
 
 | 占位符 | 类型         |
