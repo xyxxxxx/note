@@ -234,7 +234,7 @@
 
 |                   |                |
 | ----------------- | -------------- |
-|                   |                |
+| machine learning  | 机器学习       |
 | magnetic disk     | 磁盘           |
 | matrix            | 矩阵           |
 | memory compaction | 内存紧缩       |

@@ -52,6 +52,15 @@
 
 * [Python](Python/python.md)
 	* [运行环境与开发工具](Python/runtime-environment-devtool.md)
+	* [数据类型和运算](Python/data-type-and-operation.md)
+	* [数据结构](Python/data-structure.md)
+	* [控制结构](Python/control-structure.md)
+	* [函数](Python/function.md)
+	* [模块](Python/module.md)
+	* [面向对象编程](Python/oop.md)
+	* [IO](Python/io.md)
+	* [错误处理与单元测试](Python/error-handling-and-unit-test.md)
+	* [进程与线程](Python/process-and-thread.md)
 
 
 * [Go](Go/go.md)
