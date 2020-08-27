@@ -154,14 +154,22 @@
 * [leetcode例题](DSA/leetcode-example.md)
 
 
-## 其它
 
-* [Git](others/git.md)
-* [Gitbook](others/gitbook.md)
-* [json](others/json.md)
-* [LaTeX](others/latex.md)
-* [Markdown](others/markdown.md)
-* [正则表达式](others/regular-expression.md)
+## Machine Learning
+
++ Concepts
+
+  + introduction to ML
+  + framing
+  + descending into ML
+
++ Engineering
+
++ Application
+
++ Tools
+
+  
 
 ## 数学
 
@@ -187,4 +195,12 @@
 
 ## 工具
 
+* [Git](tools/git.md)
+* [Gitbook](tools/gitbook.md)
+* [json](tools/json.md)
+* [LaTeX](tools/latex.md)
+* [Markdown](tools/markdown.md)
+* [正则表达式](tools/regular-expression.md)
 * [词汇表](tools/vocabulary.md)
+
+## 
