@@ -16,9 +16,10 @@ print(two_dimensional_array)
 # [11  7]
 # [ 4  8]]
 
-sequence_of_integers = np.arange(5, 12)
+sequence_of_integers = np.arange(5, 11).reshape(2, 3)
 print(sequence_of_integers)
-#[ 5  6  7  8  9 10 11]
+#[[ 5  6  7], 
+# [ 8  9 10]]
 
 import numpy as np
 random_integers_between_50_and_100 = np.random.randint(low=50, high=101, size=(6))

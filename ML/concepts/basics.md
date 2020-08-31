@@ -58,32 +58,6 @@ There are two types of model:
 
 
 
-# linear regression
-
-## model
-
-$$
-y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\varepsilon_i=\boldsymbol x_i^T \boldsymbol \beta +\varepsilon_i,\quad i=1,\cdots,n\\
-\boldsymbol y =\boldsymbol X \boldsymbol \beta + \boldsymbol\varepsilon
-$$
-
-
-
-## ML model
-
-$$
-y'=b+w_1x_1+w_2x_2+w_3x_3+\cdots
-$$
-
-+ $$y'$$ is the predicted label
-+ $$b$$ is the bias, sometimes referred to as $$w_0$$
-+ $$w_i$$ is the weight of feature i
-+ $$x_i$$ is a feature (a known input).
-
-
-
-
-
 # training
 
 Training a model simply means determining good values for all the weights and the bias from labeled examples. In supervised learning, a machine learning algorithm builds a model by examining many examples and attempting to find a model that minimizes loss; this process is called **empirical risk minimization**.
@@ -146,8 +120,6 @@ If you specify a learning rate that is too small, learning will take too long; i
 There's a **Goldilocks learning rate** for every regression problem. The Goldilocks value is related to how flat the loss function is:
 
 ![Same U-shaped curve. The trail of points gets to the minimum point in about eight steps.](https://developers.google.com/machine-learning/crash-course/images/LearningRateJustRight.svg)
-
-> 1.6 is recommended for Goldilocks learning rate
 
 
 
