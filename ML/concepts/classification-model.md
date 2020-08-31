@@ -128,6 +128,8 @@ To fully evaluate the effectiveness of a model, you must examine **both** precis
 
 ## ROC Curve and AUC
 
+> refer to [ROC curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+
 An **ROC curve** (**receiver operating characteristic curve**) is a graph showing the performance of a classification model at all classification thresholds. This curve plots two parameters:
 
 + True Positive Rate
@@ -167,5 +169,55 @@ However, both these reasons come with caveats, which may limit the usefulness of
 + **Scale invariance is not always desirable.** For example, sometimes we really do need well calibrated probability outputs, and AUC won’t tell us about that.
 + **Classification-threshold invariance is not always desirable.** In cases where there are wide disparities in the cost of false negatives vs. false positives, it may be critical to minimize one type of classification error. For example, when doing email spam detection, you likely want to prioritize minimizing false positives (even if that results in a significant increase of false negatives). AUC isn't a useful metric for this type of optimization.
 
+
+
+## Prediction Bias
+
+Logistic regression predictions should be unbiased. **Prediction bias** is a quantity that measures how far apart those two averages are. That is:
+$$
+{\rm prediction\ bias=average\ of\ predictions−average\ of\ labels\ in\ data\ set}
+$$
+A significant nonzero prediction bias tells you there is a bug somewhere in your model, as it indicates that the model is wrong about how frequently positive labels occur.
+
+Possible root causes of prediction bias are:
+
++ Incomplete feature set
++ Noisy data set
++ Buggy pipeline
++ Biased training sample
++ Overly strong regularization
+
+You might be tempted to correct prediction bias by post-processing the learned model—that is, by adding a **calibration layer** that adjusts your model's output to reduce the prediction bias. For example, if your model has +3% bias, you could add a calibration layer that lowers the mean prediction by 3%. However, adding a calibration layer is a bad idea for the following reasons:
+
++ You're fixing the symptom rather than the cause.
++ You've built a more brittle system that you must now keep up to date.
+
+If possible, <u>avoid calibration layers</u>. Projects that use calibration layers tend to become reliant on them—using calibration layers to fix all their model's sins. Ultimately, maintaining the calibration layers can become a nightmare.
+
+
+
+### Bucketing and Prediction Bias
+
+Prediction bias for logistic regression only makes sense when grouping enough examples together to be able to compare a predicted value (for example, 0.392) to observed values (for example, 0.394).
+
+You can form buckets in the following ways:
+
++ Linearly breaking up the target predictions.
++ Forming quantiles.
+
+Consider the following calibration plot from a particular model. Each dot represents a bucket of 1,000 values. The axes have the following meanings:
+
++ The x-axis represents the average of values the model predicted for that bucket.
++ The y-axis represents the actual average of values in the data set for that bucket.
+
+Both axes are logarithmic scales.
+
+![X-axis is Prediction; y-axis is Label. For middle and high values of prediction, the prediction bias is negligible. For low values of prediction, the prediction bias is relatively high.](https://developers.google.com/machine-learning/crash-course/images/BucketingBias.svg?dcb_=0.11507607484954763)
+
+Why are the predictions so poor for only *part* of the model? Here are a few possibilities:
+
++ The training set doesn't adequately represent certain subsets of the data space.
++ Some subsets of the data set are noisier than others.
++ The model is overly regularized. (Consider reducing the value of lambda.)
 
 

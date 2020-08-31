@@ -153,15 +153,16 @@
 
 * [leetcode例题](DSA/leetcode-example.md)
 
-
-
 ## Machine Learning
 
-+ Concepts
-
-  + introduction to ML
-  + framing
-  + descending into ML
++ [Concepts](ML/concepts/concepts.md)
+  + [Introduction to ML](ML/concepts/.md)
+  + [Basics](ML/concepts/basics.md)
+  + [Training and Data](ML/concepts/training-and-data.md)
+  + [Linear regression model](ML/concepts/linear-regression-model.md)
+  + [Classification model](ML/concepts/classification-model.md)
+  + [Regularization](ML/concepts/regularization.md)
+  + [Neural networks](ML/concepts/neural-networks.md)
 
 + Engineering
 
@@ -169,7 +170,6 @@
 
 + Tools
 
-  
 
 ## 数学
 

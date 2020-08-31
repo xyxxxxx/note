@@ -23,3 +23,22 @@ Remember: the ideal combination of hyperparameters is data dependent, so you mus
 
 + You can use any column or synthetic column as a feature
 + A correlation matrix indicates how each attribute's raw values relate to other raw values
+
+
+
+
+
+# Binary Classification
+
+[Binary Classification](https://colab.research.google.com/github/google/eng-edu/blob/master/ml/cc/exercises/binary_classification.ipynb)
+
+When creating a model with multiple features, the values of each feature should cover roughly the same range. One way is to normalize datasets by converting each raw value (including the label) to its Z-score. A **Z-score** is the number of standard deviations from the mean for a particular raw value. For example, consider a feature having the following characteristics:
+
++ The mean is 60.
++ The standard deviation is 10.
+
+The raw value 75 would have a Z-score of +1.5:
+
+```
+  Z-score = (75 - 60) / 10 = +1.5
+```
