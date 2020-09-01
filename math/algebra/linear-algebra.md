@@ -500,29 +500,17 @@ $$
 \mathcal{l}_p(\boldsymbol v)=||\boldsymbol v||_p=(\sum_{n=1}^N|v_n|^p)^{1/p}
 $$
 其中$$p\ge 0$$为一个标量的参数，常用的$$p$$的取值有1，2，∞等。
-l 1 范数 l 1 范数为向量的各个元素的绝对值之和.
-N
-‖v‖ 1 = ∑ |v n |.
-(A.12)
-n=1
-l 2 范数 l 2 范数为向量的各个元素的平方和再开平方.
-‖v‖ 2 =
-√
-√
-√
-N
-∑ v n 2 = √v T v.
-(A.13)
-√ n=1
-l 2 范数又称为 Euclidean 范数或者 Frobenius 范数. 从几何角度, 向量也可
-以表示为从原点出发的一个带箭头的有向线段, 其 l 2 范数为线段的长度, 也常称
-为向量的模.
-l ∞ 范数
-l ∞ 范数为向量的各个元素的最大绝对值,
-(A.14)
-‖v‖ ∞ = max{v 1 , v 2 , ⋯ , v N }.
-图 A.1 给出了常见范数的示例,
-其中红线表示不同范数的 l p = 1 的点.
+$$
+\mathcal{l}_1(\boldsymbol v)=||\boldsymbol v||_1=\sum_{n=1}^N|v_n|\\
+\mathcal{l}_2(\boldsymbol v)=||\boldsymbol v||_2=||\boldsymbol v||=\sqrt{\sum_{n=1}^Nv_n^2}
+$$
+$$\mathcal{l}_2$$范数又称为Euclidean范数或者Frobenius范数。从几何角度，向量也可以表示为从原点出发的一个带箭头的有向线段，其$$\mathcal{l}_2$$范数为线段的长度，也常称为向量的**模**。
+$$
+‖\boldsymbol v‖_∞ = \max\{v_1, v_2, ⋯ , v_N \}
+$$
+下图给出了常见范数的示例，其中红线表示不同范数的$$ \mathcal{l}_p = 1 $$的点
+
+
 
 
 
@@ -532,7 +520,7 @@ l ∞ 范数为向量的各个元素的最大绝对值,
 
 $$[\pmb x,\pmb y]=\pmb x^T \pmb y=x_1y_1+x_2y_2+\cdots+x_ny_n$$称为向量$${\pmb x}$$与$${\pmb y}$$的**内积**。当$$[\pmb x,\pmb y]=0$$时，称向量$${\pmb x}$$与$${\pmb y}$$**正交**。
 
-$$\Vert x \Vert=\sqrt{x_1^2+x_2^2+\cdots+x_n^2}$$称为向量$${\pmb x}$$的**长度**（或**范数**）。
+$$\Vert x \Vert=\sqrt{x_1^2+x_2^2+\cdots+x_n^2}$$称为向量$${\pmb x}$$的**长度**（**$$\mathcal{l}_2$$范数**）。
 
 **定理 若$$n$$维向量$$\pmb{a_1,a_2,\cdots,a_r}$$是一组两两正交的非零向量，则$$\pmb{a_1,a_2,\cdots,a_r}$$线性无关。**
 
