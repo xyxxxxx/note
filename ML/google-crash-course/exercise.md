@@ -42,3 +42,13 @@ The raw value 75 would have a Z-score of +1.5:
 ```
   Z-score = (75 - 60) / 10 = +1.5
 ```
+
+
+
+
+
+# Neural Networks
+
++ Adding more hidden layers and neurons can model the data set better and produces more repeatable results, however it also makes model easily overfitting on the noise in the training set.
++ A model with 1 neuron in the first hidden layer cannot learn a good model no matter how deep it is.
+

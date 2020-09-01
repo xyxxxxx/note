@@ -155,19 +155,17 @@
 
 ## Machine Learning
 
-+ [Concepts](ML/concepts/concepts.md)
-  + [Introduction to ML](ML/concepts/.md)
-  + [Basics](ML/concepts/basics.md)
-  + [Training and Data](ML/concepts/training-and-data.md)
-  + [Linear regression model](ML/concepts/linear-regression-model.md)
-  + [Classification model](ML/concepts/classification-model.md)
-  + [Regularization](ML/concepts/regularization.md)
-  + [Neural networks](ML/concepts/neural-networks.md)
-
-+ Engineering
-
-+ Application
-
++ [Google crash course](ML/google-crash-course/google-crash-course.md)
+  + [Introduction to ML](ML/google-crash-course/introduction-to-ml.md)
+  + [Basics](ML/google-crash-course/basics.md)
+  + [Training and Data](ML/google-crash-course/training-and-data.md)
+  + [Linear regression model](ML/google-crash-course/linear-regression-model.md)
+  + [Classification model](ML/google-crash-course/classification-model.md)
+  + [Regularization](ML/google-crash-course/regularization.md)
+  + [Neural networks](ML/google-crash-course/neural-networks.md)
++ [embeddings](ML/google-crash-course/embeddings.md)
++ [神经网络与深度学习](ML/nndl/nndl.md)
+  + 
 + Tools
 
 
@@ -192,6 +190,13 @@
   + [图论](math/discrete-mathematics/graph-theory.md)
   + [数论](math/discrete-mathematics/number-theory.md)
   + [多项式](math/discrete-mathematics/polynomial.md)
+
+## 其它计算机相关理论课程
+
++ [形式语言与自动机]()
+  + 有穷自动机
++ [信息论](other/information-theory/information-theory.md)
+  + [熵](other/information-theory/entropy.md)
 
 ## 工具
 
