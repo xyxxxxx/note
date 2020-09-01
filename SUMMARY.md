@@ -22,10 +22,6 @@
 	* [Makefile](C/makefile.md)
 
 
-* [C++](C++/cpp.md)
-	* [运行环境与开发工具](C++/runtime-environment-devtool.md)
-
-
 * [Java](Java/java.md)
   * [运行环境与开发工具](Java/runtime-environment-devtool.md)
   * [JVM](Java/jvm.md)
@@ -163,9 +159,8 @@
   + [Classification model](ML/google-crash-course/classification-model.md)
   + [Regularization](ML/google-crash-course/regularization.md)
   + [Neural networks](ML/google-crash-course/neural-networks.md)
-+ [embeddings](ML/google-crash-course/embeddings.md)
+  + [embeddings](ML/google-crash-course/embeddings.md)
 + [神经网络与深度学习](ML/nndl/nndl.md)
-  + 
 + Tools
 
 
