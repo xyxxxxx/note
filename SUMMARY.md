@@ -178,6 +178,8 @@
 + [应用数学](math/applied-mathematics/applied-mathematics.md)
   + [概率论](math/applied-mathematics/probability-theory.md)
   + [统计学](math/applied-mathematics/statistics.md)
+  + [随机过程](math/applied-mathematics/stochastic-process.md)
+  + [数学优化](math/applied-mathematics/optimization.md)
 + [离散数学](math/discrete-mathematics/discrete-mathematics.md)
   + [数理逻辑](math/discrete-mathematics/mathematical-logic.md)
   + [集合论](math/discrete-mathematics/set-theory.md)

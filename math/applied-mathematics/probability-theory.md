@@ -82,7 +82,7 @@ $$
 
 # 连续型随机变量continuous random variable
 
-概率密度函数$$f(x)$$,probability density function,確率密度関数，分布函数$$F(x)$$
+概率密度函数（probability density function，確率密度関数）$$f(x)$$，累积分布函数（cumulative distribution function）$$F(x)$$
 $$
 F(x)=\int_{-\infty}^{x}f(t)dt\\
 F'(x)=f(x)\\
@@ -188,11 +188,23 @@ $$
 (X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)
 $$
 
+
+
 ## 条件分布
 
-离散 $$P(X=x_i|Y=y_j)$$
+$$
+离散\quad P(y|x)=P(Y=y|X=x)=\frac{P(x,y)}{P(x)}\\
+连续\quad f(y|x)=\frac{f(x,y)}{f_X(x)}
+$$
 
-连续 $$f(x|y)=\frac{f(x,y)}{f_Y(y)}$$
+
+
+### 条件独立
+
+$$
+P(x, y|z) = P(x|z)P(y|z)\\
+f(x,y|z)=f(x|z)f(y|z)
+$$
 
 
 
@@ -239,7 +251,7 @@ $$
 ### 期望和方差,expectation & variance,平均と分散
 
 $$
-E(X)=\sum x_kp_k\\
+E(X)=\sum x_kp_k=\int_{\mathbb{R}} xf(x){\rm d}x\\
 E(X+Y)=E(X)+E(Y)\\
 独立E(XY)=E(X)E(Y)\\
 Var(X)=E(X^2)-E^2(X),\sigma(X)=\sqrt{Var(X)}\\
@@ -249,6 +261,14 @@ Var(X\pm Y)=Var(X)+Var(Y)\pm 2Cov(X,Y)\\
 $$
 
 ![130rjitogrfobqqferwvfwin](C:\Users\Xiao Yuxuan\Documents\pic\130rjitogrfobqqferwvfwin.PNG)
+
+**Jensen不等式**
+
+对于凸函数$$g$$，
+$$
+g(E(X))\le E(g(X))
+$$
+等式当且仅当$$X$$是常数或$$g$$是线性时成立
 
 
 
@@ -262,6 +282,14 @@ Cov(aX+b,cY+d)=acCov(X,Y)\\
 \\相关系数Corr(X,Y)=\frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}\quad\\
 Corr(X,Y)>0正相关,Corr(X,Y)<0负相关,Corr(X,Y)=0不相关
 $$
+
+
+
+对于$$M$$维和$$N$$维随机变量$$\pmb X$$和$$\pmb Y$$，
+$$
+Cov(\pmb X,\pmb Y)=E((\pmb X-E(\pmb X))(\pmb Y-E(\pmb Y))^{\rm T})
+$$
+即$$Cov(\pmb X,\pmb Y)$$的第$$(m,n)$$个元素是$$X_m$$和$$Y_n$$的协方差。
 
 
 
