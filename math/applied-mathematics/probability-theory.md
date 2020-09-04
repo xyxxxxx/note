@@ -260,6 +260,18 @@ Var(X\pm Y)=Var(X)+Var(Y)\pm 2Cov(X,Y)\\
 独立Var(X+Y)=Var(X)+Var(Y)
 $$
 
+对于离散型随机变量
+$$
+Var(X)=\sum_{i=1}^np_i(x_i-\mu)^2
+$$
+对于连续型随机变量
+$$
+Var(X)=\int_{-\infty}^{+\infty}(x-\mu)^2f(x){\rm d}x
+$$
+
+
+
+
 ![130rjitogrfobqqferwvfwin](C:\Users\Xiao Yuxuan\Documents\pic\130rjitogrfobqqferwvfwin.PNG)
 
 **Jensen不等式**
@@ -283,7 +295,7 @@ Cov(aX+b,cY+d)=acCov(X,Y)\\
 Corr(X,Y)>0正相关,Corr(X,Y)<0负相关,Corr(X,Y)=0不相关
 $$
 
-
+=∫+∞−∞(t−μ)2fX(t)dt
 
 对于$$M$$维和$$N$$维随机变量$$\pmb X$$和$$\pmb Y$$，
 $$
@@ -340,12 +352,27 @@ $$
 \lim_{n\to \infty}P(\left | \frac{1}{n}\sum_{k=1}^nX_k-\mu \right |<\varepsilon)=1
 $$
 
+> 证明：使用切比雪夫不等式
+
 **切比雪夫不等式**
 $$
-{\rm for~any~\varepsilon>0\quad}P(|X-E(X)|\ge \varepsilon)\le \frac{Var(X)}{\varepsilon^2}
+\forall \varepsilon>0,\ P(|X-\mu)|\ge \varepsilon)\le \frac{Var(X)}{\varepsilon^2}
 $$
 
-> 频率收敛于概率
+> 证明：以连续型随机变量$$X$$为例
+> $$
+> Var(X)=\int_{-\infty}^{+\infty}(t-\mu)^2f_X(t){\rm d}t\\
+> \ge \int_{-\infty}^{\mu-\varepsilon}(t-\mu)^2f_X(t){\rm d}t+\int_{\mu+\varepsilon}^{+\infty}(t-\mu)^2f_X(t){\rm d}t\\
+> \ge \int_{-\infty}^{\mu-\varepsilon}\varepsilon^2f_X(t){\rm d}t+\int_{\mu+\varepsilon}^{+\infty}\varepsilon^2f_X(t){\rm d}t\\
+> = \varepsilon^2(\int_{-\infty}^{\mu-\varepsilon}f_X(t){\rm d}t+\int_{\mu+\varepsilon}^{+\infty}f_X(t){\rm d}t)\\
+> = \varepsilon^2P(X\le\mu-\varepsilon {\rm~or~} X\ge\mu+\varepsilon)\\
+> = \varepsilon^2 P(|X-\mu|\ge \varepsilon)\\
+> \therefore P(|X-\mu|\ge \varepsilon) \le \frac{Var(X)}{\varepsilon^2}
+> $$
+
+
+
+> 大数定律的包含的意义是：频率收敛于概率
 
 
 

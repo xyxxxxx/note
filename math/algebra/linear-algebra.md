@@ -2,9 +2,122 @@
 
 ## 向量
 
+**标量(scalar)**是一个实数，只有大小，没有方向。标量一般用斜体小写英文字母$$a,b,c$$来表示。**向量(vector)**是由一组实数组成的有序数组，同时具有大小和方向。一个$$N$$维向量$$\pmb a$$是由$$N$$个有序实数组成，表示为
+$$
+\pmb a = [a_1 , a_2 , ⋯ , a_N ]
+$$
+
+
+
+## 向量运算
+
+### 内积
+
+$$[\pmb x,\pmb y]=\pmb x^T \pmb y=x_1y_1+x_2y_2+\cdots+x_ny_n$$称为向量$${\pmb x}$$与$${\pmb y}$$的**内积**。当$$[\pmb x,\pmb y]=0$$时，称向量$${\pmb x}$$与$${\pmb y}$$**正交**。
+
+
+
+### 外积
+
+
+
+
+
+### 范数
+
+**范数(Norm)**将向量空间内的所有向量映射到非负实数。对于一个$$N$$维向量$$\boldsymbol v$$ ,一个常见的范数函数为$$\mathcal{l}_p$$范数
+$$
+\mathcal{l}_p(\boldsymbol v)=||\boldsymbol v||_p=(\sum_{n=1}^N|v_n|^p)^{1/p}
+$$
+其中$$p\ge 0$$为一个标量的参数，常用的$$p$$的取值有1，2，∞等。
+$$
+\mathcal{l}_1(\boldsymbol v)=||\boldsymbol v||_1=\sum_{n=1}^N|v_n|\\
+\mathcal{l}_2(\boldsymbol v)=||\boldsymbol v||_2=||\boldsymbol v||=\sqrt{\sum_{n=1}^Nv_n^2}
+$$
+$$\mathcal{l}_2$$范数又称为Euclidean范数或者Frobenius范数。从几何角度，向量也可以表示为从原点出发的一个带箭头的有向线段，其$$\mathcal{l}_2$$范数为线段的长度，也常称为向量的**模**。
+$$
+‖\boldsymbol v‖_∞ = \max\{v_1, v_2, ⋯ , v_N \}
+$$
+下图给出了常见范数的示例，其中红线表示不同范数的$$ \mathcal{l}_p = 1 $$的点
+
+![Screenshot from 2020-09-01 19-02-39.png](https://i.loli.net/2020/09/02/2VMxbcDkFCmasPn.png)
+
+
+
+## 向量组
+
+若干个同维的列向量组成的集合称为向量组。
+
+### 线性组合
+
+对于给定的向量组$$\pmb{A:a_1,a_2,\cdots,a_n}$$，对于任何一组实数$$k_1,k_2,\cdots,k_m$$，$$k_1{\pmb a}_1+k_2{\pmb a}_2+\cdots+k_m{\pmb a}_m$$称为向量组$$\pmb{A}$$的一个**线性组合**。给定向量组$$\pmb{A}$$和向量$$\pmb{b}$$，如果存在一组数$$\lambda_1,\lambda_2,\cdots,\lambda_m$$，使$${\pmb b}=k_1{\pmb a}_1+k_2{\pmb a}_2+\cdots+k_m{\pmb a}_m$$，则称$${\pmb b}$$能由向量组$$\pmb{A}$$线性表示，亦即方程组$$x_1{\pmb a}_1+x_2{\pmb a}_2+\cdots+x_m{\pmb a}_m=\pmb{b}$$有解。
+
+**定理** 向量$$\pmb{b}$$能被向量组$$\pmb{A:a_1,a_2,\cdots,a_n}$$线性表示的充要条件是矩阵$${\pmb A}=({\pmb a}_1,{\pmb a}_2,\cdots,{\pmb a}_m)$$的秩等于矩阵$${\pmb B}=({\pmb a}_1,{\pmb a}_2,\cdots,{\pmb a}_m,{\pmb b})$$的秩。
+
+设有向量组$$A:\pmb{a_1,a_2,\cdots,a_n}$$和向量组$$B:\pmb{b_1,b_2,\cdots,b_n}$$，若B组每个向量都能由A组线性表示，则称向量组B能由向量组A线性表示。若向量组A和向量组B能互相线性表示，则称这两个向量组**等价**。
+
+
+
+### 线性相关
+
+对于给定的向量组$$\pmb{A:a_1,a_2,\cdots,a_m}$$，如果存在不全为零的数$$k_1,k_2,\cdots,k_m$$使$$k_1{\pmb a}_1+k_2{\pmb a}_2+\cdots+k_m{\pmb a}_m=\bf 0$$，则称向量组$$\pmb{A}$$是**线性相关**的，否则称其**线性无关**。
+
+**定理** 向量组$$\pmb{a_1,a_2,\cdots,a_m}$$线性相关的充要条件是$$R(\pmb A)<m$$；线性无关的充要条件是$$R({\pmb A})=m$$。
+
+
+
+### 秩
+
+对于给定的向量组$$\pmb{A:a_1,a_2,\cdots,a_m}$$，如果能选出$$r$$个向量$$\pmb{a_1,a_2,\cdots,a_r}$$，满足
+
+1. 向量组$$\pmb{A_0:a_1,a_2,\cdots,a_r}$$线性无关
+2. 向量组$$\pmb{A}$$中任意$$r+1$$个向量都线性相关
+
+则称向量组$${\pmb A_0}$$是向量组$${\pmb A}$$的**最大线性无关向量组**，$$r$$为向量组$${\pmb A}$$的**秩**，记作$$R_A$$。
+
+**定理** 矩阵的秩等于其列向量组的秩，也等于其行向量组的秩。
+
 
 
 ## 向量空间
+
+设$$V$$为$$n$$维向量的集合，如果集合$$V$$非空，且对于向量的加法及数乘两种运算封闭，则称为**向量空间**。
+
+设$$V$$为向量空间，如果$$r$$个向量$$\pmb{a_1,a_2,\cdots,a_r} \in V$$，且满足
+
+1. $$\pmb{a_1,a_2,\cdots,a_r}$$线性相关
+2. $$V$$中任一向量都可由$$\pmb{a_1,a_2,\cdots,a_r}$$线性表示
+
+则称向量组$$\pmb{a_1,a_2,\cdots,a_r}$$为向量空间的$$V$$的一个**基（base）**，$$r$$称为向量空间$$V$$的维数，称其为$$r$$维向量空间。
+
+如果再向量空间$$V$$中取定一个基$$\pmb{a_1,a_2,\cdots,a_r}$$，那么$$V$$中任一向量$${\pmb x}$$可唯一表示为
+$$
+\pmb x=\lambda_1 \pmb a_1 +\lambda_2 \pmb a_2+\cdots+\lambda_r \pmb a_r
+$$
+数组$$\lambda_1,\lambda_2,\cdots,\lambda_r$$称为向量$$\pmb x$$在基$$\pmb{a_1,a_2,\cdots,a_r}$$上的**坐标（coordinate）**。
+
+$$\pmb e_1=\{1,0,\cdots\},\pmb e_2,\cdots,\pmb e_n$$称为$$\Bbb R^n$$中的**自然基**或**标准基**，向量在自然基上的坐标称为**笛卡尔坐标（Cartesian coordinate）**。
+
+
+
+设向量组$$\pmb c_1,\pmb c_2,\cdots,\pmb c_n$$是向量空间$$V(V \subset \Bbb R^n)$$的一个基，如果$$\pmb c_1,\pmb c_2,\cdots,\pmb c_n$$两两正交且都是单位向量，则称其是$$V$$的一个**规范正交基**。
+
+施密特正交化：$$\pmb{a_1,a_2,\cdots,a_r}$$是向量空间$$V$$的一个基，对其规范正交化，取
+$$
+\begin{align}
+\pmb b_1=&\pmb a_1\\
+\pmb b_2=&\pmb a_2-\frac{[\pmb b_1,\pmb a_2]}{[\pmb b_1 , \pmb b_1]}\pmb b_1 \\
+\cdots&\cdots\\
+\pmb b_r=&\pmb a_r-\frac{[\pmb b_1,\pmb a_r]}{[\pmb b_1 , \pmb b_1]}\pmb b_1-\cdots-\frac{[\pmb b_{r-1},\pmb a_r]}{[\pmb b_{r-1} , \pmb b_{r-1}]}\pmb b_{r-1}
+\end{align}
+$$
+再将他们单位化即取$$\pmb c_i=\frac{1}{\Vert \pmb b_i \Vert} \pmb b_i$$，就是$$V$$的一个规范正交基。
+
+向量组$$\pmb c_1,\pmb c_2,\cdots,\pmb c_n$$构成一个正交矩阵。
+
+
+
+# 线性空间
 
 
 
@@ -248,6 +361,8 @@ $$
 + $$tr(\pmb A\pmb B) = tr(\pmb B\pmb A)$$
   
 
+
+
 ## 特征值与相似矩阵
 
 对于n阶矩阵$${\pmb A}$$，如果数$$\lambda$$和n维非零列向量$${\pmb x}$$使式
@@ -298,6 +413,38 @@ $$
 
 ## 二次型与正定矩阵
 
+含有n个变量$$x_1,x_2,\cdots,x_n$$的二次齐次函数$$f=\sum_{i,j=1}^na_{ij}x_ix_j$$称为**二次型**。只含平方项的二次型称为二次型的**标准型**。
+
+二次型可记作$$f=\pmb x^ {\rm T} \pmb A \pmb x $$，其中对称阵$${\pmb A}$$称为二次型f的矩阵，f称为$${\pmb A}$$的二次型，$${\pmb A}$$的秩即为二次型f的秩。
+
+
+
+**定理** 任给二次型$$f=\sum_{i,j=1}^na_{ij}x_ix_j$$，总有正交变换$$\pmb{x=Qy}$$使f化为标准型
+$$
+f=\lambda_1 y_1^2+\lambda_2 y_2^2+\cdots+\lambda_n y_n^2
+$$
+其中$$\lambda_1,\lambda_2,\cdots,\lambda_n$$是矩阵$$\pmb A$$的特征值。
+
+
+
+### 正定二次型
+
+**惯性定理** 设二次型$$f={\pmb x^ {\rm T}\pmb A \pmb x}$$的秩为r，有两个可逆变换$$\pmb{x=P_1y}$$和$$\pmb{x=P_2z}$$使
+$$
+f=k_1 y_1^2+k_2 y_2^2+\cdots+k_r y_n^2(k_i \neq 0)\\
+f=\lambda_1 z_1^2+\lambda_2 z_2^2+\cdots+\lambda_n z_n^2(\lambda_i \neq0)
+$$
+则$$k_i$$和$$\lambda_i$$中正数个数相等。正系数的个数称为正惯性指数，负系数的个数称为负惯性指数。
+
+设二次型$$f={\pmb x^ {\rm T}\pmb A \pmb x}$$，如果对任何$$\pmb {x \neq 0}$$都有$$f(\pmb x)>0$$，则称f为**正定二次型**，并称$$\pmb A$$是**正定矩阵**。
+
+**性质**
+
++ n元二次型$$f={\pmb x^ {\rm T}\pmb A \pmb x}$$正定的充要条件是它的标准形的n个系数全为正，即正惯性指数等于n
++ 对称阵$${\pmb A}$$正定的充要条件是$${\pmb A}$$的特征值全为正
++ 对称阵$${\pmb A}$$正定的充要条件是$${\pmb A}$$的各阶主子式都为正；对称阵$${\pmb A}$$负定的充要条件是$${\pmb A}$$的奇数阶主子式为负，偶数阶主子式为正
++ 对称阵$${\pmb A}$$正定的充要条件是存在可逆矩阵$$\pmb P$$，使得$$\pmb A=\pmb P^{\rm T}\pmb P$$
+
 
 
 
@@ -308,7 +455,13 @@ $$
 
 **正交矩阵**
 
+如果n阶矩阵$$\pmb Q$$满足
+$$
+\pmb Q^ {\rm T} \pmb Q=\pmb E \quad {\rm i.e.} \quad \pmb Q^{-1}= \pmb Q^ {\rm T}
+$$
+则称$${\pmb Q}$$为正交矩阵。方阵$${\pmb Q}$$为正交矩阵的充要条件是$${\pmb Q}$$的列向量都是单位向量，且两两正交。
 
+若$${\pmb Q}$$为正交矩阵，则线性变换$$\pmb{ y=Qx}$$称为正交变换。正交变换不改变向量的长度。
 
 
 
@@ -331,6 +484,8 @@ $$
 $$
 
 
+
+**幂零矩阵**
 
 
 
@@ -360,6 +515,10 @@ $$
 
 
 
+
+
+
+
 ## 若尔当标准型
 
 
@@ -370,5 +529,97 @@ $$
 
 
 
+# 酉空间
 
+
+
+
+
+# 矩阵分析
+
+## 偏导数
+
+**标量关于向量的偏导数** 对于M维向量$$\boldsymbol x\in \mathbb{R}^M$$和函数$$y=f(\boldsymbol x)\in \mathbb{R}$$，$$y$$关于$$\boldsymbol x$$的偏导数为
+$$
+\frac{\partial y}{\partial \boldsymbol x}=[\frac{\partial y}{\partial  x_1},\cdots,\frac{\partial y}{\partial x_M}]^{\rm T}
+$$
+$$y$$关于$$\boldsymbol x$$的二阶偏导数为
+$$
+\boldsymbol H=\frac{\partial^2 y}{\partial \boldsymbol x^2}=\begin{bmatrix} \frac{\partial^2 y}{\partial x_1^2} & \cdots & \frac{\partial^2 y}{\partial  x_1 \partial x_M}\\
+\vdots & \ddots & \vdots \\
+\frac{\partial^2 y}{\partial x_M \partial x_1} & \cdots & \frac{\partial^2 y}{\partial  x_M^2}
+\end{bmatrix}
+\in \mathbb{R}^{M\times M}
+$$
+称为函数$$f(\boldsymbol x)$$的**Hessian矩阵**，也写作$$\nabla^2 f(\boldsymbol x)$$
+
+**向量关于标量的偏导数** 对于标量$$x\in \mathbb{R}$$和函数$$\boldsymbol y=f(x)\in \mathbb{R}^N$$，$$\boldsymbol y$$关于$$x$$的偏导数为
+$$
+\frac{\partial \boldsymbol y}{\partial x}=[\frac{\partial y_1}{\partial  x},\cdots,\frac{\partial y_N}{\partial x}]
+$$
+**向量关于向量的偏导数** 对于M维向量$$\boldsymbol x\in \mathbb{R}^M$$和函数$$\boldsymbol y=f(\boldsymbol x)\in \mathbb{R}^N$$，$$\boldsymbol y$$关于$$\boldsymbol x$$的偏导数为
+$$
+\frac{\partial \boldsymbol y}{\partial \boldsymbol x}=\begin{bmatrix} \frac{\partial y_1}{\partial  x_1} & \cdots & \frac{\partial y_N}{\partial  x_1}\\
+\vdots & \ddots & \vdots \\
+\frac{\partial y_1}{\partial  x_M} & \cdots & \frac{\partial y_N}{\partial  x_M}
+\end{bmatrix}
+\in \mathbb{R}^{M\times N}
+$$
+称为函数$$f(\boldsymbol x)$$的**雅可比矩阵（Jacobian Matrix）**的转置。
+
+
+
+### 导数计算法则
+
+**加法法则**
+
+若$$\boldsymbol x\in \mathbb{R}^M$$，$$\boldsymbol y=f(\boldsymbol x)\in \mathbb{R}^N$$，$$\boldsymbol z=g(\boldsymbol x)\in \mathbb{R}^N$$，则
+$$
+\frac{\partial (\boldsymbol y+ \boldsymbol z)}{\partial \boldsymbol x}=\frac{\partial \boldsymbol y}{\partial \boldsymbol x}+\frac{\partial \boldsymbol z}{\partial \boldsymbol x} \in \mathbb{R}^{M\times N}
+$$
+**乘法法则**
+
+1. 若$$\boldsymbol x\in \mathbb{R}^M$$，$$\boldsymbol y=f(\boldsymbol x)\in \mathbb{R}^N$$，$$\boldsymbol z=g(\boldsymbol x)\in \mathbb{R}^N$$，则
+   $$
+   \frac{\partial \boldsymbol y^{\rm T} \boldsymbol z}{\partial \boldsymbol x}=\frac{\partial \boldsymbol y}{\partial \boldsymbol x}\boldsymbol z+\frac{\partial \boldsymbol z}{\partial \boldsymbol x}\boldsymbol y \in \mathbb{R}^{M}
+   $$
+
+2. 若$$\boldsymbol x\in \mathbb{R}^M$$，$$\boldsymbol y=f(\boldsymbol x)\in \mathbb{R}^S$$，$$\boldsymbol z=g(\boldsymbol x)\in \mathbb{R}^T$$，$$\boldsymbol A \in \mathbb{R}^{S\times T}$$和$$\boldsymbol x$$无关，则
+   $$
+   \frac{\partial \boldsymbol y^{\rm T}\boldsymbol A \boldsymbol z}{\partial \boldsymbol x}=\frac{\partial \boldsymbol y}{\partial \boldsymbol x}\boldsymbol A\boldsymbol z+\frac{\partial \boldsymbol z}{\partial \boldsymbol x}\boldsymbol A^{\rm T} \boldsymbol y \in \mathbb{R}^{M}
+   $$
+
+3. 若$$\boldsymbol x\in \mathbb{R}^M$$，$$y=f(\boldsymbol x)\in \mathbb{R}$$，$$\boldsymbol z=g(\boldsymbol x)\in \mathbb{R}^N$$，则
+   $$
+   \frac{\partial y \boldsymbol z}{\partial \boldsymbol x}=y\frac{\partial \boldsymbol z}{\partial \boldsymbol x}+\frac{\partial y}{\partial \boldsymbol x}\boldsymbol z^{\rm T} \in \mathbb{R}^{M\times N}
+   $$
+
+**链式法则（Chain Rule）**
+
+1. 若$$x\in \mathbb{R}$$，$$\boldsymbol y=f(x)\in \mathbb{R}^M$$，$$\boldsymbol z=g(\boldsymbol y)\in \mathbb{R}^N$$，则
+   $$
+   \frac{\partial \boldsymbol z}{\partial x}=\frac{\partial \boldsymbol y}{\partial x}\frac{\partial \boldsymbol z}{\partial \boldsymbol y} \in \mathbb{R}^{1\times N}
+   $$
+
+2. 若$$\boldsymbol x\in \mathbb{R}^M$$，$$\boldsymbol y=f(\boldsymbol x)\in \mathbb{R}^K$$，$$\boldsymbol z=g(\boldsymbol y)\in \mathbb{R}^N$$，则
+   $$
+   \frac{\partial \boldsymbol z}{\partial \boldsymbol x}=\frac{\partial \boldsymbol y}{\partial \boldsymbol x}\frac{\partial \boldsymbol z}{\partial \boldsymbol y} \in \mathbb{R}^{M\times N}
+   $$
+
+3. 若$$\boldsymbol X\in \mathbb{R}^{M\times N}$$，$$\boldsymbol y=f(\boldsymbol X)\in \mathbb{R}^K$$，$$z=g(\boldsymbol y)\in \mathbb{R}$$，则
+   $$
+   \frac{\partial z}{\partial x_{ij}}=\frac{\partial \boldsymbol y}{\partial x_{ij}}\frac{\partial z}{\partial \boldsymbol y} \in \mathbb{R}
+   $$
+
+
+
+### 常见导数
+
+$$
+\frac{\partial \boldsymbol x}{\partial \boldsymbol x}=\boldsymbol I\\
+\frac{\partial ||\boldsymbol x||^2}{\partial \boldsymbol x}=2\boldsymbol x\\
+\frac{\partial \boldsymbol A \boldsymbol x}{\partial \boldsymbol x}=\boldsymbol A^{\rm T}\\
+\frac{\partial \boldsymbol A \boldsymbol x}{\partial \boldsymbol x^{\rm T}}=\frac{\partial \boldsymbol x^{\rm T} \boldsymbol A}{\partial \boldsymbol x}=\boldsymbol A\\
+\frac{\partial \boldsymbol x^{\rm T} \boldsymbol A \boldsymbol x}{\partial \boldsymbol x}=(\boldsymbol A+\boldsymbol A^{\rm T})\boldsymbol x\\
+$$
 
