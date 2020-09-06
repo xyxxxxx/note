@@ -161,6 +161,8 @@
   + [Neural networks](ML/google-crash-course/neural-networks.md)
   + [embeddings](ML/google-crash-course/embeddings.md)
 + [神经网络与深度学习](ML/nndl/nndl.md)
+  + [机器学习概论](ML/nndl/ml-introduction.md)
+  + [线性回归](ML/nndl/linear-regression.md)
 + Tools
 
 
