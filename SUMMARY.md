@@ -115,6 +115,7 @@
     * [Kubernetes概述](system/cluster/kubernetes-introduction.md)
 * [Linux](system/Linux/linux.md)
 	* [常用命令](system/Linux/common-commands.md)
+	* [软件安装](system/Linux/software-install.md)
 
 
 ## 计算机网络
@@ -152,7 +153,7 @@
 
 * [leetcode例题](DSA/leetcode-example.md)
 
-## Machine Learning
+## 机器学习
 
 + [Google crash course](ML/google-crash-course/google-crash-course.md)
   + [Introduction to ML](ML/google-crash-course/introduction-to-ml.md)
@@ -204,7 +205,9 @@
 
 * [Git](tools/git.md)
 * [Gitbook](tools/gitbook.md)
-* [json](tools/json.md)
+* [npm](tools/npm.md)
+* [XML](tools/xml.md)
+* [JSON](tools/json.md)
 * [yaml](tools/yaml.md)
 * [LaTeX](tools/latex.md)
 * [Markdown](tools/markdown.md)
