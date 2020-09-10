@@ -10,35 +10,131 @@ NPM的功能包括允许用户：
 
 ## 命令
 
+> 参考[npm 常用命令详解](https://www.cnblogs.com/PeunZhang/p/5553574.html)
+
+### install & uninstall
+
+`install`命令安装一个包，以及它的所有依赖。npm的包指包含js程序和`package.json`文件的目录，或者上述目录的压缩包，或者解析为上述压缩包的url，或者发布在npm registry上的`<name>@<version>`……
+
 ```shell
-# 安装nodejs模块
-$ npm install <Module_Name>     # 本地安装
-$ npm install <Module_Name> -g  # 全局安装
-# 本地安装将模块安装在./node_modules下(.表示npm命令所在目录)
-# 全局安装将模块
+# 安装包
+$ npm install <Package_Name>        # 安装指定包
+$ npm install <Package_Name>@1.2.3  # 安装指定版本
+$ npm install  # 安装 package.json 中列出的所有依赖，到开发目录下的node_modules下
+#             -g 全局安装
+$ npm ci       # 类似于 npm install，但它旨在用于自动化环境，如测试平台，持续集成和部署 
 
-# 查看模块信息
-$ npm list        # 查看所有模块
-$ npm list -g     # 查看所有全局安装的模块
-$ npm list grunt  # 查看指定模块
-
-# 更新模块
-$ npm update express
-
-# 卸载模块
-$ npm uninstall <Module_Name>
-
-# 搜索模块
-$ npm search express
+# 卸载包
+$ npm uninstall <Package_Name>
+# aliases: remove, rm, r, un, unlink
 ```
 
+
+
+### list
+
 ```shell
-# 创建模块
+# 查看包信息
+$ npm ls        # 查看所有包
+$ npm ls -g     # 查看所有全局安装的包及依赖
+$ npm ls grunt  # 查看指定包
+# aliases: list, la, ll
+```
+
+
+
+### update
+
+```shell
+# 更新包
+$ npm update <Package_Name>
+```
+
+
+
+### version
+
+```shell
+# 查看包版本
+$ npm version
+```
+
+
+
+### search
+
+```shell
+# 搜索包
+$ npm search <Package_Name>
+```
+
+
+
+### root
+
+```shell
+# 输出node_modules的路径
+$ npm root [-g]
+```
+
+
+
+### run
+
+```shell
+# 执行脚本
+$ npm run <script>
+# 相当于执行scripts对象中对应的命令
+
+$ npm start  # 相当于 npm run start
+$ npm stop   # 相当于 npm run stop
+$ npm test   # 相当于 npm run test
+```
+
+```json
+"scripts": {
+    "start": "gulp -ws"
+}
+```
+
+
+
+
+
+### init & publish
+
+```shell
+# 创建包
 $ npm init
+# 在引导下创建一个package.json文件
 
 # 发布模块
 $ npm publish
 ```
+
+
+
+### config
+
+```shell
+# 设置代理
+$ npm config set proxy=http://xxx.com:8080
+
+# 设置镜像
+$ npm config set registry="http://r.cnpmjs.org"
+
+```
+
+
+
+### cache
+
+```shell
+# 清除npm本地缓存
+$ npm cache clean
+```
+
+
 
 
 
@@ -49,7 +145,7 @@ $ npm publish
 ```json
 {
   "name": "express", // 包名
-  "description": "Fast, unopinionated, minimalist web framework",
+  "description": "Fast, unopinionated, minimalist web framework",  // 描述
   "version": "4.13.3", // 包的版本号
   "author": {
     "name": "TJ Holowaychuk",
@@ -86,7 +182,7 @@ $ npm publish
     }
   ],
   "license": "MIT",
-  "repository": { // 存放类型
+  "repository": { // 存放位置
     "type": "git",
     "url": "git+https://github.com/strongloop/express.git"
   },
@@ -102,9 +198,9 @@ $ npm publish
     "app",
     "api"
   ],
-  "dependencies": { //依赖列表
-    "accepts": "~1.2.12",
-    "array-flatten": "1.1.1",
+  "dependencies": { // 依赖列表
+    "accepts": "~1.2.12",      // 兼容[1.2.12, 1.3)
+    "array-flatten": "1.1.1",  // 兼容1.1.1
     "content-disposition": "0.5.0",
     "content-type": "~1.0.1",
     "cookie": "0.1.3",
@@ -158,7 +254,7 @@ $ npm publish
     "index.js",
     "lib/"
   ],
-  "scripts": {
+  "scripts": { // 脚本
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/",
@@ -215,3 +311,4 @@ $ npm publish
   "readme": "ERROR: No README data found!"
 }
 ```
+

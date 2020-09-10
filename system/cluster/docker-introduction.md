@@ -1,3 +1,5 @@
+> 参考[Docker —— 从入门到实践](https://yeasy.gitbook.io/docker_practice/)
+>
 > 参考[Docker 入门教程](https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)，[Docker 微服务教程](http://www.ruanyifeng.com/blog/2018/02/docker-wordpress-tutorial.html)，[Docker简介](https://www.qikqiak.com/k8s-book/docs/2.Docker%20%E7%AE%80%E4%BB%8B.html)
 
 
@@ -36,7 +38,7 @@ Docker 的用途主要分为三类：
 
 Docker 使用 C/S （客户端/服务器）体系的架构，Docker 客户端与 Docker 守护进程通信，Docker 守护进程负责构建，运行和分发 Docker 容器。Docker 客户端和守护进程可以在同一个系统上运行，也可以将 Docker 客户端连接到远程 Docker 守护进程。Docker 客户端和守护进程使用 REST API 通过`UNIX`套接字或网络接口进行通信。
 
-![docker structrue](https://www.qikqiak.com/k8s-book/docs/images/docker-structrue.png)
+![](https://www.qikqiak.com/k8s-book/docs/images/docker-structrue.png)
 
 + Docker Damon：dockerd，用来监听 Docker API 的请求和管理 Docker 对象，比如镜像、容器、网络和 Volume。
 + Docker Client：docker，docker client 是我们和 Docker 进行交互的最主要的方式方法，比如我们可以通过 docker run 命令来运行一个容器，然后我们的这个 client 会把命令发送给上面的 Dockerd，让他来做真正事情。
@@ -120,7 +122,7 @@ $ docker start [containerID]
 $ docker stop [containerID]
 
 # 重启运行的容器
-$ docker stop [containerID]
+$ docker restart [containerID]
 
 # 终止容器运行
 $ docker kill [containerID]
@@ -337,10 +339,4 @@ $ docker-compose up
 此时就可以访问`127.0.0.3:8080`。
 
 
-
-# Docker Machine
-
-
-
-# Docker Swarm
 

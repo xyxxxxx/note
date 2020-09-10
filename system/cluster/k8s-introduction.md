@@ -197,20 +197,6 @@ kubectl apply -f https://k8s.io/examples/application/deployment.yaml --record
 ```shell
 # kubectl的所有命令参见
 # https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
-
-# get 列出资源
-$ kubectl get pods
-
-# describe 显示有关资源的详细信息
-$ kubectl describe pods
-
-# logs 打印 pod 和其中容器的日志
-$ kubectl logs $POD_NAME
-
-# exec 在 pod 中的容器上执行命令
-$ kubectl exec $POD_NAME env
-
-
 ```
 
 ### Imperative commands(命令式命令)
