@@ -168,13 +168,21 @@ $ echo "nameXnameXnameXname" | xargs -dX	# output by splitting by X
 ##  net
 
 ```shell
-$ hostname			# show hostname
+# show hostname
+$ hostname
 # revise at /etc/sysconfig/network
 
-$ ifconfig			# ipconfig
+# ipconfig
+$ ifconfig
 # revise at /etc/sysconfig/network-scripts/ifcfg-<name>
 
-$ nmcli c reload	# network restart
+# network restart
+$ nmcli c reload
+
+# request server
+$ curl https://www.example.com          # send GET request
+$ curl -X POST https://www.example.com  # assign request method
+$ curl -i https://www.example.com       # print header of response packet
 ```
 
 
@@ -215,6 +223,8 @@ $ rpm -e --nodeps <name>  # uninstall package
 # environment variable
 $ export -p               # show environment variables
 $ export var=10           # define environment variable, assign
+$ echo $ENV               # print environment variable
+
 ```
 
 

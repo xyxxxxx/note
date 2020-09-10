@@ -66,6 +66,7 @@
 | compiler                           | 编译器                       |
 | complete binary tree               | 完全二叉树                   |
 | compress                           | 压缩                         |
+| concatenation                      | 连接                         |
 | concurrency, concurrent            | 并发                         |
 | congestion                         | 拥塞                         |
 | constant                           | 常量                         |
@@ -209,6 +210,7 @@
 |                         |            |
 | ----------------------- | ---------- |
 | LAN, Local Area Network | 局域网     |
+| language                | 语言       |
 | latency                 | 时延       |
 | leaf                    | 叶         |
 | library, lib            | 库         |
