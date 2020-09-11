@@ -59,8 +59,20 @@ $$
 
 
 除了转换图，我们还可以用状态转移表来表示函数$$\delta$$，下表与上面的转换图是等价的，其中行表示当前状态，列表示当前输入符号，正文表示下一个状态。
+$$
+\begin{array}{|c|c|}
+\hline
+& a & b\\
+\hline
+q_0 & q_0 & q_1 \\
+\hline
+q_1 & q_2 & q_2 \\
+\hline
+q_2 & q_2 & q_2 \\
+\hline
+\end{array}
+$$
 
-![Screenshot from 2020-09-10 17-12-48.png](https://i.loli.net/2020/09/10/XnwP5i1SaWuZGcT.png)
 
 
 
@@ -137,4 +149,113 @@ $$
 
 许多确定型算法要求在某些阶段做出选择，如回溯算法：当同时存在几种策略时，我们选择其中一种走下去，直到能够判断这种策略是否是最佳的，如果不是就回退到分歧点。非确定型算法可以解决这个问题而不需要回溯，因此非确定型机器可以看作是回溯算法查找的模型。
 
-非确定型有助于简单地解决一些问题，如下图的NFA。这个NFA接受的语言是$$\{a^3\}\cup \{a^{2n}:n\ge 1\}$$，像这种
+非确定型有助于简单地解决一些问题，如下图的NFA。这个NFA接受的语言是$$\{a^3\}\cup \{a^{2n}:n\ge 1\}$$，像这种不同集合的并集组成的语言，使用非确定型接受器更加自然，尽管也可以找到接受这种语言的DFA。
+
+![Screenshot from 2020-09-11 09-51-24.png](https://i.loli.net/2020/09/11/vOGtNg4RpyJuhbV.png)
+
+我们下面将指明两种自动机并没有本质上的区别，因此使用NFA会使得有些结论更容易得到。
+
+
+
+
+
+# 确定型有穷自动机和非确定型有穷自动机的等价性
+
+**定义** 对于两个有穷自动机$$M_1$$和$$M_2$$，如果
+$$
+L(M_1)=L(M_2)
+$$
+那么这两个有穷自动机等价。
+
+> 容易看出DFA接受的任何语言NFA也可以接受，因为DFA可以看做一种特殊的NFA；反过来，也容易为$$|Q|$$个状态的NFA构造$$2^{|Q|}$$个状态的DFA。
+
+
+
+**定理** 设$$L(M_N)$$是被NFA $$M_N=(Q_N,\Sigma,\delta_N,q_0,F_N)$$接受的语言，那么一定存在一个DFA $$M_D=(Q_D,\Sigma,\delta_D,\{q_0\},F_D)$$，满足$$L(M_D)=L(M_N)$$。
+
+> 构造程序与证明略。
+
+
+
+@例如，将下图的NFA转化为等价的DFA
+
+![Screenshot from 2020-09-11 10-01-05.png](https://i.loli.net/2020/09/11/NvTU4ByIgeKSkno.png)
+
+确定状态转移函数
+$$
+\begin{array}{|c|c|c|}
+\hline
+& a & b\\
+\hline
+\{q_0\} & \{q_1,q_2\} & \varnothing \\
+\hline
+\{q_1,q_2\} & \{q_1,q_2\} & \{q_0\} \\
+\hline
+\end{array}
+$$
+于是得到
+
+![Screenshot from 2020-09-11 10-01-16.png](https://i.loli.net/2020/09/11/42txbWaw1RvTPpH.png)
+
+
+
+@将下图的NFA转化为等价的DFA
+
+![Screenshot from 2020-09-11 10-36-27.png](https://i.loli.net/2020/09/11/AIoP4VfbRpzyFaU.png)
+
+确定状态转移函数
+$$
+\begin{array}{|c|c|c|}
+\hline
+& 0 & 1\\
+\hline
+\{q_0\} & \{q_0,q_1\} & \{q_1\} \\
+\hline
+\{q_0,q_1\} & \{q_0,q_1,q_2\} & \{q_1,q_2\} \\
+\hline
+\{q_1\} & \{q_2\} & \{q_2\} \\
+\hline
+\{q_0,q_1,q_2\} & \{q_0,q_1,q_2\} & \{q_1,q_2\} \\
+\hline
+\{q_1,q_2\} & \{q_2\} & \{q_2\} \\
+\hline
+\{q_2\} & \varnothing & \{q_2\} \\
+\hline
+\varnothing & \varnothing & \varnothing \\
+\hline
+\end{array}
+$$
+得到
+
+![Screenshot from 2020-09-11 10-36-33.png](https://i.loli.net/2020/09/11/DrWpOoXHLBGMYZu.png)
+
+
+
+# *化简DFA
+
+**定义** 对于所有的$$w\in \Sigma^*$$，如果
+$$
+\delta^*(p,w)\in F \Rightarrow \delta^*(q,w)\in F
+$$
+并且
+$$
+\delta^*(p,w)\notin F \Rightarrow \delta^*(q,w)\notin F
+$$
+则称DFA的两个状态$$p$$和$$q$$是**不可区分的（indistinguishable）**，否则是**可区分的（distinguishable）**。
+
+不可区分具有等价性。
+
+化简方法为，将所有不可区分状态构成的集合合并为一个状态，@例如将下图的DFA化简
+
+> 具体的reduce程序略。
+
+![Screenshot from 2020-09-11 10-34-18.png](https://i.loli.net/2020/09/11/2DJNLgdmrnatyMK.png)
+
+
+
+**定理** 给定DFA $$M$$，应用程序reduce可以得到另一个DFA $$\hat M$$，满足$$L(M)=L(\hat M)$$，并且$$\hat M$$是所有接受$$L(M)$$的DFA中状态数最少的。
+
+> 证明略。
+
+
+
