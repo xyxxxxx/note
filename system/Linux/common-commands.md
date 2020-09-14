@@ -196,7 +196,7 @@ $ sudo -u             # run as user
 $ ps -ef			  # show all processes
 $ ps -aux
 
-$ top                 # show real-time processes
+$ top                 # show real-time processes, equal task manager on Windows
 $ top -d 2            # update every 2s
 $ top -p <num>        # show designated process
 
@@ -221,9 +221,13 @@ $ rpm -qa | grep <name>	  # search package with name
 $ rpm -e --nodeps <name>  # uninstall package
 
 # environment variable
+$ env                     # show environment variables
 $ export -p               # show environment variables
 $ export var=10           # define environment variable, assign
 $ echo $ENV               # print environment variable
+
+# shortcut command
+$ alias <alias>=<command>
 
 ```
 
