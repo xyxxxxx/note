@@ -261,8 +261,19 @@ $$
 $$
 
 
+
 ## 反向传播算法
 
+### 汇聚层
+
+当第$$l + 1$$层为汇聚层时，因为汇聚层是下采样操作，$$l + 1$$层的每个神经元的误差项$$δ$$对应于第$$l$$ 层的相应特征映射的一个区域。$$l$$层的第$$p$$个特征映射中的每个神经元都有一条边和$$l + 1$$层的第$$p$$个特征映射中的一个神经元相连。
+
+第$$l$$层的第$$p$$个特征映射的误差项$$\pmb \delta^{(l,p)}$$的具体推导过程如下：
+$$
+\pmb \delta^{(l,p)}\triangleq\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l,p)}}\\
+=\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l+1,p)}}\frac{\partial \pmb Z^{(l+1,p)}}{\partial \pmb X^{(l,p)}}\frac{\partial \pmb X^{(l,p)}}{\partial \pmb Z^{(l,p)}}\\
+=\pmb \delta^{(l+1,p)} f_l'(\pmb Z^{(l,p)})
+$$
 
 
 

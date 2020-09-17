@@ -2,13 +2,7 @@
 >
 > 所有矩阵用非粗体的大写字母表示
 
-# 超越运算
-
-对于$$M\times N$$维矩阵$$A\in \mathbb{R}^{M\times N}$$，以$$A$$为参数的超越函数使用无穷级数的方法计算，例如
-$$
-\exp(A)=1+A+\frac{A^2}{2!}+\cdots\\
-\sin(A)=A-\frac{A^3}{3!}+\frac{A^5}{5!}-\cdots
-$$
+> [在线计算矩阵导数工具](http://www.matrixcalculus.org/)
 
 
 
@@ -60,6 +54,21 @@ $$
 
 
 
+@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \R^n,A\in\R^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
+$$
+y=\pmb x^{\rm T}A\pmb x=\sum_{i=1}^n \sum_{j=1}^n a_{ij}x_ix_j\quad(二次型)\\
+\frac{\partial y}{\partial x_1}=\sum_{i=1}^na_{i1}x_i+\sum_{j=1}^na_{1j}x_j=(A^{\rm T}\pmb x)_1+(A\pmb x)_1\\
+\therefore \frac{\partial y}{\partial \pmb x}=A\pmb x+A^{\rm T}\pmb x
+$$
+
+
+@$$y={\rm tr}(A)$$其中$$A\in \R^{n\times n}$$，计算$$\frac{\partial y}{\partial A}$$。
+$$
+\frac{\partial y}{\partial a_{ij}}=\frac{\partial\sum_{k=1}^na_{kk}}{\partial a_{ij}}=\begin{cases}1,&i=j\\
+0,&i\neq j
+\end{cases}\\
+\therefore \frac{\partial y}{\partial A}=I
+$$
 
 
 
@@ -104,12 +113,42 @@ $$
    $$
    \frac{\partial z}{\partial x_{ij}}=\frac{\partial \pmb y}{\partial x_{ij}}\frac{\partial z}{\partial \pmb y} \in \mathbb{R}
    $$
+   
+4. 若$$X\in \mathbb{R}^{M\times N}$$，$$Y=f(X)\in \mathbb{R}^{M\times N}$$，$$z=g(Y)\in \mathbb{R}$$，则
+   $$
+   \frac{\partial z}{\partial x_{ij}}=\sum_{p=1}^{M}\sum_{q=1}^{N}\frac{\partial y_{pq}}{\partial x_{ij}}\frac{\partial z}{\partial y_{pq}} \in \mathbb{R}
+   $$
 
 
 
 ## 导数计算的微分方法
 
-例如，$$W\in\R^{R\times S}$$，$$X=g(W)=AWB\in\R^{M\times N}$$，$$y=f(X)\in \R$$，$$\frac{\partial y}{\partial X}$$已知，求$$\frac{\partial y}{\partial W}$$。
+微分方法通过推导出微分与导数的关系式得到导数
+$$
+{\rm d}y=(\frac{\partial y}{\partial \pmb x})^{\rm T}{\rm d}\pmb x\\
+{\rm d}y={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}{\rm d}X)
+$$
+计算对矩阵的偏导数时，一些迹技巧（trace trick）非常有用：
+$$
+a={\rm tr}(a)\\
+{\rm tr}(A^{\rm T})={\rm tr}(A)\\
+{\rm tr}(A\pm B)={\rm tr}(A)\pm {\rm tr}(B)\\
+{\rm tr}(AB)={\rm tr}(BA)\\
+{\rm tr}(A^{\rm T}(B\odot C))={\rm tr}((A\odot B)^{\rm T} C)
+$$
+
+
+@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \R^n,A\in\R^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
+$$
+{\rm d}y={\rm d}(\pmb x^{\rm T})A\pmb x+\pmb x^{\rm T}{\rm d}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+=({\rm d}\pmb x)^{\rm T}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+=\pmb x^{\rm T}A^{\rm T}{\rm d}\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+=(A\pmb x+A^{\rm T}\pmb x)^{\rm T}{\rm d}\pmb x\\
+\therefore \frac{\partial y}{\partial \pmb x}=A\pmb x+A^{\rm T}\pmb x
+$$
+
+
+@$$W\in\R^{R\times S}$$，$$X=g(W)=AWB\in\R^{M\times N}$$，$$y=f(X)\in \R$$，$$\frac{\partial y}{\partial X}$$已知，求$$\frac{\partial y}{\partial W}$$。
 $$
 \because {\rm d}y={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}{\rm d}X)={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}A{\rm d}WB)={\rm tr}(B(\frac{\partial y}{\partial X})^{\rm T}A{\rm d}W)={\rm tr}((A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T})^{\rm T}{\rm d}W)\\
 \therefore \frac{\partial y}{\partial W}=A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T}
@@ -121,12 +160,34 @@ $$
 ## 常用导数
 
 $$
-\frac{\partial \pmb x}{\partial \pmb x}=\pmb I\\
-\frac{\partial ||\pmb x||^2}{\partial \pmb x}=2\pmb x\\
-\frac{\partial A \pmb x}{\partial \pmb x}=A^{\rm T}\\
-\frac{\partial A \pmb x}{\partial \pmb x^{\rm T}}=\frac{\partial \pmb x^{\rm T} A}{\partial \pmb x}=A\\
-\frac{\partial \pmb x^{\rm T} A \pmb x}{\partial \pmb x}=(A+A^{\rm T})\pmb x\\
+\frac{\partial}{\partial \pmb x}\pmb x=I\\
+\frac{\partial}{\partial \pmb x}A\pmb x=A^{\rm T},\ 
+\frac{\partial}{\partial \pmb x}A^{\rm T}\pmb x=\frac{\partial}{\partial \pmb x}\pmb x^{\rm T}A =A\quad A换成\pmb a同样成立\\
+\frac{\partial}{\partial \pmb x}\pmb x^{\rm T} A \pmb x=(A+A^{\rm T})\pmb x\\
+\frac{\partial}{\partial \pmb x}||\pmb x||^2=2\pmb x\\
 $$
+
+$$
+\frac{\partial}{\partial X}X=I\otimes I\\
+\frac{\partial}{\partial X}AX=I\otimes A^{\rm T}\\
+\frac{\partial}{\partial X}X^{-1}=\\
+\frac{\partial}{\partial X}\pmb a^{\rm T}X\pmb b=\pmb a\pmb b^{\rm T},\frac{\partial}{\partial X}\pmb a^{\rm T}X^{\rm T}\pmb b=\pmb b\pmb a^{\rm T}\\
+\frac{\partial}{\partial X}\pmb a^{\rm T}X^{\rm T}X\pmb b=X(\pmb a\pmb b^{\rm T}+\pmb b\pmb a^{\rm T})\\
+\frac{\partial}{\partial X}{\rm tr}(X)=I\\
+\frac{\partial}{\partial X}{\rm tr}(XA)=A^{\rm T},\frac{\partial}{\partial X}{\rm tr}(X^{\rm T}A)=\frac{\partial}{\partial X}{\rm tr}(AX^{\rm T})=A\\
+\frac{\partial}{\partial X}{\rm tr}(AXB)=A^{\rm T}B^{\rm T},\frac{\partial}{\partial X}{\rm tr}(AX^{\rm T}B)=BA\\
+\frac{\partial}{\partial X}{\rm det}(X)=(X^*)^{\rm T},\quad X^*为伴随矩阵\\
+
+
+\frac{\partial}{\partial X}||X||_F^2=2X\\
+$$
+
+> $$
+> I\otimes I=\begin{bmatrix}I & \cdots & \pmb 0\\
+> \vdots & \ddots & \vdots\\
+> \pmb 0 &\cdots & I
+> \end{bmatrix}
+> $$
 
 
 
@@ -150,11 +211,13 @@ $$
 
 
 
-## 运算法则
+## 常用微分
 
 | 加减法     | $${\rm d}(X\pm Y)={\rm d}X\pm {\rm d}Y$$                     |
 | ---------- | ------------------------------------------------------------ |
-| 乘法       | $${\rm d}(XY)=Y{\rm d}X+X{\rm d}Y$$                          |
+| 数乘       | $${\rm d}(\alpha X)=\alpha {\rm d} X$$                       |
+| 乘法       | $${\rm d}(XY)={\rm d}X\ Y+X{\rm d}Y$$                        |
+| 幂         | $${\rm d}X^n=$$                                              |
 | 转置       | $${\rm d}(X^{\rm T})=({\rm d}X)^{T}$$                        |
 | 迹         | $${\rm d}{\rm tr}(X)={\rm tr}({\rm d}X)$$                    |
 | 逆         | $${\rm d}X^{-1}=-X^{-1}{\rm d}XX^{-1}$$                      |
@@ -162,6 +225,7 @@ $$
 |            | $${\rm d}|X|=|X|{\rm tr}(X^{-1}{\rm d}X)$$, 如果$$X$$可逆    |
 | 逐元素乘法 | $${\rm d}(X\odot Y)={\rm d}X\odot Y+X\odot {\rm d}Y $$       |
 | 逐元素函数 | $${\rm d}\sigma(X)=\sigma'(X)\odot {\rm d}X$$, $$\sigma$$为逐元素函数运算 |
+|            |                                                              |
 
 
 

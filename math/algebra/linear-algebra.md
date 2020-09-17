@@ -1,3 +1,5 @@
+> 参考[Matrix Cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf)
+
 # 向量空间
 
 ## 向量
@@ -198,7 +200,8 @@ y_m=a_{m1}x_1+a_{m2}x_2+⋯+a_{mn}x_n
 $$
 
 
-## 矩阵运算
+
+## 基本运算
 
 设有两个$$m×n$$矩阵$${\pmb A}$$和$${\pmb B}$$，那么矩阵$${\pmb A}$$与$$\pmb{B}$$的和记作$$\pmb{ A+B}$$，规定为
 $$
@@ -211,6 +214,8 @@ a_{m1}+b_{m1}&a_{m2}+b_{m2}&⋯&a_{mn}+b_{mn}
 $$
 矩阵加法满足交换律和结合律。记$$-{\pmb A}=(-a_{ij})$$。
 
+
+
 数$$\lambda$$与矩阵$$\pmb{A}$$的乘积记作$$\lambda{\pmb A}$$或$${\pmb A}\lambda$$，规定为
 $$
 \lambda{\pmb A}={\pmb A}\lambda=
@@ -222,6 +227,8 @@ $$
 \end{bmatrix}
 $$
 数乘矩阵满足结合律和分配律。
+
+
 
 设$$\pmb{A}=(a_{ij})$$是$$m×s$$矩阵，$$\pmb{B}=(b_{ij})$$是$$s×n$$矩阵，那么矩阵$${\bf A}$$和$${\bf B}$$的乘积是$$m×n$$矩阵$$\pmb{C}=(c_{ij})$$，其中
 $$
@@ -239,11 +246,14 @@ $$
 $$
 \pmb A^{k+1}=\pmb A^k \pmb A
 $$
-转置矩阵记作$${\pmb A^ \rm T}$$，满足
-$$
-{({\pmb{AB}})^{\rm T}=
-\pmb{B}^{\rm T}\pmb{A}^{\rm T}}
-$$
+
+
+$$\pmb A=\{a_{ij}\}\in \R^{m\times n}$$转置记作$${\pmb A^ \rm T}$$，定义为$$({\pmb A^ \rm T})_{ij}=a_{ji},{\pmb A^ \rm T}\in\R^{n\times m}$$。转置满足以下性质
+
++ $${({\pmb{AB}})^{\rm T}=\pmb{B}^{\rm T}\pmb{A}^{\rm T}}$$
+
+
+
 
 
 ## 逆矩阵
@@ -259,11 +269,8 @@ $$
 ### 性质
 
 + 矩阵$$\pmb{A}$$可逆$$\iff 矩阵\pmb A为非奇异矩阵 \iff \vert \pmb{A}\vert \neq 0$$
-
-+ $$
-  ({\pmb A \pmb B})^{-1}=\pmb B^{-1}\pmb A^{-1}
-  $$
-
++ $$({\pmb A \pmb B})^{-1}=\pmb B^{-1}\pmb A^{-1}$$
++ $$(\pmb A^{-1})^{\rm T}=(\pmb A^{\rm T})^{-1}$$
 + 
 
 
@@ -315,7 +322,7 @@ $$
   \end{vmatrix}
   $$
 
-+ $$|\pmb A\pmb B|=|\pmb A||\pmb B|$$
++ $${\rm det}(\pmb A\pmb B)={\rm det}(\pmb A){\rm det}(\pmb B)$$
 
 + $$
   \begin{vmatrix}
@@ -325,7 +332,6 @@ $$
   =\begin{vmatrix}\pmb A\end{vmatrix}\begin{vmatrix}\pmb B\end{vmatrix}
   $$
 
-  
 
 ### 展开
 
@@ -337,7 +343,8 @@ $$
 $$
 
 
-## 秩，迹，范式
+
+## 秩，迹
 
 一个矩阵$$\pmb A$$的列秩是$$\pmb A$$的线性无关的列向量数量，行秩是$$\pmb A$$的线性无关的行向量数量。一个矩阵的列秩和行秩总是相等的，简称为**秩(rank)**，记作$$R(\pmb A)$$。
 
@@ -354,12 +361,11 @@ $$
 
 
 
-方阵$$\pmb A$$的对角线元素之和称为它的**迹(trace)**，记为$$tr(\pmb A)$$。
+方阵$$\pmb A$$的对角线元素之和称为它的**迹(trace)**，记为$${\rm tr}(\pmb A)$$。
 
 **性质**
 
-+ $$tr(\pmb A\pmb B) = tr(\pmb B\pmb A)$$
-  
++ $${\rm tr}(\pmb A\pmb B) = {\rm tr}(\pmb B\pmb A)$$
 
 
 
@@ -375,8 +381,7 @@ $$
 $$
 该其次线性方程组有非零解的充要条件是系数行列式
 $$
-\vert \pmb A -\lambda \pmb I \vert =0 \\
-\rm{i.e.}\;\begin{vmatrix}
+p(\lambda)= \vert \pmb A -\lambda \pmb I \vert =\begin{vmatrix}
 a_{11}-\lambda &a_{12}&\cdots&a_{1n}\\
 a_{21} &a_{22}-\lambda&\cdots&a_{2n}\\
 \vdots &\vdots&&\vdots\\
@@ -389,8 +394,9 @@ $$
 
 设矩阵$${\pmb A}$$的特征值为$$\lambda_1,\lambda_2,\cdots,\lambda_n$$，则
 
-+ $$\lambda_1+\lambda_2+\cdots+\lambda_n=tr(\pmb A)$$
++ $$\lambda_1+\lambda_2+\cdots+\lambda_n={\rm tr}(\pmb A)$$
 + $$\lambda_1\lambda_2\cdots\lambda_n={\rm det}\pmb A$$
++ $$p(\pmb A)=\pmb 0$$
 
 
 
@@ -406,8 +412,6 @@ $$
 + n阶矩阵$${\pmb A}$$与对角阵相似的充要条件是$${\pmb A}$$有n个线性无关的特征向量
   + 若特征方程有n个互不相等的根，则$${\pmb A}$$与对角阵相似
   + 若特征方程有重根，则$$\pmb A$$与相应的若尔当标准型相似
-
-
 
 
 
@@ -447,11 +451,82 @@ $$
 
 
 
+## 矩阵的特殊运算
+
+### 有穷级数
+
+$$
+\pmb I+\pmb X+\pmb X^2+\cdots+\pmb X^{n-1} = (\pmb X^n-\pmb I)(\pmb  X-\pmb I)^{-1}
+$$
+
+
+
+### 无穷级数
+
+对于一维的超越函数，可以以无穷级数的方式定义以方阵为参数的此函数，例如
+$$
+\exp(\pmb A)=\pmb I+\pmb A+\frac{\pmb A^2}{2!}+\cdots\\
+\sin(\pmb A)=\pmb A-\frac{\pmb A^3}{3!}+\frac{\pmb A^5}{5!}-\cdots
+$$
+**性质**
+
++ 如果$$\pmb A$$能够特征分解为$$\pmb P\pmb B\pmb P^{-1}$$，那么$$f(\pmb A)=\pmb Pf(\pmb B)\pmb P^{-1}$$
++ 如果？，$$\lim_{n\to \infty}\pmb A^n\to \pmb 0$$
++ $$f(\pmb A\pmb B)\pmb A=\pmb Af(\pmb B\pmb A)$$
+
+指数函数的一些性质包含
+
++ $$\exp(\pmb A)\exp(\pmb B)=\exp(\pmb A+\pmb B)$$，如果方阵$$\pmb A,\pmb B$$是可交换的
+
++ $$\exp^{-1}(\pmb A)=\exp(-\pmb A)$$
+
++ $$
+  \frac{{\rm d}}{{\rm d}t}e^{t\pmb A}=\pmb Ae^{t\pmb A}
+  $$
+
++ $$
+  \frac{{\rm d}}{{\rm d}t}{\rm tr}(e^{t\pmb A})={\rm tr}(\pmb Ae^{t\pmb A})
+  $$
+
++ $${\rm det}(\exp(\pmb A))=\exp({\rm tr}(\pmb A))$$
+
+
+
+### Kronecker积
+
+矩阵$$\pmb A_{m\times n}$$和$$\pmb B_{p\times q}$$的Kronecker积记作$$\pmb A\otimes \pmb B$$，定义为
+$$
+\pmb A\otimes \pmb B=\begin{bmatrix}a_{11}\pmb B & \cdots & a_{1n}\pmb B\\
+\vdots & \ddots & \vdots\\
+a_{m1}\pmb B & \cdots & a_{mn}\pmb B\\
+\end{bmatrix}
+$$
+
+
+### Vec算子
+
+vec算子将矩阵$$\pmb A_{m\times n}$$的所有列汇集到一列，定义为
+$$
+{\rm vec}(\pmb A)=[a_{11},a_{21},\cdots,a_{m1},\cdots,a_{1n},a_{2n},\cdots,a_{mn}]^{\rm T}
+$$
+
+
+### 范数
+
+$$
+||\pmb A||_1=\max_j\sum_i|a_{ij}|\\
+||\pmb A||_2=\sqrt{\max{\rm eig}(\pmb A^{\rm T}\pmb A)}\quad{\rm eig}(\cdot)表示矩阵的所有特征值的集合 \\
+||\pmb A||_p=(\max_{||\pmb x||_p=1}||\pmb A\pmb x||_p)^{1/p}\\
+||\pmb A||_\infty=\max_i\sum_j|a_{ij}|\\
+||\pmb A||_F=\sqrt{\sum_{i,j}|a_{ij}|^2}\\
+||\pmb A||_{\max}=\max_{ij}|a_{ij}|\\
+$$
 
 
 
 
-## 矩阵类型
+
+## 矩阵的特殊类型
 
 **正交矩阵**
 
@@ -489,8 +564,6 @@ $$
 
 
 
-
-
 ## 线性方程组的解
 
 **定理** $$n$$元线性方程组$$\pmb{Ax=b}$$
@@ -512,10 +585,6 @@ $$
 # 矩阵分解
 
 ## 特征分解
-
-
-
-
 
 
 

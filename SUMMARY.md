@@ -173,7 +173,10 @@
 + [神经网络与深度学习](ML/nndl/nndl.md)
   + [机器学习概论](ML/nndl/ml-introduction.md)
   + [线性回归](ML/nndl/linear-regression.md)
-+ Tools
++ [机器学习平台与工具](ML/platform-and-tool/platform-and-tool.md)
+  + [TensorFlow](ML/platform-and-tool/tensorflow.md)
+  + [TensorFlow实例](ML/platform-and-tool/tensorflow-example.md)
+  + [Python库](python-lib.md)
 
 
 ## 数学
@@ -186,6 +189,7 @@
   + [一元微积分](math/analysis/calculus.md)
   + [多元微积分](math/analysis/multivariate-calculus.md)
   + [微分方程](math/analysis/differential-equation.md)
+  + [矩阵微积分](math/analysis/matrix-calculus.md)
   + [数学物理方法](math/analysis/mathematical-physics.md)
 + [应用数学](math/applied-mathematics/applied-mathematics.md)
   + [概率论](math/applied-mathematics/probability-theory.md)
@@ -202,8 +206,14 @@
 
 ## 其它计算机相关理论课程
 
-+ [形式语言与自动机]()
-  + 有穷自动机
++ [形式语言与自动机](formal-language-and-automata/formal-language-and-automata.md)
+  + [概论](formal-language-and-automata/introduction.md)
+  + [有穷自动机](formal-language-and-automata/finite-automata.md)
+  + [正则语言](formal-language-and-automata/regular-language.md)
+  + [上下文无关语言](formal-language-and-automata/context-free-language.md)
+  + [下推自动机](formal-language-and-automata/pushdown-automata.md)
+  + [图灵机](formal-language-and-automata/turing-machine.md)
+  + [形式语言](formal-language-and-automata/formal-language.md)
 + [信息论](other/information-theory/information-theory.md)
   + [熵](other/information-theory/entropy.md)
 
