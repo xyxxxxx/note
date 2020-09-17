@@ -22,9 +22,13 @@ $$S$$自身包含每次试验的结果，因此总是发生，称为**必然事�
 
 
 
-事件$$E$$和事件$$F$$的**并集(union)**记作$$E\cup F$$，事件$$E$$和事件$$F$$的**交集(intersection)**记作$$E\cap F$$或$$EF$$。如果$$EF=\varnothing$$，则称$$E$$与$$F$$**互不相容(mutually exclusive)**。
+事件$$E$$**包含**事件$$F$$记作$$F\sub E$$，表示事件$$F$$的发生必定导致事件$$E$$发生。若$$F\sub E,E\sub F$$，即$$E=F$$，则称事件$$E$$和事件$$F$$**相等**。
 
-对于任意事件$$E$$，我们定义一个它的**对立事件(complement)**$$E^c$$，由样本空间中不属于$$E$$的所有结果构成。换言之，$$E$$发生当且仅当$$E^c$$没有发生。
+事件$$E$$和事件$$F$$的**并集(union)**记作$$E\cup F$$，$$E\cup F$$发生当且仅当事件$$E$$和事件$$F$$至少有一个发生。事件$$E$$和事件$$F$$的**交集(intersection)**记作$$E\cap F$$或$$EF$$，$$EF$$发生当且仅当事件$$E$$和事件$$F$$同时发生。$$\bigcup_{k=1}^nE_k$$为事件$$E_1,E_2,\cdots,E_n$$的并集，$$\bigcap_{k=1}^nE_k$$为事件$$E_1,E_2,\cdots,E_n$$的交集。
+
+事件$$E$$和事件$$F$$的**差集**记作$$E-F$$，$$E-F$$发生当且仅当事件$$E$$发生且事件$$F$$不发生。
+
+如果$$EF=\varnothing$$，则称$$E$$与$$F$$**互不相容(mutually exclusive)**。如果$$EF=\varnothing,E\cup F=S$$，则称$$E$$与$$F$$互为**对立事件(complement)**；对于任意事件$$E$$，总存在一个它的对立事件$$\overline{E}$$，由样本空间中不属于$$E$$的所有结果构成。
 
 
 
@@ -42,6 +46,29 @@ $$
 
 $$P(E)$$称为事件$$E$$的**概率(probability)**。若$$P(E)=P(F)$$，则称事件$$E$$和$$F$$的发生是等可能的。
 
+根据定义，概率具有以下性质：
+
++ $$P(\varnothing)=0$$
+
++ $$P(\bigcup_{i=1}^n E_i)=\sum_{i=1}^n P(E_i)$$
+
++ 若$$E\sub F$$，则$$P(F-E)=P(F)-P(E)$$
+
++ $$P(\overline{E})=1-P(E)$$
+
++ 考虑$$P(E\cup F)$$
+  $$
+  P(E)=P((E-F)\cup EF)=P(E-F)+P(EF)\\
+  P(F)=P((F-E)\cup EF)=P(F-E)+P(EF)\\
+  P(E\cup F)=P((E-F)\cup EF\cup (F-E))=P(E-F)+P(EF)+P(F-E)\\
+  =P(E)+P(F)-P(EF)
+  $$
+  事实上，由归纳法可以证明
+  $$
+  P(E_1\cup E_2\cdots\cup E_n)=\sum_i P(E_i)-\sum_{i<j}P(E_iE_j)+\sum_{i<j<k}P(E_iE_jE_k)-\cdots+(-1)^{n+1}P(E_1E_2\cdots E_n)
+  $$
+  上式即为容斥原理。
+
 
 
 @试验“掷骰子”中，事件“骰子点数为偶数”的概率为
@@ -53,25 +80,13 @@ $$
 
 
 
-由于$$EE^c=\varnothing,E\cup E^c=S$$，因此
-$$
-1=P(S)=P(E\cup E^c)=P(E)+P(E^c)\\
-P(E^c)=1-P(E)
-$$
-考虑$$P(E\cup F)$$
-$$
-P(E)=P((E-F)\cup EF)=P(E-F)+P(EF)\\
-P(F)=P((F-E)\cup EF)=P(F-E)+P(EF)\\
-P(E\cup F)=P((E-F)\cup EF\cup (F-E))=P(E-F)+P(EF)+P(F-E)\\
-=P(E)+P(F)-P(EF)
-$$
-事实上，由归纳法可以证明
-$$
-P(E_1\cup E_2\cdots\cup E_n)=\sum_i P(E_i)-\sum_{i<j}P(E_iE_j)+\sum_{i<j<k}P(E_iE_jE_k)-\cdots+(-1)^{n+1}P(E_1E_2\cdots E_n)
-$$
-上式即为容斥原理。
+## 古典概型
 
 
 
 ## 条件概率
+
+$$
+P(E|F)=\frac{P(EF)}{P(F)}
+$$
 

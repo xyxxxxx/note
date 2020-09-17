@@ -96,7 +96,7 @@ print(reshape)
 #  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], shape=(10, 12), dtype=float32)
 
 reshape = tf.reshape(rank_4_tensor,[4,5,6])
-reshape = tf.reshape(reshape,[6,5,4])
+reshape = tf.reshape(reshape,[7,-1]) # error
 ```
 
 operation
