@@ -46,7 +46,10 @@ print(rank_3_tensor)
 ones = tf.ones([2,2])
 
 # all zeros tensor
-ones = tf.zeros([2,2])
+zeros = tf.zeros([2,2])
+
+# sequence
+sqc = tf.range(1,5) # [1 2 3 4]
 ```
 
 convert to NumPy array
@@ -96,7 +99,7 @@ print(reshape)
 #  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], shape=(10, 12), dtype=float32)
 
 reshape = tf.reshape(rank_4_tensor,[4,5,6])
-reshape = tf.reshape(reshape,[7,-1]) # error
+reshape = tf.reshape(reshape,[7,-1])        # error
 ```
 
 operation
@@ -124,8 +127,18 @@ print(a @ b, "\n") # matrix multiplication
 # [[3 3]
 #  [7 7]], shape=(2, 2), dtype=int32) 
 
+
 print(tf.reduce_max(a)) # max element
 print(tf.argmax(a))     # index of max element
+```
+
+```python
+x = tf.reshape(tf.range(1,4),[3,1])
+y = tf.range(1,5)
+print(tf.multiply(x,y))  # return 3*4 matrix
+print(tf.multiply(y,x))  # return 3*4 matrix
+
+print(tf.broadcast_to(x, [3, 3]))  # extend tensor
 ```
 
 index & slice
@@ -169,10 +182,117 @@ print(rank_3_tensor[:, :, 4])
 #  [24 29]], shape=(3, 2), dtype=int32)
 ```
 
+type casting
+
+```python
+the_f64_tensor = tf.constant([2.2, 3.3, 4.4], dtype=tf.float64)
+the_f16_tensor = tf.cast(the_f64_tensor, dtype=tf.float16)
+the_u8_tensor = tf.cast(the_f16_tensor, dtype=tf.uint8)
+print(the_u8_tensor)
+# tf.Tensor([2 3 4], shape=(3,), dtype=uint8)
+```
+
+ragged tensor
+
+```python
+ragged_list = [
+    [0, 1, 2, 3],
+    [4, 5],
+    [6, 7, 8],
+    [9]]
+ragged_tensor = tf.ragged.constant(ragged_list)
+print(ragged_tensor)
+# <tf.RaggedTensor [[0, 1, 2, 3], [4, 5], [6, 7, 8], [9]]>
+print(ragged_tensor.shape)
+# (4, None)
+```
+
+string tensor
+
+```python
+scalar_of_string = tf.constant("Gray wolf")
+print(scalar_of_string)
+# tf.Tensor(b'Gray wolf', shape=(), dtype=string)
+tensor_of_strings = tf.constant(["Gray wolf",
+                                 "Quick brown fox",
+                                 "Lazy dog"])
+print(tensor_of_strings)
+# tf.Tensor([b'Gray wolf' b'Quick brown fox' b'Lazy dog'], shape=(3,), dtype=string)
+
+unicode_string = tf.constant("🥳👍") # unicode string
+print(unicode_string)
+# <tf.Tensor: shape=(), dtype=string, numpy=b'\xf0\x9f\xa5\xb3\xf0\x9f\x91\x8d'>
+
+print(tf.strings.split(scalar_of_string, sep=" "))  # split
+# tf.Tensor([b'Gray' b'wolf'], shape=(2,), dtype=string)
+print(tf.strings.split(tensor_of_strings))          # split vector of strings
+# <tf.RaggedTensor [[b'Gray', b'wolf'], [b'Quick', b'brown', b'fox'], [b'Lazy', b'dog']]>
+
+# ascii char
+print(tf.strings.bytes_split(scalar_of_string))     # split to bytes
+# tf.Tensor([b'G' b'r' b'a' b'y' b' ' b'w' b'o' b'l' b'f'], shape=(9,), dtype=string)
+print(tf.io.decode_raw(scalar_of_string, tf.uint8)) # cast to ascii
+# tf.Tensor([ 71 114  97 121  32 119 111 108 102], shape=(9,), dtype=uint8)
+
+# unicode char
+print(tf.strings.unicode_split(unicode_string, "UTF-8"))
+print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
+# tf.Tensor([b'\xf0\x9f\xa5\xb3' b'\xf0\x9f\x91\x8d'], shape=(2,), dtype=string)
+# tf.Tensor([129395 128077], shape=(2,), dtype=int32)
+```
+
+sparse tensor
+
+```python
+sparse_tensor = tf.sparse.SparseTensor(indices=[[0, 0], [1, 2]],
+                                       values=[1, 2],
+                                       dense_shape=[3, 4])
+print(tf.sparse.to_dense(sparse_tensor))
+# tf.Tensor(
+# [[1 0 0 0]
+#  [0 0 2 0]
+#  [0 0 0 0]], shape=(3, 4), dtype=int32)
+```
 
 
 
+## variable
+
+```python
+
+```
 
 
 
 ## visualize
+
+```python
+# draw image
+plt.figure()
+plt.imshow(train_images[0], cmap=plt.cm.binary)
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+# draw multiple images
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+```
+
+
+
+## keras
+
+sequential
+
+```python
+
+```
+
