@@ -33,6 +33,7 @@
 | backslash                         | \                |
 | balanced binary tree              | 平衡二叉树       |
 | bandwidth                         | 带宽             |
+| batch                             | 批次             |
 | BBST, Balanced Binary Search Tree | 平衡二叉查找树   |
 | big-end                           | 大端             |
 | binary search                     | 二分查找         |
@@ -59,6 +60,7 @@
 | children                           | 子节点                       |
 | class                              | 类                           |
 | client                             | 客户                         |
+| CNN, Convolutional Neural Network  | 卷积神经网络                 |
 | comment                            | 注释                         |
 | commit                             | 提交修改                     |
 | compilation system                 | 编译系统                     |
@@ -70,6 +72,7 @@
 | concurrency, concurrent            | 并发                         |
 | congestion                         | 拥塞                         |
 | constant                           | 常量                         |
+| container                          | 容器                         |
 | context                            | 上下文；容器                 |
 | converge                           | 收敛                         |
 | cookie                             |                              |
@@ -147,6 +150,7 @@
 | gateway                       | 网关          |
 | GCC, GNU Compiler Collection  | GNU编译器套装 |
 | GPU, Graphics Processing Unit | 图形处理器    |
+| gradient                      | 梯度          |
 | graph                         | 图            |
 | graphics                      | 图像          |
 | Graphics                      | 图形学        |
@@ -212,6 +216,7 @@
 | LAN, Local Area Network | 局域网     |
 | language                | 语言       |
 | latency                 | 时延       |
+| layer                   | 层         |
 | leaf                    | 叶         |
 | library, lib            | 库         |
 | LIFO, Last-In-First-Out | 后进先出   |
@@ -227,6 +232,7 @@
 | log                     | 日志       |
 | loop                    | 循环       |
 | loopback                | 环回       |
+| loss                    | 损失       |
 | lower bound             | 下界       |
 |                         |            |
 
@@ -234,18 +240,20 @@
 
 ## M
 
-|                   |                |
-| ----------------- | -------------- |
-| machine learning  | 机器学习       |
-| magnetic disk     | 磁盘           |
-| matrix            | 矩阵           |
-| memory compaction | 内存紧缩       |
-| memory hierarchy  | 分层存储器体系 |
-| memory manager    | 存储管理器     |
-| merge sort        | 归并排序       |
-| migrate           | 迁移           |
-| module            | 模块           |
-| multicast         | 多播           |
+|                            |                |
+| -------------------------- | -------------- |
+| machine learning           | 机器学习       |
+| magnetic disk              | 磁盘           |
+| matrix                     | 矩阵           |
+| memory compaction          | 内存紧缩       |
+| memory hierarchy           | 分层存储器体系 |
+| memory manager             | 存储管理器     |
+| merge sort                 | 归并排序       |
+| metrics                    | 评价指标       |
+| migrate                    | 迁移           |
+| MLP, Multilayer Perceptron | 多层感知机     |
+| module                     | 模块           |
+| multicast                  | 多播           |
 
 
 
@@ -273,6 +281,8 @@
 | OOP, Object Oriented Programming | 面向对象编程 |
 | operand                          | 运算数       |
 | operator                         | 算子         |
+| optimize                         | 优化         |
+| optimizer                        | 优化器       |
 | OS, Operating System             | 操作系统     |
 | output                           | 输出         |
 | overflow                         | 上溢         |
@@ -335,23 +345,25 @@
 
 ## R
 
-|                           |                |
-| ------------------------- | -------------- |
-| random access             | 随机访问       |
-| RAM, Random Access Memory | 随机访问存储器 |
-| rear                      | 队尾           |
-| red-black tree            | 红黑树         |
-| reflection                | 反射           |
-| register                  | 寄存器         |
-| regular expression        | 正则表达式     |
-| relative path             | 相对路径       |
-| remote control            | 远程控制       |
-| repository                | 仓库           |
-| ROM, Read Only Memory     | 只读存储器     |
-| root                      | 根             |
-| root directory            | 根目录         |
-| router                    | 路由器         |
-| RTT, Round-Trip Time      | 往返时间       |
+|                               |                |
+| ----------------------------- | -------------- |
+| random access                 | 随机访问       |
+| RAM, Random Access Memory     | 随机访问存储器 |
+| rear                          | 队尾           |
+| red-black tree                | 红黑树         |
+| reflection                    | 反射           |
+| register                      | 寄存器         |
+| regular expression            | 正则表达式     |
+| relative path                 | 相对路径       |
+| remote control                | 远程控制       |
+| repository                    | 仓库           |
+| RL, Reinforcement Learning    | 强化学习       |
+| RNN, Recurrent Neural Network | 循环神经网络   |
+| ROM, Read Only Memory         | 只读存储器     |
+| root                          | 根             |
+| root directory                | 根目录         |
+| router                        | 路由器         |
+| RTT, Round-Trip Time          | 往返时间       |
 
 
 
@@ -396,7 +408,8 @@
 
 |                                    |                             |
 | ---------------------------------- | --------------------------- |
-| TCP, Transmission Control Protocol |                             |
+| TCP, Transmission Control Protocol | TCP协议                     |
+| tensor                             | 张量                        |
 | terminal                           | 终端                        |
 | thread                             | 线程                        |
 |                                    |                             |

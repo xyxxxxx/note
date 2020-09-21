@@ -1,4 +1,24 @@
-# Basic regression: Predict fuel efficiency
+# 线性回归
+
+```python
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+# 基础回归：预测燃油效率
 
 ```python
 import pathlib
@@ -38,10 +58,107 @@ sns.pairplot(train_dataset[["MPG", "Cylinders", "Displacement", "Weight"]], diag
 plt.show()
 
 train_stats = train_dataset.describe()
+train_stats.pop("MPG")
+train_stats = train_stats.transpose()
 print(train_stats)
 
 # separate label from data
+train_labels = train_dataset.pop('MPG')
+test_labels = test_dataset.pop('MPG')
 
+# normalize data
+def norm(x):
+  return (x - train_stats['mean']) / train_stats['std']
+normed_train_data = norm(train_dataset)
+normed_test_data = norm(test_dataset)
+
+# build model
+def build_model():
+  model = keras.Sequential([
+    layers.Dense(64, activation='relu', input_shape=[len(train_dataset.keys())]),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(1)
+  ])
+  optimizer = tf.keras.optimizers.RMSprop(0.001)
+  model.compile(loss='mse',              # 损失函数: 均方误差
+                optimizer=optimizer,
+                metrics=['mae', 'mse'])
+  return model
+model = build_model()
+print(model.summary())
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# dense (Dense)                (None, 64)                640       
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 64)                4160      
+# _________________________________________________________________
+# dense_2 (Dense)              (None, 1)                 65        
+# =================================================================
+# Total params: 4,865
+# Trainable params: 4,865
+# Non-trainable params: 0
+
+# train model
+EPOCHS = 1000
+
+# 早期停止防止过度拟合
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+
+history = model.fit(
+  normed_train_data, train_labels,
+  epochs=EPOCHS, validation_split = 0.2, verbose=0, 
+  callbacks=[early_stop])
+
+# draw history
+def plot_history(history):
+  hist = pd.DataFrame(history.history)
+  hist['epoch'] = history.epoch
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Abs Error [MPG]')
+  plt.plot(hist['epoch'], hist['mae'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mae'],
+           label = 'Val Error')
+  plt.ylim([0,5])
+  plt.legend()
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Square Error [$MPG^2$]')
+  plt.plot(hist['epoch'], hist['mse'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mse'],
+           label = 'Val Error')
+  plt.ylim([0,20])
+  plt.legend()
+  plt.show()
+
+plot_history(history)
+
+# test model
+loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=2)
+# 损失函数, 平均绝对误差, 均方误差
+
+# show prediction result
+test_predictions = model.predict(normed_test_data).flatten()
+plt.scatter(test_labels, test_predictions)
+plt.xlabel('True Values [MPG]')
+plt.ylabel('Predictions [MPG]')
+plt.axis('equal')
+plt.axis('square')
+plt.xlim([0,plt.xlim()[1]])
+plt.ylim([0,plt.ylim()[1]])
+_ = plt.plot([-100, 100], [-100, 100])
+plt.show()
+
+# show error distribution
+error = test_predictions - test_labels
+plt.hist(error, bins = 25)
+plt.xlabel("Prediction Error [MPG]")
+_ = plt.ylabel("Count")
+plt.show()
 ```
 
 
@@ -155,7 +272,25 @@ plt.show()
 
 
 
-# Basic classification: Classify images of clothing
+# 基础分类：识别图片的手写体数字
+
+```python
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+import matplotlib.pyplot as plt
+
+# import data
+handwrite_mnist = keras.datasets
+```
+
+
+
+
+
+
+
+# 基础分类：识别图片的服装类型
 
 ```python
 import tensorflow as tf

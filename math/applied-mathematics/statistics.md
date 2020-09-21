@@ -94,13 +94,15 @@ $$
 
 
 
-# 参数点估计,point estimation
+# 推断统计学
+
+## 参数点估计,point estimation
 
 构造适当的统计量$$\hat\theta=\hat\theta(X_1,X_2,\cdots,X_n)$$，估计总体分布的参数$$\theta$$，就称$$\hat\theta$$为参数$$\theta$$的点估计
 
 
 
-## 矩估计法,method of moment
+### 矩估计法,method of moment
 
 ![padogji2ntj4rvbne](C:\Users\Xiao Yuxuan\Documents\pic\padogji2ntj4rvbne.PNG)
 
@@ -112,7 +114,7 @@ $$
 
 
 
-## 极大似然估计法maximum likelihood estimation,MLE
+### 极大似然估计法maximum likelihood estimation,MLE
 
 > 以最大概率解释样本数据
 
@@ -138,7 +140,7 @@ $$
 
 
 
-## 点估计的无偏性和有效性
+### 点估计的无偏性和有效性
 
 **无偏性**
 
@@ -158,7 +160,7 @@ $$
 
 
 
-## 实例
+### 实例
 
 ![940t1gjir2nbfvsdqef](C:\Users\Xiao Yuxuan\Documents\pic\940t1gjir2nbfvsdqef.PNG)
 
@@ -174,9 +176,7 @@ $$
 
 
 
-
-
-# 参数区间估计method of interval
+## 参数区间估计method of interval
 
 ![vfdbmgkrhy5t4fvfsdas](C:\Users\Xiao Yuxuan\Documents\pic\vfdbmgkrhy5t4fvfsdas.PNG)
 
@@ -188,10 +188,9 @@ $$
 
 
 
-## 单正态总体
+### 单正态总体
 
-### $$\sigma$$已知$$\mu$$的置信区间
-
+$$\sigma$$已知$$\mu$$的置信区间
 $$
 枢轴量G=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)
 $$
@@ -202,16 +201,14 @@ $$
 
 
 
-### $$\sigma$$未知$$\mu$$的置信区间
-
+$$\sigma$$未知$$\mu$$的置信区间
 $$
 \frac{\overline{X}-\mu}{S/\sqrt{n}}\sim t(n-1)
 $$
 
 
 
-### $$\sigma$$未知$$\sigma^2$$的置信区间
-
+$$\sigma$$未知$$\sigma^2$$的置信区间
 $$
 \frac{(n-1)S^2}{\sigma^2}\sim \chi^2(n-1)
 $$
@@ -226,21 +223,21 @@ $$
 
 
 
-## 双正态总体
+### 双正态总体
 
-### Behrens-Fisher问题
+Behrens-Fisher问题
 
 ![vdbhg3htkj4yoyt4rfv](C:\Users\Xiao Yuxuan\Documents\pic\vdbhg3htkj4yoyt4rfv.PNG)
 
 
 
-### $$\mu_2-\mu_1:\sigma_1,\sigma_2$$已知情形
+$$\mu_2-\mu_1:\sigma_1,\sigma_2$$已知情形
 
 ![czefojr13knjghtbgnyh](C:\Users\Xiao Yuxuan\Documents\pic\czefojr13knjghtbgnyh.PNG)
 
 
 
-### $$\mu_2-\mu_1:\sigma_1=\sigma_2$$情形
+$$\mu_2-\mu_1:\sigma_1=\sigma_2$$情形
 
 ![zcxfqeojrwgithny351](C:\Users\Xiao Yuxuan\Documents\pic\zcxfqeojrwgithny351.PNG)
 
@@ -248,17 +245,17 @@ $$
 
 
 
-### $$\sigma_2^2/\sigma_1^2$$
+$$\sigma_2^2/\sigma_1^2$$
 
 ![zbfthkoj6nk3y5jhbt](C:\Users\Xiao Yuxuan\Documents\pic\zbfthkoj6nk3y5jhbt.PNG)
 
 
 
-## 大样本置信区间
+### 大样本置信区间
 
 样本容量足够大（>30）时，根据中心极限定理，可以利用<u>渐进正态分布</u>构造置信区间
 
-### Behrens-Fisher问题
+Behrens-Fisher问题
 
 ![zvxnkhty5t4kgrnkbbg](C:\Users\Xiao Yuxuan\Documents\pic\zvxnkhty5t4kgrnkbbg.PNG)
 
@@ -412,5 +409,36 @@ $$
 
 
 
+# 相关性和回归分析
+
+## 相关性
 
 
+
+## 线性回归
+
+
+
+| 年份 | 国内私人汽车保有量(万辆) | 国内人均家庭支出(美元) |
+| ---- | ------------------------ | ---------------------- |
+| 2011 | 7326.7938                | 2406.523               |
+| 2012 | 8838.6014                | 2711.693               |
+| 2013 | 10501.6827               | 3007.066               |
+| 2014 | 12339.3597               | 3241.226               |
+| 2015 | 14099.1037               | 3404.792               |
+| 2016 | 16330.2248               | 3474.861               |
+| 2017 | 18515.1085               | 3618.053               |
+| 2018 | 20574.9339               | 3949.071               |
+| 2019 | 22513.40                 | 4062.960               |
+
+> 数据来源https://www.ceicdata.com/zh-hans/china/no-of-motor-vehicle-private-owned/motor-vehicle-owned-private-total
+>
+> https://data.stats.gov.cn/search.htm?s=%E7%A7%81%E4%BA%BA%E6%B1%BD%E8%BD%A6%E6%8B%A5%E6%9C%89%E9%87%8F
+>
+> https://www.ceicdata.com/zh-hans/indicator/china/annual-household-expenditure-per-capita
+
+
+
+
+
+## 非线性回归

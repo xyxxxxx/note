@@ -1,6 +1,6 @@
-## tensor
+# tensor
 
-create
+## create
 
 ```python
 # scalar
@@ -52,7 +52,7 @@ zeros = tf.zeros([2,2])
 sqc = tf.range(1,5) # [1 2 3 4]
 ```
 
-convert to NumPy array
+## convert to NumPy array
 
 ```python
 np.array(rank_2_tensor)
@@ -60,7 +60,7 @@ np.array(rank_2_tensor)
 rank_2_tensor.numpy()
 ```
 
-shape
+## shape
 
 ```python
 rank_4_tensor = tf.zeros([3, 2, 4, 5])
@@ -102,7 +102,7 @@ reshape = tf.reshape(rank_4_tensor,[4,5,6])
 reshape = tf.reshape(reshape,[7,-1])        # error
 ```
 
-operation
+## operation
 
 ```python
 a = tf.constant([[1, 2],
@@ -141,7 +141,7 @@ print(tf.multiply(y,x))  # return 3*4 matrix
 print(tf.broadcast_to(x, [3, 3]))  # extend tensor
 ```
 
-index & slice
+## index & slice
 
 ```python
 # vector
@@ -182,7 +182,7 @@ print(rank_3_tensor[:, :, 4])
 #  [24 29]], shape=(3, 2), dtype=int32)
 ```
 
-type casting
+## type casting
 
 ```python
 the_f64_tensor = tf.constant([2.2, 3.3, 4.4], dtype=tf.float64)
@@ -192,7 +192,7 @@ print(the_u8_tensor)
 # tf.Tensor([2 3 4], shape=(3,), dtype=uint8)
 ```
 
-ragged tensor
+## ragged tensor
 
 ```python
 ragged_list = [
@@ -207,7 +207,7 @@ print(ragged_tensor.shape)
 # (4, None)
 ```
 
-string tensor
+## string tensor
 
 ```python
 scalar_of_string = tf.constant("Gray wolf")
@@ -241,7 +241,7 @@ print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
 # tf.Tensor([129395 128077], shape=(2,), dtype=int32)
 ```
 
-sparse tensor
+## sparse tensor
 
 ```python
 sparse_tensor = tf.sparse.SparseTensor(indices=[[0, 0], [1, 2]],
@@ -256,15 +256,213 @@ print(tf.sparse.to_dense(sparse_tensor))
 
 
 
-## variable
+
+
+# Variable
 
 ```python
 
 ```
 
+## GradientTape
+
+`tf.GradientTape()` 是一个自动求导的记录器。以下示例计算$$y=x^2$$在$$x=3$$位置的导数：
+
+```python
+import tensorflow as tf
+
+x = tf.Variable(initial_value=3.)   # 初值为3.0的变量
+with tf.GradientTape() as tape:     # 在 tf.GradientTape() 的上下文内，所有计算步骤都会被记录以用于求导
+    y = tf.square(x)
+y_grad = tape.gradient(y, x)        # 计算y关于x的导数
+print(y, y_grad)                    # tf.Tensor(6.0, shape=(), dtype=float32)
+```
+
+以下示例计算$$\mathcal{L}=||X\pmb w+b-\pmb y||^2$$在$$\pmb w=[1,2]^{\rm T},b=1$$位置的对$$\pmb w,b$$的导数：
+
+```python
+X = tf.constant([[1., 2.], [3., 4.]])
+y = tf.constant([[1.], [2.]])
+w = tf.Variable(initial_value=[[1.], [2.]])
+b = tf.Variable(initial_value=1.)
+with tf.GradientTape() as tape:
+    L = tf.reduce_sum(tf.square(tf.matmul(X, w) + b - y))
+    # tf.square 将输入张量的每个元素平方
+    # tf.reduce_sum 对输入张量的所有元素求和,输出一个标量
+w_grad, b_grad = tape.gradient(L, [w, b])        # 计算L(w, b)关于w, b的偏导数
+
+print(L, w_grad, b_grad)
+# tf.Tensor(125.0, shape=(), dtype=float32) tf.Tensor(
+# [[ 70.]
+#  [100.]], shape=(2, 1), dtype=float32) tf.Tensor(30.0, shape=(), dtype=float32)
+```
+
+可以看到计算结果
+$$
+\mathcal{L}=125,\ \frac{\partial \mathcal{L}}{\partial \pmb w}=\begin{bmatrix}70\\100\end{bmatrix},\ \frac{\partial \mathcal{L}}{\partial b}=30
+$$
 
 
-## visualize
+
+
+# keras
+
+在 TensorFlow 中，推荐使用 Keras（ `tf.keras` ）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
+
+keras 有两个重要的概念： **模型（model）** 和 **层（layer）** 。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
+
+## layer
+
+`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
+
+### Dense
+
+全连接层（fully-connected layer，`tf.keras.layers.Dense` ）是 Keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数，即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input = [batch_size, input_dim]` ，该层对输入张量首先进行 `tf.matmul(input, kernel) + bias` 的线性变换（ `kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation` ，从而输出形状为 `[batch_size, units]` 的二维张量。
+
+[![../../_images/dense.png](https://tf.wiki/_images/dense.png)](https://tf.wiki/_images/dense.png)
+
+其包含的主要参数如下：
+
++ `units` ：神经元的个数，也是输出张量的维度；
++ `activation` ：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu` 、 `tf.nn.tanh` 和 `tf.nn.sigmoid` ；
++ `use_bias` ：是否加入偏置向量 `bias` ，默认为 `True` ；
++ `kernel_initializer` 、 `bias_initializer` ：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0；
+
+该层包含权重矩阵 `kernel = [input_dim, units]` 和偏置向量 `bias = [units]`两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
+
+
+
+### Conv2D
+
+
+
+### MaxPooling2D
+
+
+
+
+
+## model
+
+### Sequential
+
+`Sequential`模型适用于FNN和CNN，其中每一层都有**一个输入张量和一个输出张量** 。
+
+以下`Sequential`模型，
+
+```python
+model = keras.Sequential(
+    [
+        layers.Dense(2, activation="relu", name="layer1"),
+        layers.Dense(3, activation="relu", name="layer2"),
+        layers.Dense(4, name="layer3"),
+    ]
+)
+# Call model on a test input
+x = tf.ones((3, 3))
+y = model(x)
+```
+
+等效于以下功能
+
+```python
+# Create 3 layers
+layer1 = layers.Dense(2, activation="relu", name="layer1")
+layer2 = layers.Dense(3, activation="relu", name="layer2")
+layer3 = layers.Dense(4, name="layer3")
+
+# Call layers on a test input
+x = tf.ones((3, 3))
+y = layer3(layer2(layer1(x)))
+```
+
+`Sequential`模型也可以用`add()`方法创建
+
+```python
+model = keras.Sequential()
+model.add(layers.Dense(2, activation="relu"))
+model.add(layers.Dense(3, activation="relu"))
+model.add(layers.Dense(4))
+```
+
+一旦创建了模型，就可以调用`summary()`方法显示其内容。
+
+
+
+CNN模型示例
+
+```python
+model = keras.Sequential()
+model.add(keras.Input(shape=(250, 250, 3)))  # 250x250 RGB images
+model.add(layers.Conv2D(32, 5, strides=2, activation="relu"))
+model.add(layers.Conv2D(32, 3, activation="relu"))
+model.add(layers.MaxPooling2D(3))
+
+model.add(layers.Conv2D(32, 3, activation="relu"))
+model.add(layers.Conv2D(32, 3, activation="relu"))
+model.add(layers.MaxPooling2D(3))
+model.add(layers.Conv2D(32, 3, activation="relu"))
+model.add(layers.Conv2D(32, 3, activation="relu"))
+model.add(layers.MaxPooling2D(2))
+
+model.add(layers.GlobalMaxPooling2D())
+
+# finally, add classification layer
+model.add(layers.Dense(10))
+
+model.summary()
+```
+
+
+
+### 自定义模型
+
+Keras 模型以类的形式呈现，我们可以通过继承 `tf.keras.Model` 这个 Python 类来定义自己的模型。在继承类中，我们需要重写 `__init__()` （构造函数，初始化）和 `call(input)` （模型调用）两个方法，同时也可以根据需要增加自定义的方法。
+
+```python
+class MyModel(tf.keras.Model):
+    def __init__(self):
+        super().__init__()     # Python 2 下使用 super(MyModel, self).__init__()
+        # 此处添加初始化代码（包含 call 方法中会用到的层），例如
+        # layer1 = tf.keras.layers.BuiltInLayer(...)
+        # layer2 = MyCustomLayer(...)
+
+    def call(self, input):
+        # 此处添加模型调用的代码（处理输入并返回输出），例如
+        # x = layer1(input)
+        # output = layer2(x)
+        return output
+
+    # 还可以添加自定义的方法
+```
+
+以下为自定义线性模型示例：
+
+```python
+class Linear(tf.keras.Model):
+    def __init__(self):
+        super().__init__()
+        self.dense = tf.keras.layers.Dense(
+            units=1,
+            activation=None,
+            kernel_initializer=tf.zeros_initializer(),
+            bias_initializer=tf.zeros_initializer()
+        )
+
+    def call(self, input):
+        output = self.dense(input)
+        return output
+```
+
+
+
+
+
+
+
+# visualize
+
+## example: gray image
 
 ```python
 # draw image
@@ -286,13 +484,30 @@ for i in range(25):
 plt.show()
 ```
 
-
-
-## keras
-
-sequential
+## example: line chart
 
 ```python
-
+def plot_history(history):
+  hist = pd.DataFrame(history.history)
+  hist['epoch'] = history.epoch
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Abs Error [MPG]')
+  plt.plot(hist['epoch'], hist['mae'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mae'],
+           label = 'Val Error')
+  plt.ylim([0,5])
+  plt.legend()
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Square Error [$MPG^2$]')
+  plt.plot(hist['epoch'], hist['mse'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mse'],
+           label = 'Val Error')
+  plt.ylim([0,20])
+  plt.legend()
+  plt.show()
 ```
 

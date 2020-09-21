@@ -7,19 +7,19 @@ OOP把对象作为程序的基本单元，一个对象包含了数据和操作�
 ## 类
 
 ```python
-class Student(object):			#类名通常首字母大写,继承object类
-    def __init__(self, name, score):	#构造函数,第一个参数恒为self,表示创建的实例自身,之后的参数表示实例的属性
+class Student(object):			# 类名通常首字母大写,继承object类
+    def __init__(self, name, score): # 构造函数,第一个参数恒为self,表示创建的实例自身,之后的参数表示实例的属性
         self.name = name
         self.score = score
     def print_score(self):				
         print('%s: %s' % (self.name, self.score))
 
-bart=Student()				#创建对象
-bart.name='Bart Simpson'	#对象属性赋值
+bart=Student()				    # 创建对象
+bart.name='Bart Simpson'	    # 对象属性赋值
 bart.score=59
-bart=Student('Bart Simpson',59)	#创建并初始化对象
+bart=Student('Bart Simpson',59)	# 创建并初始化对象
 
-print_score(bart)			#调用内部函数
+print_score(bart)			    # 调用内部函数
 bart.print_score()
 
 ```
@@ -150,13 +150,13 @@ print(day1.value)
 ```python
 class Student(object):			
     def __init__(self, name, score):	
-        self.__name = name		#定义为private变量,外部不可直接访问
+        self.__name = name		# 定义为private变量,外部不可直接访问
         self.__score = score
     def get_name(self):			
         return self.__name
-    def get_score(self):		#访问private变量的函数
+    def get_score(self):		# getter
         return self.__score
-    def set_score(self, score): #修改private变量的函数
+    def set_score(self, score): # setter
         self.__score = score 
     def print_score(self):				
         print('%s: %s' % (self.name, self.score))
@@ -182,11 +182,11 @@ class Cat(Animal):
         print('Cat is running...')        
         
 dog=Dog()
-dog.run()	#继承父类的函数
+dog.run()	# 继承父类的方法
 dog.eat()
 
 cat=Cat()
-cat.run()	#覆盖父类的函数,即多态
+cat.run()	# 覆盖父类的方法,即多态
 ```
 
 
