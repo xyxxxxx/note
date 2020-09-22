@@ -65,6 +65,8 @@ $$
 
 ![Screenshot from 2020-09-15 16-08-02.png](https://i.loli.net/2020/09/15/6C51TUiQjodLqwt.png)
 
+![卷积神经网络gif动图](https://geektutu.com/post/tensorflow2-mnist-cnn/cnn_image_sample.gif)
+
 
 
 ## 互相关
@@ -169,7 +171,7 @@ $$
 不失一般性，假设一个卷积层的结构如下：
 
 1. 输入特征映射组：$$\mathcal{X}\in\R^{M\times N\times D}$$为三维**张量(tensor)**，其中每个**切片(slice)**矩阵$$\pmb X^d\in \R^{M\times N}$$为一个输入特征映射，$$1\le d\le D$$
-2. 输出特征映射组：$$\mathcal{Y}\in\R^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$\pmb X^p\in \R^{M'\times N'}$$为一个输入特征映射，$$1\le p\le P$$
+2. 输出特征映射组：$$\mathcal{Y}\in\R^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$\pmb X^p\in \R^{M'\times N'}$$为一个输出特征映射，$$1\le p\le P$$
 3. 卷积核：$$\mathcal{W}\in \R^{U\times V\times P\times D}$$为四维张量，其中每个切片矩阵$$\pmb W^{p,d}\in \R^{U \times V}$$为一个二维卷积核，$$1\le d\le D,1\le p\le P$$。
 
 下图给出了卷积层的三维结构表示
@@ -193,7 +195,7 @@ $$
 
 ## 汇聚层
 
-**汇聚层(pooling layer)**也叫**子采样层(subsampling layer)**，其作用是进行特征选择，降低特征数量，从而减少参数数量。
+**汇聚层(池化层，pooling layer)**也叫**子采样层(subsampling layer)**，其作用是进行特征选择，降低特征数量，从而减少参数数量。
 
 卷积层虽然可以显著减少网络中连接的数量，但特征映射组中的神经元个数并没有显著减少。如果后面接一个分类器，分类器的输入维数依然很高，很容易出现过拟合。为了解决这个问题，可以在卷积层之后加上一个汇聚层，从而降低特征维数，避免过拟合。
 

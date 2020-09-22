@@ -173,10 +173,16 @@
 + [神经网络与深度学习](ML/nndl/nndl.md)
   + [机器学习概论](ML/nndl/ml-introduction.md)
   + [线性回归](ML/nndl/linear-regression.md)
+  + [线性模型](ML/nndl/linear-model.md)
+  + [前馈神经网络](ML/nndl/fnn.md)
+  + [卷积神经网络](ML/nndl/cnn.md)
+  + [循环神经网络](ML/nndl/fnn.md)
 + [机器学习平台与工具](ML/platform-and-tool/platform-and-tool.md)
   + [TensorFlow](ML/platform-and-tool/tensorflow.md)
   + [TensorFlow实例](ML/platform-and-tool/tensorflow-example.md)
-  + [Python库](python-lib.md)
+  + [NumPy](ML/platform-and-tool/numpy.md)
+  + [pandas](ML/platform-and-tool/pandas.md)
+  + [Matplotlib](ML/platform-and-tool/matplotlib.md)
 
 
 ## 数学
@@ -192,9 +198,8 @@
   + [矩阵微积分](math/analysis/matrix-calculus.md)
   + [数学物理方法](math/analysis/mathematical-physics.md)
 + [应用数学](math/applied-mathematics/applied-mathematics.md)
-  + [概率论](math/applied-mathematics/probability-theory.md)
+  + [概率论与随机过程](math/applied-mathematics/probability-theory-and-stochastic-process.md)
   + [统计学](math/applied-mathematics/statistics.md)
-  + [随机过程](math/applied-mathematics/stochastic-process.md)
   + [数学优化](math/applied-mathematics/optimization.md)
 + [离散数学](math/discrete-mathematics/discrete-mathematics.md)
   + [数理逻辑](math/discrete-mathematics/mathematical-logic.md)

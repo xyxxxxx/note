@@ -50,15 +50,40 @@ zeros = tf.zeros([2,2])
 
 # sequence
 sqc = tf.range(1,5) # [1 2 3 4]
+
+
 ```
 
-## convert to NumPy array
+
+
+## random
 
 ```python
-np.array(rank_2_tensor)
-# or
-rank_2_tensor.numpy()
+# normal distribution
+normal = tf.random.normal([2,2])
+# tf.random.normal(shape, mean=0.0, stddev=1.0, dtype=tf.dtypes.float32, seed=None)
+
+# uniform distribution
+uni_float = tf.random.uniform([2,2],0,10)
+uni_int = tf.random.uniform([2,2],0,10,tf.dtypes.int32)
+# tf.random.uniform(shape, minval=0, maxval=None, dtype=tf.dtypes.float32, seed=None)
 ```
+
+
+
+## convert from & to NumPy array
+
+```python
+# np 2 tf
+tf_tensor = tf.constant(np_array)
+
+# tf 2 np
+np_array = np.array(tf_tensor)
+# or
+np_array = tf_tensor.numpy()
+```
+
+
 
 ## shape
 
@@ -102,6 +127,8 @@ reshape = tf.reshape(rank_4_tensor,[4,5,6])
 reshape = tf.reshape(reshape,[7,-1])        # error
 ```
 
+
+
 ## operation
 
 ```python
@@ -140,6 +167,8 @@ print(tf.multiply(y,x))  # return 3*4 matrix
 
 print(tf.broadcast_to(x, [3, 3]))  # extend tensor
 ```
+
+
 
 ## index & slice
 
@@ -182,6 +211,8 @@ print(rank_3_tensor[:, :, 4])
 #  [24 29]], shape=(3, 2), dtype=int32)
 ```
 
+
+
 ## type casting
 
 ```python
@@ -191,6 +222,8 @@ the_u8_tensor = tf.cast(the_f16_tensor, dtype=tf.uint8)
 print(the_u8_tensor)
 # tf.Tensor([2 3 4], shape=(3,), dtype=uint8)
 ```
+
+
 
 ## ragged tensor
 
@@ -206,6 +239,8 @@ print(ragged_tensor)
 print(ragged_tensor.shape)
 # (4, None)
 ```
+
+
 
 ## string tensor
 
@@ -241,6 +276,8 @@ print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
 # tf.Tensor([129395 128077], shape=(2,), dtype=int32)
 ```
 
+
+
 ## sparse tensor
 
 ```python
@@ -263,6 +300,8 @@ print(tf.sparse.to_dense(sparse_tensor))
 ```python
 
 ```
+
+
 
 ## GradientTape
 
@@ -305,11 +344,15 @@ $$
 
 
 
+
+
 # keras
 
 在 TensorFlow 中，推荐使用 Keras（ `tf.keras` ）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
 
 keras 有两个重要的概念： **模型（model）** 和 **层（layer）** 。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
+
+
 
 ## layer
 
@@ -323,10 +366,10 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 
 其包含的主要参数如下：
 
-+ `units` ：神经元的个数，也是输出张量的维度；
-+ `activation` ：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu` 、 `tf.nn.tanh` 和 `tf.nn.sigmoid` ；
-+ `use_bias` ：是否加入偏置向量 `bias` ，默认为 `True` ；
-+ `kernel_initializer` 、 `bias_initializer` ：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0；
++ `units` ：神经元的个数，也是输出张量的维度
++ `activation` ：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu` 、 `tf.nn.tanh` 和 `tf.nn.sigmoid` 
++ `use_bias` ：是否加入偏置向量 `bias` ，默认为 `True` 
++ `kernel_initializer` 、 `bias_initializer` ：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0
 
 该层包含权重矩阵 `kernel = [input_dim, units]` 和偏置向量 `bias = [units]`两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
 
@@ -334,11 +377,56 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 
 ### Conv2D
 
+卷积层。
+
+其包含的主要参数如下：
+
++ `filters`：输出特征映射的个数
++ `kernel_size`：整数或整数1×2向量，（分别）表示二维卷积核的高和宽
++ `strides`：整数或整数1×2向量，（分别）表示卷积的纵向和横向步长
++ `padding`：`"valid"`表示对于不够卷积核大小的部分丢弃，`"same"`表示对于不够卷积核大小的部分补0，默认为`"valid"`
++ `activation`：激活函数，默认为无激活函数
++ `use_bias`：是否使用偏置，默认为使用
+
+示例：
+
+```python
+model = keras.models.Sequential()
+model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+model.add(keras.layers.MaxPooling2D((2, 2)))
+model.add(keras.layers.Conv2D(64, (3, 3), (2, 2), activation='relu'))
+# 卷积的步长设为2
+model.add(keras.layers.MaxPooling2D((2, 2)))
+# 7%2=1,因此丢弃一行一列的数据
+model.summary()
+
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# conv2d (Conv2D)              (None, 30, 30, 32)        896       
+# _________________________________________________________________
+# max_pooling2d (MaxPooling2D) (None, 15, 15, 32)        0         
+# _________________________________________________________________
+# conv2d_1 (Conv2D)            (None, 7, 7, 64)          18496     
+# _________________________________________________________________
+# max_pooling2d_1 (MaxPooling2 (None, 3, 3, 64)          0         
+# =================================================================
+# Total params: 19,392
+# Trainable params: 19,392
+# Non-trainable params: 0
+```
+
 
 
 ### MaxPooling2D
 
+汇聚层（池化层）。
 
+其包含的主要参数如下：
+
++ `pool_size`：最大汇聚的区域规模，默认为`(2,2)`
++ `strides`：最大汇聚的步长，默认为`None`
++ `padding`：`"valid"`表示对于不够区域大小的部分丢弃，`"same"`表示对于不够区域大小的部分补0，默认为`"valid"`
 
 
 
@@ -392,26 +480,40 @@ model.add(layers.Dense(4))
 CNN模型示例
 
 ```python
-model = keras.Sequential()
-model.add(keras.Input(shape=(250, 250, 3)))  # 250x250 RGB images
-model.add(layers.Conv2D(32, 5, strides=2, activation="relu"))
-model.add(layers.Conv2D(32, 3, activation="relu"))
-model.add(layers.MaxPooling2D(3))
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+# 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
+# 参数数量为3x32x(3x3)+32=896
+model.add(layers.MaxPooling2D((2, 2)))
+# 对每个2x2区块执行最大汇聚
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+# 13%2=1,因此丢失了一行一列
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+# 将4x4x64的输出展开为1x1024向量
+model.add(layers.Dense(64, activation='relu'))
 
-model.add(layers.Conv2D(32, 3, activation="relu"))
-model.add(layers.Conv2D(32, 3, activation="relu"))
-model.add(layers.MaxPooling2D(3))
-model.add(layers.Conv2D(32, 3, activation="relu"))
-model.add(layers.Conv2D(32, 3, activation="relu"))
-model.add(layers.MaxPooling2D(2))
-
-model.add(layers.GlobalMaxPooling2D())
-
-# finally, add classification layer
 model.add(layers.Dense(10))
-
-model.summary()
 ```
+
+
+
+### compile
+
+
+
+
+
+### fit
+
+
+
+
+
+### evaluate
+
+
 
 
 
@@ -483,6 +585,8 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])
 plt.show()
 ```
+
+
 
 ## example: line chart
 

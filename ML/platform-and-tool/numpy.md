@@ -20,7 +20,13 @@ sequence_matrix = np.arange(5, 11).reshape(2, 3)
 print(sequence_matrix)
 #[[ 5  6  7], 
 # [ 8  9 10]]
+```
 
+
+
+## random
+
+```python
 random_integer = np.random.randint(low=50, high=101, size=(6))
 print(random_integer)
 #[59 77 94 60 97 92]
@@ -37,6 +43,8 @@ print(random_float1)
 # randn() * std + mean represents any normal distribution
 random_floatn = pd.DataFrame(np.random.randn(4,4)* 4 + 3)
 ```
+
+
 
 
 

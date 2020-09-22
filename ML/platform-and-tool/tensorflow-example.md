@@ -1,18 +1,32 @@
-# 线性回归
+| 类型                | 数据类型                       | 结构                |               |
+| ------------------- | ------------------------------ | ------------------- | ------------- |
+| classify/regression | database/image/language/series | FNN, CNN, embedding |               |
+| **损失函数**        | **评价指标**                   | **优化器**          | **回调**      |
+| mse/crossentropy    | accuracy, mae, mse             | adam, RMSprop,      | EarlyStopping |
+| **训练集规模**      | **验证集规模**                 | **测试集规模**      |               |
+|                     |                                |                     |               |
+
+
 
 ```python
-import numpy as np
-import pandas as pd
-import tensorflow as tf
+# template
 
+# import data
+# preprocess data
+# check data
+# visualize
+# normalize data
+# divide dataset to train and test
+# separate label from data
 
+# build model
+# configure model
+# train model
+# visualize: history
+# test model
+
+# visualize
 ```
-
-
-
-
-
-
 
 
 
@@ -39,11 +53,10 @@ raw_dataset = pd.read_csv(dataset_path, names=column_names,
                       sep=" ", skipinitialspace=True)
 dataset = raw_dataset.copy()
 
-# wash data
+# preprocess data
 print(dataset.isna().sum())  # 查看各列数据分别有几个N/A值
 dataset = dataset.dropna()   # 删除包括N/A值的行
 
-# preprocess data
 origin = dataset.pop('Origin')         # 将类型值转换为独热码
 dataset['USA'] = (origin == 1)*1.0
 dataset['Europe'] = (origin == 2)*1.0
@@ -102,16 +115,14 @@ print(model.summary())
 
 # train model
 EPOCHS = 1000
-
 # 早期停止防止过度拟合
 early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
-
 history = model.fit(
   normed_train_data, train_labels,
   epochs=EPOCHS, validation_split = 0.2, verbose=0, 
   callbacks=[early_stop])
 
-# draw history
+# visualize: history
 def plot_history(history):
   hist = pd.DataFrame(history.history)
   hist['epoch'] = history.epoch
@@ -141,7 +152,7 @@ plot_history(history)
 loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=2)
 # 损失函数, 平均绝对误差, 均方误差
 
-# show prediction result
+# visualize: show prediction result
 test_predictions = model.predict(normed_test_data).flatten()
 plt.scatter(test_labels, test_predictions)
 plt.xlabel('True Values [MPG]')
@@ -153,15 +164,13 @@ plt.ylim([0,plt.ylim()[1]])
 _ = plt.plot([-100, 100], [-100, 100])
 plt.show()
 
-# show error distribution
+# visualize: show error distribution
 error = test_predictions - test_labels
 plt.hist(error, bins = 25)
 plt.xlabel("Prediction Error [MPG]")
 _ = plt.ylabel("Count")
 plt.show()
 ```
-
-
 
 
 
@@ -180,7 +189,7 @@ imdb = keras.datasets.imdb
 (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000)
 # num_words=10000 保留了训练数据中最常出现的 10000 个单词
 
-# check data size
+# check data
 print(len(train_data))     # 25000
 print(train_data[0])       # [1, 14, 22, ..., 178, 32], 单词被转换为整数
 print(len(train_data[0]))  # 218
@@ -197,14 +206,13 @@ test_data = keras.preprocessing.sequence.pad_sequences(test_data,
                                                        maxlen=256)
 
 vocab_size = 10000
-# model structure
+# build model
 model = keras.Sequential()
 model.add(keras.layers.Embedding(vocab_size, 16))       # 嵌入层
 model.add(keras.layers.GlobalAveragePooling1D())
 model.add(keras.layers.Dense(16, activation='relu'))    # 全连接层,ReLU激活函数
 model.add(keras.layers.Dense(1, activation='sigmoid'))  # 全连接层,Logistic激活函数
 model.summary()
-
 # Model: "sequential"
 # _________________________________________________________________
 # Layer (type)                 Output Shape              Param #   
@@ -222,18 +230,18 @@ model.summary()
 # Non-trainable params: 0
 # _________________________________________________________________
 
-# model setting
+# configure model
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-# set validation set
+# divide dataset to train and test
 x_val = train_data[:10000]               # 验证集
 partial_x_train = train_data[10000:]     # 训练集
 y_val = train_labels[:10000]
 partial_y_train = train_labels[10000:]
 
-# train
+# train model
 history = model.fit(partial_x_train,     # 训练集输入
                     partial_y_train,     # 训练集输出
                     epochs=40,           # 迭代次数(训练集的循环使用次数)
@@ -241,11 +249,11 @@ history = model.fit(partial_x_train,     # 训练集输入
                     validation_data=(x_val, y_val),  # 验证集
                     verbose=1)
 
-# test
+# test model
 results = model.evaluate(test_data,  test_labels, verbose=2)
 print(results)
 
-# draw training and validation loss 
+# visualize: history
 history_dict = history.history
 acc = history_dict['accuracy']
 val_acc = history_dict['val_accuracy']
@@ -272,25 +280,7 @@ plt.show()
 
 
 
-# 基础分类：识别图片的手写体数字
-
-```python
-import tensorflow as tf
-from tensorflow import keras
-import numpy as np
-import matplotlib.pyplot as plt
-
-# import data
-handwrite_mnist = keras.datasets
-```
-
-
-
-
-
-
-
-# 基础分类：识别图片的服装类型
+# 基础分类：识别图片中的服装类型
 
 ```python
 import tensorflow as tf
@@ -307,7 +297,7 @@ fashion_mnist = keras.datasets.fashion_mnist
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
-# check data size
+# check data
 print(train_images.shape)   # (60000,28,28)
 print(train_labels.shape)   # (60000)
 print(train_labels)         # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
@@ -336,33 +326,33 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])         # x-axis(bottom) label
 plt.show()
 
-# model structure 
+# build model
 model = keras.Sequential([                        # layer sequence
     keras.layers.Flatten(input_shape=(28, 28)),   # transform (28,28) tensor to (784) tensor
     keras.layers.Dense(128, activation='relu'),   # fully connected to previous layer
     keras.layers.Dense(10)                        # last layer
 ])
 
-# model setting
+# configure model
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               # loss function: cross entropy
               metrics=['accuracy'])
 
-# train
+# train model
 model.fit(train_images, train_labels, epochs=10)
 
-# test
+# test model
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 
-# classifier
+# build model
 probability_model = keras.Sequential([model,  # add another layer
                                          keras.layers.Softmax()])
 
-# prediction
+# make prediction
 predictions = probability_model.predict(test_images)
 
-# draw function
+# visualize
 def plot_image(i, predictions_array, true_label, img):
   true_label, img = true_label[i], img[i]
   plt.grid(False)
@@ -415,6 +405,204 @@ plt.tight_layout()
 120
 plt.show()
 .tight_layout()
+plt.show()
+```
+
+
+
+
+
+# 基础分类：MNIST
+
+
+
+```python
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
+
+# import data
+(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
+
+# check data
+print(train_images.shape) # (60000, 28, 28)
+
+# visualize: data
+plt.figure(figsize=(10,10))          # size of figure displayed
+for i in range(25):
+    plt.subplot(5,5,i+1)             # draw (i+1)th subplot of 5 rows * 5 columns
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)  # gray image
+    plt.xlabel(train_labels[i])         # x-axis(bottom) label
+plt.show()    
+
+# process data
+train_images = train_images.reshape((60000, 28, 28, 1)) # standard image size: HxWxD
+test_images = test_images.reshape((10000, 28, 28, 1))
+
+# normalize data
+train_images, test_images = train_images / 255.0, test_images / 255.0
+
+# build model
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))
+model.summary()
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# conv2d (Conv2D)              (None, 26, 26, 32)        320       
+# _________________________________________________________________
+# max_pooling2d (MaxPooling2D) (None, 13, 13, 32)        0         
+# _________________________________________________________________
+# conv2d_1 (Conv2D)            (None, 11, 11, 64)        18496     
+# _________________________________________________________________
+# max_pooling2d_1 (MaxPooling2 (None, 5, 5, 64)          0         
+# _________________________________________________________________
+# conv2d_2 (Conv2D)            (None, 3, 3, 64)          36928     
+# _________________________________________________________________
+# flatten (Flatten)            (None, 576)               0         
+# _________________________________________________________________
+# dense (Dense)                (None, 64)                36928     
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 10)                650       
+# =================================================================
+# Total params: 93,322
+# Trainable params: 93,322
+# Non-trainable params: 0
+# _________________________________________________________________
+
+# configure model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+# train model
+history = model.fit(train_images, train_labels,
+                    epochs=10, validation_split = 0.2)
+
+# visualize: history
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+plt.show()
+
+# test model
+results = model.evaluate(test_images, test_labels, verbose=2)
+print(results)
+```
+
+
+
+
+
+# 基础分类：CIFAR-10
+
+
+
+> 如果在线下载速度慢，可以选择手动下载，步骤如下：
+>
+> 1. download it from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+> 2. rename it as cifar-10-batches-py.tar.gz
+> 3. copy it to ～./keras/datasets/
+
+```python
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+import numpy as np
+import matplotlib.pyplot as plt
+
+# import data
+(train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()
+class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+               'dog', 'frog', 'horse', 'ship', 'truck']
+
+# check data
+print(train_images.shape)     # [50000, 32, 32, 3]
+print(train_images[0].shape)  # [32, 32, 3]
+print(train_labels[0])        # array([6], dtype=uint8)
+
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i][0]])
+plt.show()
+
+# normalize data
+train_images, test_images = train_images / 255.0, test_images / 255.0
+
+# build model
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+# 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
+# 参数数量为3x32x(3x3)+32=896
+model.add(layers.MaxPooling2D((2, 2)))
+# 对每个2x2区块执行最大汇聚
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+# 13%2=1,因此丢失了一行一列
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+# 将4x4x64的输出展开为1x1024向量
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10))
+model.summary() 
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# conv2d (Conv2D)              (None, 30, 30, 32)        896       
+# _________________________________________________________________
+# max_pooling2d (MaxPooling2D) (None, 15, 15, 32)        0         
+# _________________________________________________________________
+# conv2d_1 (Conv2D)            (None, 13, 13, 64)        18496     
+# _________________________________________________________________
+# max_pooling2d_1 (MaxPooling2 (None, 6, 6, 64)          0         
+# _________________________________________________________________
+# conv2d_2 (Conv2D)            (None, 4, 4, 64)          36928     
+# _________________________________________________________________
+# flatten (Flatten)            (None, 1024)              0         
+# _________________________________________________________________
+# dense (Dense)                (None, 64)                65600     
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 10)                650       
+# =================================================================
+# Total params: 122,570
+# Trainable params: 122,570
+# Non-trainable params: 0
+# _________________________________________________________________
+
+# configure model
+model.compile(optimizer='adam',
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+
+# train model
+history = model.fit(train_images, train_labels, epochs=10, 
+                    validation_data=(test_images, test_labels)) # 有验证集无测试集
+
+# visualize: history
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
 plt.show()
 ```
 
