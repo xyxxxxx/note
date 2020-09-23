@@ -393,7 +393,10 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 ```python
 model = keras.models.Sequential()
 model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+# 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
+# 参数数量为3x32x(3x3)+32=896
 model.add(keras.layers.MaxPooling2D((2, 2)))
+# 对每个2x2区块执行最大汇聚
 model.add(keras.layers.Conv2D(64, (3, 3), (2, 2), activation='relu'))
 # 卷积的步长设为2
 model.add(keras.layers.MaxPooling2D((2, 2)))
@@ -430,11 +433,38 @@ model.summary()
 
 
 
+### Embedding
+
+嵌入层。
+
+其包含的主要参数如下：
+
++ `input_dim`：字典的规模
++ `output_dim`：嵌入的规模，即每个单词扩展为向量的规模
++ `mask_zero`：是否将输入中的0看作填充值而忽略之，默认为`False`
++ `input_length`：输入序列的长度（如果该长度固定），默认为`None`；如果此嵌入层后接`Flatten`层，再接`Dense`层，则必须制定此参数
+
+示例见LSTM。
+
+
+
+### LSTM
+
+LSTM层。
+
+其包含的主要参数如下：
+
++ `units`：输出空间的规模
+
+
+
+
+
 ## model
 
 ### Sequential
 
-`Sequential`模型适用于FNN和CNN，其中每一层都有**一个输入张量和一个输出张量** 。
+`Sequential`返回一个`keras.Model`对象。`Sequential`模型适用于FNN，CNN，RNN等，其中每一层都有**一个输入张量和一个输出张量** 。
 
 以下`Sequential`模型，
 
@@ -482,16 +512,11 @@ CNN模型示例
 ```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-# 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
-# 参数数量为3x32x(3x3)+32=896
 model.add(layers.MaxPooling2D((2, 2)))
-# 对每个2x2区块执行最大汇聚
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
-# 13%2=1,因此丢失了一行一列
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.Flatten())
-# 将4x4x64的输出展开为1x1024向量
 model.add(layers.Dense(64, activation='relu'))
 
 model.add(layers.Dense(10))

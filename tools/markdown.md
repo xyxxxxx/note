@@ -220,7 +220,7 @@ ___
 $f(x)=a_0+a_1x+\cdots+a_nx^n$
 ```
 
-$f(x)=a_0+a_1x+\cdots+a_nx^n$
+<a name="equation1">$f(x)=a_0+a_1x+\cdots+a_nx^n$</a>
 
 
 
@@ -233,6 +233,14 @@ $$
 $$
 f(x)=a_0+a_1x+\cdots+a_nx^n
 $$
+
+
+
+## 页内跳转
+
+[跳转到任意标题](# 公式)
+
+[跳转到任意正文内容](#equation1)
 
 
 

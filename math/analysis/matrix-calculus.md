@@ -41,16 +41,24 @@ $$
 $$
 称为函数$$f(\pmb x)$$的**雅可比矩阵（Jacobian Matrix）**的转置。
 
-
-
 **标量关于矩阵的偏导数** 对于$$M\times N$$维矩阵$$X\in \mathbb{R}^{M\times N}$$和函数$$y=f(X)\in \mathbb{R}$$，$$y$$关于$$X$$的偏导数为
 $$
 \frac{\partial y}{\partial X}=\begin{bmatrix}
 \frac{\partial y}{\partial  x_{11}}&\cdots&\frac{\partial y}{\partial x_{1N}}\\
 \vdots & \ddots & \vdots\\
 \frac{\partial y}{\partial  x_{M1}}&\cdots&\frac{\partial y}{\partial x_{MN}}\\
-\end{bmatrix}
+\end{bmatrix}\in\R^{M\times N}
 $$
+
+**矩阵关于标量的偏导数**  对于标量$$x\in \mathbb{R}$$和函数$$Y=f(x)\in \R^{M\times N}$$，$$Y$$关于$$x$$的偏导数为
+$$
+\frac{\partial Y}{\partial x}=\begin{bmatrix}
+\frac{\partial y_{11}}{\partial  x}&\cdots&\frac{\partial y_{M1}}{\partial x}\\
+\vdots & \ddots & \vdots\\
+\frac{\partial y_{1N}}{\partial  x}&\cdots&\frac{\partial y_{MN}}{\partial x}\\
+\end{bmatrix}\in \R^{N\times M}
+$$
+
 
 
 
@@ -96,6 +104,14 @@ $$
    $$
    \frac{\partial y \pmb z}{\partial \pmb x}=y\frac{\partial \pmb z}{\partial \pmb x}+\frac{\partial y}{\partial \pmb x}\pmb z^{\rm T} \in \mathbb{R}^{M\times N}
    $$
+   
+4. 若$$x\in \mathbb{R},Y\in \mathbb{R}^{M\times N},Z\in \R^{N\times P}$$，则
+   $$
+   \frac{\partial YZ}{\partial x}=Z^{\rm T}\frac{\partial Y}{\partial x}+\frac{\partial Z}{\partial x}Y^{\rm T}
+   $$
+   
+
+
 
 **链式法则（Chain Rule）**
 

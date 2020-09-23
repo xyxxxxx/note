@@ -1,12 +1,10 @@
-| 类型                | 数据类型                       | 结构                |               |
-| ------------------- | ------------------------------ | ------------------- | ------------- |
-| classify/regression | database/image/language/series | FNN, CNN, embedding |               |
-| **损失函数**        | **评价指标**                   | **优化器**          | **回调**      |
-| mse/crossentropy    | accuracy, mae, mse             | adam, RMSprop,      | EarlyStopping |
-| **训练集规模**      | **验证集规模**                 | **测试集规模**      |               |
-|                     |                                |                     |               |
-
-
+| 类型                                      | 数据类型                       | 结构                     |               |
+| ----------------------------------------- | ------------------------------ | ------------------------ | ------------- |
+| CV/NLP/TS: classify/regression/generation | database/image/language/series | FNN, CNN, RNN, embedding |               |
+| **损失函数**                              | **评价指标**                   | **优化器**               | **回调**      |
+| mse/crossentropy                          | accuracy, mae, mse             | adam, RMSprop,           | EarlyStopping |
+| **训练集规模**                            | **验证集规模**                 | **测试集规模**           |               |
+|                                           |                                |                          |               |
 
 ```python
 # template
@@ -32,7 +30,13 @@
 
 
 
-# 基础回归：预测燃油效率
+# 预测燃油效率
+
+| 类型         | 数据类型     | 结构           |               |
+| ------------ | ------------ | -------------- | ------------- |
+| regression   | database     | FNN            |               |
+| **损失函数** | **评价指标** | **优化器**     | **回调**      |
+| mse          | mae, mse     | RMSprop(0.001) | EarlyStopping |
 
 ```python
 import pathlib
@@ -176,7 +180,13 @@ plt.show()
 
 
 
-# 基本分类：将影评的态度分类
+# 将影评的态度分类
+
+| 类型          | 数据类型     | 结构           |          |
+| ------------- | ------------ | -------------- | -------- |
+| NLP: classify | language     | FNN, embedding |          |
+| **损失函数**  | **评价指标** | **优化器**     | **回调** |
+| crossentropy  | accuracy     | adam           |          |
 
 ```python
 import tensorflow as tf
@@ -185,8 +195,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # import data
-imdb = keras.datasets.imdb
-(train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000)
+(train_data, train_labels), (test_data, test_labels) = keras.datasets.imdb.load_data(num_words=10000)
 # num_words=10000 保留了训练数据中最常出现的 10000 个单词
 
 # check data
@@ -209,7 +218,7 @@ vocab_size = 10000
 # build model
 model = keras.Sequential()
 model.add(keras.layers.Embedding(vocab_size, 16))       # 嵌入层
-model.add(keras.layers.GlobalAveragePooling1D())
+model.add(tf.keras.layers.LSTM(64))                     # LSTM层
 model.add(keras.layers.Dense(16, activation='relu'))    # 全连接层,ReLU激活函数
 model.add(keras.layers.Dense(1, activation='sigmoid'))  # 全连接层,Logistic激活函数
 model.summary()
@@ -217,16 +226,16 @@ model.summary()
 # _________________________________________________________________
 # Layer (type)                 Output Shape              Param #   
 # =================================================================
-# embedding (Embedding)        (None, None, 16)          160000
+# embedding (Embedding)        (None, None, 16)          160000    
 # _________________________________________________________________
-# global_average_pooling1d (Gl (None, 16)                0         
+# lstm (LSTM)                  (None, 64)                20736     
 # _________________________________________________________________
-# dense (Dense)                (None, 16)                272       
+# dense (Dense)                (None, 16)                1040      
 # _________________________________________________________________
 # dense_1 (Dense)              (None, 1)                 17        
 # =================================================================
-# Total params: 160,289
-# Trainable params: 160,289
+# Total params: 181,793
+# Trainable params: 181,793
 # Non-trainable params: 0
 # _________________________________________________________________
 
@@ -244,7 +253,7 @@ partial_y_train = train_labels[10000:]
 # train model
 history = model.fit(partial_x_train,     # 训练集输入
                     partial_y_train,     # 训练集输出
-                    epochs=40,           # 迭代次数(训练集的循环使用次数)
+                    epochs=10,           # 迭代次数(训练集的循环使用次数)
                     batch_size=512,      # batch大小(batch计算平均梯度并更新一次参数)
                     validation_data=(x_val, y_val),  # 验证集
                     verbose=1)
@@ -280,7 +289,13 @@ plt.show()
 
 
 
-# 基础分类：识别图片中的服装类型
+# 识别图片中的服装类型
+
+| 类型         | 数据类型     | 结构       |          |
+| ------------ | ------------ | ---------- | -------- |
+| CV: classify | image        | FNN        |          |
+| **损失函数** | **评价指标** | **优化器** | **回调** |
+| crossentropy | accuracy     | adam       |          |
 
 ```python
 import tensorflow as tf
@@ -412,9 +427,13 @@ plt.show()
 
 
 
-# 基础分类：MNIST
+# MNIST
 
-
+| 类型         | 数据类型     | 结构       |          |
+| ------------ | ------------ | ---------- | -------- |
+| CV: classify | image        | CNN        |          |
+| **损失函数** | **评价指标** | **优化器** | **回调** |
+| crossentropy | accuracy     | adam       |          |
 
 ```python
 import tensorflow as tf
@@ -507,9 +526,13 @@ print(results)
 
 
 
-# 基础分类：CIFAR-10
+# CIFAR-10
 
-
+| 类型         | 数据类型     | 结构       |          |
+| ------------ | ------------ | ---------- | -------- |
+| CV: classify | image        | CNN        |          |
+| **损失函数** | **评价指标** | **优化器** | **回调** |
+| crossentropy | accuracy     | adam       |          |
 
 > 如果在线下载速度慢，可以选择手动下载，步骤如下：
 >
