@@ -44,34 +44,34 @@ $$
 
 下图给出了两个滤波器的一维卷积示例，可以看到两个滤波器分别提取了输入序列的不同特征。滤波器$$w = [1/3, 1/3, 1/3]$$可以检测信号序列中的低频信息，而滤波器$$w = [1, −2, 1]$$可以检测信号序列中的高频信息。
 
-![Screenshot from 2020-09-15 15-32-05.png](https://i.loli.net/2020/09/15/WmaVfL49ctXY62b.png)
+![](https://i.loli.net/2020/09/15/WmaVfL49ctXY62b.png)
 
 
 
 ## 二维卷积
 
-卷积也经常用在图像处理中，因为图像是一个二维结构，所以需要将一维卷积进行扩展。给定一个图像$$\pmb X\in \R^{M\times N}$$和一个滤波器$$\pmb W\in \R^{U\times V}$$，一般$$U<<M,V<<N$$，其二维卷积定义为
+卷积也经常用在图像处理中，因为图像是一个二维结构，所以需要将一维卷积进行扩展。给定一个图像$$\pmb X\in \mathbb{R}^{M\times N}$$和一个滤波器$$\pmb W\in \mathbb{R}^{U\times V}$$，一般$$U<<M,V<<N$$，其二维卷积定义为
 $$
 \pmb Y=\pmb W* \pmb X\\
 y_{ij}=\sum_{u=1}^U\sum_{v=1}^V w_{uv}x_{i+U-u,j+V-v}
 $$
 下图给出了二维卷积示例
 
-![Screenshot from 2020-09-15 16-02-16.png](https://i.loli.net/2020/09/15/t4OxsUq1R2vnNiA.png)
+![](https://i.loli.net/2020/09/15/t4OxsUq1R2vnNiA.png)
 
 在图像处理中常用的**均值滤波(mean filter)**就是一种二维卷积，将当前位置的像素值设为滤波器窗口中所有像素的平均值，即$$w_{uv}=\frac{1}{UV}$$。
 
 在图像处理中，卷积经常作为特征提取的有效方法。一幅图像在经过卷积操作后得到结果称为**特征映射(feature map)**。下图给出在图像处理中几种常用的滤波器，以及其对应的特征映射。图中最上面的滤波器是常用的高斯滤波器，可以用来对图像进行平滑去噪； 中间和最下面的滤波器可以用来提取边缘特征。
 
-![Screenshot from 2020-09-15 16-08-02.png](https://i.loli.net/2020/09/15/6C51TUiQjodLqwt.png)
+![](https://i.loli.net/2020/09/15/6C51TUiQjodLqwt.png)
 
-![卷积神经网络gif动图](https://geektutu.com/post/tensorflow2-mnist-cnn/cnn_image_sample.gif)
+![](https://geektutu.com/post/tensorflow2-mnist-cnn/cnn_image_sample.gif)
 
 
 
 ## 互相关
 
-在机器学习和图像处理领域，卷积的主要功能是在一个图像（或某种特征）上滑动一个卷积核(即滤波器)，通过卷积操作得到一组新的特征。在计算卷积的过程中，需要进行卷积核翻转（旋转180°），而在具体实现上一般会以互相关操作来代替卷积，从而会减少一些不必要的操作或开销。**互相关(cross-correlation)**是一个衡量两个序列相关性的函数，通常是用滑动窗口的点积计算来实现。给定一个图像$$\pmb X\in \R^{M\times N}$$和卷积核$$\pmb W\in \R^{U\times V}$$，它们的互相关为
+在机器学习和图像处理领域，卷积的主要功能是在一个图像（或某种特征）上滑动一个卷积核(即滤波器)，通过卷积操作得到一组新的特征。在计算卷积的过程中，需要进行卷积核翻转（旋转180°），而在具体实现上一般会以互相关操作来代替卷积，从而会减少一些不必要的操作或开销。**互相关(cross-correlation)**是一个衡量两个序列相关性的函数，通常是用滑动窗口的点积计算来实现。给定一个图像$$\pmb X\in \mathbb{R}^{M\times N}$$和卷积核$$\pmb W\in \mathbb{R}^{U\times V}$$，它们的互相关为
 $$
 \pmb Y=\pmb W\otimes \pmb X={\rm rot180}(\pmb W)* \pmb X \\
 y_{ij}=\sum_{u=1}^U\sum_{v=1}^V w_{uv}x_{i+u-1,j+v-1}
@@ -90,7 +90,7 @@ $$
 
 **零填充(zero padding)**是在输入向量两端进行补零。下图给出了输入两端补零的卷积示例。
 
-![Screenshot from 2020-09-15 16-24-11.png](https://i.loli.net/2020/09/15/lg1yThCoXNamjFI.png)
+![](https://i.loli.net/2020/09/15/lg1yThCoXNamjFI.png)
 
 假设卷积层的输入神经元个数为$$M$$，卷积大小为$$K$$，步长为$$S$$，在输入两端各填补$$P$$个 0，那么该卷积层的神经元数量为$$(M − K + 2P)/S + 1$$。
 
@@ -114,7 +114,7 @@ $$
 
 ### 导数
 
-假设$$\pmb Y=\pmb W\otimes \pmb X$$，其中$$\pmb X\in\R^{M\times N},\pmb W\in\R^{U\times V},\pmb Y\in\R^{(M-U+1)\times (N-V+1)}$$，函数$$f(\pmb Y)\in\R$$是一个标量函数，则
+假设$$\pmb Y=\pmb W\otimes \pmb X$$，其中$$\pmb X\in\mathbb{R}^{M\times N},\pmb W\in\mathbb{R}^{U\times V},\pmb Y\in\mathbb{R}^{(M-U+1)\times (N-V+1)}$$，函数$$f(\pmb Y)\in\mathbb{R}$$是一个标量函数，则
 $$
 \frac{\partial f(\pmb Y)}{\partial \pmb W}=\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X\\
 \frac{\partial f(\pmb Y)}{\partial \pmb X}={\rm rot180}(\pmb X)\tilde\otimes \frac{\partial f(\pmb Y)}{\partial \pmb Y}
@@ -131,7 +131,7 @@ $$
 $$
 \pmb W \tilde\otimes \pmb X = \pmb W \otimes \tilde{\pmb X}
 $$
-其中$$\tilde{\pmb X}\in \R^{(M+2U-2)\times (N+2V-2)}$$是图像$$\pmb X$$的上下各补$$U-1$$个0，左右各补$$V-1$$个0得到的**全填充(full padding)**图像。
+其中$$\tilde{\pmb X}\in \mathbb{R}^{(M+2U-2)\times (N+2V-2)}$$是图像$$\pmb X$$的上下各补$$U-1$$个0，左右各补$$V-1$$个0得到的**全填充(full padding)**图像。
 
 
 
@@ -148,7 +148,7 @@ $$
 \pmb z^{(l)}=\pmb w^{(l)}\otimes\pmb a^{(l-1)}+b^{(l)}
 $$
 
-其中卷积核$$\pmb w^{(l)}\in \R^K$$为可学习的权重向量，$$b^{(l)}\in \R$$为可学习的偏置。
+其中卷积核$$\pmb w^{(l)}\in \mathbb{R}^K$$为可学习的权重向量，$$b^{(l)}\in \mathbb{R}$$为可学习的偏置。
 
 根据卷积的定义，卷积层有两个很重要的性质：
 
@@ -156,7 +156,7 @@ $$
 
 **权重共享** 作为参数的卷积核$$\pmb w^{(l)}$$对于第$$l$$层的所有的神经元都是相同的。下图中所有的同颜色连接上的权重是相同的。权重共享可以理解为一个卷积核只捕捉输入数据中的一种特定的局部特征，因此如果要提取多种特征就需要使用多个不同的卷积核。
 
-![Screenshot from 2020-09-15 17-17-04.png](https://i.loli.net/2020/09/15/f9G4lEeVAPKHqQS.png)
+![](https://i.loli.net/2020/09/15/f9G4lEeVAPKHqQS.png)
 
 由于局部连接和权重共享，卷积层的参数只有一个$$K$$维的权重$$\pmb w^{(l)}$$和 1 维的偏置$$b^{(l)}$$，共$$K + 1$$个参数。参数个数和神经元的数量无关。
 
@@ -170,24 +170,24 @@ $$
 
 不失一般性，假设一个卷积层的结构如下：
 
-1. 输入特征映射组：$$\mathcal{X}\in\R^{M\times N\times D}$$为三维**张量(tensor)**，其中每个**切片(slice)**矩阵$$\pmb X^d\in \R^{M\times N}$$为一个输入特征映射，$$1\le d\le D$$
-2. 输出特征映射组：$$\mathcal{Y}\in\R^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$\pmb X^p\in \R^{M'\times N'}$$为一个输出特征映射，$$1\le p\le P$$
-3. 卷积核：$$\mathcal{W}\in \R^{U\times V\times P\times D}$$为四维张量，其中每个切片矩阵$$\pmb W^{p,d}\in \R^{U \times V}$$为一个二维卷积核，$$1\le d\le D,1\le p\le P$$。
+1. 输入特征映射组：$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$为三维**张量(tensor)**，其中每个**切片(slice)**矩阵$$\pmb X^d\in \mathbb{R}^{M\times N}$$为一个输入特征映射，$$1\le d\le D$$
+2. 输出特征映射组：$$\mathcal{Y}\in\mathbb{R}^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$\pmb X^p\in \mathbb{R}^{M'\times N'}$$为一个输出特征映射，$$1\le p\le P$$
+3. 卷积核：$$\mathcal{W}\in \mathbb{R}^{U\times V\times P\times D}$$为四维张量，其中每个切片矩阵$$\pmb W^{p,d}\in \mathbb{R}^{U \times V}$$为一个二维卷积核，$$1\le d\le D,1\le p\le P$$。
 
 下图给出了卷积层的三维结构表示
 
-![Screenshot from 2020-09-15 17-34-38.png](https://i.loli.net/2020/09/15/Q2OKcoED9wfF86l.png)
+![](https://i.loli.net/2020/09/15/Q2OKcoED9wfF86l.png)
 
 为了计算输出特征映射$$\pmb Y_p$$ , 用卷积核$$\pmb W^{p,1},\pmb W^{p,2}, ⋯ ,\pmb W^{p,D}$$分别对输入特征映射$$\pmb X^1, \pmb X^2, ⋯ , \pmb X^D$$进行卷积,，然后将卷积结果相加，并加上一个标量偏置$$b^p$$得到卷积层的净输入$$\pmb Z^p$$，再经过非线性激活函数后得到输出特征映射 $$\pmb Y^p$$。
 $$
 \pmb Z^p=\pmb W^p \otimes \pmb X +b^p=\sum_{d=1}^D \pmb W^{p,d} \otimes \pmb X^d +b^p\\
 \pmb Y^p=f(\pmb Z^p)
 $$
-其中$$\pmb W^p\in \R^{U\times V\times D}$$是三维卷积核，$$f(\cdot)$$为非线性激活函数，一般为 ReLU 函数。
+其中$$\pmb W^p\in \mathbb{R}^{U\times V\times D}$$是三维卷积核，$$f(\cdot)$$为非线性激活函数，一般为 ReLU 函数。
 
 整个计算过程如下图所示。如果希望卷积层输出$$P$$个特征映射，将计算过程重复$$P$$次即可，得到$$\pmb Y^1,\pmb Y^2,\cdots,\pmb Y^P$$。
 
-![Screenshot from 2020-09-15 17-51-04.png](https://i.loli.net/2020/09/15/rAqMc7I1E9wNj6m.png)
+![](https://i.loli.net/2020/09/15/rAqMc7I1E9wNj6m.png)
 
 在上述卷积层中，每一次$$\pmb W^{p,d} \otimes \pmb X^d$$运算需要卷积核的$$U\times V$$个参数，因此总共需要$$P\times D\times U\times V+P$$个参数。
 
@@ -199,7 +199,7 @@ $$
 
 卷积层虽然可以显著减少网络中连接的数量，但特征映射组中的神经元个数并没有显著减少。如果后面接一个分类器，分类器的输入维数依然很高，很容易出现过拟合。为了解决这个问题，可以在卷积层之后加上一个汇聚层，从而降低特征维数，避免过拟合。
 
-假设汇聚层的输入特征映射组为$$\mathcal{X}\in\R^{M\times N\times D}$$，对于其中每一个特征映射$$\pmb X^d ∈ \R^{M×N}, 1 ≤ d ≤ D$$ ，将其划分为很多区域$$R^d_{m,n} , 1 ≤ m ≤ M ′ , 1 ≤ n ≤ N ′$$，这些区域可以重叠，也可以不重叠。**汇聚(pooling)**指对每个区域进行**下采样(down sampling)**得到一个值，作为这个区域的概括。
+假设汇聚层的输入特征映射组为$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$，对于其中每一个特征映射$$\pmb X^d ∈ \mathbb{R}^{M×N}, 1 ≤ d ≤ D$$ ，将其划分为很多区域$$R^d_{m,n} , 1 ≤ m ≤ M ′ , 1 ≤ n ≤ N ′$$，这些区域可以重叠，也可以不重叠。**汇聚(pooling)**指对每个区域进行**下采样(down sampling)**得到一个值，作为这个区域的概括。
 
 常用的汇聚函数有两种：
 
@@ -211,7 +211,7 @@ $$
 
 下图给出了采样最大汇聚进行子采样操作的示例。可以看出汇聚层不但可以有效地减少神经元的数量还可以使得网络对一些小的局部形态改变保持不变性，并拥有更大的感受野。
 
-![Screenshot from 2020-09-15 18-10-49.png](https://i.loli.net/2020/09/15/2a83pO1WzkRCKvG.png)
+![](https://i.loli.net/2020/09/15/2a83pO1WzkRCKvG.png)
 
 目前主流的卷积网络中，汇聚层仅包含下采样操作。但在早期的一些卷积网络（比如 LeNet-5）中，有时也会在汇聚层使用非线性激活函数，比如
 $$
@@ -225,7 +225,7 @@ $$
 
 一个典型的卷积网络由卷积层、汇聚层、全连接层交叉堆叠而成。目前常用的卷积网络整体结构如下图所示：一个卷积块为连续$$M$$个卷积层和$$b$$个汇聚层（$$M$$通常设置为 2 ∼ 5，$$b$$为 0 或 1 )，一个卷积网络中可以堆叠$$N$$个连续的卷积块，然后在后面接着$$K$$个全连接层（$$N$$的取值区间比较大，比如 1 ∼ 100 或者更大；$$K$$一般为 0 ∼ 2 )。
 
-![Screenshot from 2020-09-15 18-16-42.png](https://i.loli.net/2020/09/15/fAsRQGLXeuctYdj.png)
+![](https://i.loli.net/2020/09/15/fAsRQGLXeuctYdj.png)
 
 目前，卷积网络的整体结构趋向于使用更小的卷积核（比如 1 × 1 和 3 × 3 ）以及更深的结构（比如层数大于 50）。此外，由于卷积的操作性越来越灵活（比如使用不同的步长），汇聚层的作用也变得越来越小，因此目前比较流行的卷积网络中，汇聚层的比例正在逐渐降低，趋向于全卷积网络。
 
@@ -237,7 +237,7 @@ $$
 
 在卷积网络中，参数为卷积核中权重以及偏置。和全连接前馈网络类似，卷积网络也可以通过误差反向传播算法来进行参数学习。
 
-不失一般性，对第$$l$$层为卷积层，第$$l-1$$层的输入特征映射为$$\mathcal{X}^{(l-1)}\in\R^{M\times N\times D}$$，通过卷积计算得到的第$$l$$层特征映射净输入$$\mathcal{Z}^{(l)}\in\R^{M'\times N'\times P}$$。第$$l$$层特征映射净输入中的第$$p$$个为
+不失一般性，对第$$l$$层为卷积层，第$$l-1$$层的输入特征映射为$$\mathcal{X}^{(l-1)}\in\mathbb{R}^{M\times N\times D}$$，通过卷积计算得到的第$$l$$层特征映射净输入$$\mathcal{Z}^{(l)}\in\mathbb{R}^{M'\times N'\times P}$$。第$$l$$层特征映射净输入中的第$$p$$个为
 
 $$
 \pmb Z^{(l,p)}=\pmb W^{(l,p)} \otimes \pmb X^{(l-1)} +b^{(l,p)}=\sum_{d=1}^D \pmb W^{(l,p,d)} \otimes \pmb X^{(l-1,d)} +b^{(l,p)}\\
@@ -288,7 +288,7 @@ $$
 
 LeNet-5 [LeCun et al., 1998] 虽然提出的时间比较早，但它是一个非常成功的神经网络模型。基于 LeNet-5 的手写数字识别系统在 20 世纪 90 年代被美国很多银行使用，用来识别支票上面的手写数字。LeNet-5 的网络结构如下图所示。
 
-![Screenshot from 2020-09-15 18-21-50.png](https://i.loli.net/2020/09/15/YoEJpLhvgsuR8kH.png)
+![](https://i.loli.net/2020/09/15/YoEJpLhvgsuR8kH.png)
 
 LeNet-5 共有 7 层，接受输入图像大小为 32 × 32 = 1024，输出对应 10 个类别的得分。LeNet-5 中的每一层结构如下：
 
@@ -312,7 +312,7 @@ AlexNet [Krizhevsky et al., 2012] 是第一个现代深度卷积网络模型，�
 
 AlexNet 的结构如下图所示，包括 5 个卷积层、3 个汇聚层和 3 个全连接层（其中最后一层是使用 Softmax 函数的输出层）。因为网络规模超出了当时的单个 GPU 的内存限制，AlexNet 将网络拆为两半，分别放在两个 GPU 上，GPU 间只在某些层（比如第 3 层）进行通信。
 
-![Screenshot from 2020-09-15 18-34-14.png](https://i.loli.net/2020/09/15/ezxTEyKmCk2oS9D.png)
+![](https://i.loli.net/2020/09/15/ezxTEyKmCk2oS9D.png)
 
 
 

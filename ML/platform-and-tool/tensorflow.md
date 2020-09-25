@@ -89,7 +89,28 @@ np_array = tf_tensor.numpy()
 
 ```python
 rank_4_tensor = tf.zeros([3, 2, 4, 5])
-
+Math  				
+未
+定
+义
+的
+状
+态
+转
+移
+函
+数
+转
+移
+至
+开
+始
+运
+行
+结
+束
+错
+误
 # show shape
 print("Type of every element:", rank_4_tensor.dtype)   # <dtype: 'float32'>
 print("Number of dimensions:", rank_4_tensor.ndim)     # 4
@@ -435,12 +456,14 @@ model.summary()
 
 ### Embedding
 
+> 参考[单词嵌入向量](https://www.tensorflow.org/tutorials/text/word_embeddings)
+
 嵌入层。
 
 其包含的主要参数如下：
 
 + `input_dim`：字典的规模
-+ `output_dim`：嵌入的规模，即每个单词扩展为向量的规模
++ `output_dim`：嵌入向量的规模
 + `mask_zero`：是否将输入中的0看作填充值而忽略之，默认为`False`
 + `input_length`：输入序列的长度（如果该长度固定），默认为`None`；如果此嵌入层后接`Flatten`层，再接`Dense`层，则必须制定此参数
 
@@ -455,6 +478,33 @@ LSTM层。
 其包含的主要参数如下：
 
 + `units`：输出空间的规模
+
+
+
+示例：
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.Embedding(10000, 16))
+# 将规模为10000的词典嵌入到16维向量
+# 输入长度为256的向量,输出规模为256x16的张量
+model.add(tf.keras.layers.LSTM(64))
+# LSTM层
+# 输入规模为256x16的张量,输出长度为64的向量,相当于(同步或异步)序列到序列模式每4个输入向量输出一个标量值
+model.add(keras.layers.Dense(16, activation='relu'))
+# 全连接层,ReLU激活函数,分类器
+model.add(keras.layers.Dense(1, activation='sigmoid'))  
+# 全连接层,Logistic激活函数
+model.summary()
+```
+
+
+
+
+
+### Bidirectional
+
+
 
 
 

@@ -16,7 +16,7 @@ g(f(\pmb x;\pmb w))={\rm sgn}(f(\pmb x;\pmb w))=\begin{cases}1,&f(\pmb x;\pmb w)
 $$
 当$$f(\pmb x;\pmb w)=0$$时无定义。由此得到的线性模型如下图所示
 
-![Screenshot from 2020-09-15 18-54-03.png](https://i.loli.net/2020/09/15/NSXC3Q5TjELZ9gn.png)
+![](https://i.loli.net/2020/09/15/NSXC3Q5TjELZ9gn.png)
 
 
 
@@ -30,7 +30,7 @@ $$
 
 **二分类(binary classification)**问题的类别标签$$y$$只有两种取值，通常可以设为$$\{+1, −1\}$$或$$\{0, 1\}$$。在二分类问题中，常用**正例(positive sample)**和**负例(negative sample)**来分别表示属于类别 +1 和 −1 的样本。
 
-在二分类问题中，我们只需要一个线性判别函数$$f(\pmb x;\pmb w)=\pmb w^{\rm T}\pmb x+b$$。 **特征空间**$$\R^D$$中所有满足$$f(\pmb x;\pmb w)=0$$的点组成一个分割**超平面(hyperplane)**，称为**决策边界(decision boundary)**或**决策平面(decision surface)**。决策边界将特征空间一分为二，划分成两个区域，每个区域对应一个类别。
+在二分类问题中，我们只需要一个线性判别函数$$f(\pmb x;\pmb w)=\pmb w^{\rm T}\pmb x+b$$。 **特征空间**$$\mathbb{R}^D$$中所有满足$$f(\pmb x;\pmb w)=0$$的点组成一个分割**超平面(hyperplane)**，称为**决策边界(decision boundary)**或**决策平面(decision surface)**。决策边界将特征空间一分为二，划分成两个区域，每个区域对应一个类别。
 
 > 超平面就是三维空间中的平面在$$D$$维空间的推广。$$D$$维空间中的超平面是$$D − 1$$维的。
 
@@ -84,7 +84,7 @@ $$
 
 “一对其余”方式和“一对一”方式都存在一个缺陷：特征空间中会存在一些难以确定类别的区域，而“ argmax ”方式很好地解决了这个问题。下图给出了用这三种方式进行多分类的示例，其中红色直线表示判别函数$$f(⋅) = 0$$的直线，不同颜色的区域表示预测的三个类别的区域($$ω_1 , ω_2$$和$$ω_3$$)和难以确定类别的区域(‘?’)。在“argmax”方式中，相邻两类$$i$$和$$j$$的决策边界实际上是由$$f_i(\pmb x;\pmb w_i) − f_j(\pmb x;\pmb w_j) = 0$$决定, 其法向量为$$\pmb w_i −\pmb w_j$$。
 
-![Screenshot from 2020-09-17 10-21-16.png](https://i.loli.net/2020/09/17/lWAS7GHzIQEePBn.png)
+![](https://i.loli.net/2020/09/17/lWAS7GHzIQEePBn.png)
 
 > 按照“一对其余”方式的定义，图(a)应该是：$$f_1$$以上部分为$$w_1$$，$$f_1$$以下$$f_2$$以上为$$w_2$$，剩余部分的$$f_2$$以下$$f_3$$以上为$$w_3$$，剩余部分为?。图(a)实际是按照$${\rm sgn}(f_1),{\rm sgn}(f_2),{\rm sgn}(f_3)$$的组合划分（共$$\frac{(1+C)C}{2}+1$$个）区域。
 
@@ -101,7 +101,7 @@ f_{\tilde c}(\pmb x;\pmb w_{\tilde c}^*),\forall\tilde c\neq c$$，则称训练�
 
 **Logistic 回归(Logistic Regression , LR)**是一种常用的处理二分类问题的线性模型。在本节中，我们采用$$y ∈ \{0, 1\}$$以符合 Logistic 回归的描述习惯。
 
-这里引入非线性函数$$g:\R\to (0,1)$$来预测类别标签的后验概率$$\hat p(y=1|\pmb x)$$，即
+这里引入非线性函数$$g:\mathbb{R}\to (0,1)$$来预测类别标签的后验概率$$\hat p(y=1|\pmb x)$$，即
 $$
 \hat p(y=1|\pmb x)=g(f(\pmb x;\pmb w))
 $$

@@ -13,6 +13,7 @@
 # preprocess data
 # check data
 # visualize
+# feature engineering
 # normalize data
 # divide dataset to train and test
 # separate label from data
@@ -70,7 +71,7 @@ dataset['Japan'] = (origin == 3)*1.0
 train_dataset = dataset.sample(frac=0.8,random_state=0) # 取样80%
 test_dataset = dataset.drop(train_dataset.index)        # 去掉train_dataset中的所有索引的项
 
-# check data
+# feature engineering
 sns.pairplot(train_dataset[["MPG", "Cylinders", "Displacement", "Weight"]], diag_kind="kde")  # 绘制多个变量的相关图
 plt.show()
 
@@ -175,115 +176,6 @@ plt.xlabel("Prediction Error [MPG]")
 _ = plt.ylabel("Count")
 plt.show()
 ```
-
-
-
-
-
-# 将影评的态度分类
-
-| 类型          | 数据类型     | 结构           |          |
-| ------------- | ------------ | -------------- | -------- |
-| NLP: classify | language     | FNN, embedding |          |
-| **损失函数**  | **评价指标** | **优化器**     | **回调** |
-| crossentropy  | accuracy     | adam           |          |
-
-```python
-import tensorflow as tf
-from tensorflow import keras
-import numpy as np
-import matplotlib.pyplot as plt
-
-# import data
-(train_data, train_labels), (test_data, test_labels) = keras.datasets.imdb.load_data(num_words=10000)
-# num_words=10000 保留了训练数据中最常出现的 10000 个单词
-
-# check data
-print(len(train_data))     # 25000
-print(train_data[0])       # [1, 14, 22, ..., 178, 32], 单词被转换为整数
-print(len(train_data[0]))  # 218
-
-# preprocess data, 使所有输入的长度相等 
-train_data = keras.preprocessing.sequence.pad_sequences(train_data,
-                                                        value=0,        # 填充0
-                                                        padding='post', # 后方填充
-                                                        maxlen=256)     # 至256长度
-
-test_data = keras.preprocessing.sequence.pad_sequences(test_data,
-                                                       value=0,
-                                                       padding='post',
-                                                       maxlen=256)
-
-vocab_size = 10000
-# build model
-model = keras.Sequential()
-model.add(keras.layers.Embedding(vocab_size, 16))       # 嵌入层
-model.add(tf.keras.layers.LSTM(64))                     # LSTM层
-model.add(keras.layers.Dense(16, activation='relu'))    # 全连接层,ReLU激活函数
-model.add(keras.layers.Dense(1, activation='sigmoid'))  # 全连接层,Logistic激活函数
-model.summary()
-# Model: "sequential"
-# _________________________________________________________________
-# Layer (type)                 Output Shape              Param #   
-# =================================================================
-# embedding (Embedding)        (None, None, 16)          160000    
-# _________________________________________________________________
-# lstm (LSTM)                  (None, 64)                20736     
-# _________________________________________________________________
-# dense (Dense)                (None, 16)                1040      
-# _________________________________________________________________
-# dense_1 (Dense)              (None, 1)                 17        
-# =================================================================
-# Total params: 181,793
-# Trainable params: 181,793
-# Non-trainable params: 0
-# _________________________________________________________________
-
-# configure model
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
-
-# divide dataset to train and test
-x_val = train_data[:10000]               # 验证集
-partial_x_train = train_data[10000:]     # 训练集
-y_val = train_labels[:10000]
-partial_y_train = train_labels[10000:]
-
-# train model
-history = model.fit(partial_x_train,     # 训练集输入
-                    partial_y_train,     # 训练集输出
-                    epochs=10,           # 迭代次数(训练集的循环使用次数)
-                    batch_size=512,      # batch大小(batch计算平均梯度并更新一次参数)
-                    validation_data=(x_val, y_val),  # 验证集
-                    verbose=1)
-
-# test model
-results = model.evaluate(test_data,  test_labels, verbose=2)
-print(results)
-
-# visualize: history
-history_dict = history.history
-acc = history_dict['accuracy']
-val_acc = history_dict['val_accuracy']
-loss = history_dict['loss']
-val_loss = history_dict['val_loss']
-
-epochs = range(1, len(acc) + 1)
-
-plt.plot(epochs, loss, 'bo', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-
-plt.show()
-```
-
-![png](https://tensorflow.google.cn/tutorials/keras/text_classification_files/output_nGoYf2Js-lle_0.png?hl=zh-cn)
-
-出现过拟合。
 
 
 
@@ -630,4 +522,288 @@ plt.show()
 ```
 
 
+
+
+
+# 将影评的态度分类
+
+| 类型          | 数据类型     | 结构           |          |
+| ------------- | ------------ | -------------- | -------- |
+| NLP: classify | language     | RNN, embedding |          |
+| **损失函数**  | **评价指标** | **优化器**     | **回调** |
+| crossentropy  | accuracy     | adam           |          |
+
+```python
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+import matplotlib.pyplot as plt
+
+# import data
+(train_data, train_labels), (test_data, test_labels) = keras.datasets.imdb.load_data(num_words=10000)
+# num_words=10000 保留了训练数据中最常出现的 10000 个单词
+
+# check data
+print(len(train_data))     # 25000
+print(train_data[0])       # [1, 14, 22, ..., 178, 32], 单词被转换为整数
+print(len(train_data[0]))  # 218
+
+# preprocess data, 使所有输入的长度相等 
+train_data = keras.preprocessing.sequence.pad_sequences(train_data,
+                                                        value=0,        # 填充0
+                                                        padding='post', # 后方填充
+                                                        maxlen=256)     # 至256长度
+
+test_data = keras.preprocessing.sequence.pad_sequences(test_data,
+                                                       value=0,
+                                                       padding='post',
+                                                       maxlen=256)
+
+vocab_size = 10000
+# build model
+model = keras.Sequential()
+model.add(keras.layers.Embedding(vocab_size, 16))       # 嵌入层
+model.add(tf.keras.layers.LSTM(64))                     # LSTM层
+model.add(keras.layers.Dense(16, activation='relu'))    # 全连接层,ReLU激活函数,分类器
+model.add(keras.layers.Dense(1, activation='sigmoid'))  # 全连接层,Logistic激活函数
+model.summary()
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# embedding (Embedding)        (None, None, 16)          160000    
+# _________________________________________________________________
+# lstm (LSTM)                  (None, 64)                20736     
+# _________________________________________________________________
+# dense (Dense)                (None, 16)                1040      
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 1)                 17        
+# =================================================================
+# Total params: 181,793
+# Trainable params: 181,793
+# Non-trainable params: 0
+# _________________________________________________________________
+
+# configure model
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# divide dataset to train and test
+x_val = train_data[:10000]               # 验证集
+partial_x_train = train_data[10000:]     # 训练集
+y_val = train_labels[:10000]
+partial_y_train = train_labels[10000:]
+
+# train model
+history = model.fit(partial_x_train,     # 训练集输入
+                    partial_y_train,     # 训练集输出
+                    epochs=40,           # 迭代次数(训练集的循环使用次数)
+                    batch_size=512,      # batch大小(batch计算平均梯度并更新一次参数)
+                    validation_data=(x_val, y_val),  # 验证集
+                    verbose=1)
+
+# test model
+results = model.evaluate(test_data,  test_labels, verbose=2)
+print(results)
+
+# visualize: history
+history_dict = history.history
+acc = history_dict['accuracy']
+val_acc = history_dict['val_accuracy']
+loss = history_dict['loss']
+val_loss = history_dict['val_loss']
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
+```
+
+![png](https://tensorflow.google.cn/tutorials/keras/text_classification_files/output_nGoYf2Js-lle_0.png?hl=zh-cn)
+
+出现过拟合。
+
+
+
+
+
+# 生成莎士比亚风格的剧本
+
+
+
+```python
+import tensorflow as tf
+import numpy as np
+import os
+import time
+
+# import data
+path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
+text = open(path_to_file, 'rb').read().decode(encoding='utf-8')
+
+# check data
+print ('Length of text: {} characters'.format(len(text)))
+print(text[:250])
+
+# preprocess data
+# 创建字典
+vocab = sorted(set(text))
+print(vocab)
+# ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+# 将字典的各字符映射到整数
+char2idx = {u:i for i, u in enumerate(vocab)}
+idx2char = np.array(vocab)
+print(char2idx) # {'\n': 0, ' ': 1, ..., 'y': 63, 'z': 64}
+print(idx2char) # array(['\n', ' ', ..., 'y', 'z'], dtype='<U1')
+
+# 原文转换为整数向量
+text_as_int = np.array([char2idx[c] for c in text])
+print(text[:250])
+
+seq_length = 100
+examples_per_epoch = len(text)
+
+# 将整数向量转换为字符索引流
+char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
+# 再转换为指定长度的字符串的序列
+sequences = char_dataset.batch(seq_length+1, drop_remainder=True)
+
+# ..
+```
+
+
+
+
+
+# 天气预报
+
+> https://www.tensorflow.org/tutorials/structured_data/time_series
+
+| 类型           | 数据类型         | 结构           |          |
+| -------------- | ---------------- | -------------- | -------- |
+| TS: generation | database, series | FNN, CNN, RNN, |          |
+| **损失函数**   | **评价指标**     | **优化器**     | **回调** |
+|                |                  |                |          |
+
+```python
+import os
+import datetime
+
+import IPython
+import IPython.display
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import tensorflow as tf
+
+mpl.rcParams['figure.figsize'] = (8, 6)
+mpl.rcParams['axes.grid'] = False
+
+# import data
+zip_path = tf.keras.utils.get_file(
+    origin='https://storage.googleapis.com/tensorflow/tf-keras-datasets/jena_climate_2009_2016.csv.zip',
+    fname='jena_climate_2009_2016.csv.zip',
+    extract=True)
+csv_path, _ = os.path.splitext(zip_path)
+
+# preprocess data
+df = pd.read_csv(csv_path)
+df = df[5::6]
+date_time = pd.to_datetime(df.pop('Date Time'), format='%d.%m.%Y %H:%M:%S')
+
+# check data
+df.head()
+df.describe().transpose()
+#                    count         mean        std      min      25%      50%       75%      max
+# p (mbar)         70091.0   989.212842   8.358886   913.60   984.20   989.57   994.720  1015.29
+# T (degC)         70091.0     9.450482   8.423384   -22.76     3.35     9.41    15.480    37.28
+# Tpot (K)         70091.0   283.493086   8.504424   250.85   277.44   283.46   289.530   311.21
+# Tdew (degC)      70091.0     4.956471   6.730081   -24.80     0.24     5.21    10.080    23.06
+# rh (%)           70091.0    76.009788  16.474920    13.88    65.21    79.30    89.400   100.00
+# VPmax (mbar)     70091.0    13.576576   7.739883     0.97     7.77    11.82    17.610    63.77
+# VPact (mbar)     70091.0     9.533968   4.183658     0.81     6.22     8.86    12.360    28.25
+# VPdef (mbar)     70091.0     4.042536   4.898549     0.00     0.87     2.19     5.300    46.01
+# sh (g/kg)        70091.0     6.022560   2.655812     0.51     3.92     5.59     7.800    18.07
+# H2OC (mmol/mol)  70091.0     9.640437   4.234862     0.81     6.29     8.96    12.490    28.74
+# rho (g/m**3)     70091.0  1216.061232  39.974263  1059.45  1187.47  1213.80  1242.765  1393.54
+# wv (m/s)         70091.0     1.702567  65.447512 -9999.00     0.99     1.76     2.860    14.01
+# max. wv (m/s)    70091.0     2.963041  75.597657 -9999.00     1.76     2.98     4.740    23.50
+# wd (deg)         70091.0   174.789095  86.619431     0.00   125.30   198.10   234.000   360.00
+
+# preprocess data
+wv = df['wv (m/s)']
+bad_wv = wv == -9999.0
+wv[bad_wv] = 0.0
+
+max_wv = df['max. wv (m/s)']
+bad_max_wv = max_wv == -9999.0
+max_wv[bad_max_wv] = 0.0
+
+# feature engineering
+# wind: change wv, wd to wx, wy
+wv = df.pop('wv (m/s)')
+max_wv = df.pop('max. wv (m/s)')
+wd_rad = df.pop('wd (deg)')*np.pi / 180
+df['Wx'] = wv*np.cos(wd_rad)
+df['Wy'] = wv*np.sin(wd_rad)
+df['max Wx'] = max_wv*np.cos(wd_rad)
+df['max Wy'] = max_wv*np.sin(wd_rad)
+
+plt.hist2d(df['Wx'], df['Wy'], bins=(50, 50), vmax=400)
+plt.colorbar()
+plt.xlabel('Wind X [m/s]')
+plt.ylabel('Wind Y [m/s]')
+ax = plt.gca()
+ax.axis('tight')
+plt.show()
+
+# time
+timestamp_s = date_time.map(datetime.datetime.timestamp)
+day = 24*60*60
+year = (365.2425)*day
+df['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
+df['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
+# 周期函数的傅里叶展开的前两项
+df['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
+df['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
+
+# 如果未知气象参数与时间的周期关系,可以做频域分析
+fft = tf.signal.rfft(df['T (degC)'])
+f_per_dataset = np.arange(0, len(fft))
+n_samples_h = len(df['T (degC)'])
+hours_per_year = 24*365.2524
+years_per_dataset = n_samples_h/(hours_per_year)
+f_per_year = f_per_dataset/years_per_dataset
+plt.step(f_per_year, np.abs(fft))
+plt.xscale('log')
+plt.ylim(0, 400000)
+plt.xlim([0.1, max(plt.xlim())])
+plt.xticks([1, 365.2524], labels=['1/Year', '1/day'])
+_ = plt.xlabel('Frequency (log scale)')
+
+# divide dataset to train, validation and test
+n = len(df)
+train_df = df[0:int(n*0.7)]
+val_df = df[int(n*0.7):int(n*0.9)]
+test_df = df[int(n*0.9):]
+
+# normalize data
+train_mean = train_df.mean()
+train_std = train_df.std()
+train_df = (train_df - train_mean) / train_std
+val_df = (val_df - train_mean) / train_std
+test_df = (test_df - train_mean) / train_std
+
+
+```
 

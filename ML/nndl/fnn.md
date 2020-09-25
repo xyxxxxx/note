@@ -4,7 +4,7 @@
 
 在前馈神经网络中，各神经元分别属于不同的层，每一层的神经元可以接收前一层神经元的信号，并产生信号输出到下一层。第0层称为输入层，最后一层称为输出层，其他中间层称为隐藏层。整个网络中无反馈，信号从输入层向输出层单向传播，可用一个有向无环图表示。前馈神经网络如下图所示。
 
-![Screenshot from 2020-09-15 13-19-06.png](https://i.loli.net/2020/09/15/Yi1LzNP5mfGgCaH.png)
+![](https://i.loli.net/2020/09/15/Yi1LzNP5mfGgCaH.png)
 
 下表给出了描述前馈神经网络的记号。
 
@@ -13,10 +13,10 @@
 | $$L$$                                      | 神经网络的层数                      |
 | $$M_i$$                                    | 第$$l$$层神经元的个数               |
 | $$f_l(\cdot)$$                             | 第$$l$$层神经元的激活函数           |
-| $$\pmb W^{(l)}\in \R^{M_l\times M_{l-1}}$$ | 第$$l-1$$层到第$$l$$层的权重矩阵    |
-| $$\pmb b^{(l)}\in \R^{M_l}$$               | 第$$l-1$$层到第$$l$$层的偏置        |
-| $$\pmb z^{(l)}\in \R^{M_l}$$               | 第$$l$$层神经元的净输入（净活性值） |
-| $$\pmb a^{(l)}\in \R^{M_l}$$               | 第$$l$$层神经元的输出（活性值）     |
+| $$\pmb W^{(l)}\in \mathbb{R}^{M_l\times M_{l-1}}$$ | 第$$l-1$$层到第$$l$$层的权重矩阵    |
+| $$\pmb b^{(l)}\in \mathbb{R}^{M_l}$$               | 第$$l-1$$层到第$$l$$层的偏置        |
+| $$\pmb z^{(l)}\in \mathbb{R}^{M_l}$$               | 第$$l$$层神经元的净输入（净活性值） |
+| $$\pmb a^{(l)}\in \mathbb{R}^{M_l}$$               | 第$$l$$层神经元的输出（活性值）     |
 
 令$$\pmb a^{(0)}=\pmb x$$，前馈神经网络通过不断迭代以下公式进行信息传播：
 $$
@@ -37,7 +37,7 @@ $$
 
 前馈神经网络具有很强的拟合能力，常见的连续非线性函数都可以用前馈神经网络来近似。
 
-**通用近似定理(Universal Approximation Theorem)** [Cybenko, 1989; Hornik et al., 1989] ：$$\mathcal{I}_D$$是一个$$D$$维的单位超立方体$$[0, 1]^D$$，$$C(\mathcal{I}_D)$$ 是定义在$$\mathcal{I}_D$$上的连续函数集合。对于任意给定的一个函数$$f ∈ C(\mathcal{I}_D)$$ , 存在整数$$M$$，实数$$v_m,b_m ∈ \R$$，实数向量$$w_m ∈ \R^D ,m = 1, ⋯ , M$$和非常数、有界、单调递增的连续函数$$\phi(⋅)$$，使得对于$$\forall \varepsilon>0$$，可以定义函数
+**通用近似定理(Universal Approximation Theorem)** [Cybenko, 1989; Hornik et al., 1989] ：$$\mathcal{I}_D$$是一个$$D$$维的单位超立方体$$[0, 1]^D$$，$$C(\mathcal{I}_D)$$ 是定义在$$\mathcal{I}_D$$上的连续函数集合。对于任意给定的一个函数$$f ∈ C(\mathcal{I}_D)$$ , 存在整数$$M$$，实数$$v_m,b_m ∈ \mathbb{R}$$，实数向量$$w_m ∈ \mathbb{R}^D ,m = 1, ⋯ , M$$和非常数、有界、单调递增的连续函数$$\phi(⋅)$$，使得对于$$\forall \varepsilon>0$$，可以定义函数
 $$
 F(\pmb x) =\sum_{m=1}^{M} v_m \phi(\pmb w^{\rm T}_m\pmb x + b_m )
 $$
@@ -46,9 +46,9 @@ $$
 |F(\pmb x)-f(\pmb x)|<\varepsilon, \forall \pmb x\in \mathcal{I}_D
 $$
 
-> 通用近似定理在实数空间$$\R^D$$的有界闭集上依然成立。
+> 通用近似定理在实数空间$$\mathbb{R}^D$$的有界闭集上依然成立。
 
-根据通用近似定理，对于具有线性输出层和至少一个使用 “挤压” 性质的激活函数的隐藏层组成的前馈神经网络，只要其隐藏层神经元的数量足够，它可以以任意的精度来近似任何一个定义在实数空间$$\R^D$$中的有界闭集函数 [Funa-hashi et al., 1993; Hornik et al., 1989] 。所谓 “挤压” 性质的函数是指像 Sigmoid 函数的有界函数，但神经网络的通用近似性质也被证明对于其他类型的激活函数，比如 ReLU ，也都是适用的。
+根据通用近似定理，对于具有线性输出层和至少一个使用 “挤压” 性质的激活函数的隐藏层组成的前馈神经网络，只要其隐藏层神经元的数量足够，它可以以任意的精度来近似任何一个定义在实数空间$$\mathbb{R}^D$$中的有界闭集函数 [Funa-hashi et al., 1993; Hornik et al., 1989] 。所谓 “挤压” 性质的函数是指像 Sigmoid 函数的有界函数，但神经网络的通用近似性质也被证明对于其他类型的激活函数，比如 ReLU ，也都是适用的。
 
 
 
@@ -56,7 +56,7 @@ $$
 
 根据通用近似定理，神经网络在某种程度上可以作为一个 “万能” 函数来使用，可以用来进行复杂的特征转换或逼近一个复杂的条件分布。
 
-多层前馈神经网络也可以看成是一种特征转换方法，将输入$$\pmb x\in\R^D$$映射到输出$$\phi(\pmb x)\in \R^{D'}$$，再将输出$$\phi(\pmb x)$$作为分类器的输入进行分类。
+多层前馈神经网络也可以看成是一种特征转换方法，将输入$$\pmb x\in\mathbb{R}^D$$映射到输出$$\phi(\pmb x)\in \mathbb{R}^{D'}$$，再将输出$$\phi(\pmb x)$$作为分类器的输入进行分类。
 
 > 根据通用近似定理，只需要一层隐藏层就可以逼近任何函数，那么多层的神经网络的前几层就可以视作特征转换过程。
 
@@ -64,7 +64,7 @@ $$
 $$
 p(y = 1|\pmb x) = a (L)
 $$
-其中$$a^{(L)} ∈ \R$$为第$$L$$层神经元的活性值。
+其中$$a^{(L)} ∈ \mathbb{R}$$为第$$L$$层神经元的活性值。
 
 对于多分类问题$$y ∈ {1, ⋯ , C}$$，如果使用 Softmax 回归分类器，相当于网络最后一层设置$$C$$个神经元，其激活函数为 Softmax 函数。网络最后一层(第$$L$$层)的输出可以作为每个类的条件概率。
 
@@ -122,12 +122,12 @@ $$
 
 1. 计算偏导数$$\frac{\partial \pmb z^{(l)}}{\partial w_{ij}^{(l)}}$$，根据$$\pmb z^{(l)}=\pmb W^{(l)}\pmb a^{(l-1)}+\pmb b^{(l)}\\$$，
    
-   > 回想$$\pmb z^{(l)}\in \R^{M_l}$$，$$\pmb W^{(l)}\in \R^{M_l\times M_{l-1}}$$，$$\pmb a^{(l)}\in \R^{M_l}$$
+   > 回想$$\pmb z^{(l)}\in \mathbb{R}^{M_l}$$，$$\pmb W^{(l)}\in \mathbb{R}^{M_l\times M_{l-1}}$$，$$\pmb a^{(l)}\in \mathbb{R}^{M_l}$$
    
    $$
    \frac{\partial \pmb z^{(l)}}{\partial w_{ij}^{(l)}}=[\frac{\partial z^{(l)}_1}{\partial w_{ij}^{(l)}},\cdots,\frac{\partial z^{(l)}_i}{\partial w_{ij}^{(l)}},\cdots,\frac{\partial z^{(l)}_{M_l}}{\partial w_{ij}^{(l)}}]\\
    =[0,\cdots,\frac{\partial (\pmb w_{i*}^{(l)}\pmb a^{(l-1)}+b_i^{(l)})}{\partial w_{ij}^{(l)}},\cdots,0]\\
-   =[0,\cdots,a_j^{l-1},\cdots,0]\triangleq \mathbb{I}_i(a_j^{(l-1)})\in \R^{1\times M_l}
+   =[0,\cdots,a_j^{l-1},\cdots,0]\triangleq \mathbb{I}_i(a_j^{(l-1)})\in \mathbb{R}^{1\times M_l}
    $$
    
    其中$$\pmb w_{i*}^{(l)}$$表示$$\pmb W^{(l)}$$的第$$i$$行，$$\mathbb{I}_i(a_j^{(l-1)})$$表示第$$i$$个元素为$$a_j^{(l-1)}$$，其余为0的行向量。
@@ -135,42 +135,42 @@ $$
 2. 计算偏导数$$\frac{\partial \pmb z^{(l)}}{\partial \pmb b^{(l)}}$$，根据$$\pmb z^{(l)}=\pmb W^{(l)}\pmb a^{(l-1)}+\pmb b^{(l)}\\$$，
 
    $$
-   \frac{\partial \pmb z^{(l)}}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\in \R^{M_l\times M_l}
+   \frac{\partial \pmb z^{(l)}}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\in \mathbb{R}^{M_l\times M_l}
    $$
    为单位矩阵。
 
 3. 计算偏导数$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}$$，这一项表示第$$l$$层神经元对最终损失的影响，因此一般称为第$$l$$层神经元的**误差项**，用$$\delta^{(l)}$$表示，
    
    $$
-   \delta^{(l)}\triangleq \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}\in \R^{M_l}
+   \delta^{(l)}\triangleq \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}\in \mathbb{R}^{M_l}
    $$
 误差项也间接反映了不同神经元对网络能力的贡献程度，从而比较好地解决**贡献度分配问题(Credit Assignment Problem, CAP)**。
    
    根据$$\pmb z^{(l+1)}=\pmb W^{(l+1)}\pmb a^{(l)}+\pmb b^{(l+1)}\\$$，
    $$
-   \frac{\partial \pmb z^{(l+1)}}{\partial \pmb a^{(l)}}=(\pmb W^{(l+1)})^{\rm T} \in \R^{M_l\times M_{l+1}}
+   \frac{\partial \pmb z^{(l+1)}}{\partial \pmb a^{(l)}}=(\pmb W^{(l+1)})^{\rm T} \in \mathbb{R}^{M_l\times M_{l+1}}
    $$
    根据$$\pmb a^{(l)}=f_l(\pmb z^{(l)})$$，其中$$f_l(\cdot)$$是按位计算的函数（即$$a_1^{(l)}=f_{l1}(z_1^{(l)})$$，$$a_2^{(l)}=f_{l2}(z_2^{(l)})$$，…），
    $$
-   \frac{\partial \pmb a^{(l)}}{\partial \pmb z^{(l)}}={\rm diag}(f_l'(\pmb z^{(l)}))\in \R^{M_l\times M_l}
+   \frac{\partial \pmb a^{(l)}}{\partial \pmb z^{(l)}}={\rm diag}(f_l'(\pmb z^{(l)}))\in \mathbb{R}^{M_l\times M_l}
    $$
    根据链式法则
    $$
    \pmb \delta^{(l)}\triangleq \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}\\
    =\frac{\partial \pmb a^{(l)}}{\partial \pmb z^{(l)}}\frac{\partial \pmb z^{(l+1)}}{\partial \pmb a^{(l)}}\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l+1)}}\\
    ={\rm diag}(f_l'(\pmb z^{(l)}))\cdot(\pmb W^{(l+1)})^{\rm T}\cdot\pmb \delta^{(l+1)}\\
-   =f'_l(\pmb z^{(l)})\odot((\pmb W^{(l+1)})^{\rm T}\cdot \pmb \delta^{(l+1)})\in \R^{M_l}
+   =f'_l(\pmb z^{(l)})\odot((\pmb W^{(l+1)})^{\rm T}\cdot \pmb \delta^{(l+1)})\in \mathbb{R}^{M_l}
    $$
    其中$$\odot$$是向量的点积运算符。从上式可以看出，第$$l$$层的误差项可以通过第$$l + 1$$层的误差项计算得到，这就是误差的**反向传播(Back Propagation, BP)**。反向传播算法的含义是：第$$l$$层的一个神经元的误差项（或敏感性）是所有与该神经元相连的第$$l + 1$$层的神经元的误差项的权重和，再乘上该神经元激活函数的梯度。
 
 现在就可以计算偏导数$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}},\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}$$，
 $$
-\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}}=\mathbb{I}_i(a_j^{(l-1)})\pmb \delta^{(l)}=\delta_i^{(l)}a_j^{l-1}\Rightarrow \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}=\pmb \delta^{(l)}(\pmb a^{(l-1)})^{\rm T}\in \R^{M_l\times M_{l-1}} \\
-\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\pmb \delta^{(l)}=\pmb \delta^{(l)}\in \R^{M_l}
+\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}}=\mathbb{I}_i(a_j^{(l-1)})\pmb \delta^{(l)}=\delta_i^{(l)}a_j^{l-1}\mathbb{R}ightarrow \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}=\pmb \delta^{(l)}(\pmb a^{(l-1)})^{\rm T}\in \mathbb{R}^{M_l\times M_{l-1}} \\
+\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\pmb \delta^{(l)}=\pmb \delta^{(l)}\in \mathbb{R}^{M_l}
 $$
 下图展示了使用随机梯度下降法和误差反向传播算法的前馈神经网络训练算法
 
-![Screenshot from 2020-09-16 12-44-36.png](https://i.loli.net/2020/09/16/H9poPa4cAuFJRlV.png)
+![](https://i.loli.net/2020/09/16/H9poPa4cAuFJRlV.png)
 
 
 
@@ -258,7 +258,7 @@ $$
 
 给定一个输入样本$$(x,y)=(1,1)$$，分别使用两种损失函数：平方误差损失$$\mathcal{L}(w_1,w_2)=(1-y)^2$$，交叉熵损失$$\mathcal{L}(w_1,w_2)=\log y$$。下图展示了损失函数与参数$$w_1,w_2$$的关系，可以看到两种损失函数都是关于$$w_1,w_2$$的非凸函数。
 
-![Screenshot from 2020-09-16 14-22-55.png](https://i.loli.net/2020/09/16/K3R2AodilVFp6L9.png)
+![](https://i.loli.net/2020/09/16/K3R2AodilVFp6L9.png)
 
 > 降低损失函数，即$$y\to 1$$，即$$w_2\to +\infty$$且$$w_2\sigma(w_1x)\to +\infty$$
 
@@ -268,14 +268,14 @@ $$
 
 误差反向传播的迭代公式为
 $$
-\pmb \delta^{(l)}=f'_l(\pmb z^{(l)})\odot((\pmb W^{(l+1)})^{\rm T}\cdot \pmb \delta^{(l+1)})\in \R^{M_l}
+\pmb \delta^{(l)}=f'_l(\pmb z^{(l)})\odot((\pmb W^{(l+1)})^{\rm T}\cdot \pmb \delta^{(l+1)})\in \mathbb{R}^{M_l}
 $$
 计算每一层误差时都需要计算该层的激活函数的导数。当激活函数是 Logistic 函数 $$σ(x)$$ 或 Tanh 函数时，其导数为
 $$
 \sigma'(x)=\sigma(x)(1-\sigma(x))\in [0,0.25]\\
 \tanh'(x)=1-\tanh^2(x)\in [0,1]
 $$
-![Screenshot from 2020-09-16 14-38-56.png](https://i.loli.net/2020/09/16/H4AJYEDtMBKCeSa.png)
+![](https://i.loli.net/2020/09/16/H4AJYEDtMBKCeSa.png)
 
 因此误差每反向传播一层都会衰减一次，当网络层数很深时梯度会衰减到近乎为0，使得整个网络很难训练。这就是所谓的梯度消失问题(vanishing gradient problem)。
 

@@ -47,22 +47,22 @@ $$
 \frac{\partial y}{\partial  x_{11}}&\cdots&\frac{\partial y}{\partial x_{1N}}\\
 \vdots & \ddots & \vdots\\
 \frac{\partial y}{\partial  x_{M1}}&\cdots&\frac{\partial y}{\partial x_{MN}}\\
-\end{bmatrix}\in\R^{M\times N}
+\end{bmatrix}\in\mathbb{R}^{M\times N}
 $$
 
-**矩阵关于标量的偏导数**  对于标量$$x\in \mathbb{R}$$和函数$$Y=f(x)\in \R^{M\times N}$$，$$Y$$关于$$x$$的偏导数为
+**矩阵关于标量的偏导数**  对于标量$$x\in \mathbb{R}$$和函数$$Y=f(x)\in \mathbb{R}^{M\times N}$$，$$Y$$关于$$x$$的偏导数为
 $$
 \frac{\partial Y}{\partial x}=\begin{bmatrix}
 \frac{\partial y_{11}}{\partial  x}&\cdots&\frac{\partial y_{M1}}{\partial x}\\
 \vdots & \ddots & \vdots\\
 \frac{\partial y_{1N}}{\partial  x}&\cdots&\frac{\partial y_{MN}}{\partial x}\\
-\end{bmatrix}\in \R^{N\times M}
+\end{bmatrix}\in \mathbb{R}^{N\times M}
 $$
 
 
 
 
-@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \R^n,A\in\R^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
+@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \mathbb{R}^n,A\in\mathbb{R}^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
 $$
 y=\pmb x^{\rm T}A\pmb x=\sum_{i=1}^n \sum_{j=1}^n a_{ij}x_ix_j\quad(二次型)\\
 \frac{\partial y}{\partial x_1}=\sum_{i=1}^na_{i1}x_i+\sum_{j=1}^na_{1j}x_j=(A^{\rm T}\pmb x)_1+(A\pmb x)_1\\
@@ -70,7 +70,7 @@ y=\pmb x^{\rm T}A\pmb x=\sum_{i=1}^n \sum_{j=1}^n a_{ij}x_ix_j\quad(二次型)\\
 $$
 
 
-@$$y={\rm tr}(A)$$其中$$A\in \R^{n\times n}$$，计算$$\frac{\partial y}{\partial A}$$。
+@$$y={\rm tr}(A)$$其中$$A\in \mathbb{R}^{n\times n}$$，计算$$\frac{\partial y}{\partial A}$$。
 $$
 \frac{\partial y}{\partial a_{ij}}=\frac{\partial\sum_{k=1}^na_{kk}}{\partial a_{ij}}=\begin{cases}1,&i=j\\
 0,&i\neq j
@@ -105,7 +105,7 @@ $$
    \frac{\partial y \pmb z}{\partial \pmb x}=y\frac{\partial \pmb z}{\partial \pmb x}+\frac{\partial y}{\partial \pmb x}\pmb z^{\rm T} \in \mathbb{R}^{M\times N}
    $$
    
-4. 若$$x\in \mathbb{R},Y\in \mathbb{R}^{M\times N},Z\in \R^{N\times P}$$，则
+4. 若$$x\in \mathbb{R},Y\in \mathbb{R}^{M\times N},Z\in \mathbb{R}^{N\times P}$$，则
    $$
    \frac{\partial YZ}{\partial x}=Z^{\rm T}\frac{\partial Y}{\partial x}+\frac{\partial Z}{\partial x}Y^{\rm T}
    $$
@@ -154,7 +154,7 @@ a={\rm tr}(a)\\
 $$
 
 
-@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \R^n,A\in\R^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
+@$$y=\pmb x^{\rm T}A\pmb x$$，其中$$\pmb x\in \mathbb{R}^n,A\in\mathbb{R}^{n\times n}$$，计算$$\frac{\partial y}{\partial \pmb x}$$。
 $$
 {\rm d}y={\rm d}(\pmb x^{\rm T})A\pmb x+\pmb x^{\rm T}{\rm d}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
 =({\rm d}\pmb x)^{\rm T}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
@@ -164,7 +164,7 @@ $$
 $$
 
 
-@$$W\in\R^{R\times S}$$，$$X=g(W)=AWB\in\R^{M\times N}$$，$$y=f(X)\in \R$$，$$\frac{\partial y}{\partial X}$$已知，求$$\frac{\partial y}{\partial W}$$。
+@$$W\in\mathbb{R}^{R\times S}$$，$$X=g(W)=AWB\in\mathbb{R}^{M\times N}$$，$$y=f(X)\in \mathbb{R}$$，$$\frac{\partial y}{\partial X}$$已知，求$$\frac{\partial y}{\partial W}$$。
 $$
 \because {\rm d}y={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}{\rm d}X)={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}A{\rm d}WB)={\rm tr}(B(\frac{\partial y}{\partial X})^{\rm T}A{\rm d}W)={\rm tr}((A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T})^{\rm T}{\rm d}W)\\
 \therefore \frac{\partial y}{\partial W}=A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T}
@@ -229,16 +229,17 @@ $$
 
 ## 常用微分
 
-| 加减法     | $${\rm d}(X\pm Y)={\rm d}X\pm {\rm d}Y$$                     |
+|            |                                                              |
 | ---------- | ------------------------------------------------------------ |
+| 加减法     | $${\rm d}(X\pm Y)={\rm d}X\pm {\rm d}Y$$                     |
 | 数乘       | $${\rm d}(\alpha X)=\alpha {\rm d} X$$                       |
 | 乘法       | $${\rm d}(XY)={\rm d}X\ Y+X{\rm d}Y$$                        |
-| 幂         | $${\rm d}X^n=$$                                              |
+| 幂         | $${\rm d}X^n=\sum_{i=0}^{n-1} X^i {\rm d}X X^{n-1-i}$$       |
 | 转置       | $${\rm d}(X^{\rm T})=({\rm d}X)^{T}$$                        |
 | 迹         | $${\rm d}{\rm tr}(X)={\rm tr}({\rm d}X)$$                    |
 | 逆         | $${\rm d}X^{-1}=-X^{-1}{\rm d}XX^{-1}$$                      |
-| 行列式     | $${\rm d}|X|={\rm tr}(X^*{\rm d}X)$$, $$X^*$$为伴随矩阵      |
-|            | $${\rm d}|X|=|X|{\rm tr}(X^{-1}{\rm d}X)$$, 如果$$X$$可逆    |
+| 行列式     | $${\rm d}\vert X\vert={\rm tr}(X^*{\rm d}X)$$, $$X^*$$为伴随矩阵 |
+|            | $${\rm d}\vert X\vert=\vert X\vert{\rm tr}(X^{-1}{\rm d}X)$$, 如果$$X$$可逆 |
 | 逐元素乘法 | $${\rm d}(X\odot Y)={\rm d}X\odot Y+X\odot {\rm d}Y $$       |
 | 逐元素函数 | $${\rm d}\sigma(X)=\sigma'(X)\odot {\rm d}X$$, $$\sigma$$为逐元素函数运算 |
 |            |                                                              |

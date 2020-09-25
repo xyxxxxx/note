@@ -1,3 +1,9 @@
+> 参考
+>
+> 邱锡鹏,2020. 神经网络与深度学习[M/OL].  机械工业出版社. https://nndl.github.io/nndl-book.pdf
+>
+> 机器学习速成课程 https://developers.google.com/machine-learning/crash-course
+
 # 介绍
 
 这里以一个生活中的例子来介绍机器学习中的一些基本概念和流程：
@@ -533,14 +539,6 @@ PAC 学习理论也可以帮助分析一个机器学习方法在什么条件下�
 **奥卡姆剃刀(Occam’s Razor)**原理是由14世纪逻辑学家 William of Occam提出的一个解决问题的法则：“如无必要, 勿增实体”。奥卡姆剃刀的思想和机器学习中的正则化思想十分类似：<u>简单的模型泛化能力更好</u>。如果有两个性能相近的模型，我们应该<u>选择更简单的模型</u>。因此，在机器学习的学习准则上，我们经常会引入参数正则化来限制模型能力，避免过拟合。
 
 
-
-
-
-# 参考文献
-
-邱锡鹏,2020. 神经网络与深度学习[M/OL].  机械工业出版社. https://nndl.github.io/nndl-book.pdf
-
-机器学习速成课程 https://developers.google.com/machine-learning/crash-course
 
 
 
