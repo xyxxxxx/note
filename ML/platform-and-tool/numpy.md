@@ -15,11 +15,41 @@ print(matrix)
 #[[ 6  5]
 # [11  7]
 # [ 4  8]]
+print(matrix.ndim)
+# 2
 
 sequence_matrix = np.arange(5, 11).reshape(2, 3)
 print(sequence_matrix)
 #[[ 5  6  7], 
 # [ 8  9 10]]
+
+one = np.ones(6).reshape(2,3)
+zero = np.zeros((300,20))
+```
+
+
+
+## 基本运算
+
+```python
+a = np.arange(6).reshape(2,3)
+b = np.arange(6,12).reshape(2,3)
+c = np.ones(3)
+d = np.array([[1, 0], [1, 1]])
+
+r = a+b               # element-wise addition
+r = np.maximum(z, 0.) # element-wise ReLU
+
+r = a+1               # broadcasting
+r = a+2*c             # broadcasting can be applied when one tensor has shape 
+                      # (n1, n2, ...) and the other has (m1, m2, ..., n1, n2, ...)
+    
+r = np.dot(d,d)       # matrix multiplication
+r = d*d               # element-wise multiplication
+                      # 矩阵乘法可以扩展到高维张量之间,具体运算规则与矩阵乘法类似
+
+r = np.transpose(a)   # transpose
+
 ```
 
 

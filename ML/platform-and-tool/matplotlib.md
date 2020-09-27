@@ -1,3 +1,62 @@
+# tensorflow example
+
+## gray image
+
+```python
+# draw image
+plt.figure()
+plt.imshow(train_images[0], cmap=plt.cm.binary)
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+# draw multiple images
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+```
+
+
+
+## line chart
+
+```python
+def plot_history(history):
+  hist = pd.DataFrame(history.history)
+  hist['epoch'] = history.epoch
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Abs Error [MPG]')
+  plt.plot(hist['epoch'], hist['mae'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mae'],
+           label = 'Val Error')
+  plt.ylim([0,5])
+  plt.legend()
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Square Error [$MPG^2$]')
+  plt.plot(hist['epoch'], hist['mse'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mse'],
+           label = 'Val Error')
+  plt.ylim([0,20])
+  plt.legend()
+  plt.show()
+```
+
+
+
+
+
+# gallery
+
 > 参考[matplotlib gallery](https://matplotlib.org/gallery/index.html)
 
 ![Histogram of IQ: $\mu=100$, $\sigma=15$](https://matplotlib.org/_images/sphx_glr_histogram_features_001.png)

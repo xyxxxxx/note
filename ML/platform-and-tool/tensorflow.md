@@ -89,28 +89,7 @@ np_array = tf_tensor.numpy()
 
 ```python
 rank_4_tensor = tf.zeros([3, 2, 4, 5])
-Math  				
-未
-定
-义
-的
-状
-态
-转
-移
-函
-数
-转
-移
-至
-开
-始
-运
-行
-结
-束
-错
-误
+
 # show shape
 print("Type of every element:", rank_4_tensor.dtype)   # <dtype: 'float32'>
 print("Number of dimensions:", rank_4_tensor.ndim)     # 4
@@ -371,17 +350,24 @@ $$
 
 在 TensorFlow 中，推荐使用 Keras（ `tf.keras` ）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
 
+Keras 提供了定义和训练任何类型的神经网络模型的便捷方法，具有以下特性：
+
++ 允许代码在CPU或GPU上运行并且无缝切换
++ 提供用户友好的 API 以使得能够快速建模
++ 提供对于 CNN (for CV)，RNN (for time series) 的内置支持
++ 支持任意类型的网络结构
+
 keras 有两个重要的概念： **模型（model）** 和 **层（layer）** 。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
 
 
 
 ## layer
 
-`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
+层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重张量，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
 
 ### Dense
 
-全连接层（fully-connected layer，`tf.keras.layers.Dense` ）是 Keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数，即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input = [batch_size, input_dim]` ，该层对输入张量首先进行 `tf.matmul(input, kernel) + bias` 的线性变换（ `kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation` ，从而输出形状为 `[batch_size, units]` 的二维张量。
+全连接层（densely connected layer, fully connected layer, `tf.keras.layers.Dense` ）是 Keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数，即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input = [batch_size, input_dim]` ，该层对输入张量首先进行 `tf.matmul(input, kernel) + bias` 的线性变换（ `kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation` ，从而输出形状为 `[batch_size, units]` 的二维张量。
 
 [![../../_images/dense.png](https://tf.wiki/_images/dense.png)](https://tf.wiki/_images/dense.png)
 
@@ -506,15 +492,54 @@ model.summary()
 
 
 
+### Dropout
+
+示例：
+
+```python
+model = models.Sequential()
+model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(16, activation='relu'))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(1, activation='sigmoid'))
+```
+
 
 
 
 
 ## model
 
+![](https://i.loli.net/2020/09/27/hvxUc9eyiqJkGVu.png)
+
+### compile
+
+
+
+
+
+### fit
+
+
+
+
+
+### evaluate
+
+
+
+
+
+### summary
+
+`summary()`方法显示模型的基本结构。
+
+
+
 ### Sequential
 
-`Sequential`返回一个`keras.Model`对象。`Sequential`模型适用于FNN，CNN，RNN等，其中每一层都有**一个输入张量和一个输出张量** 。
+`Sequential`返回一个`keras.Model`对象。`Sequential`模型将各层线性组合，适用于FNN，CNN，RNN，其中每一层都有**一个输入张量和一个输出张量** 。
 
 以下`Sequential`模型，
 
@@ -553,15 +578,14 @@ model.add(layers.Dense(3, activation="relu"))
 model.add(layers.Dense(4))
 ```
 
-一旦创建了模型，就可以调用`summary()`方法显示其内容。
 
 
-
-CNN模型示例
+CNN模型示例：
 
 ```python
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+# FNN, CNN 需要指定输入张量的shape
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
@@ -571,24 +595,6 @@ model.add(layers.Dense(64, activation='relu'))
 
 model.add(layers.Dense(10))
 ```
-
-
-
-### compile
-
-
-
-
-
-### fit
-
-
-
-
-
-### evaluate
-
-
 
 
 
@@ -633,60 +639,19 @@ class Linear(tf.keras.Model):
 
 
 
-
-
-
-
-# visualize
-
-## example: gray image
+## regularizers
 
 ```python
-# draw image
-plt.figure()
-plt.imshow(train_images[0], cmap=plt.cm.binary)
-plt.colorbar()
-plt.grid(False)
-plt.show()
-
-# draw multiple images
-plt.figure(figsize=(10,10))
-for i in range(25):
-    plt.subplot(5,5,i+1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-    plt.imshow(train_images[i], cmap=plt.cm.binary)
-    plt.xlabel(class_names[train_labels[i]])
-plt.show()
+model = models.Sequential()
+model.add(layers.Dense(16, kernel_regularizer=keras.regularizers.l2(0.001),
+                                              # l2 regularization, coefficient = 0.001
+activation='relu', input_shape=(10000,)))
+model.add(layers.Dense(16, kernel_regularizer=keras.regularizers.l1_l2(l1=0.001, l2=0.001),                                    # l1 & l2
+activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
 ```
 
 
 
-## example: line chart
 
-```python
-def plot_history(history):
-  hist = pd.DataFrame(history.history)
-  hist['epoch'] = history.epoch
-  plt.figure()
-  plt.xlabel('Epoch')
-  plt.ylabel('Mean Abs Error [MPG]')
-  plt.plot(hist['epoch'], hist['mae'],
-           label='Train Error')
-  plt.plot(hist['epoch'], hist['val_mae'],
-           label = 'Val Error')
-  plt.ylim([0,5])
-  plt.legend()
-  plt.figure()
-  plt.xlabel('Epoch')
-  plt.ylabel('Mean Square Error [$MPG^2$]')
-  plt.plot(hist['epoch'], hist['mse'],
-           label='Train Error')
-  plt.plot(hist['epoch'], hist['val_mse'],
-           label = 'Val Error')
-  plt.ylim([0,20])
-  plt.legend()
-  plt.show()
-```
 

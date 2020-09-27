@@ -1,20 +1,19 @@
-| 类型                                      | 数据类型                       | 结构                     |               |
-| ----------------------------------------- | ------------------------------ | ------------------------ | ------------- |
-| CV/NLP/TS: classify/regression/generation | database/image/language/series | FNN, CNN, RNN, embedding |               |
-| **损失函数**                              | **评价指标**                   | **优化器**               | **回调**      |
-| mse/crossentropy                          | accuracy, mae, mse             | adam, RMSprop,           | EarlyStopping |
-| **训练集规模**                            | **验证集规模**                 | **测试集规模**           |               |
-|                                           |                                |                          |               |
+| 类型                                                 | 数据类型                              | 结构                     |               |
+| ---------------------------------------------------- | ------------------------------------- | ------------------------ | ------------- |
+| CV/NLP/TS: classify/regression/generation            | database/image/language/series        | FNN, CNN, RNN, embedding |               |
+| **损失函数**                                         | **评价指标**                          | **优化器**               | **回调**      |
+| mse/binary crossentropy/categorical crossentropy/ctc | accuracy, precision, recall, mae, mse | adam, RMSprop,           | EarlyStopping |
+| **训练集规模**                                       | **验证集规模**                        | **测试集规模**           |               |
+|                                                      |                                       |                          |               |
 
 ```python
 # template
 
 # import data
-# preprocess data
+# preprocess data: vectorize data, normalize data, handle abnormal data
 # check data
 # visualize
 # feature engineering
-# normalize data
 # divide dataset to train and test
 # separate label from data
 
@@ -27,7 +26,15 @@
 # visualize
 ```
 
+​      
 
+| Problem type                            | Last-layer activation | Loss function                  |
+| --------------------------------------- | --------------------- | ------------------------------ |
+| Binary classification                   | `sigmoid`             | `binary_crossentropy`          |
+| Multiclass, single-label classification | `softmax`             | `categorical_crossentropy`     |
+| Multiclass, multilabel classification   | `sigmoid`             | `binary_crossentropy`          |
+| Regression to arbitrary values          | None                  | `mse`                          |
+| Regression to values between 0 and 1    | `sigmoid`             | `mse` or `binary_crossentropy` |
 
 
 
@@ -84,7 +91,7 @@ print(train_stats)
 train_labels = train_dataset.pop('MPG')
 test_labels = test_dataset.pop('MPG')
 
-# normalize data
+# preprocess data: normalize data
 def norm(x):
   return (x - train_stats['mean']) / train_stats['std']
 normed_train_data = norm(train_dataset)
@@ -97,8 +104,9 @@ def build_model():
     layers.Dense(64, activation='relu'),
     layers.Dense(1)
   ])
-  optimizer = tf.keras.optimizers.RMSprop(0.001)
-  model.compile(loss='mse',              # 损失函数: 均方误差
+  optimizer = tf.keras.optimizers.RMSprop(0.001)  # 小批量随机梯度下降法,每个batch的规模
+    											  # 为所有样本的0.001
+  model.compile(loss='mse',                       # 损失函数: 均方误差
                 optimizer=optimizer,
                 metrics=['mae', 'mse'])
   return model
@@ -175,7 +183,37 @@ plt.hist(error, bins = 25)
 plt.xlabel("Prediction Error [MPG]")
 _ = plt.ylabel("Count")
 plt.show()
+
 ```
+
+事实上，由于样本规模太小，不应该采用本例的划分验证集的方法，而应该交叉验证，示例：
+
+```python
+for i in range(k):
+    print('processing fold #', i)
+    val_data = train_data[i * num_val_samples: (i + 1) * num_val_samples]
+    val_targets = train_targets[i * num_val_samples: (i + 1) * num_val_samples]
+    partial_train_data = np.concatenate([train_data[:i * num_val_samples],
+                                        train_data[(i + 1) * num_val_samples:]],
+                                        axis=0)
+    partial_train_targets = np.concatenate([train_targets[:i * num_val_samples], 
+                                           train_targets[(i + 1) * num_val_samples:]], 
+                                           axis=0)
+    model = build_model()
+    model.fit(partial_train_data, partial_train_targets,
+    epochs=num_epochs, batch_size=1, verbose=0)
+    val_mse, val_mae = model.evaluate(val_data, val_targets, verbose=0)
+    all_scores.append(val_mae)
+```
+
+使用验证集有几种方法：
+
+1. 使用训练集训练模型的过程中，监视验证集在每个`epoch`的损失函数，若此函数在连续几个`epoch`中没有改善，则停止训练模型
+2. 使用训练集训练模型的过程中，监视验证集在每个`epoch`的损失函数，若此函数在连续几个`epoch`中没有改善，则记录最优的超参数`epochs`的值，将验证集并入训练集，使用该超参数重新训练
+
+
+
+
 
 
 
@@ -206,7 +244,8 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
 
 # check data
 print(train_images.shape)   # (60000,28,28)
-print(train_labels.shape)   # (60000)
+                            # the first axis is called samples axis
+print(train_images.dtype)   # uint8
 print(train_labels)         # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
 print(test_images.shape)    # (10000,28,28)
 print(test_labels.shape)    # 10000
@@ -218,7 +257,7 @@ plt.colorbar()
 plt.grid(False)
 plt.show()
 
-# normalize data
+# preprocess data: normalize data
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
@@ -337,6 +376,7 @@ import matplotlib.pyplot as plt
 
 # check data
 print(train_images.shape) # (60000, 28, 28)
+print(train_labels)       # array([5, 0, 4, ..., 5, 6, 8], dtype=uint8)
 
 # visualize: data
 plt.figure(figsize=(10,10))          # size of figure displayed
@@ -353,7 +393,7 @@ plt.show()
 train_images = train_images.reshape((60000, 28, 28, 1)) # standard image size: HxWxD
 test_images = test_images.reshape((10000, 28, 28, 1))
 
-# normalize data
+# preprocess data: normalize data
 train_images, test_images = train_images / 255.0, test_images / 255.0
 
 # build model
@@ -393,7 +433,9 @@ model.summary()
 
 # configure model
 model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
+              loss='sparse_categorical_crossentropy', # 将 train_labels 中的值视作标签
+              # 等价于 train_labels = to_categorical(train_labels) 
+              #       loss='categorical_crossentropy'
               metrics=['accuracy'])
 
 # train model
@@ -458,7 +500,7 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i][0]])
 plt.show()
 
-# normalize data
+# preprocess data: normalize data
 train_images, test_images = train_images / 255.0, test_images / 255.0
 
 # build model
@@ -527,11 +569,11 @@ plt.show()
 
 # 将影评的态度分类
 
-| 类型          | 数据类型     | 结构           |          |
-| ------------- | ------------ | -------------- | -------- |
-| NLP: classify | language     | RNN, embedding |          |
-| **损失函数**  | **评价指标** | **优化器**     | **回调** |
-| crossentropy  | accuracy     | adam           |          |
+| 类型                | 数据类型     | 结构           |          |
+| ------------------- | ------------ | -------------- | -------- |
+| NLP: classify       | language     | RNN, embedding |          |
+| **损失函数**        | **评价指标** | **优化器**     | **回调** |
+| binary crossentropy | accuracy     | adam           |          |
 
 ```python
 import tensorflow as tf
@@ -547,6 +589,7 @@ import matplotlib.pyplot as plt
 print(len(train_data))     # 25000
 print(train_data[0])       # [1, 14, 22, ..., 178, 32], 单词被转换为整数
 print(len(train_data[0]))  # 218
+print(train_labels[0])     # 1  
 
 # preprocess data, 使所有输入的长度相等 
 train_data = keras.preprocessing.sequence.pad_sequences(train_data,
@@ -598,8 +641,11 @@ partial_y_train = train_labels[10000:]
 # train model
 history = model.fit(partial_x_train,     # 训练集输入
                     partial_y_train,     # 训练集输出
-                    epochs=40,           # 迭代次数(训练集的循环使用次数)
-                    batch_size=512,      # batch大小(batch计算平均梯度并更新一次参数)
+                    epochs=40,           # 迭代次数(训练集的循环迭代次数)
+                    # 每个epochs结束时计算训练集和验证集的 loss & metrics
+                    batch_size=512,      # batch大小, 1st batch=train_data[:512]
+                    					 # 2nd batch=train_data[512:1024], ...
+                                         # 每个batch计算平均梯度并更新一次参数
                     validation_data=(x_val, y_val),  # 验证集
                     verbose=1)
 
@@ -797,7 +843,7 @@ train_df = df[0:int(n*0.7)]
 val_df = df[int(n*0.7):int(n*0.9)]
 test_df = df[int(n*0.9):]
 
-# normalize data
+# preprocess data: normalize data
 train_mean = train_df.mean()
 train_std = train_df.std()
 train_df = (train_df - train_mean) / train_std
