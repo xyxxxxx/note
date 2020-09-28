@@ -444,7 +444,9 @@ model.summary()
 
 > 参考[单词嵌入向量](https://www.tensorflow.org/tutorials/text/word_embeddings)
 
-嵌入层。
+嵌入层可以被理解为整数（单词索引）到密集向量的映射。嵌入层输入形如`(samples, sequence_length)`的二维整数张量，因此所有的整数序列都应填充或裁剪到相同的长度；输出形如`(samples, sequence_ length, embedding_dimensionality)`的三维浮点张量，再输入给 RNN 层处理。
+
+嵌入层在刚初始化时所有的权重参数都是随机的，就如同其它的层一样。在训练过程中这些参数会根据反向传播算法逐渐更新，嵌入空间会逐渐显现出更多结构（这些结构适应于当前的具体问题）。
 
 其包含的主要参数如下：
 
@@ -453,13 +455,100 @@ model.summary()
 + `mask_zero`：是否将输入中的0看作填充值而忽略之，默认为`False`
 + `input_length`：输入序列的长度（如果该长度固定），默认为`None`；如果此嵌入层后接`Flatten`层，再接`Dense`层，则必须制定此参数
 
-示例见LSTM。
+示例见SimpleRNN，LSTM。
+
+
+
+### SimpleRNN
+
+SRN层是最简单的循环神经网络层。
+
+其包含的主要参数如下：
+
++ `units`：输出向量的维度
++ `activation`：激活函数，默认为`tanh`
++ `return_sequences`：`False`表示最后输出一个向量，即序列到类别模式；`True`表示每个时间步长输出一个向量，即序列到序列模式。
+
+实践中一般使用 LSTM 和 GRU 而非 SRN。
+
+示例：
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.Embedding(10000, 32))
+model.add(keras.layers.SimpleRNN(32))
+# 输入timestepsx32的二阶张量,输出32维向量,即序列到类别模式
+model.summary()
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# embedding (Embedding)        (None, None, 32)          320000    
+# _________________________________________________________________
+# simple_rnn (SimpleRNN)       (None, 32)                2080      
+# =================================================================
+# Total params: 322,080
+# Trainable params: 322,080
+# Non-trainable params: 0
+# _________________________________________________________________
+```
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.Embedding(10000, 32))
+model.add(keras.layers.SimpleRNN(32, return_sequences=True))
+# 输入timestepsx32的二阶张量,输出timestepsx32的二阶张量,即序列到序列模式
+model.summary()
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# embedding (Embedding)        (None, None, 32)          320000    
+# _________________________________________________________________
+# simple_rnn (SimpleRNN)       (None, None, 32)          2080      
+# =================================================================
+# Total params: 322,080
+# Trainable params: 322,080
+# Non-trainable params: 0
+# _________________________________________________________________
+```
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.Embedding(10000, 32))
+model.add(keras.layers.SimpleRNN(32, return_sequences=True))
+# SRN的堆叠
+model.add(keras.layers.SimpleRNN(32, return_sequences=True))
+model.add(keras.layers.SimpleRNN(32, return_sequences=True))
+model.add(keras.layers.SimpleRNN(32))
+model.summary()
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# embedding (Embedding)        (None, None, 32)          320000    
+# _________________________________________________________________
+# simple_rnn (SimpleRNN)       (None, None, 32)          2080      
+# _________________________________________________________________
+# simple_rnn_1 (SimpleRNN)     (None, None, 32)          2080      
+# _________________________________________________________________
+# simple_rnn_2 (SimpleRNN)     (None, None, 32)          2080      
+# _________________________________________________________________
+# simple_rnn_3 (SimpleRNN)     (None, 32)                2080      
+# =================================================================
+# Total params: 328,320
+# Trainable params: 328,320
+# Non-trainable params: 0
+# _________________________________________________________________
+```
+
+
 
 
 
 ### LSTM
 
-LSTM层。
+LSTM 层。
 
 其包含的主要参数如下：
 
@@ -473,22 +562,75 @@ LSTM层。
 model = keras.Sequential()
 model.add(keras.layers.Embedding(10000, 16))
 # 将规模为10000的词典嵌入到16维向量
-# 输入长度为256的向量,输出规模为256x16的张量
-model.add(tf.keras.layers.LSTM(64))
-# LSTM层
-# 输入规模为256x16的张量,输出长度为64的向量,相当于(同步或异步)序列到序列模式每4个输入向量输出一个标量值
+# 输入256维向量,输出256x16的二阶张量
+model.add(keras.layers.LSTM(64))
+# 输入256x16的二阶张量,输出64维向量,即序列到类别模式
 model.add(keras.layers.Dense(16, activation='relu'))
 # 全连接层,ReLU激活函数,分类器
 model.add(keras.layers.Dense(1, activation='sigmoid'))  
 # 全连接层,Logistic激活函数
 model.summary()
+# Model: "sequential"
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# embedding (Embedding)        (None, None, 16)          160000    
+# _________________________________________________________________
+# lstm (LSTM)                  (None, 64)                20736     
+# _________________________________________________________________
+# dense (Dense)                (None, 16)                1040      
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 1)                 17        
+# =================================================================
+# Total params: 181,793
+# Trainable params: 181,793
+# Non-trainable params: 0
+# _________________________________________________________________
+```
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.LSTM(64, 
+                            dropout=0.2,
+                            recurrent_dropout=0.2,
+                            return_sequences=True,
+                            # 堆叠了rnn层,必须在每个时间步长输出
+                            input_shape=(None, df.shape[-1])))
+                            # 尽管这里序列的长度是确定的(120),但也不必传入
+model.add(keras.layers.LSTM(64,
+                            activation='relu',
+                            dropout=0.2,
+                            recurrent_dropout=0.2))
+# 亦可以使用 layers.GRU
+model.add(keras.layers.Dense(1))
 ```
 
 
 
+### GRU
+
+GRU 层。
+
 
 
 ### Bidirectional
+
+双向 RNN 层在某些特定的任务上比一般的 RNN 层表现得更好，经常应用于 NLP。
+
+RNN 的输入序列存在顺序，打乱或反序都会彻底改变 RNN 从序列中提取的特征。双向 RNN 包含两个一般的 RNN，分别从一个方向处理输入序列。在许多 NLP 任务中，反向处理输入序列能够达到与正向处理相当的结果，并且提取出不同但同样有效的特征，此种情况下双向 RNN 将捕获到更多的有用的模式。
+
+![Screenshot from 2020-09-28 19-00-29.png](https://i.loli.net/2020/09/28/i2V36gZhtIv7BJA.png)
+
+`keras`中`Bidirectional`的实现上，
+
+```python
+model = keras.Sequential()
+model.add(keras.layers.Embedding(max_features, 32))
+model.add(keras.layers.Bidirectional(layers.LSTM(32)))
+model.add(keras.layers.Dense(1, activation='sigmoid'))
+```
+
+
 
 
 

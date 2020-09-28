@@ -17,6 +17,8 @@
 # divide dataset to train and test
 # separate label from data
 
+# prepare pretrained embedding module
+
 # build model
 # configure model
 # train model
@@ -128,7 +130,7 @@ print(model.summary())
 
 # train model
 EPOCHS = 1000
-# 早期停止防止过度拟合
+## 早期停止防止过度拟合
 early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
 history = model.fit(
   normed_train_data, train_labels,
@@ -163,7 +165,7 @@ plot_history(history)
 
 # test model
 loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=2)
-# 损失函数, 平均绝对误差, 均方误差
+## 损失函数, 平均绝对误差, 均方误差
 
 # visualize: show prediction result
 test_predictions = model.predict(normed_test_data).flatten()
@@ -506,16 +508,16 @@ train_images, test_images = train_images / 255.0, test_images / 255.0
 # build model
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-# 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
-# 参数数量为3x32x(3x3)+32=896
+## 输入32x32RGB图片,输出32个特征映射,使用3x3卷积核,每个输出特征映射使用1个偏置
+## 参数数量为3x32x(3x3)+32=896
 model.add(layers.MaxPooling2D((2, 2)))
-# 对每个2x2区块执行最大汇聚
+## 对每个2x2区块执行最大汇聚
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
-# 13%2=1,因此丢失了一行一列
+## 13%2=1,因此丢失了一行一列
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.Flatten())
-# 将4x4x64的输出展开为1x1024向量
+## 将4x4x64的输出展开为1x1024向量
 model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(10))
 model.summary() 
@@ -583,7 +585,7 @@ import matplotlib.pyplot as plt
 
 # import data
 (train_data, train_labels), (test_data, test_labels) = keras.datasets.imdb.load_data(num_words=10000)
-# num_words=10000 保留了训练数据中最常出现的 10000 个单词
+## num_words=10000 保留了训练数据中最常出现的 10000 个单词
 
 # check data
 print(len(train_data))     # 25000
@@ -606,7 +608,8 @@ vocab_size = 10000
 # build model
 model = keras.Sequential()
 model.add(keras.layers.Embedding(vocab_size, 16))       # 嵌入层
-model.add(tf.keras.layers.LSTM(64))                     # LSTM层
+## model.add(keras.layers.SimpleRNN(32))             # SRN层
+model.add(keras.layers.LSTM(64))                     # LSTM层
 model.add(keras.layers.Dense(16, activation='relu'))    # 全连接层,ReLU激活函数,分类器
 model.add(keras.layers.Dense(1, activation='sigmoid'))  # 全连接层,Logistic激活函数
 model.summary()
@@ -680,6 +683,148 @@ plt.show()
 
 
 
+# 将影评的态度分类：原始数据处理与嵌入模块
+
+| 类型                | 数据类型     | 结构           |          |
+| ------------------- | ------------ | -------------- | -------- |
+| NLP: classify       | language     | FNN, embedding |          |
+| **损失函数**        | **评价指标** | **优化器**     | **回调** |
+| binary crossentropy | accuracy     | adam           |          |
+
+```python
+import os
+
+import tensorflow
+from tensorflow import keras
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from keras.models import Sequential
+from keras.layers import Embedding, Flatten, Dense
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# preprocess data
+imdb_dir = '/Users/xyx/Downloads/aclImdb'
+train_dir = os.path.join(imdb_dir, 'train')
+
+labels = []
+texts = []
+
+## process raw IMDB data
+for label_type in ['neg', 'pos']:
+	dir_name = os.path.join(train_dir, label_type)
+	for fname in os.listdir(dir_name):
+		if fname[-4:] == '.txt':
+			f = open(os.path.join(dir_name, fname))
+            texts.append(f.read())
+            f.close()
+            if label_type == 'neg':
+            	labels.append(0)
+            else:
+            	labels.append(1)
+
+## vectorize text                
+maxlen = 100
+training_samples = 200
+validation_samples = 10000
+max_words = 10000
+
+tokenizer = Tokenizer(num_words=max_words)
+tokenizer.fit_on_texts(texts)
+sequences = tokenizer.texts_to_sequences(texts)
+
+word_index = tokenizer.word_index
+print('Found %s unique tokens.' % len(word_index))
+
+data = pad_sequences(sequences, maxlen=maxlen)
+
+labels = np.asarray(labels)
+print('Shape of data tensor:', data.shape)
+print('Shape of label tensor:', labels.shape)
+
+indices = np.arange(data.shape[0])
+np.random.shuffle(indices)
+data = data[indices]
+labels = labels[indices]
+
+x_train = data[:training_samples]
+y_train = labels[:training_samples]
+x_val = data[training_samples: training_samples + validation_samples]
+y_val = labels[training_samples: training_samples + validation_samples]
+
+# prepare pretrained embedding module
+## parse GloVe word-embeddings file
+glove_dir = '/Users/xyx/Downloads/glove.6B'
+embeddings_index = {}
+f = open(os.path.join(glove_dir, 'glove.6B.100d.txt'))
+for line in f:
+    values = line.split()
+    word = values[0]
+    coefs = np.asarray(values[1:], dtype='float32')
+    embeddings_index[word] = coefs
+f.close()
+print('Found %s word vectors.' % len(embeddings_index))
+
+## prepare GloVe word-embeddings matrix
+embedding_dim = 100
+embedding_matrix = np.zeros((max_words, embedding_dim))
+for word, i in word_index.items():
+	if i < max_words:
+		embedding_vector = embeddings_index.get(word)
+		if embedding_vector is not None:
+			embedding_matrix[i] = embedding_vector
+
+# build model
+model = Sequential()
+model.add(Embedding(max_words, embedding_dim, input_length=maxlen))
+model.add(Flatten())
+model.add(Dense(32, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+model.summary()
+
+# configure model
+model.layers[0].set_weights([embedding_matrix])
+model.layers[0].trainable = False  # 禁用更新
+
+model.compile(optimizer='rmsprop',
+            loss='binary_crossentropy',
+            metrics=['acc'])
+
+# train model
+history = model.fit(x_train, y_train,
+                    epochs=10,
+                    batch_size=32,
+                    validation_data=(x_val, y_val))
+model.save_weights('pre_trained_glove_model.h5')
+
+# visualize
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.legend()
+
+plt.figure()
+
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+
+plt.show()
+```
+
+
+
+
+
 # 生成莎士比亚风格的剧本
 
 
@@ -699,27 +844,27 @@ print ('Length of text: {} characters'.format(len(text)))
 print(text[:250])
 
 # preprocess data
-# 创建字典
+## 创建字典
 vocab = sorted(set(text))
 print(vocab)
 # ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-# 将字典的各字符映射到整数
+## 将字典的各字符映射到整数
 char2idx = {u:i for i, u in enumerate(vocab)}
 idx2char = np.array(vocab)
 print(char2idx) # {'\n': 0, ' ': 1, ..., 'y': 63, 'z': 64}
 print(idx2char) # array(['\n', ' ', ..., 'y', 'z'], dtype='<U1')
 
-# 原文转换为整数向量
+## 原文转换为整数向量
 text_as_int = np.array([char2idx[c] for c in text])
 print(text[:250])
 
 seq_length = 100
 examples_per_epoch = len(text)
 
-# 将整数向量转换为字符索引流
+$# 将整数向量转换为字符索引流
 char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
-# 再转换为指定长度的字符串的序列
+### prepare pretrained embedding module 再转换为指定长度的字符串的序列
 sequences = char_dataset.batch(seq_length+1, drop_remainder=True)
 
 # ..
@@ -743,14 +888,13 @@ sequences = char_dataset.batch(seq_length+1, drop_remainder=True)
 import os
 import datetime
 
-import IPython
-import IPython.display
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import tensorflow as tf
+from tensorflow import keras
 
 mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['axes.grid'] = False
@@ -824,18 +968,18 @@ df['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
 df['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
 
 # 如果未知气象参数与时间的周期关系,可以做频域分析
-fft = tf.signal.rfft(df['T (degC)'])
-f_per_dataset = np.arange(0, len(fft))
-n_samples_h = len(df['T (degC)'])
-hours_per_year = 24*365.2524
-years_per_dataset = n_samples_h/(hours_per_year)
-f_per_year = f_per_dataset/years_per_dataset
-plt.step(f_per_year, np.abs(fft))
-plt.xscale('log')
-plt.ylim(0, 400000)
-plt.xlim([0.1, max(plt.xlim())])
-plt.xticks([1, 365.2524], labels=['1/Year', '1/day'])
-_ = plt.xlabel('Frequency (log scale)')
+# fft = tf.signal.rfft(df['T (degC)'])
+# f_per_dataset = np.arange(0, len(fft))
+# n_samples_h = len(df['T (degC)'])
+# hours_per_year = 24*365.2524
+# years_per_dataset = n_samples_h/(hours_per_year)
+# f_per_year = f_per_dataset/years_per_dataset
+# plt.step(f_per_year, np.abs(fft))
+# plt.xscale('log')
+# plt.ylim(0, 400000)
+# plt.xlim([0.1, max(plt.xlim())])
+# plt.xticks([1, 365.2524], labels=['1/Year', '1/day'])
+# _ = plt.xlabel('Frequency (log scale)')
 
 # divide dataset to train, validation and test
 n = len(df)
@@ -850,6 +994,96 @@ train_df = (train_df - train_mean) / train_std
 val_df = (val_df - train_mean) / train_std
 test_df = (test_df - train_mean) / train_std
 
+## implement generator of window
+def generator(data, lookback, delay, shuffle=False, batch_size=128):
+    max_index = len(data) - delay - 1
+    i = lookback
+    while 1:
+        if shuffle:
+            rows = np.random.randint(
+                lookback, max_index, size=batch_size)
+        else:
+            	if i + batch_size >= max_index:
+            		i = lookback
+            	rows = np.arange(i, min(i + batch_size, max_index))
+            	i += len(rows)
+        samples = np.zeros((len(rows),
+         					lookback,
+           					data.shape[-1]))
+        targets = np.zeros((len(rows),))
+        for j, row in enumerate(rows):
+           	indices = range(rows[j] - lookback, rows[j])
+           	samples[j] = data.iloc[indices]
+           	targets[j] = data.iloc[rows[j] + delay][1]
+        yield samples, targets
 
+train_gen = generator(train_df,
+                      lookback=120,
+                      delay=24,
+                      shuffle=True,
+                      batch_size=128)
+val_gen = generator(val_df,
+                    lookback=120,
+                    delay=24,
+                    batch_size=128)
+test_gen = generator(test_df,
+                      lookback=120,
+                      delay=24,
+                      batch_size=128)
+val_steps = (len(val_df)-120-127-1)//128+1
+test_steps = (len(test_df)-120-127-1)//128+1
+
+## introduce naive method as baseline
+def evaluate_naive_method():
+    batch_maes = []
+    for step in range(val_steps):
+        samples, targets = next(val_gen)
+        preds = samples[:, -1, 1]
+        mae = np.mean(np.abs(preds - targets))
+        batch_maes.append(mae)
+    return np.mean(batch_maes)
+
+norm_celsius_mae = evaluate_naive_method()
+print(norm_celsius_mae)                 # 0.319
+print(norm_celsius_mae * train_std[1])  # 2.758 degree
+
+# build model
+model = keras.Sequential()
+model.add(keras.layers.LSTM(64, 
+                            dropout=0.2,
+                            recurrent_dropout=0.2,
+                            return_sequences=True,
+                            input_shape=(None, df.shape[-1])))
+                                    ## 尽管这里序列的长度是确定的(120),但也不必传入
+model.add(keras.layers.LSTM(64,
+                            activation='relu',
+                            dropout=0.2,
+                            recurrent_dropout=0.2))
+# 亦可以使用 layers.GRU
+model.add(keras.layers.Dense(1))
+
+# configure model
+model.compile(optimizer='rmsprop', loss='mae')
+
+# train model
+history = model.fit_generator(train_gen,
+                              steps_per_epoch=500, ## 每个epoch抽选500个batch
+                              epochs=10,
+                              validation_data=val_gen,
+                              validation_steps=val_steps)
+
+# visualize
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs = range(1, len(loss) + 1)
+
+plt.figure()
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
 ```
 
+过拟合问题十分严重。

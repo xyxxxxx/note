@@ -83,6 +83,32 @@ $$
 
 <a name="img1">![](/home/xyx/Pictures/Screenshot from 2020-09-22 18-30-07.png)</a>
 
+以下给出了循环神经网络的一个简易的 Numpy 实现
+
+```python
+import numpy as np
+
+timesteps = 100
+input_features = 32
+output_features = 64
+
+inputs = np.random.random((timesteps, input_features))
+state_t = np.zeros((output_features,))
+W = np.random.random((output_features, input_features))
+U = np.random.random((output_features, output_features))
+b = np.random.random((output_features,))
+
+successive_outputs = []
+for input_t in inputs:
+    output_t = np.tanh(np.dot(W, input_t) + np.dot(U, state_t) + b)
+    successive_outputs.append(output_t)
+    state_t = output_t
+final_output_sequence = np.concatenate(successive_outputs, axis=0)
+print(final_output_sequence)
+```
+
+
+
 
 
 **完全连接**的循环神经网络定义为：网络输入$$\pmb x_t$$，输出$$\pmb y_t$$，动力系统为
