@@ -290,16 +290,6 @@ f(x)=e^{\lambda x}(P_n(x)\cos \omega x+P_l(x)\sin \omega x) \quad&y^*=x^k(Q_{m1}
 $$
 
 $$
-\begin{align}
-\\e.g.\quad y''-2y'+5y=0\\
-
-
-
-
-\end{align}
-$$
-
-$$
 一阶\\
 @完全非线性(p=y',dy=pdx解得p，回代即得)\\
 1.\;y=xy'+y'+y'^2\\
