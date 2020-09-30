@@ -49,7 +49,7 @@
 | mse          | mae, mse     | RMSprop(0.001) | EarlyStopping |
 
 ```python
-import pathlib
+test_prediction = model.predict(test_x).flatten()import pathlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -456,6 +456,11 @@ plt.show()
 # test model
 results = model.evaluate(test_images, test_labels, verbose=2)
 print(results)
+
+# visualize: prediction
+test_prediction = model.predict(test_images)
+print(test_prediction)
+print(test_prediction.shape)
 ```
 
 
@@ -653,7 +658,7 @@ history = model.fit(partial_x_train,     # 训练集输入
                     verbose=1)
 
 # test model
-results = model.evaluate(test_data,  test_labels, verbose=2)
+results = model.evaluate(test_data,  test_labels)
 print(results)
 
 # visualize: history
@@ -851,23 +856,23 @@ print(vocab)
 
 ## 将字典的各字符映射到整数
 char2idx = {u:i for i, u in enumerate(vocab)}
-idx2char = np.array(vocab)
 print(char2idx) # {'\n': 0, ' ': 1, ..., 'y': 63, 'z': 64}
-print(idx2char) # array(['\n', ' ', ..., 'y', 'z'], dtype='<U1')
 
-## 原文转换为整数向量
-text_as_int = np.array([char2idx[c] for c in text])
-print(text[:250])
+## 从文本取样:每32个字符预测下个字符
+maxlen = 32
+sentences = []
+next_chars = []
+for i in range(0, len(text) - maxlen):
+	sentences.append(text[i: i + maxlen])
+	next_chars.append(text[i + maxlen])
+    
+x = np.zeros((len(sentences), maxlen, len(vocab)), dtype=np.bool)
+y = np.zeros((len(sentences), len(vocab)), dtype=np.bool)
+for i, sentence in enumerate(sentences):
+    for t, char in enumerate(sentence):
+    	x[i, t, char2idx[char]] = 1
+    y[i, char2idx[next_chars[i]]] = 1
 
-seq_length = 100
-examples_per_epoch = len(text)
-
-$# 将整数向量转换为字符索引流
-char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
-### prepare pretrained embedding module 再转换为指定长度的字符串的序列
-sequences = char_dataset.batch(seq_length+1, drop_remainder=True)
-
-# ..
 ```
 
 
@@ -1049,28 +1054,29 @@ print(norm_celsius_mae * train_std[1])  # 2.758 degree
 
 # build model
 model = keras.Sequential()
-model.add(keras.layers.LSTM(64, 
-                            dropout=0.2,
-                            recurrent_dropout=0.2,
+model.add(keras.layers.GRU(64, 
+                            dropout=0.1,
+                            recurrent_dropout=0.5,
                             return_sequences=True,
                             input_shape=(None, df.shape[-1])))
-                                    ## 尽管这里序列的长度是确定的(120),但也不必传入
-model.add(keras.layers.LSTM(64,
+                            ## 尽管这里序列的长度是确定的(120),但也不必传入
+model.add(keras.layers.GRU(64,
                             activation='relu',
-                            dropout=0.2,
-                            recurrent_dropout=0.2))
-# 亦可以使用 layers.GRU
+                            dropout=0.1,
+                            recurrent_dropout=0.5))
+# 可以使用 LSTM, GRU
 model.add(keras.layers.Dense(1))
 
 # configure model
 model.compile(optimizer='rmsprop', loss='mae')
 
 # train model
-history = model.fit_generator(train_gen,
-                              steps_per_epoch=500, ## 每个epoch抽选500个batch
-                              epochs=10,
-                              validation_data=val_gen,
-                              validation_steps=val_steps)
+history = model.fit(train_gen,
+                    steps_per_epoch=500, 
+                    ## 每个epoch抽选500个batch
+                    epochs=10,
+                    validation_data=val_gen,
+                    validation_steps=val_steps)
 
 # visualize
 loss = history.history['loss']
@@ -1084,6 +1090,10 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
+
+# test model
+results = model.evaluate(test_gen, steps=test_steps)
+
 ```
 
 过拟合问题十分严重。

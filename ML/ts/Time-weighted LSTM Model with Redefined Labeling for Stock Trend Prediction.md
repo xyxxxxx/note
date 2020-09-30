@@ -11,8 +11,6 @@ LSTM, time-weighted
   P_i-T_i< \alpha(P_i-T_{i-1})
   $$
 
-+ 
-
 + 下跌趋势：序列$$\{P_i\},\{T_i\}$$是递减的；序列$$\{P_i\},\{T_i\}$$的规模均大于$$K$$；$$\forall i$$，满足
   $$
   P_i-T_i>(1+\beta)(P_i-T_{i-1})

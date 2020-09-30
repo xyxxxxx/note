@@ -617,16 +617,18 @@ GRU 层。
 
 双向 RNN 层在某些特定的任务上比一般的 RNN 层表现得更好，经常应用于 NLP。
 
-RNN 的输入序列存在顺序，打乱或反序都会彻底改变 RNN 从序列中提取的特征。双向 RNN 包含两个一般的 RNN，分别从一个方向处理输入序列。在许多 NLP 任务中，反向处理输入序列能够达到与正向处理相当的结果，并且提取出不同但同样有效的特征，此种情况下双向 RNN 将捕获到更多的有用的模式。
+RNN 的输入序列存在顺序，打乱或反序都会彻底改变 RNN 从序列中提取的特征。双向 RNN 包含两个一般的 RNN，分别从一个方向处理输入序列。在许多 NLP 任务中，反向处理输入序列能够达到与正向处理相当的结果，并且提取出不同但同样有效的特征，此种情况下双向 RNN 将捕获到更多的有用的模式，但也会更快地过拟合。
 
 ![Screenshot from 2020-09-28 19-00-29.png](https://i.loli.net/2020/09/28/i2V36gZhtIv7BJA.png)
 
-`keras`中`Bidirectional`的实现上，
+`keras`中，`Bidirectional`实现为创建一个参数指定的 RNN 层，再创建一个相同的 RNN 层处理反序的输入序列。
+
+示例：
 
 ```python
 model = keras.Sequential()
 model.add(keras.layers.Embedding(max_features, 32))
-model.add(keras.layers.Bidirectional(layers.LSTM(32)))
+model.add(keras.layers.Bidirectional(keras.layers.LSTM(32)))
 model.add(keras.layers.Dense(1, activation='sigmoid'))
 ```
 
@@ -657,19 +659,36 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 ### compile
 
+其包含的主要参数如下：
 
++ `optimizer`：优化方法，可以选择`'rmsprop','adam'`等，默认为`'rmsprop'`
++ `loss`：损失函数，可以选择`'binary_crossentropy','categorical_crossentropy','sparse_categorical_crossentropy','mse','mae'`等
++ `metrics`：评价指标，可以选择`'accuracy','mse','mae','precision','recall','auc'`等中的多个
 
 
 
 ### fit
 
+其包含的主要参数如下：
 
++ `x`：输入数据
++ `y`：输出标签
++ `batch_size`：每个`batch`的规模
++ `epoch`：训练集的循环迭代次数
++ `verbose`：控制台输出信息，0=无输出，1=输出进度条，2=对每个epoch输出一行记录，默认为1
++ `callbacks`：回调
++ `validation_split`：指定从训练集划分验证集的比例
++ `validation_data`：指定验证集
 
 
 
 ### evaluate
 
+其包含的主要参数如下：
 
++ `x`：输入数据
++ `y`：输出标签
++ `verbose`：控制台输出信息，0=无输出，1=输出进度条，默认为1
 
 
 
