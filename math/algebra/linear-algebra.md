@@ -25,22 +25,24 @@ $$[\pmb x,\pmb y]=\pmb x^T \pmb y=x_1y_1+x_2y_2+\cdots+x_ny_n$$称为向量$${\p
 
 
 
+
+
 ### 范数
 
-**范数(Norm)**将向量空间内的所有向量映射到非负实数。对于一个$$N$$维向量$$\boldsymbol v$$ ,一个常见的范数函数为$$\mathcal{l}_p$$范数
+**范数(Norm)**将向量空间内的所有向量映射到非负实数。对于一个$$N$$维向量$$\boldsymbol v$$ ,一个常见的范数函数为$$\ell_p$$范数
 $$
-\mathcal{l}_p(\boldsymbol v)=||\boldsymbol v||_p=(\sum_{n=1}^N|v_n|^p)^{1/p}
+\ell_p(\boldsymbol v)=||\boldsymbol v||_p=(\sum_{n=1}^N|v_n|^p)^{1/p}
 $$
 其中$$p\ge 0$$为一个标量的参数，常用的$$p$$的取值有1，2，∞等。
 $$
-\mathcal{l}_1(\boldsymbol v)=||\boldsymbol v||_1=\sum_{n=1}^N|v_n|\\
-\mathcal{l}_2(\boldsymbol v)=||\boldsymbol v||_2=||\boldsymbol v||=\sqrt{\sum_{n=1}^Nv_n^2}
+\ell_1(\boldsymbol v)=||\boldsymbol v||_1=\sum_{n=1}^N|v_n|\\
+\ell_2(\boldsymbol v)=||\boldsymbol v||_2=||\boldsymbol v||=\sqrt{\sum_{n=1}^Nv_n^2}
 $$
-$$\mathcal{l}_2$$范数又称为Euclidean范数或者Frobenius范数。从几何角度，向量也可以表示为从原点出发的一个带箭头的有向线段，其$$\mathcal{l}_2$$范数为线段的长度，也常称为向量的**模**。
+$$\ell_2$$范数又称为Euclidean范数或者Frobenius范数。从几何角度，向量也可以表示为从原点出发的一个带箭头的有向线段，其$$\ell_2$$范数为线段的长度，也常称为向量的**模**。
 $$
 ‖\boldsymbol v‖_∞ = \max\{v_1, v_2, ⋯ , v_N \}
 $$
-下图给出了常见范数的示例，其中红线表示不同范数的$$ \mathcal{l}_p = 1 $$的点
+下图给出了常见范数的示例，其中红线表示不同范数的$$\ell_p = 1 $$的点
 
 ![Screenshot from 2020-09-01 19-02-39.png](https://i.loli.net/2020/09/02/2VMxbcDkFCmasPn.png)
 
