@@ -176,6 +176,12 @@ $ hostname
 $ ifconfig
 # revise at /etc/sysconfig/network-scripts/ifcfg-<name>
 
+# check port state
+$ lsof -i:8080
+
+# show port & process state
+$ netstat -tunlp | grep 8080
+
 # network restart
 $ nmcli c reload
 

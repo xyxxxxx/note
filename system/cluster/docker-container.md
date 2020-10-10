@@ -24,12 +24,12 @@
 $ docker run [option] [image_name]
 # -d 容器启动后在后台运行
 # -it 容器的shell映射到当前的shell
-# -p [IP_addr:port] 容器的指定端口映射到指定地址或本机的指定端口
-# --env [key]=[value] 向容器传入一个环境变量
-# --link [container] 容器连接到指定容器
-# --name [name] 容器命名
+# -p <local_port:port> 容器的指定端口映射到指定地址或本机的指定端口
+# --env <key>=<value> 向容器传入一个环境变量
+# --link <container> 容器连接到指定容器
+# --name <name> 容器命名
 # --rm 停止运行后自动删除容器文件
-# --volume [dir]:[container_dir] 将指定目录映射到容器的指定目录，因此对当前目录的任何修改都会反映到容器里面
+# --volume <dir>:<container_dir> 将指定目录映射到容器的指定目录，因此对当前目录的任何修改都会反映到容器里面
 ```
 
 示例
@@ -76,6 +76,7 @@ $ docker kill <container ID or name>
 ```shell
 # 列出本机正在运行的容器
 $ docker container ls
+$ docker container ls -l # 列出详细信息
 
 # 列出本机的所有容器
 $ docker container ls -a

@@ -72,7 +72,7 @@ $$
 $$
 \phi_k(\pmb x)=h(\pmb w_k^{\rm T}\pmb \phi'(\pmb x)+b_k)
 $$
-其中$$h()$$为非线性函数，$$\pmb \phi'(\pmb x)$$为另一组基函数，则$$f(\pmb x;\pmb \theta)$$等价于**神经网络模型(neural network model)**（如图所示）。
+其中$$h()$$为非线性函数，$$\pmb \phi'(\pmb x)$$<!--为另一组基函数-->，则$$f(\pmb x;\pmb \theta)$$等价于**神经网络模型(neural network model)**（如图所示）。
 
 ![](https://i.loli.net/2020/09/03/YJc2teTQhI8UbvH.png)
 
