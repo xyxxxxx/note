@@ -186,7 +186,6 @@ $$
 $$
 \frac{\partial}{\partial X}X=I\otimes I\\
 \frac{\partial}{\partial X}AX=I\otimes A^{\rm T}\\
-\frac{\partial}{\partial X}X^{-1}=\\
 \frac{\partial}{\partial X}\pmb a^{\rm T}X\pmb b=\pmb a\pmb b^{\rm T},\frac{\partial}{\partial X}\pmb a^{\rm T}X^{\rm T}\pmb b=\pmb b\pmb a^{\rm T}\\
 \frac{\partial}{\partial X}\pmb a^{\rm T}X^{\rm T}X\pmb b=X(\pmb a\pmb b^{\rm T}+\pmb b\pmb a^{\rm T})\\
 \frac{\partial}{\partial X}{\rm tr}(X)=I\\

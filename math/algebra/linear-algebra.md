@@ -29,7 +29,7 @@ $$[\pmb x,\pmb y]=\pmb x^T \pmb y=x_1y_1+x_2y_2+\cdots+x_ny_n$$称为向量$${\p
 
 ### 范数
 
-**范数(Norm)**将向量空间内的所有向量映射到非负实数。对于一个$$N$$维向量$$\boldsymbol v$$ ,一个常见的范数函数为$$\ell_p$$范数
+**范数(norm)**将向量空间内的所有向量映射到非负实数。对于一个$$N$$维向量$$\boldsymbol v$$ ,一个常见的范数函数为$$\ell_p$$范数
 $$
 \ell_p(\boldsymbol v)=||\boldsymbol v||_p=(\sum_{n=1}^N|v_n|^p)^{1/p}
 $$
