@@ -239,7 +239,7 @@ f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/(2\sigma^2)},\ -\infty<x<+\infty
 $$
 其中$$\mu,\sigma\ (\sigma>0)$$为常数，则称$$X$$服从参数为$$\mu,\sigma$$的**正态分布(normal distribution)**或**高斯分布(Gauss distribution)**，记作$$X\sim N(\mu,\sigma^2)$$。
 
-正太分布具有以下性质：
+正态分布具有以下性质：
 
 1. 曲线$$y=f(x)$$关于$$x=\mu$$对称
 
@@ -265,7 +265,13 @@ $$
 
 ## 伽马分布
 
-
+若连续型随机变量$$X$$具有概率密度
+$$
+f(x)=\begin{cases} \frac{1}{\theta^\alpha\Gamma(\alpha)}x^{\alpha-1}e^{-x/\theta},\quad x>0\\
+0,\quad\quad\quad\quad\quad\quad\quad\ 其它
+\end{cases}
+$$
+其中常数$$\alpha>0,\theta>0$$，则称$$X$$服从参数为$$\alpha,\theta$$的**伽马分布(gamma distribution)**，记作$$X\sim \Gamma(\alpha,\theta)$$。
 
 
 
@@ -459,21 +465,62 @@ $$
 
 
 
+以上关于二维随机变量的讨论不难推广到$$n(n>2)$$维的情形。
+
+**定理** 设$$(X_1,X_2,\cdots,X_m)$$和$$(Y_1,Y_2,\cdots,Y_n)$$相互独立，即
+$$
+F(x_1,x_2,\cdots,x_m,y_1,y_2,\cdots,y_n)=F_1(x_1,x_2,\cdots,x_m)F_2(y_1,y_2,\cdots,y_n)
+$$
+其中$$F,F_1,F_2$$分别为$$(X_1,X_2,\cdots,X_m,Y_1,Y_2,\cdots,Y_n),(X_1,X_2,\cdots,X_m),(Y_1,Y_2,\cdots,Y_n)$$的分布函数，则$$X_i,Y_j\ (i=1,2,\cdots,m,j=1,2,\cdots,n)$$相互独立；又若$$h,g$$为连续函数，则$$h(X_1,X_2,\cdots,X_m),g(Y_1,Y_2,\cdots,Y_n)$$相互独立。
+
+
+
+## 两个随机变量的函数的分布
+
+### $$Z=X+Y$$的分布
+
+设二维连续型随机变量$$(X,Y)$$具有概率密度$$f(x,y)$$。则$$Z=X+Y$$仍为连续型随机变量，概率密度为
+$$
+f_{X+Y}(z)=\int_{-\infty}^{+\infty}f(z-y,y){\rm d}y\\
+或\ f_{X+Y}(z)=\int_{-\infty}^{+\infty}f(x,z-x){\rm d}x\\
+$$
+又若$$X,Y$$相互独立，设$$(X,Y)$$关于$$X,Y$$的边缘密度分别为$$f_X(x),f_Y(y)$$，则上式化为
+$$
+f_{X+Y}(z)=\int_{-\infty}^{+\infty}f_X(z-y)f_Y(y){\rm d}y\\
+或\ f_{X+Y}(z)=\int_{-\infty}^{+\infty}f_X(x)f_Y(z-x){\rm d}x\\
+$$
+这两个公式称为$$f_X,f_Y$$的卷积公式，记为$$f_X*f_Y$$，即
+$$
+f_X*f_Y=\int_{-\infty}^{+\infty}f_X(z-y)f_Y(y){\rm d}y=\int_{-\infty}^{+\infty}f_X(x)f_Y(z-x){\rm d}x
+$$
+
+
+@设$$X,Y\sim N(0,1)$$，且$$X,Y$$相互独立，求$$Z=X+Y$$的概率密度。
+$$
+f_X(x)=f_Y(y)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2},\ x,y\in\mathbb{R}\\
+f_Z(z)=\int_{-\infty}^{+\infty}f_X(x)f_Y(z-x){\rm d}x\\
+=\frac{1}{2\pi}\int_{-\infty}^{+\infty}e^{-x^2/2}e^{-(z-x)^2/2}{\rm d}x\\
+=\frac{1}{2\pi}e^{-z^2/4}\int_{-\infty}^{+\infty}e^{-(x-z/2)^2}{\rm d}x\\
+(令t=x-z/2)=\frac{1}{2\pi}e^{-z^2/4}\int_{-\infty}^{+\infty}e^{-t^2}{\rm d}t\\
+=\frac{1}{2\pi}e^{-z^2/4}\sqrt{\pi}=\frac{1}{2\sqrt{\pi}}e^{-z^2/4}
+$$
+即$$Z\sim N(0,2)$$。
+
+根据本例可知，设$$X\sim N(\mu_1,\sigma_1^2),Y\sim N(\mu_2,\sigma_2^2)$$且$$X,Y$$相互独立，则$$Z=X+Y\sim N(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)$$。这个结论还能进一步推广为，<u>有限个相互独立的正态随机变量的线性组合仍然服从正态分布</u>。
+
+
+
+@设$$X\sim \Gamma(\alpha,\theta),Y\sim \Gamma(\beta,\theta)$$，则$$X+Y\sim \Gamma(\alpha+\beta,\theta)$$。这个结论还能进一步推广到$$n$$个随机变量的情形。
+
+
+
+### $$Z=Y/X,Z=XY$$的分布
 
 
 
 
-   
 
-
-
-
-
-
-
-
-
-
+### $$M=\max\{X,Y\},N=\min\{X,Y\}$$的分布
 
 
 
@@ -484,6 +531,16 @@ $$
 # 随机变量的数字特征
 
 ## 数学期望
+
+设离散型随机变量$$X$$的分布律为$$P(X=x_k)=p_k,\quad k=1,2,\cdots$$，若级数
+$$
+E(X)=\sum_{k=1}^\infty x_kp_k
+$$
+绝对收敛，则称该级数为随机变量$$X$$的**数学期望**。
+
+设连续型随机变量$$X$$的概率密度为$$f(x)$$，若积分
+
+
 
 
 
