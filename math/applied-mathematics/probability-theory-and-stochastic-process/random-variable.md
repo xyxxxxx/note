@@ -239,7 +239,7 @@ f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/(2\sigma^2)},\ -\infty<x<+\infty
 $$
 其中$$\mu,\sigma\ (\sigma>0)$$为常数，则称$$X$$服从参数为$$\mu,\sigma$$的**正态分布(normal distribution)**或**高斯分布(Gauss distribution)**，记作$$X\sim N(\mu,\sigma^2)$$。
 
-正态分布具有以下性质：
+正态分布的概率密度曲线具有以下性质：
 
 1. 曲线$$y=f(x)$$关于$$x=\mu$$对称
 
@@ -258,9 +258,13 @@ $$
 \Phi(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^xe^{-t^2/2}{\rm d}t
 $$
 
-**引理** 若$$X\sim N(\mu,\sigma^2)$$，则$$Z=\frac{X-\mu}{\sigma}\sim N(0,1)$$
+**性质**
 
++ 若$$X\sim N(\mu,\sigma^2)$$，则$$Z=\frac{X-\mu}{\sigma}\sim N(0,1)$$
 
++ 有限个相互独立的正态随机变量的线性组合仍然服从正态分布
+
+  
 
 
 ## 伽马分布
@@ -536,23 +540,204 @@ $$
 $$
 E(X)=\sum_{k=1}^\infty x_kp_k
 $$
-绝对收敛，则称该级数为随机变量$$X$$的**数学期望**。
+绝对收敛，则称该级数为随机变量$$X$$的**数学期望**，简称**期望**，也称**均值**。
 
 设连续型随机变量$$X$$的概率密度为$$f(x)$$，若积分
+$$
+E(X)=\int_{-\infty}^{+\infty}xf(x){\rm d}x
+$$
+绝对收敛，则称该积分的值为随机变量$$X$$的数学期望。
 
 
+
+**定理** 设随机变量$$Y$$是$$X$$的函数，即$$Y=g(X)$$，$$g$$为连续函数，则有
+$$
+E(Y)=E(g(X))
+$$
+
+
+**性质**
+
++ $$E(C)=C$$，其中$$C$$为常数
++ $$E(CX)=CE(X)$$
++ $$E(X+Y)=E(X)+E(Y)$$（可以推广到任意有限个随机变量）
++ $$E(XY)=E(X)E(Y)$$，其中$$X,Y$$相互独立（可以推广到任意有限个随机变量）
 
 
 
 ## 方差
 
+设随机变量$$X$$，若$$E([X-E(X)]^2)$$存在，则称其为$$X$$的**方差**，记作
+$$
+Var(X)=E([X-E(X)]^2)
+$$
+实际应用中还引入$$\sigma(X)=\sqrt{Var(X)}$$，称为**标准差**。
+
+方差用于衡量随机变量与其期望的偏离程度，$$Var(X)$$较小意味着$$X$$的取值集中于$$E(X)$$附近，而$$Var(X)$$较大则意味着$$X$$的取值，较为分散。
+
+方差可按下式计算
+$$
+Var(X)=E(X^2)-E^2(X)
+$$
+
+**性质**
+
++ $$Var(C)=0$$，其中$$C$$为常数
+
++ $$Var(CX)=C^2Var(X),Var(X+C)=Var(X)$$
+
++ $$
+  Var(X+Y)=Var(X)+Var(Y)+2E([X-E(X)][Y-E(Y)])=Var(X)+Var(Y)+2Cov(X,Y)
+  $$
+
++ $$Var(X+Y)=Var(X)+Var(Y)$$，其中$$X,Y$$相互独立（可以推广到任意有限个随机变量）
+
++ $$Var(X)=0$$的充要条件是$$X$$以概率1取常数$$E(X)$$
+
 
 
 ## 协方差及相关系数
 
+$$E([X-E(X)][Y-E(Y)])$$称为随机变量$$X,Y$$的**协方差**，记作
+$$
+Cov(X,Y)=E([X-E(X)][Y-E(Y)])\\
+$$
+随机变量$$X,Y$$的**相关系数**定义为
+$$
+\rho_{XY}=\frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}
+$$
+由定义可知
+$$
+Cov(X,Y)=Cov(Y,X)=E(XY)-E(X)E(Y) \\
+D(X+Y)=D(X)+D(Y)+2Cov(X,Y)\\
+$$
+
+**性质**
+
++ $$Cov(aX,bY)=abCov(X,Y)$$，其中$$a,b$$是常数
+
++ $$Cov(X_1+X_2,Y)=Cov(X_1,Y)+Cov(X_2,Y)$$
+
++ $$|\rho_{XY}|\le 1$$
+
++ $$|\rho_{XY}|= 1$$的充要条件是，存在常数$$a,b$$使得
+  $$
+  P(Y=a+bX)=1
+  $$
+  
+
+## 矩和协方差矩阵
+
+设随机变量$$X,Y$$，若
+$$
+E(X^k),\quad k=1,2,\cdots
+$$
+存在，称之为$$X$$的**$$k$$阶原点矩**，简称**$$k$$阶矩**；若
+$$
+E([X-E(X)]^k),\quad k=2,3\cdots
+$$
+存在，称之为$$X$$的**$$k$$阶中心矩**；若
+$$
+E(X^kY^l),\quad k,l=1,2,\cdots
+$$
+存在，称之为$$X,Y$$的**$$k+l$$阶混合矩**；若
+$$
+E([X-E(X)]^k[Y-E(Y)]^l),\quad k,l=1,2,\cdots
+$$
+存在，称之为$$X,Y$$的**$$k+l$$阶混合中心矩**。
+
+显然，$$E(X)$$是$$X$$的一阶原点矩，$$Var(X)$$是$$X$$的二阶中心矩，$$Cov(X,Y)$$是$$X,Y$$的二阶混合中心矩。
 
 
-## 矩母函数
+
+设$$n$$维随机变量$$(X_1,X_2,\cdots,X_n)$$的二阶混合中心矩
+$$
+c_{ij}=Cov(X_i,X_j)=E([X_i-E(X_i)][X_j-E(X_j)]),\ i,j=1,2,\cdots,n
+$$
+都存在，则称矩阵
+$$
+C=\begin{bmatrix}c_{11} & c_{12} & \cdots & c_{1n}\\
+c_{21} & c_{22} & \cdots & c_{2n}\\
+\vdots & \vdots & &\vdots\\
+c_{n1} & c_{n2} & \cdots & c_{nn}
+\end{bmatrix}
+$$
+为$$(X_1,X_2,\cdots,X_n)$$的**协方差矩阵**。由于$$c_{ij}=c_{ji},i,j=1,2,\cdots,n$$，因而上述矩阵是一个对称矩阵。
+
+由此可以将$$n$$维正态随机变量$$(X_1,X_2,\cdots,X_n)$$的概率密度化简为
+$$
+f(x_1,x_2,\cdots,x_n)=\frac{1}{(2\pi)^{n/2}(\det C)^{1/2}}\exp(-\frac{1}{2}(\pmb x-\pmb \mu)^{\rm T}C^{-1}(\pmb x-\pmb \mu))
+$$
+其中$$C$$是$$(X_1,X_2,\cdots,X_n)$$的协方差矩阵。
 
 
+
+
+## 矩母函数，特征函数，分布函数的拉普拉斯变换
+
+设随机变量$$X$$，若$$E(e^{tX}),t\in \mathbb{R}$$存在，则称其为$$X$$的**矩母函数(moment-generating function)**，记作
+$$
+M_X(t)=E(e^{tX}),\quad t\in\mathbb{R}
+$$
+<u>矩母函数完全定义了随机变量的分布</u>，因此我们可以用矩母函数表示随机变量的分布。
+
+然而，随机变量不一定存在矩母函数，因此理论上更方便的方法是定义**特征函数(characteristic function)**
+$$
+\varphi_X(t)=E(e^{itX}),\quad t\in\mathbb{R},\ i为虚数单位
+$$
+<u>特征函数同样完全定义了随机变量的分布</u>，并且对于任意随机变量总是存在。特征函数可以视作随机变量$$iX$$的矩母函数。
+
+
+
+**性质**
+
++ 对$$M_X$$逐次求导并计算$$t=0$$的值可以得到$$X$$的各阶矩，即
+  $$
+  M_X^n(t)=E(X^ne^{tX})\\
+  M_X^n(0)=E(X^n),\quad n\ge 1\\
+  $$
+
++ 若$$X_1,X_2$$独立，则有
+  $$
+  M_{X_1+X_2}(t)=M_{X_1}(t)M_{X_2}(t)
+  $$
+  
+
+类似地，定义随机变量$$X_1,X_2,\cdots,X_n$$的**联合矩母函数**为
+$$
+M_X(t_1,t_2,\cdots,t_n)=E(\exp(\sum_{i=1}^n t_iX_i)),\quad t_i\in\mathbb{R},\ i=1,2,\cdots,n
+$$
+**联合特征函数**为
+$$
+\varphi_X(t_1,t_2,\cdots,t_n)=E(\exp(i\sum_{i=1}^n t_iX_i)),\quad t_i\in\mathbb{R},\ i=1,2,\cdots,n
+$$
+
+
+对于只取非负值的随机变量，使用分布函数$$F(x)$$的拉普拉斯变换有时比特征函数更加方便，定义为
+$$
+\tilde{F}(s)=\int_0^\infty 
+$$
+
+
+
+
+## 常见随机变量的特征
+
+$$
+\begin{array}{c|cccc}
+X & E(X) & Var(X) & M_X(t) & \varphi(t)\\
+\hline
+{\rm Bernoulli} & p & p(1-p) & 1-p+pe^t & 1-p+pe^{it}\\
+{\rm binomial} & np & np(1-p) & (1-p+pe^t)^n & (1-p+pe^{it})^n\\
+{\rm geometric} & 1/p & (1-p)/p^2 & \frac{pe^t}{1-e^t+pe^t} & \frac{pe^{it}}{1-e^{it}+pe^{it}}\\
+{\rm negative\ binomial} & n/p & n(1-p)/p^2 & (\frac{pe^t}{1-e^t+pe^t})^n & (\frac{pe^{it}}{1-e^{it}+pe^{it}})^n\\
+{\rm Poisson} & \lambda & \lambda & e^{\lambda(e^t-1)} & e^{\lambda(e^{it}-1)}\\
+\hline
+{\rm uniform} & (a+b)/2 & (b-a)^2/12 & \frac{e^{tb}-e^{ta}}{t(b-a)} & \frac{e^{itb}-e^{ita}}{it(b-a)}\\
+{\rm exponential}  & 1/\lambda & 1/\lambda^2 & (1-t\lambda^{-1})^{-1} & (1-it\lambda^{-1})^{-1}\\
+{\rm normal} & \mu & \sigma^2 & e^{t\mu+\frac{1}{2}\sigma^2t^2} & e^{it\mu-\frac{1}{2}\sigma^2t^2} \\
+{\rm gamma} &  &  & (1-t\theta)^{-k} & (1-it\theta)^{-k}\\
+{\rm chi-squared} &  &  & (1-2t)^{-k/2} & (1-2it)^{-k/2} \\
+\end{array}
+$$
 
