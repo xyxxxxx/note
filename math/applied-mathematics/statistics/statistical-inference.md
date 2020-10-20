@@ -1,10 +1,10 @@
-## 点估计point estimation
+# 点估计point estimation
 
 构造适当的统计量$$\hat\theta=\hat\theta(X_1,X_2,\cdots,X_n)$$，估计总体分布的参数$$\theta$$，就称$$\hat\theta$$为参数$$\theta$$的点估计。
 
 
 
-### 矩估计法,method of moment
+## 矩估计法,method of moment
 
 矩估计法的基本思想是，推导总体的矩（原点矩或中心矩），然后取出样本并计算样本的矩，由样本矩近似等于原点矩建立等式，解出需要估计的参数。
 
@@ -35,23 +35,15 @@ $$
 
 
 
-![padogji2ntj4rvbne](C:\Users\Xiao Yuxuan\Documents\pic\padogji2ntj4rvbne.PNG)
+## 最大似然估计法maximum likelihood estimation,MLE
 
-> 尽可能使用低阶矩
-
-![ur13to4g2rjbhvwqde](C:\Users\Xiao Yuxuan\Documents\pic\ur13to4g2rjbhvwqde.PNG)
-
-![acndvjeoyu6y52ktmrg](C:\Users\Xiao Yuxuan\Documents\pic\acndvjeoyu6y52ktmrg.PNG)
-
-
-
-### 最大似然估计法maximum likelihood estimation,MLE
+> MLE是频率学派的经典推断方法。关于频率学派和贝叶斯学派，参考[贝叶斯学派与频率学派有何不同？](https://www.zhihu.com/question/20587681)
 
 设总体分布$$f(X;\theta_1,\cdots,\theta_k)$$，抽取样本$$X_1,\cdots,X_n$$，那么样本$$(X_1,\cdots,X_n)$$的分布函数记作
 $$
 L(X_1,\cdots,X_n;\theta_1,\cdots,\theta_k)=f(X_1;\theta_1,\cdots,\theta_k)\cdots f(X_n;\theta_1,\cdots,\theta_k)
 $$
-$$L$$称为**似然函数**。如果我们把$$\theta_i$$看作参数，$$X_i$$看作变量，那么$$L$$是概率密度；但如果我们反过来把$$X_i$$看作参数，$$\theta_i$$看作变量，那么既然抽取到样本$$(X_1,\cdots,X_n)$$，我们认为$$L(X_1,\cdots,X_n;\theta_1,\cdots,\theta_k)$$的值是比较大的，于是转化为优化问题：$$\theta_1,\cdots,\theta_k$$取何值时$$L$$有最大值，这样的$$\theta_i^*$$称为$$\theta_i$$的**最大似然估计**，即最有可能的真参数值。这种推理类似于贝叶斯公式的思想，即倒果为因。
+如果我们把$$\theta_i$$看作参数，$$X_i$$看作变量，那么$$L$$称为概率函数；但如果我们反过来把$$X_i$$看作参数，$$\theta_i$$看作变量，那么$$L$$称为**似然函数**，既然抽取到样本$$(X_1,\cdots,X_n)$$，我们认为$$L(X_1,\cdots,X_n;\theta_1,\cdots,\theta_k)$$的值是比较大的，于是转化为优化问题：$$\theta_1,\cdots,\theta_k$$取何值时$$L$$有最大值，这样的$$\hat{\theta_i}$$称为$$\theta_i$$的**最大似然估计**，即最有可能的真参数值。这种推理类似于贝叶斯公式的思想，即倒果为因。
 
 为求$$L$$的最大值，建立**似然方程组**
 $$
@@ -64,56 +56,66 @@ $$
 @设$$x_1,\cdots,x_n$$是从正态总体$$N(\mu,\sigma^2)$$抽出的样本，估计$$\mu,\sigma^2,\sigma$$。
 $$
 似然函数\ L=\prod_{i=1}^n((\sqrt{2\pi\sigma^2})^{-1}\exp(-\frac{1}{2\sigma^2}(x_i-\mu)^2))\\
-\log L=-\frac{n}{2}\log(2\pi )-\frac{n}{2}\log(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\\
-\frac{\partial \log L}{\partial \mu}=\frac{1}{\sigma^2}\sum_{i=1}^n(x_i-\mu)=0\\
-\frac{\partial \log L}{\partial \sigma^2}=\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum_{i=1}^n(x_i-\mu)^2=0\\
-\Rightarrow \mu^*=\sum_{i=1}^n x_i/n=\overline{x}\\
-\sigma^{2*}=\sum_{i=1}^n (x_i-\overline{x})/n=b_2\\
+\ln L=-\frac{n}{2}\ln(2\pi )-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2\\
+\frac{\partial \ln L}{\partial \mu}=\frac{1}{\sigma^2}\sum_{i=1}^n(x_i-\mu)=0\\
+\frac{\partial \ln L}{\partial \sigma^2}=\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum_{i=1}^n(x_i-\mu)^2=0\\
+\Rightarrow \hat{\mu}=\sum_{i=1}^n x_i/n=\overline{x}\\
+\hat{\sigma}^{2}=\sum_{i=1}^n (x_i-\overline{x})^2/n=b_2\\
+$$
+
+上述解唯一且为极大值点。
+$$
+\hat{\sigma}=\sqrt{b_2}
 $$
 
 
+@设$$x_1,\cdots,x_n$$是从均匀总体$$U(a,b)$$抽出的样本，估计$$a,b$$。
+$$
+似然函数\ L=\prod_{i=1}^n \frac{1}{b-a}=(\frac{1}{b-a})^n\\
+\ln L=-n \ln(b-a)\\
+为使L取最大值，需要使b-a取最小值，\\
+故\hat{b}=\max\{x_1,\cdots,x_n\},\hat{a}=\min\{x_1,\cdots,x_n\}
+$$
+
+
+@设$$x_1,\cdots,x_n$$是从泊松总体$$\pi(\lambda)$$抽出的样本，估计$$\lambda$$。
+$$
+似然函数\ L=\prod_{i=1}^n \frac{\lambda^{x_i}}{x_i!}e^{-\lambda}\\
+\ln L=\sum_{i=1}^n \ln(\frac{\lambda^{x_i}}{x_i!}e^{-\lambda})=\ln\lambda\sum_{i=1}^n x_i-n\lambda-n\ln \prod_{i=1}^nx_i! \\
+\frac{\partial \ln L}{\partial \lambda}=\sum_{i=1}^nx_i/\lambda-n=0\\
+\Rightarrow \hat{\lambda} =\overline{x}
+$$
+上述解唯一且为极大值点。
+
+
+
+## 最大后验估计法maximum a posteriori estimation,MAP
+
+> MAP是贝叶斯学派的经典推断方法。
 
 
 
 
-> 以最大概率解释样本数据
-
-![h359y0jihwgnbofjfqe](C:\Users\Xiao Yuxuan\Documents\pic\h359y0jihwgnbofjfqe.PNG)
-
-![31rgrojthy3tnbe](C:\Users\Xiao Yuxuan\Documents\pic\31rgrojthy3tnbe.PNG)
 
 
 
-![o2y40jiernvjdbqef](C:\Users\Xiao Yuxuan\Documents\pic\o2y40jiernvjdbqef.PNG)
 
-![ijy396oihtnwjvfgtbw](C:\Users\Xiao Yuxuan\Documents\pic\ijy396oihtnwjvfgtbw.PNG)统计推断statistical inference
-参数点估计,point estimation
-构造适当的统计量，估计总体分布的参数，就称为参数的点估计
 
-矩估计法,method of moment
-![padogji2ntj4rvbne](C:\Users\Xiao Yuxuan\Documents\pic\padogji2ntj4rvbne.PNG)
+## 点估计的无偏性和有效性
 
-尽可能使用低阶矩
+设某统计总体包含未知参数$$\theta$$，$$\hat{\theta}=\hat{\theta}(X_1,X_2,\cdots,X_n)$$是$$\theta$$的一个估计量，若有$$E(\hat{\theta})=\theta$$，则称$$\hat{\theta}$$是参数$$\theta$$的**无偏估计量**。
 
-![ur13to4g2rjbhvwqde](C:\Users\Xiao Yuxuan\Documents\pic\ur13to4g2rjbhvwqde.PNG)
+> 注意求期望时的参数必须为$$\theta$$。
 
-![acndvjeoyu6y52ktmrg](C:\Users\Xiao Yuxuan\Documents\pic\acndvjeoyu6y52ktmrg.PNG)
-
- ![82ugijrwnvfsjpkbtwh](C:\Users\Xiao Yuxuan\Documents\pic\82ugijrwnvfsjpkbtwh.PNG)
+**无偏性**的含义包括：没有系统偏差（即系统误差），并且正负偏差的期望为0。
 
 
 
-![31rtgrmtkhnhrlgmt](C:\Users\Xiao Yuxuan\Documents\pic\31rtgrmtkhnhrlgmt.PNG)
-
-![5i09yijhtnkwfeoprght](C:\Users\Xiao Yuxuan\Documents\pic\5i09yijhtnkwfeoprght.PNG)
+@设$$x_1,\cdots,x_n$$是从总体抽出的样本，那么$$\overline{x}$$是总体分布均值$$\mu$$的无偏估计，$$s^2$$是总体分布方差$$\sigma^2$$的无偏估计。
 
 
 
-### 点估计的无偏性和有效性
-
-**无偏性**
-
-![jy4hejtnjb52tgbt](C:\Users\Xiao Yuxuan\Documents\pic\jy4hejtnjb52tgbt.PNG)
+![](C:\Users\Xiao Yuxuan\Documents\pic\jy4hejtnjb52tgbt.PNG)
 
 **无偏校正**
 
