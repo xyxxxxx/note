@@ -135,7 +135,7 @@ $$
 \mathcal{L}(y,f(\pmb x;\pmb \theta))=\frac{1}{2}(y-f(\pmb x;\pmb \theta))^2
 $$
 
-***交叉熵损失函数(cross-entropy loss function)** 一般用于分类问题。假设样本的标签$$y\in \{1,\cdots,C\}$$为离散的类别，模型$$f(\pmb x;\pmb \theta)\in[0,1]^C$$的输出为标签的条件概率分布，即
+**交叉熵损失函数(cross-entropy loss function)** 一般用于分类问题。假设样本的标签$$y\in \{1,\cdots,C\}$$为离散的类别，模型$$f(\pmb x;\pmb \theta)\in[0,1]^C$$的输出为标签的条件概率分布，即
 $$
 p(y=c|\pmb x;\pmb \theta)=f_c(\pmb x;\pmb \theta)\\
 满足f_c(\pmb x;\pmb \theta)\in [0,1],\ \sum_{c=1}^C f_c(\pmb x;\pmb \theta)=1
