@@ -123,6 +123,22 @@ readlines()	# 一次读取所有内容并按行返回list
 
 # 流
 
+## StandardIO
+
+```python
+sys.stdout  # 标准输出
+sys.stderr  # 标准错误
+sys.stdin   # 标准输入
+```
+
+默认地，`print`定向至`sys.stdout`，traceback和error定向至`sys.stderr`，输入从`sys.stdin`读取。
+
+```shell
+$ python3 prog.py > results.txt  # stdio连接到文件
+```
+
+
+
 ## StringIO
 
 ```python

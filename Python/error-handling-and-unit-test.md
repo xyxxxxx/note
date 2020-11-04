@@ -87,6 +87,12 @@ ZeroDivisionError: division by zero
 ```python
 if name not in authorized:
 	raise RuntimeError(f'{name} not authorized')
+
+# 程序退出    
+raise SystemExit(exitcode)
+raise SystemExit('Informative message')
+import sys
+sys.exit(exitcode)
 ```
 
 

@@ -9,9 +9,10 @@ OOP把对象作为程序的基本单元，一个对象包含了数据和操作�
 ```python
 class Student(object):			# 类名通常首字母大写,继承object类
     def __init__(self, name, score): # 构造函数,第一个参数恒为self,表示创建的实例自身,之后的参数表示实例的属性
+                                # 所有的属性均在构造函数中定义
         self.name = name
         self.score = score
-    def print_score(self):				
+    def print_score(self):		# 方法的第一个参数也恒为self		
         print('%s: %s' % (self.name, self.score))
 
 bart=Student()				    # 创建对象
@@ -30,19 +31,18 @@ bart.print_score()
 def fn(self, name='world'): #先定义函数
      print('Hello, %s.' % name)
 Hello = type('Hello', (object,), dict(hello=fn)) 
-#创建Hello class,依次传入3个参数:
-#class的名称；
-#继承的父类集合
-#class的方法名称与函数绑定
+# 创建Hello class,依次传入3个参数:
+# class的名称；
+# 继承的父类集合
+# class的方法名称与函数绑定
 ```
 
 
 
-## 定制类
+## 定制类（类的特殊方法）
 
 ```python
 #__call__()定义 实例() 返回值
-
 
 
 
@@ -100,13 +100,58 @@ class Student(object):
 
     
 #__str__()定义打印实例返回值, __repr__()定义实例直接返回值
-class Student(object):
+class Date(object):
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    # Used with `str()`,显示简单信息
+    # print(i)或 print(str(i))打印该信息
     def __str__(self):
-        return 'Student object (name: %s)' % self.name
-	__repr__=__str__
+        return f'{self.year}-{self.month}-{self.day}'
+
+    # Used with `repr()`,显示详细信息
+    # print(repr(i))打印该信息
+    def __repr__(self):
+        return f'Date({self.year},{self.month},{self.day})'
 
 
+```
 
+实际上数学运算和数组运算都是调用了特殊方法，因此实现这些方法即能使用符号运算：
+
+```python
+a + b       a.__add__(b)
+a - b       a.__sub__(b)
+a * b       a.__mul__(b)
+a / b       a.__truediv__(b)
+a // b      a.__floordiv__(b)
+a % b       a.__mod__(b)
+a << b      a.__lshift__(b)
+a >> b      a.__rshift__(b)
+a & b       a.__and__(b)
+a | b       a.__or__(b)
+a ^ b       a.__xor__(b)
+a ** b      a.__pow__(b)
+-a          a.__neg__()
+~a          a.__invert__()
+abs(a)      a.__abs__()
+
+len(x)      x.__len__()
+x[a]        x.__getitem__(a)
+x[a] = v    x.__setitem__(a,v)
+del x[a]    x.__delitem__(a)
+
+class Sequence:
+    def __len__(self):
+        pass
+    def __getitem__(self,a):
+        pass
+    def __setitem__(self,a,v):
+        pass
+    def __delitem__(self,a):
+        pass
 ```
 
 
@@ -147,11 +192,18 @@ print(day1.value)
 
 # 数据封装
 
+类的属性和方法的可见性（即 Java 中的`private,protected,public`）由其名称决定：
+
++ `attr`：外部可以访问
++ `__attr`：外部不可访问
++ `_attr`：外部可以访问，但一般不建议这么做
++ `__attr__ `：特殊变量，外部可以访问
+
 ```python
 class Student(object):			
     def __init__(self, name, score):	
         self.__name = name		# 定义为private变量,外部不可直接访问
-        self.__score = score
+        self._score = score
     def get_name(self):			
         return self.__name
     def get_score(self):		# getter
@@ -160,6 +212,14 @@ class Student(object):
         self.__score = score 
     def print_score(self):				
         print('%s: %s' % (self.name, self.score))
+        
+s = Student('Alice',90)
+print(s.__name)             # error
+print(getattr(s,'__name'))  # error
+print(s.get_name())         # Alice
+print(s._score)             # 90
+print(getattr(s,'_score'))  # 90
+print(s.get_score())        # 90
 ```
 
 
@@ -169,7 +229,7 @@ class Student(object):
 # 继承和多态
 
 ```python
-class Animal(object):
+class Animal(object):     # 类默认继承自object类
     def run(self):
         print('Animal is running...')
 
@@ -179,21 +239,32 @@ class Dog(Animal):
 
 class Cat(Animal):
     def run(self):
-        print('Cat is running...')        
+        print('Cat is running...')
+        super().run()     # 调用父类的方法
         
-dog=Dog()
+dog = Dog()
 dog.run()	# 继承父类的方法
 dog.eat()
 
-cat=Cat()
+cat = Cat()
 cat.run()	# 覆盖父类的方法,即多态
+```
+
+```python
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+class Dog(Animal):
+    def __init__(self, name, age, price):
+        super().__init__(name, age)   # 必须先调用父类的构造函数
+        self.price = price
 ```
 
 
 
-
-
-# 多重继承
+## 多重继承
 
 ```python
 class Animal(object):
@@ -210,8 +281,68 @@ class FlyableMixIn(object):
     def fly(self):
         print('Flying...')
         
-class Dog(Mammal, RunnableMixIn):	#继承主线Mammal,附加RunnableMixIn
-    pass        
+class Dog(Mammal, RunnableMixIn):	# 继承主线Mammal,附加RunnableMixIn
+    pass
+
+print(Dog.__mro__)                  # 查看方法解析顺序MRO,也包含了继承信息
+# (<class '__main__.Dog'>, <class '__main__.Mammal'>, <class '__main__.Animal'>, <class '__main__.RunnableMixIn'>, <class 'object'>)
+```
+
+一般不建议使用多重继承，但下面是多重继承的一种使用情形：
+
+```python
+class Dog:
+    def noise(self):
+        return 'Bark'
+
+    def chase(self):
+        return 'Chasing!'
+    
+class Bike:
+    def noise(self):
+        return 'On Your Left'
+
+    def pedal(self):
+        return 'Pedaling!'
+    
+class Loud:
+    def noise(self):
+        return super().noise().upper()
+    
+class LoudDog(Loud, Dog):
+    pass
+
+class LoudBike(Loud, Bike):
+    pass
+
+d = LoudDog()
+print(d.noise())         # BARK
+print(LoudDog.__mro__)   # (<class '__main__.LoudDog'>, <class '__main__.Loud'>, <class '__main__.Dog'>, <class 'object'>)
+'''
+为什么?首先由定义class LoudDog(Loud, Dog),LoudDog的mro中Loud在Dog之前,
+因此调用了Loud的super().noise().upper().然后super()指向mro的下一个类即
+Dog,再调用其noise()方法.
+'''
+```
+
+
+
+
+
+## 抽象类
+
+```python
+class Animal(object):               # 抽象类用于定义不具体实现的父类，方法由子类实现
+    def run(self):
+        raise NotImplementedError()
+    def eat(self):
+        raise NotImplementedError()
+        
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+    def eat(self):
+        print('Dog is eating...')
 ```
 
 
@@ -281,16 +412,24 @@ a is c       # False
 
 ```python
 class Student(object):
-    age=7		#类属性
+    age=7		    # 类属性
     def __init__(self, name):
-        self.name = name
+        self.name = name # 实例属性
 
 s = Student('Bob')
-s.score = 90		#py是动态语言,允许绑定任意属性
+s.score = 90		# py是动态语言,允许绑定任意属性
 print(Student.age)	
-print(s.age)		#每个实例皆可访问类属性
-s.age=8
-print(s.age)		#实例属性覆盖类属性
+print(s.age)		# 每个实例皆可访问类属性
+s.age = 8
+print(s.age)		# 实例属性覆盖类属性
+
+# 属性操作函数
+# getattr(obj, 'name')          # Same as obj.name
+# setattr(obj, 'name', value)   # Same as obj.name = value
+# delattr(obj, 'name')          # Same as del obj.name
+# hasattr(obj, 'name')          # Tests if attribute exists
+setattr(s,'name','Boc')
+print(getattr(s,'name'))
 ```
 
 
@@ -321,18 +460,51 @@ Student.set_age = set_age	   # 给class绑定方法
 
 ```python
 class Student(object):
-    @property		#定义属性和getter
+    __slots__ = ('name','_birth')     # 限定可以存在的属性
+    def __init__(self, name, birth):
+        self.name = name
+        self._birth = birth
+
+    @property  # 定义属性和getter
     def birth(self):
-        return self._birth
-    @birth.setter	#定义setter
+        return self._birth            # 属性_birth用birth调用
+
+    @birth.setter  # 定义setter
     def birth(self, value):
-        if value<19000000
-        	raise ValueError('Invalid birthday') #报错
+        if value < 19000000:
+            raise ValueError('Invalid birthday')  # 报错
         self._birth = value
-    @property
-    def age(self):
-        return 2015 - self._birth
+
+s = Student('Alice', 20001111)
+print(s.birth)
+s.birth = 1
+print(s.birth)
+s.sex = 'F'                           # AttributeError
+
 ```
 
 
+
+
+
+# 面向对象的实现
+
+Python中的类和实例都是由`dict`实现：
+
+```python
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def run(self):
+        print('Animal is running...')
+        
+a = Animal('white',1)
+print(a.__self__)
+print(Animal.__dict__)
+
+# {'name': 'white', 'age': 1}
+# {'__module__': '__main__', '__init__': <function Animal.__init__ at 0x7f3b1db09620>, 'run': <function Animal.run at 0x7f3b1db098c8>, '__dict__': <attribute '__dict__' of 'Animal' objects>, '__weakref__': <attribute '__weakref__' of 'Animal' objects>, '__doc__': None}
+
+```
 

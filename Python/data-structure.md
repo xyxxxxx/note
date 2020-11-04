@@ -229,7 +229,7 @@ s1 ^ s2             # 对称差集
 ## 切片
 
 ```python
-#list切片
+# list切片
 L = list(range(100))
 
 L[:10]
@@ -239,9 +239,9 @@ L[:10:2]
 L[::5]
 L[:]
 
-#tuple也可以使用切片操作，只是返回的仍为tuple
+# tuple也可以使用切片操作，只是返回的仍为tuple
 
-#str切片
+# str切片
 word = 'Python'
 word[:2]      # 'Py'
 word[4:]      # 'on'
@@ -255,52 +255,24 @@ word[::2]     #
 ## 迭代
 
 ```python
-#list迭代
-L=[1,2,3]
+# list迭代
+L=[1, 2, 3]
 for i in L:
     pass
 
-#dict迭代
+# dict迭代
 d = {'a': 1, 'b': 2, 'c': 3}
-for key in d:	#迭代key
+for key in d:	    #迭代key
 	print(key)
 for value in d.values():
-    print(value)	#迭代value
+    print(value)	# 迭代value
 for k,v in d.items():
-    print(k,v)		#迭代key和value
+    print(k,v)		# 迭代key和value
     
-#str迭代
+# str迭代
 for ch in 'ABC':
     print(ch)
 ```
-
-
-
-## 生成器generator
-
-```python
-g = (x * x for x in range(10))	#生成器需要对象
-for i in g:		#循环：把g的过程走完
-    print(i)	#循环一次计算一次，节省空间
-    
-def fib(max):	#generator型函数
-    n, a, b = 0, 0, 1
-    while n < max:
-        yield b
-        a, b = b, a + b
-        n = n + 1
-    return 'done'   
-for n in fib(6):
-     print(n)
-```
-
-
-
-## 迭代器
-
-可以作用于for循环的对象为可迭代对象Iterable，包括list,tuple,dict,set,str,...
-
-可以被next()调用并不断返回下一个值的对象称为迭代器Iterator，包括生成器
 
 
 
@@ -431,5 +403,13 @@ rotate(n=1)     # 向右循环移动n步。如果n是负数，就向左循环
 
 # deque对象的唯一只读属性
 maxlen          # deque的最大尺寸，如果没有限定的话就是 None
+```
+
+
+
+## 自定义容器类
+
+```python
+
 ```
 
