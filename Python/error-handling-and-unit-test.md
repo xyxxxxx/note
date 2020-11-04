@@ -2,25 +2,52 @@
 
 ## 错误处理
 
-### try
+### try-except
 
 ```python
+# try-except完整语句
 try:
     print('try...')
-    r = 10 / 0					#error,跳至except
+    r = 10 / 0					# error,跳至except
     print('result:', r)
 except ValueError as e:
     print('ValueError:', e)    
-except ZeroDivisionError as e:	#捕获错误类型
-    print('except:', e)
-else:							#无错误
-    print('no error!')    
+except ZeroDivisionError as e:	# 捕获该错误类型
+    print('ZeroDivisionError:', e)
+except (IOError,LookupError,RuntimeError) as e:  # 捕获多个错误类型
+    pass    
+else:							# 无错误
+    print('no error!')
 finally:
     print('finally...')
 print('END')
 ```
 
-> python内置异常[file:///D:/library/python/library/exceptions.html](file:///D:/library/python/library/exceptions.html)
+```python
+# 异常抛出
+def grok():
+    pass
+    raise RuntimeError('Whoa!')   # 抛出错误
+
+def spam():
+    grok()                        # 继续上抛
+
+def bar():
+    try:
+       spam()
+    except RuntimeError as e:     # 处理错误
+        pass
+
+def foo():
+    try:
+         bar()
+    except RuntimeError as e:     # 错误未到达此处
+        pass
+
+foo()
+```
+
+> python内置异常https://docs.python.org/zh-cn/3/library/exceptions.html
 
 
 
@@ -36,24 +63,33 @@ def main():
     bar('0')
 main()
 
-#错误信息
-division by zero
-堆栈跟踪:
- >  File "test.py", line 3, in foo
- >    return 10 / int(s)
- >  File "test.py", line 5, in bar
- >    return foo(s) * 2
- >  File "test.py", line 7, in main
- >    bar('0')
- >  File "test.py", line 8, in <module>
- >    main()
+# 错误信息
+Traceback (most recent call last):
+  File "test.py", line 8, in <module>
+    main()
+  File "test.py", line 7, in main
+    bar('0')
+  File "test.py", line 5, in bar
+    return foo(s) * 2
+  File "test.py", line 3, in foo
+    return 10 / int(s)
+ZeroDivisionError: division by zero
 ```
+
+
 
 ### 记录错误
 
 
 
 ### 抛出错误
+
+```python
+if name not in authorized:
+	raise RuntimeError(f'{name} not authorized')
+```
+
+
 
 
 
@@ -64,12 +100,18 @@ division by zero
 ```python
 def foo(s):
     n = int(s)
-    assert n != 0, 'n is zero!'	#assert n!=0,else AssertionError
+    assert n != 0, 'n is zero!'	# assert n!=0,else AssertionError
     return 10 / n
-#可以用-O参数来关闭assert
+# 可以用-O参数来关闭assert
 ```
 
+
+
 ### logging
+
+
+
+
 
 
 

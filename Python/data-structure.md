@@ -27,22 +27,39 @@ s[1:3] = [1.9,2.9]   # [1,1.9,2.9,4]
 s[1:3] = []          # [1,4]
 ```
 
+```python
+# 列表变量的关系
+import copy
+
+s = [1,2,[3,4]]
+t = s           # t,s引用同一列表
+u = list(s)     # 返回s的浅拷贝
+                # 相当于创建新列表,各元素分别为1,2和列表[3,4],即引用同一列表
+v = copy.deepcopy(s) # 返回s的深拷贝
+t[0] = 0
+t[2].append(5)
+s               # [0, 2, [3, 4, 5]]
+u               # [1, 2, [3, 4, 5]]
+v               # [1, 2, [3, 4]]
+
+```
+
 
 
 ## 方法
 
 ```python
-append(x)         #在列表的末尾添加一个元素
-extend(iterable)  #使用可迭代对象中的所有元素来扩展列表
-insert(i, x)      #在指定的索引位置插入一个元素
-remove(x)         #移除列表中第一个值为x的元素
-pop([i])          #删除列表中指定位置的元素并返回它,默认为最后一个元素
-clear()           #移除列表中的所有元素
-index(x[,start[,end]]) #返回列表中第一个值为x的元素的从零开始的索引,start和end用于指定特定的搜索序列
-count(x)          #返回元素x在列表中出现的次数
-sort(key=None, reverse=False)  #对列表中的元素进行排序(自定义排序参见sorted())
-reverse()         #翻转列表中的元素
-copy()            #返回列表的一个浅拷贝
+append(x)         # 在列表的末尾添加一个元素
+extend(iterable)  # 使用可迭代对象中的所有元素来扩展列表
+insert(i, x)      # 在指定的索引位置插入一个元素
+remove(x)         # 移除列表中第一个值为x的元素
+pop([i])          # 删除列表中指定位置的元素并返回它,默认为最后一个元素
+clear()           # 移除列表中的所有元素
+index(x[,start[,end]]) # 返回列表中第一个值为x的元素的从零开始的索引,start和end用于指定特定的搜索序列
+count(x)          # 返回元素x在列表中出现的次数
+sort(key=None, reverse=False)  # 对列表中的元素进行排序(自定义排序参见sorted())
+reverse()         # 翻转列表中的元素
+copy()            # 返回列表的一个浅拷贝
 ```
 
 
@@ -52,8 +69,6 @@ copy()            #返回列表的一个浅拷贝
 ```python
 for i, v in enumerate(['tic', 'tac', 'toe']):
     print(i, v)
-    
-# output
 # 0 tic
 # 1 tac
 # 2 toe
@@ -76,6 +91,8 @@ for i, v in enumerate(['tic', 'tac', 'toe']):
 ## 列表推导式
 
 ```python
+[ <expression> for <variable_name> in <sequence> if <condition>] # 通用形式
+
 list(range(1,11))	#[1,2,...,10]
 [x*x for x in range(1,11)]	                #for, [1,4,...,100]
 [x*x for x in range(1, 11) if x % 2 == 0]	#for*if,[4,16,...,100]
@@ -128,6 +145,8 @@ singleton = 'hello',    # 注意逗号,用于创建单元素元组
 singleton               # ('hello',)
 ```
 
+元组可以进行比较，采用逐元素比较法。
+
 
 
 
@@ -140,18 +159,22 @@ dict的key必须是**不可变对象**（字符串，整数，etc）
 
 ```python
 d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
-# d = dict(Michael=95, Bob=75, Tracy=85)
-# d = dict([('Michael', 95), ('Bob', 75), ('Tracy', 85)])
+d = dict(Michael=95, Bob=75, Tracy=85)
+d = dict([('Michael', 95), ('Bob', 75), ('Tracy', 85)])
+names = ['Michael', 'Bob', 'Tracy']
+scores = [95, 75, 85]
+d = dict(zip(columns, values))
 
-d['Michael']	#返回指定key的value
-d['Adam']=67	#添加新key
-'Thomas' in d	#判定key存在
-list(d)         #返回所有key组成的列表
-sorted(d)       #排序所有key
-d.get('Thomas',-1)	#判定key存在，存在则返回索引位置，不存在返回-1
-d.pop('Bob')	#删除key
+d['Michael']	# 返回指定key的value
+d['Adam']=67	# 添加新key
+'Thomas' in d	# 判定key存在
+list(d)         # 返回所有key组成的列表
+sorted(d)       # 排序所有key
+d.get('Thomas',-1)	# 判定key存在，存在则返回索引位置，不存在返回-1
+d.pop('Bob')	# 删除key
 
-d.items()		#k,v二维数组
+d.items()		# k,v二维数组
+list(zip(prices.values(),prices.keys()))  # (v,k)列表
 ```
 
 
@@ -330,4 +353,83 @@ L1 = sorted(L, key=by_name)
 L2 = sorted(L, key=by_score, reverse=True)
 ```
 
+
+
+
+
+# 容器数据类型
+
+## Counter
+
+`Counter`是 `dict`的子类，用于计数可哈希对象。它是一个集合，元素像字典键一样存储，它们的计数存储为值。计数可以是任何整数值，包括0和负数。
+
+```python
+from collections import Counter
+
+cnt = Counter()
+for word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:
+     cnt[word] += 1
+cnt        # Counter({'blue': 3, 'red': 2, 'green': 1})
+cnt['red'] # 2
+cnt['violet'] # 0
+cnt1 = Counter({'green': 2, 'yellow': 1})
+cnt+cnt1   # Counter({'blue': 3, 'green': 3, 'red': 2, 'yellow': 1})
+(cnt+cnt1).most_common(2) # [('blue', 3), ('green', 3)]
+```
+
+
+
+## defaultdict
+
+`defaultdict`是 `dict`的子类，可以将（键-值对组成的）序列转换为（键-列表组成的）字典：
+
+```python
+from collections import defaultdict
+
+s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+d = defaultdict(list)
+for k, v in s:
+    d[k].append(v)
+d          # defaultdict(<class 'list'>, {'yellow': [1, 3], 'blue': [2, 4], 'red': [1]})    
+```
+
+
+
+## deque
+
+返回双向队列对象，从`iterable`数据创建（如果iterable没有指定，新队列为空）。
+
+deque支持线程安全、内存高效的添加(append)和弹出(pop)，从两端都可以，两个方向的大概开销都是$$O(1)$$复杂度。
+
+虽然 [`list`](https://docs.python.org/zh-cn/3/library/stdtypes.html#list) 对象也支持类似操作，不过这里优化了定长操作和 `pop(0)` 和 `insert(0, v)` 的开销。它们引起 O(n) 内存移动的操作，改变底层数据表达的大小和位置。
+
+如果`maxlen`没有指定或者是 `None` ，deque 可以增长到任意长度。否则，deque就限定到指定最大长度。一旦限定长度的deque满了，当新项加入时，同样数量的项就从另一端弹出。
+
+deque支持以下方法：
+
+```python
+append(x)       # 添加 x 到右端
+appendleft(x)   # 添加 x 到左端
+clear()         # 移除所有元素，使其长度为0
+copy()          # 创建一份浅拷贝
+count(x)        # 计算 deque 中元素等于 x 的个数
+extend(iterable)# 扩展deque的右侧，通过添加iterable参数中的元素
+extendleft(iterable) 
+# 扩展deque的左侧，通过添加iterable参数中的元素。注意，左添加时，在结果中iterable参数中的顺序将被反过来添加
+index(x[, start[, stop]]) 
+# 返回 x 在 deque 中的位置（在索引 start 之后，索引 stop 之前）。 返回第一个匹配项，如果未找到则引发 ValueError
+insert(i, x)    # 在位置 i 插入 x
+# 如果插入会导致一个限长 deque 超出长度 maxlen 的话，就引发一个IndexError
+pop()
+# 移去并且返回最右侧元素。如果没有元素的话，就引发一个IndexError
+popleft()
+# 移去并且返回最左侧元素。如果没有元素的话，就引发一个IndexError
+remove(value)
+# 移除找到的第一个 value。如果没有的话就引发 ValueError
+reverse()       # 将deque逆序排列
+rotate(n=1)     # 向右循环移动n步。如果n是负数，就向左循环
+
+# deque对象的唯一只读属性
+maxlen          # deque的最大尺寸，如果没有限定的话就是 None
+```
 

@@ -221,43 +221,54 @@ class Dog(Mammal, RunnableMixIn):	#继承主线Mammal,附加RunnableMixIn
 # 获取对象信息
 
 ```python
-#type()判断对象类型
-type(123)		#int
-type('123')		#str
+# type()判断对象类型
+type(123)		# int
+type('123')		# str
 
-type('abc')==type('123')	#True
-type('abc')==str			#True
-type('abc')==type(123)		#False
+type('abc')==type('123')	# True
+type('abc')==str			# True
+type('abc')==type(123)		# False
 
-type(abs)==types.BuiltinFunctionType		#判断函数类型
+type(abs)==types.BuiltinFunctionType		# 判断函数类型
 type(lambda x: x)==types.LambdaType
 ```
 
 ```python
-#isinstance()判断对象类型
+# isinstance()判断对象类型
 
-#继承关系:object -> Animal -> Dog -> Husky
+# 继承关系:object -> Animal -> Dog -> Husky
 h = Husky()
-isinstance(h,Husky)		#True,继承父类的数据类型
-isinstance(h,Dog)		#True
-isinstance(h,Animal)	#True
+isinstance(h,Husky)		# True,继承父类的数据类型
+isinstance(h,Dog)		# True
+isinstance(h,Animal)	# True
 
-isinstance([1, 2, 3], (list, tuple))	#True,或型判断
+isinstance([1, 2, 3], (list, tuple))	# True,或型判断
 ```
 
 ```python
-#操作对象属性
+# 操作对象属性
 class Student(object):			
     def __init__(self, name, score):	
-        self.__name = name		#定义为private变量,外部不可直接访问
+        self.__name = name		# 定义为private变量,外部不可直接访问
         self.__score = score
 
 bart=Student()        
-dir(bart)					#返回对象所有属性和方法
-hasattr(bart,'name')		#判断有无某属性
-setattr(bart,'age',10)		#创建属性
-getattr(bart,'sex',404)		#获取属性,不存在时返回404
+dir(bart)					# 返回对象所有属性和方法
+hasattr(bart,'name')		# 判断有无某属性
+setattr(bart,'age',10)		# 创建属性
+getattr(bart,'sex',404)		# 获取属性,不存在时返回404
 
+```
+
+```python
+# 判断两个变量是否指向同一对象
+a = [1,2,3]
+b = a
+c = [1,2,3]
+a is b       # True
+id(a)        # 140295002377160
+id(b)        # 140295002377160
+a is c       # False
 ```
 
 

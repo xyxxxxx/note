@@ -252,16 +252,16 @@ print(train_labels)         # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
 print(test_images.shape)    # (10000,28,28)
 print(test_labels.shape)    # 10000
 
+# preprocess data: normalize data
+train_images = train_images / 255.0
+test_images = test_images / 255.0
+
 # visualize
 plt.figure()
 plt.imshow(train_images[0])
 plt.colorbar()
 plt.grid(False)
 plt.show()
-
-# preprocess data: normalize data
-train_images = train_images / 255.0
-test_images = test_images / 255.0
 
 # visualize
 plt.figure(figsize=(10,10))          # size of figure displayed
@@ -278,7 +278,7 @@ plt.show()
 model = keras.Sequential([                        # layer sequence
     keras.layers.Flatten(input_shape=(28, 28)),   # transform (28,28) tensor to (784) tensor
     keras.layers.Dense(128, activation='relu'),   # fully connected to previous layer
-    keras.layers.Dense(10)                        # last layer
+    keras.layers.Dense(10, activation='softmax')  # linear classifier
 ])
 
 # configure model
@@ -293,12 +293,8 @@ model.fit(train_images, train_labels, epochs=10)
 # test model
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 
-# build model
-probability_model = keras.Sequential([model,  # add another layer
-                                         keras.layers.Softmax()])
-
 # make prediction
-predictions = probability_model.predict(test_images)
+predictions = model.predict(test_images)
 
 # visualize
 def plot_image(i, predictions_array, true_label, img):
@@ -350,9 +346,6 @@ for i in range(num_images):
   plt.subplot(num_rows, 2*num_cols, 2*i+2)
   plot_value_array(i, predictions[i], test_labels)
 plt.tight_layout()
-120
-plt.show()
-.tight_layout()
 plt.show()
 ```
 
@@ -459,8 +452,6 @@ print(results)
 
 # visualize: prediction
 test_prediction = model.predict(test_images)
-print(test_prediction)
-print(test_prediction.shape)
 ```
 
 
@@ -485,7 +476,97 @@ print(test_prediction.shape)
 import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 import numpy as np
+import matpimport tensorflow as tf
+from tensorflow.keras import datasets, layers, models
 import matplotlib.pyplot as plt
+
+# import data
+(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
+
+# check data
+print(train_images.shape) # (60000, 28, 28)
+print(train_labels)       # array([5, 0, 4, ..., 5, 6, 8], dtype=uint8)
+
+# visualize: data
+plt.figure(figsize=(10,10))          # size of figure displayed
+for i in range(25):
+    plt.subplot(5,5,i+1)             # draw (i+1)th subplot of 5 rows * 5 columns
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)  # gray image
+    plt.xlabel(train_labels[i])         # x-axis(bottom) label
+plt.show()    
+
+# preprocess data: reshape data
+train_images = train_images.reshape((60000, 28, 28, 1)) # standard image size: NumxHxWxD
+test_images = test_images.reshape((10000, 28, 28, 1))
+
+# preprocess data: normalize data
+train_images, test_images = train_images / 255.0, test_images / 255.0
+
+# build model
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))
+model.summary()
+# _________________________________________________________________
+# Layer (type)                 Output Shape              Param #   
+# =================================================================
+# conv2d (Conv2D)              (None, 26, 26, 32)        320       
+# _________________________________________________________________
+# max_pooling2d (MaxPooling2D) (None, 13, 13, 32)        0         
+# _________________________________________________________________
+# conv2d_1 (Conv2D)            (None, 11, 11, 64)        18496     
+# _________________________________________________________________
+# max_pooling2d_1 (MaxPooling2 (None, 5, 5, 64)          0         
+# _________________________________________________________________
+# conv2d_2 (Conv2D)            (None, 3, 3, 64)          36928     
+# _________________________________________________________________
+# flatten (Flatten)            (None, 576)               0         
+# _________________________________________________________________
+# dense (Dense)                (None, 64)                36928     
+# _________________________________________________________________
+# dense_1 (Dense)              (None, 10)                650       
+# =================================================================
+# Total params: 93,322
+# Trainable params: 93,322
+# Non-trainable params: 0
+# _________________________________________________________________
+
+# configure model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy', # 将 train_labels 中的值视作标签
+              # 等价于 train_labels = to_categorical(train_labels) 
+              #       loss='categorical_crossentropy'
+              metrics=['accuracy'])
+
+# train model
+history = model.fit(train_images, train_labels,
+                    epochs=10, validation_split = 0.2)
+
+# visualize: history
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+plt.show()
+
+# test model
+results = model.evaluate(test_images, test_labels, verbose=2)
+print(results)
+
+# visualize: prediction
+test_prediction = model.predict(test_images)
+lotlib.pyplot as plt
 
 # import data
 (train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()

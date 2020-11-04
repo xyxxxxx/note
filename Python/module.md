@@ -1,7 +1,11 @@
 # 导入模块
 
 ```python
-import math	#导入math包
+import math	     # 导入math包，即执行该文件
+import math as m # 导入math包并在本地赋名
+from math import cos, sin # 导入math包并将cos, sin添加到本地命名空间
+
+
 x=math.sin(math.pi/2)
 ```
 
@@ -43,10 +47,10 @@ if __name__=='__main__':
 # 作用域
 
 ```python
-#abc		public变量
-#_abc		public变量，但惯例不直接引用
-#__abc		private变量，不可直接引用
-#__abc__	特殊变量，可以直接引用
+# abc		public变量
+# _abc		public变量，但惯例不直接引用
+# __abc		private变量，不可直接引用
+# __abc__	特殊变量，可以直接引用
 
 def _private_1(name):		#内部函数
     return 'Hello, %s' % name

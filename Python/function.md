@@ -148,13 +148,13 @@ f1(1, 2, 3, 'a', 'b', x=99)
 ## 返回值
 
 ```python
-#多个返回值
+# 多个返回值
 import math
 
 def move(x, y, step, angle=0):
     nx = x + step * math.cos(angle)
     ny = y - step * math.sin(angle)
-    return nx, ny	#返回2个值
+    return nx, ny	# 返回包含这2个值的tuple
 
 x, y = move(100, 100, 60, math.pi / 6)	#为2个变量赋值
 r = move(100, 100, 60, math.pi / 6)		#返回1个tuple
