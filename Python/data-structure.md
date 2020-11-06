@@ -64,7 +64,7 @@ copy()            # 返回列表的一个浅拷贝
 
 
 
-## 遍历
+## 迭代
 
 ```python
 for v in ['tic', 'tac', 'toe']:
@@ -193,12 +193,16 @@ list(zip(prices.values(),prices.keys()))  # (v,k)列表
 
 
 
-## 遍历
+## 迭代
 
 ```python
-d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
-for k, v in d.items():
-    print(k, v)
+d = {'a': 1, 'b': 2, 'c': 3}
+for key in d:	    # 迭代key
+	print(key)
+for value in d.values():
+    print(value)	# 迭代value
+for k,v in d.items():
+    print(k,v)		# 迭代key和value
 ```
 
 
@@ -252,30 +256,6 @@ word[4:]      # 'on'
 word[4:10]    # 'on',切片中的越界索引会被自动处理
 word[::2]     # 
 
-```
-
-
-
-## 迭代
-
-```python
-# list迭代
-L=[1, 2, 3]
-for i in L:
-    pass
-
-# dict迭代
-d = {'a': 1, 'b': 2, 'c': 3}
-for key in d:	    #迭代key
-	print(key)
-for value in d.values():
-    print(value)	# 迭代value
-for k,v in d.items():
-    print(k,v)		# 迭代key和value
-    
-# str迭代
-for ch in 'ABC':
-    print(ch)
 ```
 
 
@@ -377,7 +357,7 @@ d          # defaultdict(<class 'list'>, {'yellow': [1, 3], 'blue': [2, 4], 'red
 
 deque支持线程安全、内存高效的添加(append)和弹出(pop)，从两端都可以，两个方向的大概开销都是$$O(1)$$复杂度。
 
-虽然 [`list`](https://docs.python.org/zh-cn/3/library/stdtypes.html#list) 对象也支持类似操作，不过这里优化了定长操作和 `pop(0)` 和 `insert(0, v)` 的开销。它们引起 O(n) 内存移动的操作，改变底层数据表达的大小和位置。
+虽然 list 对象也支持类似操作，不过这里优化了定长操作和 `pop(0)` 和 `insert(0, v)` 的开销。它们引起 O(n) 内存移动的操作，改变底层数据表达的大小和位置。
 
 如果`maxlen`没有指定或者是 `None` ，deque 可以增长到任意长度。否则，deque就限定到指定最大长度。一旦限定长度的deque满了，当新项加入时，同样数量的项就从另一端弹出。
 

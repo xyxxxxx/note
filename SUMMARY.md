@@ -179,6 +179,7 @@
   + [前馈神经网络](ML/nndl/fnn.md)
   + [卷积神经网络](ML/nndl/cnn.md)
   + [循环神经网络](ML/nndl/fnn.md)
+  + [网络优化与正则化](ML/nndl/optimization-and-regularization.md)
   + [注意力机制](ML/nndl/attention.md)
 + [机器学习平台与工具](ML/platform-and-tool/platform-and-tool.md)
   + [TensorFlow](ML/platform-and-tool/tensorflow.md)
