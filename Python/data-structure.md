@@ -1,8 +1,8 @@
 # 列表list []
 
 ```python
-s = [1,2,3,4]	    #定义list
-s = [1,2] + [3,4]	#拼接list
+s = [1,2,3,4]	    # 定义list
+s = [1,2] + [3,4]	# 拼接list
 
 len(s)	# 4
 
@@ -67,6 +67,12 @@ copy()            # 返回列表的一个浅拷贝
 ## 遍历
 
 ```python
+for v in ['tic', 'tac', 'toe']:
+    print(v)
+# tic
+# tac
+# toe
+
 for i, v in enumerate(['tic', 'tac', 'toe']):
     print(i, v)
 # 0 tic
@@ -78,26 +84,26 @@ for i, v in enumerate(['tic', 'tac', 'toe']):
 
 ## 实现栈
 
-列表使用`append()`和`pop()`方法
+列表使用`append()`和`pop()`方法。
 
 
 
 ## 实现队列
 
-列表也可以实现队列，但在列表的开头插入或弹出元素很慢。建议使用`collections.dueue`，它被设计成可以快速地从两端添加或弹出元素。
+列表也可以实现队列，但在列表的开头插入或弹出元素很慢。建议使用`collections.deque`，它被设计成可以快速地从两端添加或弹出元素。
 
 
 
 ## 列表推导式
 
 ```python
-[ <expression> for <variable_name> in <sequence> if <condition>] # 通用形式
+[ <expression> for <variable_name> in <sequence> if <condition>] # 一般形式
 
-list(range(1,11))	#[1,2,...,10]
-[x*x for x in range(1,11)]	                #for, [1,4,...,100]
-[x*x for x in range(1, 11) if x % 2 == 0]	#for*if,[4,16,...,100]
-[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]  #for*for*if,组合两个list中不相等的元素
-[str(round(pi, i)) for i in range(1, 6)]    #['3.1', '3.14', '3.142', '3.1416', '3.14159']
+list(range(1,11))	                        # [1,2,...,10]
+[x*x for x in range(1,11)]	                # [1,4,...,100]
+[x*x for x in range(1, 11) if x % 2 == 0]	# [4,16,...,100]
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]  # 双重for循环, 组合两个list中不相等的元素
+[str(round(pi, i)) for i in range(1, 6)]    # ['3.1', '3.14', '3.142', '3.1416', '3.14159']
 ```
 
 嵌套的列表推导式
@@ -130,7 +136,7 @@ t[0] = 88888   # err
 x, y, z = t    # 元组解包
 ```
 
-元组总是被圆括号包围；不允许单独给元组的一个元素赋值。
+元组总是被圆括号包围。不允许给元组的元素赋值，而只能创建新元组。
 
 比较列表和元组：
 
@@ -194,8 +200,6 @@ d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
 for k, v in d.items():
     print(k, v)
 ```
-
-
 
 
 
