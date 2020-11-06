@@ -72,8 +72,8 @@ print(sum)
 ## break，continue，else
 
 ```python
-break	  #跳出循环
-continue  #跳过当次循环
+break	  # 跳出循环
+continue  # 跳过当次循环
 
-else:     #else子句在循环耗尽了可迭代对象或循环条件变为False时被执行,但在循环被break语句终止时不会执行
+else:     # else子句在循环耗尽了可迭代对象或循环条件变为False时被执行,但在循环被break语句终止时不会执行
 ```

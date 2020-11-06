@@ -52,11 +52,13 @@
 	* [数据结构](Python/data-structure.md)
 	* [控制结构](Python/control-structure.md)
 	* [函数](Python/function.md)
-	* [模块](Python/module.md)
+	* [生成器](Python/generator.md)
+	* [模块和包](Python/module-and-package.md)
 	* [面向对象编程](Python/oop.md)
 	* [IO](Python/io.md)
 	* [错误处理与单元测试](Python/error-handling-and-unit-test.md)
 	* [进程与线程](Python/process-and-thread.md)
+	* [Poetry](Python/poetry.md)
 
 
 * [Go](Go/go.md)
@@ -127,9 +129,9 @@
 ## 计算机网络
 
 * [计算机网络](net/net/net.md)
-	* [网络层](net/net/network-layer.md) 
-	* [传输层](net/net/transport-layer.md) 
-	* [应用层](net/net/application-layer.md) 
+	* [网络层](net/net/network-layer.md)
+	* [传输层](net/net/transport-layer.md)
+	* [应用层](net/net/application-layer.md)
 * [Unix网络编程](net/unix-network-programming/unix-network-programming.md)
   * [socket编程简介](net/unix-network-programming/socket-programming-intro.md)
   * [基本TCP socket编程](net/unix-network-programming/basic-tcp-socket-programming.md)
@@ -177,6 +179,7 @@
   + [前馈神经网络](ML/nndl/fnn.md)
   + [卷积神经网络](ML/nndl/cnn.md)
   + [循环神经网络](ML/nndl/fnn.md)
+  + [注意力机制](ML/nndl/attention.md)
 + [机器学习平台与工具](ML/platform-and-tool/platform-and-tool.md)
   + [TensorFlow](ML/platform-and-tool/tensorflow.md)
   + [TensorFlow实例](ML/platform-and-tool/tensorflow-example.md)

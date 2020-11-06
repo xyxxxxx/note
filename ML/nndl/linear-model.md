@@ -227,6 +227,11 @@ $$
 \hat{y}={\rm sgn}(\pmb w^{\rm T}\pmb x)
 $$
 
+![](https://i.loli.net/2020/09/15/NSXC3Q5TjELZ9gn.png)
+
+![Screenshot from 2020-10-27 21-52-01.png](https://i.loli.net/2020/10/27/Wo7N4GanOXms9BI.png)
+
+
 
 ## 参数学习
 
@@ -240,7 +245,10 @@ $$
 $$
 \pmb w_{k+1}←\pmb w_k+y^{(n)}\pmb x^{(n)}
 $$
-感知器的损失函数为
+> 在线学习算法按照顺序处理数据，每个数据点训练后直接更新权重，即更新模型，并把新模型投入实际操作中。随着更多的实时数据到达，模型会在操作中不断地更新。
+
+###### 感知器的损失函数为
+
 $$
 \mathcal{L}(y,{\rm sgn}(\pmb w^{\rm T}\pmb x))=\max(0,-y\pmb w^{\rm T}\pmb x)
 $$
@@ -262,39 +270,6 @@ X=[\pmb x^{(1)},\cdots,\pmb x^{(10)}]=\begin{bmatrix}5 & 6 & 4 & 3 & 5 & 1 & 2 &
 \end{bmatrix}
 $$
 求感知器模型。
-
-第1次迭代：设定初始值$$\pmb w_0=(0,0,0)^{\rm T}$$，
-$$
-对于样本(1),\quad y^{(1)} \pmb w_0^{\rm T}\pmb x^{(1)}=0\\
-更新权重\quad \pmb w_1=\pmb w_0+y^{(1)}\pmb x^{(1)}=(5,5,1)^{\rm T}
-$$
-<img src="https://i.loli.net/2020/10/28/D1mx6yUZjSTEdOk.png" alt="Screenshot from 2020-10-28 15-21-52.png" style="zoom: 50%;" />
-
-第2次迭代：
-$$
-对于样本(2),\quad y^{(2)} \pmb w_1^{\rm T}\pmb x^{(2)}=51\\
-\cdots\\
-对于样本(6),\quad y^{(6)} \pmb w_1^{\rm T}\pmb x^{(6)}=-21\\
-更新权重\quad \pmb w_2=\pmb w_1+y^{(6)}\pmb x^{(6)}=(4,2,0)^{\rm T}
-$$
-<img src="https://i.loli.net/2020/10/28/4bTn9Y53t8pmWDV.png" alt="Screenshot from 2020-10-28 15-21-52.png" style="zoom: 50%;" />
-
-第3次迭代：
-$$
-对于样本(7),\quad y^{(7)} \pmb w_2^{\rm T}\pmb x^{(7)}=-14\\
-更新权重\quad \pmb w_3=\pmb w_2+y^{(7)}\pmb x^{(7)}=(2,-1,-1)^{\rm T}
-$$
-<img src="https://i.loli.net/2020/10/28/9fkiJYQ8DULypZw.png" alt="Screenshot from 2020-10-28 15-21-52.png" style="zoom: 50%;" />
-
-……
-
-第68次迭代：$$\pmb w_{68}=(9,5,-26)$$
-
-<img src="https://i.loli.net/2020/10/28/6sZeXrflbMPdAqH.png" alt="Screenshot from 2020-10-28 15-20-50.png" style="zoom: 50%;" />
-
-第69次迭代：$$\pmb w_{69}=(7,2,-27)$$
-
-<img src="https://i.loli.net/2020/10/28/nlv4CXSfVkqATQ2.png" alt="Screenshot from 2020-10-28 15-21-52.png" style="zoom: 50%;" />
 
 
 
@@ -324,11 +299,54 @@ $$
 
 ## 参数平均感知器
 
+根据定理（感知器收敛性），如果训练数据是线性可分的，那么感知器可以找到一个判别函数来分割不同类的数据。但是<u>感知器并不能保证找到的判别函数是最优的</u>（比如泛化能力高），这样可能导致过拟合。
+
+<u>感知器学习到的权重向量和训练样本的顺序相关</u>。在迭代次序上排在后面的错误样本比前面的错误样本对最终的权重向量影响更大。比如有 1000 个训练样本，在迭代 100 个样本后，感知器已经学习到一个很好的权重向量。在接下来的 899 个样本上都预测正确，也没有更新权重向量；但是在最后第 1000 个样本时预测错误，并更新了权重。这次更新可能反而使得权重向量变差。
+
+为了提高感知器的鲁棒性和泛化能力，我们可以将在感知器学习过程中的所有（共$$K$$个）权重向量保存起来, 并赋予每个权重向量$$\pmb w_k$$一个置信系数$$c_k (1\le k\le K)$$，最终的分类结果由这$$K$$个不同权重的感知器投票决定，这个模型也称为**投票感知器(voted perceptron)**[Freund et al., 1999]。
+
+令$$τ_k$$为第$$k$$次更新权重$$\pmb w_k$$时的迭代次数(即训练过的样本数量)，则权重$$\pmb w_k$$的置信系数$$c_k$$设置为从$$τ_k$$到$$τ_{k+1}$$之间间隔的迭代次数，即$$c_k = τ_{k+1} − τ_k$$。置信系数$$c_k$$越大，说明权重$$\pmb w_k$$在之后的训练过程中正确分类样本的数量越多，越值得信赖。这样，投票感知器的形式为
+$$
+\hat{y}={\rm sgn}(\sum_{k=1}^K c_k {\rm sgn}(\pmb w_k^{\rm T}\pmb x))
+$$
+投票感知器虽然提高了感知器的泛化能力，但是需要保存$$K$$个权重向量，在实际操作中会带来额外的开销。因此，人们经常会使用一个简化的版本，通过使用“参数平均”的策略来减少投票感知器的参数数量，也叫作**平均感知器(averaged perceptron)** [Collins, 2002]。平均感知器的形式为
+$$
+\hat{y}={\rm sgn}(\frac{1}{T} \sum_{k=1}^K c_k \pmb w_k^{\rm T}\pmb x)\\
+={\rm sgn}(\overline{\pmb w}^{\rm T}\pmb x)
+$$
+其中$$\overline{\pmb w}$$为所有（共$$T$$次）迭代的平均权重向量。这个方法非常简单，只需要在每次迭代时都更新$$\overline{\pmb w}$$
+$$
+t\overline{\pmb w}\leftarrow (t-1)\overline{\pmb w}+\pmb w_t\\
+$$
+但这个方法需要在处理每一个样本时都要更新$$\overline{\pmb w}$$ ，由于$$\overline{\pmb w}$$和$$\pmb w_t$$都是稠密向量，更新操作会比较费时。为了提高迭代速度，有很多改进的方法，让这个更新只需要在错误预测发生时才进行更新。
 
 
 
+## *扩展到多分类
+
+原始的感知器是一种二分类模型，但也可以很容易地扩展到多分类问题，甚至是更一般的结构化学习问题 [Collins, 2002]。
+
+之前介绍的分类模型中，分类函数都是在输入$$\pmb x$$的特征空间上。为了使得感知器可以处理更复杂的输出，我们引入一个构建在输入输出联合空间上的特征函数$$\phi(\pmb x,\pmb y)$$，将样本对$$(\pmb x,\pmb y)$$映射到一个特征向量空间。
+
+在联合特征空间中，我们可以建立一个广义的感知器模型，
+$$
+\hat{\pmb y}=\arg \max\pmb w^{\rm T}\phi(\pmb x,\pmb y)
+$$
+广义感知器模型一般用来处理结构化学习问题。当用广义感知器模型来处理$$C$$分类问题时，$$\pmb y ∈ \{0, 1\}^C$$ 为类别的 one-hot 向量表示。在 C 分类问题中，一种常用的特征函数是$$\pmb x$$和$$\pmb y$$的外积，即
+$$
+\phi(\pmb x,\pmb y)={\rm vec}(\pmb x\pmb y^{\rm T})\\
+=\begin{bmatrix}\vdots\\0\\(第(c-1)\times D+1行)\quad x_1\\\vdots\\(第(c-1)\times D+D行)\quad x_D\\0\\\vdots
+\end{bmatrix}\in \mathbb{R}^{D\times C}
+$$
+其中$$\pmb x\in \mathbb{R}^D$$，$$\pmb y$$为第$$c$$维为1的 one-hot 向量。
+
+广义感知器的学习算法是，首先初始化一个权重向量$$\pmb w_0←\pmb 0$$，然后每次预测错误一个样本$$(\pmb x^{(n)},\pmb y^{(n)})$$，即$$\hat{\pmb y}^{(n)}\neq \pmb y^{(n)}$$时，就用这个样本来更新权重
+$$
+\pmb w_{k+1}←\pmb w_k+(\phi(\pmb x^{(n)},\pmb y^{(n)})-\phi(\pmb x^{(n)},\hat{\pmb y}^{(n)})
+$$
 
 
+……
 
 
 
@@ -375,5 +393,27 @@ $$
 
 
 
+## 参数学习
+
+为了找到最大间隔分割超平面，将前面的优化问题改写为凸优化问题
+$$
+\begin{align}
+\min_{\pmb w,b} &\quad \frac{1}{2} \|\pmb w\|^2 \\
+{\rm s.t.} &\quad 1-y^{(n)}(\pmb w^{\rm T}\pmb x^{(n)}+b)\le 0,\ n=1,\cdots,N
+\end{align}
+$$
+这里目标函数是二次的，约束函数是线性的，因此是一个凸二次规划问题。使用拉格朗日乘数法，目标函数的拉格朗日函数为
+$$
+Λ
+$$
+令$$Λ(\pmb w,b,\lambda)$$关于$$\pmb w$$和$$b$$的导数等于0，得到
+$$
+\pmb w=\sum_{n=1}^N\lambda_n y^{(n)}\pmb x^{(n)}\\
+0=\sum_{n=1}^N\lambda_n y^{(n)}
+$$
+根据以上各式，得到拉格朗日对偶函数
+$$
+\Gamma(\pmb \lambda)=-\frac{1}{2}\sum_{n=1}^N\sum_{m=1}^N\lambda_m\lambda_ny^{(m)}y^{(n)}(\pmb x^{(m)})^{\rm T}\pmb x^{(n)}+\sum_{n=1}^N\lambda_n
+$$
 
 
