@@ -83,6 +83,8 @@ $$
 
 <a name="img1">![](/home/xyx/Pictures/Screenshot from 2020-09-22 18-30-07.png)</a>
 
+![](https://trickygo.github.io/Dive-into-DL-TensorFlow2.0/img/chapter06/6.2_rnn.svg)
+
 以下给出了循环神经网络的一个简易的 Numpy 实现
 
 ```python
