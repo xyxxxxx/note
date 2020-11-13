@@ -135,13 +135,13 @@ $$
     \begin{array}{l}
         \pmb h_t^{\rm T} \overline{\pmb h}_s,\quad\quad {\rm dot} \\ 
         \pmb h_t^{\rm T}W_a \overline{\pmb h}_s,\ \ {\rm general} \\ 
-        \pmb v_a^{\rm T}\tanh(W_a[\pmb h_t;\overline{\pmb h}_s])\\
+        \pmb v_a^{\rm T}\tanh(W_a[\pmb h_t;\overline{\pmb h}_s]),\ \ {\rm concat}\\
     \end{array}
 \right.
 $$
 其中，concat模式跟Bahdanau Attention的计算方式一致，而dot和general则直接采用矩阵乘积的形式。在计算完权重向量$$\pmb a_t$$后，将其对encoder的隐藏状态进行加权平均得到此刻的上下文向量$$\pmb c_t$$，
 $$
-\pmb c_t=\sum_{s=1}^S \pmb a_t(s)\overline{\pmb h}_s
+\pmb c_t=\pmb a_t(s)^{\rm T}\overline{\pmb h}_s
 $$
 然后Luong Attention将其与decoder此刻的隐藏状态$$\pmb h_t$$进行拼接，并通过一个带有tanh的全连接层得到$$\tilde{\pmb h}_t$$：
 $$

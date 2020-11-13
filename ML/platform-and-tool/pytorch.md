@@ -1,3 +1,5 @@
+[toc]
+
 # 示例
 
 ## [Learning PyTorch with Examples](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#)
@@ -132,7 +134,7 @@ for t in range(500):
     # 这在因为在调用 loss.backward() 时缓存区中的梯度会累积(而不是覆盖)
     optimizer.zero_grad()
 
-    # Backward pass: 计算损失对于模型中所有可学习参数的梯度.因此每个Module中的参数都有
+    # Backward pass: 计算损失对于模型中所有可学习参数的梯度.因为每个Module中的参数都有
     # requires_grad=True
     loss.backward()
 
@@ -229,6 +231,58 @@ print(result)
 
 ## torch
 
+### arange
+
+生成包含指定等差数列的一维张量。
+
+```python
+>>> torch.arange(5)
+tensor([ 0,  1,  2,  3,  4])
+>>> torch.arange(1, 4)
+tensor([ 1,  2,  3])
+>>> torch.arange(1, 2.5, 0.5)
+tensor([ 1.0000,  1.5000,  2.0000])
+```
+
+
+
+### bmm
+
+批量矩阵乘法。
+
+```python
+>>> input = torch.randn(10, 3, 4)
+>>> mat2 = torch.randn(10, 4, 5)
+>>> res = torch.bmm(input, mat2)
+>>> res.size()
+torch.Size([10, 3, 5])
+```
+
+
+
+### cat
+
+拼接张量。
+
+```python
+>>> x = torch.randn(2, 3)
+>>> x
+tensor([[ 0.6580, -1.0969, -0.4614],
+        [-0.1034, -0.5790,  0.1497]])
+>>> torch.cat((x, x, x), 0)
+tensor([[ 0.6580, -1.0969, -0.4614],
+        [-0.1034, -0.5790,  0.1497],
+        [ 0.6580, -1.0969, -0.4614],
+        [-0.1034, -0.5790,  0.1497],
+        [ 0.6580, -1.0969, -0.4614],
+        [-0.1034, -0.5790,  0.1497]])
+>>> torch.cat((x, x, x), 1)
+tensor([[ 0.6580, -1.0969, -0.4614,  0.6580, -1.0969, -0.4614,  0.6580,
+         -1.0969, -0.4614],
+        [-0.1034, -0.5790,  0.1497, -0.1034, -0.5790,  0.1497, -0.1034,
+         -0.5790,  0.1497]])
+```
+
 
 
 ### clamp
@@ -253,6 +307,22 @@ tensor([ 0.5000,  0.5000,  2.1593,  0.5000])
 
 
 
+### equal
+
+判断两个张量是否相等。
+
+```python
+>>> one1 = torch.ones(2,3)
+>>> one2 = torch.ones(2,3)
+>>> one1 == one2
+tensor([[True, True, True],
+        [True, True, True]])
+>>> one1.equal(one2)
+True
+```
+
+
+
 ### mm
 
 矩阵乘法。
@@ -263,6 +333,165 @@ tensor([ 0.5000,  0.5000,  2.1593,  0.5000])
 >>> torch.mm(mat1, mat2)
 tensor([[0.0717]])
 ```
+
+
+
+### ones
+
+生成指定形状的全1张量。
+
+```python
+>>> torch.ones(2, 3)
+tensor([[ 1.,  1.,  1.],
+        [ 1.,  1.,  1.]])
+```
+
+
+
+### randn
+
+生成指定形状的随机张量，其中每个元素服从标准正态分布。
+
+```python
+>>> torch.randn(2, 3)
+tensor([[ 1.5954,  2.8929, -1.0923],
+        [ 1.1719, -0.4709, -0.1996]])
+```
+
+
+
+### squeeze
+
+返回一个张量，其在输入张量的基础上删除所有规模为1的维度。返回张量与输入张量共享内存。
+
+```python
+>>> input = torch.randn(1,2,1,3,1,4)
+>>> input.shape
+torch.Size([1, 2, 1, 3, 1, 4])
+>>> output = input.unsqueeze()
+>>> output.shape
+torch.Size([2, 3, 4])
+```
+
+
+
+
+
+### Tensor
+
+| Data type                                                    | dtype                                 | CPU tensor             | GPU tensor                  |
+| ------------------------------------------------------------ | ------------------------------------- | ---------------------- | --------------------------- |
+| 32-bit floating point                                        | `torch.float32` or `torch.float`      | `torch.FloatTensor`    | `torch.cuda.FloatTensor`    |
+| 64-bit floating point                                        | `torch.float64` or `torch.double`     | `torch.DoubleTensor`   | `torch.cuda.DoubleTensor`   |
+| 16-bit floating point [1](https://pytorch.org/docs/stable/tensors.html#id3) | `torch.float16` or `torch.half`       | `torch.HalfTensor`     | `torch.cuda.HalfTensor`     |
+| 16-bit floating point [2](https://pytorch.org/docs/stable/tensors.html#id4) | `torch.bfloat16`                      | `torch.BFloat16Tensor` | `torch.cuda.BFloat16Tensor` |
+| 32-bit complex                                               | `torch.complex32`                     |                        |                             |
+| 64-bit complex                                               | `torch.complex64`                     |                        |                             |
+| 128-bit complex                                              | `torch.complex128` or `torch.cdouble` |                        |                             |
+| 8-bit integer (unsigned)                                     | `torch.uint8`                         | `torch.ByteTensor`     | `torch.cuda.ByteTensor`     |
+| 8-bit integer (signed)                                       | `torch.int8`                          | `torch.CharTensor`     | `torch.cuda.CharTensor`     |
+| 16-bit integer (signed)                                      | `torch.int16` or `torch.short`        | `torch.ShortTensor`    | `torch.cuda.ShortTensor`    |
+| 32-bit integer (signed)                                      | `torch.int32` or `torch.int`          | `torch.IntTensor`      | `torch.cuda.IntTensor`      |
+| 64-bit integer (signed)                                      | `torch.int64` or `torch.long`         | `torch.LongTensor`     | `torch.cuda.LongTensor`     |
+| Boolean                                                      | `torch.bool`                          | `torch.BoolTensor`     | `torch.cuda.BoolTensor`     |
+
+
+
+**detach**
+
+返回一个张量，其与输入张量共享内存，但在计算图之外，不参与梯度计算。
+
+```python
+# 1
+>>> a = torch.tensor([1, 2, 3.], requires_grad=True)
+>>> out = a.sigmoid()
+>>> out.sum().backward()
+>>> a.grad
+tensor([1., 1., 1.])
+
+# 2
+>>> a = torch.tensor([1, 2, 3.], requires_grad=True)
+>>> out = a.sigmoid()
+>>> c = out.detach()
+>>> out.sum().backward()  # 可以计算梯度 
+>>> a.grad
+tensor([0.1966, 0.1050, 0.0452])
+
+# 3
+>>> a = torch.tensor([1, 2, 3.], requires_grad=True)
+>>> out = a.sigmoid()
+>>> c = out.detach()
+>>> c.sum().backward()    # c不能计算梯度
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+
+# 4
+>>> a = torch.tensor([1, 2, 3.], requires_grad=True)
+>>> out = a.sigmoid()
+>>> c = out.detach()
+>>> c.zero_()
+>>> out.sum().backward()    # out的值被修改而不能计算梯度
+RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: ……
+```
+
+
+
+
+
+### topk
+
+返回一维张量的最大的k个数。对于二维张量，返回每行的最大的k个数。
+
+```python
+>>> a = torch.arange(6)
+>>> a.topk(1)
+torch.return_types.topk(values=tensor([5]),indices=tensor([5]))
+>>> a.topk(3)
+torch.return_types.topk(values=tensor([5, 4, 3]),indices=tensor([5, 4, 3]))
+
+>>> a = torch.arange(6).view(2,3)
+>>> v, i = a.topk(1)
+>>> v
+tensor([[2],
+        [5]]) 
+>>> i
+tensor([[2],
+        [2]])
+
+```
+
+
+
+
+
+### unsqueeze
+
+返回一个张量，其在输入张量的基础上在指定位置增加一个规模为1的维度。返回张量与输入张量共享内存。
+
+```python
+>>> input = torch.randn(2,3,4)
+>>> input.shape
+torch.Size([2, 3, 4])
+>>> output = input.unsqueeze(0)
+>>> output.shape
+torch.Size([1, 2, 3, 4])
+>>> output = input.unsqueeze(3)
+>>> output.shape
+torch.Size([2, 3, 4, 1])
+```
+
+
+
+### zeros
+
+生成指定形状的全0张量。
+
+```python
+>>> torch.zeros(2, 3)
+tensor([[ 0.,  0.,  0.],
+        [ 0.,  0.,  0.]])
+```
+
+
 
 
 
@@ -310,6 +539,34 @@ torch.Size([100, 32, 26, 24])
 torch.Size([100, 32, 9, 9])
 >>> output4.shape
 torch.Size([100, 32, 10, 10])
+```
+
+
+
+### CrossEntropyLoss
+
+交叉熵损失函数。见`torch.nn.NLLLoss`。
+
+```python
+>>> loss = nn.CrossEntropyLoss()
+>>> a1 = torch.tensor([[0.1, 0.8, 0.1]])
+>>> a2 = torch.tensor([1])
+>>> b = loss(a1, a2)
+>>> b
+tensor(0.6897)
+>>> a2 = torch.tensor([0])
+>>> b = loss(a1, a2)
+>>> b
+tensor(1.3897)
+
+# CrossEntropyLoss() = softmax() + log() + NLLLoss()
+>>> loss = nn.CrossEntropyLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
 ```
 
 
@@ -531,6 +788,46 @@ tensor([[[[1.2014, 1.1915],
 
 
 
+### MSELoss
+
+平均二乘误差损失函数。
+
+```python
+>>> a1 = torch.arange(10.0)
+>>> a2 = a1+1
+>>> loss = nn.MSELoss()
+>>> b = loss(a1, a2)
+>>> b
+tensor(1.)
+>>> loss = nn.MSELoss(reduction='sum')
+>>> b = loss(a1, a2)
+>>> b
+tensor(10.)
+```
+
+
+
+### NLLLoss
+
+见`torch.nn.CrossEntropyLoss`。
+
+```python
+
+
+>>> loss = nn.NLLLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> input = input.softmax(dim=1)
+>>> input = input.log()
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+
+```
+
+
+
 ### ReLU
 
 ReLU 激活函数层。见torch.nn.functional.relu。
@@ -543,6 +840,26 @@ ReLU 激活函数层。见torch.nn.functional.relu。
 tensor([ 1.2175, -0.7772,  1.3282, -0.1987,  0.3403, -1.3309, -0.3600, -1.5150])
 >>> output
 tensor([1.2175, 0.0000, 1.3282, 0.0000, 0.3403, 0.0000, 0.0000, 0.0000])
+```
+
+
+
+### Softmax
+
+Softmax层。torch.nn.LogSoftmax相当于在此基础上为每个输出值求（自然）对数。
+
+```python
+>>> m1 = nn.Softmax(dim=0)
+>>> m2 = nn.LogSoftmax(dim=0)
+>>> input = torch.arange(4.0)
+>>> output1 = m1(input)
+>>> output2 = m2(input)
+>>> input
+tensor([0., 1., 2., 3.])
+>>> output1
+tensor([0.0321, 0.0871, 0.2369, 0.6439])
+>>> output2
+tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
 
 
@@ -647,5 +964,33 @@ tensor([[0.4750, 0.4750, 0.4750, 0.2689],
 >>> output1
 tensor([[0.1728, 0.1910, 0.2111, 0.4251],
         [0.1067, 0.1179, 0.1303, 0.6452]])
+```
+
+
+
+## torch.view
+
+view相当于numpy中的resize功能，即改变张量的形状。
+
+```python
+>>> a = torch.arange(12)
+>>> b = a.view(2, 6)
+>>> c = b.view(1, -1) # -1位置的参数会根据元素总数和其它维度的长度计算
+>>> a
+tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+>>> b
+tensor([[ 0,  1,  2,  3,  4,  5],
+        [ 6,  7,  8,  9, 10, 11]])
+>>> c
+tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
+```
+
+
+
+## torch.optim
+
+```python
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+                 #梯度下降法  需要学习的参数  学习率
 ```
 
