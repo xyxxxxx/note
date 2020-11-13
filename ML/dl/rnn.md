@@ -368,7 +368,9 @@ LSTM 基于以下模型进行两点改进：
 $$
 \pmb h_t=\pmb h_{t-1}+g(\pmb x_t,\pmb h_{t-1};\theta)
 $$
-**内部状态** LSTM网络引入一个新的**内部状态(internal state)** $$\pmb c_t\in  \mathbb{R}^D$$专门进行线性的循环信息传递，同时非线性地输出信息给隐藏层的外部状态$$\pmb h_t\in \mathbb{R}^D$$。内部状态$$\pmb c_t$$通过下面的公式计算：
+**内部状态**
+
+LSTM网络引入一个新的**内部状态(internal state)** $$\pmb c_t\in  \mathbb{R}^D$$专门进行线性的循环信息传递，同时非线性地输出信息给隐藏层的外部状态$$\pmb h_t\in \mathbb{R}^D$$。内部状态$$\pmb c_t$$通过下面的公式计算：
 $$
 \pmb c_t=\pmb f_t\odot \pmb c_{t-1}+\pmb i_t\odot \tilde{\pmb c}_t\\
 \pmb h_t=\pmb o_t\odot \tanh(\pmb c_t)
@@ -379,7 +381,9 @@ $$
 $$
 在每个时刻$$t$$，LSTM 网络的内部状态$$\pmb c_t$$记录了到当前时刻为止的历史信息。
 
-**门控机制** 在数字电路中，门(gate)为一个二值变量 {0, 1}， 0 代表关闭状态，不许信息通过；1 代表开放状态，允许信息通过。
+**门控机制**
+
+在数字电路中，门(gate)为一个二值变量 {0, 1}， 0 代表关闭状态，不许信息通过；1 代表开放状态，允许信息通过。
 
 LSTM 网络引入**门控机制(gating mechanism)**来控制信息传递的路径，三个门的作用分别为
 

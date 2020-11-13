@@ -168,7 +168,7 @@ $$
 \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}}=\mathbb{I}_i(a_j^{(l-1)})\pmb \delta^{(l)}=\delta_i^{(l)}a_j^{l-1}\mathbb{R}ightarrow \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}=\pmb \delta^{(l)}(\pmb a^{(l-1)})^{\rm T}\in \mathbb{R}^{M_l\times M_{l-1}} \\
 \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\pmb \delta^{(l)}=\pmb \delta^{(l)}\in \mathbb{R}^{M_l}
 $$
-下图展示了使用随机梯度下降法和误差反向传播算法的前馈神经网络训练算法
+下图展示了使用随机梯度下降法和误差反向传播算法的前馈神经网络训练算法：
 
 ![](https://i.loli.net/2020/09/16/H9poPa4cAuFJRlV.png)
 
