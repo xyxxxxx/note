@@ -23,7 +23,7 @@ $$
 \pmb z^{(l)}=\pmb W^{(l)}\pmb a^{(l-1)}+\pmb b^{(l)}\\
 \pmb a^{(l)}=f_l(\pmb z^{(l)})
 $$
-首先根据第$$l-1$$层神经元的**活性值(activation)**$$\pmb a^{(l−1)}$$计算出第$$l$$层神经元的**净活性值(net activation)**$$z^{(l)}$$，然后经过一个激活函数得到第$$l$$层神经元的活性值。因此，我们也可以把每个神经层看作一个**仿射变换(affine transformation)**和一个非线性变换。
+首先根据第$$l-1$$层神经元的**活性值(activation)** $$\pmb a^{(l−1)}$$计算出第$$l$$层神经元的**净活性值(net activation)** $$z^{(l)}$$，然后经过一个激活函数得到第$$l$$层神经元的活性值。因此，我们也可以把每个神经层看作一个**仿射变换(affine transformation)**和一个非线性变换。
 
 前馈神经网络通过逐层的信息传递得到网络最后的输出$$\pmb a^{(L)}$$。整个网络可以看做一个复合函数$$\phi(\pmb x;\pmb W,\pmb b)$$：
 $$
@@ -37,7 +37,7 @@ $$
 
 前馈神经网络具有很强的拟合能力，常见的连续非线性函数都可以用前馈神经网络来近似。
 
-**通用近似定理(Universal Approximation Theorem)** [Cybenko, 1989; Hornik et al., 1989] ：$$\mathcal{I}_D$$是一个$$D$$维的单位超立方体$$[0, 1]^D$$，$$C(\mathcal{I}_D)$$ 是定义在$$\mathcal{I}_D$$上的连续函数集合。对于任意给定的一个函数$$f ∈ C(\mathcal{I}_D)$$ , 存在整数$$M$$，实数$$v_m,b_m ∈ \mathbb{R}$$，实数向量$$w_m ∈ \mathbb{R}^D ,m = 1, ⋯ , M$$和非常数、有界、单调递增的连续函数$$\phi(⋅)$$，使得对于$$\forall \varepsilon>0$$，可以定义函数
+**通用近似定理(Universal Approximation Theorem)** [Cybenko, 1989; Hornik et al., 1989] ：$$\mathcal{I}_D$$是一个$$D$$维的单位超立方体$$[0, 1]^D$$，$$C(\mathcal{I}_D)$$ 是定义在$$\mathcal{I}_D$$上的连续函数集合。对于任意给定的一个函数$$f ∈ C(\mathcal{I}_D)$$ , 存在整数$$M$$，实数$$v_m,b_m ∈ \mathbb{R}$$，实数向量$$\pmb w_m ∈ \mathbb{R}^D ,m = 1, ⋯ , M$$和非常数、有界、单调递增的连续函数$$\phi(⋅)$$，使得对于$$\forall \varepsilon>0$$，可以定义函数
 $$
 F(\pmb x) =\sum_{m=1}^{M} v_m \phi(\pmb w^{\rm T}_m\pmb x + b_m )
 $$
@@ -139,10 +139,10 @@ $$
    $$
    为单位矩阵。
 
-3. 计算偏导数$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}$$，这一项表示第$$l$$层神经元对最终损失的影响，因此一般称为第$$l$$层神经元的**误差项**，用$$\delta^{(l)}$$表示，
+3. 计算偏导数$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}$$，这一项表示第$$l$$层神经元对最终损失的影响，因此一般称为第$$l$$层神经元的**误差项**，用$$\pmb \delta^{(l)}$$表示，
    
    $$
-   \delta^{(l)}\triangleq \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}\in \mathbb{R}^{M_l}
+   \pmb \delta^{(l)}\triangleq \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}\in \mathbb{R}^{M_l}
    $$
 误差项也间接反映了不同神经元对网络能力的贡献程度，从而比较好地解决**贡献度分配问题(Credit Assignment Problem, CAP)**。
    
@@ -165,7 +165,7 @@ $$
 
 现在就可以计算偏导数$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}},\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}$$，
 $$
-\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}}=\mathbb{I}_i(a_j^{(l-1)})\pmb \delta^{(l)}=\delta_i^{(l)}a_j^{l-1}\mathbb{R}ightarrow \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}=\pmb \delta^{(l)}(\pmb a^{(l-1)})^{\rm T}\in \mathbb{R}^{M_l\times M_{l-1}} \\
+\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial w_{ij}^{(l)}}=\mathbb{I}_i(a_j^{(l-1)})\pmb \delta^{(l)}=\delta_i^{(l)}a_j^{l-1}\Rightarrow \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}=\pmb \delta^{(l)}(\pmb a^{(l-1)})^{\rm T}\in \mathbb{R}^{M_l\times M_{l-1}} \\
 \frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}=\pmb I_{M_l}\pmb \delta^{(l)}=\pmb \delta^{(l)}\in \mathbb{R}^{M_l}
 $$
 下图展示了使用随机梯度下降法和误差反向传播算法的前馈神经网络训练算法：
@@ -196,6 +196,16 @@ $$
 
 
 
+## 符号微分
+
+**符号微分(symbolic differentiation)**是一种基于符号计算的自动求导方法。符号计算也叫代数计算，是指用计算机来处理带有变量的数学表达式。这里的变量被看作符号(symbols)，一般不需要代入具体的值。符号计算的输入和输出都是数学表达式，一般包括对数学表达式的化简、因式分解、微分、积分、解代数方程、 求解常微分方程等运算。
+
+符号计算一般来讲是对输入的表达式，通过迭代或递归使用一些事先定义的规则进行转换。当转换结果不能再继续使用变换规则时，便停止计算。
+
+符号微分可以在编译时就计算梯度的数学表示，并进一步利用符号计算方法进行优化。此外，符号计算的一个优点是符号计算和平台无关，可以在 CPU 或GPU 上运行。符号微分也有一些不足之处： (1) 编译时间较长，特别是对于循环，需要很长时间进行编译； (2)为了进行符号微分，一般需要设计一种专门的语言来表示数学表达式，并且要对变量（符号）进行预先声明； (3) 很难对程序进行调试。
+
+
+
 ## 自动微分
 
 **自动微分(Automatic Differentiation , AD)**是一种可以对一个（程序）函数进行计算导数的方法。
@@ -210,7 +220,12 @@ f(x;w,b)=\frac{1}{\exp(-(wx+b))+1}
 $$
 其中$$x$$为输入标量，$$w$$和$$b$$分别为权重和偏置参数。求$$f(x;w,b)$$在$$x=1,w=0,b=0$$时的梯度。
 
-首先将复合函数$$f(x;w,b)$$分解为一系列的基本函数$$h_i$$，如下表所示，每个基本函数的导数都十分简单，可以通过规则来实现。
+首先，我们将复合函数$$f(x; w, b)$$分解为一系列的基本操作，并构成一个计算图(computational graph)。计算图是数学运算的图形化表示，其中的每个非叶子节点表示一个基本操作，每个叶子节点为一个输入变量或常量。下图给
+出了当$$ x = 1, w = 0, b = 0 $$时复合函数$$f(x; w, b)$$的计算图，其中连边上的红色数字表示前向计算时复合函数中每个变量的实际取值。
+
+![](https://i.loli.net/2020/11/16/soP9f3lMQq2haYt.png)
+
+复合函数$$f(x;w,b)$$被分解为一系列的基本函数$$h_i$$，如下表所示，每个基本函数的导数都十分简单，可以通过规则来实现。
 $$
 \begin{align}
 \hline
@@ -232,14 +247,25 @@ $$
 $$
 因此$$f(x;w,b)$$对参数$$w$$和$$b$$的偏导数可以通过链式法则求得
 $$
-\frac{\partial f(x;w,b)}{\partial w}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{h_6}{h_5}\frac{h_5}{h_4}\frac{h_4}{h_3}\frac{h_3}{h_2}\frac{h_2}{h_1}\frac{h_1}{w}\\
-\frac{\partial f(x;w,b)}{\partial b}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{h_6}{h_5}\frac{h_5}{h_4}\frac{h_4}{h_3}\frac{h_3}{h_2}\frac{h_2}{b}\\
+\frac{\partial f(x;w,b)}{\partial w}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{\partial h_6}{\partial h_5}\frac{\partial h_5}{\partial h_4}\frac{\partial h_4}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial w}\\
+\frac{\partial f(x;w,b)}{\partial b}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{\partial h_6}{\partial h_5}\frac{\partial h_5}{\partial h_4}\frac{\partial h_4}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial b}\\
 $$
 当$$x=1,w=0,b=0$$时，
 $$
-\frac{\partial f(x;w,b)}{\partial w}|_{x=1,w=0,b=0}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{h_6}{h_5}\frac{h_5}{h_4}\frac{h_4}{h_3}\frac{h_3}{h_2}\frac{h_2}{h_1}\frac{h_1}{w}\\
+\frac{\partial f(x;w,b)}{\partial w}|_{x=1,w=0,b=0}=\frac{\partial f(x;w,b)}{\partial h_6}\frac{\partial h_6}{\partial h_5}\frac{\partial h_5}{\partial h_4}\frac{\partial h_4}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial w}\\
 =1\times -0.25\times1\times1\times-1\times1\times1=0.25
 $$
+
+如果函数和参数之间有多条路径，可以将这多条路径上的导数再进行相加，得到最终的梯度。
+
+按照计算导数的顺序，自动微分可以分为两种模式：前向模式和反向模式。**前向模式**是按计算图中计算方向的相同方向来递归地计算梯度；**反向模式**是按计算图中计算方向的相反方向来递归地计算梯度。前向模式和反向模式可以看作应用链式法则的两种梯度累积方式，从反向模式的计算顺序可以看出，反向模式和反向传播的计算梯度的方式相同。在前馈神经网络的参数学习中，风险函数为$$f ∶\mathbb{R}^N →\mathbb{R}$$，输出为标量，因此采用反向模式为最有效的计算方式，只需要一遍计算。
+
+
+计算图按构建方式可以分为**静态计算图(static computational graph)**和**动态计算图(dynamic computational graph)**。 静态计算图是在编译时构建计算图，计算图构建好之后在程序运行时不能改变，而动态计算图是在程序运行时动态构建。两种构建方式各有优缺点：静态计算图<u>在构建时可以进行优化，并行能力强</u>，但灵活性比较差。动态计算图则不容易优化，当不同输入的网络结构不一致时，难以并行计算，但是<u>灵活性比较高</u>。
+
+> 在目前深度学习框架里，Theano 和 Tensorflow 采用的是静态计算图，而 DyNet 、Chainer 和 PyTorch 采是动态计算图。Tensorflow 2.0 也支持了动态计算图。
+
+
 
 
 
