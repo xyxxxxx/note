@@ -1,6 +1,6 @@
-# tensorflow example
+# examples
 
-## gray image
+## 灰度图片binary image
 
 ```python
 # draw image
@@ -24,31 +24,29 @@ plt.show()
 
 
 
-## line chart
+## 折线图line chart
 
 ```python
-def plot_history(history):
-  hist = pd.DataFrame(history.history)
-  hist['epoch'] = history.epoch
-  plt.figure()
-  plt.xlabel('Epoch')
-  plt.ylabel('Mean Abs Error [MPG]')
-  plt.plot(hist['epoch'], hist['mae'],
-           label='Train Error')
-  plt.plot(hist['epoch'], hist['val_mae'],
-           label = 'Val Error')
-  plt.ylim([0,5])
-  plt.legend()
-  plt.figure()
-  plt.xlabel('Epoch')
-  plt.ylabel('Mean Square Error [$MPG^2$]')
-  plt.plot(hist['epoch'], hist['mse'],
-           label='Train Error')
-  plt.plot(hist['epoch'], hist['val_mse'],
-           label = 'Val Error')
-  plt.ylim([0,20])
-  plt.legend()
-  plt.show()
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+
+t = np.linspace(0, 10, 100)
+sin = np.sin(np.pi * t)
+cos = np.cos(np.pi * t)
+
+ax.plot(t, sin, label='s1') # 绘制折线图
+ax.plot(t, cos, label='s2')
+ax.set_xlim(0, 10)          # 设定坐标轴范围
+ax.set_xticks(np.arange(0, 11, 1))  # 设定坐标轴刻度
+ax.set_ylim(-1, 1)
+ax.set_xlabel('time')       # 坐标轴名称
+ax.set_ylabel('s1 and s2')
+ax.legend(loc='best')       # 显示图例
+ax.grid(True)               # 显示网格
+
+plt.show()
 ```
 
 
