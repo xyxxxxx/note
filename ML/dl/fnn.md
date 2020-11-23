@@ -120,7 +120,7 @@ $$
 $$
 只需要计算偏导数$$\frac{\partial \pmb z^{(l)}}{\partial w_{ij}^{(l)}}$$，$$\frac{\partial \pmb z^{(l)}}{\partial \pmb b^{(l)}}$$，$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb z^{(l)}}$$：
 
-1. 计算偏导数$$\frac{\partial \pmb z^{(l)}}{\partial w_{ij}^{(l)}}$$，根据$$\pmb z^{(l)}=\pmb W^{(l)}\pmb a^{(l-1)}+\pmb b^{(l)}\\$$，
+1. 计算偏导数$$\frac{\partial \pmb z^{(l)}}{\partial w_{ij}^{(l)}}$$，根据$$\pmb z^{(l)}=\pmb W^{(l)}\pmb a^{(l-1)}+\pmb b^{(l)}$$，
    
    > 回想$$\pmb z^{(l)}\in \mathbb{R}^{M_l}$$，$$\pmb W^{(l)}\in \mathbb{R}^{M_l\times M_{l-1}}$$，$$\pmb a^{(l)}\in \mathbb{R}^{M_l}$$
    
@@ -146,7 +146,7 @@ $$
    $$
 误差项也间接反映了不同神经元对网络能力的贡献程度，从而比较好地解决**贡献度分配问题(Credit Assignment Problem, CAP)**。
    
-   根据$$\pmb z^{(l+1)}=\pmb W^{(l+1)}\pmb a^{(l)}+\pmb b^{(l+1)}\\$$，
+   根据$$\pmb z^{(l+1)}=\pmb W^{(l+1)}\pmb a^{(l)}+\pmb b^{(l+1)}$$，
    $$
    \frac{\partial \pmb z^{(l+1)}}{\partial \pmb a^{(l)}}=(\pmb W^{(l+1)})^{\rm T} \in \mathbb{R}^{M_l\times M_{l+1}}
    $$
@@ -188,11 +188,11 @@ $$
 $$
 f'(x)=\lim _{\Delta x\to 0}\frac{f(x+\Delta x)-f(x)}{\Delta x}
 $$
-要计算函数$$f(x)$$在点$$x$$的导数，可以对$$x$$加上一个很小的扰动$$Δx$$，通过上述定义来直接计算函数$$f(x)$$的梯度。数值微分方法非常容易实现，但找到一个合适的扰动$$Δx$$却十分困难：如果$$Δx$$过小，会引起数值计算问题，比如舍入误差；如果$$Δx$$过大，会增加截断误差，使得导数计算不准确。因此，数值微分的实用性比较差。
+要计算函数$$f(x)$$在点$$x$$的导数，可以对$$x$$加上一个很小的扰动$$Δx$$，通过上述定义来直接计算函数$$f(x)$$的梯度。数值微分方法非常容易实现，但找到一个合适的扰动$$Δx$$却十分困难：如果$$Δx$$过小，会引起数值计算问题，比如舍入误差；如果$$Δx$$过大，会增加截断误差，使得导数计算不准确。
 
 > 在数值计算中，**舍入误差(round-off error)**指由于数字的舍入造成的近似值和精确值之间的差异，如用浮点数表示实数；**截断误差(truncation error)**指由于将超越计算的极限或无穷过程截断为有限过程造成的近似值和精确值之间的差异，如计算$$x-\frac{x^3}{3!}+\frac{x^5}{5!}$$以替代计算$$\sin x$$。
 
-数值微分的另外一个问题是计算复杂度。为了计算$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}$$或$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}$$，对任意一个参数$$w_{ij}^{(l)}$$或$$b_{ij}^{(l)}$$施加一个扰动，为了得到损失函数的变化，都需要前馈计算每一层的$$\pmb z^{(l)}$$和$$\pmb a^{(l)}$$直到得到扰动后的$$\hat{\pmb y}$$，导致总的时间复杂度较大。
+数值微分的另外一个问题是计算复杂度。为了计算$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb W^{(l)}}$$或$$\frac{\partial \mathcal{L}(\pmb y,\hat{\pmb y})}{\partial \pmb b^{(l)}}$$，对任意一个参数$$w_{ij}^{(l)}$$或$$b_{ij}^{(l)}$$施加一个扰动，为了得到损失函数的变化，都需要前馈计算每一层的$$\pmb z^{(l)}$$和$$\pmb a^{(l)}$$直到得到扰动后的$$\hat{\pmb y}$$，导致总的时间复杂度较大。由于以上原因，数值微分的实用性比较差。
 
 
 

@@ -564,7 +564,7 @@ model.add(keras.layers.Embedding(10000, 16))
 # 将规模为10000的词典嵌入到16维向量
 # 输入256维向量,输出256x16的二阶张量
 model.add(keras.layers.LSTM(64))
-# 输入256x16的二阶张量,输出64维向量,即序列到类别模式
+# 输入256x16的二阶张量,输出64维向量(隐状态),即序列到类别模式
 model.add(keras.layers.Dense(16, activation='relu'))
 # 全连接层,ReLU激活函数,分类器
 model.add(keras.layers.Dense(1, activation='sigmoid'))  

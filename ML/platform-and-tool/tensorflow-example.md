@@ -448,7 +448,6 @@ plt.show()
 
 # test model
 results = model.evaluate(test_images, test_labels, verbose=2)
-print(results)
 
 # visualize: prediction
 test_prediction = model.predict(test_images)

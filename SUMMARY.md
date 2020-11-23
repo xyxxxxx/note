@@ -185,6 +185,7 @@
 + [机器学习平台与工具](ML/platform-and-tool/platform-and-tool.md)
   + [TensorFlow](ML/platform-and-tool/tensorflow.md)
   + [TensorFlow实例](ML/platform-and-tool/tensorflow-example.md)
+  + [PyTorch](ML/platform-and-tool/pytorch.md)
   + [NumPy](ML/platform-and-tool/numpy.md)
   + [pandas](ML/platform-and-tool/pandas.md)
   + [Matplotlib](ML/platform-and-tool/matplotlib.md)

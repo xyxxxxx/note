@@ -868,6 +868,24 @@ True
 
 
 
+### flatten
+
+将张量展开为向量。
+
+```python
+>>> t = torch.tensor([[[1, 2],
+                       [3, 4]],
+                      [[5, 6],
+                       [7, 8]]])
+>>> torch.flatten(t)
+tensor([1, 2, 3, 4, 5, 6, 7, 8])
+>>> torch.flatten(t, start_dim=1)
+tensor([[1, 2, 3, 4],
+        [5, 6, 7, 8]])
+```
+
+
+
 ### mm
 
 矩阵乘法。
@@ -940,6 +958,14 @@ torch.Size([2, 3, 4])
 | 64-bit integer (signed)                                      | `torch.int64` or `torch.long`         | `torch.LongTensor`     | `torch.cuda.LongTensor`     |
 | Boolean                                                      | `torch.bool`                          | `torch.BoolTensor`     | `torch.cuda.BoolTensor`     |
 
+```python
+a = np.array([1.,2,3])
+t64 = torch.tensor(a)                       # t64.dtype = torch.float64
+t32 = torch.tensor(a, dtype=torch.float32)  # t32.dtype = torch.float32
+t32 = t64.float()                           # 类型转换
+                                            # 注意nn中各层接受的tensor类型一般为float32
+```
+
 
 
 **detach**
@@ -976,6 +1002,20 @@ RuntimeError: element 0 of tensors does not require grad and does not have a gra
 >>> c.zero_()
 >>> out.sum().backward()    # out的值被修改而不能计算梯度
 RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: ……
+```
+
+
+
+**item**
+
+对于只有一个元素的张量，返回该元素的值。
+
+```python
+>>> t = torch.tensor([[[1]]])
+>>> t.shape
+torch.Size([1, 1, 1])
+>>> t.item()
+1
 ```
 
 
@@ -1118,7 +1158,7 @@ tensor(1.0896)
 
 ### Dropout
 
-以给定概率将张量中的所有数置零，剩余的数乘以$$1/(1-p)$$。
+以给定概率将张量中的每个数置零，剩余的数乘以$$1/(1-p)$$。每次使用Dropout层的结果是随机的。
 
 ```python
 >>> m = nn.Dropout(0.5)
@@ -1140,7 +1180,7 @@ tensor([[-0.0000,  0.2677, -0.0000, -3.2831],
 
 ### Dropout2d
 
-以给定概率将张量$$(N,C,H,W)$$的整个通道置零，剩余的通道乘以$$1/(1-p)$$。
+以给定概率将张量$$(N,C,H,W)$$的每个通道置零，剩余的通道乘以$$1/(1-p)$$。每次使用Dropout层的结果是随机的。
 
 ```python
 >>> m = nn.Dropout2d(0.5)
@@ -1236,6 +1276,25 @@ torch.Size([2, 64, 10])
 
 
 
+### L1Loss
+
+平均绝对误差损失函数。
+
+```python
+>>> a1 = torch.arange(10.0)
+>>> a2 = a1+2
+>>> loss = nn.L1Loss()
+>>> b = loss(a1, a2)
+>>> b
+tensor(2.)
+>>> loss = nn.MSELoss(reduction='sum')
+>>> b = loss(a1, a2)
+>>> b
+tensor(20.)
+```
+
+
+
 ### Linear
 
 全连接层。
@@ -1268,9 +1327,10 @@ LSTM 层。
 >>> output, (hn, cn) = rnn(input, (h0, c0)) # 输入h,c的初值,输出h,c的终值
 											# 若不输入初值,则默认为0
 >>> output.shape
-torch.Size([20, 64, 10])                   # 输出最上层的所有隐状态
+torch.Size([20, 64, 10])                   # 从前往后输出最上层的所有隐状态
 >>> hn.shape
-torch.Size([2, 64, 10])                    # 每一(层,方向)的最终隐状态
+torch.Size([2, 64, 10])                    # 输出每一(层,方向)的最终隐状态
+                                           # 对于单向LSTM, hn[-1]==output[-1]
 
 
 >>> rnn = nn.LSTM(5, 10, 2, bidirectional=True)  # 双向LSTM,相当于将输入向量正向和反向各
@@ -1335,19 +1395,19 @@ tensor([[[[1.2014, 1.1915],
 
 ### MSELoss
 
-平均二乘误差损失函数。
+均方差损失函数。
 
 ```python
 >>> a1 = torch.arange(10.0)
->>> a2 = a1+1
+>>> a2 = a1+2
 >>> loss = nn.MSELoss()
 >>> b = loss(a1, a2)
 >>> b
-tensor(1.)
+tensor(4.)
 >>> loss = nn.MSELoss(reduction='sum')
 >>> b = loss(a1, a2)
 >>> b
-tensor(10.)
+tensor(40.)
 ```
 
 
@@ -1357,8 +1417,6 @@ tensor(10.)
 见`torch.nn.CrossEntropyLoss`。
 
 ```python
-
-
 >>> loss = nn.NLLLoss()
 >>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
                           [ 1.8402, -0.1696,  0.4744],
@@ -1513,6 +1571,18 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
 
 
 
+### tanh
+
+tanh 激活函数。
+
+```python
+
+```
+
+
+
+
+
 ## torch.view
 
 view相当于numpy中的resize功能，即改变张量的形状。
@@ -1538,4 +1608,12 @@ tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
 optimizer = optim.SGD(model.parameters(), lr=0.01)
                  #梯度下降法  需要学习的参数  学习率
 ```
+
+
+
+## torch.utils.data
+
+
+
+
 

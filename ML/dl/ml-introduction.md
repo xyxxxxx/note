@@ -541,3 +541,20 @@ PAC 学习理论也可以帮助分析一个机器学习方法在什么条件下�
 邱锡鹏,2020. 神经网络与深度学习[M/OL].  机械工业出版社. https://nndl.github.io/nndl-book.pdf
 
 机器学习速成课程 https://developers.google.com/machine-learning/crash-course
+
+
+
+
+
+| tensor            | shape                |
+| ----------------- | -------------------- |
+| `encoder_input`   | [25,]                |
+| `encoder_outputs` | [25, 1, hidden_size] |
+| `decoder_input`   | []                   |
+| `decoder_output`  | []                   |
+| `h0, c0, hn, cn`  | [2, 1, hidden_size]  |
+| `ht`              | [1, 1, hidden_size]  |
+| `at`              | [1, 25]              |
+| `ct`              | [1, hidden_size]     |
+| `ht1`             | [1, 2*hidden_size]   |
+

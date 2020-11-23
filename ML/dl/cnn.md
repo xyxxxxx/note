@@ -5,7 +5,7 @@
 
 卷积神经网络是受生物学上感受野机制的启发而提出的。**感受野(receptive field)**机制主要是指听觉、视觉等神经系统中一些神经元的特性，即神经元只接受其所支配的刺激区域内的信号。在视觉神经系统中，视网膜上的光感受器受刺激兴奋时将神经冲动信号传到视觉皮层，但只有视觉皮层中特定区域的神经元才会接受这些信号。
 
-目前的卷积神经网络一般是由<u>卷积层、汇聚层和全连接层</u>交叉堆叠而成的前馈神经网络。卷积神经网络有三个结构上的特性：<u>局部连接、权重共享以及汇聚</u>，这些特性使得卷积神经网络具有一定程度上的平移、缩放和旋转不变性，和前馈神经网络相比,卷积神经网络的参数更少。
+目前的卷积神经网络一般是由<u>卷积层、汇聚层和全连接层</u>交叉堆叠而成的前馈神经网络。卷积神经网络有三个结构上的特性：<u>局部连接、权重共享以及汇聚</u>，这些特性使得卷积神经网络具有一定程度上的平移、缩放和旋转不变性，和前馈神经网络相比，卷积神经网络的参数更少。
 
 卷积神经网络主要使用在图像和视频分析的各种任务（比如图像分类、人脸识别、物体识别、图像分割等）上，其准确率一般也远远超出了其他的神经网络模型。近年来卷积神经网络也广泛地应用到自然语言处理、推荐系统等领域。
 
@@ -27,20 +27,20 @@ y_t=\sum_{k=0}^{\infty}w_k x_{t-k}
 $$
 我们把$$w_1 , w_2 , ⋯$$称为**滤波器(filter)**或**卷积核(convolution kernel)**。假设滤波器长度为$$K$$，它和一个信号序列$$x_1 , x_2 , ⋯,x_K$$的卷积为
 $$
-\pmb y=\pmb w*\pmb x=\sum_{k=1}^Kw_kx_{K-k+1}
+Y=W*X=\sum_{k=1}^Kw_kx_{K-k+1}
 $$
-其中$$*$$表示卷积运算。一般情况下滤波器的长度$$K$$远小于信号序列$$\pmb x$$的长度。
+其中$$*$$表示卷积运算。一般情况下滤波器的长度$$K$$远小于信号序列$$X$$的长度。
 
-我们可以设计不同的滤波器来提取信号序列的不同特征。例如令滤波器$$\pmb w=[1/K,\cdots,1/K]$$时，卷积相当于信号序列的**简单移动平均(simple moving average)**；
+我们可以设计不同的滤波器来提取信号序列的不同特征。例如令滤波器$$W=[1/K,\cdots,1/K]$$时，卷积相当于信号序列的**简单移动平均(simple moving average)**；
 
 > 移动平均是在分析时间序列数据时的一种简单平滑技术，能有效地消除数据中的随机波动。
 
-令滤波器$$\pmb w=[1,-2,1]$$时，可以近似实现对信号序列的二阶微分，即
+令滤波器$$W=[1,-2,1]$$时，可以近似实现对信号序列的二阶微分，即
 $$
 x''(t)=x(t+1)+x(t-1)-2x(t)
 $$
 
-> 泰勒展开即可证明
+> 泰勒展开即可证明。
 
 下图给出了两个滤波器的一维卷积示例，可以看到两个滤波器分别提取了输入序列的不同特征。滤波器$$w = [1/3, 1/3, 1/3]$$可以检测信号序列中的低频信息，而滤波器$$w = [1, −2, 1]$$可以检测信号序列中的高频信息。
 
@@ -50,9 +50,9 @@ $$
 
 ## 二维卷积
 
-卷积也经常用在图像处理中，因为图像是一个二维结构，所以需要将一维卷积进行扩展。给定一个图像$$\pmb X\in \mathbb{R}^{M\times N}$$和一个滤波器$$\pmb W\in \mathbb{R}^{U\times V}$$，一般$$U<<M,V<<N$$，其二维卷积定义为
+卷积也经常用在图像处理中，因为图像是一个二维结构，所以需要将一维卷积进行扩展。给定一个图像$$X\in \mathbb{R}^{M\times N}$$和一个滤波器$$W\in \mathbb{R}^{U\times V}$$，一般$$U<<M,V<<N$$，其二维卷积定义为
 $$
-\pmb Y=\pmb W* \pmb X\\
+Y=W* X\\
 y_{ij}=\sum_{u=1}^U\sum_{v=1}^V w_{uv}x_{i+U-u,j+V-v}
 $$
 下图给出了二维卷积示例
@@ -71,9 +71,9 @@ $$
 
 ## 互相关
 
-在机器学习和图像处理领域，卷积的主要功能是在一个图像（或某种特征）上滑动一个卷积核(即滤波器)，通过卷积操作得到一组新的特征。在计算卷积的过程中，需要进行卷积核翻转（旋转180°），而在具体实现上一般会以互相关操作来代替卷积，从而会减少一些不必要的操作或开销。**互相关(cross-correlation)**是一个衡量两个序列相关性的函数，通常是用滑动窗口的点积计算来实现。给定一个图像$$\pmb X\in \mathbb{R}^{M\times N}$$和卷积核$$\pmb W\in \mathbb{R}^{U\times V}$$，它们的互相关为
+在机器学习和图像处理领域，卷积的主要功能是在一个图像（或某种特征）上滑动一个卷积核(即滤波器)，通过卷积操作得到一组新的特征。在计算卷积的过程中，需要进行卷积核翻转（旋转180°），而在具体实现上一般会以互相关操作来代替卷积，从而会减少一些不必要的操作或开销。**互相关(cross-correlation)**是一个衡量两个序列相关性的函数，通常是用滑动窗口的点积计算来实现。给定一个图像$$X\in \mathbb{R}^{M\times N}$$和卷积核$$W\in \mathbb{R}^{U\times V}$$，它们的互相关为
 $$
-\pmb Y=\pmb W\otimes \pmb X={\rm rot180}(\pmb W)* \pmb X \\
+Y=W\otimes X={\rm rot180}(W)* X \\
 y_{ij}=\sum_{u=1}^U\sum_{v=1}^V w_{uv}x_{i+u-1,j+v-1}
 $$
 互相关和卷积的区别仅仅在于卷积核是否进行翻转，因此互相关也可以称为**不翻转卷积**。
@@ -92,7 +92,7 @@ $$
 
 ![](https://i.loli.net/2020/09/15/lg1yThCoXNamjFI.png)
 
-假设卷积层的输入神经元个数为$$M$$，卷积大小为$$K$$，步长为$$S$$，在输入两端各填补$$P$$个 0，那么该卷积层的神经元数量为$$(M − K + 2P)/S + 1$$。
+假设卷积层的输入神经元个数为$$M$$，卷积核大小为$$K$$，步长为$$S$$，在输入两端各填补$$P$$个 0，那么该卷积层的神经元数量为$$(M − K + 2P)/S + 1$$。
 
 一般常用的卷积有以下三类：
 
@@ -108,30 +108,30 @@ $$
 
 卷积运算具有交换性，互相关也具有同样的性质
 $$
-\pmb x*\pmb y=\pmb y*\pmb x\\
-\pmb x\otimes\pmb y=\pmb y\otimes\pmb x\\
+X*Y=Y*X\\
+X\otimes Y=Y\otimes X\\
 $$
 
 ### 导数
 
-假设$$\pmb Y=\pmb W\otimes \pmb X$$，其中$$\pmb X\in\mathbb{R}^{M\times N},\pmb W\in\mathbb{R}^{U\times V},\pmb Y\in\mathbb{R}^{(M-U+1)\times (N-V+1)}$$，函数$$f(\pmb Y)\in\mathbb{R}$$是一个标量函数，则
+假设$$Y=W\otimes X$$，其中$$X\in\mathbb{R}^{M\times N},W\in\mathbb{R}^{U\times V},Y\in\mathbb{R}^{(M-U+1)\times (N-V+1)}$$，函数$$f(Y)\in\mathbb{R}$$是一个标量函数，则
 $$
-\frac{\partial f(\pmb Y)}{\partial \pmb W}=\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X\\
-\frac{\partial f(\pmb Y)}{\partial \pmb X}={\rm rot180}(\pmb X)\tilde\otimes \frac{\partial f(\pmb Y)}{\partial \pmb Y}
+\frac{\partial f(Y)}{\partial W}=\frac{\partial f(Y)}{\partial Y}\otimes X\\
+\frac{\partial f(Y)}{\partial X}={\rm rot180}(X)\tilde\otimes \frac{\partial f(Y)}{\partial Y}
 $$
-> 证明$$\frac{\partial f(\pmb Y)}{\partial \pmb W}=\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X$$
+> 证明$$\frac{\partial f(Y)}{\partial W}=\frac{\partial f(Y)}{\partial Y}\otimes X$$
 > $$
-> \frac{\partial f(\pmb Y)}{\partial w_{uv}}=\sum_{i=1}^{M-U+1} \sum_{j=1}^{N-V+1} \frac{\partial f(\pmb Y)}{\partial y_{ij}}\frac{\partial y_{ij}}{\partial w_{uv}}\quad(链式法则)\\
-> =\sum_{i=1}^{M-U+1} \sum_{j=1}^{N-V+1} \frac{\partial f(\pmb Y)}{\partial y_{ij}}x_{i+u-1,j+v-1}\quad(互相关定义y_{ij}=\sum_{u=1}^U\sum_{v=1}^Vw_{uv}x_{i+u-1,j+v-1})\\
-> =(\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X)_{uv}\quad(互相关定义)\\
-> \therefore \frac{\partial f(\pmb Y)}{\partial \pmb W}=\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X
+> \frac{\partial f(Y)}{\partial w_{uv}}=\sum_{i=1}^{M-U+1} \sum_{j=1}^{N-V+1} \frac{\partial f(Y)}{\partial y_{ij}}\frac{\partial y_{ij}}{\partial w_{uv}}\quad(链式法则)\\
+> =\sum_{i=1}^{M-U+1} \sum_{j=1}^{N-V+1} \frac{\partial f(Y)}{\partial y_{ij}}x_{i+u-1,j+v-1}\quad(互相关定义y_{ij}=\sum_{u=1}^U\sum_{v=1}^Vw_{uv}x_{i+u-1,j+v-1})\\
+> =(\frac{\partial f(Y)}{\partial Y}\otimes X)_{uv}\quad(互相关定义)\\
+> \therefore \frac{\partial f(Y)}{\partial W}=\frac{\partial f(Y)}{\partial Y}\otimes X
 > $$
 
 其中**宽卷积(wide convolution)**定义为
 $$
-\pmb W \tilde\otimes \pmb X = \pmb W \otimes \tilde{\pmb X}
+W \tilde\otimes X = W \otimes \tilde{X}
 $$
-其中$$\tilde{\pmb X}\in \mathbb{R}^{(M+2U-2)\times (N+2V-2)}$$是图像$$\pmb X$$的上下各补$$U-1$$个0，左右各补$$V-1$$个0得到的**全填充(full padding)**图像。
+其中$$\tilde{X}\in \mathbb{R}^{(M+2U-2)\times (N+2V-2)}$$是图像$$X$$的上下各补$$U-1$$个0，左右各补$$V-1$$个0得到的**全填充(full padding)**图像。
 
 
 
@@ -145,20 +145,20 @@ $$
 
 采用卷积来代替全连接
 $$
-\pmb z^{(l)}=\pmb w^{(l)}\otimes\pmb a^{(l-1)}+b^{(l)}
+Z^{(l)}=W^{(l)}\otimes\pmb a^{(l-1)}+b^{(l)}
 $$
 
-其中卷积核$$\pmb w^{(l)}\in \mathbb{R}^K$$为可学习的权重向量，$$b^{(l)}\in \mathbb{R}$$为可学习的偏置。
+其中卷积核$$W^{(l)}\in \mathbb{R}^K$$为可学习的权重向量，$$b^{(l)}\in \mathbb{R}$$为可学习的偏置。
 
 根据卷积的定义，卷积层有两个很重要的性质：
 
-**局部连接** 卷积层（假设是第$$l$$层）中的每一个神经元都只和下一层（第$$l − 1$$层）中某个局部窗口内的神经元相连，构成一个局部连接网络（如下图所示），卷积层和下一层之间的连接数大大减少，由原来的$$M_l × M_{l−1}$$个连接变为$$M_l × K$$个连接，$$K$$为卷积核大小。
+**局部连接** 卷积层（假设是第$$l$$层）中的每一个神经元都只和前一层（第$$l − 1$$层）中某个局部窗口内的神经元相连，构成一个局部连接网络（如下图所示），卷积层和下一层之间的连接数大大减少，由原来的$$M_l × M_{l−1}$$个连接变为$$M_l × K$$个连接，$$K$$为卷积核大小。
 
-**权重共享** 作为参数的卷积核$$\pmb w^{(l)}$$对于第$$l$$层的所有的神经元都是相同的。下图中所有的同颜色连接上的权重是相同的。权重共享可以理解为一个卷积核只捕捉输入数据中的一种特定的局部特征，因此如果要提取多种特征就需要使用多个不同的卷积核。
+**权重共享** 作为参数的卷积核$$W^{(l)}$$对于第$$l$$层的所有的神经元都是相同的。下图中所有的同颜色连接上的权重是相同的。权重共享可以理解为一个卷积核只捕捉输入数据中的一种特定的局部特征，因此如果要提取多种特征就需要使用多个不同的卷积核。
 
 ![](https://i.loli.net/2020/09/15/f9G4lEeVAPKHqQS.png)
 
-由于局部连接和权重共享，卷积层的参数只有一个$$K$$维的权重$$\pmb w^{(l)}$$和 1 维的偏置$$b^{(l)}$$，共$$K + 1$$个参数。参数个数和神经元的数量无关。
+由于局部连接和权重共享，卷积层的参数只有一个$$K$$维的权重$$W^{(l)}$$和 1 维的偏置$$b^{(l)}$$，共$$K + 1$$个参数。参数个数和神经元的数量无关。
 
 
 
@@ -170,26 +170,26 @@ $$
 
 不失一般性，假设一个卷积层的结构如下：
 
-1. 输入特征映射组：$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$为三维**张量(tensor)**，其中每个**切片(slice)**矩阵$$\pmb X^d\in \mathbb{R}^{M\times N}$$为一个输入特征映射，$$1\le d\le D$$
-2. 输出特征映射组：$$\mathcal{Y}\in\mathbb{R}^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$\pmb X^p\in \mathbb{R}^{M'\times N'}$$为一个输出特征映射，$$1\le p\le P$$
-3. 卷积核：$$\mathcal{W}\in \mathbb{R}^{U\times V\times P\times D}$$为四维张量，其中每个切片矩阵$$\pmb W^{p,d}\in \mathbb{R}^{U \times V}$$为一个二维卷积核，$$1\le d\le D,1\le p\le P$$。
+1. 输入特征映射组：$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$为三维**张量(tensor)**，其中每个**切片(slice)**矩阵$$X^d\in \mathbb{R}^{M\times N}$$为一个输入特征映射，$$1\le d\le D$$
+2. 输出特征映射组：$$\mathcal{Y}\in\mathbb{R}^{M'\times N'\times P}$$为三维张量，其中每个切片矩阵$$X^p\in \mathbb{R}^{M'\times N'}$$为一个输出特征映射，$$1\le p\le P$$
+3. 卷积核：$$\mathcal{W}\in \mathbb{R}^{U\times V\times P\times D}$$为四维张量，其中每个切片矩阵$$W^{p,d}\in \mathbb{R}^{U \times V}$$为一个二维卷积核，$$1\le d\le D,1\le p\le P$$。
 
 下图给出了卷积层的三维结构表示
 
 ![](https://i.loli.net/2020/09/15/Q2OKcoED9wfF86l.png)
 
-为了计算输出特征映射$$\pmb Y_p$$ , 用卷积核$$\pmb W^{p,1},\pmb W^{p,2}, ⋯ ,\pmb W^{p,D}$$分别对输入特征映射$$\pmb X^1, \pmb X^2, ⋯ , \pmb X^D$$进行卷积,，然后将卷积结果相加，并加上一个标量偏置$$b^p$$得到卷积层的净输入$$\pmb Z^p$$，再经过非线性激活函数后得到输出特征映射 $$\pmb Y^p$$。
+为了计算输出特征映射$$Y_p$$ , 用卷积核$$W^{p,1},W^{p,2}, ⋯ ,W^{p,D}$$分别对输入特征映射$$X^1, X^2, ⋯ , X^D$$进行卷积,，然后将卷积结果相加，并加上一个标量偏置$$b^p$$得到卷积层的净输入$$Z^p$$，再经过非线性激活函数后得到输出特征映射 $$Y^p$$。
 $$
-\pmb Z^p=\pmb W^p \otimes \pmb X +b^p=\sum_{d=1}^D \pmb W^{p,d} \otimes \pmb X^d +b^p\\
-\pmb Y^p=f(\pmb Z^p)
+Z^p=W^p \otimes X +b^p=\sum_{d=1}^D W^{p,d} \otimes X^d +b^p\\
+Y^p=f(Z^p)
 $$
-其中$$\pmb W^p\in \mathbb{R}^{U\times V\times D}$$是三维卷积核，$$f(\cdot)$$为非线性激活函数，一般为 ReLU 函数。
+其中$$W^p\in \mathbb{R}^{U\times V\times D}$$是三维卷积核，$$f(\cdot)$$为非线性激活函数，一般为 ReLU 函数。
 
-整个计算过程如下图所示。如果希望卷积层输出$$P$$个特征映射，将计算过程重复$$P$$次即可，得到$$\pmb Y^1,\pmb Y^2,\cdots,\pmb Y^P$$。
+整个计算过程如下图所示。如果希望卷积层输出$$P$$个特征映射，将计算过程重复$$P$$次即可，得到$$Y^1,Y^2,\cdots,Y^P$$。
 
 ![](https://i.loli.net/2020/09/15/rAqMc7I1E9wNj6m.png)
 
-在上述卷积层中，每一次$$\pmb W^{p,d} \otimes \pmb X^d$$运算需要卷积核的$$U\times V$$个参数，因此总共需要$$P\times D\times U\times V+P$$个参数。
+在上述卷积层中，每一次$$W^{p,d} \otimes X^d$$运算需要卷积核的$$U\times V$$个参数，因此总共需要$$P\times D\times U\times V+P$$个参数。
 
 
 
@@ -199,14 +199,14 @@ $$
 
 卷积层虽然可以显著减少网络中连接的数量，但特征映射组中的神经元个数并没有显著减少。如果后面接一个分类器，分类器的输入维数依然很高，很容易出现过拟合。为了解决这个问题，可以在卷积层之后加上一个汇聚层，从而降低特征维数，避免过拟合。
 
-假设汇聚层的输入特征映射组为$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$，对于其中每一个特征映射$$\pmb X^d ∈ \mathbb{R}^{M×N}, 1 ≤ d ≤ D$$ ，将其划分为很多区域$$R^d_{m,n} , 1 ≤ m ≤ M ′ , 1 ≤ n ≤ N ′$$，这些区域可以重叠，也可以不重叠。**汇聚(pooling)**指对每个区域进行**下采样(down sampling)**得到一个值，作为这个区域的概括。
+假设汇聚层的输入特征映射组为$$\mathcal{X}\in\mathbb{R}^{M\times N\times D}$$，对于其中每一个特征映射$$X^d ∈ \mathbb{R}^{M×N}, 1 ≤ d ≤ D$$ ，将其划分为很多区域$$R^d_{m,n} , 1 ≤ m ≤ M ′ , 1 ≤ n ≤ N ′$$，这些区域可以重叠，也可以不重叠。**汇聚(pooling)**指对每个区域进行**下采样(down sampling)**得到一个值，作为这个区域的概括。
 
 常用的汇聚函数有两种：
 
 1. **最大汇聚(max pooling)**：对于一个区域$$R^d_{m,n}$$，选择这个区域内所有神经元的最大活性值作为这个区域的表示
 2. **平均汇聚(mean pooling)**：一般是取区域内所有神经元活性值的平均值
 
-对每一个输入特征映射$$\pmb X^d$$的$$M ′ × N ′$$个区域进行子采样，得到汇聚层的输出特征映射$$\pmb Y^d =\{y_{m,n}^d
+对每一个输入特征映射$$X^d$$的$$M ′ × N ′$$个区域进行子采样，得到汇聚层的输出特征映射$$Y^d =\{y_{m,n}^d
 \}, 1 ≤ m ≤ M ′ , 1 ≤ n ≤ N ′$$。
 
 下图给出了采样最大汇聚进行子采样操作的示例。可以看出汇聚层不但可以有效地减少神经元的数量还可以使得网络对一些小的局部形态改变保持不变性，并拥有更大的感受野。
@@ -215,7 +215,7 @@ $$
 
 目前主流的卷积网络中，汇聚层仅包含下采样操作。但在早期的一些卷积网络（比如 LeNet-5）中，有时也会在汇聚层使用非线性激活函数，比如
 $$
-\pmb Y'^d=f(w^d\pmb Y^d+b^d)
+Y'^d=f(w^dY^d+b^d)
 $$
 典型的汇聚层是将每个特征映射划分为 2 × 2 大小的不重叠区域，然后使用最大汇聚的方式进行下采样。<u>汇聚层也可以看作一个特殊的卷积层</u>，卷积核大小为$$K × K$$，步长为$$S × S$$，卷积核为 max 函数或 mean 函数。过大的采样区域会急剧减少神经元的数量，也会造成过多的信息损失。
 
@@ -240,25 +240,25 @@ $$
 不失一般性，对第$$l$$层为卷积层，第$$l-1$$层的输入特征映射为$$\mathcal{X}^{(l-1)}\in\mathbb{R}^{M\times N\times D}$$，通过卷积计算得到的第$$l$$层特征映射净输入$$\mathcal{Z}^{(l)}\in\mathbb{R}^{M'\times N'\times P}$$。第$$l$$层特征映射净输入中的第$$p$$个为
 
 $$
-\pmb Z^{(l,p)}=\pmb W^{(l,p)} \otimes \pmb X^{(l-1)} +b^{(l,p)}=\sum_{d=1}^D \pmb W^{(l,p,d)} \otimes \pmb X^{(l-1,d)} +b^{(l,p)}\\
+Z^{(l,p)}=W^{(l,p)} \otimes X^{(l-1)} +b^{(l,p)}=\sum_{d=1}^D W^{(l,p,d)} \otimes X^{(l-1,d)} +b^{(l,p)}\\
 $$
-其中$$\pmb W^{(l,p,d)}$$和$$b^{(l,p)}$$为卷积核和偏置。第$$l$$层共有$$P\times D$$个卷积核和$$P$$个偏置。计算损失函数对卷积核$$\pmb W^{(l,p,d)}$$的偏导数为
+其中$$W^{(l,p,d)}$$和$$b^{(l,p)}$$为卷积核和偏置。第$$l$$层共有$$P\times D$$个卷积核和$$P$$个偏置。计算损失函数对卷积核$$W^{(l,p,d)}$$的偏导数为
 $$
-\frac{\partial \mathcal{L}}{\partial \pmb W^{(l,p,d)}}=\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l,p)}}\otimes \pmb X^{(l-1,d)}\\
-=\pmb \delta^{(l,p)}\otimes \pmb X^{(l-1,d)}
+\frac{\partial \mathcal{L}}{\partial W^{(l,p,d)}}=\frac{\partial \mathcal{L}}{\partial Z^{(l,p)}}\otimes X^{(l-1,d)}\\
+=\pmb \delta^{(l,p)}\otimes X^{(l-1,d)}
 $$
-其中$$\pmb \delta^{(l,p)}=\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l,p)}}$$为损失函数关于第$$l$$层的第$$p$$个特征映射净输入$$\pmb Z^{(l,p)}$$的偏导数，即第$$l$$层的误差项。
+其中$$\pmb \delta^{(l,p)}=\frac{\partial \mathcal{L}}{\partial Z^{(l,p)}}$$为损失函数关于第$$l$$层的第$$p$$个特征映射净输入$$Z^{(l,p)}$$的偏导数，即第$$l$$层的误差项。
 
-> 回想卷积的导数计算，若$$\pmb Y=\pmb W\otimes \pmb X$$，则
+> 回想卷积的导数计算，若$$Y=W\otimes X$$，则
 > $$
-> \frac{\partial f(\pmb Y)}{\partial \pmb W}=\frac{\partial f(\pmb Y)}{\partial \pmb Y}\otimes \pmb X\\
+> \frac{\partial f(Y)}{\partial W}=\frac{\partial f(Y)}{\partial Y}\otimes X\\
 > $$
 
 同理计算损失函数对偏置$$b^{(l,p)}$$的偏导数为
 $$
 \frac{\partial \mathcal{L}}{\partial b^{(l,p)}}=\sum_{i=1}^{M'}\sum_{j=1}^{N'}\frac{\partial \mathcal{L}}{\partial z_{ij}^{(l,p)}}\frac{\partial z_{ij}^{(l,p)}}{\partial b^{(l,p)}}\\
 =\sum_{i=1}^{M'} \sum_{j=1}^{N'} \frac{\partial \mathcal{L}}{\partial z_{ij}^{(l,p)}}\quad(z_{ij}^{(l,p)}=\sum_{m=1}^{M'}\sum_{n=1}^{N'}w_{mn}^{(l,p)}x_{i+m-1,j+n-1}^{(l-1)}+b^{(l,p)})\\
-=\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l,p)}}的所有元素和\\
+=\frac{\partial \mathcal{L}}{\partial Z^{(l,p)}}的所有元素和\\
 =\pmb \delta^{(l,p)} 的所有元素和
 $$
 
@@ -272,9 +272,9 @@ $$
 
 第$$l$$层的第$$p$$个特征映射的误差项$$\pmb \delta^{(l,p)}$$的具体推导过程如下：
 $$
-\pmb \delta^{(l,p)}\triangleq\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l,p)}}\\
-=\frac{\partial \mathcal{L}}{\partial \pmb Z^{(l+1,p)}}\frac{\partial \pmb Z^{(l+1,p)}}{\partial \pmb X^{(l,p)}}\frac{\partial \pmb X^{(l,p)}}{\partial \pmb Z^{(l,p)}}\\
-=\pmb \delta^{(l+1,p)} f_l'(\pmb Z^{(l,p)})
+\pmb \delta^{(l,p)}\triangleq\frac{\partial \mathcal{L}}{\partial Z^{(l,p)}}\\
+=\frac{\partial \mathcal{L}}{\partial Z^{(l+1,p)}}\frac{\partial Z^{(l+1,p)}}{\partial X^{(l,p)}}\frac{\partial X^{(l,p)}}{\partial Z^{(l,p)}}\\
+=\pmb \delta^{(l+1,p)} f_l'(Z^{(l,p)})
 $$
 
 
