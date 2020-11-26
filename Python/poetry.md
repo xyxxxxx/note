@@ -25,7 +25,6 @@ $ poetry remove <dependency>  # 卸载删除一个依赖
 
 $ poetry update               # 更新所有锁定版本的依赖
 $ poetry update <dependency>  # 更新某个锁定版本的依赖
-
 ```
 
 
@@ -48,3 +47,4 @@ url = "https://pypi.doubanio.com/simple/"
 default = true
 ```
 
+如果已经使用国内PyPI镜像，但`poetry install`的解析依赖依然很慢，可以使用`poetry install -vvv`查看解析依赖进度。

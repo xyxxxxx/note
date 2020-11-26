@@ -22,7 +22,7 @@ x=math.sin(math.pi/2)
 #!/usr/bin/env python3			# 标准注释:py3文件
 # -*- coding: utf-8 -*-			# 标准注释:使用UTF-8编码
 
-' a test module '				# 文档注释
+"""a test module."""			# 文档注释
 
 __author__ = 'Michael Liao'		# 作者名
 

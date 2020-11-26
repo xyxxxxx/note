@@ -158,6 +158,46 @@ array([1, 2, 3, 4, 5, 6])
 
 
 
+### corrcoef
+
+计算两个向量的相关系数。
+
+```python
+>>> a = np.array([1.,2,3])
+>>> b = np.array([3.,2,1])
+>>> np.corrcoef(a,b)
+array([[ 1., -1.],
+       [-1.,  1.]])
+
+>>> c = np.array([[10.,20,30],[30,20,10],[20,20,20]])
+>>> np.corrcoef(c)
+array([[ 1., -1., nan],
+       [-1.,  1., nan],
+       [nan, nan, nan]])
+```
+
+
+
+### cov
+
+计算两个向量的协方差。
+
+```python
+>>> a = np.array([1.,2,3])
+>>> b = np.array([3.,2,1])
+>>> np.cov(a,b)
+array([[ 1., -1.],
+       [-1.,  1.]])
+
+>>> c = np.array([[10.,20,30],[30,20,10],[20,20,20]])
+>>> np.cov(c)
+array([[ 100., -100.,    0.],
+       [-100.,  100.,    0.],
+       [   0.,    0.,    0.]])
+```
+
+
+
 ### datetime, timedeltas
 
 创建日期时间类型和时间差类型。
@@ -336,9 +376,31 @@ array([[0, 1, 2],
 (3, 10, 4)
 >>> np.stack(arrays, axis=2).shape
 (3, 4, 10)
+
+>>> a1 = np.arange(3)
+>>> a2 = np.arange(3)
+>>> a3 = np.arange(3)
+>>> np.stack((a1,a2,a3),axis=0)
+array([[0, 1, 2],
+       [0, 1, 2],
+       [0, 1, 2]])
 ```
 
 
+
+### std
+
+返回数组的标准差。
+
+```python
+>>> a = np.array([[1, 2], [3, 4]])
+>>> np.std(a)
+1.1180339887498949 # may vary
+>>> np.std(a, axis=0)
+array([1.,  1.])
+>>> np.std(a, axis=1)
+array([0.5,  0.5])
+```
 
 
 
