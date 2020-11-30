@@ -142,6 +142,8 @@ for t in range(500):
     optimizer.step()
 ```
 
+（接下来请参照[自定义层](#自定义层)部分）
+
 
 
 ## CNN
@@ -154,7 +156,7 @@ import torch.nn.functional as F
 # 定义神经网络模型类
 class CNNnet(nn.Module):
     def __init__(self): # 构造函数必需,对象属性为各网络层
-      super(Net, self).__init__()
+      super(CNNnet, self).__init__()
 
       # 二维卷积层,输入1通道(灰度图片),输出32卷积特征/通道
       # 卷积核为3x3,步长为1
@@ -221,7 +223,102 @@ print(result)
 
 
 
-## RNN
+## 自定义层
+
+不带参数的自定义层仅对输入张量进行一系列的操作再返回，实现简单。
+
+```python
+import torch
+from torch import nn
+
+
+class Norm(nn.Module):       # 必须继承nn.Module
+    def __init__(self):
+        super(Norm, self).__init__()
+    def forward(self, x):    # 仅需实现forward方法
+        return (x - x.mean())/x.std()
+
+norm = Norm()    
+x = torch.arange(11.)
+y = norm(x)
+print(y)
+# tensor([-1.5076, -1.2060, -0.9045, -0.6030, -0.3015,  0.0000,  0.3015,  0.6030,
+#         0.9045,  1.2060,  1.5076])
+```
+
+带参数的自定义层则需要在构造函数中声明作为模型参数的张量或者含有参数的预定义层。
+
+```python
+# 亦为Learning PyTorch with Examples的示例
+import torch
+from torch import nn
+
+
+class TwoLayerNet(nn.Module):
+    def __init__(self, D_in, H, D_out):
+        """构造函数中初始化2个全连接模块或张量参数
+        """
+        super(TwoLayerNet, self).__init__()
+        
+        # 初始化模块
+        # self.linear1 = nn.Linear(D_in, H)
+        # self.linear2 = nn.Linear(H, D_out)
+
+        # 初始化参数,需要nn.Parameter声明
+        self.weight1 = nn.Parameter(torch.randn(1000, 100) / 25)
+        self.bias1 = nn.Parameter(torch.randn(1, 100) / 25)
+        self.weight2 = nn.Parameter(torch.randn(100, 10) / 25)
+        self.bias2 = nn.Parameter(torch.randn(1, 10) / 25)
+
+    def forward(self, x):
+        """使用构造函数中声明的模块和参数
+        """
+        # 使用模块
+        # h_relu = self.linear1(x).clamp(min=0)
+        # y_pred = self.linear2(h_relu)
+
+        # 使用参数
+        h = torch.mm(x, self.weight1) + self.bias1
+        h_relu = h.clamp(min=0)
+        y_pred = torch.mm(h_relu, self.weight2) + self.bias2
+
+        return y_pred
+
+
+# batch size; 输入维度; 隐藏层维度; 输出维度
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# 随机生成输入输出
+x = torch.randn(N, D_in)
+y = torch.randn(N, D_out)
+
+# 实例化
+model = TwoLayerNet(D_in, H, D_out)
+for name, parameters in model.named_parameters():
+    print(name, ':', parameters)
+
+# 定义损失函数和优化器
+# 调用model.parameters()将包含模型的成员变量(模块和参数)中的所有可学习参数
+criterion = nn.MSELoss(reduction='sum')
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
+for t in range(500):
+    # Forward pass: Compute predicted y by passing x to the model
+    y_pred = model(x)
+
+    # Compute and print loss
+    loss = criterion(y_pred, y)
+    if t % 50 == 49:
+        print(t, loss.item())
+
+    # Zero gradients, perform a backward pass, and update the weights.
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+```
+
+
+
+
 
 
 
@@ -299,7 +396,7 @@ def readLangs(lang1, lang2, reverse=False):
 
     # Read the file and split into lines
     lines = open('data/%s-%s.txt' % (lang1, lang2), encoding='utf-8').\
-        read().strip().split('\n')
+        read().strip().split(ceng'\n')
 
     # Split every line into pairs and normalize
     pairs = [[normalizeString(s) for s in l.split('\t')] for l in lines]
@@ -968,7 +1065,7 @@ t32 = t64.float()                           # 类型转换
 
 
 
-**detach**
+#### detach
 
 返回一个张量，其与输入张量共享内存，但在计算图之外，不参与梯度计算。
 
@@ -1006,7 +1103,7 @@ RuntimeError: one of the variables needed for gradient computation has been modi
 
 
 
-**item**
+#### item
 
 对于只有一个元素的张量，返回该元素的值。
 
@@ -1016,6 +1113,28 @@ RuntimeError: one of the variables needed for gradient computation has been modi
 torch.Size([1, 1, 1])
 >>> t.item()
 1
+```
+
+
+
+#### max, min, mean, std
+
+返回张量所有元素统计量。
+
+```python
+>>> t = torch.arange(10.).view(2, -1)
+>>> t
+tensor([[0., 1., 2., 3., 4.],
+        [5., 6., 7., 8., 9.]])
+>>> t.max()
+tensor(9.)
+>>> t.min()
+tensor(0.)
+>>> t.mean()
+tensor(4.5000)
+>>> t.std()
+tensor(3.0277)
+
 ```
 
 
@@ -1464,6 +1583,8 @@ tensor([0.0321, 0.0871, 0.2369, 0.6439])
 >>> output2
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
+
+
 
 
 

@@ -6,10 +6,10 @@
 width = 20   # int
 i, j = 0, 1  # 多重赋值
 # +-*
-10 / 3    #浮点数除法
-10 // 3	  #除法取整
-10 % 3    #除法取余
-10 ** 3   #10^3
+10 / 3       # 浮点数除法
+10 // 3	     # 除法取整
+10 % 3       # 除法取余
+10 ** 3      # 10^3
 ```
 
 ```python
@@ -25,7 +25,7 @@ hex()	0xff00	# 十六进制
 
 ```python
 f = 1.2e9           # float, 1.2*10^9
-PI = 3.14159265359	#习惯用全大写字母表示常量
+PI = 3.14159265359	# 习惯用全大写字母表示常量
 ```
 
 
@@ -75,20 +75,20 @@ if i is None:
 # 字符串
 
 ```python
-print("abc")    #可以使用双引号或单引号
+print("abc")    # 可以使用双引号或单引号
 print('abc')
 
-print('"Yes," they said.')   #单/双引号中的双/单引号无需转义
-print("\"Yes,\" they said.") #单/双引号中的单/双引号需要转义
+print('"Yes," they said.')    # 单/双引号中的双/单引号无需转义
+print("\"Yes,\" they said.")  # 单/双引号中的单/双引号需要转义
 
-print(r'C:\some\name')       #单引号前的r表示原始字符串方式，即不转义
+print(r'C:\some\name')        # 单引号前的r表示原始字符串方式，即不转义
 
-print('包含中文的str')	#python3的字符串以Unicode编码，支持多语言
+print('包含中文的str')   # python3的字符串以Unicode编码，支持多语言
 
-#跨行输入
+# 跨行输入
 print('''line1
-line2
-line3''')
+         line2
+         line3''')
 ```
 
 
@@ -106,18 +106,33 @@ line3''')
 ## 字符串方法
 
 ```python
-a = 3 * 'IN' + 'no' #'INININno'
-a = a 'Vation'      #'INININnoVation'
-a.replace('a','A')	#'INININnoVAtion'
-a.lower()			#'inininnovation'
-a.upper()			#'INININNOVATION'
-a.capitalize()		#'Inininnovation'
-b = ('KZ.'
-     a)             #'KZ.Inininnovation'
-
-a[0]                # I
-#字符串可视作列表，可切片，详见数据结构
-len(a)              # 14
+>>> a = 3 * 'IN' + 'no' + 'Vation'
+>>> a
+'INININnoVation'
+>>> len(a)                # 字符串长度
+14
+>>> a[0]                  # 字符串可视作列表，进行索引和切片操作
+'I'
+>>> a[:6]
+'INININ'
+>>> a.replace('a', 'A')   # 替换字符
+'INININnoVAtion'
+>>> a.lower()             # 英文字符小写
+'inininnovation'
+>>> a.upper()             # 英文字符大写
+'INININNOVATION'
+>>> a.capitalize()        # 首个英文字符大写，后面小写
+'Inininnovation'
+>>> a.count('IN')         # 计数子串的出现次数
+3
+>>> a.startswith('INININ')  # 前缀比较
+True
+>>> a.endswith('tion')      # 后缀比较
+True
+>>> a.find('IN')          # 从前往后寻找子串的位置索引
+0
+>>> a.rfind('IN')         # 从后往前寻找子串的位置索引
+4
 ```
 
 
@@ -125,14 +140,17 @@ len(a)              # 14
 ## unicode编解码
 
 ```python
-#ord()字符→编码,chr()编码→字符
-ord('A')	#65
-ord('中')	#20013
-chr(66)		#B
-chr(25991)	#文
+>>> ord('A')    # 字符 to 编码
+65
+>>> ord('中')
+20013
+>>> chr(66)     # 编码 to 字符
+'B'
+>>> chr(25991)
+'文'
+>>> chr(0x6587)
+'文'
 ```
-
-
 
 
 
@@ -149,9 +167,9 @@ None
 # 数据转换
 
 ```python
-int()	 # 转换为整数类型
-float()  #      浮点
-string() #      字符串
+int()	   # 转换为整数类型
+float()    # 浮点
+str()      # 字符串
 ```
 
 
