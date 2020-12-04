@@ -3,26 +3,25 @@
 ## 输出
 
 ```python
-print('abc')	        # 输出字符串
-print('abc','def','gh')	# 输出多个字符串
-print(100)	            # 输出整数
-print(100+100)	        # 输出计算结果
-
-print('Hi, %s, you have $%d.' % ('Michael', 1000000))	      # C风格格式化输出
-print('Hi, {0}, you have ${1}.' .format('Michael', 1000000))  # C风格格式化输出
-
-name = 'IBM'
-shares = 100
-price = 91.1
-print(f'{name:>10s} {shares:>10d} {price:>10.2f}')    # f''格式化输出
-#       IBM        100      91.10
-s = {
-    'name': 'IBM',
-    'shares': 100,
-    'price': 91.1
-}
-print('{name:>10s} {shares:10d} {price:10.2f}'.format_map(s)) # 与上面等价
-'{:10s} {:10d} {:10.2f}'.format('IBM', 100, 91.1)             # 与上面等价
+>>> print('abc')              # 输出字符串
+abc
+>>> print('abc','def','gh')   # 输出多个字符串,间隔一个空格
+abc def gh
+>>> print(100)                # 输出数
+100
+>>>
+>>> print('Hi, %s, you have $%d.' % ('Michael', 1000000))         # C风格格式化输出
+Hi, Michael, you have $1000000.
+>>> print('Hi, {0}, you have ${1}.' .format('Michael', 1000000))  # 格式化输出(推荐)
+Hi, Michael, you have $1000000.                                   # {0} 对应第0个参数,自动识别类型
+>>>
+>>> name = 'IBM'
+>>> shares = 100
+>>> price = 91.1
+>>> print('{:s} {:d} {:.2f}'.format(name, shares, price))         # 格式化输出
+IBM 100 91.10                                                     # {:s} 对应一个%s参数
+>>> print(f'{name:>10s} {shares:>10d} {price:>10.2f}')            # f''格式化输出
+       IBM        100      91.10
 ```
 
 | 占位符 | 类型         |
@@ -42,23 +41,34 @@ print('{name:>10s} {shares:10d} {price:10.2f}'.format_map(s)) # 与上面等价
 | `:^10d`  | 整数在10字符长的区间居中   |
 
 ```shell
-# 格式化输出数字
+# 格式化输出浮点数
 >>> value = 42863.1
 >>> print(value)
 42863.1
->>> print(f'{value:0.4f}')
+>>> print('%0.4f' % value)            # C风格格式化输出
+42863.1000
+>>> print('%16.2f' % value)
+        42863.10
+>>>        
+>>> print('{:0.4f}'.format(value))    # 格式化输出(推荐)
+42863.1000
+>>> print('{:16.2f}'.format(value))
+        42863.10
+>>> print('{:<16.2f}'.format(value))
+42863.10        
+>>> print('{:*>16.2f}'.format(value))
+********42863.10
+>>>
+>>> print(f'{value:0.4f}')            # f''格式化输出
 42863.1000
 >>> print(f'{value:>16.2f}')
         42863.10
 >>> print(f'{value:<16.2f}')
 42863.10
->>> print(f'{value:*>16,.2f}')
+>>> print(f'{value:*>16.2f}')
 *******42,863.10
->>> print('%0.4f' % value)
-42863.1000
->>> print('%16.2f' % value)
-        42863.10
->>>
+
+
 ```
 
 

@@ -12,9 +12,9 @@ $$\ell_1$$和$$\ell_2$$正则化是机器学习中最常用的正则化方法，
 
 通过加入$$\ell_1$$和$$\ell_2$$正则化，优化问题可以写为
 $$
-\pmb\theta^*=\arg \min_{\pmb \theta} \frac{1}{N}\sum_{i=1}^N\mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))+\lambda\ell_p(\pmb \theta)
+\pmb\theta^*=\arg \min_{\pmb \theta} \frac{1}{N}\sum_{i=1}^N(\mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))+\lambda\ell_p(\pmb \theta))
 $$
-其中$$\mathcal{L}()$$为损失函数，$$N$$为训练样本数量，$$f()$$为待学习的神经网络，$$\pmb \theta$$为其参数，$$\ell_p$$为范数函数，$$p$$通常取1或2代表$$\ell_1$$和$$\ell_2$$范数，$$\lambda$$为正则化系数。
+其中$$\mathcal{L}(\cdot)$$为损失函数，$$N$$为训练样本数量，$$f(\cdot)$$为待学习的神经网络，$$\pmb \theta$$为其参数，$$\ell_p$$为范数函数，$$p$$通常取1或2代表$$\ell_1$$和$$\ell_2$$范数，$$\lambda$$为正则化系数。
 
 带正则化的优化问题等价于下面带约束条件的优化问题，
 $$
@@ -82,15 +82,24 @@ $$
 
 **贝叶斯学习角度的解释**
 
+丢弃法也可以解释为一种贝叶斯学习的近似 [Gal et al., 2016a] 。用$$y = f(\pmb x;\pmb θ)$$来表示要学习的神经网络，贝叶斯学习是假设参数$$\pmb θ$$为随机向量，并且先验分布为$$q(\pmb θ)$$，贝叶斯方法的预测为
+$$
+E_{q(\pmb \theta)}(y)=\int_q f(\pmb x;\pmb \theta)q(\pmb \theta){\rm d}\theta\\
+\approx \frac{1}{M}\sum_{m=1}^M f(\pmb x,\pmb\theta_m)
+$$
+其中$$f(\pmb x,\pmb \theta_m)$$为第$$m$$次应用丢弃方法后的网络，其参数$$\pmb\theta_m$$为对全部参数$$\pmb θ$$的一次采样。
+
 
 
 ### 循环神经网络上的丢弃法
 
 当在循环神经网络上应用丢弃法时，不能直接对每个时刻的隐状态进行随机丢弃，这样会损害循环网络在时间维度上的记忆能力。一种简单的方法是对非时间维度的连接（即非循环连接）进行随机丢失 [Zaremba et al., 2014] 。如下图所示，虚线边表示进行随机丢弃，不同的颜色表示不同的丢弃掩码。
 
-图7.13
+![](https://i.loli.net/2020/12/03/i8dk4QPnZyVI3Hf.png)
 
-……
+然而根据贝叶斯学习的解释，丢弃法是一种对参数$$\pmb θ$$的采样，每次采样的参数需要在每个时刻保持不变。因此，在对循环神经网络上使用丢弃法时，需要对参数矩阵的每个元素进行随机丢弃，并在所有时刻都使用相同的丢弃掩码。这种方法称为**变分丢弃法(variational dropout)** [Gal et al., 2016b] 。 下图给出了变分丢弃法的示例，相同颜色表示使用相同的丢弃掩码。
+
+![](https://i.loli.net/2020/12/03/NX3hqRQnEdHDMpy.png)
 
 
 
