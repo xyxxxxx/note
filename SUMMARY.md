@@ -19,7 +19,6 @@
 	* [内存管理](C/memory-management.md)
 	* [库](C/lib.md)
 	* [数据结构的实现](C/ds-implementation.md)
-	* [Makefile](C/makefile.md)
 
 
 * [Java](Java/java.md)
@@ -218,11 +217,10 @@
     + [假设检验](math/applied-mathematics/statistics/hypothesis-testing.md)
     + [贝叶斯统计学](math/applied-mathematics/statistics/bayesian-statistics.md)
   + [数学优化](math/applied-mathematics/optimization/optimization.md)
-    + [线性规划](math/applied-mathematics/optimization/lp.md)
-    + [非线性规划](math/applied-mathematics/optimization/nlp.md)
     + 凸集
     + 凸函数
     + 凸优化
+    + [对偶](math/applied-mathematics/optimization/duality.md)
 + [离散数学](math/discrete-mathematics/discrete-mathematics.md)
   + [数理逻辑](math/discrete-mathematics/mathematical-logic.md)
   + [集合论](math/discrete-mathematics/set-theory.md)
@@ -249,12 +247,16 @@
 * [Git](tools/git.md)
 * [Gitbook](tools/gitbook.md)
 * [npm](tools/npm.md)
+* [makefile](tools/makefile.md)
+* [Linux命令](tools/linux-command.md)
+* [vim](tools/vim.md)
 * [XML](tools/xml.md)
 * [JSON](tools/json.md)
 * [yaml](tools/yaml.md)
 * [LaTeX](tools/latex.md)
 * [Markdown](tools/markdown.md)
 * [正则表达式](tools/regular-expression.md)
+* [代码规范](tools/coding-style.md)
 * [词汇表](tools/vocabulary.md)
 
 

@@ -235,8 +235,8 @@ $$
 
 机器学习中，最简单、最常用的优化算法就是**梯度下降法(gradient descent method)**，即首先初始化参数$$θ_0$$ ，然后按下面的迭代公式来计算训练集$$\mathcal{D}$$上风险函数的最小值：
 $$
-\pmb \theta_{t+1}=\pmb \theta_t-\alpha\frac{\partial \mathcal{R}_\mathcal{D}(\pmb \theta)}{\partial \pmb \theta}\\
-=\pmb \theta_t-\alpha(\frac{1}{N}\sum_{i=1}^{N}\frac{\partial \mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))}{\partial \pmb \theta}+\lambda\pmb \theta)
+\pmb \theta_{t+1}=\pmb \theta_t-\alpha\frac{\partial \mathcal{R}_\mathcal{D}(\pmb \theta)}{\partial \pmb \theta}\bigg|_{\pmb\theta = \pmb \theta_t} \\
+=\pmb \theta_t-\alpha(\frac{1}{N}\sum_{i=1}^{N}\frac{\partial \mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))}{\partial \pmb \theta}\bigg|_{\pmb\theta = \pmb \theta_t}+\lambda\pmb \theta_t)
 $$
 其中$$\pmb \theta_t$$为第$$t$$迭代时的参数值，$$\alpha$$为搜索步长。在机器学习中，$$\alpha$$一般称为**学习率(learning rate)**。
 

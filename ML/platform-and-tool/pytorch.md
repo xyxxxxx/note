@@ -1642,14 +1642,13 @@ torch.Size([100, 32, 10])
 >>> m3 = nn.Conv2d(1, 32, 3, 3)                 # 步长为3
 >>> m4 = nn.Conv2d(1, 32, 3, 3, padding=(1,1))  # 上下,左右各用1,1行零填充
 >>> input = torch.rand((100, 1, 28, 28))
->>> output1, output2, output3, output4= m1(input), m2(input), m3(input), m4(input)
->>> output1.shape
+>>> m1(input).shape
 torch.Size([100, 32, 26, 26])
->>> output2.shape
+>>> m2(input).shape
 torch.Size([100, 32, 26, 24])
->>> output3.shape
+>>> m3(input).shape
 torch.Size([100, 32, 9, 9])
->>> output4.shape
+>>> m4(input).shape
 torch.Size([100, 32, 10, 10])
 ```
 
@@ -2041,18 +2040,16 @@ tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
 
 ```python
 >>> input = torch.randn(1, 1, 4, 4)
->>> output1 = F.max_pool2d(input, 2, 1)
->>> output2 = F.max_pool2d(input, 2)
 >>> input
 tensor([[[[-0.5308,  1.2014, -1.3582,  1.1337],
           [ 0.2359,  0.9501,  1.1915,  0.3432],
           [-1.4260, -0.1276, -2.2615,  0.8555],
           [-0.8545,  0.5436,  1.6482,  1.2749]]]])
->>> output1
+>>> F.max_pool2d(input, 2, 1)
 tensor([[[[1.2014, 1.2014, 1.1915],
           [0.9501, 1.1915, 1.1915],
           [0.5436, 1.6482, 1.6482]]]])
->>> output2
+>>> F.max_pool2d(input, 2)
 tensor([[[[1.2014, 1.1915],
           [0.5436, 1.6482]]]])
 ```

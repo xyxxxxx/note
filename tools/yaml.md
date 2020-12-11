@@ -1,4 +1,4 @@
-> YAML2JSON参考https://onlineyamltools.com/convert-yaml-to-json
+> yml2json在线工具https://onlineyamltools.com/convert-yaml-to-json
 
 ## YAML
 
@@ -48,26 +48,26 @@ YAML 支持以下几种数据类型：
 
 ```yaml
 boolean: 
-    - TRUE  #true,True都可以
-    - FALSE  #false，False都可以
+    - TRUE   # true,True,TRUE都可以
+    - FALSE  # false,False,FALSE都可以
 float:
     - 3.14
-    - 6.8523015e+5  #可以使用科学计数法
+    - 6.8523015e+5  # 可以使用科学计数法
 int:
     - 123
-    - 0b1010_0111_0100_1010_1110    #二进制表示
+    - 0b1010_0111_0100_1010_1110    # 二进制表示
 null:
     nodeName: 'node'
-    parent: ~  #使用~表示null
+    parent: ~       # 使用~表示null
 string:
-    - 哈哈
-    - 'Hello world'  #可以使用双引号或者单引号包裹特殊字符
+    - 哈哈           # 不属于其它类型，默认为字符串
+    - 'Hello world'  # 可以使用双引号或者单引号包裹特殊字符
     - newline
-      newline2    #字符串可以拆成多行，每一行会被转化成一个空格
+      newline2      # 字符串可以拆成多行，每一个换行会被转化成一个空格
 date:
-    - 2018-02-17    #日期必须使用ISO 8601格式，即yyyy-MM-dd
+    - 2018-02-17    # 日期必须使用ISO 8601格式，即yyyy-MM-dd
 datetime: 
-    -  2018-02-17T15:02:31+08:00    #时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区
+    - 2018-02-17T15:02:31+08:00   # 时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区
 ```
 
 
@@ -89,7 +89,7 @@ key:
 较为复杂的对象格式，可以使用问号加一个空格代表一个复杂的 key，配合一个冒号加一个空格代表一个 value：
 
 ```yaml
-?  
+?
     - complexkey1
     - complexkey2
 :

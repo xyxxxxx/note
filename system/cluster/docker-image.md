@@ -134,7 +134,7 @@ $ docker run --name webserver -d -p 8081:80 nginx
 
 这条命令会用 nginx 镜像启动一个容器，命名为 webserver，并且映射了 80 端口，这样我们可以用浏览器去访问这个 nginx 服务器。
 
-![img](https://gblobscdn.gitbook.com/assets%2F-M5xTVjmK7ax94c8ZQcm%2F-M5xT_hHX2g5ldlyp9nm%2F-M5xTq0Ue52VtZnqYRkR%2Fimages-mac-example-nginx.png?alt=media)
+![](https://gblobscdn.gitbook.com/assets%2F-M5xTVjmK7ax94c8ZQcm%2F-M5xT_hHX2g5ldlyp9nm%2F-M5xTq0Ue52VtZnqYRkR%2Fimages-mac-example-nginx.png?alt=media)
 
 假设我们非常不喜欢这个欢迎页面，我们希望改成欢迎 Docker 的文字，我们可以使用 `docker exec` 命令进入容器，修改其内容。
 

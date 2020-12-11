@@ -64,6 +64,7 @@ $$
 $$
 
 
+
 ## 凸集
 
 集合$$C$$被称为**凸集**，如果$$C$$中任意两点间的线段仍在$$C$$中，即$$\forall x_1,x_2\in C,\forall \theta\in [0,1]$$，
@@ -166,7 +167,7 @@ $$
 $$
 \mathcal{E}=\{\pmb x|(\pmb x-\pmb x_c)^{\rm T}P^{-1}(\pmb x-\pmb x_c) \le 1 \}
 $$
-其中$$P=P^{\rm T}\succ 0$$，即$$P$$是对称正定矩阵。向量$$\pmb x_c$$称为椭球的**中心**，矩阵$$P$$决定了椭球从$$x_c$$向各个方向扩展的幅度。$$\mathcal{E}$$的半轴长度由$$\sqrt{\lambda_i}$$给出，其中$$\lambda_i$$为$$P$$的特征值。椭球的另一个常见表达式为
+其中$$P=P^{\rm T}> 0$$，即$$P$$是对称正定矩阵。向量$$\pmb x_c$$称为椭球的**中心**，矩阵$$P$$决定了椭球从$$x_c$$向各个方向扩展的幅度。$$\mathcal{E}$$的半轴长度由$$\sqrt{\lambda_i}$$给出，其中$$\lambda_i$$为$$P$$的特征值。椭球的另一个常见表达式为
 $$
 \mathcal{E}=\{\pmb x_c+A\pmb u| \|\pmb u\|_2\le 1  \}
 $$
@@ -206,7 +207,7 @@ $$
 
 多面体可以使用更紧凑的表达式表示
 $$
-\mathcal{P}=\{\pmb x|A\pmb x\preceq \pmb b,C\pmb x=\pmb d \}
+\mathcal{P}=\{\pmb x|A\pmb x\le \pmb b,C\pmb x=\pmb d \}
 $$
 其中
 $$
@@ -219,7 +220,7 @@ $$
 
 @**非负象限**是具有非负分量的点的集合，即
 $$
-\mathbb{R}_*^n=\{\pmb x\in\mathbb{R}^n|x_i\ge 0,i=1,\cdots,n \}=\{\pmb x\in\mathbb{R}^n|\pmb x\succeq \pmb 0 \}
+\mathbb{R}_*^n=\{\pmb x\in\mathbb{R}^n|x_i\ge 0,i=1,\cdots,n \}=\{\pmb x\in\mathbb{R}^n|\pmb x\ge \pmb 0 \}
 $$
 非负象限既是多面体也是锥，称为**多面体锥**。
 
@@ -229,7 +230,7 @@ $$
 
 设$$k+1$$个点$$\pmb v_0,\cdots,\pmb v_k\in \mathbb{R}^n$$**仿射无关**，即$$\pmb v_1-\pmb v_0,\cdots,\pmb v_k-\pmb v_0$$**线性无关**，那么这些点决定了一个**单纯形**
 $$
-C=\bold{conv}\{\pmb v_0,\cdots,\pmb v_k\}=\{\theta_0\pmb v_0+\cdots+\theta_k\pmb v_k|\pmb \theta\succeq 0,\pmb 1^{\rm T}\pmb \theta=1 \}
+C=\bold{conv}\{\pmb v_0,\cdots,\pmb v_k\}=\{\theta_0\pmb v_0+\cdots+\theta_k\pmb v_k|\pmb \theta\ge 0,\pmb 1^{\rm T}\pmb \theta=1 \}
 $$
 这个单纯形的仿射维数为$$k$$，因此也称为$$\mathbb{R}^n$$空间的$$k$$维单纯形。
 
@@ -239,11 +240,11 @@ $$
 
 **单位单纯形**是由零向量和单位向量$$0,e_1,\cdots,e_n\in\mathbb{R}^n$$决定的$$n$$维单纯形，它可以表示为满足下列条件的向量的集合
 $$
-\pmb x\succeq \pmb 0,\quad \pmb 1^{\rm T}\pmb x\le1
+\pmb x\ge \pmb 0,\quad \pmb 1^{\rm T}\pmb x\le1
 $$
 **概率单纯形**是由单位向量$$e_1,\cdots,e_n\in\mathbb{R}^n$$决定的$$n-1$$维单纯形，它是满足下列条件的向量的集合
 $$
-\pmb x\succeq \pmb 0,\quad \pmb 1^{\rm T}\pmb x=1
+\pmb x\ge \pmb 0,\quad \pmb 1^{\rm T}\pmb x=1
 $$
 概率单纯形中的向量对应有$$n$$个取值的概率分布。
 
@@ -253,7 +254,7 @@ $$
 $$
 B=[\pmb v_1-\pmb v_0\ \ \cdots\ \ \pmb v_k-\pmb v_0]\in \mathbb{R}^{n\times k}
 $$
-$$\pmb x\in C$$的充要条件是$$\exist \pmb y \succeq \pmb 0,\pmb 1^{\rm T}\pmb y\le 1$$，
+$$\pmb x\in C$$的充要条件是$$\exist \pmb y \ge \pmb 0,\pmb 1^{\rm T}\pmb y\le 1$$，
 $$
 \pmb x=\pmb v_0+B\pmb y=(1-\theta_1-\cdots-\theta_k)\pmb v_0+\theta_1\pmb v_1+\cdots+\theta_k\pmb v_k
 $$
@@ -272,7 +273,7 @@ A_1\pmb x=A_1\pmb v_0+\pmb y,\quad A_2\pmb x=A_2\pmb v_0
 $$
 这样我们得到$$\pmb x\in C$$的充要条件
 $$
-\quad A_2\pmb x=A_2\pmb v_0,\quad A_1\pmb x\succeq A_1\pmb v_0,\quad \pmb 1^{\rm T} A_1\pmb x\le 1+\pmb 1^{\rm T} A_1\pmb v_0
+\quad A_2\pmb x=A_2\pmb v_0,\quad A_1\pmb x\ge A_1\pmb v_0,\quad \pmb 1^{\rm T} A_1\pmb x\le 1+\pmb 1^{\rm T} A_1\pmb v_0
 $$
 这些关于$$\pmb x$$的线性等式和不等式描述了一个多面体。
 
@@ -282,7 +283,7 @@ $$
 
 有限集合$$\{\pmb v_1,\cdots,\pmb v_k\}$$的凸包是
 $$
-\bold{conv}\{\pmb v_1,\cdots,\pmb v_k\}=\{\theta_1\pmb v_1+\cdots+\theta_k\pmb v_k|\pmb \theta\succeq 0,\pmb 1^{\rm T}\pmb \theta=1 \}
+\bold{conv}\{\pmb v_1,\cdots,\pmb v_k\}=\{\theta_1\pmb v_1+\cdots+\theta_k\pmb v_k|\pmb \theta\ge 0,\pmb 1^{\rm T}\pmb \theta=1 \}
 $$
 它是一个有界的多面体，但无法简单地用线性等式和不等式的集合将其表示。
 
@@ -314,13 +315,13 @@ $$
 $$
 这是一个维数为$$n(n+1)/2$$的向量空间；用$$\mathbb{S}_*^n$$表示对称半正定矩阵的集合
 $$
-\mathbb{S}_*^n=\{X\in \mathbb{S} ^{n}|X\succeq 0 \}
+\mathbb{S}_*^n=\{X\in \mathbb{S} ^{n}|X\ge 0 \}
 $$
 用$$\mathbb{S}_+^n$$表示对称正定矩阵的集合
 $$
-\mathbb{S}_+^n=\{X\in \mathbb{S} ^{n}|X\succ 0 \}
+\mathbb{S}_+^n=\{X\in \mathbb{S} ^{n}|X> 0 \}
 $$
-集合$$\mathbb{S}_*^n$$是一个凸锥，即$$\forall \theta_1,\theta_2\ge 0,\forall A,B\in \mathbb{S}_*^n$$，$$\theta_1A+\theta_2B\in \mathbb{S}_*^n$$。证明如下：$$\forall \theta_1,\theta_2\ge 0,\forall A,B\in \mathbb{S}_*^n$$，$$A\succeq 0,B\succeq 0$$，$$\forall x\in \mathbb{R}^{n} $$，
+集合$$\mathbb{S}_*^n$$是一个凸锥，即$$\forall \theta_1,\theta_2\ge 0,\forall A,B\in \mathbb{S}_*^n$$，$$\theta_1A+\theta_2B\in \mathbb{S}_*^n$$。证明如下：$$\forall \theta_1,\theta_2\ge 0,\forall A,B\in \mathbb{S}_*^n$$，$$A\ge 0,B\ge 0$$，$$\forall x\in \mathbb{R}^{n} $$，
 $$
 (\theta_1A+\theta_2B)^{\rm T}=\theta_1A^{\rm T}+\theta_2B^{\rm T}=\theta_1A+\theta_2B \\
 \pmb x^{\rm T}(\theta_1A+\theta_2B)\pmb x=\theta_1\pmb x^{\rm T}A\pmb x+\theta_2\pmb x^{\rm T}B\pmb x\ge 0
@@ -406,17 +407,17 @@ $$
 $$
 S=\{(x,y_1+y_2)|(x,y_1)\in S_1,(x,y_2)\in S_2 \}
 $$
-@**多面体**：多面体$$\{\pmb x|A\pmb x\preceq \pmb b,C\pmb x=\pmb d \}$$可以表示为非负象限和原点的笛卡尔积在仿射函数$$f(\pmb x)=(\pmb b-A\pmb x,\pmb d-C\pmb x)$$下的原象
+@**多面体**：多面体$$\{\pmb x|A\pmb x\le \pmb b,C\pmb x=\pmb d \}$$可以表示为非负象限和原点的笛卡尔积在仿射函数$$f(\pmb x)=(\pmb b-A\pmb x,\pmb d-C\pmb x)$$下的原象
 $$
-\{\pmb x|A\pmb x\preceq \pmb b,C\pmb x=\pmb d \}=\{\pmb x|f(\pmb x)\in \mathbb{R}_*^m\times \{\pmb 0\} \}
+\{\pmb x|A\pmb x\le \pmb b,C\pmb x=\pmb d \}=\{\pmb x|f(\pmb x)\in \mathbb{R}_*^m\times \{\pmb 0\} \}
 $$
 @**线性矩阵不等式(LMI)**：条件
 $$
-A(\pmb x)=x_1A_1+\cdots+x_nA_n\preceq B
+A(\pmb x)=x_1A_1+\cdots+x_nA_n\le B
 $$
 称为关于$$x$$的线性矩阵不等式，其中$$B,A_i\in \mathbb{S} ^{m}$$。
 
-LMI的解$$\{\pmb x|A(\pmb x)\preceq B \}$$是凸集。事实上，它是半正定锥$$\mathbb{S}_*^m$$在仿射函数$$f(\pmb x)=B-A(\pmb x)$$下的原象。
+LMI的解$$\{\pmb x|A(\pmb x)\le B \}$$是凸集。事实上，它是半正定锥$$\mathbb{S}_*^m$$在仿射函数$$f(\pmb x)=B-A(\pmb x)$$下的原象。
 
 @**椭球**：椭球
 $$
@@ -438,5 +439,5 @@ $$
 
 
 
-
+……
 

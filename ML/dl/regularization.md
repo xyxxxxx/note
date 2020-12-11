@@ -16,11 +16,13 @@ $$
 $$
 其中$$\mathcal{L}(\cdot)$$为损失函数，$$N$$为训练样本数量，$$f(\cdot)$$为待学习的神经网络，$$\pmb \theta$$为其参数，$$\ell_p$$为范数函数，$$p$$通常取1或2代表$$\ell_1$$和$$\ell_2$$范数，$$\lambda$$为正则化系数。
 
-带正则化的优化问题等价于下面带约束条件的优化问题，
+带正则化的优化问题（有条件地）等价于下面带约束条件的优化问题，其中$$c>0$$
 $$
 \pmb\theta^*=\arg \min_{\pmb \theta} \frac{1}{N}\sum_{i=1}^N\mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))\\
-{\rm s.t.}\quad \ell_p(\pmb\theta)\le 1
+{\rm s.t.}\quad \ell_p(\pmb\theta)\le c
 $$
+> 参考Convex Optimization (S. Boyd) Chap. 5 Duality
+
 $$\ell_1$$范数在零点不可导，因此经常用下式来近似：
 $$
 \ell_1(\pmb\theta)=\sum_{i=1}^D\sqrt{\theta_i^2+\varepsilon}
@@ -32,6 +34,12 @@ $$
 ![](https://img2018.cnblogs.com/blog/71977/202001/71977-20200101161322601-524903143.png)
 
 ![](https://img2018.cnblogs.com/blog/71977/202001/71977-20200101161323095-2101121814.png)
+
+> $$\ell_1$$正则化的稀疏特性起到了特征选择的作用。
+
+> $$\ell_1$$和$$\ell_2$$正则化为什么能够防止过拟合？一种思路是，$$\ell_1$$和$$\ell_2$$正则化惩罚参数取较大值，得到的模型的参数都比较小（$$\ell_1$$正则化使得很多参数归零），这样的模型更简单。更简单的模型更不容易发生过拟合。
+>
+> ![](https://i.loli.net/2020/09/03/WZLiyxq1zEue6K2.png)
 
 一种折中的正则化方法是同时加入$$\ell_1$$和$$\ell_2$$正则化项，称为**弹性网络正则化(elastic net regularization)** [Zou et al., 2005]。
 $$
@@ -49,6 +57,12 @@ $$
 $$
 其中$$\pmb g_t$$是第$$t$$步更新时的梯度，$$\alpha$$为学习率，$$\beta$$为权重衰减系数，一般取值比较小，比如 0.0005。在标准的随机梯度下降中，权重衰减正则化和$$\ell_2$$正则化的效果相同。因此，权重衰减在一些深度学习框架中通过$$\ell_2$$正则化来实现。但是，在较为复杂的优化方法(比如Adam)中，权重衰减正则化和$$\ell_2$$正则化并不等价[Loshchilov et al., 2017b]。
 
+> 回顾梯度下降法的参数迭代
+> $$
+> \pmb \theta_{t+1}=\pmb \theta_t-\alpha\frac{\partial \mathcal{R}_\mathcal{D}(\pmb \theta)}{\partial \pmb \theta}\bigg|_{\pmb\theta = \pmb \theta_t} \\
+> =\pmb \theta_t-\alpha(\frac{1}{N}\sum_{i=1}^{N}\frac{\partial \mathcal{L}(y^{(i)},f(\pmb x^{(i)};\pmb \theta))}{\partial \pmb \theta}\bigg|_{\pmb\theta = \pmb \theta_t}+\lambda\pmb \theta_t)
+> $$
+
 
 
 ## 提前停止
@@ -63,7 +77,13 @@ $$
 
 ## 丢弃法
 
-当训练一个深度神经网络时，我们可以随机丢弃一部分神经元（同时丢弃其对应的连接边）来避免过拟合，这种方法称为丢弃法(dropout method) [Srivastava et al., 2014]。每次选择丢弃的神经元是随机的。最简单的方法是设置一个固定的概率$$p$$，对每一个神经元都以概率$$p$$来判定要不要保留。对于一个神经层$$\pmb y = f(W\pmb x +\pmb b)$$，我们可以引入一个<u>掩蔽函数</u>$${\rm mask}(⋅)$$使得$$\pmb y =f(W{\rm mask}(\pmb x) +\pmb b)$$。掩蔽函数$${\rm mask(⋅)}$$的定义为
+> 参考：
+>
+> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I. and Salakhutdinov, R., 2014. Dropout: a simple way to prevent neural networks from overfitting. *The journal of machine learning research*, *15*(1), pp.1929-1958.
+>
+> [理解dropout](https://blog.csdn.net/stdcoutzyx/article/details/49022443)
+
+当训练一个深度神经网络时，我们可以随机丢弃一部分神经元（同时丢弃其对应的连接边）来避免过拟合，这种方法称为**丢弃法(dropout method)** [Srivastava et al., 2014]。每次选择丢弃的神经元是随机的。最简单的方法是设置一个固定的概率$$p$$，对每一个神经元都以概率$$p$$来判定要不要保留。对于一个神经层$$\pmb y = f(W\pmb x +\pmb b)$$，我们可以引入一个<u>掩蔽函数</u>$${\rm mask}(⋅)$$使得$$\pmb y =f(W{\rm mask}(\pmb x) +\pmb b)$$。掩蔽函数$${\rm mask(⋅)}$$的定义为
 $$
 {\rm mask}(\pmb x)=\begin{cases}\pmb m\odot \pmb x\quad 训练阶段\\
 p\pmb x\quad\quad\ \ \ 测试阶段
@@ -74,7 +94,7 @@ $$
 
 丢弃法一般是针对神经元进行随机丢弃，但是也可以扩展到对神经元之间的连接进行随机丢弃 [Wan et al., 2013] ，或每一层进行随机丢弃。下图给出了一个网络应用丢弃法后的示例。
 
-![Screenshot from 2020-11-09 21-40-50.png](https://i.loli.net/2020/11/10/G3AQmitulyNxqfK.png)
+![](https://i.loli.net/2020/11/10/G3AQmitulyNxqfK.png)
 
 **集成学习角度的解释**
 
@@ -118,6 +138,12 @@ $$
 
 
 ## 标签平滑
+
+> 参考：
+>
+> Szegedy, C., Vanhoucke, V., Ioffe, S., Shlens, J. and Wojna, Z., 2016. Rethinking the inception architecture for computer vision. In *Proceedings of the IEEE conference on computer vision and pattern recognition* (pp. 2818-2826).
+>
+> Müller, R., Kornblith, S. and Hinton, G.E., 2019. When does label smoothing help?. In *Advances in Neural Information Processing Systems* (pp. 4694-4703).
 
 在数据增强中，我们可以给样本特征加入随机噪声来避免过拟合。同样，我们也可以给样本的标签引入一定的噪声。假设训练数据集中有一些样本的标签是被错误标注的，那么最小化这些样本上的损失函数会导致过拟合。一种改善的正则化方法是**标签平滑(label smoothing)**，即在输出标签中添加噪声来避免模型过拟合 [Szegedy et al., 2016] 。
 
