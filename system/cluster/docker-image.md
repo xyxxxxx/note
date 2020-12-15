@@ -249,11 +249,11 @@ RUN buildDeps='gcc libc6-dev make' \
 
 ### 构建
 
-在Dockerfile文件所在目录执行：
+在 Dockerfile 文件所在目录执行：
 
 ```shell
 $ docker build -t nginx:v3 .
-Sending build context to Docker daemon 2.048 kB # 发送构建上下文
+Sending build context to Docker daemon 2.048 kB  # 发送构建上下文
 Step 1 : FROM nginx
  ---> e43d811ce2f4
 Step 2 : RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html

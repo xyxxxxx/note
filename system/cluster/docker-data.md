@@ -9,7 +9,9 @@
 + 对 `数据卷` 的更新，不会影响镜像
 + `数据卷` 默认会一直存在，即使容器被删除
 
-创建一个数据卷
+
+
+## 创建数据卷
 
 ```shell
 $ docker volume create my-vol
@@ -19,7 +21,8 @@ $ docker volume create my-vol
 
 ```shell
 $ docker volume ls
-DRIVER              VOLUME NAMElocal               my-vol
+DRIVER              VOLUME NAME
+local               my-vol
 ```
 
 在主机里使用以下命令可以查看指定数据卷的信息
@@ -38,12 +41,14 @@ $ docker volume inspect my-vol
 ]
 ```
 
-启动一个容器并挂载数据卷
+
+
+## 启动一个挂载数据卷的容器
 
 ```shell
 $ docker run -d -P \
     --name web \
-    # -v my-vol:/usr/share/nginx/html \
+    # 挂载数据卷 my-vol 到容器的 /usr/share/nginx/html 目录
     --mount source=my-vol,target=/usr/share/nginx/html \
     nginx:alpine
 ```
@@ -52,9 +57,25 @@ $ docker run -d -P \
 
 ```shell
 $ docker inspect web
+# ...
+"Mounts": [  # mount info
+    {
+        "Type": "volume",
+        "Name": "my-vol",
+        "Source": "/var/lib/docker/volumes/my-vol/_data",
+        "Destination": "/usr/share/nginx/html",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,
+        "Propagation": ""
+    }
+],
+# ...
 ```
 
-删除数据卷
+
+
+## 删除数据卷
 
 ```shell
 $ docker volume rm my-vol

@@ -14,16 +14,16 @@ $ cat b c > a
 
 ```makefile
 a: b c
-    cat b c > a
+	cat b c > a
 ```
 
 再执行命令
 
 ```shell
-
+$ make a
 ```
 
-
+即可由 make 自动完成文件`a`的构建。
 
 
 
@@ -214,51 +214,113 @@ f2.o: f2.c
 
 ### 变量和赋值符
 
-Makefile 允许使用等号自定义变量。
+makefile 允许使用等号自定义变量
 
-```
-txt = Hello
+```makefile
+txt = Hello  # str
 test:
 	@echo $(txt)
 ```
 
-**environment var**
+调用环境变量时需要使用两个`$`符号
 
-```
+```makefile
 test:
 	@echo $$HOME
 ```
 
-**implicit var**
+也可以使用变量为变量赋值
 
-```
-$(CC)          //current compiler
-$(MAKE)        //current Make tool
+```makefile
+v1 = $(v2)
 ```
 
-**automatic var**
+上面代码中，变量 `v1` 的值是另一个变量 `v2`。这时会产生一个问题，`v1` 的值到底在定义时扩展（静态扩展），还是在运行时扩展（动态扩展）？如果 `v2` 的值是动态的，这两种扩展方式的结果可能会差异很大。
 
+为了解决类似问题，Makefile一共提供了四个赋值运算符 （`=、:=、？=、+=`）
+
+```makefile
+VARIABLE = value
+# 在执行时扩展，允许递归扩展。
+
+VARIABLE := value
+# 在定义时扩展。
+
+VARIABLE ?= value
+# 只有在该变量为空时才设置值。
+
+VARIABLE += value
+# 将值追加到变量的尾端。
 ```
-$@             //current target
+
+
+
+### 内置变量
+
+make命令提供一系列内置变量，比如，`$(CC)` 指向当前使用的编译器，`$(MAKE)` 指向当前使用的Make工具。这主要是为了跨平台的兼容性，详细的内置变量清单见[手册](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)。
+
+```makefile
+output:
+    $(CC) -o output input.c
+```
+
+
+
+### 自动变量
+
+`$@` 指代当前目标，即make命令当前构建的那个目标，比如`make foo`的 `$@` 就指代`foo`。
+
+```makefile
+a.txt b.txt: 
+    touch $@
+```
+
+等同于
+
+```makefile
 a.txt:
-	touch $@
-
-$(@D) $(@F)    //current target dir & name
-
-$<             //first prerequisites
-a.txt: b.txt c.txt
-	cp $< $@   
-	
-$(<D) $(<F)	
-
-$?             //prerequisites newer than target
-
-$^             //all prerequisites
-
-$*             // str % matches
+    touch a.txt
+b.txt:
+    touch b.txt
 ```
 
-**structure**
+
+
+`$<` 指代第一个前置条件。比如，规则为 `t: p1 p2`，那么`$<` 就指代`p1`。
+
+```makefile
+a.txt: b.txt c.txt
+    cp $< $@ 
+```
+
+等同于
+
+```makefile
+a.txt: b.txt c.txt
+    cp b.txt a.txt 
+```
+
+
+
+`$?` 指代比目标更新的所有前置条件，之间以空格分隔。
+
+
+
+`$^` 指代所有前置条件，之间以空格分隔。
+
+
+
+`$(@D)` 和 `$(@F)` 分别指向 `$@` 的目录名和文件名。
+
+
+
+`$(<D)` 和 `$(<F)` 分别指向 `$<` 的目录名和文件名。
+
+
+
+### 条件和循环结构
+
+makefile使用 Bash 语法，完成判断和循环。
 
 ```makefile
 ifeq ($(CC),gcc)
@@ -268,16 +330,81 @@ else
 endif
 ```
 
-```
+```makefile
 LIST = one two three
 all:
-	for i in $(LIST); do echo $(i); done???
-	
+	for i in $(LIST); do \
+		echo $(i); \
+	done
 ```
 
-## function
+
+
+## 函数
+
+makefile 还可以使用函数，格式如下。
+
+```makefile
+$(function arguments)
+# 或
+${function arguments}
+```
+
+
 
 ```
 srcfiles := $(shell echo src/{00..99}.txt)
 ```
 
+
+
+### subst
+
+`subst` 函数用来文本替换，格式如下。
+
+```makefile
+$(subst from,to,text)
+```
+
+下面的例子将字符串"feet on the street"替换成"fEEt on the strEEt"。
+
+```makefile
+$(subst ee,EE,feet on the street)
+```
+
+
+
+### patsubst
+
+`patsubst` 函数用于模式匹配的替换，格式如下。
+
+```makefile
+$(patsubst pattern,replacement,text)
+```
+
+下面的例子将文件名`x.c.c, bar.c`替换成`x.c.o, bar.o`。
+
+```makefile
+$(patsubst %.c, %.o, x.c.c bar.c)
+```
+
+
+
+## 实例
+
+### 执行多个目标
+
+```makefile
+.PHONY: cleanall cleanobj cleandiff
+
+cleanall : cleanobj cleandiff
+        rm program
+
+cleanobj :
+        rm *.o
+
+cleandiff :
+        rm *.diff
+```
+
+上面代码可以调用不同目标，删除不同后缀名的文件，也可以调用一个目标（cleanall），删除所有指定类型的文件。

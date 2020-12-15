@@ -17,17 +17,29 @@ fae320d08268        nginx:alpine        "/docker-entrypoint.…"   24 seconds ag
 `-p` 则可以指定要映射的端口，一个指定端口上只可以绑定一个容器。支持的格式有 `ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort`。
 
 ```shell
-$ docker run -d -p 80:80 nginx:alpine # 映射容器的80端口到本地主机的80端口, 映射所有接口地址
-$ docker run -d -p 127.0.0.1:80:80 nginx:alpine # 映射一个特定地址
-$ docker run -d -p 127.0.0.1::80 nginx:alpine # 本地主机分配一个端口
-$ docker run -d -p 127.0.0.1::80/udp nginx:alpine # 指定UDP端口
+# 本地主机所有地址的80端口映射到容器的80端口
+$ docker run -d -p 80:80 nginx:alpine
+
+# 本地主机特定地址的80端口映射到容器的80端口
+$ docker run -d -p 127.0.0.1:80:80 nginx:alpine
+
+# 本地主机特定地址的随机端口映射到容器的80端口
+$ docker run -d -p 127.0.0.1::80 nginx:alpine
+# 本地主机特定地址的随机UDP端口映射到容器的80端口
+$ docker run -d -p 127.0.0.1::80/udp nginx:alpine
+
+# 绑定多个端口
 $ docker run -d \
     -p 80:80 \
-    -p 443:443 \ # 绑定多个端口
+    -p 443:443 \
     nginx:alpine
+```
 
+使用`docker port`查看当前映射的端口配置
 
-
+```shell
+$ docker port fa 80
+0.0.0.0:32768
 ```
 
 

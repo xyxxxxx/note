@@ -7,31 +7,68 @@
 Compose 中有两个重要的概念：
 
 + 服务 (service)：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
-+ 项目 (project)：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。
++ 项目 (project)：<u>由一组关联的应用容器组成的一个完整业务单元</u>，在 docker-compose.yml 文件中定义。
 
 Compose 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理。
 
 
 
+# Get Started
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 实战
+
+## WordPress
+
 编写如下`docker-compose.yml`文件：
 
 ```yaml
-mysql:
-    image: mysql:5.7
-    environment:
-     - MYSQL_ROOT_PASSWORD=123456
-     - MYSQL_DATABASE=wordpress
-web:
-    image: wordpress
-    links:
-     - mysql
-    environment:
-     - WORDPRESS_DB_PASSWORD=123456
-    ports:
-     - "127.0.0.3:8080:80"
-    working_dir: /var/www/html
-    volumes:
-     - wordpress:/var/www/html
+version: "3"
+services:
+
+   db:
+     image: mysql:8.0
+     command:
+      - --default_authentication_plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci     
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+volumes:
+  db_data:
 ```
 
 运行 compose 项目：
@@ -40,5 +77,5 @@ web:
 $ docker-compose up
 ```
 
-此时就可以访问`127.0.0.3:8080`。
+compose 就会拉取镜像再创建我们所需要的镜像，然后启动 `wordpress` 和数据库容器。 接着浏览器访问 `127.0.0.1:8000` 端口就能看到 `WordPress` 安装界面了。
 
