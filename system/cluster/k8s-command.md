@@ -161,7 +161,7 @@ $ kubectl label pods foo app-
 
 ### history
 
-查看滚动更新的修订。
+查看滚动更新的最近修订。
 
 ```shell
 # View the rollout history of a deployment
@@ -174,11 +174,36 @@ $ kubectl rollout history daemonset/abc --revision=3
 # --revision     See the details, including podTemplate of the revision specified
 ```
 
+
+
 ### status
 
 展示滚动更新的状态。默认情况下会监视最近一次滚动更新的状态，如果你不想等待滚动更新结束，可以使用`--watch=false`。
 
+```shell
+# 更新Deployment的镜像
+$ kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+deployment.apps/kubernetes-bootcamp image updated
+# 监视滚动更新的状态
+$ kubectl rollout status deployments/kubernetes-bootcamp
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 3 out of 4 new replicas have been updated...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "kubernetes-bootcamp" rollout to finish: 1 old replicas are pending termination...
+deployment "kubernetes-bootcamp" successfully rolled out
+```
+
+
+
 ### undo
+
+回滚到最近一次的滚动更新。
 
 
 

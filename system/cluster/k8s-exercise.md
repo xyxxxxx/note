@@ -1,6 +1,6 @@
 [toc]
 
-## 查看集群信息
+# 查看集群信息
 
 [playground](https://katacoda.com/courses/kubernetes/playground)提供了包含了两个节点（Master 和一个 Node）的k8s集群，可用于测试。
 
@@ -14,15 +14,15 @@ $ kubectl get pod
 $ kubectl get pod -o wide
 
 $ kubectl get deployments
-# NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-# kubernetes-bootcamp   1/1     1            1           32s
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+kubernetes-bootcamp   1/1     1            1           32s
 # READY 表示 现存的/需求的 实例数
 # UP-TO-DATE 表示处于就绪状态的实例数
 # AVAILABLE 表示现有多少实例数可用
 
 $ kubectl get rs
-# NAME                             DESIRED   CURRENT   READY   AGE
-# kubernetes-bootcamp-765bf4c7b4   1         1         1       5m18s
+NAME                             DESIRED   CURRENT   READY   AGE
+kubernetes-bootcamp-765bf4c7b4   1         1         1       5m18s
 # DESIRED 表示应用需求的实例数
 # CURRENT 表示正在运行的实例数
 # READY 表示准备就绪的实例数
@@ -38,12 +38,14 @@ $ kubectl exec $POD_NAME env
 
 # 使 apiserver 监听本地的 8001 端口
 $ kubectl proxy --port=8001
-# Starting to serve on 127.0.0.1:8001
+Starting to serve on 127.0.0.1:8001
 ```
 
 
 
-## Minikube 演示
+
+
+# Minikube 演示
 
 ```shell
 # 1. (再)启动 Minikube 并创建一个集群
@@ -155,7 +157,9 @@ $ minikube stop
 
 
 
-## [学习 Kubernetes 基础知识](https://kubernetes.io/zh/docs/tutorials/kubernetes-basics/)——交互式教程
+
+
+# [学习 Kubernetes 基础知识](https://kubernetes.io/zh/docs/tutorials/kubernetes-basics/)——交互式教程
 
 ```shell
 # 1. (再)启动 Minikube 并创建一个集群
@@ -366,8 +370,8 @@ Annotations:              <none>
 Selector:                 run=kubernetes-bootcamp
 Type:                     NodePort
 IP:                       10.108.159.233
-Port:                     <unset>  8080/TCP      # Pod端口
-TargetPort:               8080/TCP
+Port:                     <unset>  8080/TCP      # Service端口
+TargetPort:               8080/TCP               # Pod端口
 NodePort:                 <unset>  30207/TCP     # Node端口
 Endpoints:                172.18.0.4:8080        # 唯一一个Pod的IP+Port
 Session Affinity:         None
@@ -486,7 +490,7 @@ Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-765bf4c7b4-m62gl | 
 $ curl $(minikube ip):$NODE_PORT
 Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-765bf4c7b4-t26sf | v=1
 
-# 10. 更新应用的所有镜像
+# 10. 更新Deployment的镜像
 $ kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
 deployment.apps/kubernetes-bootcamp image updated
 # 原Pod逐渐关闭,新Pod逐渐创建
@@ -538,123 +542,82 @@ External Traffic Policy:  Cluster
 Events:                   <none>
 $ curl $(minikube ip):$NODE_PORT
 Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-7d6f8694b6-hj4cw | v=2
-```
-
-
-
-
-
-
-
-## 更新应用
-
-```shell
+# 查看最近的滚动更新
+$ kubectl rollout history deployments/kubernetes-bootcamp
+deployment.apps/kubernetes-bootcamp
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+$ kubectl rollout history deployments/kubernetes-bootcamp --revision=1
+deployment.apps/kubernetes-bootcamp with revision #1
+Pod Template:
+  Labels:       pod-template-hash=765bf4c7b4
+        run=kubernetes-bootcamp
+  Containers:
+   kubernetes-bootcamp:   # 更新前镜像
+    Image:      gcr.io/google-samples/kubernetes-bootcamp:v1
+    Port:       8080/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+$ kubectl rollout history deployments/kubernetes-bootcamp --revision=2
+deployment.apps/kubernetes-bootcamp with revision #2
+Pod Template:
+  Labels:       pod-template-hash=7d6f8694b6
+        run=kubernetes-bootcamp
+  Containers:
+   kubernetes-bootcamp:   # 更新后镜像
+    Image:      jocatalin/kubernetes-bootcamp:v2
+    Port:       8080/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+  
+# 11. 再次更新Deployment的镜像,但新镜像不存在
+$ kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
+deployment.apps/kubernetes-bootcamp image updated
 $ kubectl get pods
-# NAME                                   READY   STATUS    RESTARTS   AGE
-# kubernetes-bootcamp-765bf4c7b4-2mv5p   1/1     Running   0          30s
-# kubernetes-bootcamp-765bf4c7b4-5bdb2   1/1     Running   0          30s
-# kubernetes-bootcamp-765bf4c7b4-pn8gz   1/1     Running   0          30s
-# kubernetes-bootcamp-765bf4c7b4-q9vqz   1/1     Running   0          30s
-
-$ kubectl describe pods
-# Name:         kubernetes-bootcamp-765bf4c7b4-2mv5p
-# Namespace:    default
-# Priority:     0
-# Node:         minikube/172.17.0.31
-# ...
-# Labels:       pod-template-hash=765bf4c7b4
-#               run=kubernetes-bootcamp
-# Annotations:  <none>
-# Status:       Running
-# IP:           172.18.0.8
-# IPs: ...
-# Containers:
-#   kubernetes-bootcamp:
-#     Container ID:    docker://4855e2940e9526068749e48fd07798ca355cc57baf70d35c120ee52909aa22c9
-#     Image:          gcr.io/google-samples/kubernetes-bootcamp:v1
-#     Image ID:       docker-pullable://jocatalin/kubernetes-bootcamp@sha256:0d6b8ee63bb57c5f5b6156f446b3bc3b3c143d233037f3a2f00e279c8fcc64af
-# ...
-
-# 更新 deployment 的应用镜像
-$ kubectl set image deployment/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
-# deployment.apps/kubernetes-bootcamp image updated
-
-$ kubectl get pods
-# NAME                                   READY   STATUS        RESTARTS   AGE
-# kubernetes-bootcamp-765bf4c7b4-2mv5p   1/1     Terminating   0          50s
-# kubernetes-bootcamp-765bf4c7b4-5bdb2   1/1     Terminating   0          50s
-# kubernetes-bootcamp-765bf4c7b4-pn8gz   1/1     Terminating   0          50s
-# kubernetes-bootcamp-765bf4c7b4-q9vqz   1/1     Terminating   0          50s
-# kubernetes-bootcamp-7d6f8694b6-h4bqg   1/1     Running       0          6s
-# kubernetes-bootcamp-7d6f8694b6-lb5ss   1/1     Running       0          3s
-# kubernetes-bootcamp-7d6f8694b6-q7c67   1/1     Running       0          6s
-# kubernetes-bootcamp-7d6f8694b6-tnmzg   1/1     Running       0          3s
-
-$ kubectl describe pod
-# Name:         kubernetes-bootcamp-7d6f8694b6-h4bqg
-# Namespace:    default
-# Priority:     0
-# Node:         minikube/172.17.0.31
-# ...
-# Labels:       pod-template-hash=7d6f8694b6
-#               run=kubernetes-bootcamp
-# Annotations:  <none>
-# Status:       Running
-# IP:           172.18.0.11
-# IPs: ...
-# Containers:
-#   kubernetes-bootcamp:
-#     Container ID:   docker://ba4095a12d1371681e6a2df406893390529c34558b92992c3f4382b3cd40339d
-#     Image:          jocatalin/kubernetes-bootcamp:v2
-#     Image ID:       docker-pullable://jocatalin/kubernetes-bootcamp@sha256:fb1a3ced00cecfc1f83f18ab5cd14199e30adc1b49aa4244f5d65ad3f5feb2a5
-# ...
-
-# 更新成功
-$ curl $(minikube ip):$NODE_PORT
-# Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-7d6f8694b6-q7c67 | v=2
-$ curl $(minikube ip):$NODE_PORT
-# Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-7d6f8694b6-h4bqg | v=2
-```
-
-```shell
-# 再次更新 deployment 的应用镜像
-$ kubectl set image deployment/kubernetes-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
-# deployment.apps/kubernetes-bootcamp image updated
-
-$ kubectl get deployment
-# NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-# kubernetes-bootcamp   3/4     2            3           18m
-# 2个 pod 更新，3个 pod 可用
-
-$ kubectl get pod
-# NAME                                   READY   STATUS             RESTARTS   AGE
-# kubernetes-bootcamp-7d6f8694b6-h4bqg   1/1     Running            0          18m
-# kubernetes-bootcamp-7d6f8694b6-q7c67   1/1     Running            0          18m
-# kubernetes-bootcamp-7d6f8694b6-tnmzg   1/1     Running            0          18m
-# kubernetes-bootcamp-886577c5d-hxmk9    0/1     ImagePullBackOff   0          52s
-# kubernetes-bootcamp-886577c5d-lgjs6    0/1     ImagePullBackOff   0          53s
-
-# 不存在 v10 镜像，拉取失败
-$ kubectl describe pod
-# ...
-# Events:
-#  Type     Reason     Age                    From               Message
-#  ----     ------     ----                   ----               -------
-#  Normal   Pulling    2m55s (x4 over 4m17s)  kubelet, minikube  Pulling image "gcr.io/google-samples/kubernetes-bootcamp:v10"
-#  Warning  Failed     2m54s (x4 over 4m16s)  kubelet, minikube  Failed to pull image "gcr.io/google-samples/kubernetes-bootcamp:v10": rpc error: code = Unknown desc = Error response from daemon: manifest for gcr.io/google-samples/kubernetes-bootcamp:v10 notfound: manifest unknown: Failed to fetch "v10" from request "/v2/google-samples/kubernetes-bootcamp/manifests/v10".
-#  Warning  Failed     2m54s (x4 over 4m16s)  kubelet, minikube  Error: ErrImagePull
-#  Warning  Failed     2m29s (x6 over 4m15s)  kubelet, minikube  Error: ImagePullBackOff
-#  Normal   BackOff    2m15s (x7 over 4m15s)  kubelet, minikube  Back-off pulling image "gcr.io/google-samples/kubernetes-bootcamp:v10"
-
-# 回滚
+NAME                                   READY   STATUS             RESTARTS   AGE
+kubernetes-bootcamp-7d6f8694b6-gt8hw   1/1     Running            0          1m
+kubernetes-bootcamp-7d6f8694b6-hj4cw   1/1     Running            0          1m
+kubernetes-bootcamp-7d6f8694b6-z9qkz   1/1     Running            0          1m
+# 镜像拉取失败,无法创建新Pod;原Pod仅删除了1个
+kubernetes-bootcamp-886577c5d-kp6z7    0/1     ErrImagePull       0          33s
+kubernetes-bootcamp-886577c5d-wmhl5    0/1     ImagePullBackOff   0          32s
+# 查看最近的滚动更新
+$ kubectl rollout history deployments/kubernetes-bootcamp --revision=3
+deployment.apps/kubernetes-bootcamp with revision #3
+Pod Template:
+  Labels:       pod-template-hash=886577c5d
+        run=kubernetes-bootcamp
+  Containers:
+   kubernetes-bootcamp:
+    Image:      gcr.io/google-samples/kubernetes-bootcamp:v10
+    Port:       8080/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+# 回滚到revision=2
 $ kubectl rollout undo deployments/kubernetes-bootcamp
-# deployment.apps/kubernetes-bootcamp rolled back
-
+deployment.apps/kubernetes-bootcamp rolled back
 $ kubectl get pods
-# NAME                                   READY   STATUS    RESTARTS   AGE
-# kubernetes-bootcamp-7d6f8694b6-c8s6l   1/1     Running   0          31s
-# kubernetes-bootcamp-7d6f8694b6-h4bqg   1/1     Running   0          25m
-# kubernetes-bootcamp-7d6f8694b6-q7c67   1/1     Running   0          25m
-# kubernetes-bootcamp-7d6f8694b6-tnmzg   1/1     Running   0          25m
+NAME                                   READY   STATUS              RESTARTS   AGE
+# 停用新Pod,重新创建上个版本的Pod
+kubernetes-bootcamp-7d6f8694b6-hb9nm   0/1     ContainerCreating   0          0s
+kubernetes-bootcamp-7d6f8694b6-gt8hw   1/1     Running             0          1m
+kubernetes-bootcamp-7d6f8694b6-hj4cw   1/1     Running             0          1m
+kubernetes-bootcamp-7d6f8694b6-z9qkz   1/1     Running             0          1m
+kubernetes-bootcamp-886577c5d-kp6z7    0/1     Terminating         0          1m
+kubernetes-bootcamp-886577c5d-wmhl5    0/1     Terminating         0          1m
+$ kubectl get pods
+NAME                                   READY   STATUS              RESTARTS   AGE
+kubernetes-bootcamp-7d6f8694b6-hb9nm   1/1     Running             0          1s
+kubernetes-bootcamp-7d6f8694b6-gt8hw   1/1     Running             0          1m
+kubernetes-bootcamp-7d6f8694b6-hj4cw   1/1     Running             0          1m
+kubernetes-bootcamp-7d6f8694b6-z9qkz   1/1     Running             0          1m
+
 ```
 

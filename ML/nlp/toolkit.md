@@ -1,3 +1,5 @@
+参考https://github.com/crownpku/Awesome-Chinese-NLP
+
 # 中文
 
 ## 分词
@@ -15,12 +17,6 @@
   （最后更新于2017年）
 
 
-
-  
-
-  
-
-  
 
   
 

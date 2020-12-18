@@ -188,6 +188,11 @@
   + [NumPy](ML/platform-and-tool/numpy.md)
   + [pandas](ML/platform-and-tool/pandas.md)
   + [Matplotlib](ML/platform-and-tool/matplotlib.md)
+  + [nni](ML/platform-and-tool/nni.md)
++ [NLP](ML/nlp/nlp.md)
+  + [思路](ML/nlp/idea.md)
++ [RS](ML/rs/rs.md)
+  + [思路](ML/rs/idea.md)
 
 
 ## 数学
