@@ -1,6 +1,6 @@
 参考[MIT 18.06SC Linear Algebra, Fall 2011](https://www.youtube.com/watch?v=7UJ4CFRGd-U&list=PL221E2BBF13BECF6C)
 
-
+[toc]
 
 # 方程组与矩阵
 
@@ -298,19 +298,177 @@ $$
 
 高斯消元法解方程组$$A\pmb x=\pmb 0$$，其中
 $$
-A=\begin{bmatrix}1&2&2&2\\2&4&6&8\\3&6&8&10\end{bmatrix}\to\begin{bmatrix}[1]&2&2&2\\0&0&[2]&4\\0&0&0&0\end{bmatrix}\to \begin{bmatrix}[1]&2&0&-2\\0&0&[1]&2\\0&0&0&0\end{bmatrix}
+A=\begin{bmatrix}1&2&2&2\\2&4&6&8\\3&6&8&10\end{bmatrix}\to\begin{bmatrix}[1]&2&2&2\\0&0&[2]&4\\0&0&0&0\end{bmatrix}\to \begin{bmatrix}[1]&2&0&-2\\0&0&[1]&2\\0&0&0&0\end{bmatrix}\\
+  \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad{\rm rref(row\ reduced\ echelon\ form)}
 $$
 这里有2个pivot，pivot的数量称为矩阵的秩；pivot所在的列称为pivot列，其余列称为自由列，这里我们可以为$$x_2,x_4$$（对应自由列）取任意值，然后求解$$x_1,x_3$$。秩和自由列数量（nullspace维数）之和即为$$\pmb x$$维数。
 
-$$\pmb x$$的解为
+事实上，对于任意rref形式的矩阵
 $$
-\lambda_1[-2,1,0,0]+\lambda_2[2,0,-2,1]
+R=\begin{bmatrix}I&F\\0&0
+\end{bmatrix}
+$$
+都有
+$$
+R\pmb x=0\Rightarrow \begin{bmatrix}I&F
+\end{bmatrix}\begin{bmatrix}\pmb x_{pivot}\\\pmb x_{free}
+\end{bmatrix}=0\Rightarrow \pmb x_{pivot}=-F\pmb x_{free}
+$$
+其中$$\pmb x_{free}$$可以任意确定。令$$\pmb x_{free}=[1,0,\cdots]^{\rm T},\cdots,[\cdots,0,1]^{\rm T}$$，那么通解为
+$$
+\pmb x=\begin{bmatrix}-F\\I
+\end{bmatrix}\pmb \lambda
 $$
 
+
+高斯消元法解方程组$$A\pmb x=\pmb b$$，其中
+$$
+[A|\pmb b]=\begin{bmatrix}1&2&2&2&|1\\2&4&6&8&|5\\3&6&8&10&|6\end{bmatrix}\to\begin{bmatrix}[1]&2&2&2&|1\\0&0&[2]&4&|3\\0&0&0&0&|0\end{bmatrix}
+$$
+方程组有解的条件的几种表述为：
+
+1. $$\pmb b$$属于$$A$$的列空间
+2. 如果$$A$$的行组合得到0，那么$$b$$的同样的组合得到0
+3. $$A$$的秩等于$$[A|\pmb b]$$的秩
+
+如果方程组可解，解步骤为：
+
+1. 得到非齐次方程组的一个特解：令所有自由变量为0，解得剩余pivot变量
+2. 求齐次方程组$$A\pmb x=0$$的通解，即nullspace
+3. 特解+通解即为方程组的解
+
+
+
+如果$$A$$列满秩，那么$$A$$的rref形式为$$R=\begin{bmatrix}I\\0
+\end{bmatrix}$$，没有自由变量，nullspace仅包含零向量，$$A\pmb x=\pmb b$$的解为$$\pmb x_p$$或无解。
+
+如果$$A$$行满秩，那么$$A$$的rref形式为$$R=\begin{bmatrix}I&F
+\end{bmatrix}$$， $$A\pmb x=\pmb b$$一定有解；如果$$F$$至少有1列，则有自由变量，$$A\pmb x=\pmb b$$有无穷解（通解+特解）
+
+如果$$A$$列满秩且行满秩，即$$m=n=r$$，那么$$A$$的rref形式为$$R=I$$，$$A$$可逆，$$A\pmb x=\pmb b$$的解为唯一解$$\pmb x_p=A^{-1}\pmb b$$。
+
+综上所述，
+
+![](https://i.loli.net/2020/12/20/A5W9hLMgFipcKBj.png)
+
+> 考虑二阶齐次方程$$y''+y=0$$，其（通）解为$$y=c_1\cos x+c_2\sin x$$。
+>
+> 我们同样可以把解空间视作2维线性空间，$$\cos x$$和$$\sin x$$是它的一组基。
+>
+> 考虑二阶非齐次方程$$y''+y=x$$，$$y=x$$是它的一个特解，特解+通解即为它的解。
+
+
+
+# 线性无关
+
+线性无关的定义为（略）。
+
+若$$m$$维向量$$\pmb v_1,\cdots,\pmb v_n$$线性无/有关，设$$A=[\pmb v_1,\cdots,\pmb v_n]$$，那么$$A\pmb x=0$$只有零解/有非零解，$$A$$的秩等于/小于$$n$$，没有/有自由变量。
+
+
+
+线性空间的一组基(basis)定义为满足下列条件的一组向量：
+
+1. 线性无关
+2. span整个空间
+
+例如$$\mathbb{R}^3$$的一组基为$$[1,0,0]^{\rm T},[0,1,0]^{\rm T},[0,0,1]^{\rm T}$$。$$\mathbb{R}^n$$的一组基和一个$$n$$阶可逆矩阵一一对应。
+
+线性空间的任意一组基都具有相同数量的向量，该数量称为线性空间的维数。
+
+ 
+
+# 矩阵的四个子空间
+
+对于矩阵$$A_{m\times n}$$，列空间$$\in \mathbb{R}^m$$的维数为$$r$$，nullspace$$\in \mathbb{R}^n$$的维数为$$n-r$$；行空间$$\in \mathbb{R}^n$$的维数为$$r$$，左nullspace$$\in \mathbb{R}^m$$的维数为$$m-r$$。
+
+考虑对$$A_{3\times 4}$$做行变换
+$$
+\begin{bmatrix}-1&2&0\\1&-1&0\\-1&0&1\end{bmatrix}\begin{bmatrix}1&2&3&1\\1&1&2&1\\1&2&3&1\end{bmatrix}=\begin{bmatrix}1&0&1&1\\0&1&1&0\\0&0&0&0\end{bmatrix}
+$$
+可以得到行空间的一组基（第3个矩阵的前2行）和左nullspace的一组基（第1个矩阵的第3行）。
+
+
+
+# 矩阵空间
+
+矩阵空间可以视作特殊的向量空间。例如$$\mathbb{R}^{3\times 3}$$表示所有3阶实方阵构成的空间，它的一组基为
+$$
+\begin{bmatrix}1&0&0\\0&0&0\\0&0&0\end{bmatrix},\begin{bmatrix}0&1&0\\0&0&0\\0&0&0\end{bmatrix},\cdots,\begin{bmatrix}0&0&0\\0&0&0\\0&0&1\end{bmatrix}
+$$
+所有3阶对称实方阵$$S$$构成$$\mathbb{R}^{3\times 3}$$的一个6维子空间，所有3阶上三角方阵$$U$$构成$$\mathbb{R}^{3\times 3}$$的一个6维子空间；$$S\bigcap U$$即所有3阶对角方阵，构成一个3维子空间；$$S+U$$可以是任意3阶方阵，构成（9维）原空间。实际上有以下关系成立
+$$
+{\rm dim}(S)+{\rm dim}(U)={\rm dim}(S\bigcap U)+{\rm dim}(S+U)
+$$
+
+
+# 秩1矩阵
+
+考虑秩为1的矩阵
+$$
+A=\begin{bmatrix}1&4&5\\2&8&10\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix}\begin{bmatrix}1&4&5\end{bmatrix}
+$$
+实际上，每个秩1矩阵都可以写作两个向量的外积。
+
+秩为$$r$$的矩阵可以表示为$$r$$个秩1矩阵之和，因此秩1矩阵可以看作是矩阵空间中的砖块。
+
+
+
+# 图
+
+考虑ABCDE五个人之间的关系，如果两人是朋友那么用线段连接，
+
+![](https://i.loli.net/2020/12/20/D5oaQACrRbxFe9L.png)
+
+上述关系用矩阵表示为
+
+|      | A          | B          | C          | D          | E          |
+| ---- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| A    | 0          | 1          | 1          | $$0$$ | $$0$$ |
+| B    | 1          | 0          | 1          | $$0$$ | $$0$$ |
+| C    | 1          | 1          | 0          | 1          | $$0$$ |
+| D    | $$0$$ | $$0$$ | 1          | 0          | 1          |
+| E    | $$0$$ | $$0$$ | $$0$$ | 1          | 0          |
+
+求任意两人之间的距离，例如求AE之间的距离。从图中可以看到AE的距离为3，那么如何用矩阵运算得到这一结果？
+
+矩阵
+$$
+R=\begin{bmatrix}0&1&1&0&0\\1&0&1&0&0\\1&1&0&1&0\\0&0&1&0&1\\0&0&0&1&0\end{bmatrix},
+R^2=\begin{bmatrix}2&1&1&1&0\\1&2&1&1&0\\1&1&3&0&1\\1&1&0&2&0\\0&0&1&0&1\end{bmatrix},
+R^3=\begin{bmatrix}2&3&4&1&1\\3&2&4&1&1\\4&4&2&4&0\\1&1&4&0&2\\1&1&0&2&0\end{bmatrix}
+$$
+$$R$$表示从某点（ABCDE对应行12345）到另一点（ABCDE对应列12345）距离为1的路线数，$$R^2$$表示距离为2的路线数，……由于$$R^3$$的第5行第1列元素（或第1行第5列元素）首次不为零，因此距离为3。
+
+上例将无向图换成有向图亦成立。
+
+
+
+考虑以下电路图，u, v, w, a, b5条通路上皆有电阻，
+
+![](https://i.loli.net/2020/12/20/TwBPIG7xSikrhAn.png)
+
+以图中箭头方向为正方向，计算5条通路的电势差为
+$$
+A\pmb x=\begin{bmatrix}1&0&-1&0\\1&-1&0&0\\0&1&-1&0\\0&0&1&-1\\0&1&0&-1\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}x_1-x_3\\x_1-x_2\\x_2-x_3\\x_3-x_4\\x_2-x_4\end{bmatrix}
+$$
+其中$$x_1,x_2,x_3,x_4$$分别为A, B, C, D点的电势；电流为
+$$
+CA\pmb x={\rm diag}(c_1,c_2,c_3,c_4,c_5)\begin{bmatrix}x_1-x_3\\x_1-x_2\\x_2-x_3\\x_3-x_4\\x_2-x_4\end{bmatrix}=\begin{bmatrix}c_1(x_1-x_3)\\c_2(x_1-x_2)\\c_3(x_2-x_3)\\c_4(x_3-x_4)\\c_5(x_2-x_4)\end{bmatrix}
+$$
+其中$$c_1,\cdots,c_5$$分别为5条通路的电导；基尔霍夫电流定律表示为
+$$
+A^{\rm T}CA\pmb x=\begin{bmatrix}1&1&0&0&0\\0&-1&1&0&1\\-1&0&-1&1&0\\0&0&0&-1&-1\end{bmatrix}\begin{bmatrix}c_1(x_1-x_3)\\c_2(x_1-x_2)\\c_3(x_2-x_3)\\c_4(x_3-x_4)\\c_5(x_2-x_4)\end{bmatrix}=0
+$$
+可以看到矩阵$$A$$的nullspace和左nullspace的物理意义。
 
 
 
 
 
 参考[如何理解矩阵特征值？ - 马同学的回答](https://www.zhihu.com/question/21874816/answer/181864044)
+
+
+
+
 
