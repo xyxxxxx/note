@@ -206,6 +206,7 @@
   + [多元微积分](math/analysis/multivariate-calculus.md)
   + [微分方程](math/analysis/differential-equation.md)
   + [矩阵微积分](math/analysis/matrix-calculus.md)
+  + [复分析](math/analysis/complex-analysis.md)
   + [数学物理方法](math/analysis/mathematical-physics.md)
 + [应用数学](math/applied-mathematics/applied-mathematics.md)
   + [概率论](math/applied-mathematics/probability-theory/probability-theory.md)
