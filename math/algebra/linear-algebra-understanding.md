@@ -776,7 +776,7 @@ $$
 
 # 对称矩阵
 
-对称（实）矩阵$$A$$具有以下性质
+（实）对称矩阵$$A$$具有以下性质
 
 + 特征值是<u>实数</u>
 + 有$$n$$个<u>正交的</u>特征向量，因此可以用正交矩阵相似对角化，即$$A=Q\Lambda Q^{-1}$$
@@ -834,12 +834,52 @@ $$
 
 性质：
 
-+ 对于列满秩矩阵$$A$$，$$A^{\rm T}A$$是正定矩阵
++ 对于列满秩矩阵$$A$$，$$A^{\rm T}A$$是正定矩阵，因为$$\forall \pmb x\neq \pmb 0,A\pmb x\neq \pmb 0,\pmb x^{\rm T}A^{\rm T}A\pmb x=(A\pmb x)^{\rm T}A\pmb x> \pmb 0$$；对于列不满秩矩阵$$A$$，$$A^{\rm T}A$$是半正定矩阵
 + 若$$A>0,B>0$$，则$$A+B>0$$
-+ 
 
 
 
+（合同对角化$$\pmb x^{\rm T}A\pmb x\Rightarrow \pmb x^{\rm T}Q^{\rm T}\Lambda Q\pmb x=\pmb y^{\rm T}\Lambda \pmb y$$）
 
 
-（合同对角化）
+
+# 相似矩阵与若尔当标准形
+
+矩阵$$A,B$$相似即存在可逆矩阵$$M$$，满足$$B=M^{-1}AM$$。
+
+前面相似对角化部分又$$S^{-1}AS=\Lambda$$，即$$A$$与$$\Lambda$$相似。<u>一族相似矩阵具有相同的特征值</u>，因为$$|\lambda I-M^{-1}AM|=|M^{-1}(\lambda I-A)M|=|M^{-1}||\lambda I-A||M|=|\lambda I-A|$$，而$$\Lambda$$是当中性质最好的那个（可对角化条件下）。
+
+
+
+考虑以下矩阵
+$$
+\begin{bmatrix}2&0\\0&2\end{bmatrix},\begin{bmatrix}2&1\\0&2\end{bmatrix}
+$$
+我们发现前者的矩阵族仅包含其自身，因为$$M^{-1}2IM=2I$$（因此<u>具有相同特征值的矩阵不一定同属一族</u>）；后者与前者不属于同一矩阵族，因此也就无法相似对角化。
+
+事实上，后者称为若尔当标准形，所有特征值为2,2的矩阵（前者除外）都可以相似到若尔当标准形（都不可对角化）。
+
+
+
+考虑以下矩阵
+$$
+\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&0\\0&0&0&0\end{bmatrix}
+$$
+显然其特征值为0,0,0,0，称代数重数为4，但只能找到2个特征向量$$[1,0,0,0]^{\rm T},[0,0,0,1]^{\rm T}$$，称几何重数为2。事实上，上述矩阵就是一个若尔当标准形，包含2个若尔当块$$\begin{bmatrix}0&1&0\\0&0&1\\0&0&0\end{bmatrix}$$和$$[0]$$。
+
+若尔当块是形如$$J=\begin{bmatrix}\lambda&1&\\&\lambda&1\\&&\ddots&1\\&&&\lambda\end{bmatrix}_n$$的矩阵块，其仅有一个特征向量$$\pmb x_1=[1,0,\cdots,0]^{\rm T}$$，因为$$J-\lambda I$$的秩为$$n-1$$；但与此同时$$(J-\lambda I)\pmb x=\pmb x_1$$有解$$\pmb x_2=[0,1,\cdots,0]^{\rm T}$$，$$(J-\lambda I)\pmb x=\pmb x_2$$又有解$$\pmb x_3=[0,0,1,\cdots,0]^{\rm T}$$……最后用矩阵表示为$$(J-\lambda I)[\pmb x_1\ \pmb x_2\ \cdots\ \pmb x_n]=[\pmb 0\ \pmb x_1\ \cdots\ \pmb x_{n-1}]\Rightarrow [\pmb x_1\ \pmb x_2\ \cdots\ \pmb x_n]^{}(J-\lambda I)[\pmb x_1\ \pmb x_2\ \cdots\ \pmb x_n]=\begin{bmatrix}0&1&\\&0&1\\&&\ddots&1\\&&&0\end{bmatrix}_n$$。此方法也是求若尔当标准形的方法。
+
+所有矩阵都可以相似到一个若尔当标准形；若矩阵可对角化。则若尔当标准形是特殊的对角阵形式。
+
+
+
+# 奇异值分解
+
+<u>任意</u>矩阵$$A_{m\times n}$$可以做奇异值分解$$A_{m\times n}=U_m\Sigma_{m\times n} V^{\rm T}_n$$，其中$$U,V$$是正交矩阵，$$\Sigma$$是对角矩阵。
+
+对上式作变换
+$$
+A=U\Sigma V^{\rm T}\Rightarrow AV=U\Sigma\Rightarrow A[\pmb v_1\ \cdots\ \pmb v_n]
+$$
+
+
