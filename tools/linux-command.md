@@ -134,8 +134,8 @@ $ find / -type f -size 0 -exec ls -l {} \;	# find every size 0 normal file in \,
 
 ```shell
 # 查找文本
-$ egrep <str> <file/dir>  # search in file/dir by str
-$ egrep <re> <file/dir>	  # search in file/dir by regular expression
+$ egrep <str>/<re> <file>      # search in file by str/regular expression
+$ egrep -r <str>/<re> <dir>    # search in dir by str/regular expression
 ```
 
 

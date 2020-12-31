@@ -875,11 +875,78 @@ $$
 
 # 奇异值分解
 
-<u>任意</u>矩阵$$A_{m\times n}$$可以做奇异值分解$$A_{m\times n}=U_m\Sigma_{m\times n} V^{\rm T}_n$$，其中$$U,V$$是正交矩阵，$$\Sigma$$是对角矩阵。
+<u>任意</u>（实）矩阵$$A_{m\times n}$$可以做奇异值分解$$A_{m\times n}=U_m\Sigma_{m\times n} V^{\rm T}_n$$，其中$$U,V$$是正交矩阵，$$\Sigma$$是对角矩阵，对角元素为非负数，且从大到小排列。
 
-对上式作变换
+> 对上式作变换
+> $$
+> A=U\Sigma V^{\rm T}\iff AV=U\Sigma\iff A[\pmb v_1\ \cdots\ \pmb v_r]=[\sigma_1\pmb u_1\ \cdots\ \sigma_r\pmb u_r]
+> $$
+> $$R(A)=R(\Sigma)=r$$，$$U\Sigma$$相当于对$$\Sigma$$做行变换，因此只有前$$r$$列有非零值，$$AV$$仅需计算$$V$$的前$$r$$个列向量。
+
+考虑$$A^{\rm T}A=V\Sigma^{\rm T}U^{\rm T}U\Sigma V^{\rm T}=V\Sigma^{\rm T}\Sigma V^{\rm T}$$，其中$$A^{\rm T}A$$为半正定矩阵，$$\Sigma^{\rm T}\Sigma$$为对角阵，因此问题转换为半正定矩阵（对称且所有特征值非负）的合同对角化。尽管也可以通过相似的方法求$$U$$，但这样求得的$$U,V$$不一定能够使等式成立，因此一般将$$V$$回代求$$U$$。
+
+> 实际上$$\pmb v_1\ \cdots\ \pmb v_r$$是$$A$$的行空间的一组基，$$\pmb u_1\ \cdots\ \pmb u_r$$是列空间的一组基。因为$$A\pmb v_i$$可以视作对$$A$$的列向量的线性组合，因此必定属于列空间；若$$\pmb v_1\ \cdots\ \pmb v_r$$线性无关，因此$$A\pmb v_1\ \cdots\ A\pmb v_r$$也线性无关。
+>
+> 相应地，$$\pmb v_{r+1}\ \cdots\ \pmb v_n$$是$$N(A)$$的一组基，$$\pmb u_{r+1}\ \cdots\ \pmb u_m$$是$$N(A^{\rm T})$$的一组基。
+
+
+
+# 线性变换
+
+线性变换$$T$$将一个线性空间$$S_1$$映射到另一个线性空间$$S_2$$，且满足
 $$
-A=U\Sigma V^{\rm T}\Rightarrow AV=U\Sigma\Rightarrow A[\pmb v_1\ \cdots\ \pmb v_n]
+T(\pmb v+\pmb w)=T(\pmb v)+T(\pmb w)\\
+T(c\pmb v)=cT(\pmb v)
+$$
+设$$\pmb v_1\ \cdots\ \pmb v_n$$是$$S_1$$的一组基，那么$$\forall \pmb v\in S_1,\pmb v =c_1\pmb v_1+\cdots+c_n\pmb v_n$$，设定$$\pmb v=[c_1,\cdots,c_n]$$为上式的坐标表示；再设$$\pmb w_1\ \cdots\ \pmb w_m$$是$$S_2$$的一组基，那么$$[T(\pmb v_1)\ \cdots\ T(\pmb v_n)]=[\pmb w_1\ \cdots\ \pmb w_m]A$$，$$A$$为线性变换对应的矩阵。
+
+若选用$$S_1$$的另一组基$$\pmb v_1'\ \cdots\ \pmb v_n'$$，或$$S_2$$的另一组基$$\pmb w_1'\ \cdots\ \pmb w_m'$$，对应的矩阵为$$A'$$会与$$A$$有所不同。
+
+在（各）一组给定基下，线性变换与矩阵一一对应。矩阵是线性变换基于坐标的描述。
+
+
+
+考虑$$T:\mathbb{R}^n\to \mathbb{R}^n$$，$$\pmb v_1\ \cdots\ \pmb v_n$$和$$\pmb w_1\ \cdots\ \pmb w_n$$选用同一组基，选择两组不同的基（原基和新基）时，有$$[T(\pmb v_1)\ \cdots\ T(\pmb v_n)]=[\pmb v_1\ \cdots\ \pmb v_n]A$$，$$[T(\pmb v_1')\ \cdots\ T(\pmb v_n')]=[\pmb v_1\ \cdots\ \pmb v_n]A'$$，那么$$A$$和$$A'$$相似。因为对任意向量$$\pmb x=c_1\pmb v_1+\cdots+c_n\pmb v_n=c_1'\pmb v_1'+\cdots+c_n'\pmb v_n'$$即$$V\pmb c=V'\pmb c'$$，又有$$T(\pmb x)=VA\pmb c=V'A'\pmb c'$$，因此$$V'^{-1}VAV^{-1}V'\pmb c'=A'\pmb c'$$，而$$\pmb c'$$可以取$$\mathbb{R}^n$$中任意值，因此$$V'^{-1}VAV^{-1}V'=A'$$。
+
+
+
+# 基变换
+
+设某向量在原基上的坐标表示为$$\pmb x$$，在新基上的坐标表示为$$\pmb y$$，而新基在原基上的坐标表示为$$W$$，则有
+$$
+\pmb x=W\pmb y\\
+\pmb y=W^{-1}\pmb x
 $$
 
+
+# 图片压缩
+
+![](https://i.loli.net/2020/12/29/VxDhjQH34bfuCdc.png) 
+
+512x512的8位灰度图片可以视作一个向量。该线性空间的一组自然基为$$[1,0,\cdots,0]^{\rm T},[0,1,\cdots,0]^{\rm T},\cdots,[0,0,\cdots,1]^{\rm T}$$，但考虑到图片的特性，相邻的像素点的值高概率相等或近似，因此更好的一组基为$$[1,1,\cdots,1]^{\rm T},[1,\cdots,1,-1,\cdots,-1]^{\rm T},\cdots,[1,-1,\cdots,1,-1]^{\rm T}$$。事实上，JPEG选择的一组基为傅里叶基
+$$
+\begin{bmatrix}1\\1\\1\\1\\1\\1\\1\\1\end{bmatrix},\begin{bmatrix}1\\w\\w^2\\w^3\\w^4\\w^5\\w^6\\w^7\end{bmatrix},\cdots
+$$
+JPEG的下一代——JPEG-2000选择的则是小波基
+$$
+\begin{bmatrix}1\\1\\1\\1\\1\\1\\1\\1\end{bmatrix},\begin{bmatrix}1\\1\\1\\1\\-1\\-1\\-1\\-1\end{bmatrix},\begin{bmatrix}1\\1\\-1\\-1\\0\\0\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\0\\0\\1\\1\\-1\\-1\end{bmatrix},\begin{bmatrix}1\\-1\\0\\0\\0\\0\\0\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\\-1\\0\\0\\0\\0\end{bmatrix},\cdots
+$$
+由于基变换公式为$$\pmb x=W\pmb y,\pmb y=W^{-1}\pmb x$$，那么好的$$W$$需要
+
++ 计算快（傅里叶基有快速傅里叶变换，小波基有快速小波变换）
++ 坐标少，即多数坐标可以忽略
+
+> 参见信号处理
+
+
+
+# 左逆，右逆，伪逆
+
+对于$$m>n=r$$的矩阵$$A$$，存在左逆$$A^{-1}_{left}=(A^{\rm T}A)^{-1}A^{\rm T}$$使得$$A^{-1}_{left}A=I_n$$；对于$$n>m=r$$的矩阵$$A$$，存在右逆$$A^{-1}_{right}=A^{\rm T}(AA^{\rm T})^{-1}$$使得$$AA^{-1}_{right}=I_m$$。
+
+回顾投影矩阵$$P=A (A^{\rm T}A)^{-1}A^{\rm T}$$，即$$AA^{-1}_{left}$$是投影到$$A$$的列空间的矩阵；类似地，$$A^{-1}_{right}A$$是投影到$$A$$的行空间的矩阵。
+
+在奇异值分解部分我们讲到，若$$\pmb v_1\ \cdots\ \pmb v_r$$是行空间的一组基，则$$A\pmb v_1\ \cdots\ A\pmb v_r$$是列空间的一组基，$$\forall \pmb v\in$$行空间，$$\pmb v$$和$$A\pmb v$$在这两组基上的坐标相等；那么$$A$$是行空间到列空间的双射，定义$$A$$的伪逆$$A^+$$，满足$$\pmb v=A^{+}(A\pmb v)$$。
+
+对于任意矩阵$$A$$，作奇异值分解$$A=U\Sigma V^{\rm T}$$，$$\Sigma=\begin{bmatrix}\sigma_1\\&\ddots\\&&\sigma_r\\&&&0&\cdots\\&&&\vdots\end{bmatrix}_{m\times n}$$，则$$\Sigma^+=\begin{bmatrix}\frac{1}{\sigma_1}\\&\ddots\\&&\frac{1}{\sigma_r}\\&&&0&\cdots\\&&&\vdots\end{bmatrix}_{n\times m}$$，我们发现$$\Sigma\Sigma^+=\begin{bmatrix}I_r&0\\0&0\end{bmatrix}_m,\Sigma^+\Sigma=\begin{bmatrix}I_r&0\\0&0\end{bmatrix}_n$$分别是投影到$$\Sigma$$的列空间和行空间的矩阵（亦即$$\Sigma^+$$兼具左逆和右逆的特性）；$$A^+=V\Sigma^+U^{\rm T}$$。
 

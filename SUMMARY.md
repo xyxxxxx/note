@@ -190,7 +190,12 @@
   + [Matplotlib](ML/platform-and-tool/matplotlib.md)
   + [nni](ML/platform-and-tool/nni.md)
 + [NLP](ML/nlp/nlp.md)
-  + [思路](ML/nlp/idea.md)
+  + [预处理](ML/nlp/process.md)
+  + [语言模型](ML/nlp/language-model.md)
+  + [情感分类](ML/nlp/sentiment-classification.md)
+  + [嵌入](ML/nlp/embedding.md)
+  + [各种工具](ML/nlp/toolkit.md)
+  + [附录](ML/nlp/appendix.md)
 + [RS](ML/rs/rs.md)
   + [思路](ML/rs/idea.md)
 

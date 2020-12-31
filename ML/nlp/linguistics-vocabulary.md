@@ -24,6 +24,8 @@
 | interjection           | 感叹词                                                       |
 | language               | 语言                                                         |
 | lemma                  | 词根                                                         |
+| lexical                | 词汇的                                                       |
+| lexicon                | 词汇表                                                       |
 | linguistic             | 语言的                                                       |
 | linguistics            | 语言学                                                       |
 | morpheme               | 语素                                                         |

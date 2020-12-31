@@ -4,12 +4,20 @@
 
 ```python
 age = 3
-if age >= 18:	#if语句执行下述缩进的语句
+if age >= 18:
     print('adult')
 elif age >= 6:
     print('teenager')
 else:
     print('kid')
+```
+
+
+
+## 三元表达式
+
+```python
+identity = 'adult' if age >= 18 else 'kid'
 ```
 
 
@@ -21,10 +29,10 @@ else:
 ## range()
 
 ```python
-range(5)      # [0,1,2,3,4]
-range(5,10)   # [5,6,7,8,9]
-range(0,10,2) # [0,2,4,6,8]
-range(0,10,3) # [0,3,6,9]
+range(5)         # [0,1,2,3,4]
+range(5,10)      # [5,6,7,8,9]
+range(0,10,2)    # [0,2,4,6,8]
+range(0,10,3)    # [0,3,6,9]
 range(0,-10,-3)  # [0,-3,-6,-9]
 ```
 
@@ -36,19 +44,19 @@ range(0,-10,-3)  # [0,-3,-6,-9]
 
 ```python
 sum = 0
-for x in range(101):	#range(101)生成0-100的整数序列
+for x in range(101):	# range(101)生成0-100的整数序列
     sum = sum + x
 print(sum) 
 ```
 
 ```python
-#多变量遍历
+# 多变量遍历
 for x, y in [(1, 1), (2, 4), (3, 9)]:
      print(x, y
 ```
 
 ```python
-#遍历数组
+# 遍历数组
 a = ['Mary', 'had', 'a', 'little', 'lamb']
 for i in range(len(a)):
      print(i, a[i])

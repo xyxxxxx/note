@@ -1,3 +1,5 @@
+[toc]
+
 # 列表list []
 
 ```python
@@ -320,18 +322,34 @@ L2 = sorted(L, key=by_score, reverse=True)
 `Counter`是 `dict`的子类，用于计数可哈希对象。它是一个集合，元素像字典键一样存储，它们的计数存储为值。计数可以是任何整数值，包括0和负数。
 
 ```python
-from collections import Counter
-
-cnt = Counter()
-for word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:
-     cnt[word] += 1
-cnt        # Counter({'blue': 3, 'red': 2, 'green': 1})
-cnt['red'] # 2
-cnt['violet'] # 0
-cnt1 = Counter({'green': 2, 'yellow': 1})
-cnt+cnt1   # Counter({'blue': 3, 'green': 3, 'red': 2, 'yellow': 1})
-(cnt+cnt1).most_common(2) # [('blue', 3), ('green', 3)]
+>>> from collections import Counter
+>>> cnt = Counter()
+>>> for word in ['a', 'b', 'c', 'b', 'c', 'c']:
+...      cnt[word] += 1
+... 
+>>> cnt
+Counter({'c': 3, 'b': 2, 'a': 1})
+>>> cnt['b']
+2
+>>> cnt['d']
+0
+>>> cnt1 = Counter({'c': 1, 'd': 8})
+>>> cnt + cnt1             # 计数值相加
+Counter({'d': 8, 'c': 4, 'b': 2, 'a': 1})
+>>> cnt & cnt1             # 计数值求交集
+Counter({'c': 1})
+>>> cnt | cnt1             # 计数值求并集
+Counter({'d': 8, 'c': 3, 'b': 2, 'a': 1})
+>>> cnt = cnt + cnt1
+>>> cnt.most_common(2)     # 出现次数最高的2个元素
+[('d', 8), ('c', 4)]
+>>> list(cnt.elements())   # 返回一个迭代对象, 每个元素会重复计数值的次数
+['a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd']
+>>> sum(cnt.values())      # 对所有计数值求和
+15
 ```
+
+迭代方法同`dict`。
 
 
 
@@ -346,8 +364,11 @@ s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
 d = defaultdict(list)
 for k, v in s:
     d[k].append(v)
-d          # defaultdict(<class 'list'>, {'yellow': [1, 3], 'blue': [2, 4], 'red': [1]})    
+d
+# defaultdict(<class 'list'>, {'yellow': [1, 3], 'blue': [2, 4], 'red': [1]})    
 ```
+
+迭代方法同`dict`。
 
 
 
