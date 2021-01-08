@@ -73,7 +73,7 @@
 
 # vectorization向量化
 
-## CountVectorize
+## CountVectorizer
 
 `CountVectorizer`将训练文本转换为每种词汇在该文本中出现的频率。
 
@@ -88,18 +88,21 @@
 
 >>> vectorizer = CountVectorizer()
 >>> X = vectorizer.fit_transform(corpus)      # 传入字符串列表
->>> print(vectorizer.get_feature_names())     # 每个词为一个feature
+>>> vectorizer.get_feature_names()            # 每个词为一个feature
 ['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']
->>> print(X.toarray())                        # 词频矩阵
-[[0 1 1 1 0 0 1 0 1]
- [0 2 0 1 0 1 1 0 1]
- [1 0 0 1 1 0 1 1 1]
- [0 1 1 1 0 0 1 0 1]]
-
+>>> X.toarray()                               # 词频矩阵
+array([[0, 1, 1, 1, 0, 0, 1, 0, 1],
+       [0, 2, 0, 1, 0, 1, 1, 0, 1],
+       [1, 0, 0, 1, 1, 0, 1, 1, 1],
+       [0, 1, 1, 1, 0, 0, 1, 0, 1]])
+>>> X                                         # 本身是稀疏矩阵类型
+<4x9 sparse matrix of type '<class 'numpy.float64'>'
+        with 21 stored elements in Compressed Sparse Row format>
+    
 >>> vectorizer2 = CountVectorizer(analyzer='word', ngram_range=(2, 2))
                                               # 设定ngram范围
 >>> X2 = vectorizer2.fit_transform(corpus)
->>> print(vectorizer2.get_feature_names())    # 每个bigram为一个feature
+>>> vectorizer2.get_feature_names()           # 每个bigram为一个feature
 ['and this', 'document is', 'first document', 'is the', 'is this',
 'second document', 'the first', 'the second', 'the third', 'third one',
  'this document', 'this is', 'this the']
@@ -111,33 +114,77 @@
 ```
 
 ```python
-CountVectorizer(analyzer='word', binary=False, decode_error='strict',
-        dtype=<class 'numpy.int64'>, encoding='utf-8', input='content',
-        lowercase=True, max_df=1.0, max_features=None, min_df=1,
-        ngram_range=(1, 1), preprocessor=None, stop_words=None,
-        strip_accents=None, token_pattern='(?u)\\b\\w\\w+\\b',
-        tokenizer=None, vocabulary=None)
+CountVectorizer(*, input='content', encoding='utf-8', decode_error='strict', strip_accents=None, lowercase=True, preprocessor=None, tokenizer=None, stop_words=None, token_pattern='(?u)\b\w\w+\b', ngram_range=(1, 1), analyzer='word', max_df=1.0, min_df=1, max_features=None, vocabulary=None, binary=False, dtype=<class 'numpy.int64'>)
 # encoding       传入字符串的编码方式
 # lowercase      大写转换为小写
 # max_df         构建词汇表时忽略频率高于该阈值的词,即构建停用词
+# min_df         构建词汇表时忽略频率低于该阈值的词
 # max_features   允许的最大特征数量
 # ngram_range    设定作为特征的ngram范围
 # stop_words     停用词
 #   ='english'   使用内置的英文停用词列表
 #   =list        使用给定的停用词列表
 # token_pattern  用来界定token(分词)的正则表达式
-#   =r'(?u)\b\w\w+\b'  默认值
 ```
 
 
 
+## TfidfVectorizer
 
+`TfidfVectorizer`使用TF-IDF算法。参考[文档](https://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting)。
+
+```python
+>>> from sklearn.feature_extraction.text import TfidfVectorizer
+>>> corpus = [
+...     'This is the first document.',
+...     'This document is the second document.',
+...     'And this is the third one.',
+...     'Is this the first document?',
+... ]
+
+>>> vectorizer = TfidfVectorizer()
+>>> X = vectorizer.fit_transform(corpus)
+>>> print(vectorizer.get_feature_names())
+['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']
+>>> print(X.toarray())
+[[0.         0.46979139 0.58028582 0.38408524 0.         0.
+  0.38408524 0.         0.38408524]
+ [0.         0.6876236  0.         0.28108867 0.         0.53864762
+  0.28108867 0.         0.28108867]
+ [0.51184851 0.         0.         0.26710379 0.51184851 0.
+  0.26710379 0.51184851 0.26710379]
+ [0.         0.46979139 0.58028582 0.38408524 0.         0.
+  0.38408524 0.         0.38408524]]
+```
+
+参数与`CountVectorizer`类似。
 
 
 
 # 模型
 
 ## 朴素贝叶斯
+
+### MultinomialNB
+
+适用于离散特征的分类问题。例如下面的例子中，特征为100个分量的计数（取值0~4）。
+
+但实际上对于tf-idf等算法得到的折减频率亦有效。
+
+```python
+>>> import numpy as np
+>>> rng = np.random.RandomState(1)
+>>> X = rng.randint(5, size=(6, 100))
+>>> y = np.array([1, 2, 3, 4, 5, 6])
+>>> from sklearn.naive_bayes import MultinomialNB
+>>> clf = MultinomialNB()
+>>> clf.fit(X, y)
+MultinomialNB()
+>>> print(clf.predict(X[2:3]))
+[3]
+```
+
+
 
 
 

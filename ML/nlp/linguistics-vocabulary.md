@@ -34,6 +34,7 @@
 | native speaker         | 母语者                                                       |
 | natural language       | 自然语言                                                     |
 | object                 | 宾语                                                         |
+| part of speech         | 词类                                                         |
 | phonetics              | 语音学                                                       |
 | predicate              | 谓语                                                         |
 | prefix                 | 前缀                                                         |
@@ -42,9 +43,14 @@
 | pronunciation          | 发音                                                         |
 | retrieval              | 检索                                                         |
 | semantic               | 语义的                                                       |
+| semantic field         | 语义场                                                       |
+| semantic frame         | 语义框架                                                     |
+| semantic role          | 语义角色                                                     |
 | semantics              | 语义学                                                       |
 |                        | 涉及语言学、逻辑学、计算机科学、自然语言处理、认知科学、心理学等诸多领域，研究语义表达的规律性、内在解释、不同语言在语义表达方面的个性以及共性 |
 | sentence               | 句                                                           |
+| sentential             | 句子的                                                       |
+| sentiment              | 情感，看法，观点                                             |
 | stress                 | 重音                                                         |
 | sound                  | 语音                                                         |
 |                        |                                                              |

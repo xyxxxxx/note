@@ -118,14 +118,14 @@ $$
 
 **周期函数的傅里叶展开**
 
-函数f(x)以2l为周期，即$$f(x+2l)=f(x)$$
+函数$$f(x)$$以$$2l$$为周期，即$$f(x+2l)=f(x)$$
 
 则取三角函数族
 $$
 1,\cos\frac{\pi x}{l},\cos\frac{2\pi x}{l},\cdots,\cos\frac{k\pi x}{l},\cdots\\
 \sin\frac{\pi x}{l},\sin\frac{2\pi x}{l},\cdots,\sin\frac{k\pi x}{l},\cdots
 $$
-将f(x)展开为级数
+将$$f(x)$$展开为级数
 $$
 f(x)=a_0+\sum_{k=1}^{\infty}(a_k\cos\frac{k\pi x}{l}+b_k\sin\frac{k\pi x}{l})
 $$
@@ -137,11 +137,11 @@ a_k=\frac{1}{\delta_kl}\int_{-l}^{l}f(\xi)\cos\frac{k\pi \xi}{l}d\xi\\
 b_k=\frac{1}{l}\int_{-l}^{l}f(\xi)\sin\frac{k\pi \xi}{l}d\xi\\
 \delta_k=2(k=0),1(k\neq0)
 $$
-傅里叶级数**平均收敛**于f(x)
+傅里叶级数**平均收敛**于$$f(x)$$
 
 > 平均收敛并不一定收敛
 
-**Dirichlet conditions** 若f(x)满足：(1)处处连续，或在每个周期内只有有限个第一类间断点；(2)每个周期内只有有限个极值点，则级数**收敛**，且级数和=(f(x+0)+f(x-0))/2
+**Dirichlet conditions** 若$$f(x)$$满足：(1)处处连续，或在每个周期内只有有限个第一类间断点；(2)每个周期内只有有限个极值点，则级数**收敛**，且级数和$$=(f(x+0)+f(x-0))/2$$
 
 
 
@@ -179,7 +179,7 @@ $$
 $$
 e^{-ik\pi x/l},\cdots,e^{-i\pi x/l},1,e^{i\pi x/l},\cdots,e^{ik\pi x/l}
 $$
-f(x)展开为级数
+$$f(x)$$展开为级数
 $$
 f(x)=\sum_{k=-\infty}^{\infty}c_ke^{ik\pi x/l}
 $$
@@ -189,9 +189,9 @@ $$
 
 ### 实数形式的傅里叶变换
 
-条件：f(x)在任一有限区间满足**Dirichlet conditions**，并在$$(-\infty,\infty)$$区间上绝对可积.
+条件：$$f(x)$$在任一有限区间满足**Dirichlet conditions**，并在$$(-\infty,\infty)$$区间上绝对可积.
 
-将f(x)看作是某个周期函数，满足$$2l→\infty$$，则
+将$$f(x)$$看作是某个周期函数，满足$$2l→\infty$$，则
 $$
 f(x)=a_0+\sum_{k=1}^{\infty}(a_k\cos \omega_kx+b_k\sin\omega_kx)
 $$
@@ -202,7 +202,7 @@ A(\omega)=\frac{1}{\pi}\int_{-\infty}^{\infty}f(\xi)\cos \omega \xi d\xi\\
 B(\omega)=\frac{1}{\pi}\int_{-\infty}^{\infty}f(\xi)\sin \omega \xi d\xi
 $$
 
-**傅里叶积分定理** 若函数f(x)在$$(-\infty,\infty)$$区间上满足：(1) f(x)在任一有限区间上满足Dirichlet conditions；(2) $$\int_{-\infty}^\infty|f(x)|dx$$收敛（绝对可积），则f(x)可以表示为傅里叶积分，且傅里叶积分值=(f(x+0)+f(x-0))/2
+**傅里叶积分定理** 若函数$$f(x)$$在$$(-\infty,\infty)$$区间上满足：(1) $$f(x)$$在任一有限区间上满足Dirichlet conditions；(2) $$\int_{-\infty}^\infty|f(x)|dx$$收敛（绝对可积），则$$f(x)$$可以表示为傅里叶积分，且傅里叶积分值$$=(f(x+0)+f(x-0))/2$$
 
 傅里叶积分又可改写为
 $$
@@ -212,12 +212,12 @@ f(x)=\int_0^\infty C(\omega)\cos[\omega x-\varphi(\omega)]d\omega\\
 $$
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\ealgn5b3jkhbt3kg.PNG" alt="ealgn5b3jkhbt3kg" style="zoom: 67%;" />
 
-奇函数f(x)的傅里叶积分是**傅里叶正弦积分**，B()是其**傅里叶正弦变换**
+奇函数$$f(x)$$的傅里叶积分是**傅里叶正弦积分**，$$B()$$是其**傅里叶正弦变换**
 $$
 f(x)=\int_0^\infty B(\omega)\sin \omega xd\omega\\
 B(\omega)=\frac{2}{\pi}\int_{0}^{\infty}f(\xi)\sin \omega \xi d\xi
 $$
-偶函数f(x)的傅里叶积分是**傅里叶余弦积分**，A()是其**傅里叶余弦变换**
+偶函数$$f(x)$$的傅里叶积分是**傅里叶余弦积分**，$$A()$$是其**傅里叶余弦变换**
 $$
 f(x)=\int_0^\infty A(\omega)\cos \omega xd\omega\\
 A(\omega)=\frac{2}{\pi}\int_{0}^{\infty}f(\xi)\cos \omega \xi d\xi
@@ -301,16 +301,16 @@ $$
 
 ## 拉普拉斯变换
 
-常用于初始值问题——已知某个物理量在初始时刻t=0的值f(0)，置f(t)=0,t<0, 求解f(t), t>0
+常用于初始值问题——已知某个物理量在初始时刻$$t=0$$的值$$f(0)$$，置$$f(t)=0,t<0$$, 求解$$f(t), t>0$$
 
-构造函数$$g(t)=e^{-\sigma t}f(t)$$以保证g(t)在区间$$(-\infty,\infty)$$上绝对可积，对其进行傅里叶变换
+构造函数$$g(t)=e^{-\sigma t}f(t)$$以保证$$g(t)$$在区间$$(-\infty,\infty)$$上绝对可积，对其进行傅里叶变换
 $$
 G(\omega)=\frac{1}{2\pi} \int_{-\infty}^\infty g(t)e^{-\omega t}dt=\frac{1}{2\pi}\int_0^\infty f(t)e^{-(\sigma+i\omega)t}dt\\
 记s=\sigma+i\omega,G(\omega)=F(s)/2\pi,则\\
 F(s)=\mathscr{L}[f(t)]=\int_{-\infty}^\infty f(t)e^{-st}dt\\
 f(t)=\mathscr{L^{-1}}[F(s)]=\frac{1}{2\pi i}\int_{\sigma-i\infty}^{\sigma+i\infty}F(s)e^{is}ds\\
 $$
-即为拉氏变换，F(s)和f(t)分别为**像函数和原函数**
+即为拉氏变换，$$F(s)$$和$$f(t)$$分别为**像函数和原函数**
 
 
 

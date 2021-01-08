@@ -1,4 +1,18 @@
-# 加法法则和乘法法则
+> 参考：
+>
+> 离散数学, 屈婉玲
+>
+> [OI Wiki](https://oi-wiki.org/math/)
+
+[toc]
+
+# 加法原理和乘法原理
+
+**加法原理** 完成一个工程可以有$$n$$类办法，$$a_i$$代表第$$i$$类方法的数目，那么完成这件事共有$$S=a_1+a_2+\cdots+a_n$$种不同的方法。
+
+**乘法原理** 完成一个工程需要分$$n$$个步骤，$$a_i$$代表第$$i$$个步骤的不同方法数目，那么完成这件事共有$$S=a_1×a_2×\cdots×a_n$$种不同的方法。
+
+
 
 
 
@@ -10,19 +24,23 @@ $$
 A_n^k=n(n-1)\cdots(n-k+1)=\frac{n!}{(n-k)!}
 $$
 
+
+
 ## 组合
 
 $$
-C_n^k=\frac{n!}{k!(n-k)!}=\frac{A_n^k}{k!}
+C_n^k=\begin{pmatrix}n\\k\end{pmatrix}=\frac{n!}{k!(n-k)!}=\frac{A_n^k}{k!}
 $$
 
+**性质**
 
 $$
-C_{n+1}^{k+1}=C_{n}^{k}+C_{n}^{k+1}\\
-\sum_{k=0}^{n}C_n^k=2^n\\
-\sum_{r=0}^{k}C_{n+r-1}^r=C_{n+k}^k\\
-C_{m+n}^k=\sum_{i=0}^k C_n^iC_m^{k-i}\\
-\sum_{r=0}^{n}(C_n^r)^2=C_{2n}^{n}\\
+\begin{pmatrix}n\\k\end{pmatrix}=\begin{pmatrix}n\\n-k\end{pmatrix} \\
+\begin{pmatrix}n+1\\k+1\end{pmatrix}=\begin{pmatrix}n\\k\end{pmatrix}+\begin{pmatrix}n\\k+1\end{pmatrix} \\
+\sum_{k=0}^{n}\begin{pmatrix}n\\k\end{pmatrix}=2^n\\
+\sum_{r=0}^{k}\begin{pmatrix}n+r-1\\r\end{pmatrix}=\begin{pmatrix}n+k\\k\end{pmatrix}\\
+\begin{pmatrix}m+n\\k\end{pmatrix}=\sum_{i=0}^k \begin{pmatrix}m\\i\end{pmatrix}\begin{pmatrix}n\\k-i\end{pmatrix}\\
+\sum_{r=0}^{n}\begin{pmatrix}n\\r\end{pmatrix}^2=\begin{pmatrix}2n\\n\end{pmatrix}\\
 $$
 
 
@@ -31,8 +49,8 @@ $$
 # 二项式定理
 
 $$
-(1+x)^n=\sum_{k=0}^{n}C_n^kx^k=C_n^0+C_n^1x+\cdots+C_n^nx^n\\
-(x+y)^n=\sum_{k=0}^{n}C_n^kx^ky^{n-k}=C_n^0y^n+C_n^1xy^{n-1}+\cdots+C_n^nx^n
+(1+x)^n=\sum_{k=0}^{n}\begin{pmatrix}n\\k\end{pmatrix}x^k=\begin{pmatrix}n\\0\end{pmatrix}+\begin{pmatrix}n\\1\end{pmatrix}x+\cdots+\begin{pmatrix}n\\n\end{pmatrix}x^n\\
+(x+y)^n=\sum_{k=0}^{n}\begin{pmatrix}n\\k\end{pmatrix}x^ky^{n-k}=\begin{pmatrix}n\\0\end{pmatrix}y^n+\begin{pmatrix}n\\1\end{pmatrix}xy^{n-1}+\cdots+\begin{pmatrix}n\\n\end{pmatrix}x^n
 $$
 
 
@@ -43,6 +61,8 @@ $$
 
 
 
+
+
 # 递推方程
 
 ## 公式解法
@@ -50,6 +70,8 @@ $$
 
 
 ## 生成函数
+
+
 
 
 
@@ -101,20 +123,20 @@ $$
 
 ## Catalan数列
 
-| C_0  | C_1  | C_2  | C_3  | C_4  | C_5  | C_6  | ...  |
-| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 1    | 1    | 2    | 5    | 14   | 42   | 132  | ...  |
+| $$C_0$$ | $$C_1$$ | $$C_2$$ | $$C_3$$ | $$C_4$$ | $$C_5$$ | $$C_6$$ | ...  |
+| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ---- |
+| 1       | 1       | 2       | 5       | 14      | 42      | 132     | ...  |
 
 ### 通项公式
 
 $$
-C_n=\frac{C_{2n}^{n}}{n+1}=C_{2n}^{n}-C_{2n}^{n+1}
+C_n=\frac{\begin{pmatrix}2n\\n\end{pmatrix}}{n+1}=\begin{pmatrix}2n\\n\end{pmatrix}-\begin{pmatrix}2n\\n-1\end{pmatrix}
 $$
 
 ### 递推关系式
 
 $$
-C_{n+1}=\sum_{i=0}^nC_iC_{n-i}=\frac{2(2n+1)}{n+2}C_n
+C_{n+1}=\sum_{i=0}^nC_iC_{n-i}=\frac{4n+2}{n+2}C_n
 $$
 
 
@@ -128,4 +150,18 @@ $$
 
 
 第二类Stirling数
+
+
+
+
+
+# Bell数
+
+
+
+
+
+
+
+
 

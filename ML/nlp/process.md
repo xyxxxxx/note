@@ -18,7 +18,7 @@
 
 They和they是否是相同的词？这依然取决于具体应用。
 
-cats和cat是否是相同的词？我们知道它们是同一**lemma(词典形)**的不同**词形(word form)**，对于英文的任务，我们一般采用词形；而对于日文这样的黏着语，我们一般采用lemma。
+cats和cat是否是相同的词？我们知道它们是同一**词元(lemma, 又称词典形, citation form)**的不同**词形(word form)**，对于英文的任务，我们一般采用词形；而对于日文这样的黏着语，我们一般采用词元。
 
 语料库中有多少个词？这个问题有两种回答：语料库中不同的<u>词形</u>的数量，或者说词汇表的规模称为**词类(word type)**；**token**则是语料库的总词数（长度）。
 
@@ -36,7 +36,7 @@ $$
 $$
 参数$$\beta$$取决于语料库大小和体裁，但至少对于上表，$$\beta$$取0.67-0.75。
 
-另一种衡量词数量的方法是取<u>lemma</u>而非词形，英文词典上的**词条(entry)**即对应这种方法。
+另一种衡量词数量的方法是取<u>词元</u>而非词形，英文词典上的**词条(entry)**即对应这种方法。
 
 
 
@@ -129,7 +129,7 @@ $$
 > | -------- | ---------------------------------- | ------------------------------- | ------ |
 > | 原生分词 | 是                                 | 否                              | 否     |
 > | 需要分词 | -                                  | ？                              | 是     |
-> | lemma数  | 常用词<br />总共：牛津高阶词典 42k | 常用字<br />总共：新华字典 13k+ | 常用词 |
+> | 词元数   | 常用词<br />总共：牛津高阶词典 42k | 常用字<br />总共：新华字典 13k+ | 常用词 |
 > |          |                                    |                                 |        |
 > |          |                                    |                                 |        |
 >
@@ -185,7 +185,7 @@ $$
 
 
 
-## 词标准化，lemma化和词干提取
+## 词标准化，词元化和词干提取
 
 **词标准化**是将词或token统一为标准形式的操作，即为具有多种形式的词选择一个标准形式，例如为USA和US，选择US为标准形式。
 
@@ -193,13 +193,13 @@ $$
 
 
 
-在许多NLP任务中我们也希望同一个词的不同形态有相似的表现，例如在搜索引擎中搜索woodchucks也会返回woodchuck相关的页面。这在词法复杂的语言中尤为常见，例如俄文中Москва有不同形态Москвы, Москву。**lemma化**是确定两个词具有同一lemma的操作，例如am, is, are具有同一lemma be，woodchucks, woodchuck具有同一lemma woodchuck，Москва, Москвы, Москву具有同一lemma Москва。将句子lemma化的一个例子是He is reading detective stories→He be read detective story。
+在许多NLP任务中我们也希望同一个词的不同形态有相似的表现，例如在搜索引擎中搜索woodchucks也会返回woodchuck相关的页面。这在词法复杂的语言中尤为常见，例如俄文中Москва有不同形态Москвы, Москву。**词元化**是确定两个词具有同一词元的操作，例如am, is, are具有同一词元be，woodchucks, woodchuck具有同一词元woodchuck，Москва, Москвы, Москву具有同一词元Москва。将句子词元化的一个例子是He is reading detective stories→He be read detective story。
 
-如何完成lemma化？最精细的方法是对词做完全的词法分析。**词法学(morphology)**是研究词的内部结构和形成方式的学科，词由更小的意义承载单元，即**词素(morpheme)**构成。词素可以分为两大类：**词干(stem)**（中心词素，提供主要含义）和**词缀(affix)**（提供附加含义）。例如cats包括词素cat和-s，西文词amaren(if in the future they would love)包含了语素amar(to love)，复数主语和将来虚拟语气。
+如何完成词元化？最精细的方法是对词做完全的词法分析。**词法学(morphology)**是研究词的内部结构和形成方式的学科，词由更小的意义承载单元，即**词素(morpheme)**构成。词素可以分为两大类：**词干(stem)**（中心词素，提供主要含义）和**词缀(affix)**（提供附加含义）。例如cats包括词素cat和-s，西文词amaren(if in the future they would love)包含了语素amar(to love)，复数主语和将来虚拟语气。
 
-> lemma和词干并不完全等同，例如distributing的lemma是distribute，但词干是distribut，因为还有名词形式distribution等。lemma化相当于词干提取+词干还原两步。
+> 词元和词干并不完全等同，例如distributing的词元是distribute，但词干是distribut，因为还有名词形式distribution等。词元化相当于词干提取+词干还原两步。
 
-lemma化算法往往十分复杂，因此我们有时使用更简单也更粗糙的方法，即从词的末尾提取后缀。这种简化的词法分析方法称为词干提取。使用最广泛的词干提取算法是**Porter词干提取算法**(Porter, 1980)，它将以下文本
+词元化算法往往十分复杂，因此我们有时使用更简单也更粗糙的方法，即从词的末尾提取后缀。这种简化的词法分析方法称为词干提取。使用最广泛的词干提取算法是**Porter词干提取算法**(Porter, 1980)，它将以下文本
 
 ​        This was not the map we found in Billy Bones’s chest, but an accurate copy, complete in all things-names and heights and soundings-with the single exception of the red crosses and the written notes.
 
