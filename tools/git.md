@@ -264,7 +264,7 @@ $ git pull [remote] [branch]
 # 上传本地指定分支到远程仓库
 $ git push [remote] [branch]
 
-# 强行推送当前分支到远程仓库，即使有冲突
+# 强制推送当前分支到远程仓库，即使有冲突(例如在rebase之后)
 $ git push [remote] --force
 
 # 推送所有分支到远程仓库

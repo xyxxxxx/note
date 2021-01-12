@@ -161,13 +161,25 @@ CountVectorizer(*, input='content', encoding='utf-8', decode_error='strict', str
 
 
 
+## word2vec
+
+参考gensim。
+
+
+
+
+
+
+
+
+
 # 模型
 
 ## 朴素贝叶斯
 
 ### MultinomialNB
 
-适用于离散特征的分类问题。例如下面的例子中，特征为100个分量的计数（取值0~4）。
+适用于离散特征的分类问题。例如下面的例子中，特征为100个词的词频（取值0~4）。
 
 但实际上对于tf-idf等算法得到的折减频率亦有效。
 

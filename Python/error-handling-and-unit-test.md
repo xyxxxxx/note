@@ -115,9 +115,21 @@ def foo(s):
 
 ### logging
 
+设置logger
 
+```python
 
+```
 
+格式化输出信息
+
+```python
+service_name = "Booking"
+logger.error('%s service is down!', service_name)        # 使用logger的格式化，推荐
+logger.error('%s service is %s!', service_name, 'down')  # 多参数格式化
+logger.error('{} service is {}'.format(service_name, 'down')) # 使用format函数，推荐
+# 2016-10-08 21:59:19,493 ERROR   : Booking service is down!
+```
 
 
 

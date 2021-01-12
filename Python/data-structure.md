@@ -99,13 +99,25 @@ for i, v in enumerate(['tic', 'tac', 'toe']):
 ## 列表推导式
 
 ```python
-[ <expression> for <variable_name> in <sequence> if <condition>] # 一般形式
+[<expression> for <variable_name> in <sequence> if <condition>] # 一般形式
 
-list(range(1,11))	                        # [1,2,...,10]
-[x*x for x in range(1,11)]	                # [1,4,...,100]
-[x*x for x in range(1, 11) if x % 2 == 0]	# [4,16,...,100]
-[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]  # 双重for循环, 组合两个list中不相等的元素
-[str(round(pi, i)) for i in range(1, 6)]    # ['3.1', '3.14', '3.142', '3.1416', '3.14159']
+list(range(1, 11))                                   # [1, 2, ..., 10]
+[x * x for x in range(1, 11)]                        # [1, 4, ..., 100]
+[x * x for x in range(1, 11) if x % 2 == 0]          # [4, 16, ..., 100]
+[(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]  # 双重for循环, 组合两个list中不相等的元素
+[x * x if x % 2 == 0 else -x * x for x in range(1, 11)]
+
+>>> list(range(1, 11))
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> [x * x for x in range(1, 11)]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+>>> [x * x for x in range(1, 11) if x % 2 == 0]      # 附加条件
+[4, 16, 36, 64, 100]
+>>> [(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]   # 双重for循环+条件
+[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+>>> [x * x if x % 2 == 0 else -x * x for x in range(1, 11)]    # for循环+if-else语句
+[-1, 4, -9, 16, -25, 36, -49, 64, -81, 100]
+
 ```
 
 嵌套的列表推导式
