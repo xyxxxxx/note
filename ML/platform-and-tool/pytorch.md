@@ -1670,11 +1670,31 @@ tensor(0.6897)
 >>> b
 tensor(1.3897)
 
-# CrossEntropyLoss() = softmax() + log() + NLLLoss()
+# CrossEntropyLoss() = softmax() + log() + NLLLoss() = logsoftmax() + NLLLoss()
 >>> loss = nn.CrossEntropyLoss()
 >>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
                           [ 1.8402, -0.1696,  0.4744],
                           [-3.4641, -0.2303,  0.3552]])
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+
+>>> loss = nn.NLLLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> input = input.softmax(dim=1)
+>>> input = input.log()
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+
+>>> loss = nn.NLLLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> logsoftmax = nn.LogSoftmax(dim=1)
+>>> input = logsoftmax(input)
 >>> target = torch.tensor([0, 1, 2])
 >>> loss(input, target)
 tensor(1.0896)
@@ -1770,6 +1790,7 @@ tensor([[[[ 0.0000, -0.0000],
 
 ```python
 >>> embedding = nn.Embedding(10, 3)  # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
+                                     # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
 >>> input = torch.LongTensor([[1,2,4,5],[4,3,2,9]])
 >>> embedding(input)
 tensor([[[-0.0251, -1.6902,  0.7172],
@@ -1990,9 +2011,9 @@ tensor([0.8558, 0.2710])
 
 
 
-### Softmax
+### Softmax, LogSoftmax
 
-Softmax层。torch.nn.LogSoftmax相当于在此基础上为每个输出值求（自然）对数。
+Softmax层。torch.nn.LogSoftmax相当于在Softmax的基础上为每个输出值求（自然）对数。
 
 ```python
 >>> m1 = nn.Softmax(dim=0)
@@ -2004,7 +2025,7 @@ Softmax层。torch.nn.LogSoftmax相当于在此基础上为每个输出值求（
 tensor([0., 1., 2., 3.])
 >>> output1
 tensor([0.0321, 0.0871, 0.2369, 0.6439])
->>> output2
+>>> output2            # logsoftmax() = softmax() + log()
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
 
