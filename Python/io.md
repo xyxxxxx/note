@@ -1,3 +1,5 @@
+[toc]
+
 # shell I/O
 
 ## 输出
@@ -187,5 +189,21 @@ print(f.getvalue())
 
 # 序列化
 
+**序列化(serialization)**是指将数据结构或对象转换成字节序列的过程。反过来，将字节序列还原为数据结构的过程就是**反序列化(deserialization)**。
 
+Python提供了`pickle`模块来实现Python对象结构的二进制序列化和反序列化。
 
+```python
+>>> import pickle
+>>> d = dict(name='Bob', age=20, score=88)
+>>> pickle.dumps(d)
+b'\x80\x03}q\x00(X\x03\x00\x00\x00ageq\x01K\x14X\x05\x00\x00\x00scoreq\x02KXX\x04\x00\x00\x00nameq\x03X\x03\x00\x00\x00Bobq\x04u.'
+>>> with open('foo', 'wb') as f:
+...   pickle.dump(d, f)
+... 
+>>> with open('foo', 'rb') as f:
+...   d1 = pickle.load(f)
+... 
+>>> d1
+{'name': 'Bob', 'age': 20, 'score': 88}
+```

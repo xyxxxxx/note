@@ -1,4 +1,6 @@
-## [`argparse`](https://docs.python.org/zh-cn/3/library/argparse.html)——命令行选项、参数和子命令解析器
+[toc]
+
+## [argparse](https://docs.python.org/zh-cn/3/library/argparse.html)——命令行选项、参数和子命令解析器
 
 如果脚本很简单或者临时使用，可以使用`sys.argv`直接读取命令行参数。`sys.argv`返回一个参数列表，其中首个元素是程序名，随后是命令行参数，所有元素都是字符串类型。例如以下脚本：
 
@@ -156,6 +158,8 @@ datetime.datetime(2020, 11, 27, 17, 20, 17, 547344)
 
 ## [os](https://docs.python.org/zh-cn/3/library/os.html)——多种操作系统接口
 
+### 文件和目录
+
 ```python
 import os
 
@@ -176,6 +180,25 @@ import os
 >>> os.rmdir('dir2')        # 删除目录
 >>> os.remove('file1')      # 删除文件
 ```
+
+
+
+### 环境变量
+
+```python
+>>> import os
+>>> os.environ
+environ({'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 
+# ...
+/usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'fcitx', 'LC_TIME': 'en_US.UTF-8', '_': '/usr/bin/python3'})
+>>> os.environ['HOME']
+'/home/xyx' 
+>>> os.environ['MASTER_ADDR'] = 'localhost'      # 环境变量赋值
+>>> os.getenv('MASTER_ADDR')
+'localhost'         
+```
+
+
 
 
 
@@ -211,16 +234,63 @@ False
 
 ## [sys](https://docs.python.org/zh-cn/3/library/sys.html)——系统相关的参数和函数
 
+### exit
+
+从Python中退出，实现方式是抛出一个`SystemExit`异常。
+
+可选参数可以是表示退出状态的整数（默认为整数0），也可以是其他类型的对象。如果它是整数，则shell等将0视为“成功终止”，非零值视为“异常终止”。
+
+
+
+### platform
+
+本字符串是一个平台标识符，对于各种系统的值为：
+
+| 系统           | `平台` 值  |
+| :------------- | :--------- |
+| AIX            | `'aix'`    |
+| Linux          | `'linux'`  |
+| Windows        | `'win32'`  |
+| Windows/Cygwin | `'cygwin'` |
+| macOS          | `'darwin'` |
+
+
+
+### stdin, stdout, stderr
+
+解释器用于标准输入、标准输出和标准错误的文件对象：
+
++ `stdin`用于所有交互式输入
++ `stdout`用于`print()`和expression语句的输出，以及输出`input()`的提示符
++ 解释器自身的提示符和错误消息发往`stderr`
+
+
+
+### version, version_info
+
+`version`是一个包含Python解释器版本号、编译版本号、所用编译器等信息的字符串，`version_info`是一个包含版本号五部分的元组: *major*, *minor*, *micro*, *releaselevel* 和 *serial*。
+
 ```python
-import sys
-
->>> sys.stdin              # 标准输入 
-<_io.TextIOWrapper name='<stdin>' mode='r' encoding='UTF-8'>
->>> sys.stdout             # 标准输出
-<_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>
->>> sys.stderr             # 标准错误
-<_io.TextIOWrapper name='<stderr>' mode='w' encoding='UTF-8'>
->>> sys.exit()             # 退出Python
-
+>>> sys.version
+'3.6.9 (default, Oct  8 2020, 12:12:24) \n[GCC 8.4.0]'
+>>> sys.version_info
+sys.version_info(major=3, minor=6, micro=9, releaselevel='final', serial=0)
 ```
 
+
+
+## tempfile——生成临时文件和目录
+
+
+
+### gettempdir()
+
+返回放置临时文件的目录的名称。
+
+Python搜索标准目录列表，以找到调用者可以在其中创建文件的目录。这个列表是：
+
+1. `TMPDIR` ,`TEMP`或`TMP` 环境变量指向的目录。
+2. 与平台相关的位置：
+   + 在 Windows 上，依次为 `C:\TEMP`、`C:\TMP`、`\TEMP` 和 `\TMP`
+   + 在所有其他平台上，依次为 `/tmp`、`/var/tmp` 和 `/usr/tmp`
+3. 不得已时，使用当前工作目录。
