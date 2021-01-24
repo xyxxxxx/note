@@ -325,7 +325,7 @@
 | -------------------------------- | ------------ |
 | object                           | 对象         |
 | OOP, Object Oriented Programming | 面向对象编程 |
-| operand                          | 运算数       |
+| operand                          | 操作数       |
 | operator                         | 算子         |
 | optimize                         | 优化         |
 | optimizer                        | 优化器       |
