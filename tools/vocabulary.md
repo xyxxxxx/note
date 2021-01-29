@@ -447,6 +447,7 @@
 | socket                      | 套接字               |
 | sort                        | 排序                 |
 | spanning tree               | 生成树               |
+| spawn                       | 启动，生成           |
 | split                       | 分裂                 |
 | SSD, Solid State Disk       | 固态硬盘             |
 | stack                       | 栈                   |

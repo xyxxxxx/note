@@ -60,12 +60,34 @@ if i in list
 
 
 
-操作符`is`和`is not`比较两个对象是不是同一个对象
+操作符`is`和`is not`比较两个对象是不是同一个对象：
 
 ```python
-i = None
-if i is None:
-    print("none")
+>>> a = 1
+>>> b = 1
+>>> a == b    # a,b的值相等
+True
+>>> a is b    # 且指向同一个对象
+True
+>>> id(a)
+10914496
+>>> id(b)
+10914496
+>>> a = 100000000
+>>> b = 100000000
+>>> a == b
+True
+>>> a is b    # 当a,b的值较大时也不再成立
+False
+```
+
+```python
+>>> a = []
+>>> b = []
+>>> a == b
+True
+>>> a is b
+False
 ```
 
 

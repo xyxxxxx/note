@@ -132,7 +132,7 @@ for t in range(500):
     if t % 10 == 0:
         print(t, loss.item())
 
-    # 在backward pass之前,使用优化器归零(损失)对于需要更新的参数的梯度(也就是模型的权重参数)
+    # 在backward pass之前,使用优化器归零(损失对于)需要更新的参数的梯度(也就是模型的权重参数)
     # 这在因为在调用 loss.backward() 时缓存区中的梯度会累积(而不是覆盖)
     optimizer.zero_grad()
 
@@ -344,7 +344,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 for epoch in range(3):  # loop over the dataset multiple times
 
     running_loss = 0.0
-    for i, data in enumerate(trainloader, 0):
+    for i, data in enumerate(trainloader, 1):
         # get the inputs; data is a list of [inputs, labels]
         inputs, labels = data
 
@@ -359,9 +359,9 @@ for epoch in range(3):  # loop over the dataset multiple times
 
         # print statistics
         running_loss += loss.item()
-        if i % 2000 == 1999:    # print every 2000 mini-batches
+        if i % 2000 == 0:    # print every 2000 mini-batches
             print('epoch %d/3, batch %5d with loss: %.3f' %
-                  (epoch + 1, i + 1, running_loss / 2000))
+                  (epoch + 1, i, running_loss / 2000))
             running_loss = 0.0
 
 print('Training Finished')
@@ -375,20 +375,54 @@ total = 0
 with torch.no_grad():
     for data in testloader:
         images, labels = data
-        outputs = model(images)
+        outputs = net(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
 
     print('Accuracy of the network on the 10000 test images: {:.4f}'.format(correct / total))
-
 ```
 
 
 
+## 使用GPU训练
 
+如果你有一块具有CUDA功能的GPU，就可以利用它加速模型计算。首先检查PyTorch是否可以使用GPU：
 
+```python
+print(torch.cuda.is_available())
+# True
+```
 
+创建一个设备对象：
+
+```python
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+```
+
+将模型和输入模型的张量都移动到GPU中：
+
+```python
+model.to(device)
+data = data.to(device)
+```
+
+`model.to(device)`将模型中的所有参数移动到GPU中；`tensor.to(device)`则是返回`tensor`在GPU中的一个新副本，因此需要覆写原张量`tensor = tensor.to(device)`。注意模型和数据需要在同一设备（CPU或GPU）中，否则会产生一个运行时错误。
+
+上面的MNIST例子使用CPU训练，将其改造为使用GPU训练，需要增加如下代码：
+
+```python
+# device
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
+# model
+net.to(device)
+
+# tensor
+inputs = inputs.to(device)
+labels = labels.to(device)
+images = images.to(device)
+```
 
 
 
@@ -1020,6 +1054,472 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 
 
+# `torch.autograd`的简单入门
+
+> 参考：
+>
+> Notebook ml/pytorch/autograd.ipynb
+>
+> pytorch-lib-autograd
+
+`torch.autograd`是Pytorch的自动微分引擎，用于驱动神经网络训练。
+
+## 用法
+
+先来看一个单步训练的例子：我们从`torchvision`中加载一个预处理resnet18模型，创建一个随机的张量代表一张3通道、宽64、高64的图片，其相应的标签也用随机数进行初始化：
+
+```python
+import torch, torchvision
+model = torchvision.models.resnet18(pretrained=True)
+data = torch.rand(1, 3, 64, 64)
+labels = torch.rand(1, 1000)
+```
+
+然后进行前向计算：
+
+```python
+prediction = model(data) # forward pass
+```
+
+下一步计算损失和进行反向传播。反向传播通过我们对误差张量调用`.backward()`启动，autograd会计算所有模型参数的梯度并保存在每个参数的`.grad`属性中。
+
+```python
+loss = (prediction - labels).sum()
+loss.backward() # backward pass
+```
+
+接着，加载一个优化器，并在当中注册模型的所有参数：
+
+```python
+optim = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
+```
+
+最后，调用`.step()`初始化梯度下降，优化器会根据每一个参数的`.grad`属性中存储的梯度调整各参数。
+
+```python
+optim.step()
+```
+
+
+
+## 张量
+
+autograd使用张量的下列属性：
+
++ `data`：存储的数据信息
++ `requires_grad`：设置为`True`表示张量需要计算梯度
++ `grad`：张量的梯度值，记得每次迭代时归零，否则会累加
++ `grad_fn`：表示得到张量的运算，叶节点通常为`None`
++ `is_leaf`：指示张量是否为叶节点
+
+
+
+## 自动微分
+
+来看一个简单的例子。我们创建两个张量`a`和`b`，使用选项`requires_grad=True`：
+
+```python
+import torch
+
+a = torch.tensor(1., requires_grad=True)
+b = torch.tensor(2., requires_grad=True)
+```
+
+> 也可以初始化之后再设置张量的`requires_grad`属性：
+>
+> ```python
+> a = torch.tensor(1.)
+> a.requires_grad = True
+> ```
+
+创建另一个张量$$c=a^2+b$$：
+
+```python
+c = a**2 + b
+```
+
+> `requires_grad = True`具有传递性，只要`a`和`b`中有一个`requires_grad = True`，那么`c`也有`requires_grad = True`。这表示`requires_grad = True`张量的所有运算都需要追踪，其计算路径构成下面的计算图。
+
+假定`a`和`b`是神经网络的参数，`c`是误差。训练过程中，我们想要误差对各参数的梯度，即
+$$
+\frac{\partial c}{\partial a}=2a,\ 
+\frac{\partial c}{\partial b}=1
+$$
+当我们对`c`调用`.backward()`时，autograd计算这些梯度并将其保存在各张量的`.grad`属性中。
+
+```python
+c.backward()
+```
+
+梯度现在被放置在`a.grad`和`b.grad`中：
+
+```python
+print(c)
+print(a.data, a.requires_grad, a.grad, a.grad_fn, a.is_leaf)
+print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
+
+# output:
+# tensor(3., grad_fn=<AddBackward0>)
+# tensor(1.) True tensor(2.) None True
+# tensor(2.) True tensor(1.) None True
+```
+
+
+
+再来看一个例子，此时$$c$$是一个向量：
+
+```python
+import torch
+
+a = torch.tensor([1., 3.], requires_grad=True)
+b = torch.tensor([2., 4.], requires_grad=True)
+
+c = a**2 + b
+```
+
+如果$$c$$对$$a,b$$直接求梯度，将会得到一个矩阵，但我们想要得到与$$a,b$$形状相同的梯度向量。我们可以通过求$$c$$和某常数向量的内积将其转换为标量，例如和全1向量的内积相当于求和所有元素，通过`backward()`的`grad_tensors`参数传入：
+
+```python
+external_grad = torch.tensor([1., 1.])
+c.backward(gradient=external_grad)
+
+print(c)
+print(a.data, a.requires_grad, a.grad, a.grad_fn, a.is_leaf)
+print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
+
+# tensor([ 3., 13.], grad_fn=<AddBackward0>)
+# tensor([1., 3.]) True tensor([2., 6.]) None True
+# tensor([2., 4.]) True tensor([1., 1.]) None True
+```
+
+改变`grad_tensors`再看结果：
+
+```python
+external_grad = torch.tensor([1., 2.])
+c.backward(gradient=external_grad)
+
+print(c)
+print(a.data, a.requires_grad, a.grad, a.grad_fn, a.is_leaf)
+print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
+
+# tensor([ 3., 13.], grad_fn=<AddBackward0>)
+# tensor([1., 3.]) True tensor([ 2., 12.]) None True
+# tensor([2., 4.]) True tensor([1., 2.]) None True
+```
+
+改变`grad_tensors`即为多个损失项赋予不同的权重。
+
+
+
+## `Function`
+
+> 参考：pytorch-lib-torch.autograd.Function
+
+对（`requires_grad=True`的）张量的每一次运算都会创建一个新的`Function`对象，用于执行计算、记录过程。一个最简单的例子：
+
+```python
+import torch
+
+a = torch.tensor(1., requires_grad=True)
+b = torch.tensor(2., requires_grad=True)
+c = a**2 + b
+
+print(c)
+# tensor(3., grad_fn=<AddBackward0>)
+```
+
+这里的张量加法就是一个`Function`对象。
+
+我们在构建网络的时候，通常使用`nn.Module` 对象（例如`nn.Conv2d`, `nn.ReLU`等）作为基本单元。而实际上这些 Module 通常包裹了 `Function`对象，作为实际运算（前向和反向计算）的部分。例如`nn.ReLU` 实际使用`torch.nn.functional.relu`（`F.relu`）:
+
+```python
+class ReLU(Module):
+    __constants__ = ['inplace']
+    inplace: bool
+
+    def __init__(self, inplace: bool = False):
+        super(ReLU, self).__init__()
+        self.inplace = inplace
+
+    def forward(self, input: Tensor) -> Tensor:
+        return F.relu(input, inplace=self.inplace)
+
+    def extra_repr(self) -> str:
+        inplace_str = 'inplace=True' if self.inplace else ''
+        return inplace_str
+```
+
+我们可以自定义`Function`对象，以`torch.autograd.Function`为基类，实现`forward()`（前向计算）和`backward()`（反向计算）方法。来看下面的例子：
+
+```python
+class Exp(Function):                    # 此层计算e^x
+
+    @staticmethod
+    def forward(ctx, i):                # 模型前向
+        result = i.exp()
+        ctx.save_for_backward(result)   # 保存所需内容，以备backward时使用，所需的结果会被保存在saved_tensors元组中；此处仅能保存tensor类型变量，若其余类型变量（Int等），可直接赋予ctx作为成员变量，也可以达到保存效果
+        return result
+
+    @staticmethod
+    def backward(ctx, grad_output):     # 模型梯度反传
+        result, = ctx.saved_tensors     # 取出forward中保存的result
+        return grad_output * result     # 计算梯度并返回
+
+x = torch.tensor([1.], requires_grad=True)  # 需要设置tensor的requires_grad属性为True，才会进行梯度反传
+ret = Exp.apply(x)                          # 使用apply方法调用自定义autograd function
+print(ret)                                  # tensor([2.7183], grad_fn=<ExpBackward>)
+ret.backward()                              # 反传梯度
+print(x.grad)                               # tensor([2.7183])
+
+
+```
+
+下面的例子展示了如何保存`tensor`之外的变量：
+
+```python
+class GradCoeff(Function):       
+       
+    @staticmethod
+    def forward(ctx, x, coeff):                 # 模型前向
+        ctx.coeff = coeff                       # 将coeff存为ctx的成员变量
+        return x.view_as(x)
+
+    @staticmethod
+    def backward(ctx, grad_output):             # 模型梯度反传
+        return ctx.coeff * grad_output, None    # backward的输出个数，应与forward的输入个数相同，此处coeff不需要梯度，因此返回None
+
+# 尝试使用
+x = torch.tensor([2.], requires_grad=True)
+ret = GradCoeff.apply(x, -0.1)                  # 前向需要同时提供x及coeff，设置coeff为-0.1
+ret = ret ** 2                          
+print(ret)                                      # tensor([4.], grad_fn=<PowBackward0>)
+ret.backward()  
+print(x.grad)                                   # tensor([-0.4000])，梯度已乘以相应系数
+```
+
+再来看一个更复杂的例子，一个线性层的`Function`实现：
+
+```python
+# Inherit from Function
+class LinearFunction(Function):
+
+    # Note that both forward and backward are @staticmethods
+    @staticmethod
+    # bias is an optional argument
+    def forward(ctx, input, weight, bias=None):
+        ctx.save_for_backward(input, weight, bias)
+        output = input.mm(weight.t())
+        if bias is not None:
+            output += bias.unsqueeze(0).expand_as(output)
+        return output
+
+    # This function has only a single output, so it gets only one gradient
+    @staticmethod
+    def backward(ctx, grad_output):
+        # This is a pattern that is very convenient - at the top of backward
+        # unpack saved_tensors and initialize all gradients w.r.t. inputs to
+        # None. Thanks to the fact that additional trailing Nones are
+        # ignored, the return statement is simple even when the function has
+        # optional inputs.
+        input, weight, bias = ctx.saved_tensors
+        grad_input = grad_weight = grad_bias = None
+
+        # These needs_input_grad checks are optional and there only to
+        # improve efficiency. If you want to make your code simpler, you can
+        # skip them. Returning gradients for inputs that don't require it is
+        # not an error.
+        if ctx.needs_input_grad[0]:
+            grad_input = grad_output.mm(weight)
+        if ctx.needs_input_grad[1]:
+            grad_weight = grad_output.t().mm(input)
+        if bias is not None and ctx.needs_input_grad[2]:
+            grad_bias = grad_output.sum(0)
+
+        return grad_input, grad_weight, grad_bias
+```
+
+
+
+## 计算图
+
+> 参考：
+>
+> [PyTorch 的 Autograd](https://zhuanlan.zhihu.com/p/69294347)
+>
+> [PyTorch 源码解读之 torch.autograd](https://zhuanlan.zhihu.com/p/321449610)
+
+前一节我们描述了单个`Function`对象的前向和反向计算，而实际的模型是由多个函数复合而成，可以抽象为由Function对象组成的有向无环图(DAG)。本节将介绍图级别的前向和反向计算过程。
+
+在前向计算的过程中，autograd会维护一个计算图（有向无环图），每次（`requires_grad=True`的）张量运算都会向其中添加一个Function对象，运算结果的`grad_fn`属性即指向该对象。来看下面的例子：
+
+```python
+import torch
+
+input = torch.ones([2, 2], requires_grad=False)
+w1 = torch.tensor(2.0, requires_grad=True)
+w2 = torch.tensor(3.0, requires_grad=True)
+w3 = torch.tensor(4.0, requires_grad=True)
+
+l1 = input * w1
+l2 = l1 + w2
+l3 = l1 * w3
+l4 = l2 * l3
+loss = l4.mean()
+```
+
+对于上述前向计算过程，构造的计算图为：
+
+<img src="https://pic3.zhimg.com/80/v2-1781041624f4c9fb31df04d11dd6a84a_720w.jpg" style="zoom:50%;" />
+
+```python
+def print_tensor(t):
+    print(t.data, t.grad, t.grad_fn, t.is_leaf)
+
+print_tensor(w1)
+print_tensor(w2)
+print_tensor(w3)
+print_tensor(l1)
+print_tensor(l2)
+print_tensor(l3)
+print_tensor(l4)
+print_tensor(loss)
+
+# tensor(2.) None None True
+# tensor(3.) None None True
+# tensor(4.) None None True
+# tensor([[2., 2.],
+#         [2., 2.]]) None <MulBackward0 object at 0x7fd7f99aa668> False
+# tensor([[5., 5.],
+#         [5., 5.]]) None <AddBackward0 object at 0x7fd7f918add8> False
+# tensor([[8., 8.],
+#         [8., 8.]]) None <MulBackward0 object at 0x7fd7f99aa668> False
+# tensor([[40., 40.],
+#         [40., 40.]]) None <MulBackward0 object at 0x7fd7f918add8> False
+# tensor(40.) None <MeanBackward0 object at 0x7fd7f99aa668> False
+```
+
+可以看到，变量`l1`的`grad_fn`指向乘法运算符`<MulBackward0>`对象，用于在反向传播中指导梯度计算；叶节点的`grad_fn`为None，因为它们由创建而非运算得到。
+
+计算图中的叶节点是输入张量（模型参数），根节点是输出张量（误差）。在反向传播过程中，autograd会从根节点溯源，利用链式法则计算所有叶节点的梯度。
+
+张量的`is_leaf`属性表示该张量是否为叶节点。反向计算过程中只有`is_leaf=True`的张量的梯度会被保留。
+
+反向计算过程为：
+
+![](https://pic4.zhimg.com/80/v2-18add4601e35e4b26fb73a50245e8de7_720w.jpg)
+
+```python
+loss.backward()
+
+print_tensor(w1)
+print_tensor(w2)
+print_tensor(w3)
+print_tensor(l1)
+print_tensor(l2)
+print_tensor(l3)
+print_tensor(l4)
+print_tensor(loss)
+
+# tensor(2.) tensor(28.) None True
+# tensor(3.) tensor(8.) None True
+# tensor(4.) tensor(10.) None True
+# tensor([[2., 2.],
+#         [2., 2.]]) None <MulBackward0 object at 0x7fd7f9160b38> False
+# tensor([[5., 5.],
+#         [5., 5.]]) None <AddBackward0 object at 0x7fd7f9160c50> False
+# tensor([[8., 8.],
+#         [8., 8.]]) None <MulBackward0 object at 0x7fd7f9160b38> False
+# tensor([[40., 40.],
+#         [40., 40.]]) None <MulBackward0 object at 0x7fd7f9160c50> False
+# tensor(40.) None <MeanBackward0 object at 0x7fd7f9160b38> False
+```
+
+可以看到，只有`is_leaf=True`的张量的`grad`不为None。因为用户一般不会使用中间变量的梯度，为了节约内存/显存，这些梯度在使用之后就被释放了。
+
+
+
+
+
+注意Pytorch的计算图是<u>动态的</u>：每次反向计算结束，即调用`.backward()`返回后，计算图就在内存中被释放了；在下次前向计算过程中autograd会再创建一个新的计算图并为其填充数据。而tensorflow使用的静态计算图是预先设计好的。
+
+```python
+# PyTorch使用动态计算图
+a = torch.tensor([3.0, 1.0], requires_grad=True)
+b = a * a
+loss = b.mean()
+
+loss.backward() # 正常
+loss.backward() # RuntimeError
+
+a = torch.tensor([3.0, 1.0], requires_grad=True)
+b = a * a
+loss = b.mean()
+loss.backward() # 正常
+```
+
+理论上，静态图在效率上比动态图要高。因为首先，静态图只需要构建一次，之后可以重复使用；其次，静态图由于是固定的，因此可以做进一步的优化，比如可以将用户原本定义的 Conv 层和 ReLU 层合并成 ConvReLU 层，提高效率。
+
+但是，深度学习框架的速度不仅仅取决于图的类型，还有很多其它的因素，比如底层代码质量，所使用的底层 BLAS 库等都有关。从实际测试结果来说，至少在主流模型的训练时间上，PyTorch 有着至少不逊于静态图框架 Caffe，TensorFlow 的表现。具体对比数据可以参考[这里](https://github.com/ilkarman/DeepLearningFrameworks)。
+
+如今动态图和静态图之间的界限已经开始慢慢模糊。PyTorch 模型转成 Caffe 模型越来越方便，而 TensorFlow 也加入了一些动态图机制。
+
+
+
+## 从DAG中移除
+
+autograd追踪所有`requires_grad`属性为`True`的张量。对于那些不需要计算梯度的张量，设定该属性为`False`以将其移除出DAG。
+
+对于一个张量运算，只要有一个输入张量有`requires_grad=True`，那么输出张量就会有`requires_grad=True`。
+
+```python
+x = torch.rand(5, 5)
+y = torch.rand(5, 5)
+z = torch.rand((5, 5), requires_grad=True)
+
+a = x + y
+print(f"Does `a` require gradients? : {a.requires_grad}")
+b = x + z
+print(f"Does `b` require gradients?: {b.requires_grad}")
+
+# Does `a` require gradients? : False
+# Does `b` require gradients?: True
+```
+
+在神经网络中，不计算梯度的参数通常称为**冻结参数(frozen parameters)**。如果你预先知道模型中的部分参数不需要计算梯度，那么可以冻结这些参数，这将降低autograd的计算量从而提升性能。
+
+
+
+另一个从DAG中移除参数的常见例子是精调预训练模型。在精调过程中，我们冻结模型的大部分而只修改其中几层。来看下面这个例子，我们加载了预训练resnet18模型，并冻结所有参数：
+
+```python
+from torch import nn, optim
+
+model = torchvision.models.resnet18(pretrained=True)
+
+# Freeze all the parameters in the network
+for param in model.parameters():
+    param.requires_grad = False
+```
+
+比如我们想要在一个新的数据集上精调该模型，resnet模型的分类器是最后一个线性层`model.fc`，我们可以简单地将其替换为一个新的线性层，以用作我们的分类器（默认是解冻状态）：
+
+```python
+model.fc = nn.Linear(512, 10)
+```
+
+现在模型的所有参数，除了`model.fc`以外，都是冻结的，需要计算梯度的参数只有`model.fc`的权重和偏置：
+
+```python
+# Optimize only the classifier
+optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
+# Same, for other parameters have requires_grad = False
+optimizer = optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
+```
+
+
+
+
+
 # 保存和加载模型
 
 保存和加载模型主要用到下面三个函数：
@@ -1100,7 +1600,7 @@ param_groups     [{'lr': 0.001, 'momentum': 0.9, 'dampening': 0, 'weight_decay':
 
 ## 保存和加载模型
 
-> 使用notebook: ml/pytorch/SaveandLoadModel.ipynb
+> 使用notebook: ml/pytorch/save_and_load_model.ipynb
 
 **保存/加载`state_dict`（推荐）**
 
@@ -1138,6 +1638,8 @@ model.eval()
 
 
 ## 保存和加载检查点
+
+> 使用notebook: ml/pytorch/save_and_load_checkpoint.ipynb
 
 ```python
 # save
@@ -1278,4 +1780,5 @@ model.to(device)
 ```
 
 设定参数`map_location`为`cuda:device_id`将模型加载到指定的GPU设备中。之后还要再调用`model.to(torch.device("cuda"))`使模型中的所有参数张量转换为CUDA张量。
+
 

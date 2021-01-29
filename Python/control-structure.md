@@ -85,3 +85,36 @@ continue  # 跳过当次循环
 
 else:     # else子句在循环耗尽了可迭代对象或循环条件变为False时被执行,但在循环被break语句终止时不会执行
 ```
+
+
+
+## 其它问题
+
+循环体中定义的变量在循环结束后不会被释放，因此需要手动删除局部变量，如下例
+
+```python
+k = 0
+for i in range(5):
+    j = i + 1
+    k += j
+
+print(j)
+print(k)
+
+# 5
+# 15
+```
+
+```python
+k = 0
+for i in range(5):
+    j = i + 1
+    k += j
+del j
+    
+print(j)
+print(k)
+
+# NameError: name 'j' is not defined
+```
+

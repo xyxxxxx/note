@@ -1,10 +1,6 @@
 [toc]
 
-
-
 # 数据并行训练
-
-**分布式数据并行训练(Distributed Data-Parallel Training, DDP)**是一种广泛采用的单程序多数据的训练范例。DDP中，模型会被复制到多个进程中，而每个模型副本都会传入不同的输入数据集（可能是对同一数据集的切分）。DDP负责梯度通信，以保证各模型副本同步和梯度计算叠加。
 
 PyTorch提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的发展轨迹为：
 
@@ -87,7 +83,7 @@ class Model(nn.Module):
               "output size", output.size())
 
         return output
-    
+
 model = Model(input_size, output_size)
 if torch.cuda.device_count() > 1:
   print("Let's use", torch.cuda.device_count(), "GPUs!")
@@ -117,7 +113,7 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 如果有两个GPU，那么每个GPU各有一个模型副本，各处理`input`的二分之一：
 
-```python
+```
 # on 2 GPUs
 Let's use 2 GPUs!
     In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
@@ -136,7 +132,7 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 类似地，如果有8个GPU：
 
-```python
+```
 Let's use 8 GPUs!
     In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
     In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
@@ -177,11 +173,15 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 ## `torch.nn.parallel.DistributedDataParallel`
 
+**分布式数据并行训练(Distributed Data-Parallel Training, DDP)**是一种广泛采用的单程序多数据的训练范例。DDP中，模型会被复制到多个进程中，而每个模型副本都会传入不同的输入数据集（可能是对同一数据集的切分）。DDP负责梯度通信，以保证各模型副本同步和梯度计算叠加。
+
+
+
 ### 比较`DataParallel`和`DistributedDataParallel`
 
-首先让我们了解为什么你应该考虑使用`DistributedDataParallel`而非`DataParallel`:
+为什么你应该考虑使用`DistributedDataParallel`而非`DataParallel`:
 
-+ 首先，`DataParallel`是单进程多线程，只能单机运行，而`DistributedDataParallel`是多进程，可以单机或多机运行。 `DataParallel`通常比`DistributedDataParallel` 慢，即便是单机运行，因为线程间的GIL争夺、每次迭代都复制模型，以及切分输入和汇总输入带来的花销。
++ 首先，`DataParallel`是单进程多线程，只能单机运行，而`DistributedDataParallel`是多进程，可以单机或多机运行。 `DataParallel`通常比`DistributedDataParallel` 慢，即便是单机运行，因为线程间的GIL争夺、每次迭代都要广播模型，以及切分输入和汇总输入带来的花销。
 + 如果你的模型太大以至于不能在单个GPU上训练，那么就必须用模型并行来将其切分到多个GPU中。`DistributedDataParallel`兼容模型并行而`DataParallel`不能。当DDP结合模型并行时，每个DDP进程都会使用模型并行，并且所有的进程共同使用数据并行。
 + 如果你的模型需要跨机器或者不适用于数据并行范例，请参考RPC API。
 
@@ -230,7 +230,7 @@ if __name__=="__main__":
     main()
 ```
 
-其中，local model是一个线性层，将其用DDP包装后，对DDP模型进行一次前馈计算、反向计算和更新参数。在这之后，local model的参数会被更新，并且所有进程的模型都完全相同。
+其中，模型是一个线性层，将其用DDP包装后，对DDP模型进行一次前馈计算、反向计算和更新参数。在这之后，模型的参数会被更新，并且所有进程的模型都完全相同。
 
 
 
@@ -450,18 +450,12 @@ torch.distributed.init_process_group( )
 
 
 
-
+# TorchElastic
 
 
 
 # 一般分布式训练
 
-许多训练范例不用于数据并行，例如参数服务器范例、分布式管道范例等。torch.distributed.rpc的目标就是支持一般的分布式训练场景。
+许多训练范例不用于数据并行，例如参数服务器范例、分布式管道范例等。`torch.distributed.rpc`的目标就是支持一般的分布式训练场景。
 
 
-
-
-
-
-
-# TorchElastic

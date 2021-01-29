@@ -2,7 +2,7 @@
 
 # torch
 
-## abs
+## abs()
 
 对张量的所有元素应用绝对值函数。亦为`torch.Tensor`方法。
 
@@ -15,7 +15,7 @@ tensor([1, 2, 3])
 
 
 
-## add, sub
+## add(), sub()
 
 张量加法/减法。亦为`torch.Tensor`方法。`+, -`符号重载了此方法。
 
@@ -46,7 +46,7 @@ tensor([[ 0,  2,  4,  6],
 
 
 
-## arange
+## arange()
 
 生成包含指定等差数列的一维张量。
 
@@ -61,7 +61,7 @@ tensor([ 1.0000,  1.5000,  2.0000])
 
 
 
-## bmm
+## bmm()
 
 批量矩阵乘法。
 
@@ -75,7 +75,7 @@ torch.Size([10, 3, 5])
 
 
 
-## cat
+## cat()
 
 拼接张量。
 
@@ -100,7 +100,7 @@ tensor([[ 0.6580, -1.0969, -0.4614,  0.6580, -1.0969, -0.4614,  0.6580,
 
 
 
-## clamp
+## clamp()
 
 对张量的所有元素应用下限和上限。
 
@@ -122,7 +122,7 @@ tensor([ 0.5000,  0.5000,  2.1593,  0.5000])
 
 
 
-## equal
+## equal()
 
 判断两个张量是否相等。
 
@@ -138,7 +138,7 @@ True
 
 
 
-## exp
+## exp()
 
 对张量的所有元素应用指数函数。亦为`torch.Tensor`方法。
 
@@ -153,7 +153,7 @@ tensor([[1.0000e+00, 2.7183e+00, 7.3891e+00, 2.0086e+01, 5.4598e+01],
 
 
 
-## flatten
+## flatten()
 
 将张量展开为向量。
 
@@ -171,7 +171,7 @@ tensor([[1, 2, 3, 4],
 
 
 
-## log, log10, log2
+## log(), log10(), log2()
 
 对张量的所有元素应用对数函数。亦为`torch.Tensor`方法。
 
@@ -192,7 +192,7 @@ tensor([[  -inf, 0.0000, 0.3010, 0.4771, 0.6021],
 
 
 
-## matmul
+## matmul()
 
 张量乘法。亦为`torch.Tensor`方法。`@`符号重载了此方法。
 
@@ -262,7 +262,7 @@ tensor([[[ 6,  6,  6],
 
 
 
-## max, min, mean, std
+## max(), min(), mean(), std()
 
 返回张量所有元素统计量。亦为`torch.Tensor`方法。
 
@@ -283,7 +283,7 @@ tensor(3.0277)
 
 
 
-## mm
+## mm()
 
 矩阵乘法。亦为`torch.Tensor`方法。
 
@@ -296,7 +296,7 @@ tensor([[0.0717]])
 
 
 
-## mul, div
+## mul(), div()
 
 张量逐元素乘法/除法。亦为`torch.Tensor`方法。`*, /`符号重载了此方法。
 
@@ -323,9 +323,7 @@ tensor([[  0,   1,   4,   9],
 
 
 
-
-
-## ones
+## ones()
 
 生成指定形状的全1张量。
 
@@ -337,9 +335,7 @@ tensor([[ 1.,  1.,  1.],
 
 
 
-
-
-## randn
+## randn()
 
 生成指定形状的随机张量，其中每个元素服从标准正态分布。
 
@@ -351,7 +347,7 @@ tensor([[ 1.5954,  2.8929, -1.0923],
 
 
 
-## sigmoid
+## sigmoid()
 
 Sigmoid 激活函数。亦为`torch.Tensor`方法。见`torch.nn.Sigmoid`。
 
@@ -365,9 +361,7 @@ tensor([0.8558, 0.2710])
 
 
 
-
-
-## sin, cos, tan, arcsin, arccos, arctan, sinh, cosh, tanh, arcsinh, arccosh, arctanh
+## sin(), cos(), tan(), arcsin(), arccos(), arctan(), sinh(), cosh(), tanh(), arcsinh(), arccosh(), arctanh()
 
 对张量的所有元素应用三角函数和双曲函数。
 
@@ -385,9 +379,7 @@ tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
 
 
 
-
-
-## tanh
+## tanh()
 
 tanh 激活函数。亦为`torch.Tensor`方法。
 
@@ -403,7 +395,7 @@ tensor([-0.9121,  0.3202])
 
 ## Tensor
 
-### detach
+### detach()
 
 返回一个张量，其与输入张量共享内存，但在计算图之外，不参与梯度计算。
 
@@ -441,7 +433,7 @@ RuntimeError: one of the variables needed for gradient computation has been modi
 
 
 
-### expand
+### expand()
 
 将张量在某些维度上以复制的方式扩展。注意内存共享问题。
 
@@ -467,7 +459,7 @@ tensor([[0],
 
 
 
-### item
+### item()
 
 对于只有一个元素的张量，返回该元素的值。
 
@@ -481,7 +473,7 @@ torch.Size([1, 1, 1])
 
 
 
-### new_full, new_ones, new_zeros
+### new_full(), new_ones(), new_zeros()
 
 `new_full()`返回一个指定形状和所有元素值的张量，并且该张量与调用对象有同样的`torch.dtype`和`torch.device`。
 
@@ -506,7 +498,7 @@ tensor([[0., 0., 0.],
 
 
 
-### permute
+### permute()
 
 返回将调用对象的所有维度重新排序得到的张量。
 
@@ -537,7 +529,7 @@ tensor([[[ 0,  4,  8],
 
 
 
-### repeat
+### repeat()
 
 将张量在某些维度上重复。
 
@@ -585,7 +577,7 @@ tensor([[[ 1,  1,  2,  3],       # 不共享内存
 
 
 
-### squeeze
+### squeeze()
 
 返回一个张量，其在输入张量的基础上删除所有规模为1的维度。返回张量与输入张量共享内存。
 
@@ -611,7 +603,7 @@ torch.Size([5, 4, 3])
 
 
 
-### to
+### to()
 
 返回调用对象更改`torch.dtype`和`torch.device`后的张量。
 
@@ -631,7 +623,7 @@ tensor([[-0.5044,  0.0005],
 
 
 
-### unsqueeze
+### unsqueeze()
 
 返回一个张量，其在输入张量的基础上在指定位置增加一个规模为1的维度。返回张量与输入张量共享内存。
 
@@ -647,9 +639,7 @@ torch.Size([2, 3, 4, 1])
 
 
 
-
-
-## topk
+## topk()
 
 返回一维张量的最大的k个数。对于二维张量，返回每行的最大的k个数。
 
@@ -673,7 +663,7 @@ tensor([[2],
 
 
 
-## transpose
+## transpose()
 
 交换张量的指定两个维度。亦为`torch.Tensor`方法。
 
@@ -692,11 +682,7 @@ tensor([[0., 5.],
 
 
 
-
-
-
-
-## zeros
+## zeros()
 
 生成指定形状的全0张量。
 
@@ -711,8 +697,6 @@ tensor([[ 0.,  0.,  0.],
 
 
 # torch.nn
-
-
 
 ## Conv1d
 
@@ -1140,7 +1124,7 @@ tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 
 
 
-## max_pool1d
+## max_pool1d()
 
 一维最大汇聚函数。见`torch.nn.MaxPool1d`。
 
@@ -1158,7 +1142,7 @@ tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
 
 
 
-## max_pool2d
+## max_pool2d()
 
 二维最大汇聚函数。见`torch.nn.MaxPool2d`。
 
@@ -1180,7 +1164,7 @@ tensor([[[[1.2014, 1.1915],
 
 
 
-## one_hot
+## one_hot()
 
 将向量转换为one-hot表示。
 
@@ -1202,7 +1186,7 @@ tensor([[1, 0, 0, 0, 0],
 
 
 
-## relu
+## relu()
 
 ReLU 激活函数。见`torch.nn.ReLU`。
 
@@ -1216,7 +1200,7 @@ tensor([1.2175, 0.0000])
 
 
 
-## sigmoid (deprecated)
+## sigmoid() (deprecated)
 
 Sigmoid 激活函数。见`torch.nn.Sigmoid, torch.sigmoid`。
 
@@ -1230,7 +1214,7 @@ tensor([0.8558, 0.2710])
 
 
 
-## softmax
+## softmax()
 
 softmax回归。
 
@@ -1250,7 +1234,7 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
 
 
 
-## tanh
+## tanh()
 
 tanh 激活函数。
 
@@ -1386,8 +1370,6 @@ device(type='cpu')
 
 
 
-
-
 # torch.view
 
 view相当于numpy中的resize功能，即改变张量的形状。
@@ -1403,6 +1385,165 @@ tensor([[ 0,  1,  2,  3,  4,  5],
         [ 6,  7,  8,  9, 10, 11]])
 >>> c
 tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
+```
+
+
+
+
+
+# torch.autograd
+
+`torch.autograd`提供了实现自动微分的类和函数。
+
+
+
+## backward
+
+```python
+torch.autograd.backward(tensors: Union[torch.Tensor, Sequence[torch.Tensor]], grad_tensors: Union[torch.Tensor, Sequence[torch.Tensor], None] = None, retain_graph: Optional[bool] = None, create_graph: bool = False, grad_variables: Union[torch.Tensor, Sequence[torch.Tensor], None] = None) → None
+# tensors       计算此张量对所有叶节点的梯度
+# grad_tensors  tensors是非标量时,与此张量作内积以转换为标量.形状必须与tensors相同
+# retain_graph  若为False,计算图在梯度计算完成后(backward()返回后)即被释放.注意在几
+#                 乎所有情形下将其设为True都是不必要的,因为总有更好的解决方法
+# create_graph  若为True,可以计算更高阶梯度
+```
+
+计算`tensors`对所有计算图叶节点的梯度。
+
+图使用链式法则进行微分。如果`tensors`不是一个标量（即拥有多于一个元素）且需要计算梯度，函数就需要指定`grad_tensors`，`tensors`与`grad_tensors`作内积从而转换为一个标量。`grad_tensors`必须与`tensors`的形状相同。
+
+该函数会在叶节点累计梯度，因此你需要在每次迭代时先将其归零。
+
+
+
+## grad
+
+```python
+torch.autograd.grad(outputs: Union[torch.Tensor, Sequence[torch.Tensor]], inputs: Union[torch.Tensor, Sequence[torch.Tensor]], grad_outputs: Union[torch.Tensor, Sequence[torch.Tensor], None] = None, retain_graph: Optional[bool] = None, create_graph: bool = False, only_inputs: bool = True, allow_unused: bool = False) → Tuple[torch.Tensor, ...]
+# outputs       计算outputs对inputs的梯度
+# inputs
+# grad_outputs  类似于backward()的grad_tensors
+# retain_graph  同backward()
+# create_graph  同backward()
+# only_inputs   若为True,则只计算对inputs的梯度;若为False,则计算对所有叶节点的梯度,
+#                  并将梯度累加到.grad上
+# allow_unused  若为False,则指定的inputs没有参与outputs的计算将视作一个错误
+```
+
+计算`outputs`对`inputs`的梯度并返回。
+
+
+
+## no_grad
+
+禁用梯度计算的上下文管理器。
+
+在此模式下，所有运算的结果都有`requires_grad = False`，即使输入有`requires_grad = True`。当你确定不会调用`tensor.backward()`时，禁用梯度计算可以降低结果本来为`requires_grad = True`的运算这一部分的内存消耗。
+
+可以作为装饰器使用。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.no_grad():
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> @torch.no_grad()
+... def doubler(x):
+...     return x * 2
+>>> z = doubler(x)
+>>> z.requires_grad
+False
+```
+
+
+
+## enable_grad
+
+启用梯度计算的上下文管理器。
+
+用于在`no_grad`或`set_grad_enabled`禁用梯度计算的环境下启用梯度计算。
+
+可以作为装饰器使用。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.no_grad():
+...   with torch.enable_grad():
+...     y = x * 2
+>>> y.requires_grad
+True
+>>> y.backward()
+>>> x.grad
+>>> @torch.enable_grad()
+... def doubler(x):
+...     return x * 2
+>>> with torch.no_grad():
+...     z = doubler(x)
+>>> z.requires_grad
+True
+```
+
+
+
+## set_grad_enabled
+
+设置梯度计算开或关的上下文管理器。
+
+根据其参数`mode`启用或禁用梯度计算。可以用作上下文管理器或函数。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> is_train = False
+>>> with torch.set_grad_enabled(is_train):
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> torch.set_grad_enabled(True)
+>>> y = x * 2
+>>> y.requires_grad
+True
+>>> torch.set_grad_enabled(False)
+>>> y = x * 2
+>>> y.requires_grad
+False
+```
+
+
+
+## Function
+
+> 参考：pytorch-tutorial-torch.autograd的简单入门-Function
+
+记录运算历史，定义运算导数公式。
+
+对（`requires_grad=True`的）张量的每一次运算都会创建一个新的`Function`对象，用于执行计算、记录过程。运算历史会保留在由`Function`对象构成的有向无环图的形式中，其中边表示数据的依赖关系（`input <- output`）。当调用`backward`时，计算图按照拓扑序进行处理，依次调用每个`Function`对象的`backward()`方法，传递返回的梯度值。
+
+`Function`类的一般使用方法是创建子类并定义新操作，这是扩展`torch.autograd`的推荐方法。
+
+```python
+class Exp(Function):
+
+    # 执行运算
+    # 第一个参数必须接受一个context,用于保存张量,在backward中取回
+    @staticmethod
+    def forward(ctx, i):
+        result = i.exp()
+        ctx.save_for_backward(result)  # 保存张量,这里为e**i
+        return result
+    
+    # 定义该运算的导数公式
+    # 第一个参数必须接受一个context,用于取回张量;属性ctx.needs_input_grad是一个
+    #    布尔类型的元组,表示哪些输入需要计算梯度
+    # 之后的每一个参数对应(损失)对相应输出的梯度
+    # 返回的每一个变量对应(损失)对相应输入的梯度
+    @staticmethod
+    def backward(ctx, grad_output):
+        result, = ctx.saved_tensors    # 取回张量
+        return grad_output * result    # 计算梯度并返回
+
+# Use it by calling the apply method:
+output = Exp.apply(input)
 ```
 
 
@@ -1472,6 +1613,48 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 
 
 
+# torch.multiprocessing
+
+`torch.multiprocessing`是对原始`multiprocessing`模块的一个包装。It registers custom reducers, that use shared memory to provide shared views on the same data in different processes. 一旦张量被移动到共享内存(shared_memory)中，它就能被发送到其它进程而无需复制。
+
+此API100%兼容原始模块，你完全可以将`import multiprocessing`改为`import torch.multiprocessing`以将所有张量送入队列或通过其它机制分享。
+
+由于此API与原始API的相似性，请参考`multiprocessing`包的文档以获取更多细节。
+
+
+
+## 共享CUDA张量
+
+在进程间共享CUDA张量使用`spawn`或`forkserver`启动方法。
+
+不同于CPU张量，只要接收进程持有的是张量的副本，发送进程就需要保留原始张量。
+
+1. 消费者应尽快释放内存
+
+   ```python
+   ## Good
+   x = queue.get()
+   # do somethings with x
+   del x
+   ```
+
+   ```python
+   ## Bad
+   x = queue.get()
+   # do somethings with x
+   # do everything else (producer have to keep x in memory)
+   ```
+
+2. 保持
+
+
+
+## spawn()
+
+创建`Process`实例启动若干子进程
+
+
+
 # torch.optim
 
 ```python
@@ -1484,5 +1667,6 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
 # torch.utils.data
+
 
 

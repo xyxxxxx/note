@@ -13,9 +13,7 @@ $ kubectl create -f ./pod.yaml
 # --filename -f  Filename, directory or URL to files to use to create the resource
 ```
 
-
-
-下列诸命令使用命令行参数，而非配置文件创建资源，基本上在测试过程中使用。
+下列诸命令使用命令行参数，而非配置文件创建资源，基本上用于测试过程。
 
 
 

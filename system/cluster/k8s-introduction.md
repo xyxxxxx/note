@@ -69,9 +69,9 @@ Node 节点可以在运行期间动态增加到 Kubernetes 集群中，条件是
 
 ![](https://d33wubrfki0l68.cloudfront.net/fe03f68d8ede9815184852ca2a4fd30325e5d15a/98064/docs/tutorials/kubernetes-basics/public/images/module_03_pods.svg)
 
-Pod 是一组紧密关联的容器集合，它们共享 PID、IPC、存储、网络 和 UTS namespace，是Kubernetes 调度的基本单元。Pod 的设计理念是支持多个容器在一个 Pod 中共享网络和文件系统，可以通过<u>进程间通信和文件共享</u>这种简单高效的方式组合完成服务。Pod 中的容器始终位于同一位置并且共同调度，并在同一工作节点上的共享上下文中运行。
+Pod 是一组紧密关联的容器集合，它们共享 PID、IPC、存储、网络 和 UTS namespace，是Kubernetes 调度的基本单元。Pod 的设计理念是支持<u>多个容器在一个 Pod 中共享网络和文件系统</u>，可以通过<u>进程间通信和文件共享</u>这种简单高效的方式组合完成服务。Pod 中的容器始终位于同一位置并且共同调度，并在同一工作节点上的共享上下文中运行。
 
-Node 中的每个 Pod 都分配了唯一的IP地址，称为Pod IP。Kubernetes 要求底层网络支持集群内任意两个 Pod 之间的TCP/IP直接通信，这通常使用虚拟二层网络技术来实现，因此我们需要记住，一个 Pod 里的容器与其它 Node 的 Pod 的容器可以直接通信。
+Node 中的每个 Pod 都分配了唯一的IP地址，称为Pod IP。Kubernetes 要求底层网络<u>支持集群内任意两个 Pod 之间的TCP/IP直接通信</u>，这通常使用虚拟二层网络技术来实现，因此我们需要记住，一个 Pod 里的容器与其它 Node 的 Pod 的容器可以直接通信。
 
 Pod 一旦被创建，就会被放入到 etcd 中存储，并由 Master 调度到某个具体的 Node 上进行绑定(binding)，随后该 Pod 由 对应 Node 上的 kubelet 进程实例化为一组相关的 Docker 容器并启动。如果 Pod 中的某个容器停止，Kubernetes 会自动检测到这个问题并且重新启动这个 Pod；如果 Pod 所在的 Node 宕机，则会将该 Node 上的所有 Pod 重新调度到其它 Node 上。
 
@@ -165,7 +165,7 @@ spec:
 
 ## Deployment
 
-Deployment（部署）确保任意时间都有指定数量的 Pod 副本在运行。与 RC 类似，Master 节点上的 Controller Manager 组件会定期检查系统中当前运行的目标 Pod，如果运行的副本多于期望值则停掉一些 Pod，少于则自动创建一些 Pod。
+Deployment（部署）确保任意时间都有指定数量的 Pod 副本在运行。与 RC 类似，Master 节点上的 Controller Manager 组件会<u>定期检查系统中当前运行的目标 Pod</u>，如果运行的副本多于期望值则停掉一些 Pod，少于则自动创建一些 Pod。
 
 以下是 Deployment 的典型使用场景：
 
@@ -315,7 +315,7 @@ Kubernetes 对象是 “目标性记录” —— 一旦创建对象，Kubernete
 
 ## 定义对象
 
-创建 Kubernetes 对象时，必须提供对象的`spec`，用来描述该对象的期望状态， 以及关于对象的一些基本信息（例如名称）。当使用 Kubernetes API 创建对象时（或者直接创建，或者基于`kubectl`）， API 请求必须在请求体中包含 JSON 格式的信息。 **大多数情况下，需要在 .yaml 文件中为 `kubectl` 提供这些信息**。 `kubectl` 在发起 API 请求时，将这些信息转换成 JSON 格式。
+创建 Kubernetes 对象时，必须<u>提供对象的`spec`，用来描述该对象的期望状态</u>， 以及关于对象的一些基本信息（例如名称）。当使用 Kubernetes API 创建对象时（或者直接创建，或者基于`kubectl`）， API 请求必须在请求体中包含 JSON 格式的信息。 大多数情况下，需要在 **.yaml 文件**中为 `kubectl` 提供这些信息。 `kubectl` 在发起 API 请求时，将这些信息转换成 JSON 格式。
 
 这里有一个 `.yaml` 示例文件，展示了 Kubernetes Deployment 的必需字段和对象规约：
 
