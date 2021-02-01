@@ -1645,13 +1645,62 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
    # do everything else (producer have to keep x in memory)
    ```
 
-2. 保持
+2. 保持生产者进程运行直到所有消费者退出。这将防止生产者释放消费者依然在使用的张量内存。
+
+   ```python
+   ## producer
+   # send tensors, do something
+   event.wait()
+   ```
+
+   ```python
+   ## consumer
+   # receive tensors and use them
+   event.set()
+   ```
+
+3. 不要直接转发张量：
+
+   ```python
+   # not going to work
+   x = queue.get()
+   queue_2.put(x)
+   ```
+
+   ```python
+   # you need to create a process-local copy
+   x = queue.get()
+   x_clone = x.clone()
+   queue_2.put(x_clone)
+   ```
+
+   ```python
+   # putting and getting from the same queue in the same process will likely end up with segfault
+   queue.put(tensor)
+   x = queue.get()
+   ```
+
+   
+
+## 共享策略（CPU张量）
+
+### `file_descriptor`
 
 
 
-## spawn()
+### `file_system`
 
-创建`Process`实例启动若干子进程
+
+
+## `spawn()`
+
+可以通过创建`Process`实例以启动若干子进程，执行特定函数，
+
+
+
+
+
+
 
 
 
