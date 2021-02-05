@@ -67,7 +67,7 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 
 # sklearn.metrics
 
-### accuracy_score
+### accuracy_score()
 
 计算准确率。
 
@@ -81,15 +81,15 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 
 
 
-### confusion_matrix
+### confusion_matrix()
 
 根据实际结果和预测结果计算混淆矩阵。
 
-见precision_score, recall_score, f1_score。
+见precision_score(), recall_score(), f1_score()。
 
 
 
-### precision_score, recall_score, f1_score
+### precision_score(), recall_score(), f1_score()
 
 计算精确率、召回率、F1值。
 
@@ -125,13 +125,13 @@ array([[3, 0, 0],   # true  0
        [1, 2, 0],   #       1
        [0, 2, 1]])  #       2
 >>> precision_score(y_true, y_pred, average=None)
-array([0.75, 0.5 , 1.  ])   # 分别对于pred 0,1,2
+array([0.75, 0.5 , 1.  ])   # 分别对于pred(列) 0,1,2
 >>> precision_score(y_true, y_pred, average='macro')
 0.75                        # 宏平均
 >>> precision_score(y_true, y_pred, average='micro')
 0.6666666666666666          # 微平均
 >>> recall_score(y_true, y_pred, average=None)
-array([1.        , 0.66666667, 0.33333333])   # 分别对于true 0,1,2
+array([1.        , 0.66666667, 0.33333333])   # 分别对于true(行) 0,1,2
 >>> recall_score(y_true, y_pred, average='macro')
 0.6666666666666666
 >>> recall_score(y_true, y_pred, average='micro')

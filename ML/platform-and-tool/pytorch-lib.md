@@ -61,6 +61,23 @@ tensor([ 1.0000,  1.5000,  2.0000])
 
 
 
+## argmax()
+
+返回张量沿指定维度的最大值的索引。
+
+```python
+>>> a = torch.randn(4, 4)
+>>> a
+tensor([[ 1.3398,  0.2663, -0.2686,  0.2450],
+        [-0.7401, -0.8805, -0.3402, -1.1936],
+        [ 0.4907, -1.3948, -1.0691, -0.3132],
+        [-1.6092,  0.5419, -0.2993,  0.3195]])
+>>> torch.argmax(a, dim=1)
+tensor([ 0,  2,  0,  1])
+```
+
+
+
 ## bmm()
 
 批量矩阵乘法。
@@ -1694,7 +1711,29 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 
 ## `spawn()`
 
-可以通过创建`Process`实例以启动若干子进程，执行特定函数，
+可以通过创建`Process`实例以启动若干子进程，执行特定函数，然后调用`join`等待其完成。此方法在处理单个子进程时工作得很好，但处理多个子进程时就显露了潜在问题，亦即：以特定顺序`join`进程默认了它们会按照该顺序终止。如果事实上没有按照这个顺序，例如在`join`第一个进程时后面的进程终止，则不会被注意到。此外，在这一过程中也没有误差传播的原生工具支持。
+
+下面的`spawn`函数解决了上述问题，支持误差传播、任意顺序终止，并且当检测到错误时可以动态地终止进程。
+
+
+
+```python
+torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False, start_method='spawn')
+# fn        启动进程的作为进入点的调用函数,此函数必须定义在模块的top level以能够被序列
+#           化和启动,这也是multiprocessing规定的必要条件
+# args      传递给fn的参数
+# nprocs    启动的进程数
+# join      对于所有进程join并阻塞
+# daemon    启动进程的守护进程标识.若为True,将创建守护进程
+
+# 若join=True,返回None;否则返回ProcessContext
+```
+
+启动`nprocs`个进程，以使用`args`参数运行`fn`函数。
+
+如果进程中的任意一个以非零退出状态退出，则剩余进程将被杀掉，并且抛出一个进程退出原因的异常。
+
+
 
 
 
@@ -1717,5 +1756,159 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 # torch.utils.data
 
+## DataLoader
 
+DataLoaderPyTorch数据加载功能的核心类，其将一个数据集表示为一个Python可迭代对象。
+
+```python
+DataLoader(dataset, batch_size=1, shuffle=False, sampler=None,
+           batch_sampler=None, num_workers=0, collate_fn=None,
+           pin_memory=False, drop_last=False, timeout=0,
+           worker_init_fn=None, *, prefetch_factor=2,
+           persistent_workers=False)
+```
+
+下面将详细介绍各参数。
+
+### dataset
+
+需要加载的`DataSet`对象。PyTorch支持两种类型的数据集：
+
++ **映射数据集**：实现了`__getitem__()`和`__len()__`方法，表示一个从键到数据样本的映射。例如调用`dataset[idx]`时，可以读取第`idx`个图像和相应的标签。
++ **迭代数据集**：`IterableDataset`的子类的对象，实现了`__iter__()`方法，表示一个数据样本的可迭代对象。此种数据集非常适用于随机读取非常昂贵的情形（如使用磁盘）。例如调用`iter(dataset)`时，可以返回一个从数据库、远程服务器或实时生成的日志的数据流。
+
+
+
+### 加载顺序和Sampler
+
+对于迭代数据集，加载数据的顺序完全由用户定义的可迭代对象控制。这使得区块读取和batch的实现更加简单快速。
+
+对于映射数据集，`torch.utils.data.Sampler`类用于指定加载数据过程的索引或键顺序，它们表示数据集索引的可迭代对象。例如在常规的SGD中，一个`Sample`对象可以随机产生索引的一个排列，每次yield一个索引；或者yield多个索引，实现mini-batch SGD。
+
+一个顺序或乱序的sampler基于`DataLoader`的`shuffle`参数构建。或者，也可以通过传入参数自定义一个`Sampler`对象，每次yield下一个样本的索引。
+
+> `sampler`与迭代数据集不兼容，因为这种数据集没有键或索引。
+
+
+
+### 加载单个和批次数据
+
+`DataLoader`支持自动整理单个的数据样本为batch，通过参数`batch_size`, `drop_last`和`batch_sampler`。
+
+
+
+#### 自动分批
+
+最常见的情形，对应于拿来一个mini-batch的数据，将它们整理为batched样本的情形。
+
+当`batch_size`（默认为1）不为`None`，`dataloader`会yield batched样本而非单个样本。`batch_size`和`drop_last`参数用于指定`dataloader`如何获取数据集的键的batch。对于映射数据集，用户也可以指定`batch_sampler`，其每次yield一个键的列表。
+
+> `batch_size`和`drop_last`参数用于从`sampler`构建`batch_sampler`。对于映射数据集，`sampler`由用户提供或者根据`shuffle`参数构造。
+
+> 当使用多进程从迭代数据集拿数据时，`drop_last`参数丢弃每个worker的数据集副本的最后一个数量不满的batch。
+
+根据`sampler` yield的索引拿到一个样本列表后，作为`collate_fn`参数传入的函数就用于整理样本列表为batch。
+
+这种情形下，从映射数据集加载就大致相当于：
+
+```python
+for indices in batch_sampler:
+    yield collate_fn([dataset[i] for i in indices])
+```
+
+从迭代数据集加载就大致相当于：
+
+```python
+dataset_iter = iter(dataset)
+for indices in batch_sampler:
+    yield collate_fn([next(dataset_iter) for _ in indices])
+```
+
+自定义`collate_fn`可以用于自定义整理过程，即填充顺序数据到batch的最大长度。
+
+
+
+#### 禁用自动分批
+
+在有些情况下，用户可能想要手动处理分批，或仅加载单个样本。例如，直接加载batched数据会使得花销更小（从数据库批量读取，从磁盘批量读取，读取主存的连续块等），或者batch size取决于数据本身，或者模型被设计为在单个样本上运行。在这些情景下，更好的做法是不使用自动分批（和`collate_fn`函数），而让`dataloader`直接返回`dataset`对象的成员。
+
+当`batch_size`和`batch_sampler`都为`None`时，自动分批就被禁用。每一个从`dataset`获得的样本都由`collate_fn`参数传入的函数处理。
+
+当自动分批被禁用时，默认的`collate_fn`函数仅将numpy数组转化为PyTorch张量，而不做其它改变。
+
+这种情形下，从映射数据集加载就大致相当于：
+
+```python
+for index in sampler:
+    yield collate_fn(dataset[index])
+```
+
+从迭代数据集加载就大致相当于：
+
+```python
+for data in iter(dataset):
+    yield collate_fn(data)
+```
+
+
+
+#### 使用`collate_fn`函数
+
+`collate_fn`的作用根据启动或禁用自动分批而略有差异。
+
+
+
+
+
+
+
+
+
+### 单进程和多进程数据加载
+
+
+
+
+
+
+
+### num_workers
+
+
+
+
+
+
+
+## Dataset
+
+表示数据集的一个抽象类。
+
+所有映射数据集应继承此类。所有子类应覆写`__getitem__()`方法，用于根据键拿到数据样本。子类可以覆写`__len__()`，
+
+> 对于映射数据集，`DataLoader`默认构造一个索引`sampler`，yield整数索引。如果映射数据集的索引或键不是整数，则需要提供一个自定义`sampler`。
+
+
+
+## IterableDataset
+
+可迭代数据集。
+
+所有迭代数据集应继承此类。当数据来源于一个流时，这种形式的数据集尤为有用。
+
+所有子类应覆写`__iter__()`方法，用于返回一个数据集中样本的迭代器。
+
+
+
+
+
+## collate_fn
+
+
+
+# torchvision
+
+
+
+## transforms
 

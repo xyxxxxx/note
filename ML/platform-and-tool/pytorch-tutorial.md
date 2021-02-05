@@ -1782,3 +1782,6 @@ model.to(device)
 设定参数`map_location`为`cuda:device_id`将模型加载到指定的GPU设备中。之后还要再调用`model.to(torch.device("cuda"))`使模型中的所有参数张量转换为CUDA张量。
 
 
+
+
+
