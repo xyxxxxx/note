@@ -1756,7 +1756,7 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 # torch.utils.data
 
-## DataLoader
+## DataLoader详解
 
 DataLoaderPyTorch数据加载功能的核心类，其将一个数据集表示为一个Python可迭代对象。
 
@@ -1900,9 +1900,93 @@ for data in iter(dataset):
 
 
 
+## Sampler
+
+所有Sampler的基类。
+
+每个Sampler子类必须提供一个`__iter__()`方法，用于提供一个迭代数据集样本索引的方法，和一个`__len__()`方法，用于返回实例化的迭代器的长度。
 
 
-## collate_fn
+
+## SequentialSampler
+
+顺序采样，并且总是以相同的顺序。
+
+```python
+>>> from torch.utils.data import SequentialSampler
+>>> sampler = SequentialSampler(range(5))
+>>> for i in sampler:
+...   print(i)
+... 
+0
+1
+2
+3
+4
+```
+
+
+
+## RandomSampler
+
+随机采样。如果`replacement=False`，则为无放回随机采样；如果`replacement=True`，则为有放回随机采样，并且可以指定`num_samples`（取样数）。
+
+```python
+>>> from torch.utils.data import RandomSampler
+>>> sampler = RandomSampler(range(5))
+>>> for i in sampler:
+...   print(i)
+... 
+1
+3
+4
+0
+2
+```
+
+```python
+>>> sampler = RandomSampler(range(10), replacement=True, num_samples=100)
+>>> for i in sampler:
+...   print(i)
+... 
+7
+7
+6
+5
+4
+# ...
+```
+
+
+
+## BatchSampler
+
+包装另一个sampler并yield一个mini-batch的索引。
+
+```python
+>>> from torch.utils.data import SequentialSampler
+>>> from torch.utils.data import BatchSampler
+>>> sampler = SequentialSampler(range(10))
+>>> sampler = BatchSampler(sampler, batch_size=3, drop_last=False)
+>>> for i in sampler:
+...   print(i)
+... 
+[0, 1, 2]
+[3, 4, 5]
+[6, 7, 8]
+[9]
+
+>>> sampler = SequentialSampler(range(10))
+>>> sampler = BatchSampler(sampler, batch_size=3, drop_last=True)
+>>> for i in sampler:
+...   print(i)
+... 
+[0, 1, 2]
+[3, 4, 5]
+[6, 7, 8]
+```
+
+
 
 
 
