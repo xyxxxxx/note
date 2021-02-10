@@ -1896,7 +1896,9 @@ for data in iter(dataset):
 
 所有迭代数据集应继承此类。当数据来源于一个流时，这种形式的数据集尤为有用。
 
-所有子类应覆写`__iter__()`方法，用于返回一个数据集中样本的迭代器。
+所有子类应覆写`__iter__()`方法，用于返回一个数据集的样本的迭代器。
+
+当`Dataloader`使用迭代数据集时，`Dataloader`的迭代器会yield数据集的每一个项目
 
 
 
@@ -1984,6 +1986,22 @@ for data in iter(dataset):
 [0, 1, 2]
 [3, 4, 5]
 [6, 7, 8]
+```
+
+```python
+>>> from torch.utils.data import RandomSampler
+>>> from torch.utils.data import BatchSampler
+>>> sampler = RandomSampler(range(10), replacement=True, num_samples=100)
+>>> sampler = BatchSampler(sampler, batch_size=3, drop_last=False)
+>>> for i in sampler:
+...   print(i)
+... 
+[1, 4, 5]
+[6, 8, 9]
+# ...
+[5, 7, 0]
+[9]
+
 ```
 
 

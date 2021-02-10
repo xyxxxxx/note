@@ -7,6 +7,7 @@
 | absolute path                          | 绝对路径             |
 | activation function                    | 激活函数             |
 | accuracy                               | 准确率               |
+| adaptive                               | 自适应               |
 | address space                          | 地址空间             |
 | administrator                          | 管理员               |
 | adjacent                               | 邻接的               |
@@ -20,11 +21,13 @@
 | API, Application Programming Interface | 应用程序接口         |
 | application layer                      | 应用层               |
 | architecture                           | 体系结构             |
-| argument                               | 实参                 |
+| argument                               | 参数；实参           |
 | array                                  | 数组                 |
 | assemble                               | 汇编                 |
+| asynchronous                           | 异步的               |
 | attention                              | 注意力               |
 | attribute                              | 属性                 |
+| augment                                | 增强                 |
 
 
 
@@ -136,6 +139,7 @@
 | embedded system                | 嵌入式系统                   |
 | embedding                      | 嵌入                         |
 | empirical risk                 | 经验风险                     |
+| ensemble                       | 集成                         |
 | enumerate                      | 枚举                         |
 | error                          | 错误                         |
 | Ethernet                       | 以太网                       |
@@ -345,8 +349,9 @@
 | packet                                     | 包，分组           |
 | padding                                    | 填充               |
 | paging                                     | 分页               |
+| parallel                                   | 并行               |
 | parallelism                                | 并行               |
-| parameter                                  | 形参               |
+| parameter                                  | 参数；形参         |
 | parent                                     | 父节点             |
 | parenthesis                                | 括号               |
 | parse                                      | 解析               |
@@ -466,6 +471,7 @@
 | SVM, Support Vector Machine | 支持向量机           |
 | swapping                    | 交换                 |
 | synchronize                 | 同步                 |
+| synchronous                 | 同步的               |
 |                             |                      |
 
 
@@ -485,6 +491,7 @@
 | top                                | 栈顶                        |
 | track                              | 跟踪                        |
 | training                           | 训练                        |
+| transition                         | 移植                        |
 | transport layer                    | 运输层                      |
 | traverse                           | 遍历                        |
 | tree                               | 树                          |
