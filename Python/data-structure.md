@@ -3,16 +3,24 @@
 # 列表list []
 
 ```python
-s = [1,2,3,4]	    # 定义list
-s = [1,2] + [3,4]	# 拼接list
+>>> s = [1,2,3,4]      # 定义list
+>>> s
+[1, 2, 3, 4]
+>>> s = [1,2] + [3,4]  # 拼接list
+>>> s
+[1, 2, 3, 4]
 
-len(s)	# 4
+>>> len(s)
+4
 
-s[0]	# 1
-s[1]	# 2
-s[-1]	# 4
-s[-2]	# 3
-s[-3]	# 2
+>>> s[0]
+1
+>>> s[1]
+2
+>>> s[-1]
+4
+>>> s[-2]
+3
 
 s[:2]	# [1,2]
 s[1:4]	# [2,3,4]
@@ -178,32 +186,38 @@ dict查找和插入的速度快，但占用内存大，即用空间换时间
 dict的key必须是**不可变对象**（字符串，整数，etc）
 
 ```python
-d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
-d = dict(Michael=95, Bob=75, Tracy=85)
-d = dict([('Michael', 95), ('Bob', 75), ('Tracy', 85)])
-names = ['Michael', 'Bob', 'Tracy']
-scores = [95, 75, 85]
-d = dict(zip(columns, values))
+# 创建字典
+>>> d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
+# or
+>>> d = dict(Michael=95, Bob=75, Tracy=85)
+# or
+>>> d = dict([('Michael', 95), ('Bob', 75), ('Tracy', 85)])
+# or
+>>> names = ['Michael', 'Bob', 'Tracy']
+>>> scores = [95, 75, 85]
+>>> d = dict(zip(columns, values))
 
-d['Michael']	# 返回指定key的value
-d['Adam']=67	# 添加新key
-'Thomas' in d	# 判定key存在
+d['Michael']    # 返回指定key的value
+d['Adam']=67    # 添加新key
+'Thomas' in d	  # 判定key存在
 list(d)         # 返回所有key组成的列表
 sorted(d)       # 排序所有key
-d.get('Thomas',-1)	# 判定key存在，存在则返回索引位置，不存在返回-1
-d.pop('Bob')	# 删除key
+d.get('Thomas',-1)  # 判定key存在，存在则返回索引位置，不存在返回-1
+d.pop('Bob')   # 删除key
 
-d.items()		# k,v二维数组
+d.items()	     # k,v二维数组
 list(zip(prices.values(),prices.keys()))  # (v,k)列表
 ```
 
 
 
-## 字典推导式
+## 方法
 
 ```python
-{x: x**2 for x in (2, 4, 6)}   # {2: 4, 4: 16, 6: 36}
+
 ```
+
+
 
 
 
@@ -217,6 +231,15 @@ for value in d.values():
     print(value)	# 迭代value
 for k,v in d.items():
     print(k,v)		# 迭代key和value
+```
+
+
+
+## 字典推导式
+
+```python
+>>> {x: x**2 for x in (2, 4, 6)}
+{2: 4, 4: 16, 6: 36}
 ```
 
 
