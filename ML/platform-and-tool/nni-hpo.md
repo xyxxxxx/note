@@ -331,13 +331,23 @@ tuner:
 
 # 贝叶斯优化Bayesian optimization
 
-
+贝叶斯优化方法基于过去的评价结果构建一个概率模型，将一组超参数映射为目标函数的指标的概率分布，这一模型称为目标函数的“代理(surrogate)”函数。代理函数的优化比目标函数容易得多，因此我们将代理函数上最好的一组超参数配置作为目标函数下一次尝试的对象。换言之，用较少的时间优化代理函数得到（可能）更好的超参数配置，以避免目标函数在盲目尝试中花费更多的时间。由于贝叶斯优化可以利用过去的trial信息，其相比随机搜索更加有效，能在更短的时间内寻找到更好的参数。
 
 
 
 ## GP Tuner
 
 GP(Gaussian Process)调参器实现了使用高斯过程回归的贝叶斯优化算法，是一种基于顺序模型的优化(Sequential Model-Based Optimization, SMBO)算法，参考论文[Algorithms for Hyper-Parameter Optimization](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)。此算法根据已有的观测样本点，通过高斯过程回归计算函数的后验分布，得到函数在每一个超参数取值点的期望和方差，期望越大表示该点的函数取值期望越大，方差越大表示该点可以探索的空间越大，算法会采取策略（使用采集函数）以权衡开发和探索。随着观测次数的增加，后验分布将不断得到改善，趋近于目标函数。更详细的介绍可以参考这篇[博客](https://zhuanlan.zhihu.com/p/29779000)。
+
+
+
+> SMBO算法是贝叶斯优化的一种形式，其中顺序(sequential)表示trial一个接一个地运行，每一次trial尝试由应用贝叶斯推断并更新代理模型得到的一组更好的超参数。SMBO算法可描述为以下步骤：
+>
+> 1. 定义搜索空间、目标函数(target function)和目标函数的代理函数(surrogate function)；
+> 2. 使用选择函数(selection function)根据当前代理函数选出下一组评估的超参数；
+> 3. 使用这一组超参数计算目标函数，并根据已有的超参数与指标信息更新代理函数，回到2。
+>
+> SMBO算法的不同变体的差别主要在于代理函数以及选择函数的定义。代理函数通常使用高斯过程回归，随机森林回归和TPE(Tree Parzen Estimator)，选择函数通常使用期望改善，置信上限等。
 
 
 
@@ -388,7 +398,7 @@ tuner:
 ### 使用方法与建议
 
 + 搜索空间必须是连续区间或者离散的数值，不能是离散的类别，因为需要计算样本点之间的距离。
-+ 此算法的时间复杂度为$$O(n^3)$$，其中$$n$$为已观测的样本点数量，因此建议在trial次数较少（几十到几百）的情形下使用。
++ 此算法的时间复杂度为$$O(n^3)$$，其中$$n$$为已观测的样本点数量，因此建议在运行少量trial（几十到几百）的情形下使用。
 + 在低维空间中，此算法的表现远远优于随机搜索；但在高维（几十维）空间中，此算法近乎于随机搜索，因为想要观测样本点布满整个搜索空间就需要指数数量的样本，但我们有的样本远远没有这么多，样本点之间距离比较远，几乎不能提供有用信息。因此此算法也不适用于超参数非常多的大规模系统。
 + 此算法的朴素形式不支持并行。
 
@@ -396,21 +406,23 @@ tuner:
 
 ## TPE
 
-> 参考：
->
-> [Algorithms for Hyper-Parameter Optimization](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)
+TPE(Tree-structured Parzen Estimator)算法来自于论文[Algorithms for Hyper-Parameter Optimization](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)，也是一种SMBO算法，但与使用高斯过程的贝叶斯回归不同的是，它使用贝叶斯公式为$$p(x|y)$$而非$$p(y|x)$$建立概率模型（这里$$x$$指超参数配置，$$y$$指目标函数值），并根据阈值$$y^*$$将$$p(x|y)$$划分为两个分布$$l(x)$$和$$g(x)$$，取它们的商作为代理函数的优化目标。具体细节请参考原论文。
 
-TPE(Tree-structured Parzen Estimator)算法也是一种SMBO算法
+此算法处理树状结构的超参数空间，也就是参数间存在依赖关系，例如必须在指定神经网络的层数之后才能指定某一层的参数。
 
 
 
-### 配置示例
+### NNI配置示例
 
 ```json
-
+// search_space.json
+{
+    "batch_size": {"_type": "choice", "_value": [16, 32, 64, 128]},
+    "hidden_size": {"_type": "choice", "_value": [128, 256, 512, 1024]},
+    "lr": {"_type": "choice", "_value": [0.0001, 0.001, 0.01, 0.1]},
+    "momentum": {"_type": "uniform", "_value": [0, 1]}
+}
 ```
-
-
 
 ```yaml
 # config.yml
@@ -426,15 +438,37 @@ tuner:
 
 
 
+## AutoTune配置示例
+
+```yaml
+spec:
+  searchSpace: |-
+    {
+        "batch_size": {"_type": "choice", "_value": [16, 32, 64, 128]},
+        "hidden_size": {"_type": "choice", "_value": [128, 256, 512, 1024]},
+        "lr": {"_type": "choice", "_value": [0.0001, 0.001, 0.01, 0.1]},
+        "momentum": {"_type": "uniform", "_value": [0, 1]}
+    }
+  tuner:
+    builtinTunerName: TPE
+    classArgs:
+      optimize_mode: maximize
+```
+
+
+
 ### 使用建议
 
-+ TPE是一种黑盒优化方法，可以使用在各种场景中，通常情况下都能得到较好的结果。特别是在计算资源有限，只能运行少量Trial的情况。
-+ 大量实验表明，TPE的性能远远优于随机搜索。
++ 此算法适用于各种情形下，并且通常都能得到比较好的结果。特别是在计算资源有限，只能运行少量trial的情形下建议使用此算法。
 + 此算法的并行化研究请参考[NNI文档](https://github.com/microsoft/nni/blob/master/docs/zh_CN/CommunitySharings/ParallelizingTpeSearch.rst)。
 
 
 
 ## SMAC
+
+SMAC(Sequential Model-based Algorithm Configuration)算法来自于论文[Sequential model-based optimization for general algorithm configuration](https://ml.informatik.uni-freiburg.de/papers/11-LION5-SMAC.pdf)，也是一种SMBO算法，其特征是可以处理类别超参数。此算法使用随机森林
+
+
 
 
 

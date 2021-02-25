@@ -12,7 +12,7 @@
 $$
 I(x) = − \log p(x)
 $$
-在自信息的定义中,对数的底可以使用2、自然常数e或是10.当底为2时,自信息的单位为bit;当底为e时,自信息的单位为nat.
+在自信息的定义中,对数的底可以使用2,自然常数e或是10.当底为2时,自信息的单位为bit;当底为e时,自信息的单位为nat.
 
 对于分布为$$p(x)$$的随机变量$$X$$,其自信息的数学期望,即熵$$H(X)$$定义为
 $$
@@ -24,7 +24,7 @@ $$
 
 熵越高,则随机变量的信息越多;熵越低,则随机变量的信息越少.如果变量$$X$$当且仅当在$$x$$时$$p(x)=1$$,则熵为0.也就是说,对于一个确定的信息,其熵为0,信息量也为0.如果其概率分布为一个均匀分布,则熵最大.
 
-图
+<img src="http://photos1.blogger.com/blogger/5682/4111/1600/EntropyVersusProbability.0.png" style="zoom:67%;" />
 
 
 
@@ -60,9 +60,11 @@ $$
 
 
 
+
+
 # 互信息
 
-互信息(Mutual Information)是衡量已知一个变量时,另一个变量不确定性的减少程度.两个离散随机变量X和Y的互信息定义为
+**互信息(Mutual Information)**是衡量已知一个变量时,另一个变量不确定性的减少程度.两个离散随机变量X和Y的互信息定义为
 $$
 I(X; Y ) =\sum_{x\in\mathcal{X}} \sum_{y\in\mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}
 $$
@@ -72,6 +74,8 @@ I(X; Y ) = H(X) − H(X|Y )= H(Y ) − H(Y |X)
 $$
 
 如果变量 X 和 Y 互相独立,它们的互信息为零.
+
+![](https://lh3.googleusercontent.com/proxy/YVe7uTW_NamRMeTUndmA5qwFXMEpll65gCwVVYjE-me52OuyeYqOoy51ck55741_Arx08of9vXh_Sxu8JZudoR45)
 
 
 

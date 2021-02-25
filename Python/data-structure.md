@@ -13,7 +13,7 @@
 >>> len(s)
 4
 
->>> s[0]
+>>> s[0]               # 按索引访问
 1
 >>> s[1]
 2
@@ -22,35 +22,54 @@
 >>> s[-2]
 3
 
-s[:2]	# [1,2]
-s[1:4]	# [2,3,4]
-s[-2:]	# [3,4]
+>>> s[:2]
+[1, 2]
+>>> s[1:4]
+[2, 3, 4]
+>>> s[-2:]
+[3, 4]
 
-len(s)          # 4
-s.append(5)	    # [1,2,3,4,5]
-s.insert(1,1.5)	# [1,1.5,2,3,4,5]
-s.pop()			# [1,1.5,2,3,4]
-s.pop(1)		# [1,2,3,4]
+>>> s.append(5)        # 增删元素 
+>>> s
+[1, 2, 3, 4, 5]
+>>> s.insert(1,1.5)
+>>> s
+[1, 1.5, 2, 3, 4, 5]
+>>> s.pop()
+5
+>>> s.pop(1)
+1.5
+>>> s
+[1, 2, 3, 4]
 
-s[1] = 2.1		     # [1,2.1,3,4]
-s[1:3] = [1.9,2.9]   # [1,1.9,2.9,4]
-s[1:3] = []          # [1,4]
+>>> s[1] = 2.1         # 修改元素
+>>> s
+[1, 2.1, 3, 4]
+>>> s[1:3] = [1.9,2.9]
+>>> s
+[1, 1.9, 2.9, 4]
+>>> s[1:3] = []
+>>> s
+[1, 4]
 ```
 
 ```python
 # 列表变量的关系
-import copy
 
-s = [1,2,[3,4]]
-t = s           # t,s引用同一列表
-u = list(s)     # 返回s的浅拷贝
-                # 相当于创建新列表,各元素分别为1,2和列表[3,4],即引用同一列表
-v = copy.deepcopy(s) # 返回s的深拷贝
-t[0] = 0
-t[2].append(5)
-s               # [0, 2, [3, 4, 5]]
-u               # [1, 2, [3, 4, 5]]
-v               # [1, 2, [3, 4]]
+>>> import copy
+>>> s = [1,2,[3,4]]
+>>> t = s             # t, s引用同一列表
+>>> u = list(s)       # 返回s的浅拷贝
+                      # 相当于创建新列表,各元素分别为1,2和列表[3,4],引用同一列表
+>>> v = copy.deepcopy(s)  # 返回s的深拷贝
+>>> t[0] = 0
+>>> t[2].append(5)
+>>> s
+[0, 2, [3, 4, 5]]
+>>> u
+[1, 2, [3, 4, 5]]
+>>> v
+[1, 2, [3, 4]]
 
 ```
 
@@ -59,17 +78,60 @@ v               # [1, 2, [3, 4]]
 ## 方法
 
 ```python
-append(x)         # 在列表的末尾添加一个元素
-extend(iterable)  # 使用可迭代对象中的所有元素来扩展列表
-insert(i, x)      # 在指定的索引位置插入一个元素
-remove(x)         # 移除列表中第一个值为x的元素
-pop([i])          # 删除列表中指定位置的元素并返回它,默认为最后一个元素
-clear()           # 移除列表中的所有元素
-index(x[,start[,end]]) # 返回列表中第一个值为x的元素的从零开始的索引,start和end用于指定特定的搜索序列
-count(x)          # 返回元素x在列表中出现的次数
-sort(key=None, reverse=False)  # 对列表中的元素进行排序(自定义排序参见sorted())
-reverse()         # 翻转列表中的元素
-copy()            # 返回列表的一个浅拷贝
+>>> a = [1, 2, 7, 4, 3]
+
+# append(x) 在列表的末尾添加一个元素
+>>> a.append(5)
+>>> a
+[1, 2, 7, 4, 3, 5]
+
+# extend(iterable) 使用可迭代对象中的所有元素来扩展列表
+>>> a.extend(range(5))
+>>> a
+[1, 2, 7, 4, 3, 5, 0, 1, 2, 3, 4]
+
+# insert(i, x) 在指定的索引位置插入一个元素
+>>> a.insert(2, 9)
+>>> a
+[1, 2, 9, 7, 4, 3, 5, 0, 1, 2, 3, 4]
+
+# remove(x) 移除列表中第一个值为x的元素
+>>> a.remove(1)
+>>> a
+[2, 9, 7, 4, 3, 5, 0, 1, 2, 3, 4]
+
+# pop([i]) 删除列表中指定位置的元素并返回它,默认为最后一个元素
+>>> a.pop()
+4
+>>> a.pop(9)
+3
+>>> a
+[2, 9, 7, 4, 3, 5, 0, 1, 2]
+
+# count(x) 返回元素x在列表中出现的次数
+>>> a.count(2)
+2
+
+# index(x[,start[,end]]) 返回列表中第一个值为x的元素的从零开始的索引, start和end用于指定特定的搜索序列
+>>> a.index(2)
+0
+>>> a.index(2,1)
+8
+
+# sort(key=None, reverse=False) 对列表中的元素进行排序(自定义排序参见sorted())
+>>> a.sort()
+>>> a
+[0, 1, 2, 2, 3, 4, 5, 7, 9]
+
+# reverse() 翻转列表中的元素
+>>> a.reverse()
+>>> a
+[9, 7, 5, 4, 3, 2, 2, 1, 0]
+
+# clear() 移除列表中的所有元素
+
+# copy() 返回列表的一个浅拷贝
+
 ```
 
 
@@ -77,17 +139,19 @@ copy()            # 返回列表的一个浅拷贝
 ## 迭代
 
 ```python
-for v in ['tic', 'tac', 'toe']:
-    print(v)
-# tic
-# tac
-# toe
+>>> for v in ['tic', 'tac', 'toe']:
+...     print(v)
+... 
+tic
+tac
+toe
 
-for i, v in enumerate(['tic', 'tac', 'toe']):
-    print(i, v)
-# 0 tic
-# 1 tac
-# 2 toe
+>>> for i, v in enumerate(['tic', 'tac', 'toe']):
+...     print(i, v)
+... 
+0 tic
+1 tac
+2 toe
 ```
 
 
@@ -107,13 +171,18 @@ for i, v in enumerate(['tic', 'tac', 'toe']):
 ## 列表推导式
 
 ```python
-[<expression> for <variable_name> in <sequence> if <condition>] # 一般形式
+# 一般形式: [<expression> for <variable_name> in <sequence> if <condition>]
 
-list(range(1, 11))                                   # [1, 2, ..., 10]
-[x * x for x in range(1, 11)]                        # [1, 4, ..., 100]
-[x * x for x in range(1, 11) if x % 2 == 0]          # [4, 16, ..., 100]
-[(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]  # 双重for循环, 组合两个list中不相等的元素
-[x * x if x % 2 == 0 else -x * x for x in range(1, 11)]
+>>> list(range(1, 11))
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> [x * x for x in range(1, 11)]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+>>> [x * x for x in range(1, 11) if x % 2 == 0]
+[4, 16, 36, 64, 100]
+>>> [(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]
+[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+>>> [x * x if x % 2 == 0 else -x * x for x in range(1, 11)]
+[-1, 4, -9, 16, -25, 36, -49, 64, -81, 100]
 
 >>> list(range(1, 11))
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -125,20 +194,18 @@ list(range(1, 11))                                   # [1, 2, ..., 10]
 [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
 >>> [x * x if x % 2 == 0 else -x * x for x in range(1, 11)]    # for循环+if-else语句
 [-1, 4, -9, 16, -25, 36, -49, 64, -81, 100]
-
 ```
 
 嵌套的列表推导式
 
 ```python
-matrix = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-]
-
-[[row[i] for row in matrix] for i in range(4)]
-# [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+>>> matrix = [
+...     [1, 2, 3, 4],
+...     [5, 6, 7, 8],
+...     [9, 10, 11, 12],
+... ]
+>>> [[row[i] for row in matrix] for i in range(4)]
+[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 ```
 
 
@@ -150,12 +217,17 @@ matrix = [
 元组由几个被逗号隔开的值组成，例如
 
 ```python
-t = 12345, 54321, 'hello!'
-t    # (12345, 54321, 'hello!')
-u = t, (1, 2, 3, 4, 5)
-u    # ((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
-t[0] = 88888   # err
-x, y, z = t    # 元组解包
+>>> t = 12345, 54321, 'hello!'
+>>> t
+(12345, 54321, 'hello!')
+>>> u = t, (1, 2, 3, 4, 5)
+>>> u
+((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
+>>> t[0] = 88888
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> x, y, z = t   # 元组解包
 ```
 
 元组总是被圆括号包围。不允许给元组的元素赋值，而只能创建新元组。
@@ -168,9 +240,12 @@ x, y, z = t    # 元组解包
 构造包含0个或1个元素的元组有特殊的语法：
 
 ```python
-empty = ()
-singleton = 'hello',    # 注意逗号,用于创建单元素元组
-singleton               # ('hello',)
+>>> empty = ()
+>>> empty
+()
+>>> singleton = 'hello',  # 注意逗号,用于创建单元素元组 
+>>> singleton
+('hello',)           
 ```
 
 元组可以进行比较，采用逐元素比较法。
@@ -197,16 +272,28 @@ dict的key必须是**不可变对象**（字符串，整数，etc）
 >>> scores = [95, 75, 85]
 >>> d = dict(zip(columns, values))
 
-d['Michael']    # 返回指定key的value
-d['Adam']=67    # 添加新key
-'Thomas' in d	  # 判定key存在
-list(d)         # 返回所有key组成的列表
-sorted(d)       # 排序所有key
-d.get('Thomas',-1)  # 判定key存在，存在则返回索引位置，不存在返回-1
-d.pop('Bob')   # 删除key
+>>> d['Michael']     # 按key访问
+95
+>>> d['Adam'] = 67   # 添加新key 
+>>> d.pop('Bob')     # 弹出key
+75
+>>> d['Michael'] = 90
+>>> d['Michael']
+90
 
-d.items()	     # k,v二维数组
-list(zip(prices.values(),prices.keys()))  # (v,k)列表
+>>> 'Thomas' in d  # 判定key存在
+False
+>>> d.get('Thomas', -1)  # 判定key存在，存在则返回索引位置，不存在返回-1
+-1
+>>> list(d)        # 返回所有key组成的列表
+['Michael', 'Bob', 'Tracy', 'Adam']
+>>> sorted(d)      # 排序所有key
+['Adam', 'Bob', 'Michael', 'Tracy']
+
+>>> d.items()                          # d.items()	k, v二维数组
+dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
+>>> list(zip(d.values(), d.keys()))    # (v,k)列表
+[(95, 'Michael'), (85, 'Tracy'), (67, 'Adam')]
 ```
 
 
@@ -214,6 +301,12 @@ list(zip(prices.values(),prices.keys()))  # (v,k)列表
 ## 方法
 
 ```python
+>>> d = {'a':1, 'b':2, 'c':3}
+
+# update() 使用其它字典来更新字典
+>>> d.update({'c':4, 'd':8})
+>>> d
+{'a': 1, 'b': 2, 'c': 4, 'd': 8}
 
 ```
 
@@ -224,13 +317,25 @@ list(zip(prices.values(),prices.keys()))  # (v,k)列表
 ## 迭代
 
 ```python
-d = {'a': 1, 'b': 2, 'c': 3}
-for key in d:	    # 迭代key
-	print(key)
-for value in d.values():
-    print(value)	# 迭代value
-for k,v in d.items():
-    print(k,v)		# 迭代key和value
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> for key in d:    # 迭代key
+...     print(key)
+... 
+a
+b
+c
+>>> for value in d.values():
+...     print(value)  # 迭代value
+... 
+1
+2
+3
+>>> for k,v in d.items():
+...     print(k, v)   # 迭代key, value
+... 
+a 1
+b 2
+c 3    
 ```
 
 
@@ -275,24 +380,32 @@ s1 ^ s2             # 对称差集
 
 ```python
 # list切片
-L = list(range(100))
-
-L[:10]
-L[-10:]
-L[10:20]
-L[:10:2]
-L[::5]
-L[:]
+>>> L = list(range(100))
+>>> L[:10]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> L[-10:]
+[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+>>> L[10:20]
+[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+>>> L[:10:2]
+[0, 2, 4, 6, 8]
+>>> L[::5]
+[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+>>> L[:]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ..., 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
 
 # tuple也可以使用切片操作，只是返回的仍为tuple
 
 # str切片
-word = 'Python'
-word[:2]      # 'Py'
-word[4:]      # 'on'
-word[4:10]    # 'on',切片中的越界索引会被自动处理
-word[::2]     # 
-
+>>> word = 'Python'
+>>> word[:2]
+'Py'
+>>> word[4:]
+'on'
+>>> word[4:10]  # 切片中的越界索引会被自动处理
+'on'
+>>> word[::2]
+'Pto'
 ```
 
 
@@ -300,8 +413,8 @@ word[::2]     #
 ## map() & reduce()
 
 ```python
-r=map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])	#map()将一元函数作用在序列上，iterator
-list(r)	#list()返回iterator所有元素
+r = map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])	# map()将一元函数作用在序列上，iterator
+list(r)	# list()返回iterator所有元素
 
 
 from functools import reduce
