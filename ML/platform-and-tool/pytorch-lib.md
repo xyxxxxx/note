@@ -17,7 +17,7 @@ tensor([1, 2, 3])
 
 ## add(), sub()
 
-张量加法/减法。亦为`torch.Tensor`方法。`+, -`符号重载了此方法。
+张量加法/减法。亦为`torch.Tensor`方法。`+, -`符号重载了这些方法。
 
 ```python
 >>> a = torch.arange(12).view(3, 4)
@@ -61,11 +61,19 @@ tensor([ 1.0000,  1.5000,  2.0000])
 
 
 
-## argmax()
+## argmax(), argmin()
 
 返回张量沿指定维度的最大值的索引。
 
 ```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-1.6751, -0.7609,  0.8919, -0.0545])
+>>> torch.argmax(a)
+tensor(2)
+>>> torch.argmin(a)
+tensor(0)
+
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 1.3398,  0.2663, -0.2686,  0.2450],
@@ -74,6 +82,8 @@ tensor([[ 1.3398,  0.2663, -0.2686,  0.2450],
         [-1.6092,  0.5419, -0.2993,  0.3195]])
 >>> torch.argmax(a, dim=1)
 tensor([ 0,  2,  0,  1])
+>>> torch.argmin(a, dim=1)
+tensor([ 2,  3,  1,  0])
 ```
 
 
@@ -83,9 +93,9 @@ tensor([ 0,  2,  0,  1])
 批量矩阵乘法。
 
 ```python
->>> mat1 = torch.randn(10, 3, 4)
->>> mat2 = torch.randn(10, 4, 5)
->>> res = torch.bmm(mat1, mat2)    # 相同索引的矩阵对应相乘
+>>> m1 = torch.randn(10, 3, 4)
+>>> m2 = torch.randn(10, 4, 5)
+>>> res = torch.bmm(m1, m2)    # 相同索引的矩阵对应相乘
 >>> res.size()
 torch.Size([10, 3, 5])
 ```
@@ -97,18 +107,18 @@ torch.Size([10, 3, 5])
 拼接张量。
 
 ```python
->>> x = torch.randn(2, 3)
->>> x
+>>> a = torch.randn(2, 3)
+>>> a
 tensor([[ 0.6580, -1.0969, -0.4614],
         [-0.1034, -0.5790,  0.1497]])
->>> torch.cat((x, x, x), 0)
+>>> torch.cat((a, a, a), 0)
 tensor([[ 0.6580, -1.0969, -0.4614],
         [-0.1034, -0.5790,  0.1497],
         [ 0.6580, -1.0969, -0.4614],
         [-0.1034, -0.5790,  0.1497],
         [ 0.6580, -1.0969, -0.4614],
         [-0.1034, -0.5790,  0.1497]])
->>> torch.cat((x, x, x), 1)
+>>> torch.cat((a, a, a), 1)
 tensor([[ 0.6580, -1.0969, -0.4614,  0.6580, -1.0969, -0.4614,  0.6580,
          -1.0969, -0.4614],
         [-0.1034, -0.5790,  0.1497, -0.1034, -0.5790,  0.1497, -0.1034,
@@ -157,13 +167,14 @@ True
 
 ## exp()
 
-对张量的所有元素应用指数函数。亦为`torch.Tensor`方法。
+对张量的所有元素应用自然指数函数。亦为`torch.Tensor`方法。
 
 ```python
->>> t
+>>> a = torch.arange(10.).view(2,5)
+>>> a
 tensor([[0., 1., 2., 3., 4.],
         [5., 6., 7., 8., 9.]])
->>> torch.exp(t)
+>>> torch.exp(a)
 tensor([[1.0000e+00, 2.7183e+00, 7.3891e+00, 2.0086e+01, 5.4598e+01],
         [1.4841e+02, 4.0343e+02, 1.0966e+03, 2.9810e+03, 8.1031e+03]])
 ```
@@ -175,13 +186,13 @@ tensor([[1.0000e+00, 2.7183e+00, 7.3891e+00, 2.0086e+01, 5.4598e+01],
 将张量展开为向量。
 
 ```python
->>> t = torch.tensor([[[1, 2],
+>>> a = torch.tensor([[[1, 2],
                        [3, 4]],
                       [[5, 6],
                        [7, 8]]])
->>> torch.flatten(t)
+>>> torch.flatten(a)
 tensor([1, 2, 3, 4, 5, 6, 7, 8])
->>> torch.flatten(t, start_dim=1)
+>>> torch.flatten(a, start_dim=1)
 tensor([[1, 2, 3, 4],
         [5, 6, 7, 8]])
 ```
@@ -193,16 +204,16 @@ tensor([[1, 2, 3, 4],
 对张量的所有元素应用对数函数。亦为`torch.Tensor`方法。
 
 ```python
->>> t
+>>> a
 tensor([[0., 1., 2., 3., 4.],
         [5., 6., 7., 8., 9.]])
->>> torch.log(t)
+>>> torch.log(a)
 tensor([[  -inf, 0.0000, 0.6931, 1.0986, 1.3863],
         [1.6094, 1.7918, 1.9459, 2.0794, 2.1972]])
->>> torch.log2(t)
+>>> torch.log2(a)
 tensor([[  -inf, 0.0000, 1.0000, 1.5850, 2.0000],
         [2.3219, 2.5850, 2.8074, 3.0000, 3.1699]])
->>> torch.log10(t)
+>>> torch.log10(a)
 tensor([[  -inf, 0.0000, 0.3010, 0.4771, 0.6021],
         [0.6990, 0.7782, 0.8451, 0.9031, 0.9542]])
 ```
@@ -214,11 +225,12 @@ tensor([[  -inf, 0.0000, 0.3010, 0.4771, 0.6021],
 张量乘法。亦为`torch.Tensor`方法。`@`符号重载了此方法。
 
 ```python
->>> # 向量x向量: 内积
+# 向量×向量: 内积
 >>> v1 = torch.tensor([1, 2, 3])
 >>> torch.matmul(v1, v1)
 tensor(14)
->>> # 矩阵x向量, 向量x矩阵: 矩阵乘法
+
+# 矩阵×向量, 向量×矩阵, 矩阵×矩阵: 矩阵乘法
 >>> m1 = torch.arange(1, 10).view(3, 3)
 >>> m1
 tensor([[1, 2, 3],
@@ -228,7 +240,8 @@ tensor([[1, 2, 3],
 tensor([14, 32, 50])                     # 3x3 x 3(x1) = 3(x1)
 >>> torch.matmul(v1, m1)
 tensor([30, 36, 42])                     # (1x)3 x 3x3 = (1x)3
->>> # 矩阵序列x向量: 扩张的矩阵乘法
+
+# 矩阵序列×向量: 扩张的矩阵乘法
 >>> bm1 = m1.view(1, 3, 3).repeat(2, 1, 1)
 >>> bm1
 tensor([[[1, 2, 3],
@@ -241,7 +254,8 @@ tensor([[[1, 2, 3],
 >>> torch.matmul(bm1, v1)
 tensor([[14, 32, 50],                     # [2x]3x3 x 3(x1) = [2x]3(x1)
         [14, 32, 50]])
->>> # 矩阵序列x矩阵: 扩张的矩阵乘法
+
+# 矩阵序列×矩阵: 扩张的矩阵乘法
 >>> m2 = torch.ones(3, 3, dtype=torch.int64)
 >>> torch.matmul(bm1, m2)
 tensor([[[ 6,  6,  6],                    # [2x]3x3 x 3x3 = [2x]3x3
@@ -251,7 +265,8 @@ tensor([[[ 6,  6,  6],                    # [2x]3x3 x 3x3 = [2x]3x3
         [[ 6,  6,  6],
          [15, 15, 15],
          [24, 24, 24]]])
->>> # 矩阵序列x矩阵序列: 逐元素的矩阵乘法
+
+# 矩阵序列×矩阵序列: 逐元素的矩阵乘法
 >>> bm2 = m2.view(1, 3, 3).repeat(2, 1, 1)
 >>> bm2[1] = 2
 >>> bm2
@@ -271,11 +286,10 @@ tensor([[[ 6,  6,  6],
         [[12, 12, 12],
          [30, 30, 30],
          [48, 48, 48]]])
->>> # 矩阵序列x向量序列: 逐元素的矩阵乘法 不适用,会被识别为 矩阵序列x矩阵
-    # 请将向量序列扩展为矩阵序列
+
+# 矩阵序列×向量序列: 逐元素的矩阵乘法 不适用,会被识别为 矩阵序列×矩阵
+# 请将向量序列扩展为矩阵序列
 ```
-
-
 
 
 
@@ -284,18 +298,54 @@ tensor([[[ 6,  6,  6],
 返回张量所有元素统计量。亦为`torch.Tensor`方法。
 
 ```python
->>> t = torch.arange(10.).view(2, -1)
->>> t
+>>> a = torch.arange(10.).view(2, -1)
+>>> a
 tensor([[0., 1., 2., 3., 4.],
         [5., 6., 7., 8., 9.]])
->>> torch.max(t)
+
+>>> torch.max(a)
 tensor(9.)
->>> torch.min(t)
+>>> torch.max(a, 0)
+torch.return_types.max(
+values=tensor([5., 6., 7., 8., 9.]),
+indices=tensor([1, 1, 1, 1, 1]))
+>>> torch.max(a, 1)
+torch.return_types.max(
+values=tensor([4., 9.]),
+indices=tensor([4, 4]))
+
+>>> torch.min(a)
 tensor(0.)
->>> torch.mean(t)
+>>> torch.min(a, 0)
+torch.return_types.min(
+values=tensor([0., 1., 2., 3., 4.]),
+indices=tensor([0, 0, 0, 0, 0]))
+>>> torch.min(a, 1)
+torch.return_types.min(
+values=tensor([0., 5.]),
+indices=tensor([0, 0]))
+
+>>> torch.mean(a)
 tensor(4.5000)
->>> torch.std(t)
+>>> torch.mean(a, 0)
+tensor([2.5000, 3.5000, 4.5000, 5.5000, 6.5000])
+>>> torch.mean(a, 1)
+tensor([2., 7.])
+
+>>> torch.std(a, unbiased=False)
+tensor(2.8723)
+>>> torch.std(a, 0, unbiased=False)
+tensor([2.5000, 2.5000, 2.5000, 2.5000, 2.5000])
+>>> torch.std(a, 1, unbiased=False)
+tensor([1.4142, 1.4142])
+
+# 统计学的标准差
+>>> torch.std(a)
 tensor(3.0277)
+>>> torch.std(a, 0)
+tensor([3.5355, 3.5355, 3.5355, 3.5355, 3.5355])
+>>> torch.std(a, 1)
+tensor([1.5811, 1.5811])
 ```
 
 
@@ -305,9 +355,9 @@ tensor(3.0277)
 矩阵乘法。亦为`torch.Tensor`方法。
 
 ```python
->>> mat1 = torch.randn(1, 3)
->>> mat2 = torch.randn(3, 1)
->>> torch.mm(mat1, mat2)
+>>> m1 = torch.randn(1, 3)
+>>> m2 = torch.randn(3, 1)
+>>> torch.mm(m1, m2)
 tensor([[0.0717]])
 ```
 
@@ -348,6 +398,9 @@ tensor([[  0,   1,   4,   9],
 >>> torch.ones(2, 3)
 tensor([[ 1.,  1.,  1.],
         [ 1.,  1.,  1.]])
+>>> torch.ones(2, 3, dtype=int)
+tensor([[1, 1, 1],
+        [1, 1, 1]])
 ```
 
 
@@ -383,13 +436,13 @@ tensor([0.8558, 0.2710])
 对张量的所有元素应用三角函数和双曲函数。
 
 ```python
->>> t
+>>> a
 tensor([[0., 1., 2., 3., 4.],
         [5., 6., 7., 8., 9.]])
->>> torch.sin(t)
+>>> torch.sin(a)
 tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
         [-0.9589, -0.2794,  0.6570,  0.9894,  0.4121]])
->>> t.sin()
+>>> a.sin()
 tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
         [-0.9589, -0.2794,  0.6570,  0.9894,  0.4121]])
 ```
@@ -455,20 +508,20 @@ RuntimeError: one of the variables needed for gradient computation has been modi
 将张量在某些维度上以复制的方式扩展。注意内存共享问题。
 
 ```python
->>> x = torch.tensor([[1], [2], [3]])
->>> x.size()
+>>> a = torch.tensor([[1], [2], [3]])
+>>> a.size()
 torch.Size([3, 1])
->>> x.expand(-1, 4)       # -1 表示此维度保持不变
+>>> a.expand(-1, 4)       # -1 表示此维度保持不变
 tensor([[ 1,  1,  1,  1],
         [ 2,  2,  2,  2],
         [ 3,  3,  3,  3]])
->>> x1 = x.expand(-1, 4)  # 共享内存
->>> x1[0][0] = 0
->>> x1
+>>> a1 = x.expand(-1, 4)  # 共享内存
+>>> a1[0][0] = 0
+>>> a1
 tensor([[0, 0, 0, 0],     # 共享内存
         [2, 2, 2, 2],
         [3, 3, 3, 3]])
->>> x
+>>> a
 tensor([[0],
         [2],
         [3]])
@@ -481,10 +534,10 @@ tensor([[0],
 对于只有一个元素的张量，返回该元素的值。
 
 ```python
->>> t = torch.tensor([[[1]]])
->>> t.shape
+>>> a = torch.tensor([[[1]]])
+>>> a.shape
 torch.Size([1, 1, 1])
->>> t.item()
+>>> a.item()
 1
 ```
 
@@ -495,8 +548,8 @@ torch.Size([1, 1, 1])
 `new_full()`返回一个指定形状和所有元素值的张量，并且该张量与调用对象有同样的`torch.dtype`和`torch.device`。
 
 ```python
->>> tensor = torch.randn((2,), dtype=torch.float64)
->>> tensor.new_full((2, 3), 3.141592)
+>>> a = torch.randn((2,), dtype=torch.float64)
+>>> a.new_full((2, 3), 3.141592)
 tensor([[ 3.1416,  3.1416,  3.1416],
         [ 3.1416,  3.1416,  3.1416]], dtype=torch.float64)
 ```
@@ -504,11 +557,11 @@ tensor([[ 3.1416,  3.1416,  3.1416],
 `new_ones(), new_zeros()`返回一个指定形状的全1/全0张量，并且该张量与调用对象有同样的`torch.dtype`和`torch.device`。
 
 ```python
->>> tensor = torch.randn((2,), dtype=torch.float64)
->>> tensor.new_ones((2,3))
+>>> a = torch.randn((2,), dtype=torch.float64)
+>>> a.new_ones((2,3))
 tensor([[1., 1., 1.],
         [1., 1., 1.]], dtype=torch.float64)
->>> tensor.new_zeros((2,3))
+>>> a.new_zeros((2,3))
 tensor([[0., 0., 0.],
         [0., 0., 0.]], dtype=torch.float64)
 ```
@@ -520,8 +573,8 @@ tensor([[0., 0., 0.],
 返回将调用对象的所有维度重新排序得到的张量。
 
 ```python
->>> tensor = torch.arange(24).view(2,3,4)
->>> tensor
+>>> a = torch.arange(24).view(2,3,4)
+>>> a
 tensor([[[ 0,  1,  2,  3],
          [ 4,  5,  6,  7],
          [ 8,  9, 10, 11]],
@@ -529,8 +582,7 @@ tensor([[[ 0,  1,  2,  3],
         [[12, 13, 14, 15],
          [16, 17, 18, 19],
          [20, 21, 22, 23]]])
->>> tensor.permute(2, 0, 1)
->>> tensor.permute(2, 0, 1)
+>>> a.permute(2, 0, 1)
 tensor([[[ 0,  4,  8],
          [12, 16, 20]],
 
@@ -551,12 +603,12 @@ tensor([[[ 0,  4,  8],
 将张量在某些维度上重复。
 
 ```python
->>> x = torch.arange(24).view(2, 3, 4)
->>> x.repeat(1, 1, 1).shape     # x自身
+>>> a = torch.arange(24).view(2, 3, 4)
+>>> a.repeat(1, 1, 1).shape     # x自身
 torch.Size([2, 3, 4])
->>> x.repeat(2, 1, 1).shape     # 在维度0上重复2次
+>>> a.repeat(2, 1, 1).shape     # 在维度0上重复2次
 torch.Size([4, 3, 4])
->>> x.repeat(2, 1, 1)
+>>> a.repeat(2, 1, 1)
 tensor([[[ 0,  1,  2,  3],
          [ 4,  5,  6,  7],
          [ 8,  9, 10, 11]],
@@ -572,9 +624,9 @@ tensor([[[ 0,  1,  2,  3],
         [[12, 13, 14, 15],
          [16, 17, 18, 19],
          [20, 21, 22, 23]]])
->>> x1 = x.repeat(2, 1, 1)
->>> x1[0][0][0] = 1
->>> x1
+>>> a1 = a.repeat(2, 1, 1)
+>>> a1[0][0][0] = 1
+>>> a1
 tensor([[[ 1,  1,  2,  3],       # 不共享内存
          [ 4,  5,  6,  7],
          [ 8,  9, 10, 11]],
@@ -599,10 +651,10 @@ tensor([[[ 1,  1,  2,  3],       # 不共享内存
 返回一个张量，其在输入张量的基础上删除所有规模为1的维度。返回张量与输入张量共享内存。
 
 ```python
->>> input = torch.randn(1,2,1,3,1,4)
->>> input.shape
+>>> a = torch.randn(1,2,1,3,1,4)
+>>> a.shape
 torch.Size([1, 2, 1, 3, 1, 4])
->>> input.squeeze().shape
+>>> a.squeeze().shape
 torch.Size([2, 3, 4])
 ```
 
@@ -613,8 +665,8 @@ torch.Size([2, 3, 4])
 返回将调用对象的所有维度反转后的张量。
 
 ```python
->>> tensor = torch.randn(3, 4, 5)
->>> tensor.T.shape
+>>> a = torch.randn(3, 4, 5)
+>>> a.T.shape
 torch.Size([5, 4, 3])
 ```
 
@@ -625,15 +677,15 @@ torch.Size([5, 4, 3])
 返回调用对象更改`torch.dtype`和`torch.device`后的张量。
 
 ```python
->>> tensor = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
->>> tensor.to(torch.float64)
+>>> a = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
+>>> a.to(torch.float64)
 tensor([[-0.5044,  0.0005],
         [ 0.3310, -0.0584]], dtype=torch.float64)
 >>> cuda0 = torch.device('cuda:0')
->>> tensor.to(cuda0)
+>>> a.to(cuda0)
 tensor([[-0.5044,  0.0005],
         [ 0.3310, -0.0584]], device='cuda:0')
->>> tensor.to(cuda0, dtype=torch.float64)
+>>> a.to(cuda0, dtype=torch.float64)
 tensor([[-0.5044,  0.0005],
         [ 0.3310, -0.0584]], dtype=torch.float64, device='cuda:0')
 ```
@@ -645,12 +697,12 @@ tensor([[-0.5044,  0.0005],
 返回一个张量，其在输入张量的基础上在指定位置增加一个规模为1的维度。返回张量与输入张量共享内存。
 
 ```python
->>> input = torch.randn(2,3,4)
->>> input.shape
+>>> a = torch.randn(2,3,4)
+>>> a.shape
 torch.Size([2, 3, 4])
->>> input.unsqueeze(0).shape
+>>> a.unsqueeze(0).shape
 torch.Size([1, 2, 3, 4])
->>> input.unsqueeze(3).shape
+>>> a.unsqueeze(3).shape
 torch.Size([2, 3, 4, 1])
 ```
 
@@ -685,11 +737,11 @@ tensor([[2],
 交换张量的指定两个维度。亦为`torch.Tensor`方法。
 
 ```python
->>> t = torch.arange(10.).view(2, -1)
->>> t
+>>> a = torch.arange(10.).view(2, -1)
+>>> a
 tensor([[0., 1., 2., 3., 4.],
         [5., 6., 7., 8., 9.]])
->>> torch.transpose(t, 0, 1)
+>>> torch.transpose(a, 0, 1)
 tensor([[0., 5.],
         [1., 6.],
         [2., 7.],

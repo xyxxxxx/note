@@ -49,29 +49,29 @@ array([1., 1., 1.])
 array([[1, 0],
        [1, 1]])
 
->>> a+b                  # 逐元素加法
+>>> a + b                  # 逐元素加法
 array([[ 6,  8, 10],
        [12, 14, 16]])
->>> a+1                  # broadcasting
+>>> a + 1                  # broadcasting
 array([[1, 2, 3],
        [4, 5, 6]])
->>> a+c                  # broadcasting
+>>> a + c                  # broadcasting
 array([[1., 2., 3.],
        [4., 5., 6.]])
->>> np.dot(d,d)          # 矩阵乘法(1)
-array([[1, 0],           # 矩阵乘法可以扩展到高维张量之间,具体运算规则与矩阵乘法类似
+>>> np.dot(d,d)            # 矩阵乘法(1)
+array([[1, 0],             # 矩阵乘法可以扩展到高维张量之间,具体运算规则与矩阵乘法类似
        [2, 1]])
->>> d.dot(d)             # 矩阵乘法(2)
+>>> d.dot(d)               # 矩阵乘法(2)
 array([[1, 0],
        [2, 1]])
->>> d*d                  # 逐元素乘法
+>>> d * d                  # 逐元素乘法
 array([[1, 0],
        [1, 1]])
->>> np.transpose(a)      # 转置(1)
+>>> np.transpose(a)        # 转置(1)
 array([[0, 3],
        [1, 4],
        [2, 5]])
->>> a.T                  # 转置(2)
+>>> a.T                    # 转置(2)
 array([[0, 3],
        [1, 4],
        [2, 5]])
@@ -92,16 +92,16 @@ array([[0, 3],
 
 ## numpy
 
-### amax, amin
+### amax(), amin()
 
-返回数组中沿指定轴的最大/最小值。
+返回数组沿指定轴的最大/最小值。
 
 ```python
 >>> a = np.arange(4).reshape((2,2))
 >>> a
 array([[0, 1],
        [2, 3]])
->>> np.amax(a)       # 展开的数组的最大值 
+>>> np.amax(a)           # 展开的数组的最大值 
 3
 >>> np.amax(a, axis=0)   # 沿轴0的最大值
 array([2, 3])
@@ -111,21 +111,21 @@ array([1, 3])
 
 
 
-### append
+### append()
 
 将数组展开为向量，并在末尾添加给定元素。
 
 ```python
 >>> a = np.arange(6).reshape(2,3)
->>> np.append(a,10)
+>>> np.append(a, 10)
 array([ 0,  1,  2,  3,  4,  5, 10])
 ```
 
 
 
-### arange
+### arange()
 
-根据给定的初值，末值和步长创建向量。
+根据给定的初值，末值和步长创建向量。与python的`range()`用法相同。
 
 ```python
 >>> np.arange(10)
@@ -139,20 +139,20 @@ array([0. , 0.5, 1. , 1.5, 2. , 2.5, 3. , 3.5, 4. , 4.5, 5. , 5.5, 6. ,
 
 
 
-### argsort
+### argsort()
 
 返回向量的排序索引。
 
 ```python
->>> x
+>>> a
 array([6, 5, 5, 8, 7])
->>> np.argsort(x)
+>>> np.argsort(a)
 array([1, 2, 0, 4, 3])  # 从小到大依次为索引为1, 2, 0, 4, 3的元素
 ```
 
 
 
-### array
+### array()
 
 创建数组。
 
@@ -170,27 +170,27 @@ array([[ 6,  5],
 
 
 
-### concatenate
+### concatenate()
 
 沿指定轴拼接数组。
 
 ```python
->>> a = np.array([[1, 2], [3, 4]])
->>> b = np.array([[5, 6]])
->>> np.concatenate((a, b), axis=0)
+>>> a1 = np.array([[1, 2], [3, 4]])
+>>> a2 = np.array([[5, 6]])
+>>> np.concatenate((a1, a2), axis=0)
 array([[1, 2],
        [3, 4],
        [5, 6]])
->>> np.concatenate((a, b.T), axis=1)
+>>> np.concatenate((a1, a2.T), axis=1)
 array([[1, 2, 5],
        [3, 4, 6]])
->>> np.concatenate((a, b), axis=None)
+>>> np.concatenate((a1, a2), axis=None)
 array([1, 2, 3, 4, 5, 6])
 ```
 
 
 
-### corrcoef
+### corrcoef()
 
 计算两个向量的相关系数。
 
@@ -210,7 +210,7 @@ array([[ 1., -1., nan],
 
 
 
-### cov
+### cov()
 
 计算两个向量的协方差。
 
@@ -253,20 +253,20 @@ array(['2005-02-25T00:00:00', '2005-02-25T00:10:00',
 
 
 
-### delete
+### delete()
 
 删除数组指定轴和指定索引上的元素。
 
 ```python
->>> arr = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
->>> arr
+>>> a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
+>>> a
 array([[ 1,  2,  3,  4],
        [ 5,  6,  7,  8],
        [ 9, 10, 11, 12]])
->>> np.delete(arr, 1, axis=0)
+>>> np.delete(a, 1, axis=0)
 array([[ 1,  2,  3,  4],
        [ 9, 10, 11, 12]])
->>> np.delete(arr, 1, axis=1)
+>>> np.delete(a, 1, axis=1)
 array([[ 1,  3,  4],
        [ 5,  7,  8],
        [ 9, 11, 12]])
@@ -274,7 +274,7 @@ array([[ 1,  3,  4],
 
 
 
-### diag
+### diag()
 
 返回对角矩阵的对角线向量，或以向量为对角线元素的对角矩阵。
 
@@ -292,12 +292,12 @@ array([1, 2, 3, 4])
 
 
 
-### expand_dims
+### expand_dims()
 
 增加数组的一个维度。
 
 ```python
->>> a = np.random.randn(3,4)
+>>> a = np.random.randn(3, 4)
 >>> np.expand_dims(a, 0).shape  # 等价于 a.reshape(1, 3, 4)
 (1, 3, 4)
 >>> np.expand_dims(a, 1).shape
@@ -308,7 +308,7 @@ array([1, 2, 3, 4])
 
 
 
-### insert
+### insert()
 
 在数组的指定轴的指定索引位置插入元素。
 
@@ -329,7 +329,7 @@ array([[1., 1., 1., 1.],
 
 
 
-### linspace
+### linspace()
 
 在给定区间上生成一个给定规模的等差序列。一般用于绘制折线图。
 
@@ -343,7 +343,7 @@ array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 1.1, 1.2,
 
 
 
-### max, min
+### max(), min()
 
 返回数组中所有元素的最大/最小值。
 
@@ -360,7 +360,7 @@ array([[0, 1],
 
 
 
-### mean, std
+### mean(), std()
 
 返回数组中所有元素或沿指定轴的平均值/标准差。
 
@@ -386,7 +386,7 @@ array([0.08495886, 0.24187973, 0.13003434])
 
 
 
-### ones, zeros
+### ones(), zeros()
 
 创建全1/0数组。
 
@@ -413,20 +413,20 @@ array([0, 0, 0, 0, 0, 0])
 
 
 
-### repeat
+### repeat()
 
-以给定重复次数和给定轴重复数组得到更大数组。
+以重复输入数组元素的方式构建数组。
 
 ```python
 >>> a = np.arange(12).reshape(3,4)
->>> np.repeat(a, 2, 0)
+>>> np.repeat(a, 2, 0)           # 沿轴0, 各重复2次
 array([[ 0,  1,  2,  3],
        [ 0,  1,  2,  3],
        [ 4,  5,  6,  7],
        [ 4,  5,  6,  7],
        [ 8,  9, 10, 11],
        [ 8,  9, 10, 11]])
->>> np.repeat(a, 2, 1)
+>>> np.repeat(a, 2, 1)           # 沿轴1, 各重复2次
 array([[ 0,  0,  1,  1,  2,  2,  3,  3],
        [ 4,  4,  5,  5,  6,  6,  7,  7],
        [ 8,  8,  9,  9, 10, 10, 11, 11]])
@@ -434,9 +434,7 @@ array([[ 0,  0,  1,  1,  2,  2,  3,  3],
 
 
 
-
-
-### reshape
+### reshape()
 
 改变数组的形状。
 
@@ -448,59 +446,35 @@ array([[0, 1, 2],
 
 
 
-### sin, cos, tan, arcsin, arccos, arctan
+### sin(), cos(), tan(), arcsin(), arccos(), arctan(), sinh(), cosh(), tanh()
 
-对数组的每个元素计算三角函数。
-
-
-
-### sinh, cosh, tanh
-
-对数组的每个元素计算双曲函数。
+对数组的每个元素计算三角函数和双曲函数。
 
 
 
-### stack
+### stack()
 
-将数组序列沿指定轴拼接。
+将数组序列沿指定轴堆叠。
 
 ```python
->>> arrays = [np.random.randn(3, 4) for _ in range(10)] # a list of array
+>>> a1 = np.arange(3)
+>>> np.stack((a1,a1,a1),axis=0)
+array([[0, 1, 2],
+       [0, 1, 2],
+       [0, 1, 2]])
+
+>>> arrays = [np.random.randn(3, 4) for _ in range(10)]  # a list of array
 >>> np.stack(arrays, axis=0).shape
 (10, 3, 4)
 >>> np.stack(arrays, axis=1).shape
 (3, 10, 4)
 >>> np.stack(arrays, axis=2).shape
 (3, 4, 10)
-
->>> a1 = np.arange(3)
->>> a2 = np.arange(3)
->>> a3 = np.arange(3)
->>> np.stack((a1,a2,a3),axis=0)
-array([[0, 1, 2],
-       [0, 1, 2],
-       [0, 1, 2]])
 ```
 
 
 
-### std
-
-返回数组的标准差。
-
-```python
->>> a = np.array([[1, 2], [3, 4]])
->>> np.std(a)
-1.1180339887498949 # may vary
->>> np.std(a, axis=0)
-array([1.,  1.])
->>> np.std(a, axis=1)
-array([0.5,  0.5])
-```
-
-
-
-### swapaxes
+### swapaxes()
 
 交换数组的指定两个维度。
 
@@ -519,7 +493,7 @@ array([[0, 5],
 
 
 
-### tranpose
+### tranpose()
 
 返回将数组的所有维度重新排序得到的数组，默认为反转所有维度。
 
@@ -559,7 +533,7 @@ array([[[ 0, 12],
 
 ## numpy.random
 
-### choice
+### choice()
 
 随机抽取向量中的元素。
 
@@ -578,7 +552,7 @@ array([8, 1, 5, 9, 0])
 
 
 
-### randint
+### randint()
 
 根据给定的初值，末值和长度给出整数向量。
 
@@ -589,7 +563,7 @@ array([1, 1, 9, 2, 3, 1, 1, 4, 4, 5, 6, 4, 3, 7, 2, 1, 9, 7, 5, 5])
 
 
 
-### randn
+### randn()
 
 根据给定的形状给出随机数数组，其中每个元素服从标准正态分布。
 
@@ -602,7 +576,7 @@ array([[ 0.1283324 , -0.22434515,  1.47125353],
 
 
 
-### permutation
+### permutation()
 
 随机返回向量中所有元素的全排列中的一种。
 
@@ -617,7 +591,7 @@ array([3, 2, 8, 7, 0, 9, 6, 4, 1, 5])
 
 
 
-### random/rand
+### random()/rand()
 
 根据给定的长度给出随机数向量，其中每个元素服从(0,1)区间的均匀分布。
 
@@ -636,7 +610,7 @@ array([[ 95.57991558, 106.66569132,  98.76637248, 100.29172391],
 
 
 
-### seed
+### seed()
 
 指定随机数种子，一次有效。
 
@@ -649,7 +623,7 @@ array([0.5488135 , 0.71518937, 0.60276338, 0.54488318, 0.4236548 ,
 
 
 
-### shuffle
+### shuffle()
 
 随机打乱数组（沿轴0的）各元素的位置。
 
@@ -671,25 +645,26 @@ array([[ 8,  9, 10, 11],
 
 ## numpy.linalg
 
-### eig
+### eig()
 
 返回数组的一个特征分解$$A=Q\Lambda Q^{-1}$$。
 
 ```python
 >>> from numpy import linalg as LA
 >>> a
-array([1, 2, 3, 4])
->>> LA.eig(np.diag(a))
-(array([1., 2., 3., 4.]), 
- array([[1., 0., 0., 0.],
-       [0., 1., 0., 0.],
-       [0., 0., 1., 0.],
-       [0., 0., 0., 1.]]))
+array([[ 4.,  6.,  0.],
+       [-3., -5.,  0.],
+       [-3., -6.,  1.]])
+>>> LA.eig(a)
+(array([ 1., -2.,  1.]),                          # Λ
+ array([[ 0.        ,  0.57735027, -0.89442719],  # Q
+       [ 0.        , -0.57735027,  0.4472136 ],
+       [ 1.        , -0.57735027,  0.        ]]))
 ```
 
 
 
-### svd
+### svd()
 
 返回数组的一个奇异值分解$$A=U\Sigma V^*$$。
 
