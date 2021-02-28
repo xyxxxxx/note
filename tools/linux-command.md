@@ -252,16 +252,19 @@ $ reboot
 
 ```shell
 # redhat package manager
-$ rpm -a				  # show packages
+$ rpm -a				          # show packages
 $ rpm -qa | grep <name>	  # search package with name
 $ rpm -e --nodeps <name>  # uninstall package
 
 # 环境变量
 $ env                     # 显示所有环境变量
-$ export -p               # 显示所有环境变量
-$ export var=10           # 定义环境变量
-$ echo $ENV               # 使用环境变量
+$ export                  # 显示所有环境变量
 
+$ echo $ENV               # 使用环境变量的值
+
+$ export VAR=10           # 新增或修改环境变量
+$ unset VAR               # 删除环境变量
+                          # 新增,修改和删除操作仅在当前终端有效
 ```
 
 
