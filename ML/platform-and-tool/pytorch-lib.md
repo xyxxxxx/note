@@ -465,6 +465,20 @@ tensor([-0.9121,  0.3202])
 
 ## Tensor
 
+### cpu()
+
+返回张量的一个位于内存中的副本。
+
+
+
+### cuda()
+
+返回张量的一个位于显存中的副本。可以通过`device`参数指定CUDA设备，默认为当前CUDA设备。
+
+如果张量已经位于当前CUDA设备的显存中，则直接返回该张量对象。
+
+
+
 ### detach()
 
 返回一个张量，其与输入张量共享内存，但在计算图之外，不参与梯度计算。
@@ -525,6 +539,20 @@ tensor([[0, 0, 0, 0],     # 共享内存
 tensor([[0],
         [2],
         [3]])
+```
+
+
+
+### get_device()
+
+对于CUDA张量，返回其所位于的GPU设备的序号；对于CPU张量，抛出一个错误。
+
+```python
+>>> x = torch.randn(3, 4, 5, device='cuda:0')
+>>> x.get_device()
+0
+>>> x.cpu().get_device()
+# RuntimeError: get_device is not implemented for type torch.FloatTensor
 ```
 
 
@@ -1621,18 +1649,67 @@ output = Exp.apply(input)
 
 # torch.cuda
 
+## current_device()
+
+返回当前选择设备的索引。
+
+```python
+>>> torch.cuda.current_device()
+0
+```
+
+
+
+## device()
+
+改变选择设备的上下文管理器。
+
+```python
+>>> torch.cuda.device(0)
+<torch.cuda.device at 0x7efce0b03be0>
+```
+
+
+
+## device_count()
+
+返回可用的GPU数量。
+
+```python
+>>> torch.cuda.device_count()
+1
+```
+
+
+
+## get_device_name()
+
+获取设备的名称。
+
+```python
+>>> torch.cuda.get_device_name(0)
+'Tesla T4'
+```
+
+
+
+## is_available()
+
+返回一个布尔值，表示当前CUDA是否可用。
+
 ```python
 >>> torch.cuda.is_available()
 True
->>> torch.cuda.device_count()
-1
->>> torch.cuda.current_device()
-0
->>> torch.cuda.device(0)
-<torch.cuda.device at 0x7efce0b03be0>
->>> torch.cuda.get_device_name(0)
-'GeForce GTX 3080'
+```
 
+
+
+## set_device()
+
+设定当前CUDA设备。
+
+```python
+>>> torch.cuda.set_device(1)
 ```
 
 

@@ -433,46 +433,46 @@
 
 ## S
 
-|                             |                      |
-| --------------------------- | -------------------- |
-| sample                      | 样本                 |
-| script                      | 脚本                 |
-|                             |                      |
-| search engine               | 搜索引擎             |
-| semicolon                   | 分号                 |
-| sequential access           | 顺序访问             |
-| sequential search           | 顺序查找             |
-| server                      | 服务器               |
-| session                     | 会话                 |
-| set                         | 集合；数据集         |
-| shell                       | UNIX系统的命令解释器 |
-| signal                      | 信号                 |
-| slash                       | /                    |
-| slice                       | 切片                 |
-| socket                      | 套接字               |
-| sort                        | 排序                 |
-| spanning tree               | 生成树               |
-| spawn                       | 启动，生成           |
-| split                       | 分裂                 |
-| SSD, Solid State Disk       | 固态硬盘             |
-| stack                       | 栈                   |
-| stage                       | 暂存                 |
-| state                       | 状态                 |
-| stream                      | 流                   |
-| string                      | 串，字符串           |
-| subnet                      | 子网                 |
-| subnet mask                 | 子网掩码             |
-| substring                   | 子串                 |
-| subtree                     | 子树                 |
-| successor                   | 后继                 |
-| superuser                   | 超级用户             |
-| supervised machine learning | 有监督机器学习       |
-| support vector              | 支持向量             |
-| SVM, Support Vector Machine | 支持向量机           |
-| swapping                    | 交换                 |
-| synchronize                 | 同步                 |
-| synchronous                 | 同步的               |
-|                             |                      |
+|                               |                      |
+| ----------------------------- | -------------------- |
+| sample                        | 样本                 |
+| script                        | 脚本                 |
+| SDK, Software Development Kit | 软件开发工具包       |
+| search engine                 | 搜索引擎             |
+| semicolon                     | 分号                 |
+| sequential access             | 顺序访问             |
+| sequential search             | 顺序查找             |
+| server                        | 服务器               |
+| session                       | 会话                 |
+| set                           | 集合；数据集         |
+| shell                         | UNIX系统的命令解释器 |
+| signal                        | 信号                 |
+| slash                         | /                    |
+| slice                         | 切片                 |
+| socket                        | 套接字               |
+| sort                          | 排序                 |
+| spanning tree                 | 生成树               |
+| spawn                         | 启动，生成           |
+| split                         | 分裂                 |
+| SSD, Solid State Disk         | 固态硬盘             |
+| stack                         | 栈                   |
+| stage                         | 暂存                 |
+| state                         | 状态                 |
+| stream                        | 流                   |
+| string                        | 串，字符串           |
+| subnet                        | 子网                 |
+| subnet mask                   | 子网掩码             |
+| substring                     | 子串                 |
+| subtree                       | 子树                 |
+| successor                     | 后继                 |
+| superuser                     | 超级用户             |
+| supervised machine learning   | 有监督机器学习       |
+| support vector                | 支持向量             |
+| SVM, Support Vector Machine   | 支持向量机           |
+| swapping                      | 交换                 |
+| synchronize                   | 同步                 |
+| synchronous                   | 同步的               |
+|                               |                      |
 
 
 

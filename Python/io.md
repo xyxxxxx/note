@@ -94,39 +94,120 @@ print('Hello,',name)
 
 # 文件读写
 
+## 文本文件
+
+读文本文件：
+
 ```python
-f = open('foo.txt', 'rt')	# r for reading (text)
-g = open('bar.txt', 'wt')	# w for write (text), a for append
+# foo.txt:
+# abcdefg
+# 1234567
+# 
 
-data = f.read()		 # 返回读取文本
-g.write('some text') # 写入文本
-
-f.close()
-g.close()
-
-with open('foo.txt', 'rt') as f:	        # 代码块结束时将自动关闭该文件
-    print(f.read())
-
-with open('foo.txt', 'rt') as f:
-    for line in f:                          # 逐行读取,实际更常用
-        pass                                # 尤其是当读取文件较大，或每一行都需要单独处理时
-
-with open('outfile', 'wt') as out:
-    out.write('Hello World\n')    
-    
-with open('outfile', 'wt') as out:
-    print('Hello World', file=out)          # 重定向print函数
-    
-f = open('test.jpg', 'rb')	                # rb读二进制
-f = open('gbk.txt', 'r', encoding='gbk')	# 以gbk编码读取,默认为UTF-8
+>>> f = open('foo.txt', 'rt')   # 打开文件并返回文件描述符(文件句柄),标示符r表示read,t表示text
+>>> f.read()                    # 一次读取所有文本内容
+'abcdefg\n1234567\n'
+>>> f.close()                   # 使用完毕后关闭文件
+>>> f = open('notfound.txt', 'rt')
+FileNotFoundError: [Errno 2] No such file or directory: 'notfound.txt'
 ```
 
+写文本文件：
+
 ```python
-# read函数
-read()		# 读取文件全部内容
-read(size)	# 一次读取size字节的内容
-readline()	# 一次读取一行内容
-readlines()	# 一次读取所有内容并按行返回list
+>>> g = open('bar.txt', 'wt')	  # 标示符w表示write
+>>> g.write('first line\n')
+11
+>>> g.close()                   # 调用close()方法之后才能保证数据全部写入磁盘,否则可能部分丢失
+>>> g = open('bar.txt', 'wt')	  # 每次write写入都会覆盖文件,即丢弃原有的文件内容
+>>> g.write('second line\n')
+12
+>>> g.close()
+>>> g = open('bar.txt', 'at')	  # 标示符a表示append,append写入会在原有的文件内容末尾追加
+>>> g.write('third line\n')
+11
+>>> g.close()
+
+# bar.txt:
+# second line
+# third line
+# 
+```
+
+上面的这种写法十分繁琐，并且经常容易忘记调用`f.close()`关闭文件，或者因为在读写过程中出错导致文件没有正确关闭，因此实践中通常使用上下文管理器来确保关闭文件：
+
+```python
+>>> with open('foo.txt', 'rt') as f:        # 代码块结束时将自动关闭该文件
+...     print(f.read())
+... 
+abcdefg
+1234567
+
+>>> with open('foo.txt', 'rt') as f:
+...     for line in f:                      # 逐行读取,实际更常用
+...         print(line)                     # 尤其是当读取文件较大，或每一行都需要单独处理时
+... 
+abcdefg
+
+1234567
+ 
+>>> with open('bar.txt', 'wt') as out:
+...     out.write('Hello World\n')
+... 
+12
+>>> with open('bar.txt', 'wt') as out:
+        print('Hello World', file=out)      # 重定向print函数
+```
+
+比较读文件的几种方式：
+
+```python
+# foo.txt:
+# abcdefg
+# 1234567
+# 
+
+>>> with open('foo.txt', 'rt') as f:
+...     print(f.read())                   # 一次读取所有内容
+... 
+abcdefg
+1234567
+
+>>> with open('foo.txt', 'rt') as f:
+...     line = f.readline()               # 一次读取一行内容,最节省内存,但花费时间最长
+...     while line:
+...         print(line)
+...         line = f.readline()
+... 
+abcdefg
+
+1234567
+
+>>> with open('foo.txt', 'rt') as f:
+...     lines = f.readlines()             # 一次读取所有内容并保存为一个列表,每行为一个元素,适用于逐行处理
+...     for line in lines:
+...         print(line)
+... 
+abcdefg
+
+1234567
+
+```
+
+
+
+## 字符编码
+
+```python
+f = open('gbk.txt', 'r', encoding='gbk')	  # 以gbk编码读取,默认为UTF-8
+```
+
+
+
+## 二进制文件
+
+```python
+f = open('test.jpg', 'rb')	                # 标示符b表示binary
 ```
 
 

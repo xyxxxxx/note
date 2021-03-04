@@ -1,9 +1,11 @@
 ## 生成器generator
 
-生成器是任何使用`yield`语句的函数：
+生成器（generator）就是使用`yield`语句的函数。生成器和一般函数的区别在于执行流程不同：一般函数顺序执行，遇到`return`语句或者最后一条语句返回；生成器在每次调用`next()`的时候执行，遇到`yield`语句返回，再次执行时从上次返回的`yield`语句处继续执行。
+
+下面的例子展示了一个生成器，其返回斐波那契数列的前若干项：
 
 ```python
-def fib(max):	# generator型函数
+def fib(max):	   # generator型函数
     n, a, b = 0, 0, 1
     while n < max:
         yield b
@@ -15,20 +17,19 @@ ge = fib(10)     # 每次调用generator型函数返回一个generator
 print(repr(ge))  # <generator object fib at 0x7fcd124c14c0>
 
 for n in ge:
-     print(n, end=' ') # 1 1 2 3 5 8 13 21 34 55
-                 # 迭代完成后generator即失去作用,不可重用
+  print(n, end=' ')    # 1 1 2 3 5 8 13 21 34 55
+                       # 迭代完成后generator即失去作用,不可重用
 ```
 
 ```python
->>> a = [1,2,3,4]
->>> b = (2*x for x in a)       # 返回一个generator,一般形式为
->>> b                          # (<expression> for i in s if <conditional>)
+>>> a = [1, 2, 3, 4]
+>>> b = (2 * x for x in a)       # 返回一个generator,一般形式为
+>>> b                            # (<expression> for i in s if <conditional>)
 <generator object at 0x58760>
 >>> for i in b:
 ...   print(i, end=' ')
 ...
 2 4 6 8
->>>
 ```
 
 
@@ -37,7 +38,7 @@ for n in ge:
 
 可以作用于for循环的对象为可迭代对象Iterable，包括`list,tuple,dict,set,str,...`
 
-可以被`next()`调用并不断返回下一个值的对象称为迭代器Iterator，包括生成器
+可以被`next()`调用并不断返回下一个值的对象称为迭代器Iterator，包括生成器。
 
 所有迭代过程的底层实现如下：
 

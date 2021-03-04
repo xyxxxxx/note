@@ -25,6 +25,8 @@ $ poetry remove <dependency>  # 卸载删除一个依赖
 
 $ poetry update               # 更新所有锁定版本的依赖
 $ poetry update <dependency>  # 更新某个锁定版本的依赖
+
+$ poetry
 ```
 
 

@@ -1,3 +1,5 @@
+[toc]
+
 # 数字和算术运算
 
 ## 整数
@@ -127,54 +129,76 @@ print('''line1
 
 ## 字符串方法
 
+### 示例
+
 ```python
 >>> a = 3 * 'IN' + 'no' + 'Vation'
 >>> a
 'INININnoVation'
->>> len(a)                # 字符串长度
+>>> len(a)                  # 字符串长度
 14
->>> a[0]                  # 字符串可视作列表，进行索引和切片操作
+>>> a[0]                    # 字符串可视作列表，进行索引和切片操作
 'I'
 >>> a[:6]
 'INININ'
->>> a.replace('a', 'A')   # 替换字符
+>>> a.replace('a', 'A')     # 替换字符
 'INININnoVAtion'
->>> a.lower()             # 英文字符小写
+>>> a.lower()               # 英文字符小写
 'inininnovation'
->>> a.upper()             # 英文字符大写
+>>> a.upper()               # 英文字符大写
 'INININNOVATION'
->>> a.capitalize()        # 首个英文字符大写，后面小写
+>>> a.capitalize()          # 首个英文字符大写，后面小写
 'Inininnovation'
->>> a.count('IN')         # 计数子串的出现次数
+>>> a.count('IN')           # 计数子串的出现次数
 3
 >>> a.startswith('INININ')  # 前缀比较
 True
 >>> a.endswith('tion')      # 后缀比较
 True
->>> a.find('IN')          # 从前往后寻找子串的位置索引
+>>> a.find('IN')            # 从前往后寻找子串的位置索引
 0
->>> a.rfind('IN')         # 从后往前寻找子串的位置索引
+>>> a.rfind('IN')           # 从后往前寻找子串的位置索引
 4
->>> a.split('N')          # 拆分字符串
+>>> a.split('N')            # 拆分字符串
 ['I', 'I', 'I', 'noVation']
+>>> 'N'.join(['I', 'I', 'I', 'noVation'])   # 拼接字符串
+'INININnoVation'
 ```
 
 
 
 ## unicode编解码
 
+Python3使用Unicode编码字符串，因此Python的字符串支持多语言：
+
 ```python
->>> ord('A')    # 字符 to 编码
-65
->>> ord('中')
-20013
->>> chr(66)     # 编码 to 字符
-'B'
->>> chr(25991)
-'文'
->>> chr(0x6587)
-'文'
+>>> print('English中文にほんご')
+English中文にほんご
 ```
+
+对于单个字符的编码，Python提供了`ord()`和`chr()`函数用于转换字符和Unicode编码：
+
+```python
+>>> hex(ord('A'))    # 字符 to 编码
+'0x41'
+>>> hex(ord('中'))
+'0x4e2d'
+>>> chr(0x03B1)      # 编码 to 字符
+'α'
+>>> chr(0x51EA)
+'凪'
+```
+
+Unicode字符与转义的Unicode编码是等价的：
+
+```python
+>>> '\u4e2d文'
+'中文'
+```
+
+Python字符串（`str`类型对象）在内存中以Unicode表示，如果要保存到磁盘上或者在网络上传输，就需要用ascii或者utf-8编码为字节序列。
+
+
 
 
 
@@ -188,10 +212,10 @@ None
 
 
 
-# 数据转换
+# 类型转换
 
 ```python
-int()	   # 转换为整数类型
+int()	     # 转换为整数类型
 float()    # 浮点
 str()      # 字符串
 ```

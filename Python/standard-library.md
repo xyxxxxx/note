@@ -295,6 +295,11 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 > 参考[进程和线程](./process-and-thread.md)
 
+```python
+>>> os.system('pwd')        # 创建一个shell子进程并执行字符串代表的命令
+/Users/xyx
+```
+
 
 
 ### 文件和目录
@@ -329,27 +334,93 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 environ({'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 
 # ...
 /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'fcitx', 'LC_TIME': 'en_US.UTF-8', '_': '/usr/bin/python3'})
->>> os.environ['HOME']
+>>> os.environ['HOME']                           # 获取环境变量
 '/home/xyx' 
->>> os.environ['MASTER_ADDR'] = 'localhost'      # 环境变量赋值
->>> os.getenv('MASTER_ADDR')
+>>> os.environ['MASTER_ADDR'] = 'localhost'      # 临时增加/修改环境变量
+>>> os.getenv('MASTER_ADDR')                     # 获取环境变量的推荐方式
 'localhost'         
 ```
 
 
+
+### `walk()`
+
+遍历目录。对于以`top`为根的目录树中的每个目录（包括`top`本身）都生成一个三元组`(dirpath, dirnames, filenames)`。
+
+```python
+os.walk(top, topdown=True, onerror=None, followlinks=False)
+
+# top      目录树的根目录
+# topdown  若为True,则自上而下遍历;若为False,则自下而上遍历
+```
+
+```python
+# test/
+#     file1
+#     file2
+#     format_correction.py
+#     dir1/
+#         file3
+#         file4
+#     dir2/
+#         file5
+#         file6
+
+>>> import os
+>>> for root, dirs, files in os.walk('.'):
+...     print(root)
+...     print(dirs)
+...     print(files)
+... 
+.                                             # 代表根目录
+['dir2', 'dir1']                              # 此目录下的目录
+['file2', 'format_correction.py', 'file1']    # 此目录下的文件
+./dir2
+[]
+['file5', 'file6']
+./dir1
+[]
+['file3', 'file4']
+>>>
+>>> for root, _, files in os.walk('.'):
+...     for f in files:
+...         path = os.path.join(root, f)      # 返回所有文件的相对路径
+...         print(path)
+... 
+./file2
+./format_correction.py
+./file1
+./dir2/file5
+./dir2/file6
+./dir1/file3
+./dir1/file4
+>>>
+>>> for root, _, files in os.walk('.', topdown=False):    # 自下而上遍历
+...     for f in files:
+...         path = os.path.join(root, f)
+...         print(path)
+... 
+./dir2/file5
+./dir2/file6
+./dir1/file3
+./dir1/file4
+./file2
+./format_correction.py
+./file1
+
+```
 
 
 
 ## [os.path](https://docs.python.org/zh-cn/3/library/os.path.html)——常用路径操作
 
 ```python
-from os import path
-
 # test/
 #     dir1/
 #         file2
 #     file1
 
+>>> from os import path
 >>> path.abspath('.')      # 路径的绝对路径
 '/home/test'
 >>> path.exists('./dir1')  # 存在路径
@@ -358,15 +429,23 @@ True
 False
 >>> path.isdir('dir1')     # 判断目录
 True
+>>> path.isdir('dir2')
+False
 >>> path.isfile('dir1')    # 判断文件
 False
 >>> path.isfile('file1')
 True
->>> path.isdir('dir2')     # 不存在的目录
-False
->>> path.getsize('file1')  # 文件大小 
+>>> path.getsize('file1')  # 文件大小
 14560
+>>> path.join(path.abspath('.'), 'file1')   # 拼接路径
+'/home/test/file1'
 ```
+
+
+
+## re——正则表达式操作
+
+见正则表达式。
 
 
 
@@ -456,6 +535,18 @@ CompletedProcess(args='ls -l', returncode=0)
 
 
 ## [sys](https://docs.python.org/zh-cn/3/library/sys.html)——系统相关的参数和函数
+
+### `executable`
+
+返回当前Python解释器的可执行文件的绝对路径。
+
+```python
+>>> import sys
+>>> sys.executable
+'/Users/xyx/.pyenv/versions/3.8.7/bin/python'
+```
+
+
 
 ### `exit()`
 

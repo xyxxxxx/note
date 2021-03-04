@@ -1,3 +1,7 @@
+[toc]
+
+# 简易教程
+
 ## 元字符，限定符，位置符
 
 | char                                 | quantifiers              | position           |
@@ -133,53 +137,132 @@ IgnoreCase 忽略大小写
 ## 常用正则表达式
 
 ```python
-\n\s*\r				# 空白行
-[\u4e00-\u9fa5]		# 中文字符
-
-((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))	#ip地址
-\d{3}-\d{8}|\d{4}-\d{7}		   # 国内电话号码
-^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$	# 强密码(必须包含大小写字母,数字)
-
+\n\s*\r				    # 空白行
+[\u4e00-\u9fff]		# 中文字符
+((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))	# ip地址
+\d{3}-\d{8}|\d{4}-\d{7}		                          # 国内电话号码
+^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$	  # 强密码(必须包含大小写字母,数字)
 ```
 
 
 
-## Python re
+
+
+# 各语言标准库
+
+## Python标准库：re
+
+### `compile()`
+
+将正则表达式编译为一个正则表达式对象，可以用于匹配。对于需要多次使用的正则表达式，使用`re.compile()`编译这个正则对象以便于复用，可以让程序更加高效。
 
 ```python
-import re
+>>> tel = re.compile(r'^\d{3,4}\-\d{3,8}$')
+>>> tel.match('0716-8834387')
+<_sre.SRE_Match object at 0x1041b1ac0>
+```
 
-# match 起始位置检查
-if re.match(r'^\d{3,4}\-\d{3,8}$', '0716-8834387'):
-    print('success')
-else:
-    print('failure')
 
-# search 任意位置检查
 
-# findall 检查所有匹配子串
+### `findall()`
 
-# sub替换
-tel = "2004-959-559"
-tel = re.sub(r'\D', "", tel)
+对字符串从左到右扫描，返回所有字符不重复的正则表达式匹配项列表。
 
-# split
-re.split(r'[\s\,]+','a,b  c,   d')
+```python
+>>> re.findall(r'\d{3}', '123456789')
+['123', '456', '789']
+>>> re.findall(r'\d{3,5}', '123456789')
+['12345', '6789']
+```
 
-# groups提取子串
->>> m = re.match(r"(\w+) (\w+)", "Isaac Newton, physicist")
->>> m.group(0)       # The entire match
-'Isaac Newton'
->>> m.group(1)       # The first parenthesized subgroup.
-'Isaac'
->>> m.group(2)       # The second parenthesized subgroup.
-'Newton'
->>> m.group(1, 2)    # Multiple arguments give us a tuple.
-('Isaac', 'Newton')
-    
-# compile对频繁使用的正则表达式预编译
-re_tel = re.compile(r'^(\d{3,4})-(\d{3,8})$')
-re_tel.match('010-12345').groups()
 
+
+### `finditer()`
+
+与`findall()`相同，返回一个保存了匹配对象的迭代器。
+
+```python
+>>> it = re.finditer(r'\d{3}', '123456789')
+>>> list(it)
+[<re.Match object; span=(0, 3), match='123'>, <re.Match object; span=(3, 6), match='456'>, <re.Match object; span=(6, 9), match='789'>]
+```
+
+
+
+### `fullmatch()`
+
+如果整个字符串匹配正则表达式，就返回一个相应的匹配对象。如果没有匹配则返回`None`。 
+
+```python
+>>> re.fullmatch(r'\d{3,5}', '123456789')
+>>> re.fullmatch(r'\d{3,10}', '123456789')
+<re.Match object; span=(0, 9), match='123456789'>
+```
+
+
+
+### `match()`
+
+如果字符串的一个前缀匹配正则表达式，就返回一个相应的匹配对象。如果没有匹配则返回`None`。 
+
+```python
+>>> re.match(r'\d{3,5}', '123456789')
+<re.Match object; span=(0, 5), match='12345'>            # 匹配3~5个数字,最终匹配5个数字
+>>> re.match(r'\d{3,5}', 'a123456789')                   # 前缀不匹配
+>>>
+>>> if re.match(r'^\d{3,4}\-\d{3,8}$', '0716-8834387'):  # 常用作判断条件
+...     print('success')
+... else:
+...     print('failure')
+... 
+success
+```
+
+
+
+### `search()`
+
+扫描整个字符串找到匹配正则表达式的第一个位置，并返回一个相应的匹配对象。如果没有匹配则返回`None`。 
+
+```python
+>>> re.search(r'\d{3,5}', '123456789')
+<re.Match object; span=(0, 5), match='12345'>
+>>> re.search(r'\d{3,5}', 'a123456789')
+<re.Match object; span=(1, 6), match='12345'>
+```
+
+
+
+### `split()`
+
+使用正则表达式划分字符串。
+
+```python
+>>> re.split(r'\W+', 'Words, words, words.')
+['Words', 'words', 'words', '']
+>>> re.split(r'(\W+)', 'Words, words, words.')    # 使用()会让正则表达式的匹配项也包含在列表里
+['Words', ', ', 'words', ', ', 'words', '.', '']
+```
+
+
+
+### `sub()`
+
+对字符串从左到右扫描，对所有字符不重复的正则表达式匹配项进行替换。
+
+```python
+>>> re.sub(r'\d{3}', '0', '123456789')
+'000'
+>>> re.sub(r'\d{3,5}', '0', '123456789')
+'00'
+```
+
+
+
+### 常用正则表达式使用示例
+
+```python
+>>> re.search('[\u4e00-\u9fff]', '中文')       # 匹配中文
+<re.Match object; span=(0, 1), match='中'>
 ```
 

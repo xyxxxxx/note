@@ -9,18 +9,18 @@
 # 定义函数
 
 ```python
-#定义函数
+# 定义函数
 def my_abs(x):
     '''my_abs returns the absolute value of number x
     '''
     if x >= 0:
-        return x	#return以返回空值
+        return x	# return以返回空值
     else:
         return -x
 
-#空函数
+# 空函数
 def complex():
-    pass	        #pass作为占位可以保证语法正确
+    pass	        # pass作为占位可以保证语法正确
 ```
 
 
@@ -34,7 +34,7 @@ def complex():
 ### 默认参数
 
 ```python
-def enroll(name, gender, age=6, city='Beijing'):	#设定age,city默认值，默认值必须使用不变对象
+def enroll(name, gender, age=6, city='Beijing'):	# 设定age,city默认值，默认值必须使用不变对象
     print('name:', name)
     print('gender:', gender)
     print('age:', age)
@@ -154,14 +154,14 @@ import math
 def move(x, y, step, angle=0):
     nx = x + step * math.cos(angle)
     ny = y - step * math.sin(angle)
-    return nx, ny	# 返回包含这2个值的tuple
+    return nx, ny	  # 返回包含这2个值的tuple
 
-x, y = move(100, 100, 60, math.pi / 6)	#为2个变量赋值
-r = move(100, 100, 60, math.pi / 6)		#返回1个tuple
+x, y = move(100, 100, 60, math.pi / 6)	# 为2个变量赋值
+r = move(100, 100, 60, math.pi / 6)		  # 返回1个tuple
 ```
 
 ```python
-#0个返回值
+# 0个返回值
 def fib(n):
     """Print a Fibonacci series up to n."""
     a, b = 0, 1
@@ -169,7 +169,7 @@ def fib(n):
         print(a, end=' ')
         a, b = b, a+b
     print()
-    #由于没有return语句，函数结束时返回None
+    # 由于没有return语句，函数结束时返回None
 ```
 
 
@@ -182,14 +182,14 @@ def fib(n):
 def fact(n):
     if n==1:
         return 1
-    return n * fact(n - 1)	#递归调用次数过多可能导致栈溢出，采用尾递归优化
+    return n * fact(n - 1)	# 递归调用次数过多可能导致栈溢出，采用尾递归优化
 
 def fact(n):
     return fact_iter(n, 1)
 def fact_iter(num, product):
     if num == 1:
         return product
-    return fact_iter(num - 1, num * product)	#仅调用自身，不会导致栈溢出
+    return fact_iter(num - 1, num * product)	# 仅调用自身，不会导致栈溢出
 ```
 
 
@@ -199,15 +199,15 @@ def fact_iter(num, product):
 # 变量与函数
 
 ```python
-#变量指向函数
+# 变量指向函数
 f = abs
-f(-10)	#10
+f(-10)	 # 10
 
-#函数作为参数
+# 函数作为参数
 def add(x,y,f):
     return f(x)+f(y)
 
-#函数作为返回值
+# 函数作为返回值
 def lazy_sum(*args):
     def sum():
         ax = 0
@@ -217,9 +217,9 @@ def lazy_sum(*args):
     return sum
 
 f = lazy_sum(1, 3, 5, 7, 9)
-f	#返回函数地址
-f()	#返回函数值
-#NOTICE:返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量（循环变量等）
+f	   # 返回函数地址
+f()	 # 返回函数值
+# NOTICE:返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量（循环变量等）
 ```
 
 
@@ -229,9 +229,9 @@ f()	#返回函数值
 #  匿名函数lambda
 
 ```python
-#匿名函数赋值
+# 匿名函数赋值
 f = lambda x: x*x
-f(5)	#25
+f(5)	 # 25
 
 list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 #              参数 返回值
@@ -245,13 +245,13 @@ list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 # 装饰器Decorator
 
 ```python
-def log(func):		#decorator以函数为参数
+def log(func):		# decorator以函数为参数
     def wrapper(*args, **kw):
         print('call %s():' % func.__name__)
         return func(*args, **kw)
     return wrapper
 
-@log		#调用装饰器, now=log(now)
+@log		          # 调用装饰器, now=log(now)
 def now():
     print('2015-3-25')
 
@@ -267,8 +267,8 @@ now()
 ```python
 import functools
 int2 = functools.partial(int, base=2)
-int2('1000000')				#64
-int2('1000000', base=10)	#1000000
+int2('1000000')				    # 64
+int2('1000000', base=10)	# 1000000
 ```
 
 Partial function的作用相当于把一个函数的某些参数固定，返回一个新函数

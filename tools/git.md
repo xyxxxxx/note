@@ -9,6 +9,9 @@ $ git init [project-name]
 
 # 下载一个项目和它的整个代码历史
 $ git clone [url]
+
+# 下载一个项目的指定分支
+$ git clone -b [branch-name] [url]
 ```
 
 
