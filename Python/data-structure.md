@@ -1,19 +1,18 @@
 [toc]
 
-# 列表list []
+# 列表list-[]
 
 ```python
->>> s = [1,2,3,4]      # 定义list
+>>> s = [1,2,3,4]      # 创建list
 >>> s
 [1, 2, 3, 4]
 >>> s = [1,2] + [3,4]  # 拼接list
 >>> s
 [1, 2, 3, 4]
-
->>> len(s)
+>>> len(s)             # list长度
 4
 
->>> s[0]               # 按索引访问
+>>> s[0]               # 按索引访问/循秩访问
 1
 >>> s[1]
 2
@@ -21,13 +20,6 @@
 4
 >>> s[-2]
 3
-
->>> s[:2]
-[1, 2]
->>> s[1:4]
-[2, 3, 4]
->>> s[-2:]
-[3, 4]
 
 >>> s.append(5)        # 增删元素 
 >>> s
@@ -55,12 +47,11 @@
 
 ```python
 # 列表变量的关系
-
 >>> import copy
 >>> s = [1,2,[3,4]]
->>> t = s             # t, s引用同一列表
->>> u = list(s)       # 返回s的浅拷贝
-                      # 相当于创建新列表,各元素分别为1,2和列表[3,4],引用同一列表
+>>> t = s                 # t, s引用同一列表
+>>> u = list(s)           # 返回s的浅拷贝
+                          # 相当于创建新列表,各元素分别为1,2和列表[3,4],引用同一列表
 >>> v = copy.deepcopy(s)  # 返回s的深拷贝
 >>> t[0] = 0
 >>> t[2].append(5)
@@ -70,7 +61,6 @@
 [1, 2, [3, 4, 5]]
 >>> v
 [1, 2, [3, 4]]
-
 ```
 
 
@@ -112,7 +102,7 @@
 >>> a.count(2)
 2
 
-# index(x[,start[,end]]) 返回列表中第一个值为x的元素的从零开始的索引, start和end用于指定特定的搜索序列
+# index(x[,start[,end]]) 返回列表中第一个值为x的元素的从零开始的索引,start和end用于指定特定的搜索序列
 >>> a.index(2)
 0
 >>> a.index(2,1)
@@ -139,14 +129,14 @@
 ## 迭代
 
 ```python
->>> for v in ['tic', 'tac', 'toe']:
+>>> for v in ['tic', 'tac', 'toe']:                # 迭代所有元素
 ...     print(v)
 ... 
 tic
 tac
 toe
 
->>> for i, v in enumerate(['tic', 'tac', 'toe']):
+>>> for i, v in enumerate(['tic', 'tac', 'toe']):  # 迭代所有元素及索引
 ...     print(i, v)
 ... 
 0 tic
@@ -177,17 +167,6 @@ toe
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 >>> [x * x for x in range(1, 11)]
 [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
->>> [x * x for x in range(1, 11) if x % 2 == 0]
-[4, 16, 36, 64, 100]
->>> [(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]
-[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
->>> [x * x if x % 2 == 0 else -x * x for x in range(1, 11)]
-[-1, 4, -9, 16, -25, 36, -49, 64, -81, 100]
-
->>> list(range(1, 11))
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
->>> [x * x for x in range(1, 11)]
-[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 >>> [x * x for x in range(1, 11) if x % 2 == 0]      # 附加条件
 [4, 16, 36, 64, 100]
 >>> [(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y]   # 双重for循环+条件
@@ -212,9 +191,9 @@ toe
 
 
 
-# 元组tuple ()
+# 元组tuple-()
 
-元组由几个被逗号隔开的值组成，例如
+元组由几个被逗号隔开的值组成，例如：
 
 ```python
 >>> t = 12345, 54321, 'hello!'
@@ -254,11 +233,11 @@ TypeError: 'tuple' object does not support item assignment
 
 
 
-# 字典dict {:}
+# 字典dict-{:}
 
-dict查找和插入的速度快，但占用内存大，即用空间换时间
+dict查找和插入的速度快，但占用内存大，即用空间换时间。
 
-dict的key必须是**不可变对象**（字符串，整数，etc）
+dict的key必须是**不可变对象**（字符串，整数，etc）。
 
 ```python
 # 创建字典
@@ -272,25 +251,36 @@ dict的key必须是**不可变对象**（字符串，整数，etc）
 >>> scores = [95, 75, 85]
 >>> d = dict(zip(columns, values))
 
->>> d['Michael']     # 按key访问
+# 访问/增删/修改元素
+>>> d['Michael']       # 循键访问
 95
->>> d['Adam'] = 67   # 添加新key 
->>> d.pop('Bob')     # 弹出key
+>>> d['Alice']         # 访问不存在的键将引发KeyError
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'Alice'
+>>> d['Adam'] = 67     # 添加新键值对
+>>> d.pop('Bob')       # 弹出键和相应的值
 75
->>> d['Michael'] = 90
+>>> d.popitem()        # 弹出一个键值对,在3.7版本之后会按照先进后出的顺序弹出
+('Adam', 67)
+>>> d['Michael'] = 90  # 修改键的值
 >>> d['Michael']
 90
 
->>> 'Thomas' in d  # 判定key存在
+# 常用操作
+>>> len(d)             # 字典规模
+4
+>>> 'Thomas' in d      # 判定键是否存在
 False
->>> d.get('Thomas', -1)  # 判定key存在，存在则返回索引位置，不存在返回-1
--1
->>> list(d)        # 返回所有key组成的列表
+>>> list(d)            # 返回所有键组成的列表
 ['Michael', 'Bob', 'Tracy', 'Adam']
->>> sorted(d)      # 排序所有key
+>>> sorted(d)          # 排序所有键
 ['Adam', 'Bob', 'Michael', 'Tracy']
 
->>> d.items()                          # d.items()	k, v二维数组
+# 字典视图对象
+>>> d.keys()                           # 所有键组成的视图
+dict_keys(['Michael', 'Bob', 'Tracy'])
+>>> d.items()                          # 所有键值对组成的视图
 dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
 >>> list(zip(d.values(), d.keys()))    # (v,k)列表
 [(95, 'Michael'), (85, 'Tracy'), (67, 'Adam')]
@@ -303,14 +293,17 @@ dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
 ```python
 >>> d = {'a':1, 'b':2, 'c':3}
 
+# get() 判定键是否存在,若存在则返回相应的值,不存在则返回指定值
+>>> d.get('b', -1)
+2
+>>> d.get('d', 'not found')
+'not found'
+
 # update() 使用其它字典来更新字典
 >>> d.update({'c':4, 'd':8})
 >>> d
 {'a': 1, 'b': 2, 'c': 4, 'd': 8}
-
 ```
-
-
 
 
 
@@ -331,7 +324,7 @@ c
 2
 3
 >>> for k,v in d.items():
-...     print(k, v)   # 迭代key, value
+...     print(k, v)   # 迭代key,value
 ... 
 a 1
 b 2
@@ -351,23 +344,28 @@ c 3
 
 
 
-# 集合set {}
+# 集合set-{}
 
 集合中元素无序，且重复元素只计算1个。集合的基本用法包括成员检测和消除重复元素。
 
 ```python
-s = set([1,2,3])	# 用list定义set,亦可使用
-                    # s = {1, 2, 3}
+>>> s = {1, 2, 3}
+# or
+>>> s = set([1,2,3])	# 用list创建set
 
-s.add(4)		    # 添加元素
-s.remove(4)		    # 删除元素
+>>> s.add(4)		    # 添加元素
+>>> s.remove(4)		    # 删除元素
 
-s1 = set([1,2,3])
-s2 = set([1,2,4])
-s1 & s2			    # 交集
-s1 | s2			    # 并集
-s1 - s2             # 差集
-s1 ^ s2             # 对称差集
+>>> s1 = set([1,2,3])
+>>> s2 = set([1,2,4])
+>>> s1 & s2			    # 交集
+{1, 2}
+>>> s1 | s2			    # 并集
+{1, 2, 3, 4}
+>>> s1 - s2             # 差集
+{3}
+>>> s1 ^ s2             # 对称差集
+{3, 4}
 ```
 
 
@@ -396,7 +394,7 @@ s1 ^ s2             # 对称差集
 
 # tuple也可以使用切片操作，只是返回的仍为tuple
 
-# str切片
+# 字符串切片
 >>> word = 'Python'
 >>> word[:2]
 'Py'
@@ -413,14 +411,11 @@ s1 ^ s2             # 对称差集
 ## map() & reduce()
 
 ```python
-r = map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])	# map()将一元函数作用在序列上，iterator
+r = map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])	# map()将一元函数应用在序列上，iterator
 list(r)	# list()返回iterator所有元素
 
 
-from functools import reduce
-def fn(x, y):
-     return x * 10 + y
-reduce(fn, [1, 3, 5, 7, 9])	#reduce()将多元函数依次作用在序列上
+
 ```
 
 

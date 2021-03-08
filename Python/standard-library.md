@@ -156,6 +156,66 @@ datetime.datetime(2020, 11, 27, 17, 20, 17, 547344)
 
 
 
+## functools——高阶函数和可调用对象上的操作
+
+### `reduce()`
+
+将有两个参数的函数从左到右依次应用到可迭代对象的所有元素上，最终得到一个值。
+
+```python
+>>> from functools import reduce
+>>> def fn(x, y):
+...   return x * 10 + y
+...
+>>> reduce(fn, [1, 3, 5, 7, 9])   # reduce()将多元函数依次作用在序列上
+13579
+```
+
+
+
+## itertools——为高效循环而创建迭代器的函数
+
+### `accumulate()`
+
+
+
+### `count()`
+
+创建一个迭代器，它从`start`值开始，返回一个等差数列。大致相当于：
+
+```python
+def count(start=0, step=1):
+    n = start
+    while True:
+        yield n
+        n += step
+        
+# count(2.5, 0.5) -> 2.5 3.0 3.5 ...        
+```
+
+
+
+### `cycle()`
+
+创建一个迭代器，返回`iterable`中所有元素并保存一个副本。当遍历完`iterable`中所有元素后，返回副本中的元素，无限重复。大致相当于：
+
+```python
+def cycle(iterable):
+    saved = []
+    for element in iterable:
+        yield element
+        saved.append(element)
+    while saved:
+        for element in saved:
+              yield element
+                
+# cycle('ABCD') --> A B C D A B C D A B C D ...                
+```
+
+
+
+
+
 ## multiprocessing——基于进程的并行
 
 multiprocessing 是一个支持使用与 threading 模块类似的 API 来产生进程的包。 multiprocessing 包同时提供了本地和远程并发操作，通过使用子进程而非线程有效地绕过了全局解释器锁。 因此，multiprocessing 模块允许程序员充分利用给定机器上的多个处理器。 它在 Unix 和 Windows 上均可运行。
