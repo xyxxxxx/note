@@ -16,9 +16,9 @@ TensorBoard是TensorFlow的可视化工具包，提供了机器学习实验所�
 ```python
 # 加载 TensorBoard notebook extension
 %load_ext tensorboard
-```
 
-```python
+# ...
+
 # 启动TensorBoard
 %tensorboard --logdir logs
 ```
@@ -27,9 +27,9 @@ TensorBoard是TensorFlow的可视化工具包，提供了机器学习实验所�
 
 ## 本机
 
-```python
+```bash
 # 启动TensorBoard
-tensorboard --logdir logs
+$ tensorboard --logdir logs
 ```
 
 

@@ -735,6 +735,105 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 
 
 
+## callbacks
+
+### EarlyStopping
+
+当监视的参数不再改善时提前停止训练。
+
+```python
+tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss', min_delta=0, patience=0, verbose=0,
+    mode='auto', baseline=None, restore_best_weights=False
+)
+# monitor               监视的指标
+# min_delta             可以视为改善的最小绝对变化量,换言之,小于该值的指标绝对变化量视为没有改善
+# patience              若最近patience次epoch的指标都没有改善(即最后patience次的指标都比倒数第patience+1次差),则停止训练
+# mode                  若为'min',则指标减小视为改善;若为'max',则指标增加视为改善;若为'auto',则方向根据指标的名称自动推断
+# baseline              监视的指标的基线值,若指标没有超过基线值则停止训练
+# restore_best_weights  若为True,训练结束时会恢复监视指标取最好值的epoch的权重;若为False,训练结束时会保留最后一个epoch的权重
+```
+
+
+
+### LambdaCallback
+
+创建简单的自定义回调。
+
+```python
+tf.keras.callbacks.LambdaCallback(
+    on_epoch_begin=None, on_epoch_end=None, on_batch_begin=None, on_batch_end=None,
+    on_train_begin=None, on_train_end=None, **kwargs
+)
+# on_epoch_begin  在每个epoch开始时调用
+# ...
+```
+
+```python
+# 自定义batch回调示例
+print_batch_callback = callbacks.LambdaCallback(
+    on_batch_end=lambda batch,logs: print(batch, logs))   # 需要两个位置参数: batch, logs
+                                                          # 分别代表当前batch的序号和指标
+# 训练输出
+  20/1500 [..............................] - ETA: 18s - loss: 2.2107 - accuracy: 0.206319 {'loss': 2.0734667778015137, 'accuracy': 0.3140625059604645}
+20 {'loss': 2.042363405227661, 'accuracy': 0.331845223903656}
+21 {'loss': 2.0119757652282715, 'accuracy': 0.3480113744735718}
+22 {'loss': 1.9936082363128662, 'accuracy': 0.3586956560611725}
+  24/1500 [..............................] - ETA: 18s - loss: 2.1762 - accuracy: 0.230623 {'loss': 1.967929720878601, 'accuracy': 0.3697916567325592}
+24 {'loss': 1.934678316116333, 'accuracy': 0.3824999928474426}
+25 {'loss': 1.9046880006790161, 'accuracy': 0.39423078298568726}
+26 {'loss': 1.8743277788162231, 'accuracy': 0.40509259700775146}
+27 {'loss': 1.838417887687683, 'accuracy': 0.4151785671710968}  
+  
+  
+# 自定义epoch回调示例
+print_epoch_callback = callbacks.LambdaCallback(
+    on_epoch_end=lambda epoch,logs: print(epoch, logs))   # 需要两个位置参数: epoch, logs
+                                                          # 分别代表当前epoch的序号和指标
+# 训练输出
+Epoch 1/10
+1500/1500 [==============================] - 20s 13ms/step - loss: 0.3875 - accuracy: 0.8781 - val_loss: 0.0871 - val_accuracy: 0.9728
+0 {'loss': 0.16673415899276733, 'accuracy': 0.9478958249092102, 'val_loss': 0.0870571881532669, 'val_accuracy': 0.9728333353996277}
+Epoch 2/10
+1500/1500 [==============================] - 19s 13ms/step - loss: 0.0564 - accuracy: 0.9816 - val_loss: 0.0502 - val_accuracy: 0.9848
+1 {'loss': 0.05158458277583122, 'accuracy': 0.9834166765213013, 'val_loss': 0.0502360574901104, 'val_accuracy': 0.9848333597183228}
+```
+
+
+
+
+
+### LearningRateScheduler
+
+
+
+### ModelCheckpoint
+
+
+
+### TensorBoard
+
+为TensorBoard可视化记录日志。
+
+```python
+tf.keras.callbacks.TensorBoard(
+    log_dir='logs', histogram_freq=0, write_graph=True,
+    write_images=False, update_freq='epoch', profile_batch=2,
+    embeddings_freq=0, embeddings_metadata=None, **kwargs
+)
+# log_dir      待TensorBoard解析的日志文件的保存路径
+# update_freq  若为'batch',则在每个batch结束时记录损失和指标;若为'epoch',则在每个epoch结束时记录损失和指标;
+#              若为整数,则每update_freq个batch记录一次损失和指标.注意过于频繁地写日志会减慢你的训练.
+```
+
+
+
+
+
+
+
+
+
 ## layer
 
 层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重张量，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
@@ -1171,6 +1270,14 @@ class Linear(tf.keras.Model):
         output = self.dense(input)
         return output
 ```
+
+
+
+## optimizers
+
+
+
+
 
 
 
