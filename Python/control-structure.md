@@ -5,13 +5,15 @@
 ## if
 
 ```python
-age = 3
-if age >= 18:
-    print('adult')
-elif age >= 12:
-    print('teenager')
-else:
-    print('kid')
+>>> age = 3
+>>> if age >= 18:
+...     print('adult')
+... elif age >= 12:
+...     print('teenager')
+... else:
+...     print('kid')
+...
+kid
 ```
 
 
@@ -19,7 +21,9 @@ else:
 ## 三元表达式
 
 ```python
-identity = 'adult' if age >= 18 else 'kid'
+>>> age = 3
+>>> print('adult' if age >= 18 else 'kid')
+kid
 ```
 
 
@@ -28,39 +32,12 @@ identity = 'adult' if age >= 18 else 'kid'
 
 # 循环语句
 
-## range()
-
-```python
-range(5)         # [0,1,2,3,4]
-range(5,10)      # [5,6,7,8,9]
-range(0,10,2)    # [0,2,4,6,8]
-range(0,10,3)    # [0,3,6,9]
-range(0,-10,-3)  # [0,-3,-6,-9]
-```
-
-```python
->>> for i in range(5):
-...   print(i)
-...
-0
-1
-2
-3
-4
->>> list(range(5))
-[0, 1, 2, 3, 4]
-```
-
-`range()`函数返回的对象尽管表现得像一个列表，但实际上是一个迭代器。
-
-
-
 ## for
 
 ```python
 >>> sum = 0
 >>> for i in range(101):	# range(101)生成0-100的整数序列
-...   sum = sum + i
+...   sum += i
 ...
 >>> print(sum)
 5050
@@ -97,8 +74,8 @@ range(0,-10,-3)  # [0,-3,-6,-9]
 >>> sum = 0
 >>> n = 100
 >>> while n > 0:
-...   sum = sum + n
-...   n = n - 1
+...   sum += n
+...   n -= 1
 ...
 >>> print(sum)
 5050
@@ -106,13 +83,42 @@ range(0,-10,-3)  # [0,-3,-6,-9]
 
 
 
-## break，continue，else
+## break, continue, else
 
 ```python
-break	  # 跳出循环
-continue  # 跳过当次循环
+# break跳出循环
+>>> sum = 0
+>>> for i in range(101):
+...   if i == 10:
+...     break
+...   sum += i
+...
+>>> print(sum)
+45  
+```
 
-else:     # else子句在循环耗尽了可迭代对象或循环条件变为False时被执行,但在循环被break语句终止时不会执行
+```python
+# continue跳过当次循环
+>>> sum = 0
+>>> for i in range(101):
+...   if i == 10:
+...     continue
+...   sum += i
+...
+>>> print(sum)
+5040
+```
+
+```python
+# else子句在循环耗尽了可迭代对象或循环条件变为False时被执行,但在循环被break语句终止时不会执行
+>>> sum = 0
+>>> for i in range(101):
+...   sum += i
+... else:
+...   sum += 1
+...
+>>> print(sum)
+5051
 ```
 
 
