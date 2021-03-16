@@ -142,6 +142,13 @@ toe
 0 tic
 1 tac
 2 toe
+
+>>> for i, v in enumerate(['tic', 'tac', 'toe'], 1):  # 指定索引的初值
+...     print(i, v)
+... 
+1 tic
+2 tac
+3 toe
 ```
 
 

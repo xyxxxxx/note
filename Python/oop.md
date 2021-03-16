@@ -15,10 +15,10 @@ class Student(object):			# 类名通常首字母大写,继承object类
     def print_score(self):		# 方法的第一个参数也恒为self		
         print('%s: %s' % (self.name, self.score))
 
-bart=Student()				    # 创建对象
-bart.name='Bart Simpson'	    # 对象属性赋值
-bart.score=59
-bart=Student('Bart Simpson',59)	# 创建并初始化对象
+bart = Student()				    # 创建对象
+bart.name = 'Bart Simpson'	    # 对象属性赋值
+bart.score = 59
+bart = Student('Bart Simpson',59)	# 创建并初始化对象
 
 print_score(bart)			    # 调用内部函数
 bart.print_score()

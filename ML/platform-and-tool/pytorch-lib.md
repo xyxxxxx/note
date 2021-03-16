@@ -2139,6 +2139,36 @@ for data in iter(dataset):
 
 # torchvision
 
+## datasets
+
+所有的数据集都是`torch.utils.data.Dataset`的子类，即实现了`__getitem__`和`__len__`方法，因此它们可以被传入到一个`torch.utils.data.DataLoader`对象。`DataLoader`可以使用`torch.multiprocessing`并行加载多个样本。例如：
+
+```python
+imagenet_data = torchvision.datasets.MNIST('path/to/imagenet_root/')
+data_loader = torch.utils.data.DataLoader(imagenet_data,
+                                          batch_size=4,
+                                          shuffle=True,
+                                          num_workers=args.nThreads)
+```
+
+
+
+### CIFAR
+
+参考[MNIST](#MNIST)。
+
+
+
+### MNIST
+
+```python
+torchvision.datasets.MNIST(root: str, train: bool = True, transform: Union[Callable, NoneType] = None, target_transform: Union[Callable, NoneType] = None, download: bool = False) → None
+# root         数据集的根目录的路径
+# train        若为True,使用训练集,否则使用测试集
+# download     若为True,在线下载数据集并将其放置在根目录下.若数据集已经下载则不再重复下载
+# transform
+```
+
 
 
 ## transforms
