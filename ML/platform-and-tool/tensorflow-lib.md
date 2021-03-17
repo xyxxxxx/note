@@ -737,6 +737,71 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 
 ## callbacks
 
+### Callback
+
+用于创建新回调的抽象类。若要创建回调，继承此类并任意重载以下方法。
+
+```python
+class CustomCallback(keras.callbacks.Callback):
+    def on_train_begin(self, logs=None):
+        """在训练开始时调用"""
+        pass
+
+    def on_train_end(self, logs=None):
+        """在训练结束时调用"""
+        pass
+
+    def on_epoch_begin(self, epoch, logs=None):
+        """在epoch开始时调用"""
+        pass
+
+    def on_epoch_end(self, epoch, logs=None):
+        """在epoch结束时调用"""
+        pass
+
+    def on_test_begin(self, logs=None):
+        """在测试开始时调用"""
+        pass
+
+    def on_test_end(self, logs=None):
+        """在测试结束时调用"""
+        pass
+
+    def on_predict_begin(self, logs=None):
+        """在预测开始时调用"""
+        pass
+
+    def on_predict_end(self, logs=None):
+        """在预测结束时调用"""
+        pass
+
+    def on_train_batch_begin(self, batch, logs=None):
+        """在训练过程的batch开始时调用"""
+        pass
+
+    def on_train_batch_end(self, batch, logs=None):
+        """在训练过程的batch结束时调用"""
+        pass
+
+    def on_test_batch_begin(self, batch, logs=None):
+        """在测试过程的batch开始时调用"""
+        pass
+
+    def on_test_batch_end(self, batch, logs=None):
+        """在测试过程的batch结束时调用"""
+        pass
+
+    def on_predict_batch_begin(self, batch, logs=None):
+        """在测试过程的batch结束时调用"""
+        pass
+
+    def on_predict_batch_end(self, batch, logs=None):
+        """在预测过程的batch结束时调用"""
+        pass
+```
+
+
+
 ### EarlyStopping
 
 当监视的参数不再改善时提前停止训练。

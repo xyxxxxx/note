@@ -438,7 +438,7 @@ trainer = Trainer(callbacks=[decay_callback])
 
 
 
-## `LightningDataModules`
+## LightningDataModules
 
 `Dataloader`和数据处理代码也可能分散在各处，可以将它们组织在一个`LightningDataModules`中，让代码复用性更好：
 
@@ -548,7 +548,7 @@ def training_step(self, batch, batch_idx, opt_idx):
 
 # 将PyTorch模型转换为LightningModule
 
-参考[How to organize PyTorch into Lightning](https://pytorch-lightning.readthedocs.io/en/stable/converting.html#)
+参考[How to organize PyTorch into Lightning](https://pytorch-lightning.readthedocs.io/en/latest/starter/converting.html)
 
 
 
@@ -837,6 +837,20 @@ logger.addHandler(logging.FileHandler("core.log"))
 当训练模型时，了解模型使用了何种超参数是十分有用的。当Lightning创建了一个检查点时，它存储了键`'hyper_parameters'`和所有超参数值。
 
 一些日志器也会记录实验中使用的超参数。例如，当使用TensorBoardLogger时，所有的超参数都会在HPARAMS标签页展示。
+
+
+
+
+
+# 回调
+
+
+
+## 持久化状态
+
+
+
+## 最佳实践
 
 
 
@@ -1191,26 +1205,10 @@ Lightning有一些方法为你保存这些信息到检查点或yaml文件中。�
 3. 你还可以将完整的对象（例如词典）保存到检查点：
 
    ```python
-# using a argparse.Namespace
-   class LitMNIST(LightningModule):
-
-       def __init__(self, conf, *args, **kwargs):
-        super().__init__()
-           self.save_hyperparameters(conf)  # save to checkpoint
-
-           # access by self.hparams
-        self.layer_1 = torch.nn.Linear(28 * 28, self.hparams.layer_1_dim)
-           self.layer_2 = torch.nn.Linear(self.hparams.layer_1_dim, self.hparams.layer_2_dim)
-           self.layer_3 = torch.nn.Linear(self.hparams.layer_2_dim, 10)
    
-   conf = OmegaConf.create(...)
-   model = LitMNIST(conf)
-   
-   # Now possible to access any stored variables from hparams
-   model.hparams.anything
    ```
-   
-   
+
+
 
 ## Trainer参数
 

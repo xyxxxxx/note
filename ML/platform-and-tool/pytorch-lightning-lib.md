@@ -1,8 +1,254 @@
 [toc]
 
+# pytorch_lightning.callbacks
+
+> 注意keras.callbacks同时对应pytorch_lightning.callbacks和pytorch_lightning.loggers。
+
+## Callback
+
+用于创建新回调的抽象类。若要创建回调，继承此类并任意重载以下方法。
+
+```python
+class CustomCallback(pytorch_lightning.callbacks.Callback):
+    def on_before_accelerator_backend_setup(self, trainer, pl_module: LightningModule) -> None:
+        """Called before accelerator is being setup"""
+        pass
+
+    def setup(self, trainer, pl_module: LightningModule, stage: Optional[str] = None) -> None:
+        """Called when fit, validate, test, predict, or tune begins"""
+        pass
+
+    def teardown(self, trainer, pl_module: LightningModule, stage: Optional[str] = None) -> None:
+        """Called when fit, validate, test, predict, or tune ends"""
+        pass
+
+    def on_init_start(self, trainer) -> None:
+        """Called when the trainer initialization begins, model has not yet been set."""
+        pass
+
+    def on_init_end(self, trainer) -> None:
+        """Called when the trainer initialization ends, model has not yet been set."""
+        pass
+
+    def on_fit_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when fit begins"""
+        pass
+
+    def on_fit_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when fit ends"""
+        pass
+
+    def on_sanity_check_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the validation sanity check starts."""
+        pass
+
+    def on_sanity_check_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the validation sanity check ends."""
+        pass
+
+    def on_train_batch_start(
+        self, trainer, pl_module: LightningModule, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the train batch begins."""
+        pass
+
+    def on_train_batch_end(
+        self, trainer, pl_module: LightningModule, outputs: Any, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the train batch ends."""
+        pass
+
+    def on_train_epoch_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the train epoch begins."""
+        pass
+
+    def on_train_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
+        """Called when the train epoch ends."""
+        pass
+
+    def on_validation_epoch_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the val epoch begins."""
+        pass
+
+    def on_validation_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
+        """Called when the val epoch ends."""
+        pass
+
+    def on_test_epoch_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the test epoch begins."""
+        pass
+
+    def on_test_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
+        """Called when the test epoch ends."""
+        pass
+
+    def on_epoch_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the epoch begins."""
+        pass
+
+    def on_epoch_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the epoch ends."""
+        pass
+
+    def on_batch_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the training batch begins."""
+        pass
+
+    def on_validation_batch_start(
+        self, trainer, pl_module: LightningModule, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the validation batch begins."""
+        pass
+
+    def on_validation_batch_end(
+        self, trainer, pl_module: LightningModule, outputs: Any, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the validation batch ends."""
+        pass
+
+    def on_test_batch_start(
+        self, trainer, pl_module: LightningModule, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the test batch begins."""
+        pass
+
+    def on_test_batch_end(
+        self, trainer, pl_module: LightningModule, outputs: Any, batch: Any, batch_idx: int, dataloader_idx: int
+    ) -> None:
+        """Called when the test batch ends."""
+        pass
+
+    def on_batch_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the training batch ends."""
+        pass
+
+    def on_train_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the train begins."""
+        pass
+
+    def on_train_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the train ends."""
+        pass
+
+    def on_pretrain_routine_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the pretrain routine begins."""
+        pass
+
+    def on_pretrain_routine_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the pretrain routine ends."""
+        pass
+
+    def on_validation_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the validation loop begins."""
+        pass
+
+    def on_validation_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the validation loop ends."""
+        pass
+
+    def on_test_start(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the test begins."""
+        pass
+
+    def on_test_end(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the test ends."""
+        pass
+
+    def on_keyboard_interrupt(self, trainer, pl_module: LightningModule) -> None:
+        """Called when the training is interrupted by ``KeyboardInterrupt``."""
+        pass
+
+    def on_save_checkpoint(self, trainer, pl_module: LightningModule, checkpoint: Dict[str, Any]) -> dict:
+        """
+        Called when saving a model checkpoint, use to persist state.
+        Args:
+            trainer: the current Trainer instance.
+            pl_module: the current LightningModule instance.
+            checkpoint: the checkpoint dictionary that will be saved.
+        Returns:
+            The callback state.
+        """
+        pass
+
+    def on_load_checkpoint(self, callback_state: Dict[str, Any]) -> None:
+        """Called when loading a model checkpoint, use to reload state.
+        Args:
+            callback_state: the callback state returned by ``on_save_checkpoint``.
+        """
+        pass
+
+    def on_after_backward(self, trainer, pl_module: LightningModule) -> None:
+        """Called after ``loss.backward()`` and before optimizers do anything."""
+        pass
+
+    def on_before_zero_grad(self, trainer, pl_module: LightningModule, optimizer) -> None:
+        """Called after ``optimizer.step()`` and before ``optimizer.zero_grad()``."""
+        pass
+```
+
+
+
+
+
+## EarlyStopping
+
+当监视的参数不再改善时提前停止训练。
+
+```python
+pytorch_lightning.callbacks.EarlyStopping(monitor='early_stop_on', min_delta=0.0, patience=3, verbose=False, mode='min', strict=True)
+
+tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss', min_delta=0, patience=0, verbose=0,
+    mode='auto', baseline=None, restore_best_weights=False
+)
+# monitor               监视的指标
+# min_delta             可以视为改善的最小绝对变化量,换言之,小于该值的指标绝对变化量视为没有改善
+# patience              若最近patience次epoch的指标都没有改善(即最后patience次的指标都比倒数第patience+1次差),则停止训练
+# mode                  若为'min',则指标减小视为改善;若为'max',则指标增加视为改善;若为'auto',则方向根据指标的名称自动推断
+# strict                若为True,则当监视的指标不存在时抛出异常
+```
+
+
+
+## LambdaCallback
+
+创建简单的自定义回调。
+
+```python
+pytorch_lightning.callbacks.LambdaCallback(on_before_accelerator_backend_setup=None, setup=None, teardown=None, on_init_start=None, on_init_end=None, on_fit_start=None, on_fit_end=None, on_sanity_check_start=None, on_sanity_check_end=None, on_train_batch_start=None, on_train_batch_end=None, on_train_epoch_start=None, on_train_epoch_end=None, on_validation_epoch_start=None, on_validation_epoch_end=None, on_test_epoch_start=None, on_test_epoch_end=None, on_epoch_start=None, on_epoch_end=None, on_batch_start=None, on_validation_batch_start=None, on_validation_batch_end=None, on_test_batch_start=None, on_test_batch_end=None, on_batch_end=None, on_train_start=None, on_train_end=None, on_pretrain_routine_start=None, on_pretrain_routine_end=None, on_validation_start=None, on_validation_end=None, on_test_start=None, on_test_end=None, on_keyboard_interrupt=None, on_save_checkpoint=None, on_load_checkpoint=None, on_after_backward=None, on_before_zero_grad=None)
+# on_before_accelerator_backend_setup   参见Callback
+# ...
+```
+
+```python
+>>> from pytorch_lightning import Trainer
+>>> from pytorch_lightning.callbacks import LambdaCallback
+>>> trainer = Trainer(callbacks=[LambdaCallback(setup=lambda *args: print('setup'))])
+```
+
+
+
+
+
+## LearningRateMonitor
+
+
+
+## ModelCheckpoint
+
+
+
+
+
 # pytorch_lightning.LightningModule
 
 ## methods
+
+### freeze()
+
+冻结所有参数以推断。
+
+
 
 ### load_from_checkpoint()
 
@@ -52,13 +298,265 @@ y_hat = pretrained_model(x)
 
 
 
+### save_hyperparameters()
+
+将模型超参数保存至`hparams`属性。
+
+```python
+>>> class ManuallyArgsModel(LightningModule):
+...     def __init__(self, arg1, arg2, arg3):
+...         super().__init__()
+...         self.save_hyperparameters('arg1', 'arg3')   # 保存指定参数
+...     def forward(self, *args, **kwargs):
+...         ...
+>>> model = ManuallyArgsModel(1, 'abc', 3.14)
+>>> model.hparams
+"arg1": 1
+"arg3": 3.14
+```
+
+```python
+>>> class AutomaticArgsModel(LightningModule):
+...     def __init__(self, arg1, arg2, arg3):
+...         super().__init__()
+...         self.save_hyperparameters()                 # 自动保存所有参数
+...     def forward(self, *args, **kwargs):
+...         ...
+>>> model = AutomaticArgsModel(1, 'abc', 3.14)
+>>> model.hparams
+"arg1": 1
+"arg2": abc
+"arg3": 3.14
+```
+
+```python
+>>> class ManuallyArgsModel(LightningModule):
+...     def __init__(self, arg1, arg2, arg3):
+...         super().__init__()
+...         self.save_hyperparameters(ignore='arg2')    # 忽略指定参数
+...     def forward(self, *args, **kwargs):
+...         ...
+>>> model = ManuallyArgsModel(1, 'abc', 3.14)
+>>> model.hparams
+"arg1": 1
+"arg3": 3.14
+```
+
+
+
+### unfreeze()
+
+解冻所有参数以训练。
+
 
 
 ## properties
 
+### current_epoch
+
+当前epoch的序号。
+
+```python
+def training_step(...):
+    if self.current_epoch == 0:
+```
+
+
+
+### device
+
+此模块位于的设备。
+
+```python
+def training_step(...):
+    z = torch.rand(2, 3, device=self.device)
+```
+
+
+
+### global_rank
+
+此模块的全局rank。Lightning仅从global_rank=0保存日志、权重等。
+
+全局rank表示所有GPU之中的GPU索引。例如，使用10台机器，每台有4个GPU，那么第10台机器的第4个GPU有global_rank=39。
+
+
+
+### global_step
+
+当前step的序号（每个epoch不重置）。
+
+
+
+### hparams
+
+通过调用`save_hyperparameters`保存的模型超参数。
+
+```python
+def __init__(self, learning_rate):
+    self.save_hyperparameters()
+
+def configure_optimizers(self):
+    return Adam(self.parameters(), lr=self.hparams.learning_rate)
+```
+
+
+
+### logger
+
+当前使用的日志器。
+
+
+
+### local_rank
+
+此模块的局部rank。Lightning仅从global_rank=0保存日志、权重等。
+
+局部rank表示当前机器的GPU索引。例如，使用10台机器，每台有4个GPU，那么第10台机器的第4个GPU有local_rank=3。
+
+
+
+### trainer
+
+当前使用的训练器。
+
+
+
 
 
 ## hooks
+
+
+
+
+
+# pytorch_lightning.loggers
+
+> 注意keras.callbacks同时对应pytorch_lightning.callbacks和pytorch_lightning.loggers。
+
+
+
+# pytorch_lightning.metrics
+
+## functional
+
+### accuracy()
+
+计算准确率。
+
+```python
+>>> from pytorch_lightning.metrics.functional import accuracy
+>>> x = torch.tensor([0, 2, 1, 3])
+>>> y = torch.tensor([0, 1, 2, 3])
+>>> accuracy(x, y)
+tensor(0.5000)
+```
+
+
+
+### confusion_matrix()
+
+计算混淆矩阵。
+
+见precision(), recall(), precision_recall(), f1()。
+
+
+
+### precision(), recall(), precision_recall(), f1()
+
+计算精确率、召回率、F1值。对比sklearn包的相关函数。
+
+```python
+>>> import torch
+>>> from pytorch_lightning.metrics.functional import precision
+>>> from pytorch_lightning.metrics.functional import recall
+>>> from pytorch_lightning.metrics.functional import precision_recall
+>>> from pytorch_lightning.metrics.functional import f1
+>>> from pytorch_lightning.metrics.functional import confusion_matrix
+>>> y_true = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])  # 二分类
+>>> y_pred = torch.tensor([0, 0, 1, 1, 0, 1, 1, 1])
+>>> confusion_matrix(y_pred, y_true, num_classes=2)  # 必须传入num_classes参数
+# pred   0   1
+tensor([[2., 2.],   # true  0
+        [1., 3.]])  #       1
+>>> precision(y_pred, y_true, class_reduction='none')  # 不分辨阴阳性,对每个类型计算
+tensor([0.6667, 0.6000])
+#       0       1
+>>> recall(y_pred, y_true, class_reduction='none')
+tensor([0.5000, 0.7500])
+>>> precision_recall(y_pred, y_true, class_reduction='none')
+(tensor([0.6667, 0.6000]), tensor([0.5000, 0.7500]))   # (precision, recall)
+>>> f1(y_pred, y_true, num_classes=2, average='none')
+tensor([0.5714, 0.6667])
+
+```
+
+```python
+>>> import torch
+>>> from pytorch_lightning.metrics.functional import precision
+>>> from pytorch_lightning.metrics.functional import recall
+>>> from pytorch_lightning.metrics.functional import precision_recall
+>>> from pytorch_lightning.metrics.functional import f1
+>>> from pytorch_lightning.metrics.functional import confusion_matrix
+>>> y_true = torch.tensor([0, 0, 0, 1, 1, 1, 2, 2, 2])  # 多分类
+>>> y_pred = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1, 2])
+>>> confusion_matrix(y_pred, y_true, num_classes=3)
+# pred   0   1   2
+tensor([[3., 0., 0.],   # true  0
+        [1., 2., 0.],   #       1
+        [0., 2., 1.]])  #       2
+>>> precision(y_pred, y_true, class_reduction='none')
+tensor([0.7500, 0.5000, 1.0000])   # 分别对于pred(列) 0,1,2
+>>> precision(y_pred, y_true, class_reduction='macro')
+tensor(0.7500)                     # 宏平均
+>>> precision(y_pred, y_true, class_reduction='micro')
+tensor(0.6667)                     # 微平均
+>>> recall(y_pred, y_true, class_reduction='none')
+tensor([1.0000, 0.6667, 0.3333])   # 分别对于true(行) 0,1,2
+>>> recall(y_pred, y_true, class_reduction='macro')
+tensor(0.6667)
+>>> recall(y_pred, y_true, class_reduction='micro')
+tensor(0.6667)
+>>> precision_recall(y_pred, y_true, class_reduction='none')
+(tensor([0.7500, 0.5000, 1.0000]), tensor([1.0000, 0.6667, 0.3333])) 
+>>> precision_recall(y_pred, y_true, class_reduction='macro')
+(tensor(0.7500), tensor(0.6667))   # (precision, recall)
+>>> precision_recall(y_pred, y_true, class_reduction='micro')
+(tensor(0.6667), tensor(0.6667))
+>>> f1(y_pred, y_true, num_classes=3, average='none')
+tensor([0.8571, 0.5714, 0.5000])
+>>> f1(y_pred, y_true, num_classes=3, average='macro')
+tensor(0.6429)
+>>> f1(y_pred, y_true, num_classes=3, average='micro')
+tensor(0.6667)
+
+```
+
+
+
+### mean_absolute_error()
+
+```python
+>>> from pytorch_lightning.metrics.functional import mean_absolute_error
+>>> a1 = torch.arange(10.0)
+>>> a2 = a1+2
+>>> mean_absolute_error(a1, a2)
+tensor(2.)
+```
+
+
+
+### mean_squared_error()
+
+```python
+>>> from pytorch_lightning.metrics.functional import mean_squared_error
+>>> a1 = torch.arange(10.0)
+>>> a2 = a1+2
+>>> mean_squared_error(a1, a2)
+tensor(4.)
+```
+
+
 
 
 
@@ -350,7 +848,7 @@ trainer = Trainer(log_every_n_steps=50)
 
 ### log_gpu_memory
 
-记录显存占用。
+记录显存占用（使用`nvidia-smi`的输出）。
 
 ```python
 # default used by the Trainer
@@ -363,7 +861,7 @@ trainer = Trainer(log_gpu_memory='all')
 trainer = Trainer(log_gpu_memory='min_max')
 ```
 
-> 使用`nvidia-smi`的输出。
+
 
 
 
@@ -778,120 +1276,3 @@ trainer.progress_bar_metrics['a_val']  # 2
 
 
 
-# pytorch_lightning.metrics.functional
-
-### accuracy()
-
-计算准确率。
-
-```python
->>> from pytorch_lightning.metrics.functional import accuracy
->>> x = torch.tensor([0, 2, 1, 3])
->>> y = torch.tensor([0, 1, 2, 3])
->>> accuracy(x, y)
-tensor(0.5000)
-```
-
-
-
-### confusion_matrix()
-
-计算混淆矩阵。
-
-见precision(), recall(), precision_recall(), f1()。
-
-
-
-### precision(), recall(), precision_recall(), f1()
-
-计算精确率、召回率、F1值。对比sklearn包的相关函数。
-
-```python
->>> import torch
->>> from pytorch_lightning.metrics.functional import precision
->>> from pytorch_lightning.metrics.functional import recall
->>> from pytorch_lightning.metrics.functional import precision_recall
->>> from pytorch_lightning.metrics.functional import f1
->>> from pytorch_lightning.metrics.functional import confusion_matrix
->>> y_true = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])  # 二分类
->>> y_pred = torch.tensor([0, 0, 1, 1, 0, 1, 1, 1])
->>> confusion_matrix(y_pred, y_true, num_classes=2)  # 必须传入num_classes参数
-# pred   0   1
-tensor([[2., 2.],   # true  0
-        [1., 3.]])  #       1
->>> precision(y_pred, y_true, class_reduction='none')  # 不分辨阴阳性,对每个类型计算
-tensor([0.6667, 0.6000])
-#       0       1
->>> recall(y_pred, y_true, class_reduction='none')
-tensor([0.5000, 0.7500])
->>> precision_recall(y_pred, y_true, class_reduction='none')
-(tensor([0.6667, 0.6000]), tensor([0.5000, 0.7500]))   # (precision, recall)
->>> f1(y_pred, y_true, num_classes=2, average='none')
-tensor([0.5714, 0.6667])
-
-```
-
-```python
->>> import torch
->>> from pytorch_lightning.metrics.functional import precision
->>> from pytorch_lightning.metrics.functional import recall
->>> from pytorch_lightning.metrics.functional import precision_recall
->>> from pytorch_lightning.metrics.functional import f1
->>> from pytorch_lightning.metrics.functional import confusion_matrix
->>> y_true = torch.tensor([0, 0, 0, 1, 1, 1, 2, 2, 2])  # 多分类
->>> y_pred = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1, 2])
->>> confusion_matrix(y_pred, y_true, num_classes=3)
-# pred   0   1   2
-tensor([[3., 0., 0.],   # true  0
-        [1., 2., 0.],   #       1
-        [0., 2., 1.]])  #       2
->>> precision(y_pred, y_true, class_reduction='none')
-tensor([0.7500, 0.5000, 1.0000])   # 分别对于pred(列) 0,1,2
->>> precision(y_pred, y_true, class_reduction='macro')
-tensor(0.7500)                     # 宏平均
->>> precision(y_pred, y_true, class_reduction='micro')
-tensor(0.6667)                     # 微平均
->>> recall(y_pred, y_true, class_reduction='none')
-tensor([1.0000, 0.6667, 0.3333])   # 分别对于true(行) 0,1,2
->>> recall(y_pred, y_true, class_reduction='macro')
-tensor(0.6667)
->>> recall(y_pred, y_true, class_reduction='micro')
-tensor(0.6667)
->>> precision_recall(y_pred, y_true, class_reduction='none')
-(tensor([0.7500, 0.5000, 1.0000]), tensor([1.0000, 0.6667, 0.3333])) 
->>> precision_recall(y_pred, y_true, class_reduction='macro')
-(tensor(0.7500), tensor(0.6667))   # (precision, recall)
->>> precision_recall(y_pred, y_true, class_reduction='micro')
-(tensor(0.6667), tensor(0.6667))
->>> f1(y_pred, y_true, num_classes=3, average='none')
-tensor([0.8571, 0.5714, 0.5000])
->>> f1(y_pred, y_true, num_classes=3, average='macro')
-tensor(0.6429)
->>> f1(y_pred, y_true, num_classes=3, average='micro')
-tensor(0.6667)
-
-```
-
-
-
-### mean_absolute_error()
-
-```python
->>> from pytorch_lightning.metrics.functional import mean_absolute_error
->>> a1 = torch.arange(10.0)
->>> a2 = a1+2
->>> mean_absolute_error(a1, a2)
-tensor(2.)
-```
-
-
-
-### mean_squared_error()
-
-```python
->>> from pytorch_lightning.metrics.functional import mean_squared_error
->>> a1 = torch.arange(10.0)
->>> a2 = a1+2
->>> mean_squared_error(a1, a2)
-tensor(4.)
-```
