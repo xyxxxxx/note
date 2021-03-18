@@ -30,6 +30,8 @@
 }
 ```
 
+搜索空间接受的参数类型包括`choice`, `quniform`, `randint`。
+
 ```yaml
 # config.yml
 tuner:
@@ -107,7 +109,7 @@ spec:
 
 + 建议在每一次trial花费时间不长，计算资源充足的情形下使用。
 + 常用作基线搜索算法，尤其建议在不知道超参数的先验分布时使用。
-+ 支持并行。
++ 此算法支持并行。
 
 
 
@@ -184,7 +186,7 @@ spec:
 
 ### 使用建议
 
-使用的超参数配置已预先确定，将它们罗列到搜索空间中即可。
+若使用的超参数配置已预先确定，使用此算法并将这些配置罗列到搜索空间中即可。
 
 
 
@@ -363,7 +365,7 @@ GP(Gaussian Process)调参器实现了使用高斯过程回归的贝叶斯优化
 }
 ```
 
-搜索空间接受的类型包括`randint`, `uniform`, `quniform`, `loguniform`, `qloguniform`，以及数值的`choice`。
+搜索空间接受的参数类型包括`randint`, `uniform`, `quniform`, `loguniform`, `qloguniform`，以及数值的`choice`。
 
 ```yaml
 # config.yml
@@ -438,7 +440,7 @@ tuner:
 
 
 
-## AutoTune配置示例
+### AutoTune配置示例
 
 ```yaml
 spec:

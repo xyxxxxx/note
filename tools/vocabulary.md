@@ -328,6 +328,7 @@
 |                                  |              |
 | -------------------------------- | ------------ |
 | object                           | 对象         |
+| OOM, Out Of Memory               | 内存溢出     |
 | OOP, Object Oriented Programming | 面向对象编程 |
 | operand                          | 操作数       |
 | operator                         | 算子         |
@@ -418,6 +419,8 @@
 | remote control                | 远程控制       |
 | repository                    | 仓库           |
 | representation                | 表示           |
+| request                       | 请求           |
+| response                      | 响应           |
 | reverse                       | 反转           |
 | ridge regression              | 岭回归         |
 | RL, Reinforcement Learning    | 强化学习       |
