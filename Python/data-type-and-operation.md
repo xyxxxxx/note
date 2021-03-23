@@ -7,14 +7,18 @@
 ```python
 width = 20   # int
 i, j = 0, 1  # 多重赋值
-# +-*
-10 / 3       # 浮点数除法
-10 // 3	     # 除法取整
-10 % 3       # 除法取余
-10 ** 3      # 10^3
+
+
 ```
 
 ```python
+
+```
+
+
+
+```python
+# 进制转换
 bin()	0b1100	# 二进制
 oct()	0o1472	# 八进制
 int()	1989
@@ -28,6 +32,18 @@ hex()	0xff00	# 十六进制
 ```python
 f = 1.2e9           # float, 1.2*10^9
 PI = 3.14159265359	# 习惯用全大写字母表示常量
+```
+
+
+
+## 算术运算
+
+```python
+
+10 / 3       # 浮点数除法
+10 // 3	     # 除法取整
+10 % 3       # 除法取余
+10 ** 3      # 10^3
 ```
 
 
@@ -167,7 +183,7 @@ True
 
 
 
-## unicode编解码
+## Unicode编解码
 
 Python3使用Unicode编码字符串，因此Python的字符串支持多语言：
 
@@ -196,9 +212,65 @@ Unicode字符与转义的Unicode编码是等价的：
 '中文'
 ```
 
-Python字符串（`str`类型对象）在内存中以Unicode表示，如果要保存到磁盘上或者在网络上传输，就需要用ascii或者utf-8编码为字节序列。
 
 
+Python字符串（`str`类型）在内存中以Unicode表示，如果要保存到磁盘上或者在网络上传输，就需要将其编码为字节序列（`bytes`类型）：
+
+```python
+>>> 'ABC'.encode('ascii')    　　# ascii编码
+b'ABC'                       　　# 注意'ABC'为str类型而b'ABC'为bytes类型,后者的一个字符实际上表示一个字节
+>>> 'ABC'.encode('utf-8')    　　# utf-8编码
+b'ABC'
+>>> '中文'.encode('utf-8')
+b'\xe4\xb8\xad\xe6\x96\x87'  　　# 无法用ascii字符显示的字节用\x##显示
+>>> '中文'.encode('gbk')         # gbk编码
+b'\xd6\xd0\xce\xc4'
+>>> '中文'.encode('shift_jis')   # shift_jis编码
+b'\x92\x86\x95\xb6'
+
+>>> '中文'.encode('ascii')       # 无法编码
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)
+>>> '忧郁'.encode('shift_jis')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeEncodeError: 'shift_jis' codec can't encode character '\u5fe7' in position 0: illegal multibyte sequence
+```
+
+反过来，如果我们从磁盘或者网络上读取了字节流，就需要将其解码为字符串：
+
+```python
+>>> b'ABC'.decode('ascii')
+'ABC'
+>>> b'\xe4\xb8\xad\xe6\x96\x87'.decode('utf-8')
+'中文'
+
+>>> b'\xe4\xb8\xad\xff'.decode('utf-8')      # 无法解码
+Traceback (most recent call last):
+  ...
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
+>>> b'\xe4\xb8\xad\xff'.decode('utf-8', errors='ignore')   # 忽略错误字节
+'中'
+>>> 'この度'.encode('shift_jis').decode('gbk')              # 使用错误的解码方法
+'偙偺搙'
+```
+
+注意`len()`函数对于`str`计算的是字符数，而对于`bytes`计算的是字节数：
+
+```python
+>>> len('中文')
+2
+>>> len('中文'.encode('utf-8'))
+6
+```
+
+操作字符串时，为避免乱码问题，应当始终使用utf-8编码对`str`和`bytes`进行转换。例如当Python源代码中包含中文时，务必需要指定以utf-8编码保存；当Python解释器读取源代码时，为了让它按utf-8编码读取，我们通常在文件开头写上这两行：
+
+```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+```
 
 
 

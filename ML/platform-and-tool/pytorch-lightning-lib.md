@@ -16,18 +16,22 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
 
     def setup(self, trainer, pl_module: LightningModule, stage: Optional[str] = None) -> None:
         """Called when fit, validate, test, predict, or tune begins"""
+        # 当训练/测试开始时调用
         pass
 
     def teardown(self, trainer, pl_module: LightningModule, stage: Optional[str] = None) -> None:
         """Called when fit, validate, test, predict, or tune ends"""
+        # 当训练/测试结束时调用,全部结束时亦调用一次
         pass
 
     def on_init_start(self, trainer) -> None:
         """Called when the trainer initialization begins, model has not yet been set."""
+        # 当训练器初始化开始时调用,此时模型尚未设置
         pass
 
     def on_init_end(self, trainer) -> None:
         """Called when the trainer initialization ends, model has not yet been set."""
+        # 当训练器初始化结束时调用,此时模型尚未设置
         pass
 
     def on_fit_start(self, trainer, pl_module: LightningModule) -> None:
@@ -40,54 +44,73 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
 
     def on_sanity_check_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the validation sanity check starts."""
+        # 当验证集可用性检查开始时调用
         pass
 
     def on_sanity_check_end(self, trainer, pl_module: LightningModule) -> None:
         """Called when the validation sanity check ends."""
+        # 当验证集可用性检查结束时调用
         pass
 
     def on_train_batch_start(
         self, trainer, pl_module: LightningModule, batch: Any, batch_idx: int, dataloader_idx: int
     ) -> None:
         """Called when the train batch begins."""
+        # 当训练batch开始时调用
         pass
 
     def on_train_batch_end(
         self, trainer, pl_module: LightningModule, outputs: Any, batch: Any, batch_idx: int, dataloader_idx: int
     ) -> None:
         """Called when the train batch ends."""
+        # 当训练batch结束时调用
         pass
 
     def on_train_epoch_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the train epoch begins."""
+        # 当训练epoch开始时调用
         pass
 
     def on_train_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
         """Called when the train epoch ends."""
+        # 当训练epoch结束时调用
+        # 调用trainer.callback_metrics得到当前训练epoch的train_loss和前一个验证epoch的val_loss和val_acc
         pass
 
     def on_validation_epoch_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the val epoch begins."""
+        # 当验证epoch开始时调用
         pass
 
     def on_validation_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
         """Called when the val epoch ends."""
+        # 当验证epoch结束时调用
+        # outputs参数可能接受不到任何值,建议写为outputs=None
+        # 调用trainer.callback_metrics得到当前训练epoch的train_loss和当前验证epoch的val_loss和val_acc
         pass
 
     def on_test_epoch_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the test epoch begins."""
+        # 当测试epoch开始时调用
         pass
 
     def on_test_epoch_end(self, trainer, pl_module: LightningModule, outputs: List[Any]) -> None:
         """Called when the test epoch ends."""
+        # 当测试epoch结束时调用
+        # 调用trainer.callback_metrics得到测试epoch的test_loss和test_acc以及最后一个训练+验证epoch的
+        #     train_loss, val_loss和val_acc
         pass
 
     def on_epoch_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the epoch begins."""
+        # 当(训练/测试)epoch开始时调用
         pass
 
     def on_epoch_end(self, trainer, pl_module: LightningModule) -> None:
         """Called when the epoch ends."""
+        # 当(训练/验证/测试)epoch结束时调用
+        # 调用trainer.callback_metrics的结果与其之前的on_train_epoch_end, on_validation_epoch_end, 
+        #     on_test_epoch_end相同
         pass
 
     def on_batch_start(self, trainer, pl_module: LightningModule) -> None:
@@ -124,10 +147,12 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
 
     def on_train_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the train begins."""
+        # 当训练开始时调用
         pass
 
     def on_train_end(self, trainer, pl_module: LightningModule) -> None:
         """Called when the train ends."""
+        # 当训练结束时调用
         pass
 
     def on_pretrain_routine_start(self, trainer, pl_module: LightningModule) -> None:
@@ -140,18 +165,22 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
 
     def on_validation_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the validation loop begins."""
+        # 当验证开始时调用
         pass
 
     def on_validation_end(self, trainer, pl_module: LightningModule) -> None:
         """Called when the validation loop ends."""
+        # 当验证结束时调用
         pass
 
     def on_test_start(self, trainer, pl_module: LightningModule) -> None:
         """Called when the test begins."""
+        # 当测试开始时调用
         pass
 
     def on_test_end(self, trainer, pl_module: LightningModule) -> None:
         """Called when the test ends."""
+        # 当测试结束时调用
         pass
 
     def on_keyboard_interrupt(self, trainer, pl_module: LightningModule) -> None:
@@ -184,6 +213,93 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
     def on_before_zero_grad(self, trainer, pl_module: LightningModule, optimizer) -> None:
         """Called after ``optimizer.step()`` and before ``optimizer.zero_grad()``."""
         pass
+```
+
+调用的顺序如下：
+
+```python
+$ python mnist_lambdacallback.py
+GPU available: False, used: False
+TPU available: None, using: 0 TPU cores
+    
+init start ...                   # 训练器初始化
+init end ...
+
+setup ...                        # setup
+fit start ...
+
+  | Name  | Type       | Params
+-------------------------------------
+0 | model | Sequential | 55.1 K
+-------------------------------------
+55.1 K    Trainable params
+0         Non-trainable params
+55.1 K    Total params
+0.220     Total estimated model params size (MB)
+
+validation start ...              # 验证集测试
+validation epoch start ...
+validation epoch end ...
+epoch end ...
+validation end ...
+
+train start ...                   # 训练开始
+
+epoch start ...                   # 一个训练+验证epoch
+train epoch start ...
+train epoch end ...
+epoch end ...
+validation start ...
+validation epoch start ...
+validation epoch end ...
+epoch end ...
+validation end ...
+
+epoch start ...
+train epoch start ...
+train epoch end ...
+epoch end ...
+validation start ...
+validation epoch start ...
+validation epoch end ...
+epoch end ...
+validation end ...
+
+epoch start ...
+train epoch start ...
+train epoch end ...
+epoch end ...
+validation start ...
+validation epoch start ...
+validation epoch end ...
+epoch end ...
+validation end ...
+
+train end ...                     # 训练结束
+
+fit end ...
+teardown ...                      # teardown
+
+setup ...                         # setup
+fit start ...
+
+test start ...                    # 测试开始
+
+test epoch start ...              # 一个测试epoch
+test epoch end ...
+epoch end ...
+
+test end ...                      # 测试结束
+
+--------------------------------------------------------------------------------
+DATALOADER:0 TEST RESULTS
+{'test_acc': 0.9527999758720398, 'test_loss': 0.14726394414901733}
+--------------------------------------------------------------------------------
+
+fit end ...
+teardown ...                      # teardown
+
+teardown ...
 ```
 
 
@@ -319,7 +435,7 @@ y_hat = pretrained_model(x)
 >>> class AutomaticArgsModel(LightningModule):
 ...     def __init__(self, arg1, arg2, arg3):
 ...         super().__init__()
-...         self.save_hyperparameters()                 # 自动保存所有参数
+...         self.save_hyperparameters()                 # 保存构造函数的所有参数
 ...     def forward(self, *args, **kwargs):
 ...         ...
 >>> model = AutomaticArgsModel(1, 'abc', 3.14)
@@ -390,7 +506,7 @@ def training_step(...):
 
 ### hparams
 
-通过调用`save_hyperparameters`保存的模型超参数。
+通过调用`save_hyperparameters()`保存的模型超参数。
 
 ```python
 def __init__(self, learning_rate):
@@ -1190,7 +1306,9 @@ trainer = Trainer(weights_summary=None)
 
 ### callback_metrics
 
-回调可用的指标。调用`self.log`时会自动设置这些指标。
+回调可用的指标，是一个字典对象。
+
+每个训练epoch结束时更新`train_loss`指标，每个验证epoch结束时更新`val_loss`和`val_acc`指标，每个测试epoch结束时更新`test_loss`和`test_acc`指标；也可以调用`self.log`自动设置指标。
 
 ```python
 def training_step(self, batch, batcbh_idx):

@@ -244,7 +244,7 @@ list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
 
 
-# 装饰器Decorator
+# 装饰器decorator
 
 ```python
 def log(func):		# decorator以函数为参数
