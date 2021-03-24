@@ -1,11 +1,5 @@
 [toc]
 
-# built-in functions
-
-> https://docs.python.org/3/library/functions.html
-
-
-
 
 
 # 定义函数
@@ -134,7 +128,7 @@ kwd_only_arg(arg=3)   # 3
 
 
 
-参数组合使用时，顺序必须为：必选参数、默认参数、可变参数和关键字参数
+参数组合使用时，顺序必须为：必选参数、默认参数、可变参数和关键字参数：
 
 ```python
 #参数组合使用
@@ -198,7 +192,7 @@ def fact_iter(num, product):
 
 
 
-# 变量与函数
+# 作为对象的函数
 
 ```python
 # 变量指向函数
@@ -244,34 +238,224 @@ list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
 
 
-# 装饰器decorator
+# 装饰器
+
+装饰器(Decorator)用于增强其它函数的功能，其本质是一个函数，接受被装饰的函数作为参数，使用该参数执行某些功能后返回一个函数引用。
+
+装饰器源于设计模式中的**装饰模式**。Python对此进行了一些语法简化，即语法糖，使得应用装饰器更加简单。
+
+
+
+## 包装一个函数
+
+写一个简单的函数：
 
 ```python
-def log(func):		# decorator以函数为参数
-    def wrapper(*args, **kw):
-        print('call %s():' % func.__name__)
-        return func(*args, **kw)
+def add(x, y=1):
+    return x + y
+```
+
+运行几次：
+
+```python
+print(add(1))
+print(add(2, 3))
+print(add('a', 'b'))
+```
+
+```
+2
+5
+ab
+```
+
+现在我们想测试这个函数的性能，于是在运行前后记录时间：
+
+```python
+from time import time
+
+before = time()
+add(1)
+after = time()
+print("elapsed:", after - before)
+
+before = time()
+add(2, 3)
+after = time()
+print("elapsed:", after - before)
+
+before = time()
+add('a', 'b')
+after = time()
+print("elapsed:", after - before)
+```
+
+```
+elapsed: 9.5367431640625e-07
+elapsed: 9.5367431640625e-07
+elapsed: 0.0
+```
+
+代码马上变得很繁复，每次都要复制粘贴一堆代码。为了复用代码，我们可以将它们放到函数中：
+
+```python
+from time import time
+
+def add(x, y=1):
+    before = time()
+    result = x + y
+    after = time()
+    print("elapsed:", after - before)
+    return result
+  
+add(1)
+add(2, 3)
+add('a', 'b')
+```
+
+```
+elapsed: 9.5367431640625e-07
+elapsed: 0.0
+elapsed: 1.1920928955078125e-06
+```
+
+现在代码变得更加简单，但是依然存在一些问题：
+
++ 要是想再测试其它函数的性能，就还要再将这几行代码复制到这些函数中。
++ 每次启用/禁用性能测试，都需要修改函数的代码，非常麻烦。
++ 性能测试的代码放在函数中导致没有计算调用函数和函数返回的时间。
+
+一种解决方法是写一个包含性能测试代码的新函数，传入要测试的函数并在其中调用：
+
+```python
+from time import time
+
+def timer(func, x, y=1):
+    before = time()
+    result = func(x, y)
+    after = time()
+    print("elapsed:", after - before)
+    return result
+
+def add(x, y=1):
+    return x + y
+
+def sub(x, y=1):
+    return x - y
+
+timer(add, 1)
+timer(add, 2, 3)
+timer(add, 'a', 'b')
+```
+
+```
+elapsed: 9.5367431640625e-07
+elapsed: 0.0
+elapsed: 0.0
+```
+
+但是这样还是很麻烦，因为我们得修改每一处调用的代码，例如将`add(2, 3)`修改为`timer(add, 2, 3)`。于是我们进一步改进，让`timer()`返回一个包装函数：
+
+```python
+from time import time
+
+def timer(func):
+    def wrapper(x, y=1):
+        before = time()
+        result = func(x, y)
+        after = time()
+        print("elapsed: ", after - before)
+        return result
     return wrapper
 
-@log		          # 调用装饰器, now=log(now)
-def now():
-    print('2015-3-25')
+def add(x, y=1):
+    return x + y
+add = timer(add)
 
-now()
+def sub(x, y=1):
+    return x - y
+sub = timer(sub)
+
+add(1)
+add(2, 3)
+add('a', 'b')
 ```
 
+```
+elapsed:  9.5367431640625e-07
+elapsed:  0.0
+elapsed:  9.5367431640625e-07
+```
 
-
-
-
-# 偏函数Partial function
+这里的最后一个问题是，包装的函数可能有不同的参数，于是可以用`*args, **kwargs`接受所有参数：
 
 ```python
-import functools
-int2 = functools.partial(int, base=2)
-int2('1000000')				    # 64
-int2('1000000', base=10)	# 1000000
+def timer(func):
+    def wrapper(*args, **kwargs):
+        before = time()
+        result = func(*args, **kwargs)
+        after = time()
+        print("elapsed: ", after - before)
+        return result
+    return wrapper
 ```
 
-Partial function的作用相当于把一个函数的某些参数固定，返回一个新函数
+现在得到的`timer()`就是一个装饰器，它接受一个函数，并返回一个新的函数。在装饰器的内部，对原函数进行了包装。
+
+
+
+## @ 语法糖
+
+在上面的例子中，使用装饰器用到了以下代码：
+
+```python
+def add(x, y=1):
+    return x + y
+add = timer(add)   # <- notice this
+
+def sub(x, y=1):
+    return x - y
+sub = timer(sub)
+```
+
+`add = timer(add)`这一语句显得比较赘余，于是Python提供了进一步简化的语法：
+
+```python
+@timer
+def add(x, y=1):
+    return x + y
+
+@timer
+def sub(x, y=1):
+    return x - y
+```
+
+`@`写法十分简洁，这也是我们最常见的装饰器形式。
+
+
+
+## 带参数的装饰器
+
+装饰器也是一种函数，有时我们也希望为其传入参数，方法是在装饰器外面再定义一层函数用于接受参数：
+
+```python
+def use_logging(level):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            if level == "warn":
+                logging.warn("%s is running" % func.__name__)
+            elif level == "info":
+                logging.info("%s is running" % func.__name__)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@use_logging(level="warn")    # 返回一个装饰器,其包装函数的level确定为"warn"
+def foo(name='foo'):
+    print("i am %s" % name)
+```
+
+
+
+
 
