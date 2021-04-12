@@ -18,7 +18,7 @@ kid
 
 
 
-## 三元表达式
+## 条件表达式
 
 ```python
 >>> age = 3
@@ -123,37 +123,26 @@ kid
 
 
 
-## 其它问题
 
-循环体中定义的变量在循环结束后不会被释放，因此需要手动删除局部变量，如下例：
+
+# `pass`语句
+
+`pass` 语句不执行任何操作。当语法上需要一个语句，但程序不实际执行任何动作时，可以使用该语句。
+
+`pass` 语句可以用作函数、类或条件子句的占位符，让开发者聚焦更抽象的层次。
 
 ```python
->>> k = 0
->>> for i in range(5):
-...   j = i + 1
-...   k += j
-...
->>> print(i)
-4
->>> print(j)
-5
->>> print(k)
-15
+while True:
+  pass             # 无限循环
 ```
 
 ```python
->>> k = 0
->>> for i in range(5):
-...   j = i + 1
-...   k += j
-...
->>> del i
->>> del j
->>> print(i)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-NameError: name 'i' is not defined
->>> print(k)
-15
+class EmptyClass:
+  pass             # 空类
+```
+
+```python
+def f():
+  pass             # 空函数
 ```
 

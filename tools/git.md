@@ -1,3 +1,137 @@
+# 命令
+
+## add
+
+添加指定文件和目录到暂存区。
+
+
+
+
+
+## branch
+
+
+
+## checkout
+
+
+
+## cherry-pick
+
+
+
+## clone
+
+下载一个项目和它的整个代码历史。
+
+
+
+
+
+## commit
+
+
+
+## config
+
+显示当前的Git配置。
+
+
+
+## diff
+
+
+
+## fetch
+
+
+
+
+
+## init
+
+在当前目录新建一个Git代码库。
+
+
+
+## log
+
+
+
+## merge
+
+
+
+## mv
+
+
+
+## pull
+
+
+
+## push
+
+
+
+### -f
+
+
+
+## rebase
+
+### -i
+
+
+
+
+
+
+
+## remote
+
+
+
+## reset
+
+
+
+## rm
+
+
+
+## show
+
+
+
+## status
+
+
+
+
+
+## tag
+
+
+
+
+
+# 使用场景
+
+## 合并、修改master之后的几次commit
+
+```shell
+$ git rebase -i master
+
+$ git push -f origin branch0
+```
+
+
+
+
+
+
+
 **新建**
 
 ```shell

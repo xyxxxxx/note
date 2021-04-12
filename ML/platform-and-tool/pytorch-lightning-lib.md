@@ -312,11 +312,6 @@ teardown ...
 
 ```python
 pytorch_lightning.callbacks.EarlyStopping(monitor='early_stop_on', min_delta=0.0, patience=3, verbose=False, mode='min', strict=True)
-
-tf.keras.callbacks.EarlyStopping(
-    monitor='val_loss', min_delta=0, patience=0, verbose=0,
-    mode='auto', baseline=None, restore_best_weights=False
-)
 # monitor               监视的指标
 # min_delta             可以视为改善的最小绝对变化量,换言之,小于该值的指标绝对变化量视为没有改善
 # patience              若最近patience次epoch的指标都没有改善(即最后patience次的指标都比倒数第patience+1次差),则停止训练
@@ -332,8 +327,7 @@ tf.keras.callbacks.EarlyStopping(
 
 ```python
 pytorch_lightning.callbacks.LambdaCallback(on_before_accelerator_backend_setup=None, setup=None, teardown=None, on_init_start=None, on_init_end=None, on_fit_start=None, on_fit_end=None, on_sanity_check_start=None, on_sanity_check_end=None, on_train_batch_start=None, on_train_batch_end=None, on_train_epoch_start=None, on_train_epoch_end=None, on_validation_epoch_start=None, on_validation_epoch_end=None, on_test_epoch_start=None, on_test_epoch_end=None, on_epoch_start=None, on_epoch_end=None, on_batch_start=None, on_validation_batch_start=None, on_validation_batch_end=None, on_test_batch_start=None, on_test_batch_end=None, on_batch_end=None, on_train_start=None, on_train_end=None, on_pretrain_routine_start=None, on_pretrain_routine_end=None, on_validation_start=None, on_validation_end=None, on_test_start=None, on_test_end=None, on_keyboard_interrupt=None, on_save_checkpoint=None, on_load_checkpoint=None, on_after_backward=None, on_before_zero_grad=None)
-# on_before_accelerator_backend_setup   参见Callback
-# ...
+# on_before_accelerator_backend_setup...   参见`Callback`
 ```
 
 ```python
