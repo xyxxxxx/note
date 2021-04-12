@@ -69,6 +69,12 @@ age: 6
 city: Shanghai
 ```
 
+注意：
+
++ 默认值参数必须在必选参数之后
+
+
+
 默认值若为列表、字典或类实例等可变对象，则仅在函数定义时计算一次，例如：
 
 ```python
@@ -202,11 +208,11 @@ comments: {'height': 116, 'weight': 23}
     print('city:', city)
     print('attributes:', attributes)
     print('comments:', comments)
->>> enroll('Cindy', 'F', 'Shanghai', 6, 'outgoing', 'energetic', height=116, weight=23)
+>>> enroll('Cindy', 'F', 6, 'Shanghai', 'outgoing', 'energetic', height=116, weight=23)
 name: Cindy
 gender: F
-age: Shanghai
-city: 6
+age: 6
+city: Shanghai
 attributes: ('outgoing', 'energetic')
 comments: {'height': 116, 'weight': 23}    
 ```
@@ -599,7 +605,7 @@ def sub(x, y=1):
 sub = timer(sub)
 ```
 
-`add = timer(add)`这一语句显得比较赘余，于是Python提供了进一步简化的语法：
+`add = timer(add)` 这一语句显得比较赘余，于是Python提供了进一步简化的语法：
 
 ```python
 @timer
@@ -642,7 +648,7 @@ def foo(name='foo'):
 
 如果说 Python 里一切都是对象的话，那函数怎么表示成对象呢？其实只需要一个类实现 `__call__` 方法即可。
 
-```
+```python
 class Timer:
     def __init__(self, func):
         self._func = func

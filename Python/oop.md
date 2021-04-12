@@ -289,7 +289,7 @@ AttributeError: 'Student' object has no attribute 'age'
 
 类和实例的属性的可见性（即 C, Java 中的`private, protected, public`）由其名称决定：
 
-+ `attr`：外部可以访问
++ `attr`：外部（指其它模块）可以访问
 + `__attr`：外部不可访问
 + `_attr`：外部可以访问，但一般不建议这么做
 + `__attr__ `：特殊属性，外部可以访问
@@ -317,31 +317,27 @@ Bart Simpson: 59 77
 
 
 
-### getter & setter
+### 限制属性
+
++ 类属性 `__slots__` 限定了允许存在的实例属性，详见[\__slots__](#\__slots__)。
++ 内置装饰器 `@property` 将方法变成属性调用，详见标准库-内置函数-property。
 
 ```python
 class Student(object):
-    __slots__ = ('name','_birth')     # 限定可以存在的属性
-    def __init__(self, name, birth):
+    __slots__ = ('name','_score')      # 限定可以存在的属性
+    def __init__(self, name, score):
         self.name = name
-        self._birth = birth
+        self._score = score
 
-    @property                         # 定义属性和getter
-    def birth(self):
-        return self._birth            # 属性_birth用birth调用
+    @property                          # 定义属性和getter
+    def score(self):
+        return self._score             # 属性_score用score调用
 
-    @birth.setter  # 定义setter
-    def birth(self, value):
-        if value < 19000000:
-            raise ValueError('Invalid birthday')  # 报错
-        self._birth = value
-
-s = Student('Alice', 20001111)
-print(s.birth)
-s.birth = 1
-print(s.birth)
-s.sex = 'F'                           # AttributeError
-
+    @score.setter                      # 定义setter
+    def score(self, value):
+        if value < 19000000:           # 设置检查条件
+            raise ValueError('Invalid score.')
+        self._score = value
 ```
 
 
@@ -362,13 +358,21 @@ s.sex = 'F'                           # AttributeError
 
 #### \__dict__
 
-一个字典对象，用于存储对象的（可写）属性。
+一个字典对象，用于存储实例的（可写）属性。
 
 ```python
-
+>>> class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.__dict__
+{'name': 'Bart Simpson', 'score': 59}
+>>> bart.age = 10
+>>> bart.__dict__
+{'name': 'Bart Simpson', 'score': 59, 'age': 10}    # 保存实例的属性
 ```
-
-
 
 
 
@@ -380,7 +384,46 @@ s.sex = 'F'                           # AttributeError
 
 #### \__slots__
 
+类属性，可赋值为字符串、字符串序列或其它可迭代对象。`__slots__` 会为已声明的变量保留空间，并阻止自动为每个实例创建 `__dict__` 和 `__weakref__`。
 
++ 当继承自一个未定义 `__slots__` 的类时，实例的 `__dict__` 和 `__weakref__` 属性将总是可以访问。
++ 由于没有 `__dict__` 属性，实例不能给未在 `__slots__` 定义中列出的新属性赋值，尝试给一个未列出的属性赋值将引发 `AttributeError`。若要为实例动态绑定属性，就要将 `'__dict__'` 加入到 `__slots__` 声明的字符串序列中。
++ 由于没有 `__weakref__` 属性，定义了 `__slots__` 的类不支持对其实例的弱引用。若需要弱引用支持，就要将 `'__weakref__'` 加入到 `__slots__` 声明的字符串序列中。
++ `__slots__` 声明的作用不只限于定义它的类。在父类中声明的 `__slots__` 在其子类中同样可用。不过子类不会阻止创建 `__dict__` 和 `__weakref__`，除非它们也定义了 `__slots__` (其中应仅包含*额外*的变量声明)。
++ 相比使用 `__dict__` 此方式可以显著地节省空间，并且显著地提升属性查找速度。
+
+```python
+>>> class Student(object):
+    __slots__ = ('name', 'score')
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.__dict__
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Student' object has no attribute '__dict__'   # 阻止创建 `__dict__`
+>>> bart.age = 10
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Student' object has no attribute 'age'        # 不能动态绑定属性
+```
+
+```python
+>>> class Student(object):
+    __slots__ = ('name', 'score', '__dict__')                  # 声明 `__dict__`
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.__dict__
+{}
+>>> bart.age = 10                                              # 可以动态绑定属性
+>>> bart.__dict__
+{'age': 10}                                                    # 保存 `__slots__` 声明的变量以外的属性
+```
 
 
 

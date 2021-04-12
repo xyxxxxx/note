@@ -15,11 +15,219 @@
 ### 缩进
 
 + 每个缩进层次为4个空格（而非一个tab`\t`）
-+ 不要使用tab；对于任何编辑器，将tab键设定为输入4个空格;
+
++ 不要使用tab；对于任何编辑器，将tab键设定为输入4个空格
+
++ 对于拆分到多行的代码，应竖直对齐包装的所有元素，或使用4个空格的缩进并且第一行的括号后直接换行：
+
+  ```python
+  # 正确的示范
+  # 竖直对齐元素
+  foo = long_function_name(var_one, var_two,
+                           var_three, var_four)
+  meal = (spam,
+          beans)
+  
+  # 字典中竖直对齐元素
+  foo = {
+      long_dictionary_key: value1 +
+                           value2,
+      ...
+  }
+  
+  # 悬挂缩进4个空格;第一行括号后直接换行
+  foo = long_function_name(
+      var_one, var_two, var_three,
+      var_four)
+  meal = (
+      spam,
+      beans)
+  
+  # 字典中悬挂缩进4个空格
+  foo = {
+      long_dictionary_key:
+          long_dictionary_value,
+      ...
+  }
+  ```
+
+  ```python
+  # 错误的示范
+  # 第一行有元素再换行悬挂缩进
+  foo = long_function_name(var_one, var_two,
+      var_three, var_four)
+  meal = (spam,
+      beans)
+  
+  # 悬挂缩进2个空格
+  foo = long_function_name(
+    var_one, var_two, var_three,
+    var_four)
+  
+  # 字典中没有悬挂缩进
+  foo = {
+      long_dictionary_key:
+      long_dictionary_value,
+      ...
+  }
+  ```
 
 
 
-## 名称
+### whitespace
+
+
+
+
+
+### 行长度
+
++ 一行代码的最大长度应为80个字符。
+
++ 超过80个字符限制的常见例外情况包括：
+
+  + 长的 `import` 语句
+  + 注释中的 URL，路径名和长标记
+  + 长的模块级别的字符串常量，因为不包含 whitespace 而不便于拆分到多行，例如 URL 或路径名
+
+  ```python
+  # 正确的示范
+  # See details at
+  # http://www.example.com/us/developer/documentation/api/content/v2.0/csv_file_name_extension_full_specification.html
+  
+  # 错误的示范
+  # See details at
+  # http://www.example.com/us/developer/documentation/api/content/\
+  # v2.0/csv_file_name_extension_full_specification.html
+  ```
+
++ 利用 Python 隐式拼接括号内各行的特性，必要时可以使用圆括号包围表达式
+
+  ```python
+  # 正确的示范
+  # 隐式拼接括号内各行
+  foo_bar(self, width, height, color='black', design=None, x='foo',
+          emphasis=None, highlight=0)
+  
+  # 使用圆括号包围表达式
+  if (width == 0 and height == 0 and
+      color == 'red' and emphasis == 'strong'):
+  ```
+
++ 当字符串在一行中容纳不下时，使用小括号隐式拼接
+
+  ```python
+  # 正确的示范
+  x = ('This will build a very long long '
+       'long long long long long long string')
+  
+  url = ('http://www.example.com/us/developer/documentation/api/content/v2.0'
+         '/csv_file_name_extension_full_specification.html')
+  ```
+
++ 不要使用反斜线拆分行，除非是 `with` 语句需要3个或更多的上下文管理器
+
+  ```python
+  # 正确的示范
+  # 3个上下文管理器
+  with very_long_first_expression_function() as spam, \
+       very_long_second_expression_function() as beans, \
+       third_thing() as eggs:
+      place_order(eggs, beans, spam, beans)
+  
+  # 2个上下文管理器    
+  with very_long_first_expression_function() as spam:
+      with very_long_second_expression_function() as beans:
+          place_order(beans, spam)    
+  ```
+
+  ```python
+  # 错误的示范
+  with very_long_first_expression_function() as spam, \
+       very_long_second_expression_function() as beans, \
+      place_order(beans, spam)
+  ```
+
++ 对于一行超过80个字符的所有其它情况，若 yapf 自动格式化器不能帮助拆分行，则该行可以超过限制。
+
+
+
+### 圆括号
+
++ 控制圆括号的使用。
++ 可以对元组使用圆括号包围，但这不是必须的。
+
+
+
+### 逗号
+
++ 对于拆分到多行的代码，如果反括号与最后一个元素不在一行，则应在最后一个元素之后增加一个逗号。
+
+  ```python
+  # 正确的示范
+  golomb4 = [
+      0,
+      1,
+      4,
+      6,
+  ]
+  
+  # 错误的示范
+  golomb4 = [
+      0,
+      1,
+      4,
+      6
+  ]
+  ```
+
+  
+
+
+
+
+
+## 命名
+
+命名规则：
+
+| Type        | Public               | Internal                          |
+| ----------- | -------------------- | --------------------------------- |
+| 包          | `lower_with_under`   |                                   |
+| 模块        | `lower_with_under`   | `_lower_with_under`               |
+| 类          | `CapWords`           | `_CapWords`                       |
+| 异常        | `CapWords`           |                                   |
+| 函数        | `lower_with_under()` | `_lower_with_under()`             |
+| 全局/类常量 | `CAPS_WITH_UNDER`    | `_CAPS_WITH_UNDER`                |
+| 全局/类变量 | `lower_with_under`   | `_lower_with_under`               |
+| 实例变量    | `lower_with_under`   | `_lower_with_under` (protected)   |
+| 方法        | `lower_with_under()` | `_lower_with_under()` (protected) |
+| 函数参数    | `lower_with_under`   |                                   |
+| 局部变量    | `lower_with_under`   |                                   |
+
+函数名、变量名和模块名应该是描述性的，避免使用缩写，尤其是可能引起歧义或用户不熟悉的缩写，也不要通过在单词中删减字母的方式简略。
+
+
+
+### 应避免的名称
+
++ 单字符名称，除非一些特殊情况：
+  + 计数或迭代变量（例如 `i`, `j`, `k`, `v` 等）
+  + `e` 作为 `try/except` 语句中的异常标识符
+  + `f` 作为 `with` 语句中的文件操作符
++ 名称中使用横线 `-` 。
++ 形如 `__my__` 的特殊属性名称（由 Python 保留）
++ 冒犯性的名称
+
+
+
+### 惯例
+
++ “内部”指代模块的内部，或类内部的保护或私有属性。
++ 使用单下划线前缀将提供一些保护模块变量和函数的支持。使用双下划线前缀将使得变量和函数为其类完全私有，但我们不鼓励使用它，因为它会影响代码的可读性和可测试性，而且并不是真正的*私有*。
++ 将关联的类和顶级函数放置在一个模块中。不同于 Java，Python 没有限制一个模块只能有一个类。
+
+
 
 
 
@@ -28,6 +236,14 @@
 ## 类型
 
 ### 真值判断
+
+
+
+
+
+## 字符串
+
+
 
 
 
@@ -115,6 +331,56 @@
 
 
 
+
+## 文档字符串和注释
+
+Python 使用文档字符串 docstring 来为代码生成文档。一个 docstring 是包、模块、类、方法、函数的第一个声明字符串，这些字符串可以通过对象的 `__doc__` 属性自动提取，也被 `pydoc` 使用。所有公开的包、模块、类、方法、函数都应该有 docstring。docstring 的内容用一对 `"""` 包围。
+
+docstring 应当被组织为：一行总结（不超过80个字符），以句号结尾；空一行，从第一行的第一个引号的位置开始，
+
+
+
++ 函数和方法的文档字符串应当描述其功能、输入参数、返回值；如果有复杂的算法和实现，也需要写清楚或给出参考文献
++ 对于多行的文档字符串，结束 `"""` 独占一行；对于单行的文档字符串，将开始和结束 `"""` 放在同一行
+
+
+
+### 模块
+
++ 每一个文件都应当包含许可的模版内容，为项目选择合适的许可模板（例如 Apache 2.0，BSD，LGPL，GPL）。
+
++ 文件应以一个 docstring 开始，描述模块的内容和使用方法。
+
+  ```python
+  """A one line summary of the module or program, terminated by a period.
+  
+  Leave one blank line.  The rest of this docstring should contain an
+  overall description of the module or program.  Optionally, it may also
+  contain a brief description of exported classes and functions and/or usage
+  examples.
+  
+    Typical usage example:
+  
+    foo = ClassFoo()
+    bar = foo.FunctionBar()
+  """
+  ```
+
+  ```python
+  # TensorFlow 代码示例
+  
+  """Adam optimizer implementation."""
+  
+  """TensorFlow-related utilities."""
+  
+  # Lightning 代码示例
+  
+  """Trainer to automate the training."""
+  ```
+
+
+
+### 函数和方法
 
 
 
@@ -343,11 +609,4 @@
 + 使用 `for item in list` 迭代 `list`，`for index, item in enumerate(list)` 迭代 `list` 并获取下标
 + 使用 `logging` 记录日志，配置好格式和级别
 
-
-
-## PEP257
-
-+ 文档字符串 `docstring` 是包、模块、类、方法、函数的注释，<u>所有公开的包、模块、类、方法、函数都应该有文档字符串</u>，可以通过 `__doc__` 方法访问，注释内容在一对 `'''` 或一对 `"""` 之间，建议使用后者
-+ 函数和方法的文档字符串应当描述其功能、输入参数、返回值；如果有复杂的算法和实现，也需要写清楚或给出参考文献
-+ 对于多行的文档字符串，结束 `"""` 独占一行；对于单行的文档字符串，将开始和结束 `"""` 放在同一行
 

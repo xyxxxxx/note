@@ -365,7 +365,84 @@ hasattr(object, name)
 
 ## property
 
+返回一个可控属性。
 
+```python
+class property(fget=None, fset=None, fdel=None, doc=None)
+# fget        getter方法
+# fset        setter方法
+# fdel        deleter方法
+# doc         属性对象的docstring,否则将复制fget的docstring作为docstring
+```
+
+一个典型的用法是定义一个托管属性 `x`:
+
+```python
+>>> class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self._score = score
+    def get_score(self):
+        return self._score
+    def set_score(self, value):
+        self._score = value
+    def del_score(self):
+        del self._score
+    score = property(get_score, set_score, del_score, "I'm the 'score' property.")
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.score                 # 调用`get_score()`
+59
+>>> bart.score = 60            # 调用`set_score()`
+>>> del bart.score             # 调用`del_score()`
+```
+
+更常见的写法是将 `property` 作为一个装饰器：
+
+```python
+>>> class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self._score = score
+    @property    
+    def score(self):
+        """Get score."""
+        return self._score
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.score                  # 调用`score()`
+59
+>>> bart.score = 60             # 没有定义setter
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+>>> bart._score = 60            # `_score`属性仍然可以自由访问和修改,尽管不应该这么做
+```
+
+`property` 对象具有 `getter`, `setter` 和 `deleter` 方法，可以用作装饰器创建该 `property` 对象的副本，并将相应的方法设为所装饰的函数：
+
+```python
+>>> class Student(object):               # 与第一个例子完全等价
+    def __init__(self, name, score):
+        self.name = name
+        self._score = score
+    @property
+    def score(self):                     # getter方法
+        """I'm the 'score' property."""
+        return self._score
+    @score.setter
+    def score(self, value):              # setter方法
+        self._score = value
+    @score.deleter
+    def score(self):                     # deleter方法
+        del self._score
+... 
+>>> bart = Student('Bart Simpson', 59)
+>>> bart.score
+59
+>>> bart.score = 60
+>>> del bart.score
+```
 
 
 
