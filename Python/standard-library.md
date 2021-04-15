@@ -372,7 +372,7 @@ class property(fget=None, fset=None, fdel=None, doc=None)
 # fget        getter方法
 # fset        setter方法
 # fdel        deleter方法
-# doc         属性对象的docstring,否则将复制fget的docstring作为docstring
+# doc         property对象的docstring,否则将复制fget的docstring作为docstring
 ```
 
 一个典型的用法是定义一个托管属性 `x`:
@@ -406,7 +406,7 @@ class property(fget=None, fset=None, fdel=None, doc=None)
         self._score = score
     @property    
     def score(self):
-        """Get score."""
+        """Get score."""        # 作为property对象的docstring
         return self._score
 ... 
 >>> bart = Student('Bart Simpson', 59)
@@ -428,7 +428,7 @@ AttributeError: can't set attribute
         self._score = score
     @property
     def score(self):                     # getter方法
-        """I'm the 'score' property."""
+        """I'm the 'score' property."""  # 作为property对象的docstring
         return self._score
     @score.setter
     def score(self, value):              # setter方法
@@ -1263,11 +1263,26 @@ def repeat(object, times=None):
 
 
 
+
+
 # json——JSON 编码和解码器
 
-## dumps()
+> `json` 包实际上就是被添加到标准库中的 `simplejson` 包。`simplejson` 包比 Python 版本更新更加频繁，因此在条件允许的情况下使用 `simplejson` 包是更好的选择。一种好的实践如下：
+>
+> ```python
+> try:
+>     import simplejson as json
+> except ImportError:
+>     import json
+> ```
+>
+> `json` 包和 `simplejson` 包具有相同的接口和类，因此下面仅 `json` 包为例进行介绍。
 
-将对象序列化为JSON格式的`str`。参数的含义见`JSONEncoder`。
+## 接口
+
+### dumps()
+
+将对象序列化为 JSON 格式的 `str`。参数的含义见 `JSONEncoder`。
 
 ```python
 >>> import json
@@ -1304,9 +1319,9 @@ def repeat(object, times=None):
 
 
 
-## loads()
+### loads()
 
-将一个包含JSON的`str`、`bytes`或`bytearray`实例反序列化为Python对象。
+将一个包含 JSON 的 `str`、`bytes` 或 `bytearray` 实例反序列化为Python对象。
 
 ```python
 >>> import json
@@ -1318,9 +1333,11 @@ def repeat(object, times=None):
 
 
 
-## JSONEncoder
+## 编码器和解码器
 
-用于Python数据结构的可扩展JSON编码器，默认支持以下对象和类型：
+### JSONEncoder
+
+用于Python数据结构的可扩展 JSON 编码器，默认支持以下对象和类型：
 
 | Python                              | JSON   |
 | :---------------------------------- | :----- |
@@ -1348,15 +1365,48 @@ class json.JSONEncoder(*, skipkeys=False, ensure_ascii=True, check_circular=True
 
 具有以下属性和方法：
 
-### default()
+#### default()
 
-### encode()
+#### encode()
 
 返回Python数据结构的JSON字符串表达方式。
 
 ```python
 >>> json.JSONEncoder().encode({"foo": ["bar", "baz"]})
 '{"foo": ["bar", "baz"]}'
+```
+
+
+
+### JSONDecoder
+
+
+
+## 异常
+
+### JSONDecodeError
+
+JSON 解析错误，是 `ValueError` 的子类。
+
+```python
+exception json.JSONDecodeError(msg, doc, pos)
+# msg     未格式化的错误信息
+# doc     正在解析的JSON文档
+# pos     解析出错的文档索引位置
+```
+
+```python
+>>> import json
+>>> try:
+    json.loads('{"c": 0, "b": 1, "a": {"d": 2, "e" 3}}')   # lack a colon between "e" and 3
+except json.JSONDecodeError as e:
+    print(e.msg)
+    print(e.doc)
+    print(e.pos)
+... J
+Expecting ':' delimiter
+{"c": 0, "b": 1, "a": {"d": 2, "e" 3}}
+35                              # ↑
 ```
 
 

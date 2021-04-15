@@ -1,8 +1,148 @@
 [toc]
 
+
+
+# BeautifulSoup
+
+[Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
+
+
+
+参考[Beautiful Soup 4.4.0 文档](https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/)
+
+下面一段HTML代码将作为例子被多次用到.这是 *爱丽丝梦游仙境的* 的一段内容:
+
+```html
+<html><head><title>The Dormouse's story</title></head>
+<body>
+<p class="title"><b>The Dormouse's story</b></p>
+
+<p class="story">Once upon a time there were three little sisters; and their names were
+<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+and they lived at the bottom of a well.</p>
+
+<p class="story">...</p>
+```
+
+在浏览器中显示如下:
+
+![](https://i.loli.net/2020/12/29/WZtx64Cdhf7QEAN.png)
+
+使用BeautifulSoup解析这段代码,能够得到一个 `BeautifulSoup` 对象:
+
+```shell
+>>> from bs4 import BeautifulSoup
+>>> html_doc = """
+... <html><head><title>The Dormouse's story</title></head>
+... <body>
+... <p class="title"><b>The Dormouse's story</b></p>
+... 
+... <p class="story">Once upon a time there were three little sisters; and their names were
+... <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+... <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+... <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+... and they lived at the bottom of a well.</p>... 
+... <p class="story">...</p>
+... """
+>>> soup = BeautifulSoup(html_doc, 'html.parser')
+```
+
+将其按照标准的缩进格式的结构输出:
+
+```html
+>>> print(soup.prettify())
+<html>
+ <head>
+  <title>
+   The Dormouse's story
+  </title>
+ </head>
+ <body>
+  <p class="title">
+   <b>
+    The Dormouse's story
+   </b>
+  </p>
+  <p class="story">
+   Once upon a time there were three little sisters; and their names were
+   <a class="sister" href="http://example.com/elsie" id="link1">
+    Elsie
+   </a>
+   ,
+   <a class="sister" href="http://example.com/lacie" id="link2">
+    Lacie
+   </a>
+   and
+   <a class="sister" href="http://example.com/tillie" id="link3">
+    Tillie
+   </a>
+   ;
+and they lived at the bottom of a well.
+  </p>
+  <p class="story">
+   ...
+  </p>
+ </body>
+</html>
+```
+
+几个简单的浏览结构化数据的方法:
+
+```shell
+>>> soup.title             # 查看<title></title>
+<title>The Dormouse's story</title>
+
+>>> soup.title.string
+"The Dormouse's story"
+
+>>> soup.title.parent.name # 查看上级名称
+'head'
+
+>>> soup.a                 # 查看(第一个)<a></a>
+<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>
+
+>>> soup.find_all('a')     # 查找所有<a></a>
+[<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+
+>>> soup.find(id='link2')  # 根据id查找
+<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+```
+
+返回文档的全部文字内容:
+
+```shell
+>>> soup.text              # 与soup.get_text()相同
+"\nThe Dormouse's story\n\nThe Dormouse's story\nOnce upon a time there were three little sisters; and their names were\nElsie,\nLacie and\nTillie;\nand they lived at the bottom of a well.\n...\n"
+
+>>> print(soup.text)
+
+The Dormouse's story
+
+The Dormouse's story
+Once upon a time there were three little sisters; and their names were
+Elsie,
+Lacie and
+Tillie;
+and they lived at the bottom of a well.
+...
+
+```
+
+
+
+
+
+
+
 # requests
 
 requests是一个简单而优雅的HTTP库。
+
+
+
+## 使用示例
 
 
 
@@ -12,31 +152,31 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 
 ### delete()
 
-发送 `DELETE`请求。
+发送 `DELETE` 请求。
 
 
 
 ### get()
 
-发送 `GET`请求。
+发送 `GET` 请求。
 
 
 
 ### head()
 
-发送 `HEAD`请求。
+发送 `HEAD` 请求。
 
 
 
 ### options()
 
-发送 `OPTIONS`请求。
+发送 `OPTIONS` 请求。
 
 
 
 ### post()
 
-发送 `POST`请求。
+发送 `POST` 请求。
 
 ```shell
 >>> r = requests.post('http://httpbin.org/post', data = {'key':'value'})
@@ -48,7 +188,7 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 
 ### put()
 
-发送 `PUT`请求。
+发送 `PUT` 请求。
 
 
 
@@ -61,7 +201,7 @@ requests.request(method, url, **kwargs)
 # method    请求方法
 # url       url
 # params    作为查询字符串的字典或字节
-# data      随请求体发送的字典,元组列表`[(key,value)]`,字节或类似文件的对象
+# data      随请求体发送的字典、元组列表`[(key,value)]`、字节或类似文件的对象
 # json      随请求体发送的json数据
 # headers   设定请求头的字典
 # cookies   设定cookies的字典或CookieJar对象
@@ -81,6 +221,10 @@ requests.request(method, url, **kwargs)
 >>> import requests
 >>> requests.request('GET', 'https://www.example.com')
 <Response [200]>
+```
+
+```python
+
 ```
 
 
@@ -166,13 +310,13 @@ iter_lines(chunk_size=512, decode_unicode=None, delimiter=None)
 
 #### json()
 
-返回json编码的响应内容，调用`json.loads`方法。若响应体不包含合法的json，则引发错误`simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)`。
+返回json编码的响应内容，调用 `json.loads` 方法。若响应体不包含合法的json，则引发错误 `simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)`。
 
 #### next
 
 #### ok
 
-若`status_code`小于400，返回`True`。
+若 `status_code` 小于400，返回 `True`。
 
 ```shell
 >>> r.ok
@@ -181,11 +325,16 @@ True
 
 #### raise_for_status()
 
-引发保存的`HTTPError`，如果发生了一个。
+引发保存的 `HTTPError`，如果发生了一个。
+
+```python
+if not r.ok:                    # r.status >= 400, an HTTPError occurred
+    r.raise_for_status()        # raise this HTTPError
+```
 
 #### raw
 
-响应的类似文件的对象表示。需要请求设定`stream=True`。
+响应的类似文件的对象表示。需要请求设定 `stream=True`。
 
 #### reason
 
@@ -286,31 +435,32 @@ True
 
 ## 身份认证
 
-### auth.AuthBase
-
-所有身份认证类的基类。
-
-
-
-### auth.HTTPBasicAuth
-
-请求附加的HTTP基本认证。
-
-
-
-### auth.HTTPProxyAuth
-
-请求附加的HTTP代理认证。
-
-
-
-### auth.HTTPDigestAuth
-
-请求附加的HTTP摘要认证。
-
-
+| 类                    | 描述                   |
+| --------------------- | ---------------------- |
+| `auth.AuthBase`       | 所有身份认证类的基类   |
+| `auth.HTTPBasicAuth`  | 请求附加的HTTP基本认证 |
+| `auth.HTTPProxyAuth`  | 请求附加的HTTP代理认证 |
+| `auth.HTTPDigestAuth` | 请求附加的HTTP摘要认证 |
 
 
 
 ## Cookie
+
+
+
+
+
+## 异常
+
+| 异常名称                    | 描述                               |
+| --------------------------- | ---------------------------------- |
+| `requests.RequestException` | 处理请求时发生的不明确的异常       |
+| `requests.ConnectionError`  | 连接错误                           |
+| `requests.HTTPError`        | HTTP错误，即状态码大于等于400      |
+| `requests.URLRequired`      | 需要有效的URL                      |
+| `requests.TooManyRedirects` | 过多的重定向                       |
+| `requests.Timeout`          | 请求超时，是下列两个异常的父类     |
+| `requests.ConnectTimeout`   | 尝试连接到远程服务器时超时         |
+| `requests.ReadTimeout`      | 服务器在预定时间内没有发送任何数据 |
+|                             |                                    |
 

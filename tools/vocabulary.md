@@ -122,7 +122,7 @@
 | digraph                 | 有向图       |
 | directory, dir          | 目录         |
 | DNS, Domain Name System | 域名系统     |
-| document                | 文档         |
+| document                | 文档；记载   |
 | domain                  | 域名         |
 | DP, Dynamic Programming | 动态规划     |
 

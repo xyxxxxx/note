@@ -340,6 +340,22 @@ class Student(object):
         self._score = value
 ```
 
+```python
+class Student(object):
+    """class Student"""
+    def __init__(self, name, score):
+        self.name = name
+        self._score = score
+    @property                          # 定义属性和getter
+    def score(self):
+        """property score"""
+        return self._score             # 属性_score用score调用
+```
+
+
+
+
+
 
 
 ### 实例的特殊属性
