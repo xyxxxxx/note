@@ -626,6 +626,10 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 
 
+# collections.abc——容器的抽象基类
+
+参见数据结构-自定义容器数据类型。
+
 
 
 # copy——浅层和深层复制操作
@@ -1159,7 +1163,7 @@ def cycle(iterable):
 
 ## islice()
 
-创建一个迭代器，返回从可迭代对象以切片方式选中的元素。与普通的切片不同，`islice()`不支持将 start, stop, step 设为负值。大致相当于：
+创建一个迭代器，返回从可迭代对象以切片方式选中的元素。与普通的切片不同，`islice()`不支持将 `start, stop, step` 设为负值。大致相当于：
 
 ```python
 def islice(iterable, *args):
@@ -1183,10 +1187,10 @@ def islice(iterable, *args):
         for i, element in zip(range(i + 1, stop), iterable):
             pass
           
-# islice('ABCDEFG', 2) --> A B
-# islice('ABCDEFG', 2, 4) --> C D
-# islice('ABCDEFG', 2, None) --> C D E F G
-# islice('ABCDEFG', 0, None, 2) --> A C E G
+# islice('ABCDEFG', 2) --> A B                        stop = 2
+# islice('ABCDEFG', 2, 4) --> C D                     start = 2, stop = 4
+# islice('ABCDEFG', 2, None) --> C D E F G            start = 2, stop = None
+# islice('ABCDEFG', 0, None, 2) --> A C E G           start = 0, stop = None, step = 2
 ```
 
 
@@ -2147,6 +2151,8 @@ True
 
 
 
+# pickle——Python对象序列化
+
 
 
 # platform——获取底层平台的标识数据
@@ -3008,4 +3014,66 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 # types——动态类型创建和内置类型名称
 
-## MethodType
+`types` 模块为不能直接访问的内置类型定义了名称。
+
+| 名称                                                   | 内置类型                                         |
+| ------------------------------------------------------ | ------------------------------------------------ |
+| `types.FunctionType`, `types.LambdaType`               | 用户自定义函数和 `lambda` 表达式创建的函数的类型 |
+| `types.GeneratorType`                                  | 生成器类型                                       |
+|                                                        |                                                  |
+| `types.MethodType`                                     | 用户自定义实例方法的类型                         |
+| `types.BuiltinFunctionType`, `types.BuiltinMethodType` | 内置函数和内置类型方法的类型                     |
+|                                                        |                                                  |
+
+最常见的用法是进行实例和子类检测：
+
+```python
+>>> def f(): pass
+... 
+>>> isinstance(f, types.FunctionType)            # 自定义函数
+True
+>>>
+>>> isinstance(len, types.BuiltinFunctionType)   # 内置函数
+True
+```
+
+除此之外，还可以用来动态创建内置类型：
+
+```python
+# 动态创建自定义实例方法并绑定到实例
+>>> import types
+>>> class Student(object):
+    def set_name(self, name):
+        self.name = name
+... 
+>>> bart = Student()
+>>> bob = Student()
+>>> bart.set_name('Bart')
+>>> bob.set_name('Bob')
+>>> def get_name(self):
+    return self.name
+... 
+>>> bart.get_name = types.MethodType(get_name, bart)     # 将函数`get_name`动态绑定为实例`bart`的方法
+>>> bart.get_name()                                      # 注意若类设定了`__slots__`则无法绑定
+'Bart'
+>>> dir(bart)
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'get_name', 'name', 'set_name']
+>>> bob.get_name()                                       # 其它实例无法调用
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Student' object has no attribute 'get_name'
+>>> def set_name(self, name):
+    self.name = name
+    print('Succeeded.')
+... 
+>>> bart.set_name = types.MethodType(set_name, bart)     # 覆盖实例方法
+>>> bart.set_name('Bartt')                               # 注意若实例方法设为只读则无法覆盖
+Succeeded.
+```
+
+
+
+
+
+# weakref——弱引用
+

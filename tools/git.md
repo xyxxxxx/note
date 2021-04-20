@@ -22,9 +22,12 @@
 
 ## clone
 
-下载一个项目和它的整个代码历史。
+克隆一个仓库到一个新建的目录下，为仓库中的每个分支创建远程跟踪分支，创建一个初始分支并切换到该分支，其派生自仓库的当前活动分支。
 
-
+```shell
+$ git clone https://github.com/tensorflow/tensorflow.git
+$ git branch --remotes             # 查看远程跟踪分支
+```
 
 
 
@@ -34,7 +37,50 @@
 
 ## config
 
-显示当前的Git配置。
+获取和设定当前仓库和全局配置。
+
+
+
+### -e, --edit
+
+打开一个编辑器以修改指定的配置文件。
+
+```shell
+$ git config -e              # 修改仓库配置
+$ git config -e --system     # 修改系统配置
+$ git config -e --global     # 修改全局配置
+```
+
+
+
+### --global
+
+
+
+
+
+### -l, --list
+
+获取配置文件中所有变量和它们的值。
+
+```shell
+$ git config -l 
+credential.helper=osxkeychain
+user.name=xyx
+user.email=xyx@tensorstack.com
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+```
+
+
+
+
+
+
 
 
 
@@ -50,7 +96,18 @@
 
 ## init
 
-在当前目录新建一个Git代码库。
+在当前目录下初始化一个空的Git仓库。
+
+```shell
+# 为现有代码库创建新的Git仓库
+$ cd /path/to/my/codebase
+$ git init                           # 创建/path/to/my/codebase/.git文件
+Initialized empty Git repository in /path/to/my/codebase/.git/
+$ git add .                          # 将所有文件添加到索引
+$ git commit -m "First commit."      # 将原始状态记录为历史记录中的第一次提交
+$ git branch
+* master                             # 初始分支默认名称为`master`
+```
 
 
 
@@ -118,13 +175,21 @@
 
 # 使用场景
 
-## 合并、修改master之后的几次commit
+## 合并master之后的几次commit
 
 ```shell
 $ git rebase -i master
 
-$ git push -f origin branch0
+$ git push -f origin branch1
 ```
+
+
+
+## 修改commit的
+
+
+
+
 
 
 

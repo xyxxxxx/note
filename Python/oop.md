@@ -556,6 +556,10 @@ in education
 
 # 继承和多态
 
+## 继承
+
+
+
 ```python
 class Animal(object):     # 类默认继承自object类
     def run(self):
@@ -589,6 +593,12 @@ class Dog(Animal):
         super().__init__(name, age)   # 必须先调用父类的构造函数
         self.price = price
 ```
+
+
+
+### 继承内置类型
+
+有时我们使用内置类型时想要增加或者修改
 
 
 
@@ -855,6 +865,38 @@ True
 
 当默认属性访问因引发 `AttributeError` 而失败时被调用（可能是调用 `__getattribute__()` 时由于 *name* 不是一个实例属性或 `self` 的类关系树中的属性而引发了 `AttributeError`；或者是对 *name* 特性属性调用 `__get__()` 时引发了 `AttributeError`）。此方法应当返回（找到的）属性值或是引发一个 `AttributeError` 异常。
 
+```python
+>>> class Student(object):
+    def __init__(self, name, score, info):
+        self.name = name
+        self.score = score
+        self._info = info
+    def __getattr__(self, key):
+        try:
+            return self._info[key]     # 若非实例属性,在字典`_info`中寻找相应的键
+        except KeyError:
+            raise AttributeError(      # 若不存在相应的键,则引发`AttributeError`
+                "'{}' object has no attribute '{}' or key '{}' in info dict".
+                format(self.__class__.__name__, key, key))
+... 
+>>> bart = Student('Bart Simpson', 59, {'age': 10})
+>>> bart.score                         # 实例属性
+59
+>>> bart.age                           # 字典`_info`中的键
+10
+>>> bart.gender                        # 以上两者皆不是
+Traceback (most recent call last):
+  File "<stdin>", line 1, in __getattr__
+KeyError: 'gender'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 1, in __getattr__
+AttributeError: 'Student' object has no attribute 'gender' or key 'gender' in info dict
+```
+
 
 
 #### \__getattribute__()
@@ -887,7 +929,7 @@ object.__setattr__(self, name, value)
         self.name = name
         self.score = score
     def __setattr__(self, key, value):
-        object.__setattr__(self, key, value)
+        object.__setattr__(self, key, value)            # 基类的赋值方法
         print('To assign: {} = {}'.format(key, value))
 ... 
 >>> bart = Student('Bart Simpson', 59)

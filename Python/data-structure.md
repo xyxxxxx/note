@@ -28,7 +28,7 @@
 
 ### 方法
 
-#### `count()`
+#### count()
 
 返回指定元素在序列中出现的次数。
 
@@ -42,7 +42,7 @@
 
 
 
-#### `index()`
+#### index()
 
 返回序列中的第一个指定元素的从零开始的索引，可选的第二和第三个参数用于指定特定的搜索序列。
 
@@ -60,9 +60,9 @@ ValueError: 5 is not in list
 
 
 
-## 列表list-[]
+## 列表[]
 
-列表是可变序列，通常用于存放同类项目的集合。
+列表(list)是可变序列，通常用于存放同类项目的集合。
 
 ```python
 >>> s = [1,2,3,4]      # 创建列表
@@ -234,7 +234,7 @@ True
 
 ### 方法
 
-#### `append()`
+#### append()
 
 将指定元素添加到列表的末尾。
 
@@ -247,7 +247,7 @@ True
 
 
 
-#### `clear()`
+#### clear()
 
 移除列表中的所有元素。
 
@@ -260,7 +260,7 @@ True
 
 
 
-#### `copy()`
+#### copy()
 
 返回列表的一个浅拷贝。
 
@@ -277,7 +277,7 @@ True
 
 
 
-#### `extend()`
+#### extend()
 
 使用可迭代对象中的所有元素来扩展列表。
 
@@ -290,7 +290,7 @@ True
 
 
 
-#### `insert()`
+#### insert()
 
 在列表的指定位置插入一个元素。
 
@@ -303,7 +303,7 @@ True
 
 
 
-#### `pop()`
+#### pop()
 
 删除列表指定位置的元素并返回它，默认为最后一个元素。
 
@@ -319,7 +319,7 @@ True
 
 
 
-#### `remove()`
+#### remove()
 
 移除列表中的第一个指定元素。
 
@@ -336,7 +336,7 @@ ValueError: list.remove(x): x not in list
 
 
 
-#### `reverse()`
+#### reverse()
 
 翻转列表中的元素。
 
@@ -349,7 +349,7 @@ ValueError: list.remove(x): x not in list
 
 
 
-#### `sort()`
+#### sort()
 
 对列表中的元素进行排序。可选的接受一个参数的函数将作为排序标准，各元素按照传入该函数的函数值进行排序。
 
@@ -433,9 +433,9 @@ toe
 
 
 
-# 元组tuple-()
+## 元组()
 
-元组是不可变序列，通常用于储存异构数据的多项集。
+元组(tuple)是不可变序列，通常用于储存异构数据的多项集。
 
 ```python
 >>> t = 12345, 54321, 'hello!'   # 创建元组
@@ -473,7 +473,7 @@ TypeError: 'tuple' object does not support item assignment
 
 
 
-# range
+## range
 
 range 类型表示不可变的数字序列，通常用于在 for 循环中指定循环的次数。
 
@@ -733,9 +733,70 @@ L2 = sorted(L, key=by_score, reverse=True)
 
 # 容器数据类型
 
+`collections` 模块实现了一些具有特定功能的容器，以提供 Python 标准内建容器 `dict` , `list` , `set`  和 `tuple` 的替代选择。
+
+
+
+## ChainMap
+
+`ChainMap` 将多个字典或者其他映射组合在一起，创建一个单独的可更新的视图。 如果没有参数传入，就默认提供一个空字典，这样新的 `ChainMap` 至少有一个映射。
+
+底层映射被存储在一个列表中。这个列表是公开的，可以通过 `maps` 属性存取和更新。
+
+搜索会查询底层映射，直到一个键被找到；但是写、更新和删除只操作第一个映射。
+
+一个 `ChainMap` 通过引用合并底层映射。 所以如果一个底层映射更新了，这些更改会反映到 `ChainMap`。
+
+```python
+>>> from collections import ChainMap
+>>> d1 = {'a': 1, 'b': 2, 'c':3}
+>>> d2 = {'c': 4, 'd': 8}
+>>> cm = ChainMap(d1, d2)
+>>> cm['a']        # d1中找到该键
+1
+>>> cm['c']        # d1中找到该键
+3
+>>> cm['d']        # d2中找到该键
+8
+>>> cm['c'] = 5    # 写/更新仅操作d1
+>>> d1
+{'a': 1, 'b': 2, 'c': 5}            # d1的键值对被修改
+>>> d2
+{'c': 4, 'd': 8}
+>>> cm['d'] = 10   # 写/更新仅操作d1
+>>> d1
+{'a': 1, 'b': 2, 'c': 5, 'd': 10}   # d1增加了键值对
+>>> d2
+{'c': 4, 'd': 8}
+>>> cm.maps        # 底层映射列表
+[{'a': 1, 'b': 2, 'c': 5, 'd': 10}, {'c': 4, 'd': 8}]
+```
+
+```python
+# 应用: 让用户指定的命令行参数优先于环境变量,再优先于默认值
+import argparse
+import os
+
+defaults = {'color': 'red', 'user': 'guest'}
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-u', '--user')
+parser.add_argument('-c', '--color')
+namespace = parser.parse_args()
+command_line_args = {k: v for k, v in vars(namespace).items() if v is not None}
+
+combined = ChainMap(command_line_args, os.environ, defaults)
+print(combined['color'])
+print(combined['user'])
+```
+
+
+
 ## Counter
 
-`Counter`是 `dict`的子类，用于计数可哈希对象。它是一个集合，元素像字典键一样存储，它们的计数存储为值。计数可以是任何整数值，包括0和负数。
+`Counter` 是 `dict` 的子类，用于计数可哈希对象。元素存储为键，它们的计数存储为值。计数可以是任何整数值，包括 0 和负数。
+
+其余方法同`dict`。
 
 ```python
 >>> from collections import Counter
@@ -747,94 +808,354 @@ L2 = sorted(L, key=by_score, reverse=True)
 Counter({'c': 3, 'b': 2, 'a': 1})
 >>> cnt['b']
 2
->>> cnt['d']
+>>> cnt['d']               # 不存在的元素计数为0
 0
+>>> cnt.update(['a', 'b', 'c'])                        # 用可迭代对象增加计数
+>>> cnt.update({'a': -1, 'b': -1, 'c': -1})            # 用映射对象增加计数
 >>> cnt1 = Counter({'c': 1, 'd': 8})
 >>> cnt + cnt1             # 计数值相加
 Counter({'d': 8, 'c': 4, 'b': 2, 'a': 1})
->>> cnt & cnt1             # 计数值求交集
+>>> cnt - cnt1             # 计数值相减
+Counter({'b': 2, 'c': 2, 'a': 1})   # 被减的`Counter`中不存在的元素不会被减去
+>>> cnt & cnt1             # 计数值求交集(取较小值)
 Counter({'c': 1})
->>> cnt | cnt1             # 计数值求并集
+>>> cnt | cnt1             # 计数值求并集(取较大值)
 Counter({'d': 8, 'c': 3, 'b': 2, 'a': 1})
 >>> cnt = cnt + cnt1
->>> cnt.most_common(2)     # 出现次数最高的2个元素
+>>> cnt.most_common(2)     # 出现次数最高的2个元素,在需要排序时使用
 [('d', 8), ('c', 4)]
->>> list(cnt.elements())   # 返回一个迭代对象, 每个元素会重复计数值的次数
+>>> list(cnt.elements())   # 返回一个迭代对象,每个元素会重复计数值的次数(负数和0计数的元素不会出现)
 ['a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd']
 >>> sum(cnt.values())      # 对所有计数值求和
 15
 ```
 
-迭代方法同`dict`。
+```python
+>>> from collections import Counter
+>>> cnt = Counter(a=2, b=-4)
+>>> -cnt                   # 清除所有非负的计数
+Counter({'b': 4})
+>>> +cnt                   # 清除所有非正的计数
+Counter({'a': 2})
+```
 
 
 
 ## defaultdict
 
-`defaultdict`是 `dict`的子类，可以将（键-值对组成的）序列转换为（键-列表组成的）字典：
+`defaultdict` 是  `dict` 的子类，其实例包含一个名为 `default_factory` 的属性，由构造时的第一个参数传入。当 `default_factory` 不为 `None` 时，它会被不带参数地调用来为新增加的键提供一个默认值。
+
+其余方法同`dict`。
 
 ```python
-from collections import defaultdict
-
-s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
-d = defaultdict(list)
-for k, v in s:
-    d[k].append(v)
-d
-# defaultdict(<class 'list'>, {'yellow': [1, 3], 'blue': [2, 4], 'red': [1]})    
+>>> from collections import defaultdict
+>>> dd = defaultdict(list)
+>>> dd['a'].append(1)           # 键'a'本不存在于字典里,但在第一次调用时初始化为默认值`list()`
+>>> dd
+defaultdict(<class 'list'>, {'a': [1]})
+>>> dd['b']
+[]
+>>> dd
+defaultdict(<class 'list'>, {'a': [1], 'b': []})
 ```
 
-迭代方法同`dict`。
+```python
+# 应用: 为字典中不存在的键提供默认值
+>>> def constant_factory(value):
+...     return lambda: value
+... 
+>>> d = defaultdict(constant_factory('<missing>'))
+>>> d.update(name='John', action='ran')
+>>> '%(name)s %(action)s to %(object)s' % d      # 键'object'不存在,因此返回默认值
+'John ran to <missing>'
+```
 
 
 
 ## deque
 
-返回双向队列对象，从`iterable`数据创建（如果iterable没有指定，新队列为空）。
+返回双向队列对象，从左到右初始化，从可迭代对象创建（如果可迭代对象没有指定，则新队列为空）。
 
-deque支持线程安全、内存高效的添加(append)和弹出(pop)，从两端都可以，两个方向的大概开销都是$$O(1)$$复杂度。
+`deque` 支持线程安全、内存高效的添加(append)和弹出(pop)，从两端都可以，两个方向的大概开销都是$$O(1)$$复杂度。
 
-虽然 list 对象也支持类似操作，不过这里优化了定长操作和 `pop(0)` 和 `insert(0, v)` 的开销。它们引起 O(n) 内存移动的操作，改变底层数据表达的大小和位置。
+虽然列表对象也支持类似操作，但是 `deque` 优化了定长操作和 `pop(0)` 和 `insert(0, v)` 的开销。列表操作引起$$O(n)$$复杂度的内存移动，因为改变了底层数据表达的大小和位置。
 
-如果`maxlen`没有指定或者是 `None` ，deque 可以增长到任意长度。否则，deque就限定到指定最大长度。一旦限定长度的deque满了，当新项加入时，同样数量的项就从另一端弹出。
+如果 `maxlen` 没有指定或者是 `None` ，`deque` 可以增长到任意长度；否则 `deque` 就限定到指定最大长度，一旦限定长度的 `deque` 被占满，当新项加入时，同样数量的项就从另一端弹出。
 
 deque支持以下方法：
 
-```python
-append(x)       # 添加 x 到右端
-appendleft(x)   # 添加 x 到左端
-clear()         # 移除所有元素，使其长度为0
-copy()          # 创建一份浅拷贝
-count(x)        # 计算 deque 中元素等于 x 的个数
-extend(iterable)# 扩展deque的右侧，通过添加iterable参数中的元素
-extendleft(iterable) 
-# 扩展deque的左侧，通过添加iterable参数中的元素。注意，左添加时，在结果中iterable参数中的顺序将被反过来添加
-index(x[, start[, stop]]) 
-# 返回 x 在 deque 中的位置（在索引 start 之后，索引 stop 之前）。 返回第一个匹配项，如果未找到则引发 ValueError
-insert(i, x)    # 在位置 i 插入 x
-# 如果插入会导致一个限长 deque 超出长度 maxlen 的话，就引发一个IndexError
-pop()
-# 移去并且返回最右侧元素。如果没有元素的话，就引发一个IndexError
-popleft()
-# 移去并且返回最左侧元素。如果没有元素的话，就引发一个IndexError
-remove(value)
-# 移除找到的第一个 value。如果没有的话就引发 ValueError
-reverse()       # 将deque逆序排列
-rotate(n=1)     # 向右循环移动n步。如果n是负数，就向左循环
+### append(), appendleft()
 
-# deque对象的唯一只读属性
-maxlen          # deque的最大尺寸，如果没有限定的话就是 None
+添加元素到右端/左端。
+
+```python
+>>> from collections import deque
+>>> dq = deque('lmn')
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.append('o')          # 添加到右端
+>>> dq.appendleft('k')      # 添加到左端
+>>> dq
+deque(['k', 'l', 'm', 'n', 'o'])
 ```
 
 
 
-## 自定义容器类
+### clear()
+
+移除所有元素，使其长度为0。
 
 ```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.clear()
+>>> dq
+deque([])
+```
 
+
+
+### copy()
+
+创建一份浅拷贝。
+
+```python
+>>> dq = deque(['l', 'm', ['n']])
+>>> dq1 = dq.copy()
+>>> dq[2].append('o')
+>>> dq1
+deque(['l', 'm', ['n', 'o']])
+```
+
+
+
+### count()
+
+计算 `deque` 中等于参数的元素个数。
+
+```python
+>>> dq
+deque(['l', 'm', 'n', 'l', 'm', 'l'])
+>>> dq.count('l')
+3
+```
+
+
+
+### extend(), extendleft()
+
+将可迭代对象的元素依次添加到右端/左端。
+
+```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.extend('opq')        # 将可迭代对象的元素依次添加到右端
+>>> dq.extendleft('ijk')    # 将可迭代对象的元素依次添加到左端,注意添加的元素的顺序将颠倒
+>>> dq
+deque(['k', 'j', 'i', 'l', 'm', 'n', 'o', 'p', 'q'])
+```
+
+
+
+### index()
+
+```python
+index(x[, start[, stop]])
+```
+
+返回 `x` 在 `deque` 中的第一个匹配的位置（在索引 `start` 之后，索引 `stop` 之前），如果未找到匹配项则引发 `ValueError`。
+
+```python
+>>> dq
+deque(['l', 'm', 'n', 'l', 'm', 'l'])
+>>> dq.index('m')
+1
+```
+
+
+
+### insert()
+
+在指定位置插入元素。如果插入会导致一个限长 `deque` 超出最大长度 `maxlen`，则引发 `IndexError`。
+
+```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq
+deque(['l', 'a', 'm', 'n'])
+```
+
+
+
+### maxlen
+
+`deque` 的最大长度，如果没有限定的话就是 `None`。`deque` 对象的唯一只读属性。
+
+```python
+>>> dq = deque(['l', 'm', 'n'])
+>>> dq.maxlen
+>>> dq = deque(['l', 'm', 'n'], maxlen=3)
+>>> dq.maxlen
+3
+```
+
+
+
+### pop(), popleft()
+
+弹出右端/左端的元素，如果没有元素则引发 `IndexError`。
+
+```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.pop()                # 弹出右端的元素
+'n'
+>>> dq.popleft()            # 弹出左端的元素
+'l'
+```
+
+
+
+### remove()
+
+移除找到的第一个等于参数的元素，如果没有相应元素则引发 `ValueError`。
+
+```python
+>>> dq
+deque(['l', 'm', 'n', 'l', 'm', 'l'])
+>>> dq.remove('m')
+1
+>>> dq
+deque(['l', 'n', 'l', 'm', 'l'])
+```
+
+
+
+### reverse()
+
+将 `deque` 逆序排列。
+
+```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.reverse()
+>>> dq
+deque(['n', 'm', 'l'])
+```
+
+
+
+### rotate()
+
+```python
+rotate(n=1)
+```
+
+向右循环移动 `n` 步；如果 `n` 是负数，就向左循环。
+
+```python
+>>> dq
+deque(['l', 'm', 'n'])
+>>> dq.rotate()
+>>> dq
+deque(['n', 'l', 'm'])
+>>> dq.rotate(-1)
+>>> dq
+deque(['l', 'm', 'n'])
+```
+
+
+
+### 应用
+
+```python
+# 移动平均
+def moving_average(iterable, n=3):
+    # moving_average([40, 30, 50, 46, 39, 44]) --> 40.0 42.0 45.0 43.0
+    it = iter(iterable)
+    d = deque(itertools.islice(it, n-1))
+    d.appendleft(0)
+    s = sum(d)
+    for elem in it:
+        s += elem - d.popleft()
+        d.append(elem)
+        yield s / n
+```
+
+```python
+# 轮询调度器
+def roundrobin(*iterables):
+    "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
+    iterators = deque(map(iter, iterables))
+    while iterators:
+        try:
+            while True:
+                yield next(iterators[0])
+                iterators.rotate(-1)
+        except StopIteration:
+            # Remove an exhausted iterator.
+            iterators.popleft()
 ```
 
 
 
 
+
+# 自定义容器数据类型
+
+`collections.abc` 模块定义了一些抽象基类，可用于判断一个具体的类是否具有某个特定的接口，或者开发支持特定容器 API 的类。
+
+```python
+>>> import collections.abc
+>>> class SizedContainer():
+    def __init__(self):
+        pass
+    def __len__(self):
+        pass
+... 
+>>> sc = SizedContainer()
+>>> isinstance(sc, collections.abc.Sized)    # 具有`__len__`接口
+True
+```
+
+```python
+>>> import collections.abc
+>>> class SizedContainer(collections.abc.Sized):
+    def __len__(self):                       # 实现抽象方法`__len__`
+        return 0
+... 
+>>> sc = SizedContainer()
+>>> len(sc)
+0
+```
+
+`collections.abc` 模块提供了以下抽象基类：
+
+| 抽象基类                                                     | 继承自                                                       | 抽象方法                                                     | Mixin 方法                                                   |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| `Container` |                                                              | `__contains__`                                               |                                                              |
+| `Hashable` |                                                              | `__hash__`                                                   |                                                              |
+| `Iterable` |                                                              | `__iter__`                                                   |                                                              |
+| `Iterator` | `Iterable` | `__next__`                                                   | `__iter__`                                                   |
+| `Reversible` | `Iterable` | `__reversed__`                                               |                                                              |
+| `Generator` | `Iterator` | `send`, `throw`                                              | `close`, `__iter__`, `__next__`                              |
+| `Sized` |                                                              | `__len__`                                                    |                                                              |
+| `Callable` |                                                              | `__call__`                                                   |                                                              |
+| `Collection` | `Sized`, `Iterable`, `Container` | `__contains__`, `__iter__`, `__len__`                        |                                                              |
+| `Sequence` | `Reversible`, `Collection` | `__getitem__`, `__len__`                                     | `__contains__`, `__iter__`, `__reversed__`, `index`, and `count` |
+| `MutableSequence` | `Sequence` | `__getitem__`, `__setitem__`, `__delitem__`, `__len__`, `insert` | 继承自 `Sequence` 的方法，以及 `append`, `reverse`, `extend`, `pop`, `remove`，和 `__iadd__` |
+| `ByteString` | `Sequence` | `__getitem__`, `__len__`                                     | 继承自 `Sequence` 的方法 |
+| `Set` | `Collection` | `__contains__`, `__iter__`, `__len__`                        | `__le__`, `__lt__`, `__eq__`, `__ne__`, `__gt__`, `__ge__`, `__and__`, `__or__`, `__sub__`, `__xor__`, and `isdisjoint` |
+| `MutableSet` | `Set` | `__contains__`, `__iter__`, `__len__`, `add`, `discard`      | 继承自 `Set` 的方法以及 `clear`, `pop`, `remove`, `__ior__`, `__iand__`, `__ixor__`，和 `__isub__` |
+| `Mapping` | `Collection` | `__getitem__`, `__iter__`, `__len__`                         | `__contains__`, `keys`, `items`, `values`, `get`, `__eq__`, and `__ne__` |
+| `MutableMapping` | `Mapping` | `__getitem__`, `__setitem__`, `__delitem__`, `__iter__`, `__len__` | 继承自 `Mapping` 的方法以及 `pop`, `popitem`, `clear`, `update`，和 `setdefault` |
+| `MappingView` | `Sized` |                                                              | `__len__`                                                    |
+| `ItemsView` | `MappingView`, `Set` |                                                              | `__contains__`, `__iter__`                                   |
+| `KeysView` | `MappingView`, `Set` |                                                              | `__contains__`, `__iter__`                                   |
+| `ValuesView` | `MappingView`, `Collection` |                                                              | `__contains__`, `__iter__`                                   |
+| `Awaitable` |                                                              | `__await__`                                                  |                                                              |
+| `Coroutine` | `Awaitable` | `send`, `throw`                                              | `close`                                                      |
+| `AsyncIterable` |                                                              | `__aiter__`                                                  |                                                              |
+| `AsyncIterator` | `AsyncIterable` | `__anext__`                                                  | `__aiter__`                                                  |
+| `AsyncGenerator` | `AsyncIterator` | `asend`, `athrow`                                            | `aclose`, `__aiter__`, `__anext__`                           |
 

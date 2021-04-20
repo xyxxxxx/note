@@ -286,6 +286,8 @@ b'<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n\n    <met
 
 #### history
 
+
+
 #### is_redirect
 
 若响应是一个完备的HTTP重定向（即可以自动处理），则为`True`。
