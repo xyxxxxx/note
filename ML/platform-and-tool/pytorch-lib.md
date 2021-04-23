@@ -1501,7 +1501,7 @@ torch.autograd.backward(tensors: Union[torch.Tensor, Sequence[torch.Tensor]], gr
 # tensors       计算此张量对所有叶节点的梯度
 # grad_tensors  tensors是非标量时,与此张量作内积以转换为标量.形状必须与tensors相同
 # retain_graph  若为False,计算图在梯度计算完成后(backward()返回后)即被释放.注意在几
-#                 乎所有情形下将其设为True都是不必要的,因为总有更好的解决方法
+#                  乎所有情形下将其设为True都是不必要的,因为总有更好的解决方法
 # create_graph  若为True,可以计算更高阶梯度
 ```
 

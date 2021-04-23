@@ -505,8 +505,6 @@ Python 使用文档字符串 docstring 来为代码生成文档。一个 docstri
 
 docstring 应当被组织为：一行总结（不超过80个字符），以句号结尾；空一行，从第一行的第一个引号的位置开始，
 
-
-
 + 函数和方法的文档字符串应当描述其功能、输入参数、返回值；如果有复杂的算法和实现，也需要写清楚或给出参考文献
 + 对于多行的文档字符串，结束 `"""` 独占一行；对于单行的文档字符串，将开始和结束 `"""` 放在同一行
 
@@ -564,6 +562,10 @@ docstring 应当给出足够的信息，使调用函数无需阅读函数的代�
 重载基类方法的方法可能会有一个简单的 docstring 将读者指引到被重载的方法的 docstring，例如 `"""See base class."""`。其根本原因是没有必要将基类的 docstring 在文档中再多次重复。但是如果方法与被重载的方法有显著差异，或者有更多细节内容需要提供，那么需要 docstring 至少说明这些差异。
 
 函数的某些部分应当在专门的小节中描述，列举如下。每个小节以标题行开始，跟随一个冒号并换行，小节的其余部分以标题为基准使用2个或4个空格的悬挂缩进（与模块内的其它 docstring 保持一致）。如果函数非常简单并且函数名和一行的 docstring 已经就可以给到充分的信息，这些小节可以省略。
+
++ `Examples:`
+
+  使用示例。对于模块中比较重要或者常用的 API 应首先给出。
 
 + `Args:`
 
@@ -653,133 +655,33 @@ def fetch_smalltable_rows(table_handle: smalltable.Table,
 
 
 
-```python
-class WandbLogger(LightningLoggerBase):
-    r"""
-    Log using `Weights and Biases <https://www.wandb.com/>`_.     # 功能
-    
-    Install it with pip:
-    
-    .. code-block:: bash
-    
-        pip install wandb
-        
-    Args:                     # 参数
-        name: Display name for the run.
-        save_dir: Path where data is saved (wandb dir by default).
-        offline: Run offline (data can be streamed later to wandb servers).
-        id: Sets the version, mainly used to resume a previous run.
-        version: Same as id.
-        anonymous: Enables or explicitly disables anonymous logging.
-        project: The name of the project to which this run will belong.
-        log_model: Save checkpoints in wandb dir to upload on W&B servers.
-        prefix: A string to put at the beginning of metric keys.
-        experiment: WandB experiment object. Automatically set when creating a run.
-        \**kwargs: Additional arguments like `entity`, `group`, `tags`, etc. used by
-            :func:`wandb.init` can be passed as keyword arguments in this logger.
-            
-    Raises:                   # 可能引起的错误及其原因
-        ImportError:
-            If required WandB package is not installed on the device.
-        MisconfigurationException:
-            If both ``log_model`` and ``offline``is set to ``True``.
-            
-    Example::                 # 使用示例
-        from pytorch_lightning.loggers import WandbLogger
-        from pytorch_lightning import Trainer
-        wandb_logger = WandbLogger()
-        trainer = Trainer(logger=wandb_logger)
-
-    Note:                     # 注意事项
-    When logging manually through `wandb.log` or `trainer.logger.experiment.log`,
-    make sure to use `commit=False` so the logging step does not increase.
-    
-    See Also:                 # 参见
-        - `Tutorial <https://colab.research.google.com/drive/16d1uctGaw2y9KhGBlINNTsWpmlXdJwRW?usp=sharing>`__
-          on how to use W&B with PyTorch Lightning
-        - `W&B Documentation <https://docs.wandb.ai/integrations/lightning>`__
-    """
-```
-
-```python
-class Adam(optimizer_v2.OptimizerV2):
-  r"""Optimizer that implements the Adam algorithm.              # 功能
-  
-  Adam optimization is a stochastic gradient descent method that is based on   # 算法介绍
-  adaptive estimation of first-order and second-order moments.
-  
-  According to [Kingma et al., 2014](http://arxiv.org/abs/1412.6980),
-  the method is "*computationally efficient, has little memory requirement, 
-  invariant to diagonal rescaling of gradients, and is well suited for 
-  problems that are large in terms of data/parameters*".
-  
-  Args:                     # 参数
-    learning_rate: A `Tensor`, floating point value, or a schedule that is a
-      `tf.keras.optimizers.schedules.LearningRateSchedule`, or a callable
-      that takes no arguments and returns the actual value to use, The
-      learning rate. Defaults to 0.001.
-    beta_1: A float value or a constant float tensor, or a callable
-      that takes no arguments and returns the actual value to use. The
-      exponential decay rate for the 1st moment estimates. Defaults to 0.9.
-    beta_2: A float value or a constant float tensor, or a callable
-      that takes no arguments and returns the actual value to use, The
-      exponential decay rate for the 2nd moment estimates. Defaults to 0.999.
-    epsilon: A small constant for numerical stability. This epsilon is
-      "epsilon hat" in the Kingma and Ba paper (in the formula just before
-      Section 2.1), not the epsilon in Algorithm 1 of the paper. Defaults to
-      1e-7.
-    amsgrad: Boolean. Whether to apply AMSGrad variant of this algorithm from
-      the paper "On the Convergence of Adam and beyond". Defaults to `False`.
-    name: Optional name for the operations created when applying gradients.
-      Defaults to `"Adam"`.
-    **kwargs: Keyword arguments. Allowed to be one of
-      `"clipnorm"` or `"clipvalue"`.
-      `"clipnorm"` (float) clips gradients by norm; `"clipvalue"` (float) clips
-      gradients by value.
-      
-  Usage:
-  >>> opt = tf.keras.optimizers.Adam(learning_rate=0.1)
-  >>> var1 = tf.Variable(10.0)
-  >>> loss = lambda: (var1 ** 2)/2.0       # d(loss)/d(var1) == var1
-  >>> step_count = opt.minimize(loss, [var1]).numpy()
-  >>> # The first step is `-learning_rate*sign(grad)`
-  >>> var1.numpy()
-  9.9
-  Reference:
-    - [Kingma et al., 2014](http://arxiv.org/abs/1412.6980)
-    - [Reddi et al., 2018](
-        https://openreview.net/pdf?id=ryQu7f-RZ) for `amsgrad`.
-  Notes:
-  The default value of 1e-7 for epsilon might not be a good default in
-  general. For example, when training an Inception network on ImageNet a
-  current good choice is 1.0 or 0.1. Note that since Adam uses the
-  formulation just before Section 2.1 of the Kingma and Ba paper rather than
-  the formulation in Algorithm 1, the "epsilon" referred to here is "epsilon
-  hat" in the paper.
-  The sparse implementation of this algorithm (used when the gradient is an
-  IndexedSlices object, typically because of `tf.gather` or an embedding
-  lookup in the forward pass) does apply momentum to variable slices even if
-  they were not used in the forward pass (meaning they have a gradient equal
-  to zero). Momentum decay (beta1) is also applied to the entire momentum
-  accumulator. This means that the sparse behavior is equivalent to the dense
-  behavior (in contrast to some momentum implementations which ignore momentum
-  unless a variable slice was actually used).
-  """
-```
-
-
-
 
 
 #### 类
 
-类应当有一个 docstring 描述之。类的某些部分应当在专门的小节中描述，列举如下，如果有公开的实例属性，则应在 `Attributes` 小节中描述，格式与函数的 `Args` 小节相同。
+类应当有一个 docstring 描述之。类的某些部分应当在专门的小节中描述，列举如下。
+
++ `Examples:`
+
+  使用示例。对于模块中比较重要或者常用的公开的类可以给出。
 
 + `Attributes:`
 
-  列举每一个参数的名称，并跟随一段描述描述公开的实例属性。
+  列举每一个公开的实例属性的名称，并跟随一段描述，格式与函数的 `Args` 小节相同。
 
   > 用法混乱：有用 `Attributes` 描述类属性，也有用 `Attributes` 描述实例属性。
+
++ `Notes:`
+
+  注意事项。
+
++ `Reference:`
+
+  参考资料，通常是官方文档、算法论文等。
+
++ `See also:`
+
+  另见使用说明，通常是用户文档、使用示例等。
 
 ```python
 class SampleClass:
@@ -801,8 +703,6 @@ class SampleClass:
     def public_method(self):
         """Performs operation blah."""
 ```
-
-
 
 
 
@@ -890,6 +790,122 @@ class RecognizeCommands(object):
     self._label_count = len(labels)
     self._previous_top_label = "_silence_"
     self._previous_top_time = -np.inf
+```
+
+
+
+```python
+class WandbLogger(LightningLoggerBase):
+    r"""
+    Log using `Weights and Biases <https://www.wandb.com/>`_.
+    
+    Install it with pip:
+    
+    .. code-block:: bash
+    
+        pip install wandb
+        
+    Args:                     # 替代`__init__()`方法的Args小节
+        name: Display name for the run.
+        save_dir: Path where data is saved (wandb dir by default).
+        offline: Run offline (data can be streamed later to wandb servers).
+        id: Sets the version, mainly used to resume a previous run.
+        version: Same as id.
+        anonymous: Enables or explicitly disables anonymous logging.
+        project: The name of the project to which this run will belong.
+        log_model: Save checkpoints in wandb dir to upload on W&B servers.
+        prefix: A string to put at the beginning of metric keys.
+        experiment: WandB experiment object. Automatically set when creating a run.
+        \**kwargs: Additional arguments like `entity`, `group`, `tags`, etc. used by
+            :func:`wandb.init` can be passed as keyword arguments in this logger.
+            
+    Raises:                   # 总结所有函数和方法的`Raises`小节
+        ImportError:
+            If required WandB package is not installed on the device.
+        MisconfigurationException:
+            If both ``log_model`` and ``offline``is set to ``True``.
+            
+    Example::                 # 使用示例
+        from pytorch_lightning.loggers import WandbLogger
+        from pytorch_lightning import Trainer
+        wandb_logger = WandbLogger()
+        trainer = Trainer(logger=wandb_logger)
+
+    Note:                     # 注意事项
+    When logging manually through `wandb.log` or `trainer.logger.experiment.log`,
+    make sure to use `commit=False` so the logging step does not increase.
+    
+    See Also:                 # 参见
+        - `Tutorial <https://colab.research.google.com/drive/16d1uctGaw2y9KhGBlINNTsWpmlXdJwRW?usp=sharing>`__
+          on how to use W&B with PyTorch Lightning
+        - `W&B Documentation <https://docs.wandb.ai/integrations/lightning>`__
+    """
+```
+
+```python
+class Adam(optimizer_v2.OptimizerV2):
+  r"""Optimizer that implements the Adam algorithm.
+  
+  Adam optimization is a stochastic gradient descent method that is based on
+  adaptive estimation of first-order and second-order moments.
+  
+  According to [Kingma et al., 2014](http://arxiv.org/abs/1412.6980),
+  the method is "*computationally efficient, has little memory requirement, 
+  invariant to diagonal rescaling of gradients, and is well suited for 
+  problems that are large in terms of data/parameters*".
+  
+  Args:                     # 替代`__init__()`方法的Args小节
+    learning_rate: A `Tensor`, floating point value, or a schedule that is a
+      `tf.keras.optimizers.schedules.LearningRateSchedule`, or a callable
+      that takes no arguments and returns the actual value to use, The
+      learning rate. Defaults to 0.001.
+    beta_1: A float value or a constant float tensor, or a callable
+      that takes no arguments and returns the actual value to use. The
+      exponential decay rate for the 1st moment estimates. Defaults to 0.9.
+    beta_2: A float value or a constant float tensor, or a callable
+      that takes no arguments and returns the actual value to use, The
+      exponential decay rate for the 2nd moment estimates. Defaults to 0.999.
+    epsilon: A small constant for numerical stability. This epsilon is
+      "epsilon hat" in the Kingma and Ba paper (in the formula just before
+      Section 2.1), not the epsilon in Algorithm 1 of the paper. Defaults to
+      1e-7.
+    amsgrad: Boolean. Whether to apply AMSGrad variant of this algorithm from
+      the paper "On the Convergence of Adam and beyond". Defaults to `False`.
+    name: Optional name for the operations created when applying gradients.
+      Defaults to `"Adam"`.
+    **kwargs: Keyword arguments. Allowed to be one of
+      `"clipnorm"` or `"clipvalue"`.
+      `"clipnorm"` (float) clips gradients by norm; `"clipvalue"` (float) clips
+      gradients by value.
+      
+  Usage:                     # 使用示例
+  >>> opt = tf.keras.optimizers.Adam(learning_rate=0.1)
+  >>> var1 = tf.Variable(10.0)
+  >>> loss = lambda: (var1 ** 2)/2.0       # d(loss)/d(var1) == var1
+  >>> step_count = opt.minimize(loss, [var1]).numpy()
+  >>> # The first step is `-learning_rate*sign(grad)`
+  >>> var1.numpy()
+  9.9
+  Reference:                 # 参考资料
+    - [Kingma et al., 2014](http://arxiv.org/abs/1412.6980)
+    - [Reddi et al., 2018](
+        https://openreview.net/pdf?id=ryQu7f-RZ) for `amsgrad`.
+  Notes:                     # 注意事项
+  The default value of 1e-7 for epsilon might not be a good default in
+  general. For example, when training an Inception network on ImageNet a
+  current good choice is 1.0 or 0.1. Note that since Adam uses the
+  formulation just before Section 2.1 of the Kingma and Ba paper rather than
+  the formulation in Algorithm 1, the "epsilon" referred to here is "epsilon
+  hat" in the paper.
+  The sparse implementation of this algorithm (used when the gradient is an
+  IndexedSlices object, typically because of `tf.gather` or an embedding
+  lookup in the forward pass) does apply momentum to variable slices even if
+  they were not used in the forward pass (meaning they have a gradient equal
+  to zero). Momentum decay (beta1) is also applied to the entire momentum
+  accumulator. This means that the sparse behavior is equivalent to the dense
+  behavior (in contrast to some momentum implementations which ignore momentum
+  unless a variable slice was actually used).
+  """
 ```
 
 

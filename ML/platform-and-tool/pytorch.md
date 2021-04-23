@@ -98,7 +98,7 @@ for t in range(500):
 
 
 
-`torch.nn`提供了更高级的抽象（相当于Tensorflow的keras），帮助我们更便捷地搭建网络。使用`nn`再次实现上述FNN：
+`torch.nn` 提供了更高级的抽象（相当于 TensorFlow 的 keras），帮助我们更便捷地搭建网络。使用 `nn` 再次实现上述 FNN：
 
 ```python
 import torch

@@ -60,12 +60,12 @@ Python 变量在许多方面就像 C 指针，例如：多个变量可以绑定�
 
 Python有4种作用域，从内而外分别是：
 
-- **L（Local）局部作用域**：函数或方法内部，定义的变量为局部变量。每当函数被调用时都会创建一个新的局部作用域。
-- **E（Enclosing）嵌套作用域**：嵌套函数的上一级函数的局部作用域。主要是为了实现Python的闭包而增加的实现。
+- **L（Local）局部作用域**：类或函数内部定义的变量为局部变量。每当类被定义或者函数被调用时都会创建一个新的局部作用域。
+- **E（Enclosing）嵌套作用域**：嵌套类/函数的上一级类/函数的局部作用域。主要是为了实现 Python 的闭包而增加的实现。
 - **G（Global）全局作用域**：一个模块就是一个全局作用域，模块顶层声明的变量为全局变量。从外部来看，模块的全局变量就是一个模块对象的属性。
-- **B（Built-in）内置作用域**
+- **B（Built-in）内置作用域**：Python 解释器内置的函数、常量、类型和异常等，无需声明即可调用。
 
-当在函数中使用未确定的变量名时，Python会按照优先级依次搜索4个作用域，以此来确定该变量名的意义。首先搜索局部作用域(L)，之后是上一层嵌套函数的嵌套作用域(E)，之后是全局作用域(G)，最后是内置作用域(B)。按这个查找原则，在第一处找到的地方停止。如果没有找到，则引发 `NameError` 错误。
+当在函数中使用未确定的变量名时，Python会按照优先级依次搜索4个作用域，以此来确定该变量名的意义。首先搜索局部作用域(L)，之后是上一层嵌套函数的嵌套作用域(E)，之后是全局作用域(G)，最后是内置作用域(B)。按这个查找原则，在第一处找到的地方停止。如果没有找到，则引发 `NameError` 异常。
 
 ```python
 int = 0             # G
@@ -287,7 +287,7 @@ AttributeError: 'Student' object has no attribute 'age'
 
 ### 可见性
 
-类和实例的属性的可见性（即 C, Java 中的`private, protected, public`）由其名称决定：
+类和实例的属性的可见性（即 C, Java 中的 `private, protected, public`）由其名称决定：
 
 + `attr`：外部（指其它模块）可以访问
 + `__attr`：外部不可访问
@@ -354,21 +354,50 @@ class Student(object):
 
 
 
-
-
-
-
 ### 实例的特殊属性
 
+除了类的实例，（被导入的）模块、类、函数/方法、描述器、生成器本身也是实例，即 Python 的“一切皆对象”。
+
+内置函数 `dir()` 可以返回实例的属性列表，例如：
+
+```python
+>>> dir('abc')        # 类的实例
+['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isascii', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+
+>>> import json
+>>> dir(json)         # 模块实例
+['JSONDecodeError', 'JSONDecoder', 'JSONEncoder', '__all__', '__author__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', '__version__', '_default_decoder', '_default_encoder', 'codecs', 'decoder', 'detect_encoding', 'dump', 'dumps', 'encoder', 'load', 'loads', 'scanner']
+>>> dir(json.JSONDecoder)     # 类实例
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'decode', 'raw_decode']
+>>> dir(json.loads)   # 函数/方法实例
+['__annotations__', '__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__get__', '__getattribute__', '__globals__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__kwdefaults__', '__le__', '__lt__', '__module__', '__name__', '__ne__', '__new__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+
+
+```
 
 
 
+#### \__all__
+
+
+
+#### \__author__
+
+模块实例的作者信息。
 
 
 
 #### \__class__
 
-对象所属的类。
+实例所属的类。
+
+所有类实例属于 `type` 类；所有函数/方法实例属于 `function` 类。
+
+
+
+#### \__copyright__
+
+模块实例的版权信息。
 
 
 
@@ -392,9 +421,48 @@ class Student(object):
 
 
 
+#### \__doc__
+
+模块、类、函数/方法、描述器或生成器实例的 docstring。
+
+
+
+#### \__file__
+
+模块实例的文件的本地路径。
+
+```python
+>>> import json
+>>> json.__file__
+'/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/json/__init__.py'
+>>> import requests
+>>> requests.__file__
+'/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/requests/__init__.py'
+```
+
+
+
+#### \__module__
+
+类、函数/方法、描述器或生成器实例所属的模块的名称。
+
+
+
 #### \__name__
 
-类、函数、方法、描述器或生成器实例的名称。
+模块、类、函数/方法、描述器或生成器实例的名称。
+
+
+
+#### \__package__
+
+模块实例所属的包的名称。
+
+
+
+#### \__path__
+
+
 
 
 
@@ -443,16 +511,13 @@ AttributeError: 'Student' object has no attribute 'age'        # 不能动态绑
 
 
 
+#### \__spec__
 
 
 
+#### \__version__
 
-```python
->>> dir('abc')
-['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isascii', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
-```
-
-
+模块实例的版本信息。
 
 
 
@@ -742,6 +807,12 @@ print(new2)
 #### \__del__()
 
 在实例将被销毁时调用。 这还被称为终结器或析构器（不适当）。 如果一个派生类的基类也有 `__del__()` 方法，就必须显式地调用它以确保实例基类部分的正确清除。
+
+
+
+#### \__dir__()
+
+被内置函数 `dir()` 调用以返回对象的属性列表。
 
 
 

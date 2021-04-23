@@ -505,11 +505,11 @@ setattr(object, name, value)
 ## type
 
 ```python
-class type(object)
+class type(object)               # 表示传入一个对象;不是类的定义
 class type(name, bases, dict)
 ```
 
-传入一个参数时，返回 *object* 的类型。返回值是一个 type 对象，通常与 `object.__class__` 所返回的对象相同。
+传入一个参数时，返回 *object* 的类型。返回值是一个 `type` 对象，通常与 `object.__class__` 所返回的对象相同。
 
 ```python
 >>> a = 1
@@ -524,14 +524,12 @@ class type(name, bases, dict)
 传入三个参数时，返回一个新的 type 对象。 这在本质上是 `class` 语句的一种动态形式，*name* 字符串即类名并会成为 `__name__` 属性；*bases* 元组包含基类并会成为 `__bases__` 属性；如果为空则会添加所有类的终极基类 `object`； *dict* 字典包含类主体的属性和方法定义，它在成为 `__dict__` 属性之前可能会被拷贝或包装。 
 
 ```python
->>> X = type('X', (), dict(a=1, f=abs))
+>>> X = type('X', (), dict(a=1, f=abs))   # 类本身是一个`type`实例
 >>> # 相当于
 >>> class X:
 ...     a = 1
 ...     f = abs
 ```
-
-
 
 
 
@@ -620,15 +618,35 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 
 
+# builtins——内建对象
+
+该模块提供对 Python 的所有内置对象的直接访问，例如 `builtins.open` 是内置函数 `open()` 的全名。
+
+大多数应用程序通常不会显式访问此模块，但在扩展内置对象时会很有用。
+
+```python
+>>> import builtins
+>>> dir(builtins)
+['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning', 'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError', 'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FileExistsError', 'FileNotFoundError', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError', 'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'ModuleNotFoundError', 'NameError', 'None', 'NotADirectoryError', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError', 'RecursionError', 'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning', 'StopAsyncIteration', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'ZeroDivisionError', '__build_class__', '__debug__', '__doc__', '__import__', '__loader__', '__name__', '__package__', '__spec__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'breakpoint', 'bytearray', 'bytes', 'callable', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+```
+
+
+
+
+
 # collections——容器数据类型
 
 参见数据结构-容器数据类型。
 
 
 
+
+
 # collections.abc——容器的抽象基类
 
 参见数据结构-自定义容器数据类型。
+
+
 
 
 
@@ -1848,7 +1866,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 # kwargs    目标调用的关键字参数
 ```
 
-进程对象表示在单独进程中运行的活动。`Process`类拥有和`threading.Thread`等价的大部分方法。
+进程对象表示在单独进程中运行的活动。`Process` 类拥有和 `threading.Thread` 等价的大部分方法。
 
 
 
@@ -2664,11 +2682,17 @@ CompletedProcess(args='ls -l', returncode=0)
 
 
 
-# [sys](https://docs.python.org/zh-cn/3/library/sys.html)——系统相关的参数和函数
+# sys——系统相关的参数和函数
+
+## argv
+
+被传递给 Python 脚本的命令行参数列表，`argv[0]` 为脚本的名称（是否是完整的路径名取决于操作系统）。
+
+
 
 ## executable
 
-返回当前Python解释器的可执行文件的绝对路径。
+返回当前 Python 解释器的可执行文件的绝对路径。
 
 ```python
 >>> import sys
@@ -2683,6 +2707,34 @@ CompletedProcess(args='ls -l', returncode=0)
 从Python中退出，实现方式是抛出一个`SystemExit`异常。
 
 可选参数可以是表示退出状态的整数（默认为整数0），也可以是其他类型的对象。如果它是整数，则shell等将0视为“成功终止”，非零值视为“异常终止”。
+
+
+
+## path
+
+指定模块搜索路径的字符串列表。解释器将依次搜索各路径，因此索引靠前的路径具有更高的优先级。
+
+程序启动时将初始化本列表，列表的第一项 `path[0]` 为调用 Python 解释器的脚本所在的目录。如果脚本目录不可用（比如以交互方式调用了解释器，或脚本是从标准输入中读取的），则 `path[0]` 为空字符串，Python 将优先搜索当前目录中的模块。
+
+程序可以根据需要任意修改本列表。
+
+```shell
+$ python                        # 以交互方式调用解释器
+>>> import sys
+>>> sys.path                    # sys.path[0]为空字符串
+['', '/Users/xyx/.pyenv/versions/3.8.7/lib/python38.zip', '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8', '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/lib-dynload', '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages']
+```
+
+```python
+# /Users/xyx/python/test/my_module.py
+import sys
+print(sys.path[0])
+```
+
+```shell
+$ python my_module.py
+/Users/xyx/python/test
+```
 
 
 
