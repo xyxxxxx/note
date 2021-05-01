@@ -233,6 +233,7 @@
 | IPC, InterProcess Communication                | 进程间通信                 |
 | IP address                                     | IP地址                     |
 | ISA, Instruction Set Architecture              | 指令集体系结构，指令集架构 |
+| item                                           | 项                         |
 | iterative server                               | 迭代服务器                 |
 | iterator                                       | 迭代器                     |
 

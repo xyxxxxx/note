@@ -6,7 +6,7 @@
 
 ## abs()
 
-返回一个数的绝对值。 参数可以是整数、浮点数或任何实现了 \_\_abs\_\_() 的对象。 如果参数是一个复数，则返回它的模。
+返回一个数的绝对值。参数可以是整数、浮点数或任何实现了\_\_abs\_\_（）的对象。如果参数是一个复数，则返回它的模。
 
 ```python
 >>> abs(-1)
@@ -21,7 +21,7 @@
 
 ## all()
 
-如果 *iterable* 的所有元素均为真值（或可迭代对象为空）则返回 `True` 。
+如果 *iterable* 的所有元素均为真值（或可迭代对象为空）则返回 `True`。
 
 ```python
 >>> all(range(5))      # include 0
@@ -36,7 +36,7 @@ True
 
 ## any()
 
-如果 *iterable* 的任一元素为真值则返回 `True`。 如果可迭代对象为空，返回 `False`。
+如果 *iterable* 的任一元素为真值则返回 `True`。如果可迭代对象为空，返回 `False`。
 
 ```python
 >>> any(range(5))
@@ -62,13 +62,13 @@ False
 
 ## bool()
 
-返回一个布尔值，`True` 或者 `False`。 *x* 使用标准的真值测试过程来转换。`bool` 类是 `int` 的子类，其他类不能继承自它。它只有 `False` 和 `True` 两个实例。
+返回一个布尔值，`True` 或者 `False`。*x* 使用标准的真值测试过程来转换。`bool` 类是 `int` 的子类，其他类不能继承自它。它只有 `False` 和 `True` 两个实例。
 
 
 
 ## chr()
 
-返回编码为输入整数的单个Unicode字符。是`ord()`的反函数。
+返回编码为输入整数的单个 Unicode 字符。是 `ord()` 的反函数。
 
 ```python
 >>> chr(0x4e2d)
@@ -100,7 +100,7 @@ False
 (1+2j)
 ```
 
-对于一个普通 Python 对象 `x`，`complex(x)` 会委托给 `x.__complex__(`)。 如果 `__complex__()` 未定义则将回退至 `__float__()`。 如果 `__float__(`) 未定义则将回退至 `__index__()`。
+对于一个普通 Python 对象 `x`，`complex(x)` 会委托给 `x.__complex__(`）。如果 `__complex__()` 未定义则将回退至 `__float__()`。如果 `__float__(`）未定义则将回退至 `__index__()`。
 
 
 
@@ -110,7 +110,7 @@ False
 delattr(object, name)
 ```
 
-与 `setattr()` 对应。删除对象 *object* 的名为 *name* 的属性，*name* 必须是字符串，指定一个现有属性。如果对象允许，该函数将删除指定的属性。例如 `delattr(x, 'foobar')` 等同于 `del x.foobar`。
+与 `setattr()` 对应。删除对象 *object* 的名为 *name* 的属性，*name* 必须是字符串，指定一个现有属性。如果对象允许，该函数将删除指定的属性。例如 `delattr(x,'foobar')` 等同于 `del x.foobar`。
 
 
 
@@ -147,9 +147,9 @@ delattr(object, name)
 
 默认的 `dir()` 机制对不同类型的对象行为不同，它会试图返回最相关而不是最全的信息：
 
-- 如果对象是模块对象，则列表包含模块的属性名称。
-- 如果对象是类型或类对象，则列表包含它们的属性名称，并且递归查找所有基类的属性。
-- 如果对象是实例，则列表包含对象的属性名称，它的类属性名称，并且递归查找它的类的所有基类的属性。
+* 如果对象是模块对象，则列表包含模块的属性名称。
+* 如果对象是类型或类对象，则列表包含它们的属性名称，并且递归查找所有基类的属性。
+* 如果对象是实例，则列表包含对象的属性名称，它的类属性名称，并且递归查找它的类的所有基类的属性。
 
 ```python
 >>> import platform
@@ -167,7 +167,7 @@ delattr(object, name)
 
 ## divmod()
 
-将两个数字（整数或浮点数）作为实参，执行整数除法并返回一对商和余数。对于整数，结果和 `(a // b, a % b)` 一致。对于浮点数，结果是 `(q, a % b)` ，`q` 通常是 `math.floor(a / b)`，但可能会比 1 小。
+将两个数字（整数或浮点数）作为实参，执行整数除法并返回一对商和余数。对于整数，结果和 `(a//b,a % b)`一致。对于浮点数，结果是`(q,a % b)`，`q`通常是`math.floor(a/b)`，但可能会比 1 小。
 
 ```python
 >>> divmod(5, 3)
@@ -229,7 +229,7 @@ format(value[, format_spec])
 getattr(object, name[, default])
 ```
 
-与 `setattr()` 对应。返回对象 *object* 的 *name* 属性的值，*name* 必须是字符串。如果该字符串是对象的属性之一，则返回该属性的值，例如 `getattr(x, 'foobar')` 等同于 `x.foobar`；如果指定的属性不存在，但提供了 *default* 值，则返回它，否则触发 `AttributeError`。
+与 `setattr()` 对应。返回对象 *object* 的 *name* 属性的值，*name* 必须是字符串。如果该字符串是对象的属性之一，则返回该属性的值，例如 `getattr(x,'foobar')` 等同于 `x.foobar`；如果指定的属性不存在，但提供了 *default* 值，则返回它，否则触发 `AttributeError`。
 
 
 
@@ -239,7 +239,7 @@ getattr(object, name[, default])
 hasattr(object, name)
 ```
 
-返回对象 *object* 是否具有名为 *name* 的属性，*name* 必须是字符串。如果字符串是对象的属性之一的名称，则返回 `True`，否则返回 `False`。（此功能是通过调用 `getattr(object, name)` 看是否有 `AttributeError` 异常来实现的。）
+返回对象 *object* 是否具有名为 *name* 的属性，*name* 必须是字符串。如果字符串是对象的属性之一的名称，则返回 `True`，否则返回 `False`。（此功能是通过调用 `getattr(object,name)` 看是否有 `AttributeError` 异常来实现的。）
 
 
 
@@ -274,7 +274,7 @@ hasattr(object, name)
 
 ## isinstance()
 
-如果 *object* 是 *classinfo* 的实例或（直接、间接或虚拟）子类则返回 `True`。 *classinfo* 可以是类对象的元组，在此情况下 *object* 是其中任何一个类的实例就返回 `True`。
+如果 *object* 是 *classinfo* 的实例或（直接、间接或虚拟）子类则返回 `True`。*classinfo* 可以是类对象的元组，在此情况下 *object* 是其中任何一个类的实例就返回 `True`。
 
 参见面向对象编程-获取对象信息。
 
@@ -282,7 +282,85 @@ hasattr(object, name)
 
 ## issubclass()
 
-如果 *class* 是 *classinfo* 的（直接、间接或虚拟）子类则返回 `True`。 类会被视作其自身的子类。*classinfo* 可以是类对象的元组，在此情况下 *classinfo* 中的每个条目都将被检查。
+如果 *class* 是 *classinfo* 的（直接、间接或虚拟）子类则返回 `True`。类会被视作其自身的子类。*classinfo* 可以是类对象的元组，在此情况下 *classinfo* 中的每个条目都将被检查。
+
+
+
+## iter()
+
+返回一个迭代器对象。
+
+```python
+iter(object[, sentinel])
+```
+
+如果没有第二个实参，*object* 必须支持迭代协议（提供 `__iter__()` 方法）、序列协议（提供 `__getitem__()` 方法且键为从 0 开始的整数）或映射协议（提供 `__getitem__()` 方法和 `keys()` 方法（返回键的可迭代对象）），如果它不支持这些协议，会引发 `TypeError`。如果有第二个实参 *sentinel*，那么 *object* 必须是可调用对象，这种情况下返回的迭代器，每次调用 `__next__()` 方法时都会不带实参地调用 *object*；如果返回的结果是 *sentinel* 则触发 `StopIteration`，否则返回调用结果。
+
+
+
+```python
+# 对象具有`__iter__()`方法
+
+
+```
+
+
+
+```python
+# 对象具有`__getitem__()`方法
+>>> class Student(object):
+    def __init__(self, name, score1, score2, score3):
+        self.name = name
+        self.score1 = score1
+        self.score2 = score2
+        self.score3 = score3
+    def __getitem__(self, key):        # `key`为从0开始的整数
+        if isinstance(key, slice):
+            print(slice)
+            return [self[i] for i in slice]
+        elif isinstance(key, int):
+            if key < 0 :               # Handle negative indices
+                key += 3
+            if key < 0 or key >= 3:
+                raise IndexError("The index {} is out of range".format(key))
+            return self.get_data(key)  # Get the data from elsewhere
+        else:
+            raise TypeError("Invalid argument type")
+    def get_data(self, key):
+        if key == 0:
+            return self.score1
+        if key == 1:
+            return self.score2
+        if key == 2:
+            return self.score3
+        return
+...
+>>> bart = Student('Bart Simpson', 59, 60, 61)
+>>> list(iter(bart))
+[59, 60, 61]
+```
+
+```python
+>>> class Student(object):
+    def __init__(self, name, score, age):
+        self._info = {'name': name, 'score': score, 'age': age}
+    def keys(self):
+        return self._info.keys()
+    def __getitem__(self, key):        # `key`由迭代`keys()`方法返回的可迭代对象得到
+        return self._info[key]
+...
+>>> bart = Student('Bart Simpson', 59, 10)
+>>> dict(bart)
+{'name': 'Bart Simpson', 'score': 59, 'age': 10}
+```
+
+
+
+
+
+
+
+
 
 
 
@@ -317,6 +395,22 @@ hasattr(object, name)
 
 
 
+## object
+
+返回一个没有属性的新实例。`object` 是所有类的基类。
+
+```python
+>>> obj = object()
+>>> dir(obj)
+['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+>>> dir(object)
+['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+```
+
+
+
+
+
 ## next()
 
 
@@ -335,7 +429,7 @@ hasattr(object, name)
 
 ## ord()
 
-返回单个Unicode字符的编码的十进制整数表示。是`chr()`的反函数。
+返回单个 Unicode 字符的编码的十进制整数表示。是 `chr()` 的反函数。
 
 ```python
 >>> ord('中')
@@ -348,7 +442,7 @@ hasattr(object, name)
 
 ## pow()
 
-返回 *base* 的 *exp* 次幂；如果 *mod* 存在，则返回 *base* 的 *exp* 次幂对 *mod* 取余（比 `pow(base, exp) % mod` 更高效）。两参数形式 `pow(base, exp)` 等价于乘方运算符: `base**exp`。
+返回 *base* 的 *exp* 次幂；如果 *mod* 存在，则返回 *base* 的 *exp* 次幂对 *mod* 取余（比 `pow(base,exp)% mod`更高效）。两参数形式`pow(base,exp)`等价于乘方运算符：`base**exp`。
 
 ```python
 >>> pow(37, 2, mod=97)
@@ -375,7 +469,7 @@ class property(fget=None, fset=None, fdel=None, doc=None)
 # doc         property对象的docstring,否则将复制fget的docstring作为docstring
 ```
 
-一个典型的用法是定义一个托管属性 `x`:
+一个典型的用法是定义一个托管属性 `x`：
 
 ```python
 >>> class Student(object):
@@ -419,7 +513,7 @@ AttributeError: can't set attribute
 >>> bart._score = 60            # `_score`属性仍然可以自由访问和修改,尽管不应该这么做
 ```
 
-`property` 对象具有 `getter`, `setter` 和 `deleter` 方法，可以用作装饰器创建该 `property` 对象的副本，并将相应的方法设为所装饰的函数：
+`property` 对象具有 `getter`，`setter` 和 `deleter` 方法，可以用作装饰器创建该 `property` 对象的副本，并将相应的方法设为所装饰的函数：
 
 ```python
 >>> class Student(object):               # 与第一个例子完全等价
@@ -452,7 +546,7 @@ AttributeError: can't set attribute
 setattr(object, name, value)
 ```
 
-与 `getattr()` 和 `delattr()` 对应。设置对象 *object* 的 *name* 属性的值，*name* 必须是字符串，指定一个现有属性或新增属性。如果对象允许，该函数将设置指定的属性。例如 `setattr(x, 'foobar', 123)` 等同于 `x.foobar = 123`。
+与 `getattr()` 和 `delattr()` 对应。设置对象 *object* 的 *name* 属性的值，*name* 必须是字符串，指定一个现有属性或新增属性。如果对象允许，该函数将设置指定的属性。例如 `setattr(x,'foobar',123)` 等同于 `x.foobar =123`。
 
 
 
@@ -478,7 +572,7 @@ setattr(object, name, value)
 
 ## str()
 
-返回一个对象的 `str` 版本，`str`是内置字符串类型。
+返回一个对象的 `str` 版本，`str` 是内置字符串类型。
 
 详见数据类型-字符串。
 
@@ -488,7 +582,7 @@ setattr(object, name, value)
 
 从 *start* 开始自左向右对可迭代对象的项求和并返回总计值。可迭代对象的项通常为数字，而 *start* 值则不允许为字符串。
 
-要拼接字符串序列，更好的方式是调用`''.join(sequence)`；要以扩展精度对浮点值求和，请使用`math.fsum()`；要拼接一系列可迭代对象，请使用`itertools.chain()`。
+要拼接字符串序列，更好的方式是调用 `''.join(sequence)`；要以扩展精度对浮点值求和，请使用 `math.fsum()`；要拼接一系列可迭代对象，请使用 `itertools.chain()`。
 
 
 
@@ -521,7 +615,7 @@ class type(name, bases, dict)
 
 检测对象类型推荐使用 `isinstance()`，因为它会考虑子类的情况。
 
-传入三个参数时，返回一个新的 type 对象。 这在本质上是 `class` 语句的一种动态形式，*name* 字符串即类名并会成为 `__name__` 属性；*bases* 元组包含基类并会成为 `__bases__` 属性；如果为空则会添加所有类的终极基类 `object`； *dict* 字典包含类主体的属性和方法定义，它在成为 `__dict__` 属性之前可能会被拷贝或包装。 
+传入三个参数时，返回一个新的 type 对象。这在本质上是 `class` 语句的一种动态形式，*name* 字符串即类名并会成为 `__name__` 属性；*bases* 元组包含基类并会成为 `__bases__` 属性；如果为空则会添加所有类的终极基类 `object`；*dict* 字典包含类主体的属性和方法定义，它在成为 `__dict__` 属性之前可能会被拷贝或包装。 
 
 ```python
 >>> X = type('X', (), dict(a=1, f=abs))   # 类本身是一个`type`实例
@@ -535,7 +629,7 @@ class type(name, bases, dict)
 
 ## zip()
 
-创建一个迭代器，它返回的第 *i* 个元组包含来自每个输入可迭代对象的第 *i* 个元素。 当所输入可迭代对象中最短的一个被耗尽时，迭代器将停止迭代。
+创建一个迭代器，它返回的第 *i* 个元组包含来自每个输入可迭代对象的第 *i* 个元素。当所输入可迭代对象中最短的一个被耗尽时，迭代器将停止迭代。
 
 ```python
 def zip(*iterables):
@@ -559,7 +653,7 @@ def zip(*iterables):
 
 # [argparse](https://docs.python.org/zh-cn/3/library/argparse.html)——命令行选项、参数和子命令解析器
 
-如果脚本很简单或者临时使用，可以使用`sys.argv`直接读取命令行参数。`sys.argv`返回一个参数列表，其中首个元素是程序名，随后是命令行参数，所有元素都是字符串类型。例如以下脚本：
+如果脚本很简单或者临时使用，可以使用 `sys.argv` 直接读取命令行参数。`sys.argv` 返回一个参数列表，其中首个元素是程序名，随后是命令行参数，所有元素都是字符串类型。例如以下脚本：
 
 ```python
 # test.py
@@ -576,7 +670,7 @@ Input argument is ['test.py', '1', '2', '-a', '3']
 
 
 
-`argparse`模块可以让人轻松编写用户友好的命令行接口。程序定义它需要的参数，然后 `argparse` 将弄清如何从 `sys.argv` 解析出那些参数。 `argparse` 模块还会自动生成帮助和使用手册，并在用户给程序传入无效参数时报出错误信息。
+`argparse` 模块可以让人轻松编写用户友好的命令行接口。程序定义它需要的参数，然后 `argparse` 将弄清如何从 `sys.argv` 解析出那些参数。`argparse` 模块还会自动生成帮助和使用手册，并在用户给程序传入无效参数时报出错误信息。
 
 教程：[Argparse 教程](https://docs.python.org/zh-cn/3/howto/argparse.html)
 
@@ -656,13 +750,13 @@ Python 的赋值语句不复制对象，而是创建目标和对象的绑定关�
 
 
 
-+ `copy()`：返回对象的浅层复制。
-+ `deepcopy()`：返回对象的深层复制。
+* `copy()`：返回对象的浅层复制。
+* `deepcopy()`：返回对象的深层复制。
 
 浅层与深层复制的区别仅与复合对象（即包含列表、字典或类的实例等其他对象的对象）相关：
 
-- *浅层复制* 构造一个新的复合对象，然后（在尽可能的范围内）将原始对象中找到的对象的 *引用* 插入其中。
-- *深层复制* 构造一个新的复合对象，然后递归地将在原始对象里找到的对象的 *副本* 插入其中。
+* *浅层复制*构造一个新的复合对象，然后（在尽可能的范围内）将原始对象中找到的对象的*引用*插入其中。
+* *深层复制*构造一个新的复合对象，然后递归地将在原始对象里找到的对象的*副本*插入其中。
 
 ```python
 >>> import copy
@@ -685,13 +779,13 @@ Python 的赋值语句不复制对象，而是创建目标和对象的绑定关�
 
 深度复制操作通常存在两个问题，而浅层复制操作并不存在这些问题：
 
-- 递归对象 (直接或间接包含对自身引用的复合对象) 可能会导致递归循环。
-- 由于深层复制会复制所有内容，因此可能会过多复制（例如本应该在副本之间共享的数据）。
+* 递归对象（直接或间接包含对自身引用的复合对象）可能会导致递归循环。
+* 由于深层复制会复制所有内容，因此可能会过多复制（例如本应该在副本之间共享的数据）。
 
 `deepcopy()` 函数用以下方式避免了这些问题：
 
-- 保留在当前复制过程中已复制的对象的 "备忘录" （`memo`） 字典
-- 允许用户定义的类重载复制操作或复制的组件集合。
+* 保留在当前复制过程中已复制的对象的"备忘录"（`memo`）字典
+* 允许用户定义的类重载复制操作或复制的组件集合。
 
 
 
@@ -701,7 +795,7 @@ Python 的赋值语句不复制对象，而是创建目标和对象的绑定关�
 
 # csv——CSV 文件读写
 
-`csv`模块实现了 csv 格式表单数据的读写。其提供了诸如“以兼容 Excel 的方式输出数据文件”或“读取 Excel 程序输出的数据文件”的功能，程序员无需知道 Excel 所采用 csv 格式的细节。此模块同样可以用于定义其他应用程序可用的 csv 格式或定义特定需求的 csv 格式。
+`csv` 模块实现了 csv 格式表单数据的读写。其提供了诸如“以兼容 Excel 的方式输出数据文件”或“读取 Excel 程序输出的数据文件”的功能，程序员无需知道 Excel 所采用 csv 格式的细节。此模块同样可以用于定义其他应用程序可用的 csv 格式或定义特定需求的 csv 格式。
 
 csv 文件示例：
 
@@ -902,13 +996,13 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 
 所有参数都是可选的；*tzinfo* 可以是 `None`，或者是一个 `tzinfo` 子类的实例；其余的参数必须是在下面范围内的整数：
 
-* `0 <= hour < 24`
-* `0 <= minute < 60`
-* `0 <= second < 60`
-* `0 <= microsecond < 1000000`
-* `fold in [0, 1]`
+* `0<= hour <24`
+* `0<= minute <60`
+* `0<= second <60`
+* `0<= microsecond <1000000`
+* `fold in[0,1]`
 
-如果给出一个此范围以外的参数，则会引发 `ValueError`。 所有参数值默认为 0，只有 `tzinfo` 默认为 `None`。
+如果给出一个此范围以外的参数，则会引发 `ValueError`。所有参数值默认为 0，只有 `tzinfo` 默认为 `None`。
 
 ```python
 >>> t = datetime.time(hour=12, minute=34, second=56, microsecond=789000)
@@ -947,7 +1041,7 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 
 ## timedelta
 
-表示两个 `date`、 `time` 或 `datetime` 对象之间的时间间隔，精确到微秒。
+表示两个 `date`、`time` 或 `datetime` 对象之间的时间间隔，精确到微秒。
 
 
 
@@ -961,7 +1055,7 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 
 ## timezone
 
-一个实现了 `tzinfo` 抽象基类的子类，用于表示相对于UTC的偏移量。
+一个实现了 `tzinfo` 抽象基类的子类，用于表示相对于 UTC 的偏移量。
 
 
 
@@ -969,7 +1063,7 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 
 ## partial()
 
-返回一个新的partial对象，当被调用时其行为类似于 *func* 附带位置参数 *args* 和关键字参数 *keywords* 被调用。如果为调用提供了更多的参数，它们会被附加到 *args*。 如果提供了额外的关键字参数，它们会扩展并重载 *keywords*。 大致等价于:
+返回一个新的 partial 对象，当被调用时其行为类似于 *func* 附带位置参数 *args* 和关键字参数 *keywords* 被调用。如果为调用提供了更多的参数，它们会被附加到 *args*。如果提供了额外的关键字参数，它们会扩展并重载 *keywords*。大致等价于：
 
 ```python
 def partial(func, /, *args, **keywords):
@@ -993,6 +1087,8 @@ def partial(func, /, *args, **keywords):
 1000000
 ```
 
+使用 lambda 函数 `lambda x: int(x, base=2)` 也能起到相同的作用。
+
 
 
 ## reduce()
@@ -1006,6 +1102,76 @@ def partial(func, /, *args, **keywords):
 ...
 >>> reduce(fn, [1, 3, 5, 7, 9])   # reduce()将多元函数依次作用在序列上
 13579
+```
+
+
+
+
+
+# inspect——检查对象
+
+## currentframe()
+
+返回调用者栈帧的帧对象。
+
+
+
+## ismodule()
+
+若对象为模块，返回 `True`。
+
+
+
+## isclass(), isabstract()
+
+若对象为类/抽象基类，返回 `True`。
+
+
+
+## isfunction(), ismethod(), isroutine()
+
+若对象为函数/绑定的方法/函数或方法，返回 `True`。
+
+
+
+## getdoc()
+
+返回对象的 `docstring`。
+
+
+
+## getfile(), getsourcefile()
+
+返回对象被定义的模块的路径。
+
+
+
+## getmodule()
+
+猜测对象被定义的模块。
+
+
+
+## getsource()
+
+返回对象的源代码。
+
+```python
+>>> print(inspect.getsource(json.JSONDecoder))     # 类的源代码
+class JSONDecoder(object):
+...
+    
+>>> print(inspect.getsource(json.loads))           # 函数的源代码
+def loads(s, *, cls=None, object_hook=None, parse_float=None,
+        parse_int=None, parse_constant=None, object_pairs_hook=None, **kw):
+...
+
+>>> print(inspect.getsource(json))                 # 模块的源代码
+r"""JSON (JavaScript Object Notation) <http://json.org> is a subset of
+JavaScript syntax (ECMA-262 3rd edition) used as a lightweight data
+interchange format.
+...
+
 ```
 
 
@@ -1076,7 +1242,7 @@ def chain(*iterables):
 
 ## chain.from_iterable()
 
-类似于`chain()`，但是接受的参数是包含多个可迭代对象元素的可迭代对象。大致相当于：
+类似于 `chain()`，但是接受的参数是包含多个可迭代对象元素的可迭代对象。大致相当于：
 
 ```python
 def from_iterable(iterables):
@@ -1091,7 +1257,7 @@ def from_iterable(iterables):
 
 ## combinations()
 
-创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为`r`的所有子序列。大致相当于：
+创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为 `r` 的所有子序列。大致相当于：
 
 ```python
 def combinations(iterable, r):
@@ -1120,7 +1286,7 @@ def combinations(iterable, r):
 
 ## combinations_with_replacement()
 
-创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为`r`的所有子序列，允许每个元素重复出现。大致相当于：
+创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为 `r` 的所有子序列，允许每个元素重复出现。大致相当于：
 
 ```python
 def combinations_with_replacement(iterable, r):
@@ -1146,7 +1312,7 @@ def combinations_with_replacement(iterable, r):
 
 ## count()
 
-创建一个迭代器，它从`start`值开始，返回一个等差数列。大致相当于：
+创建一个迭代器，它从 `start` 值开始，返回一个等差数列。大致相当于：
 
 ```python
 def count(start=0, step=1):
@@ -1162,7 +1328,7 @@ def count(start=0, step=1):
 
 ## cycle()
 
-创建一个迭代器，返回`iterable`中所有元素并保存一个副本。当遍历完`iterable`中所有元素后，返回副本中的元素，无限重复。大致相当于：
+创建一个迭代器，返回 `iterable` 中所有元素并保存一个副本。当遍历完 `iterable` 中所有元素后，返回副本中的元素，无限重复。大致相当于：
 
 ```python
 def cycle(iterable):
@@ -1181,7 +1347,7 @@ def cycle(iterable):
 
 ## islice()
 
-创建一个迭代器，返回从可迭代对象以切片方式选中的元素。与普通的切片不同，`islice()`不支持将 `start, stop, step` 设为负值。大致相当于：
+创建一个迭代器，返回从可迭代对象以切片方式选中的元素。与普通的切片不同，`islice()` 不支持将 `start,stop,step` 设为负值。大致相当于：
 
 ```python
 def islice(iterable, *args):
@@ -1215,7 +1381,7 @@ def islice(iterable, *args):
 
 ## permutations()
 
-创建一个迭代器，它返回由输入可迭代对象中的元素生成的长度为`r`的所有排列。大致相当于：
+创建一个迭代器，它返回由输入可迭代对象中的元素生成的长度为 `r` 的所有排列。大致相当于：
 
 ```python
 def permutations(iterable, r=None):
@@ -1249,9 +1415,9 @@ def permutations(iterable, r=None):
 
 ## product()
 
-多个输入可迭代对象的笛卡尔积。大致相当于元组推导式的嵌套循环，例如 `product(A, B)` 和 `((x,y) for x in A for y in B)` 返回结果一样。
+多个输入可迭代对象的笛卡尔积。大致相当于元组推导式的嵌套循环，例如 `product(A,B)` 和 `((x,y)for x in A for y in B)` 返回结果一样。
 
-要计算可迭代对象自身的笛卡尔积，将可选参数 *repeat* 设定为要重复的次数。例如 `product(A, repeat=4)` 和 `product(A, A, A, A)` 是一样的。
+要计算可迭代对象自身的笛卡尔积，将可选参数 *repeat* 设定为要重复的次数。例如 `product(A,repeat=4)` 和 `product(A,A,A,A)` 是一样的。
 
 ```python
 # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
@@ -1262,7 +1428,7 @@ def permutations(iterable, r=None):
 
 ## repeat()
 
-创建一个迭代器，不断重复 *object* 。设定参数 *times* 将会重复如此多次 ，否则将无限重复。大致相当于：
+创建一个迭代器，不断重复 *object*。设定参数 *times* 将会重复如此多次，否则将无限重复。大致相当于：
 
 ```python
 def repeat(object, times=None):
@@ -1343,7 +1509,7 @@ def repeat(object, times=None):
 
 ### loads()
 
-将一个包含 JSON 的 `str`、`bytes` 或 `bytearray` 实例反序列化为Python对象。
+将一个包含 JSON 的 `str`、`bytes` 或 `bytearray` 实例反序列化为 Python 对象。
 
 ```python
 >>> import json
@@ -1359,7 +1525,7 @@ def repeat(object, times=None):
 
 ### JSONEncoder
 
-用于Python数据结构的可扩展 JSON 编码器，默认支持以下对象和类型：
+用于 Python 数据结构的可扩展 JSON 编码器，默认支持以下对象和类型：
 
 | Python                              | JSON   |
 | :---------------------------------- | :----- |
@@ -1391,7 +1557,7 @@ class json.JSONEncoder(*, skipkeys=False, ensure_ascii=True, check_circular=True
 
 #### encode()
 
-返回Python数据结构的JSON字符串表达方式。
+返回 Python 数据结构的 JSON 字符串表达方式。
 
 ```python
 >>> json.JSONEncoder().encode({"foo": ["bar", "baz"]})
@@ -1437,11 +1603,11 @@ Expecting ':' delimiter
 
 # math——数学函数
 
-该模块提供了对C标准定义的数学函数的访问。
+该模块提供了对 C 标准定义的数学函数的访问。
 
 ## atan2()
 
-计算向量 `(x, y)` 与x轴正方向的夹角，结果在 `-pi` 和 `pi` 之间。
+计算向量 `(x,y)` 与 x 轴正方向的夹角，结果在 `-pi` 和 `pi` 之间。
 
 ```python
 >>> math.atan2(10, 1)  # y=10,x=1
@@ -1500,7 +1666,7 @@ Expecting ':' delimiter
 1.7320508075688772
 ```
 
-3.8版本新功能。
+3.8 版本新功能。
 
 
 
@@ -1517,7 +1683,7 @@ Expecting ':' delimiter
 
 ## exp()
 
-（底数为e的）指数函数。
+（底数为 e 的）指数函数。
 
 ```python
 >>> math.exp(1)
@@ -1565,7 +1731,7 @@ Expecting ':' delimiter
 
 ## fmod()
 
-余数。整数计算时推荐使用`x % y`，浮点数计算时推荐使用`fmod()`。
+余数。整数计算时推荐使用 `x % y`，浮点数计算时推荐使用`fmod()`。
 
 ```python
 >>> math.fmod(5.0, 1.5)
@@ -1602,7 +1768,7 @@ Expecting ':' delimiter
 1
 ```
 
-在3.9之后的版本可以传入任意个整数参数，之前的版本只能传入两个整数参数。
+在 3.9 之后的版本可以传入任意个整数参数，之前的版本只能传入两个整数参数。
 
 
 
@@ -1615,13 +1781,13 @@ Expecting ':' delimiter
 1.7320508075688772
 ```
 
-在3.8之后的版本可以传入任意个实数参数，之前的版本只能传入两个实数参数。
+在 3.8 之后的版本可以传入任意个实数参数，之前的版本只能传入两个实数参数。
 
 
 
 ## inf
 
-浮点正无穷大，相当于`float('inf')`的返回值。浮点负无穷大用`-math.inf`表示。
+浮点正无穷大，相当于 `float('inf')` 的返回值。浮点负无穷大用 `-math.inf` 表示。
 
 ```python
 >>> math.inf
@@ -1634,7 +1800,7 @@ inf
 
 ## isclose()
 
-若两个浮点数的值非常接近则返回`True`，否则返回`False`。
+若两个浮点数的值非常接近则返回 `True`，否则返回 `False`。
 
 ```python
 # 默认的相对容差为1e-9,绝对容差为0.0
@@ -1651,7 +1817,7 @@ True
 
 ## isfinite()
 
-若参数值既不是无穷大又不是`NaN`，则返回`True`，否则返回`False`。
+若参数值既不是无穷大又不是 `NaN`，则返回 `True`，否则返回 `False`。
 
 ```python
 >>> math.isfinite(0.0)
@@ -1664,7 +1830,7 @@ False
 
 ## isnan()
 
-若参数值是非数字（NaN）值，则返回`True`，否则返回`False`。
+若参数值是非数字（NaN）值，则返回 `True`，否则返回 `False`。
 
 ```python
 >>> math.isnan(0.0)
@@ -1686,7 +1852,7 @@ True
 3
 ```
 
-平方根向上取整可以使用`1 + isqrt(n - 1)`。
+平方根向上取整可以使用 `1+ isqrt(n - 1)`。
 
 
 
@@ -1694,7 +1860,7 @@ True
 
 最大公倍数。
 
-3.9版本新功能。
+3.9 版本新功能。
 
 
 
@@ -1734,7 +1900,7 @@ True
 
 ## nan
 
-浮点非数字（NaN）值，相当于`float('nan')`的返回值。
+浮点非数字（NaN）值，相当于 `float('nan')` 的返回值。
 
 ```python
 >>> math.nan
@@ -1756,7 +1922,7 @@ nan
 20
 ```
 
-3.8版本新功能。
+3.8 版本新功能。
 
 
 
@@ -1788,20 +1954,20 @@ nan
 
 ## prod()
 
-计算可迭代对象的所有元素（整数或浮点数）的积。积的默认初始值为1。
+计算可迭代对象的所有元素（整数或浮点数）的积。积的默认初始值为 1。
 
 ```python
 >>> math.prod(range(1, 6))
 120
 ```
 
-3.8版本新功能。
+3.8 版本新功能。
 
 
 
 ## remainder()
 
-IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y* ，返回 `x - n * y` ，其中 `n` 是与商 `x / y` 的精确值最接近的整数；如果 `x / y` 恰好位于两个连续整数之间，则 `n`  取最近的偶整数。因此余数 `r = remainder(x, y)` 总是满足 `abs(r) <= 0.5 * abs(y)` 。
+IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*y`，其中`n`是与商`x/y`的精确值最接近的整数；如果`x/y`恰好位于两个连续整数之间，则`n`取最近的偶整数。因此余数`r = remainder(x,y)`总是满足`abs(r)<=0.5*abs(y)`。
 
 ```python
 >>> math.remainder(10, 3)
@@ -1853,7 +2019,7 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y* ，返回 `x - n
 
 # multiprocessing——基于进程的并行
 
-multiprocessing 是一个支持使用与 threading 模块类似的 API 来产生进程的包。 multiprocessing 包同时提供了本地和远程并发操作，通过使用子进程而非线程有效地绕过了全局解释器锁。 因此，multiprocessing 模块允许程序员充分利用给定机器上的多个处理器。 它在 Unix 和 Windows 上均可运行。
+multiprocessing 是一个支持使用与 threading 模块类似的 API 来产生进程的包。multiprocessing 包同时提供了本地和远程并发操作，通过使用子进程而非线程有效地绕过了全局解释器锁。因此，multiprocessing 模块允许程序员充分利用给定机器上的多个处理器。它在 Unix 和 Windows 上均可运行。
 
 
 
@@ -1880,23 +2046,23 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 启动进程活动。
 
-这个方法每个进程对象最多只能调用一次。它会将对象的`run()`方法安排在一个单独的进程中调用。
+这个方法每个进程对象最多只能调用一次。它会将对象的 `run()` 方法安排在一个单独的进程中调用。
 
 
 
 ### join([timeout])
 
-如果可选参数 *timeout* 是 `None` （默认值），则该方法将阻塞，直到调用`join()`方法的进程终止；如果 *timeout* 是一个正数，它最多会阻塞 *timeout* 秒。不管是进程终止还是方法超时，该方法都返回 `None`。
+如果可选参数 *timeout* 是 `None`（默认值），则该方法将阻塞，直到调用 `join()` 方法的进程终止；如果 *timeout* 是一个正数，它最多会阻塞 *timeout* 秒。不管是进程终止还是方法超时，该方法都返回 `None`。
 
-一个进程可以被`join`多次。
+一个进程可以被 `join` 多次。
 
-进程无法`join`自身，因为这会导致死锁。尝试在启动进程之前`join`进程会产生一个错误。
+进程无法 `join` 自身，因为这会导致死锁。尝试在启动进程之前 `join` 进程会产生一个错误。
 
 
 
 ### is_alive()
 
-返回进程是否处于活动状态。从`start()`方法返回到子进程终止之间，进程对象都处于活动状态。
+返回进程是否处于活动状态。从 `start()` 方法返回到子进程终止之间，进程对象都处于活动状态。
 
 
 
@@ -1908,7 +2074,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 ### daemon
 
-进程的守护标志，一个布尔值。必须在`start()`被调用之前设置。
+进程的守护标志，一个布尔值。必须在 `start()` 被调用之前设置。
 
 初始值继承自创建进程。
 
@@ -1918,31 +2084,31 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 ### pid
 
-返回进程ID。
+返回进程 ID。
 
 
 
 ### exitcode
 
-子进程的退出代码。`None`表示进程尚未终止；负值-N表示子进程被信号N终止。
+子进程的退出代码。`None` 表示进程尚未终止；负值-N 表示子进程被信号 N 终止。
 
 
 
 ### terminate()
 
-终止进程。在Unix上由`SIGTERM`信号完成。
+终止进程。在 Unix 上由 `SIGTERM` 信号完成。
 
 
 
 ### kill()
 
-与`terminate()`相同，但在Unix上使用`SIGKILL`信号。
+与 `terminate()` 相同，但在 Unix 上使用 `SIGKILL` 信号。
 
 
 
 ### close()
 
-关闭`Process`对象，释放与之关联的所有资源。如果底层进程仍在运行，则会引发`ValueError`。一旦`close()`成功返回，`Process`对象的大多数其他方法和属性将引发`ValueError`。
+关闭 `Process` 对象，释放与之关联的所有资源。如果底层进程仍在运行，则会引发 `ValueError`。一旦 `close()` 成功返回，`Process` 对象的大多数其他方法和属性将引发 `ValueError`。
 
 
 
@@ -1960,19 +2126,19 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 ## cpu_count()
 
-返回系统的CPU数量。
+返回系统的 CPU 数量。
 
 
 
 ## current_process()
 
-返回当前进程相对应的`Process`对象。
+返回当前进程相对应的 `Process` 对象。
 
 
 
 ## parent_process()
 
-返回当前进程的父进程相对应的`Process`对象。
+返回当前进程的父进程相对应的 `Process` 对象。
 
 
 
@@ -2070,7 +2236,7 @@ environ({'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS':
 
 ## walk()
 
-遍历目录。对于以`top`为根的目录树中的每个目录（包括`top`本身）都生成一个三元组`(dirpath, dirnames, filenames)`。
+遍历目录。对于以 `top` 为根的目录树中的每个目录（包括 `top` 本身）都生成一个三元组 `(dirpath,dirnames,filenames)`。
 
 ```python
 os.walk(top, topdown=True, onerror=None, followlinks=False)
@@ -2234,7 +2400,7 @@ True
 
 ## system()
 
-返回系统平台/OS的名称。
+返回系统平台/OS 的名称。
 
 ```python
 >>> platform.system()
@@ -2251,7 +2417,7 @@ True
 
 ### mac_ver()
 
-获取 Mac OS 版本信息并将其返回为元组 `(release, versioninfo, machine)`，其中 *versioninfo* 是一个元组 `(version, dev_stage, non_release_version)`。
+获取 Mac OS 版本信息并将其返回为元组 `(release,versioninfo,machine)`，其中 *versioninfo* 是一个元组 `(version,dev_stage,non_release_version)`。
 
 ```python
 >>> platform.mac_ver()
@@ -2264,13 +2430,13 @@ True
 
 # pprint——数据美化输出
 
-`pprint`模块提供了“美化打印”任意 Python 数据结构的功能。
+`pprint` 模块提供了“美化打印”任意 Python 数据结构的功能。
 
 
 
 ## isreadable()
 
-确定对象的格式化表示是否“可读”，或是否可以通过`eval()`重新构建对象的值。对于递归对象总是返回`False`。
+确定对象的格式化表示是否“可读”，或是否可以通过 `eval()` 重新构建对象的值。对于递归对象总是返回 `False`。
 
 ```python
 >>> stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']
@@ -2367,7 +2533,7 @@ pprint.pprint(object, stream=None, indent=1, width=80, depth=None, *, compact=Fa
 
 ## pformat()
 
-将对象的格式化表示作为字符串返回，其余部分与`pprint()`相同。
+将对象的格式化表示作为字符串返回，其余部分与 `pprint()` 相同。
 
 ```python
 >>> pprint.pformat(stuff)
@@ -2378,7 +2544,7 @@ pprint.pprint(object, stream=None, indent=1, width=80, depth=None, *, compact=Fa
 
 ## PrettyPrinter
 
-`pprint`模块定义的实现美化打印的类。
+`pprint` 模块定义的实现美化打印的类。
 
 ```python
 class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None, *, compact=False, sort_dicts=True)
@@ -2406,7 +2572,7 @@ class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None, *, compa
  'ni']
 ```
 
-`PrettyPrinter`对象具有`pprint`模块的各方法。实际上`pprint`模块的各方法都是先创建`PrettyPrinter`对象再调用对象的方法。
+`PrettyPrinter` 对象具有 `pprint` 模块的各方法。实际上 `pprint` 模块的各方法都是先创建 `PrettyPrinter` 对象再调用对象的方法。
 
 
 
@@ -2438,7 +2604,7 @@ random.seed(a=None, version=2)
 
 ### getstate()
 
-捕获生成器的当前内部状态的对象并返回，这个对象用于传递给`setstate()`以恢复状态。
+捕获生成器的当前内部状态的对象并返回，这个对象用于传递给 `setstate()` 以恢复状态。
 
 
 
@@ -2448,7 +2614,7 @@ random.seed(a=None, version=2)
 random.setstate(state)
 ```
 
-将生成器的内部状态恢复到`getstate()`被调用时的状态。
+将生成器的内部状态恢复到 `getstate()` 被调用时的状态。
 
 ```python
 >>> random.seed(0)
@@ -2472,7 +2638,7 @@ random.randrange(stop)
 random.randrange(start, stop[, step])
 ```
 
-从`range(0, stop)`或`range(start, stop, step)`返回一个随机选择的元素。
+从 `range(0,stop)` 或 `range(start,stop,step)` 返回一个随机选择的元素。
 
 
 
@@ -2482,7 +2648,7 @@ random.randrange(start, stop[, step])
 random.randint(a, b)
 ```
 
-返回随机整数 *N* 满足 `a <= N <= b`。相当于 `randrange(a, b+1)`。
+返回随机整数 *N* 满足 `a <= N <= b`。相当于`randrange(a,b+1)`。
 
 
 
@@ -2490,7 +2656,7 @@ random.randint(a, b)
 
 ### choice()
 
-从非空序列 *seq* 返回一个随机元素。 如果 *seq* 为空，则引发 `IndexError`。
+从非空序列 *seq* 返回一个随机元素。如果 *seq* 为空，则引发 `IndexError`。
 
 
 
@@ -2504,7 +2670,7 @@ random.randint(a, b)
 random.shuffle(x[, random])
 ```
 
-将序列 *x* 随机打乱位置。可选参数 *random* 是一个不带参数的函数，返回 [0.0, 1.0) 范围内的随机浮点数；默认情况下，这是函数 `random()`。
+将序列 *x* 随机打乱位置。可选参数 *random* 是一个不带参数的函数，返回[0.0，1.0）范围内的随机浮点数；默认情况下，这是函数 `random()`。
 
 ```python
 >>> a = list(range(10))
@@ -2517,14 +2683,14 @@ random.shuffle(x[, random])
 
 ### sample()
 
-返回从序列中选择的唯一元素的 *k* 长度列表。 用于无重复的随机抽样。
+返回从序列中选择的唯一元素的 *k* 长度列表。用于无重复的随机抽样。
 
 ```python
 >>> random.sample(range(10), k=5)
 [4, 7, 1, 9, 3]
 ```
 
-要从一系列整数中选择样本，请使用`range()`对象作为参数，这种方法特别快速且节省空间：
+要从一系列整数中选择样本，请使用 `range()` 对象作为参数，这种方法特别快速且节省空间：
 
 ```python
 >>> random.sample(range(10000000), k=60)
@@ -2539,7 +2705,7 @@ random.shuffle(x[, random])
 
 ### random()
 
-返回 [0.0, 1.0) 范围内的下一个随机浮点数。
+返回[0.0，1.0）范围内的下一个随机浮点数。
 
 ```python
 >>> random.random()
@@ -2554,7 +2720,7 @@ random.shuffle(x[, random])
 random.uniform(a, b)
 ```
 
-返回一个随机浮点数 *N* ，当 `a <= b` 时 `a <= N <= b` ，当 `b < a` 时 `b <= N <= a` 。
+返回一个随机浮点数 *N*，当 `a <= b`时`a <= N <= b`，当`b < a`时`b <= N <= a`。
 
 ```python
 >>> random.uniform(60, 80)
@@ -2571,7 +2737,7 @@ random.gauss(mu, sigma)
 
 正态分布，*mu* 是平均值，*sigma* 是标准差。
 
-多线程注意事项：当两个线程同时调用此方法时，它们有可能将获得相同的返回值。 这可以通过三种办法来避免。 1) 让每个线程使用不同的随机数生成器实例； 2) 在所有调用外面加锁； 3) 改用速度较慢但是线程安全的 normalvariate() 函数。
+多线程注意事项：当两个线程同时调用此方法时，它们有可能将获得相同的返回值。这可以通过三种办法来避免。1）让每个线程使用不同的随机数生成器实例；2）在所有调用外面加锁；3）改用速度较慢但是线程安全的 normalvariate（）函数。
 
 
 
@@ -2599,9 +2765,9 @@ random.normalvariate(mu, sigma)
 
 # subprocess——子进程管理
 
-`subprocess`模块允许我们生成新的进程，连接它们的输入、输出、错误管道，并且获取它们的返回码。
+`subprocess` 模块允许我们生成新的进程，连接它们的输入、输出、错误管道，并且获取它们的返回码。
 
-大多数情况下，推荐使用`run()`方法调用子进程，执行操作系统命令。在更高级的使用场景，你还可以使用`Popen`接口。其实`run()`方法在底层调用的就是`Popen`接口。
+大多数情况下，推荐使用 `run()` 方法调用子进程，执行操作系统命令。在更高级的使用场景，你还可以使用 `Popen` 接口。其实 `run()` 方法在底层调用的就是 `Popen` 接口。
 
 ## run()
 
@@ -2632,7 +2798,7 @@ CompletedProcess(args=['ls', '-l'], returncode=0)
 CompletedProcess(args=['ls', '-l'], returncode=0, stdout=b'total 4\n-rw-rw-r-- 1 xyx xyx 2862 Dec  1 17:11 lstm.py\n')
 ```
 
-注意当`args`是一个字符串时，必须指定`shell=True`：
+注意当 `args` 是一个字符串时，必须指定 `shell=True`：
 
 ```python
 >>> subprocess.run('ls -l')
@@ -2650,7 +2816,7 @@ CompletedProcess(args='ls -l', returncode=0)
 
 ## CompletedProcess
 
-`run()`方法的返回类型，包含下列属性：
+`run()` 方法的返回类型，包含下列属性：
 
 **`args`**
 
@@ -2658,21 +2824,21 @@ CompletedProcess(args='ls -l', returncode=0)
 
 **`returncode`**
 
-子进程的退出状态码，0表示进程正常退出。
+子进程的退出状态码，0 表示进程正常退出。
 
 **`stdout`**
 
-捕获到的子进程的标准输出，是一个字节序列，或者一个字符串（如果`run()`设置了参数`encoding`,`errors`或`text=True`）。如果未有捕获，则为`None`。
+捕获到的子进程的标准输出，是一个字节序列，或者一个字符串（如果 `run()` 设置了参数 `encoding`，`errors` 或 `text=True`）。如果未有捕获，则为 `None`。
 
-如果设置了参数`stderr=subprocess.STDOUT`，标准错误会随同标准输出被捕获，并且`stderr`将为`None`。
+如果设置了参数 `stderr=subprocess.STDOUT`，标准错误会随同标准输出被捕获，并且 `stderr` 将为 `None`。
 
 **`stderr`**
 
-捕获到的子进程的标准错误，是一个字节序列，或者一个字符串（如果`run()`设置了参数`encoding`,`errors`或`text=True`）。如果未有捕获，则为`None`。
+捕获到的子进程的标准错误，是一个字节序列，或者一个字符串（如果 `run()` 设置了参数 `encoding`，`errors` 或 `text=True`）。如果未有捕获，则为 `None`。
 
-**`check_returncode`()**
+**`check_returncode`（）**
 
-检查`returncode`，非零则抛出`CalledProcessError`。
+检查 `returncode`，非零则抛出 `CalledProcessError`。
 
 
 
@@ -2704,9 +2870,9 @@ CompletedProcess(args='ls -l', returncode=0)
 
 ## exit()
 
-从Python中退出，实现方式是抛出一个`SystemExit`异常。
+从 Python 中退出，实现方式是抛出一个 `SystemExit` 异常。
 
-可选参数可以是表示退出状态的整数（默认为整数0），也可以是其他类型的对象。如果它是整数，则shell等将0视为“成功终止”，非零值视为“异常终止”。
+可选参数可以是表示退出状态的整数（默认为整数 0），也可以是其他类型的对象。如果它是整数，则 shell 等将 0 视为“成功终止”，非零值视为“异常终止”。
 
 
 
@@ -2756,15 +2922,15 @@ $ python my_module.py
 
 解释器用于标准输入、标准输出和标准错误的文件对象：
 
-+ `stdin`用于所有交互式输入
-+ `stdout`用于`print()`和expression语句的输出，以及输出`input()`的提示符
-+ 解释器自身的提示符和错误消息发往`stderr`
+* `stdin` 用于所有交互式输入
+* `stdout` 用于 `print()` 和 expression 语句的输出，以及输出 `input()` 的提示符
+* 解释器自身的提示符和错误消息发往 `stderr`
 
 
 
 ## version, version_info
 
-`version`是一个包含Python解释器版本号、编译版本号、所用编译器等信息的字符串，`version_info`是一个包含版本号五部分的元组: *major*, *minor*, *micro*, *releaselevel* 和 *serial*。
+`version` 是一个包含 Python 解释器版本号、编译版本号、所用编译器等信息的字符串，`version_info` 是一个包含版本号五部分的元组：*major*，*minor*，*micro*，*releaselevel* 和 *serial*。
 
 ```python
 >>> sys.version
@@ -2787,12 +2953,12 @@ sys.version_info(major=3, minor=6, micro=9, releaselevel='final', serial=0)
 
 返回放置临时文件的目录的名称。
 
-Python搜索标准目录列表，以找到调用者可以在其中创建文件的目录。这个列表是：
+Python 搜索标准目录列表，以找到调用者可以在其中创建文件的目录。这个列表是：
 
-1. `TMPDIR` ,`TEMP`或`TMP` 环境变量指向的目录。
+1.`TMPDIR`，`TEMP` 或 `TMP` 环境变量指向的目录。
 2. 与平台相关的位置：
-   + 在 Windows 上，依次为 `C:\TEMP`、`C:\TMP`、`\TEMP` 和 `\TMP`
-   + 在所有其他平台上，依次为 `/tmp`、`/var/tmp` 和 `/usr/tmp`
+   * 在 Windows 上，依次为 `C:\TEMP`、`C:\TMP`、`\TEMP` 和 `\TMP`
+   * 在所有其他平台上，依次为 `/tmp`、`/var/tmp` 和 `/usr/tmp`
 3. 不得已时，使用当前工作目录。
 
 
@@ -2803,19 +2969,19 @@ Python搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 ## active_count()
 
-返回当前存活的`Thread`对象的数量。
+返回当前存活的 `Thread` 对象的数量。
 
 
 
 ## current_thread()
 
-返回当前调用者的控制线程的`Thread`对象。
+返回当前调用者的控制线程的 `Thread` 对象。
 
 
 
 ## main_thread()
 
-返回主`Thread`对象。
+返回主 `Thread` 对象。
 
 
 
@@ -2827,9 +2993,9 @@ Python搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 ## Lock
 
-原始锁处于 "锁定" 或者 "非锁定" 两种状态之一。它有两个基本方法，`acquire()`和`release()`。当状态为非锁定时，`acquire()`将状态改为锁定并立即返回；当状态是锁定时，`acquire()`将阻塞至其他线程调用`release()`将其改为非锁定状态，然后`acquire()`重置其为锁定状态并返回。 `release()`只在锁定状态下调用，将状态改为非锁定并立即返回。如果尝试释放一个非锁定的锁，则会引发`RuntimeError` 异常。
+原始锁处于"锁定"或者"非锁定"两种状态之一。它有两个基本方法，`acquire()` 和 `release()`。当状态为非锁定时，`acquire()` 将状态改为锁定并立即返回；当状态是锁定时，`acquire()` 将阻塞至其他线程调用 `release()` 将其改为非锁定状态，然后 `acquire()` 重置其为锁定状态并返回。`release()` 只在锁定状态下调用，将状态改为非锁定并立即返回。如果尝试释放一个非锁定的锁，则会引发 `RuntimeError` 异常。
 
-原始锁在创建时为非锁定状态。当多个线程在`acquire()`阻塞，然后`release()`重置状态为未锁定时，只有一个线程能继续执行；至于哪个线程继续执行则没有定义，并且会根据实现而不同。
+原始锁在创建时为非锁定状态。当多个线程在 `acquire()` 阻塞，然后 `release()` 重置状态为未锁定时，只有一个线程能继续执行；至于哪个线程继续执行则没有定义，并且会根据实现而不同。
 
 
 
@@ -2837,32 +3003,32 @@ Python搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 # time——时间的访问和转换
 
-此模块提供了各种与时间相关的函数。相关功能还可以参阅`datetime`和`calendar`模块。
+此模块提供了各种与时间相关的函数。相关功能还可以参阅 `datetime` 和 `calendar` 模块。
 
 下面是一些术语和惯例的解释：
 
-- *纪元（epoch）* 是时间开始的点，其值取决于平台。对于Unix，纪元是1970年1月1日00:00:00（UTC）。要找出给定平台上的 epoch ，请查看 `time.gmtime(0)` 。
+* *纪元（epoch）*是时间开始的点，其值取决于平台。对于 Unix，纪元是 1970 年 1 月 1 日 00：00：00（UTC）。要找出给定平台上的 epoch，请查看 `time.gmtime(0)`。
 
-- 术语 *纪元秒数* 是指自纪元时间点以来经过的总秒数，通常不包括[闰秒](https://en.wikipedia.org/wiki/Leap_second)。 在所有符合 POSIX 标准的平台上，闰秒都不会记录在总秒数中。
+* 术语*纪元秒数*是指自纪元时间点以来经过的总秒数，通常不包括[闰秒](https://en.wikipedia.org/wiki/Leap_second)。在所有符合 POSIX 标准的平台上，闰秒都不会记录在总秒数中。
 
-- 此模块中的函数可能无法处理纪元之前或遥远未来的日期和时间。“遥远未来”的定义由对应的C语言库决定；对于32位系统，它通常是指2038年及以后。
+* 此模块中的函数可能无法处理纪元之前或遥远未来的日期和时间。“遥远未来”的定义由对应的 C 语言库决定；对于 32 位系统，它通常是指 2038 年及以后。
 
-- 函数 `strptime()` 在接收到 `%y` 格式代码时可以解析使用 2 位数表示的年份。当解析 2 位数年份时，函数会按照 POSIX 和 ISO C 标准进行年份转换：数值 69--99 被映射为 1969--1999；数值 0--68 被映射为 2000--2068。
+* 函数 `strptime()` 在接收到 `%y` 格式代码时可以解析使用 2 位数表示的年份。当解析 2 位数年份时，函数会按照 POSIX 和 ISO C 标准进行年份转换：数值 69--99 被映射为 1969--1999；数值 0--68 被映射为 2000--2068。
 
-- UTC是协调世界时（Coordinated Universal Time）的缩写。它以前也被称为格林威治标准时间（GMT）。使用UTC而不是CUT作为缩写是英语与法语（Temps Universel Coordonné）之间妥协的结果，不是什么低级错误。
+* UTC 是协调世界时（Coordinated Universal Time）的缩写。它以前也被称为格林威治标准时间（GMT）。使用 UTC 而不是 CUT 作为缩写是英语与法语（Temps Universel Coordonné）之间妥协的结果，不是什么低级错误。
 
-- DST是夏令时（Daylight Saving Time）的缩写，在一年的某一段时间中将当地时间调整（通常）一小时。 DST的规则非常神奇（由当地法律确定），并且每年的起止时间都不同。C语言库中有一个表格，记录了各地的夏令时规则（实际上，为了灵活性，C语言库通常是从某个系统文件中读取这张表）。从这个角度而言，这张表是夏令时规则的唯一权威真理。
+* DST 是夏令时（Daylight Saving Time）的缩写，在一年的某一段时间中将当地时间调整（通常）一小时。DST 的规则非常神奇（由当地法律确定），并且每年的起止时间都不同。C 语言库中有一个表格，记录了各地的夏令时规则（实际上，为了灵活性，C 语言库通常是从某个系统文件中读取这张表）。从这个角度而言，这张表是夏令时规则的唯一权威真理。
 
-- 由于平台限制，各种实时函数的精度可能低于其值或参数所要求（或给定）的精度。例如，在大多数Unix系统上，时钟频率仅为每秒50或100次。
+* 由于平台限制，各种实时函数的精度可能低于其值或参数所要求（或给定）的精度。例如，在大多数 Unix 系统上，时钟频率仅为每秒 50 或 100 次。
 
-- 使用以下函数在时间表示之间进行转换：
+* 使用以下函数在时间表示之间进行转换：
 
-  | 从                                                           | 到                                                           | 使用                                                         |
-  | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-  | 自纪元以来的秒数                                             | UTC 的 [`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time) | [`gmtime()`](https://docs.python.org/zh-cn/3/library/time.html#time.gmtime) |
-  | 自纪元以来的秒数                                             | 本地时间的 [`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time) | [`localtime()`](https://docs.python.org/zh-cn/3/library/time.html#time.localtime) |
-  | UTC 的 [`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time) | 自纪元以来的秒数                                             | [`calendar.timegm()`](https://docs.python.org/zh-cn/3/library/calendar.html#calendar.timegm) |
-  | 本地时间的 [`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time) | 自纪元以来的秒数                                             | [`mktime()`](https://docs.python.org/zh-cn/3/library/time.html#time.mktime) |
+  |从|到|使用|
+  |：-----------------------------------------------------------|：-----------------------------------------------------------|：-----------------------------------------------------------|
+  |自纪元以来的秒数|UTC 的[`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time)|[`gmtime()`](https://docs.python.org/zh-cn/3/library/time.html#time.gmtime)|
+  |自纪元以来的秒数|本地时间的[`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time)|[`localtime()`](https://docs.python.org/zh-cn/3/library/time.html#time.localtime)|
+  |UTC 的[`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time)|自纪元以来的秒数|[`calendar.timegm()`](https://docs.python.org/zh-cn/3/library/calendar.html#calendar.timegm)|
+  |本地时间的[`struct_time`](https://docs.python.org/zh-cn/3/library/time.html#time.struct_time)|自纪元以来的秒数|[`mktime()`](https://docs.python.org/zh-cn/3/library/time.html#time.mktime)|
 
 
 
@@ -2879,7 +3045,7 @@ Python搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 ## gmtime()
 
-将纪元秒数转换为UTC的 `struct_time` 对象。若未提供 `secs` 或为 `None`，则使用 `time()` 所返回的当前时间。
+将纪元秒数转换为 UTC 的 `struct_time` 对象。若未提供 `secs` 或为 `None`，则使用 `time()` 所返回的当前时间。
 
 ```python
 >>> time.gmtime(0)
@@ -2924,7 +3090,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 ## sleep()
 
-调用该方法的线程将被暂停执行 *secs* 秒。参数可以是浮点数，以表示更为精确的睡眠时长。由于任何捕获到的信号都会终止`sleep()`引发的该睡眠过程并开始执行信号的处理例程，因此实际的暂停时长可能小于请求的时长；此外，由于系统需要调度其他活动，实际暂停时长也可能比请求的时间长。
+调用该方法的线程将被暂停执行 *secs* 秒。参数可以是浮点数，以表示更为精确的睡眠时长。由于任何捕获到的信号都会终止 `sleep()` 引发的该睡眠过程并开始执行信号的处理例程，因此实际的暂停时长可能小于请求的时长；此外，由于系统需要调度其他活动，实际暂停时长也可能比请求的时间长。
 
 ```python
 >>> time.sleep(1)
@@ -2939,7 +3105,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 time.strftime(format[, t])
 ```
 
-将 `struct_time` 对象转换为指定格式的字符串。如果未提供 *t* ，则使用由 `localtime()` 返回的当前时间。 *format* 必须是一个字符串，可以嵌入以下指令：
+将 `struct_time` 对象转换为指定格式的字符串。如果未提供 *t*，则使用由 `localtime()` 返回的当前时间。*format* 必须是一个字符串，可以嵌入以下指令：
 
 | 指令 | 意义                                                         |
 | :--- | :----------------------------------------------------------- |
@@ -2989,7 +3155,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 ## struct_time
 
-结构化的时间类型。它是一个带有 [named tuple](https://docs.python.org/zh-cn/3/glossary.html#term-named-tuple) 接口的对象：可以通过索引和属性名访问值。 存在以下值：
+结构化的时间类型。它是一个带有 [named tuple](https://docs.python.org/zh-cn/3/glossary.html#term-named-tuple) 接口的对象：可以通过索引和属性名访问值。存在以下值：
 
 | 索引 | 属性        | 值                                         |
 | :--- | :---------- | :----------------------------------------- |
@@ -3030,7 +3196,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 ### altzone
 
-本地夏令时时区的偏移量，以UTC为参照的秒数，如果已定义。如果本地夏令时时区在UTC以东，则为负数。
+本地夏令时时区的偏移量，以 UTC 为参照的秒数，如果已定义。如果本地夏令时时区在 UTC 以东，则为负数。
 
 ```python
 >>> time.altzone
@@ -3042,7 +3208,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 ### timezone
 
-本地（非夏令时）时区的偏移量，以UTC为参照的秒数。如果本地时区在UTC以东，则为负数。
+本地（非夏令时）时区的偏移量，以 UTC 为参照的秒数。如果本地时区在 UTC 以东，则为负数。
 
 ```python
 >>> time.timezone
@@ -3053,7 +3219,7 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 
 ### tzname
 
-两个字符串的元组：第一个是本地非夏令时时区的名称，第二个是本地夏令时时区的名称。 如果未定义夏令时时区，则不应使用第二个字符串。 
+两个字符串的元组：第一个是本地非夏令时时区的名称，第二个是本地夏令时时区的名称。如果未定义夏令时时区，则不应使用第二个字符串。 
 
 ```python
 >>> time.tzname

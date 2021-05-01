@@ -95,6 +95,17 @@ module2 initialized.       # 初始化`module2`
 
 `import` 语句有如下几种变体：
 
++ `import ...`：导入模块：
+
+  ```python
+  >>> import module1
+  module1 initialized.
+  >>> dir()               # 导入了模块`module1`,即将模块实例加入到当前作用域的属性列表
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'module1']
+  >>> dir(module1)        # 模块`module1`具有下列属性
+  ['Class1', 'GLOBAL', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_func3', 'func1', 'func2']
+  ```
+
 + `from ... import ...`：直接导入模块内的（类、函数或全局变量的）名称，被导入的名称会存在导入模块的全局符号表里：
 
   ```python
@@ -334,12 +345,13 @@ Python 仅将含有 `__init__.py` 文件的目录当作包。最简情况下，`
 也可以直接导入子包或模块：
 
 ```python
->>> import package1.subpackage1
->>> import package1.subpackage1.module1
+>>> import package1.subpackage1            # 导入子包.此处的点表示文件系统的上下级关系,导入之后成为实例与属性的关系
+```
+
+```python
+>>> import package1.subpackage1.module1    # 导入模块
 module1 initialized.
 package1.subpackage1.module1
->>> package1.subpackage1.module1.func1()
-This is module1.func1
 ```
 
 但是无法使用包名访问子包和模块：
@@ -359,13 +371,50 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
 `import` 语句有如下几种变体：
 
++ `import`：导入包、子包或模块：
+
+  ```python
+  >>> import package1
+  >>> dir()               # 导入了包`package1`,即将模块实例加入到当前作用域的属性列表
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1']
+  >>> dir(package1)       # 包`package1`仅有特殊属性
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+  ```
+
+  ```python
+  >>> import package1.subpackage1
+  >>> dir()               # 导入了包`package1`
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1']
+  >>> dir(package1)       # 包`package1`有属性`subpackage1`
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'subpackage1']
+  >>> dir(package1.subpackage1)   # 子包`subpackage1`仅有特殊属性
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+  ```
+
+  ```python
+  >>> import package1.subpackage1.module1
+  module1 initialized.
+  package1.subpackage1.module1
+  >>> dir()               # 导入了包`package1`
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1']
+  >>> dir(package1)       # 包`package1`有属性`subpackage1`
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'subpackage1']
+  >>> dir(package1.subpackage1)   # 子包`subpackage1`有属性`module1`
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'module1']
+  >>> dir(package1.subpackage1.module1)   # 模块`module1`有下列属性
+  ['Class1', 'GLOBAL', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_func3', 'func1', 'func2']
+  ```
+
 + `from ... import ...`：从包导入子包/模块，或从模块导入模块内的（类、函数或全局变量的）名称，被导入的名称会存在导入模块的全局符号表里：
 
   ```python
   >>> from package1 import subpackage1
-  >>> dir()               # 属性列表增加了`subpackage1`
+  >>> dir()               # 导入了子包`subpackage1`
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'subpackage1']
+  
   ```
+
+  
 
   ```python
   >>> from package1.subpackage1.module1 import func2
@@ -377,12 +426,28 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
   100
   ```
 
-+ `from ... import *`：从包导入包内定义的所有（子包/模块的）名称，或从模块导入模块内定义的所有（不以`_`开头的）名称：
++ `from ... import *`：如果包的 `__init__.py` 定义了属性 `__all__` 为模块名列表，则导入这些模块（详见初始化包），否则只导入 `__init__.py` 中定义的名称，以及之前 `import` 语句显式加载的包的子包/模块；或从模块导入模块内定义的所有（不以`_`开头的）名称：
 
   ```python
+  # package1的__init__.py为空
   >>> from package1 import *
-  >>> dir()
+  >>> dir()               # 未导入任何名称
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
+  ```
+
+  ```python
+  # 修改package1的__init__.py为
+  # import package1.subpackage1.module1    # 定义了名称`subpackage1`, `module1`
+  # 
+  >>> from package1 import *
+  module1 initialized.
+  package1.subpackage1.module1
+  >>> dir()
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1', 'subpackage1']   # 导入`__init__.py`中定义的名称
+  ```
+
+  ```python
+  
   ```
 
   ```python
@@ -417,15 +482,21 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
 
 
-
-
 ### 初始化包
 
 最简单的
 
+`__all__`
+
+
+
 
 
 ### 包是特殊的模块
+
+前面提到，，包只是模块的一种组织方式
+
+
 
 
 

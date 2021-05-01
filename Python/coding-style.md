@@ -949,6 +949,10 @@ if i & (i-1) == 0:  # True if i is 0 or a power of 2.
 
 使用 `TODO` 注释的目的是有一个恒定的 `TODO` 格式可以用于搜索。`TODO` 注释并不代表承诺：括号中的这个人会修复这个问题。
 
+```python
+# TODO(kl@gmail.com): Use a "*" here for string repetition.
+```
+
 
 
 ### 文法
@@ -1183,5 +1187,4 @@ if i & (i-1) == 0:  # True if i is 0 or a power of 2.
 
 + 使用 `for item in list` 迭代 `list`，`for index, item in enumerate(list)` 迭代 `list` 并获取下标
 + 使用 `logging` 记录日志，配置好格式和级别
-
 

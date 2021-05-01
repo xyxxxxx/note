@@ -80,10 +80,6 @@ core.precomposeunicode=true
 
 
 
-
-
-
-
 ## diff
 
 
@@ -136,6 +132,8 @@ $ git branch
 
 
 ## rebase
+
+
 
 ### -i
 
