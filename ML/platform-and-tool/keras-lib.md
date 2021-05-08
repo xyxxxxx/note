@@ -23,20 +23,34 @@ keras 有两个重要的概念： **模型（model）** 和 **层（layer）** �
 
 ```python
 class CustomCallback(keras.callbacks.Callback):
+    def on_batch_begin(self, batch, logs=None):
+        """在step开始时调用"""
+        pass
+      
+    def on_batch_end(self, batch, logs=None):
+        """在step结束时调用"""
+        pass
+  
+    def on_epoch_begin(self, epoch, logs=None):
+        """在epoch开始时调用"""
+        pass
+
+    def on_epoch_end(self, epoch, logs=None):
+        """在epoch结束时调用
+        
+        Args:
+            logs: 字典,当前训练epoch和验证epoch(如果进行了验证)的指标.验证指标的键具有前缀`val_`.
+                  *尽管官方文档(https://keras.io/guides/writing_your_own_callbacks/#a-basic-example)中
+                  表述为epoch的平均指标,但实际上使用的是epoch的最后一个step的指标
+        """
+        pass
+  
     def on_train_begin(self, logs=None):
         """在训练开始时调用"""
         pass
 
     def on_train_end(self, logs=None):
         """在训练结束时调用"""
-        pass
-
-    def on_epoch_begin(self, epoch, logs=None):
-        """在epoch开始时调用"""
-        pass
-
-    def on_epoch_end(self, epoch, logs=None):
-        """在epoch结束时调用"""
         pass
 
     def on_test_begin(self, logs=None):
@@ -56,27 +70,27 @@ class CustomCallback(keras.callbacks.Callback):
         pass
 
     def on_train_batch_begin(self, batch, logs=None):
-        """在训练过程的batch开始时调用"""
+        """在训练过程的step开始时调用"""
         pass
 
     def on_train_batch_end(self, batch, logs=None):
-        """在训练过程的batch结束时调用"""
+        """在训练过程的step结束时调用"""
         pass
 
     def on_test_batch_begin(self, batch, logs=None):
-        """在测试过程的batch开始时调用"""
+        """在测试过程的step开始时调用"""
         pass
 
     def on_test_batch_end(self, batch, logs=None):
-        """在测试过程的batch结束时调用"""
+        """在测试过程的step结束时调用"""
         pass
 
     def on_predict_batch_begin(self, batch, logs=None):
-        """在测试过程的batch结束时调用"""
+        """在预测过程的step开始时调用"""
         pass
 
     def on_predict_batch_end(self, batch, logs=None):
-        """在预测过程的batch结束时调用"""
+        """在预测过程的step结束时调用"""
         pass
 ```
 

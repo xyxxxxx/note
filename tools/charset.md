@@ -2,6 +2,14 @@
 
 
 
+# 字符集和字符编码
+
+
+
+
+
+
+
 # ASCII, Unicode, UTF-8, GBK, Shift_JIS
 
 ## ASCII
@@ -453,5 +461,4 @@ Shift_JIS是日本电脑系统常用的编码表，能容纳全形及半形拉�
 |  |  |  |
 | Hangul Syllables (谚文) | `AC00-D7AF` | `감 0xAC10` |
 |  |  |  |
-
 

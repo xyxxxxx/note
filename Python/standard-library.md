@@ -6,7 +6,7 @@
 
 ## abs()
 
-返回一个数的绝对值。参数可以是整数、浮点数或任何实现了\_\_abs\_\_（）的对象。如果参数是一个复数，则返回它的模。
+返回一个数的绝对值。参数可以是整数、浮点数或任何实现了 `__abs__()` 的对象。如果参数是一个复数，则返回它的模。
 
 ```python
 >>> abs(-1)
@@ -21,14 +21,14 @@
 
 ## all()
 
-如果 *iterable* 的所有元素均为真值（或可迭代对象为空）则返回 `True`。
+如果可迭代对象的所有元素均为真值则返回 `True`；如果可迭代对象为空也返回 `True`。
 
 ```python
->>> all(range(5))      # include 0
+>>> all(range(5))      # 包含0
 False
 >>> all(range(1, 5))
 True
->>> all([])
+>>> all([])            # 可迭代对象为空
 True
 ```
 
@@ -36,12 +36,12 @@ True
 
 ## any()
 
-如果 *iterable* 的任一元素为真值则返回 `True`。如果可迭代对象为空，返回 `False`。
+如果可迭代对象的任一元素为真值则返回 `True`；如果可迭代对象为空则返回 `False`。
 
 ```python
 >>> any(range(5))
 True
->>> any([])
+>>> any([])            # 可迭代对象为空
 False
 ```
 
@@ -49,7 +49,7 @@ False
 
 ## bin()
 
-将整数转换为前缀为“0b”的二进制字符串。
+将整数转换为前缀为“0b”的二进制字符串。如果参数不是 Python 的 `int` 类型的实例，那么它需要定义 `__index__()` 方法返回一个整数。
 
 ```python
 >>> bin(3)
@@ -62,15 +62,31 @@ False
 
 ## bool()
 
-返回一个布尔值，`True` 或者 `False`。*x* 使用标准的真值测试过程来转换。`bool` 类是 `int` 的子类，其他类不能继承自它。它只有 `False` 和 `True` 两个实例。
+```python
+class bool([x])
+```
+
+返回一个布尔值，`True` 或者 `False`。参数使用标准的逻辑值检测过程进行转换，参见数据类型-逻辑值检测。`bool` 类是 `int` 类的子类，只有 `False` 和 `True` 两个实例，参见数据类型-布尔值。
+
+
+
+## bytearray
+
+
+
+## callable()
+
+如果参数是可调用的则返回 `True`，否则返回 `False`。但即使返回 `True`，调用该对象仍可能失败。请注意类实例是可调用的（调用将返回一个该类的新的实例）；定义了 `__call__()` 方法的类的实例是可调用的。
 
 
 
 ## chr()
 
-返回编码为输入整数的单个 Unicode 字符。是 `ord()` 的反函数。
+返回 Unicode 码位为输入整数的 Unicode 字符的字符串格式。是 `ord()` 的反函数。
 
 ```python
+>>> chr(97)
+'a'
 >>> chr(0x4e2d)
 '中'
 ```
@@ -85,9 +101,17 @@ False
 
 
 
+## compile()
+
+
+
 ## complex()
 
-返回值为 x+iy 的复数，或者将字符串或数字转换为复数。
+```python
+class complex([real[, imag]])
+```
+
+返回值为 *real*+i *imag* 的复数，或者将字符串或数字转换为复数。
 
 ```python
 >>> complex(1, 2)
@@ -100,7 +124,7 @@ False
 (1+2j)
 ```
 
-对于一个普通 Python 对象 `x`，`complex(x)` 会委托给 `x.__complex__(`）。如果 `__complex__()` 未定义则将回退至 `__float__()`。如果 `__float__(`）未定义则将回退至 `__index__()`。
+对于一个普通 Python 对象 `x`，`complex(x)` 会委托给 `x.__complex__()`。如果 `__complex__()` 未定义则将回退至 `__float__()`；如果 `__float__(`）未定义则将回退至 `__index__()`。
 
 
 
@@ -429,9 +453,11 @@ iter(object[, sentinel])
 
 ## ord()
 
-返回单个 Unicode 字符的编码的十进制整数表示。是 `chr()` 的反函数。
+返回字符串中的单个 Unicode 字符的 Unicode 码位的十进制整数表示。是 `chr()` 的反函数。
 
 ```python
+>>> ord('a')
+97
 >>> ord('中')
 20013
 >>> hex(ord('中'))

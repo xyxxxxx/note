@@ -24,6 +24,7 @@
 | argument                               | 参数；实参           |
 | array                                  | 数组                 |
 | assemble                               | 汇编                 |
+| assign                                 | 赋值                 |
 | asynchronous                           | 异步的               |
 | attention                              | 注意力               |
 | attribute                              | 属性                 |
@@ -422,6 +423,7 @@
 | representation                | 表示           |
 | request                       | 请求           |
 | response                      | 响应           |
+| retrieve                      | 获取           |
 | reverse                       | 反转           |
 | ridge regression              | 岭回归         |
 | RL, Reinforcement Learning    | 强化学习       |
