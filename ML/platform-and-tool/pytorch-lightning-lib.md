@@ -217,7 +217,7 @@ class CustomCallback(pytorch_lightning.callbacks.Callback):
 
 调用的顺序如下：
 
-```python
+```shell
 $ python mnist_lambdacallback.py
 GPU available: False, used: False
 TPU available: None, using: 0 TPU cores

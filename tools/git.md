@@ -127,6 +127,18 @@ $ git branch
 
 
 
+```shell
+$ git push origin c46e5:branch1              # 推送指定提交到远程分支
+$ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远程分支
+
+```
+
+
+
+
+
+
+
 ### -f
 
 

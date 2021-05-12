@@ -675,6 +675,12 @@ def zip(*iterables):
 
 
 
+## \__import__
+
+被 `import` 语句调用以导入模块。建议使用 `importlib.import_module()` 而非此函数来导入模块。
+
+
+
 
 
 # [argparse](https://docs.python.org/zh-cn/3/library/argparse.html)——命令行选项、参数和子命令解析器
@@ -1128,6 +1134,37 @@ def partial(func, /, *args, **keywords):
 ...
 >>> reduce(fn, [1, 3, 5, 7, 9])   # reduce()将多元函数依次作用在序列上
 13579
+```
+
+
+
+
+
+# importlib——import的实现
+
+## \__import__()
+
+内置 `__import__()` 函数的实现。
+
+
+
+## import_module()
+
+```python
+importlib.import_module(name, package=None)
+```
+
+导入一个模块。参数 *name* 指定以绝对或相对导入方式导入的模块；如果参数 *name* 使用相对导入方式，那么参数 *packages* 必须设置为相应的包名，并作为解析模块名的锚点，例如：
+
+```python
+>>> import importlib
+>>> importlib.import_module('numpy')       # 返回指定的模块(或包)实例
+<module 'numpy' from '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy/__init__.py'>
+>>> np = importlib.import_module('numpy')
+>>> np.__version__
+'1.19.5'
+>>> np.arange(6)
+array([0, 1, 2, 3, 4, 5])
 ```
 
 
@@ -2899,6 +2936,29 @@ CompletedProcess(args='ls -l', returncode=0)
 从 Python 中退出，实现方式是抛出一个 `SystemExit` 异常。
 
 可选参数可以是表示退出状态的整数（默认为整数 0），也可以是其他类型的对象。如果它是整数，则 shell 等将 0 视为“成功终止”，非零值视为“异常终止”。
+
+
+
+## modules
+
+返回当前已加载模块的名称到模块实例的字典。
+
+```python
+>>> import sys
+>>> from pprint import pprint
+>>> import numpy
+>>> pprint(sys.modules)
+{'__main__': <module '__main__' (built-in)>,
+ ...
+ 'numpy': <module 'numpy' from '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy/__init__.py'>,
+ ...
+ 'numpy.version': <module 'numpy.version' from '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy/version.py'>,
+ ...
+ 'pprint': <module 'pprint' from '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/pprint.py'>,
+ ...
+ 'sys': <module 'sys' (built-in)>,
+ ...
+```
 
 
 
