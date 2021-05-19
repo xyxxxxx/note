@@ -1,12 +1,18 @@
+> **关于“类”和“类型”**
+>
+> 即使你已经掌握了 Python 中 `class` 和 `type` 的用法，但你仍然很难讲清楚类（class）和类型（type）在语义上的差别，下面是一些想法：
+>
+> 1. Python 中所有的类，不管是内置的类，第三方模块包含的类，还是用户自定义的类，都是 `type` 的实例；与此同时，`type` 本身也是类，因此它也是自身的实例。
+> 2. `type` 可以接受一个任意对象，返回该对象所属的类，例如 `type(1)` 返回 `<class 'int'>`。上面这个例子的常见表述包括：`1` 是 `int` 类的实例；`1` 属于 `int` 类；`1` 的类型（type）是 `int`；等等。最后一种表述又衍生出“`1` 是哪种类型？”、“`1` 是 `int` 类型”之类的表述，于是造成“`int` 类型“和”`int` 类“两种表述同时存在，例如[官方文档](https://docs.python.org/zh-cn/3/library/stdtypes.html)中"内置类型"、“数字类型”这样的表述普遍存在。
+> 3. 在很多文档中，“类型”实际上代表的是“类”，在阅读时应当注意这一点。由于这两个词语义相近并且关系紧密，很多文档已经不加区分地使用它们，但基本上也不会造成阅读障碍（将“类”和“类型”都理解为“类”或“类型”）。即便如此，我们依然推荐根据 1. 给出的类（class）和类型（type）的关系来决定应当使用哪一个词。如果你仍然感到迷惑而不确定该使用哪个词，那么至少确保自己文档的上下文的用法一致。
+
 [toc]
 
 # 数字类型，算术运算和位运算
 
-内置的数字类型包括整数 `int`、浮点数 `float` 和复数 `complex`。 
+内置的数字类型包括整数 `int`、浮点数 `float` 和复数 `complex`。数字由数字字面值或内置函数和运算符的结果创建。
 
-
-
-Python 完全支持混合运算：当一个二元算术运算符的操作数有不同数值类型时，"较窄"类型的操作数会拓宽到另一个操作数的类型，其中整数比浮点数窄，浮点数比复数窄。不同类型的数字之间的比较，同比较这些数字的精确值一样。
+Python 完全支持混合运算：当一个二元算术运算符的操作数有不同数值类型时，"较窄"类型的操作数会拓宽到另一个操作数的类型，其中整数比浮点数窄，浮点数比复数窄。不同类型的数字之间的比较结果，与这些数字的精确值（在数学上）的比较结果相同。
 
 构造函数 `int()`、`float()` 和 `complex()` 可以用来构造特定类型的数字。
 
@@ -14,10 +20,19 @@ Python 完全支持混合运算：当一个二元算术运算符的操作数有�
 
 ## 整数
 
+不带修饰的整数字面值（包括十六进制、八进制和二进制数）会生成整数：
+
 ```python
->>> width = 20
+>>> 20
+20
+>>> 0xff00       # 十六进制数,以前缀'0x'表示
+65280
+>>> 0o1472       # 八进制数,以前缀'0o'表示
+826
+>>> 0b1100       # 二进制数,以前缀'0b'表示
+12
 >>> type(20)
-<class 'int'>
+<class 'int'>      # `int`类型
 ```
 
 整数具有无限的精度：
@@ -30,65 +45,245 @@ Python 完全支持混合运算：当一个二元算术运算符的操作数有�
 246913578246913578246913578246913578246913578246913578
 ```
 
+内置函数 `int()` 可以构造整数，参见 [`int()`](./standard-library#int())。
 
+内置函数 `bin()`, `oct()`, `hex()` 用于将整数转换为前缀为 `'0b'`, `'0o'`, `'0x'` 的二、八、十六进制字符串，参见 [`bin()`](./standard-library#bin())。
+
+内置函数 `format()` 可以将整数转换为没有前缀的二、八、十、十六进制字符串，参见 [`format()`](./standard-library#format())。
+
+
+
+### 附加方法
+
+#### bit_length()
+
+返回以二进制表示一个整数所需要的位数，不包括符号位和前面的零。
 
 ```python
-# 进制转换
-bin()	0b1100	# 二进制
-oct()	0o1472	# 八进制
-int()	1989
-hex()	0xff00	# 十六进制
+>>> bin(-37)
+'-0b100101'
+>>> (-37).bit_length()
+6
+```
+
+
+
+#### to_bytes()
+
+返回表示一个整数的字节数组。
+
+```python
+int.to_bytes(length, byteorder, *, signed=False)
+# length      使用的字节数
+# byteorder   字节顺序,'big'表示大端序,'little'表示小端序
+# signed      是否使用补码.若为`False`且整数为负,则引发`OverflowError`
+```
+
+```python
+>>> (1).to_bytes(2, byteorder='big')
+b'\x00\x01'
+>>> (1).to_bytes(2, byteorder='little')
+b'\x01\x00'
+>>> (-1).to_bytes(2, byteorder='little', signed=True)
+b'\xff\xff'
+```
+
+
+
+#### from_bytes()
+
+返回字节数组所表示的整数。
+
+```python
+classmethod int.from_bytes(bytes, byteorder, *, signed=False)
+# bytes       字节串
+# byteorder   字节顺序,'big'表示大端序,'little'表示小端序
+# signed      是否使用补码.若为`False`且整数为负,则引发`OverflowError`
+```
+
+```python
+>>> int.from_bytes(b'\x00\x01', byteorder='big')
+1
+>>> int.from_bytes(b'\x00\x01', byteorder='little')
+256
+>>> int.from_bytes(b'\xff\xff', byteorder='little', signed=False)
+65535
+>>> int.from_bytes(b'\xff\xff', byteorder='little', signed=True)
+-1
+>>> int.from_bytes([0, 1], byteorder='little')
+256
 ```
 
 
 
 ## 浮点数
 
+包含小数点、幂运算符 `e` 的数字字面值会生成浮点数：
+
+```python
+>>> 1.23
+>>> 1.
+1.0
+>>> 1e3           # `e3`表示乘10的3次方
+1000.0
+>>> 1.2e5
+120000.0
+```
+
 浮点数通常使用 C 语言的 `double` 来实现，程序运行所在机器上的浮点数的精度和内部表示法可通过 `sys.float_info` 查看。 
 
 ```python
->>> f = 1.2e9           # float, 1.2*10^9
->>> 
+>>> import sys
+>>> sys.float_info
+sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)
+```
+
+内置函数 `float()` 可以构造浮点数，参见 [`float()`](./standard-library#float())。
+
+
+
+### 附加方法
+
+#### as_integer_ratio()
+
+返回一对整数，其比率正好等于原浮点数并且分母为正数。无穷大会引发 `OverflowError` 而 NaN 会引发 `ValueError`。
+
+```python
+>>> (1.2).as_integer_ratio()
+(5404319552844595, 4503599627370496)
+```
+
+
+
+#### is_integer()
+
+如果 `float` 实例可用有限位整数表示则返回 `True`，否则返回 `False`。
+
+```python
+>>> (-2.0).is_integer()
+True
+>>> (3.2).is_integer()
+False
+```
+
+
+
+#### hex()
+
+以十六进制字符串的形式返回一个浮点数表示。对于有限浮点数，这种表示法将总是包含前导的 `0x` 和尾随的 `p` 加指数。
+
+```python
+>>> (1.2).hex()
+'0x1.3333333333333p+0'
+>>> (-1.5).hex()
+'-0x1.8000000000000p+0'
+```
+
+> 由于 Python 浮点数在内部存储为二进制数，因此浮点数与十进制数字符串之间的转换往往会导致微小的舍入错误，而十六进制数字符串却可以精确地表示和描述浮点数。这在进行调试和计算数值时非常有用。
+
+
+
+#### fromhex()
+
+返回十六进制字符串表示的浮点数。字符串可以带有前导和尾随的空格。
+
+```python
+>>> float.fromhex('-0x1.3p+0')
+-1.1875
 ```
 
 
 
 ## 复数
 
-复数包含实部和虚部，分别以一个浮点数表示。
+在数字字面值末尾加上 `'j'` 或 `'J'` 会变为虚数，你可以将其与整数或浮点数相加来得到具有实部和虚部的复数，注意复数的实部和虚部都是浮点类型：
+
+```python
+>>> 1 + 2j
+(1+2j)
+>>> 1.2 + 3.4j
+(1.2+3.4j)
+>>> 1 + 0j
+(1+0j)
+
+>>> (1 + 2j).imag
+2.0                   # 实部和虚部是浮点数,尽管该复数由整数创建
+>>> (1 + 2j).real
+1.0
+```
+
+内置函数 `complex()` 可以构造复数，参见 [`complex()`](./standard-library#complex())。
 
 
 
 ## 算术运算
 
-```python
+所有数字类型都支持下列运算：
 
-10 / 3       # 浮点数除法
-10 // 3	     # 除法取整
-10 % 3       # 除法取余
-10 ** 3      # 10^3
+| 运算        | 结果              | 参见                                |
+| ----------- | ----------------- | ----------------------------------- |
+| `x + y`     | *x* 和 *y* 的和   |                                     |
+| `x - y`     | *x* 和 *y* 的差   |                                     |
+| `x * y`     | *x* 和 *y* 的乘积 |                                     |
+| `x / y`     | *x* 和 *y* 的商   |                                     |
+| `-x`        | *x* 取反          |                                     |
+| `+x`        | *x* 不变          |                                     |
+| `abs(x)`    | *x* 的绝对值或模  | [`abs()`](./standard-library#abs()) |
+| `pow(x, y)` | *x* 的 *y* 次幂   | [`pow()`](./standard-library#pow()) |
+| `x ** y`    | *x* 的 *y* 次幂   |                                     |
+
+整数和浮点数还支持下列运算：
+
+| 运算           | 结果              | 参见                                      |
+| -------------- | ----------------- | ----------------------------------------- |
+| `x // y`       | *x* 和 *y* 的商数 |                                           |
+| `x % y`        | `x / y` 的余数    |                                           |
+| `divmod(x, y)` | `(x // y, x % y)` | [`divmod()`](./standard-library#divmod()) |
+
+注意 `x // y` 总是向负方向舍入，而 `x % y` 可能为正或为负：
+
+```python
+>>> divmod(10, 3)         # math.floor(10/3) = 3
+(3, 1)
+>>> divmod(10, -3)        # math.floor(10/-3) = -4
+(-4, -2)
+>>> divmod(-10, 3)
+(-4, 2)
+>>> divmod(-10, -3)
+(3, -1)
 ```
+
+复数还支持下列运算：
+
+| 运算            | 结果       | 参见 |
+| --------------- | ---------- | ---- |
+| `x.conjugate()` | *x* 的共轭 |      |
 
 
 
 ## 位运算
 
+只有整数支持位运算。位运算相当于对整数的具有无穷多个符号位的补码执行位操作。
 
+位运算的优先级低于算术运算，高于比较运算；一元运算 `~` 具有与其它一元算术运算 (`+` 和 `-`) 相同的优先级。
 
+位运算按优先级从低到高排列：
 
-
-## 赋值语句
+| 运算     | 结果                   | 注释                               |
+| :------- | :--------------------- | :--------------------------------- |
+| `x | y`  | *x* 和 *y* 按位 *或*   |                                    |
+| `x ^ y`  | *x* 和 *y* 按位 *异或* |                                    |
+| `x & y`  | *x* 和 *y* 按位 *与*   |                                    |
+| `x << n` | *x* 左移 *n* 位        | 等价于乘以 `pow(2, n)`             |
+| `x >> n` | *x* 右移 *n* 位        | 等价于除以 `pow(2, n)`，商向下取整 |
+| `~x`     | *x* 逐位取反           |                                    |
 
 ```python
->>> i, j = 0, 1     # i=0, j=1. 实质是元组的封包和解包
->>> a = b = 0       # a=0, b=0. 实质是赋值表达式`b = 0`本身返回`0`
+>>> 240 | 15        # 补码表示为 ..011110000 | ..01111
+255                 # 因此按位或得到 ..011111111
+>>> -240 | -15      # 补码表示为 ..100010000 | ..10001
+-15                 # 因此按位或得到 ..10001
 ```
-
-
-
-
-
-
 
 
 
@@ -488,17 +683,102 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 
 
 
+# 迭代器类型
+
+参见[迭代器和生成器](./iterator-and-generator.md)。
+
+
+
+
+
 # 其它内置类型
+
+## 模块类型
+
+参见[模块](./module-and-package.md#模块)。
+
+```python
+>>> import json
+>>> json
+<module 'json' from '/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/json/__init__.py'>
+>>> type(json)
+<class 'module'>
+>>> dir(json)
+['JSONDecodeError', 'JSONDecoder', 'JSONEncoder', '__all__', '__author__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', '__version__', '_default_decoder', '_default_encoder', 'codecs', 'decoder', 'detect_encoding', 'dump', 'dumps', 'encoder', 'load', 'loads', 'scanner']
+```
+
+
+
+## 函数类型
+
+参见[函数](./function.md)。
+
+```python
+>>> type(abs)
+<class 'builtin_function_or_method'>      # 内置函数
+
+>>> def f():
+...   pass
+... 
+>>> type(f)
+<class 'function'>                        # 自定义函数
+```
+
+
+
+## 方法类型
+
+参见[方法](./oop.md#方法)。
+
+```python
+>>> type(' '.join)
+<class 'builtin_function_or_method'>      # 内置方法
+
+>>> class Student:
+...   def get_score(self):
+...     pass
+... 
+>>> type(Student().get_score)
+<class 'method'>                          # 自定义方法
+```
+
+
+
+## 类类型
+
+类类型 `type` 是一个元类，所有类都是 `type` 的实例，包括 `type` 自身。
+
+```python
+>>> type(int)           # 内置类型
+<class 'type'>
+>>> dir(int)
+['__abs__', '__add__', '__and__', '__bool__', '__ceil__', '__class__', '__delattr__', '__dir__', '__divmod__', '__doc__', '__eq__', '__float__', '__floor__', '__floordiv__', '__format__', '__ge__', '__getattribute__', '__getnewargs__', '__gt__', '__hash__', '__index__', '__init__', '__init_subclass__', '__int__', '__invert__', '__le__', '__lshift__', '__lt__', '__mod__', '__mul__', '__ne__', '__neg__', '__new__', '__or__', '__pos__', '__pow__', '__radd__', '__rand__', '__rdivmod__', '__reduce__', '__reduce_ex__', '__repr__', '__rfloordiv__', '__rlshift__', '__rmod__', '__rmul__', '__ror__', '__round__', '__rpow__', '__rrshift__', '__rshift__', '__rsub__', '__rtruediv__', '__rxor__', '__setattr__', '__sizeof__', '__str__', '__sub__', '__subclasshook__', '__truediv__', '__trunc__', '__xor__', 'as_integer_ratio', 'bit_length', 'conjugate', 'denominator', 'from_bytes', 'imag', 'numerator', 'real', 'to_bytes']
+
+>>> type(Student)       # 自定义类
+<class 'type'>
+
+>>> type(type)          # `type`自身
+<class 'type'>
+```
+
+
 
 ## 空类型
 
-空类型 `NoneType` 只有一个实例（单例模式）`None`（是内置常量），该对象由不显式返回值的函数返回，并且不支持任何特殊操作。
+空类型 `NoneType` 只有一个实例（单例模式）`None`（是内置常量），该对象表示缺少值，会由不显式返回值的函数返回，或用作默认值参数的默认值。
+
+`None` 不支持任何特殊操作，逻辑值检测的结果为 `False`。
 
 ```python
->>> r = print('Hello!')
+>>> r = print('Hello!')         # 返回`None`
 Hello!
 >>> print(r)
 None
+
+>>> def f(data: dict = None):   # `None`作为默认值
+...   if dict is None:          # 判断是否为`None`
+...     dict = {}
+... 
 
 >>> type(None)
 <class 'NoneType'>
@@ -512,6 +792,10 @@ None
 
 未实现类型 `NotImplementedType` 只有一个实例（单例模式）`NotImplemented`（是内置常量），当比较和二元运算被应用于它们不支持的类型时，可以返回该对象。
 
+当比较或二元运算方法返回 `NotImplemented` 时，解释器将尝试对另一种类型的反射操作（或其他一些回滚操作，取决于运算符）。如果所有尝试都返回 `NotImplemented`，则解释器将引发适当的异常。
+
+`NotImplementedType` 不支持任何特殊操作，逻辑值检测的结果为 `True`（在未来的版本中进行逻辑值检测将引发 `TypeError`）。
+
 ```python
 >>> class Person:
 ...   def __lt__(self, other):
@@ -521,12 +805,14 @@ None
 ... 
 >>> p1 = Person()
 >>> p2 = Person()
->>> p1 < p2             # 调用 `p1.__lt__(p2)` 返回 `NotImplemented`, 于是再调用 `p2.__gt__(p1)` 返回 `False`
+>>> p1 < p2             # 首先调用 `p1.__lt__(p2)` 返回 `NotImplemented`, 再调用 `p2.__gt__(p1)` 返回 `False`
                         # 因此最终返回 `False`
 False
 
 >>> type(NotImplemented)
 <class 'NotImplementedType'>
+>>> dir(NotImplemented)
+['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
 ```
 
 `NotImplemented` 与 `NotimplementedError` 的关系参见……
@@ -535,15 +821,12 @@ False
 
 
 
-# 类型转换
+# 赋值语句
 
 ```python
-int()	     # 转换为整数类型
-float()    # 浮点
-str()      # 字符串
+>>> i, j = 0, 1     # i=0, j=1. 实质是元组的封包和解包
+>>> a = b = 0       # a=0, b=0. 实质是赋值表达式`b = 0`本身返回`0`
 ```
-
-
 
 
 

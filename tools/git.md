@@ -195,7 +195,15 @@ $ git push -f origin branch1
 
 
 
-## 修改commit的
+## 修改commit的message
+
+```shell
+$ git commit -m "Some messages."
+
+$ git commit --amend -m "Modified messages."
+```
+
+
 
 
 

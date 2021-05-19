@@ -49,18 +49,20 @@ False
 
 ## bin()
 
-将整数转换为前缀为“0b”的二进制字符串。如果参数不是 Python 的 `int` 类型的实例，那么它需要定义 `__index__()` 方法返回一个整数。
+将整数转换为前缀为 `'0b'` 的二进制字符串。如果参数不是  `int` 类型，那么它需要定义 `__index__()` 方法返回一个整数。
 
 ```python
 >>> bin(3)
 '0b11'
 >>> bin(-10)
 '-0b1010'
+>>> bin(0b1100)
+'0b1100'
 ```
 
 
 
-## bool()
+## bool
 
 ```python
 class bool([x])
@@ -105,7 +107,7 @@ class bool([x])
 
 
 
-## complex()
+## complex
 
 ```python
 class complex([real[, imag]])
@@ -237,13 +239,18 @@ format(value[, format_spec])
 将 *value* 转换为 *format_spec* 控制的格式化表示。*format_spec* 的解释取决于 *value* 实参的类型，但是大多数内置类型使用标准格式化语法。
 
 ```python
->>> format('Alice', 's')
+>>> format('Alice', 's')   # 's': 字符串
 'Alice'
->>> format(123, 'b')
+>>> format(123, 'b')       # 'b': 二进制整数
 '1111011'
+>>> format(123, 'o')       # 'o': 八进制整数
+'173'
+>>> format(123, 'd')       # 'd': 十进制整数
+'123'
+>>> format(123, 'x')       # 'x': 十六进制整数
+'7b'
+
 ```
-
-
 
 
 
@@ -275,12 +282,14 @@ hasattr(object, name)
 
 ## hex()
 
-将整数转换为前缀为“0x”的小写十六进制字符串。
+将整数转换为前缀为 `'0x'` 的小写十六进制字符串。如果参数不是  `int` 类型，那么它需要定义 `__index__()` 方法返回一个整数。
 
 ```python
 >>> hex(255)
 '0xff'
 >>> hex(-42)
+'-0x2a'
+>>> hex(-0x2a)
 '-0x2a'
 ```
 
@@ -292,7 +301,56 @@ hasattr(object, name)
 
 
 
-## int()
+## int
+
+> `int()` 习惯上也称为内置函数，尽管它表示 `int` 类的实例化。`float()`, `complex()`, `bool()` 等同理。
+
+```python
+class int([x])
+class int(x, base=10)
+```
+
+如果 *x* 是整数字面值或字符串，则返回基于 *x* 构造的整数对象；如果 *x* 是浮点数，则将 *x* 向零舍入；如果 *x* 定义了 `__int__()`，则返回 `x.__int__()`；如果 *x* 定义了 `__index__()`，则返回 `x.__index__()`；如果 *x* 定义了 `__trunc__()`，则返回 `x.__trunc__()`；如果未传入参数，则返回 `0`。
+
+```python
+>>> int(1)            # 整数字面值
+1
+>>> int('2')          # 字符串
+2
+>>> int(1.2)          # 浮点数
+1
+>>> int(0b1100)       # 二进制整数
+12
+>>> int(0o1472)       # 八进制整数
+826
+>>> int(0xff00)       # 十六进制整数
+65280
+
+
+>>> class Student:
+...   def __index__(self):    # 定义了`__index__()`
+...     return 1
+... 
+>>> s = Student()
+>>> int(s)
+1
+
+>>> int()
+0
+```
+
+如果有 *base* 参数，则 *x* 必须是表示进制为 *base* 的整数字面值的字符串、`bytes` 或 `bytearray` 实例，该字符串/字节串前可以有 `+` 或 `-` （中间不能有空格），前后可以有空格。允许的进制有 0、2-36，其中 2, 8, 16 进制允许字符串/字节串加上前缀 `'0b'`/`'0B'`, `'0o'`/`'0O'`, `'0x'`/`'0X'`（也可以不加）。进制为 0 表示按照字符串/字节串的前缀确定进制是 2, 8, 10 还是 16。
+
+一个进制为 n 的整数可以使用 0 到 n-1 的数字，其中 10 到 35 用 `a` 到 `z` （或 `A` 到 `Z` ）表示。
+
+```python
+>>> int('ff00', base=16)       # 不使用前缀'0x'
+65280
+>>> int('0xff00', base=16)     # 使用前缀'0x'
+65280
+>>> int('0xff00', base=0)      # 通过前缀识别进制为16
+65280
+```
 
 
 
@@ -318,7 +376,7 @@ hasattr(object, name)
 iter(object[, sentinel])
 ```
 
-如果没有第二个实参，*object* 必须支持迭代协议（提供 `__iter__()` 方法）、序列协议（提供 `__getitem__()` 方法且键为从 0 开始的整数）或映射协议（提供 `__getitem__()` 方法和 `keys()` 方法（返回键的可迭代对象）），如果它不支持这些协议，会引发 `TypeError`。如果有第二个实参 *sentinel*，那么 *object* 必须是可调用对象，这种情况下返回的迭代器，每次调用 `__next__()` 方法时都会不带实参地调用 *object*；如果返回的结果是 *sentinel* 则触发 `StopIteration`，否则返回调用结果。
+如果没有第二个实参，*object* 必须支持迭代器协议（提供 `__iter__()` 方法）、序列协议（提供 `__getitem__()` 方法且键为从 0 开始的整数）或映射协议（提供 `__getitem__()` 方法和 `keys()` 方法（返回键的可迭代对象）），如果它不支持这些协议，会引发 `TypeError`。如果有第二个实参 *sentinel*，那么 *object* 必须是可调用对象，这种情况下返回的迭代器，每次调用 `__next__()` 方法时都会不带实参地调用 *object*；如果返回的结果是 *sentinel* 则触发 `StopIteration`，否则返回调用结果。
 
 
 
@@ -443,6 +501,17 @@ iter(object[, sentinel])
 
 ## oct()
 
+将整数转换为前缀为 `'0o'` 的八进制字符串。如果参数不是  `int` 类型，那么它需要定义 `__index__()` 方法返回一个整数。
+
+```python
+>>> oct(8)
+'0o10'
+>>> oct(-56)
+'-0o70'
+>>> oct(-0o70)
+'-0o70'
+```
+
 
 
 ## open()
@@ -468,11 +537,20 @@ iter(object[, sentinel])
 
 ## pow()
 
+```python
+pow(base, exp[, mod])
+```
+
 返回 *base* 的 *exp* 次幂；如果 *mod* 存在，则返回 *base* 的 *exp* 次幂对 *mod* 取余（比 `pow(base,exp)% mod`更高效）。两参数形式`pow(base,exp)`等价于乘方运算符：`base**exp`。
 
 ```python
->>> pow(37, 2, mod=97)
-11
+>>> pow(16, 2)
+256
+>>> pow(16, 2, mod=15)
+1
+
+>>> pow(0, 0)
+1                     # 惯例
 ```
 
 
@@ -641,7 +719,7 @@ class type(name, bases, dict)
 
 检测对象类型推荐使用 `isinstance()`，因为它会考虑子类的情况。
 
-传入三个参数时，返回一个新的 type 对象。这在本质上是 `class` 语句的一种动态形式，*name* 字符串即类名并会成为 `__name__` 属性；*bases* 元组包含基类并会成为 `__bases__` 属性；如果为空则会添加所有类的终极基类 `object`；*dict* 字典包含类主体的属性和方法定义，它在成为 `__dict__` 属性之前可能会被拷贝或包装。 
+传入三个参数时，返回一个新的 `type` 对象。这在本质上是 `class` 语句的一种动态形式，*name* 字符串即类名并会成为 `__name__` 属性；*bases* 元组包含基类并会成为 `__bases__` 属性；如果为空则会添加所有类的终极基类 `object`；*dict* 字典包含类主体的属性和方法定义，它在成为 `__dict__` 属性之前可能会被拷贝或包装。 
 
 ```python
 >>> X = type('X', (), dict(a=1, f=abs))   # 类本身是一个`type`实例
@@ -762,7 +840,7 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 # collections——容器数据类型
 
-参见数据结构-容器数据类型。
+参见 [`collections` 容器数据类型](./container-type.md#`collections` 容器数据类型)。
 
 
 
@@ -770,7 +848,7 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 # collections.abc——容器的抽象基类
 
-参见数据结构-自定义容器数据类型。
+参见 [自定义容器数据类型](./container-type.md#自定义容器数据类型)。
 
 
 
@@ -1243,276 +1321,7 @@ interchange format.
 
 # itertools——为高效循环而创建迭代器的函数
 
-## 总览
-
-**无穷迭代器**
-
-| 迭代器                  | 实参          | 结果                                  | 示例                                    |
-| :---------------------- | :------------ | :------------------------------------ | :-------------------------------------- |
-| [`count()`](#count())   | start, [step] | start, start+step, start+2*step, ...  | `count(10) --> 10 11 12 13 14 ...`      |
-| [`cycle()`](#cycle())   | p             | p0, p1, ... plast, p0, p1, ...        | `cycle('ABCD') --> A B C D A B C D ...` |
-| [`repeat()`](#repeat()) | elem [,n]     | elem, elem, elem, ... 重复无限次或n次 | `repeat(10, 3) --> 10 10 10`            |
-
-**根据最短输入序列长度停止的迭代器**
-
-| 迭代器                                           | 实参                        | 结果                                             | 示例                                                       |
-| :----------------------------------------------- | :-------------------------- | :----------------------------------------------- | :--------------------------------------------------------- |
-| [`accumulate()`](#accumulate())                  | p [,func]                   | p0, p0+p1, p0+p1+p2, ...                         | `accumulate([1,2,3,4,5]) --> 1 3 6 10 15`                  |
-| [`chain()`](#chain())                            | p, q, ...                   | p0, p1, ... plast, q0, q1, ...                   | `chain('ABC', 'DEF') --> A B C D E F`                      |
-| [`chain.from_iterable()`](chain.from_iterable()) | iterable                    | p0, p1, ... plast, q0, q1, ...                   | `chain.from_iterable(['ABC', 'DEF']) --> A B C D E F`      |
-| [`compress()`](compress())                       | data, selectors             | (d[0] if s[0]), (d[1] if s[1]), ...              | `compress('ABCDEF', [1,0,1,0,1,1]) --> A C E F`            |
-| [`dropwhile()`](dropwhile())                     | pred, seq                   | seq[n], seq[n+1], ... 从pred首次真值测试失败开始 | `dropwhile(lambda x: x<5, [1,4,6,4,1]) --> 6 4 1`          |
-| [`filterfalse()`](filterfalse())                 | pred, seq                   | seq中pred(x)为假值的元素，x是seq中的元素。       | `filterfalse(lambda x: x%2, range(10)) --> 0 2 4 6 8`      |
-| [`groupby()`](groupby())                         | iterable[, key]             | 根据key(v)值分组的迭代器                         |                                                            |
-| [`islice()`](islice())                           | seq, [start,] stop [, step] | seq[start:stop:step]中的元素                     | `islice('ABCDEFG', 2, None) --> C D E F G`                 |
-| [`starmap()`](starmap())                         | func, seq                   | func(\*seq[0]), func(\*seq[1]), ...              | `starmap(pow, [(2,5), (3,2), (10,3)]) --> 32 9 1000`       |
-| [`takewhile()`](takewhile())                     | pred, seq                   | seq[0], seq[1], ..., 直到pred真值测试失败        | `takewhile(lambda x: x<5, [1,4,6,4,1]) --> 1 4`            |
-| [`tee()`](tee())                                 | it, n                       | it1, it2, ... itn 将一个迭代器拆分为n个迭代器    |                                                            |
-| [`zip_longest()`](zip_longest())                 | p, q, ...                   | (p[0], q[0]), (p[1], q[1]), ...                  | `zip_longest('ABCD', 'xy', fillvalue='-') --> Ax By C- D-` |
-
-**排列组合迭代器**
-
-| 迭代器                                                       | 实参                 | 结果                                  |
-| :----------------------------------------------------------- | :------------------- | :------------------------------------ |
-| [`product()`](#product())                                    | p, q, ... [repeat=1] | 笛卡尔积，相当于嵌套的for循环         |
-| [`permutations()`](#permutations())                          | p[, r]               | 长度r元组，所有可能的排列，无重复元素 |
-| [`combinations()`](#combinations())                          | p, r                 | 长度r元组，有序，无重复元素           |
-| [`combinations_with_replacement()`](#combinations_with_replacement()) | p, r                 | 长度r元组，有序，元素可重复           |
-
-| 示例                                       | 结果                                              |
-| :----------------------------------------- | :------------------------------------------------ |
-| `product('ABCD', repeat=2)`                | `AA AB AC AD BA BB BC BD CA CB CC CD DA DB DC DD` |
-| `permutations('ABCD', 2)`                  | `AB AC AD BA BC BD CA CB CD DA DB DC`             |
-| `combinations('ABCD', 2)`                  | `AB AC AD BC BD CD`                               |
-| `combinations_with_replacement('ABCD', 2)` | `AA AB AC AD BB BC BD CC CD DD`                   |
-
-
-
-## chain()
-
-创建一个迭代器，它首先返回第一个可迭代对象中所有元素，接着返回下一个可迭代对象中所有元素，直到耗尽所有可迭代对象。大致相当于：
-
-```python
-def chain(*iterables):
-    for it in iterables:
-        for element in it:
-            yield element
-            
-# chain('ABC', 'DEF') --> A B C D E F
-```
-
-
-
-## chain.from_iterable()
-
-类似于 `chain()`，但是接受的参数是包含多个可迭代对象元素的可迭代对象。大致相当于：
-
-```python
-def from_iterable(iterables):
-    for it in iterables:
-        for element in it:
-            yield element
-            
-# chain.from_iterable(['ABC', 'DEF']) --> A B C D E F
-```
-
-
-
-## combinations()
-
-创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为 `r` 的所有子序列。大致相当于：
-
-```python
-def combinations(iterable, r):
-    pool = tuple(iterable)
-    n = len(pool)
-    if r > n:
-        return
-    indices = list(range(r))
-    yield tuple(pool[i] for i in indices)
-    while True:
-        for i in reversed(range(r)):
-            if indices[i] != i + n - r:
-                break
-        else:
-            return
-        indices[i] += 1
-        for j in range(i+1, r):
-            indices[j] = indices[j-1] + 1
-        yield tuple(pool[i] for i in indices)
-        
-# combinations('ABCD', 2) --> AB AC AD BC BD CD,   AB for tuple ('A', 'B')
-# combinations(range(4), 3) --> 012 013 023 123,   012 for tuple (0, 1, 2)
-```
-
-
-
-## combinations_with_replacement()
-
-创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为 `r` 的所有子序列，允许每个元素重复出现。大致相当于：
-
-```python
-def combinations_with_replacement(iterable, r):
-    pool = tuple(iterable)
-    n = len(pool)
-    if not n and r:
-        return
-    indices = [0] * r
-    yield tuple(pool[i] for i in indices)
-    while True:
-        for i in reversed(range(r)):
-            if indices[i] != n - 1:
-                break
-        else:
-            return
-        indices[i:] = [indices[i] + 1] * (r - i)
-        yield tuple(pool[i] for i in indices)
-        
-# combinations_with_replacement('ABC', 2) --> AA AB AC BB BC CC
-```
-
-
-
-## count()
-
-创建一个迭代器，它从 `start` 值开始，返回一个等差数列。大致相当于：
-
-```python
-def count(start=0, step=1):
-    n = start
-    while True:
-        yield n
-        n += step
-        
-# count(2.5, 0.5) -> 2.5 3.0 3.5 ...
-```
-
-
-
-## cycle()
-
-创建一个迭代器，返回 `iterable` 中所有元素并保存一个副本。当遍历完 `iterable` 中所有元素后，返回副本中的元素，无限重复。大致相当于：
-
-```python
-def cycle(iterable):
-    saved = []
-    for element in iterable:
-        yield element
-        saved.append(element)
-    while saved:
-        for element in saved:
-              yield element
-                
-# cycle('ABCD') --> A B C D A B C D A B C D ...
-```
-
-
-
-## islice()
-
-创建一个迭代器，返回从可迭代对象以切片方式选中的元素。与普通的切片不同，`islice()` 不支持将 `start,stop,step` 设为负值。大致相当于：
-
-```python
-def islice(iterable, *args):
-    s = slice(*args)
-    start, stop, step = s.start or 0, s.stop or sys.maxsize, s.step or 1
-    it = iter(range(start, stop, step))
-    try:
-        nexti = next(it)
-    except StopIteration:
-        # Consume *iterable* up to the *start* position.
-        for i, element in zip(range(start), iterable):
-            pass
-        return
-    try:
-        for i, element in enumerate(iterable):
-            if i == nexti:
-                yield element
-                nexti = next(it)
-    except StopIteration:
-        # Consume to *stop*.
-        for i, element in zip(range(i + 1, stop), iterable):
-            pass
-          
-# islice('ABCDEFG', 2) --> A B                        stop = 2
-# islice('ABCDEFG', 2, 4) --> C D                     start = 2, stop = 4
-# islice('ABCDEFG', 2, None) --> C D E F G            start = 2, stop = None
-# islice('ABCDEFG', 0, None, 2) --> A C E G           start = 0, stop = None, step = 2
-```
-
-
-
-## permutations()
-
-创建一个迭代器，它返回由输入可迭代对象中的元素生成的长度为 `r` 的所有排列。大致相当于：
-
-```python
-def permutations(iterable, r=None):
-    pool = tuple(iterable)
-    n = len(pool)
-    r = n if r is None else r
-    if r > n:
-        return
-    indices = list(range(n))
-    cycles = list(range(n, n-r, -1))
-    yield tuple(pool[i] for i in indices[:r])
-    while n:
-        for i in reversed(range(r)):
-            cycles[i] -= 1
-            if cycles[i] == 0:
-                indices[i:] = indices[i+1:] + indices[i:i+1]
-                cycles[i] = n - i
-            else:
-                j = cycles[i]
-                indices[i], indices[-j] = indices[-j], indices[i]
-                yield tuple(pool[i] for i in indices[:r])
-                break
-        else:
-            return
-          
-# permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC,   AB for tuple ('A', 'B')
-# permutations(range(3)) --> 012 021 102 120 201 210,   012 for tuple (0, 1, 2)
-```
-
-
-
-## product()
-
-多个输入可迭代对象的笛卡尔积。大致相当于元组推导式的嵌套循环，例如 `product(A,B)` 和 `((x,y)for x in A for y in B)` 返回结果一样。
-
-要计算可迭代对象自身的笛卡尔积，将可选参数 *repeat* 设定为要重复的次数。例如 `product(A,repeat=4)` 和 `product(A,A,A,A)` 是一样的。
-
-```python
-# product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
-# product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
-```
-
-
-
-## repeat()
-
-创建一个迭代器，不断重复 *object*。设定参数 *times* 将会重复如此多次，否则将无限重复。大致相当于：
-
-```python
-def repeat(object, times=None):
-    if times is None:
-        while True:
-            yield object
-    else:
-        for i in range(times):
-            yield object
-            
-# repeat(10, 3) --> 10 10 10            
-```
-
-*repeat* 最常见的用途就是在 *map* 或 *zip* 提供一个常量流：
-
-```python
->>> list(map(pow, range(10), repeat(2)))
-[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
-```
-
-
+参见[`itertools` 创建常用迭代器](./iterator-and-generator.md#`itertools` 创建常用迭代器)。
 
 
 

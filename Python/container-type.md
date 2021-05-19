@@ -775,7 +775,7 @@ L2 = sorted(L, key=by_score, reverse=True)
 
 
 
-# 容器数据类型
+# `collections` 容器数据类型
 
 `collections` 模块实现了一些具有特定功能的容器，以提供 Python 标准内建容器 `dict`，`list`，`set` 和 `tuple` 的替代选择。
 
