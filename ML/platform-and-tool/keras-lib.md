@@ -2,16 +2,16 @@
 
 
 
-在 TensorFlow 中，推荐使用 Keras（ `tf.keras` ）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
+在 TensorFlow 中，推荐使用 Keras（`tf.keras`）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
 
 Keras 提供了定义和训练任何类型的神经网络模型的便捷方法，具有以下特性：
 
-+ 允许代码在CPU或GPU上运行并且无缝切换
-+ 提供用户友好的 API 以使得能够快速建模
-+ 提供对于 CNN (for CV)，RNN (for time series) 的内置支持
-+ 支持任意类型的网络结构
+* 允许代码在 CPU 或 GPU 上运行并且无缝切换
+* 提供用户友好的 API 以使得能够快速建模
+* 提供对于 CNN（for CV），RNN（for time series）的内置支持
+* 支持任意类型的网络结构
 
-keras 有两个重要的概念： **模型（model）** 和 **层（layer）** 。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
+keras 有两个重要的概念：**模型（model）**和**层（layer）**。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
 
 
 
@@ -297,7 +297,7 @@ Epoch 2/10
 
 ### TensorBoard
 
-为TensorBoard可视化记录日志。
+为 TensorBoard 可视化记录日志。
 
 ```python
 tf.keras.callbacks.TensorBoard(
@@ -320,18 +320,18 @@ tf.keras.callbacks.TensorBoard(
 
 ### Dense
 
-全连接层（densely connected layer, fully connected layer, `tf.keras.layers.Dense` ）是 keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数，即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input = [batch_size, input_dim]` ，该层对输入张量首先进行 `tf.matmul(input, kernel) + bias` 的线性变换（ `kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation` ，从而输出形状为 `[batch_size, units]` 的二维张量。
+全连接层（densely connected layer，fully connected layer，`tf.keras.layers.Dense`）是 keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行`tf.matmul(input,kernel)+ bias`的线性变换（`kernel`和`bias`是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数`activation`，从而输出形状为`[batch_size,units]` 的二维张量。
 
 [![../../_images/dense.png](https://tf.wiki/_images/dense.png)](https://tf.wiki/_images/dense.png)
 
 其包含的主要参数如下：
 
-+ `units` ：神经元的个数，也是输出张量的维度
-+ `activation` ：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu` 、 `tf.nn.tanh` 和 `tf.nn.sigmoid` 
-+ `use_bias` ：是否加入偏置向量 `bias` ，默认为 `True` 
-+ `kernel_initializer` 、 `bias_initializer` ：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0
+* `units`：神经元的个数，也是输出张量的维度
+* `activation`：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu`、`tf.nn.tanh` 和 `tf.nn.sigmoid` 
+* `use_bias`：是否加入偏置向量 `bias`，默认为 `True` 
+* `kernel_initializer`、`bias_initializer`：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0
 
-该层包含权重矩阵 `kernel = [input_dim, units]` 和偏置向量 `bias = [units]`两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
+该层包含权重矩阵 `kernel =[input_dim,units]`和偏置向量`bias =[units]` 两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
 
 
 
@@ -341,12 +341,12 @@ tf.keras.callbacks.TensorBoard(
 
 其包含的主要参数如下：
 
-+ `filters`：输出特征映射的个数
-+ `kernel_size`：整数或整数1×2向量，（分别）表示二维卷积核的高和宽
-+ `strides`：整数或整数1×2向量，（分别）表示卷积的纵向和横向步长
-+ `padding`：`"valid"`表示对于不够卷积核大小的部分丢弃，`"same"`表示对于不够卷积核大小的部分补0，默认为`"valid"`
-+ `activation`：激活函数，默认为无激活函数
-+ `use_bias`：是否使用偏置，默认为使用
+* `filters`：输出特征映射的个数
+* `kernel_size`：整数或整数 1×2 向量，（分别）表示二维卷积核的高和宽
+* `strides`：整数或整数 1×2 向量，（分别）表示卷积的纵向和横向步长
+* `padding`：`"valid"` 表示对于不够卷积核大小的部分丢弃，`"same"` 表示对于不够卷积核大小的部分补 0，默认为 `"valid"`
+* `activation`：激活函数，默认为无激活函数
+* `use_bias`：是否使用偏置，默认为使用
 
 示例：
 
@@ -387,9 +387,9 @@ model.summary()
 
 其包含的主要参数如下：
 
-+ `pool_size`：最大汇聚的区域规模，默认为`(2,2)`
-+ `strides`：最大汇聚的步长，默认为`None`
-+ `padding`：`"valid"`表示对于不够区域大小的部分丢弃，`"same"`表示对于不够区域大小的部分补0，默认为`"valid"`
+* `pool_size`：最大汇聚的区域规模，默认为 `(2,2)`
+* `strides`：最大汇聚的步长，默认为 `None`
+* `padding`：`"valid"` 表示对于不够区域大小的部分丢弃，`"same"` 表示对于不够区域大小的部分补 0，默认为 `"valid"`
 
 
 
@@ -397,30 +397,30 @@ model.summary()
 
 > 参考[单词嵌入向量](https://www.tensorflow.org/tutorials/text/word_embeddings)
 
-嵌入层可以被理解为整数（单词索引）到密集向量的映射。嵌入层输入形如`(samples, sequence_length)`的二维整数张量，因此所有的整数序列都应填充或裁剪到相同的长度；输出形如`(samples, sequence_ length, embedding_dimensionality)`的三维浮点张量，再输入给 RNN 层处理。
+嵌入层可以被理解为整数（单词索引）到密集向量的映射。嵌入层输入形如 `(samples,sequence_length)` 的二维整数张量，因此所有的整数序列都应填充或裁剪到相同的长度；输出形如 `(samples,sequence_ length,embedding_dimensionality)` 的三维浮点张量，再输入给 RNN 层处理。
 
 嵌入层在刚初始化时所有的权重参数都是随机的，就如同其它的层一样。在训练过程中这些参数会根据反向传播算法逐渐更新，嵌入空间会逐渐显现出更多结构（这些结构适应于当前的具体问题）。
 
 其包含的主要参数如下：
 
-+ `input_dim`：字典的规模
-+ `output_dim`：嵌入向量的规模
-+ `mask_zero`：是否将输入中的0看作填充值而忽略之，默认为`False`
-+ `input_length`：输入序列的长度（如果该长度固定），默认为`None`；如果此嵌入层后接`Flatten`层，再接`Dense`层，则必须制定此参数
+* `input_dim`：字典的规模
+* `output_dim`：嵌入向量的规模
+* `mask_zero`：是否将输入中的 0 看作填充值而忽略之，默认为 `False`
+* `input_length`：输入序列的长度（如果该长度固定），默认为 `None`；如果此嵌入层后接 `Flatten` 层，再接 `Dense` 层，则必须制定此参数
 
-示例见SimpleRNN，LSTM。
+示例见 SimpleRNN，LSTM。
 
 
 
 ### SimpleRNN
 
-SRN层是最简单的循环神经网络层。
+SRN 层是最简单的循环神经网络层。
 
 其包含的主要参数如下：
 
-+ `units`：输出向量的维度
-+ `activation`：激活函数，默认为`tanh`
-+ `return_sequences`：`False`表示最后输出一个向量，即序列到类别模式；`True`表示每个时间步长输出一个向量，即序列到序列模式。
+* `units`：输出向量的维度
+* `activation`：激活函数，默认为 `tanh`
+* `return_sequences`：`False` 表示最后输出一个向量，即序列到类别模式；`True` 表示每个时间步长输出一个向量，即序列到序列模式。
 
 实践中一般使用 LSTM 和 GRU 而非 SRN。
 
@@ -505,7 +505,7 @@ LSTM 层。
 
 其包含的主要参数如下：
 
-+ `units`：输出空间的规模
+* `units`：输出空间的规模
 
 
 
@@ -574,7 +574,7 @@ RNN 的输入序列存在顺序，打乱或反序都会彻底改变 RNN 从序�
 
 ![Screenshot from 2020-09-28 19-00-29.png](https://i.loli.net/2020/09/28/i2V36gZhtIv7BJA.png)
 
-`keras`中，`Bidirectional`实现为创建一个参数指定的 RNN 层，再创建一个相同的 RNN 层处理反序的输入序列。
+`keras` 中，`Bidirectional` 实现为创建一个参数指定的 RNN 层，再创建一个相同的 RNN 层处理反序的输入序列。
 
 示例：
 
@@ -706,7 +706,7 @@ keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=
 
 ### save()
 
-保存模型为 TensorFlow SavedModel 或 HDF5 文件。参见 [`keras.models.save_model()`](#save_model())。
+保存模型为 TensorFlow SavedModel 或 HDF5 文件。参见[`keras.models.save_model()`](#save_model（)）。
 
 ```python
 keras.Model.save(filepath, overwrite=True, include_optimizer=True, save_format=None, signatures=None, options=None, save_traces=True)
@@ -884,7 +884,7 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
 
 ### to_yaml()
 
-返回一个包含模型配置的 yaml 字符串。参考 [`keras.Model.to_json()`](#to_json())。
+返回一个包含模型配置的 yaml 字符串。参考[`keras.Model.to_json()`](#to_json（)）。
 
 
 
@@ -908,7 +908,7 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
 
 ### model_from_json()
 
-从模型配置的 JSON 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile())，网络参数为随机的初始值。参见 [`keras.Model.to_json()`](#to_json())。
+从模型配置的 JSON 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile（)），网络参数为随机的初始值。参见[`keras.Model.to_json()`](#to_json（)）。
 
 
 
@@ -916,7 +916,7 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
 
 ### model_from_yaml()
 
-从模型配置的 yaml 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile())，网络参数为随机的初始值。参见 [`keras.Model.to_yaml()`](#to_yaml())。
+从模型配置的 yaml 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile（)），网络参数为随机的初始值。参见[`keras.Model.to_yaml()`](#to_yaml（)）。
 
 
 
@@ -934,7 +934,7 @@ keras.models.save_model(model, filepath, overwrite=True, include_optimizer=True,
 
 # Sequential
 
-`Sequential` 返回一个 `keras.Model` 对象。`Sequential` 模型将各层线性组合，适用于FNN，CNN，RNN，其中每一层都有**一个输入张量和一个输出张量** 。
+`Sequential` 返回一个 `keras.Model` 对象。`Sequential` 模型将各层线性组合，适用于 FNN，CNN，RNN，其中每一层都有**一个输入张量和一个输出张量**。
 
 以下 `Sequential` 模型
 
@@ -962,7 +962,7 @@ x = tf.ones((4, 10))
 y = layer3(layer2(layer1(x)))
 ```
 
-`Sequential`模型也可以用`add()`方法创建
+`Sequential` 模型也可以用 `add()` 方法创建
 
 ```python
 model = keras.Sequential()
@@ -973,7 +973,7 @@ model.add(keras.layers.Dense(1))
 
 
 
-CNN模型示例：
+CNN 模型示例：
 
 ```python
 model = models.Sequential()
@@ -993,7 +993,7 @@ model.add(layers.Dense(10))
 
 ### 自定义模型
 
-Keras 模型以类的形式呈现，我们可以通过继承 `tf.keras.Model` 这个 Python 类来定义自己的模型。在继承类中，我们需要重写 `__init__()` （构造函数，初始化）和 `call(input)` （模型调用）两个方法，同时也可以根据需要增加自定义的方法。
+Keras 模型以类的形式呈现，我们可以通过继承 `tf.keras.Model` 这个 Python 类来定义自己的模型。在继承类中，我们需要重写 `__init__()`（构造函数，初始化）和 `call(input)`（模型调用）两个方法，同时也可以根据需要增加自定义的方法。
 
 ```python
 class MyModel(tf.keras.Model):

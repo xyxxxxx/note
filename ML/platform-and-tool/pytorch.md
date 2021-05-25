@@ -2,7 +2,7 @@
 
 # [Learning PyTorch with Examples](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#)
 
-首先使用numpy实现一个简单的二层FNN：
+首先使用 numpy 实现一个简单的二层 FNN：
 
 ```python
 import numpy as np
@@ -46,7 +46,7 @@ for t in range(500):
 
 
 
-现在用torch实现上述FNN，并且使用自动梯度计算autograd：
+现在用 torch 实现上述 FNN，并且使用自动梯度计算 autograd：
 
 ```python
 import torch
@@ -387,7 +387,7 @@ with torch.no_grad():
 
 ## 使用GPU训练
 
-如果你有一块具有CUDA功能的GPU，就可以利用它加速模型计算。首先检查PyTorch是否可以使用GPU：
+如果你有一块具有 CUDA 功能的 GPU，就可以利用它加速模型计算。首先检查 PyTorch 是否可以使用 GPU：
 
 ```python
 print(torch.cuda.is_available())
@@ -400,16 +400,16 @@ print(torch.cuda.is_available())
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 ```
 
-将模型和输入模型的张量都移动到GPU中：
+将模型和输入模型的张量都移动到 GPU 中：
 
 ```python
 model.to(device)
 data = data.to(device)
 ```
 
-`model.to(device)`将模型中的所有参数移动到GPU中；`tensor.to(device)`则是返回`tensor`在GPU中的一个新副本，因此需要覆写原张量`tensor = tensor.to(device)`。注意模型和数据需要在同一设备（CPU或GPU）中，否则会产生一个运行时错误。
+`model.to(device)` 将模型中的所有参数移动到 GPU 中；`tensor.to(device)` 则是返回 `tensor` 在 GPU 中的一个新副本，因此需要覆写原张量 `tensor = tensor.to(device)`。注意模型和数据需要在同一设备（CPU 或 GPU）中，否则会产生一个运行时错误。
 
-上面的MNIST例子使用CPU训练，将其改造为使用GPU训练，需要增加如下代码：
+上面的 MNIST 例子使用 CPU 训练，将其改造为使用 GPU 训练，需要增加如下代码：
 
 ```python
 # device
@@ -1062,11 +1062,11 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 >
 > pytorch-lib-autograd
 
-`torch.autograd`是Pytorch的自动微分引擎，用于驱动神经网络训练。
+`torch.autograd` 是 PyTorch 的自动微分引擎，用于驱动神经网络训练。
 
 ## 用法
 
-先来看一个单步训练的例子：我们从`torchvision`中加载一个预处理resnet18模型，创建一个随机的张量代表一张3通道、宽64、高64的图片，其相应的标签也用随机数进行初始化：
+先来看一个单步训练的例子：我们从 `torchvision` 中加载一个预处理 resnet18 模型，创建一个随机的张量代表一张 3 通道、宽 64、高 64 的图片，其相应的标签也用随机数进行初始化：
 
 ```python
 import torch, torchvision
@@ -1081,7 +1081,7 @@ labels = torch.rand(1, 1000)
 prediction = model(data) # forward pass
 ```
 
-下一步计算损失和进行反向传播。反向传播通过我们对误差张量调用`.backward()`启动，autograd会计算所有模型参数的梯度并保存在每个参数的`.grad`属性中。
+下一步计算损失和进行反向传播。反向传播通过我们对误差张量调用 `.backward()` 启动，autograd 会计算所有模型参数的梯度并保存在每个参数的 `.grad` 属性中。
 
 ```python
 loss = (prediction - labels).sum()
@@ -1094,7 +1094,7 @@ loss.backward() # backward pass
 optim = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
 ```
 
-最后，调用`.step()`初始化梯度下降，优化器会根据每一个参数的`.grad`属性中存储的梯度调整各参数。
+最后，调用 `.step()` 初始化梯度下降，优化器会根据每一个参数的 `.grad` 属性中存储的梯度调整各参数。
 
 ```python
 optim.step()
@@ -1104,19 +1104,19 @@ optim.step()
 
 ## 张量
 
-autograd使用张量的下列属性：
+autograd 使用张量的下列属性：
 
-+ `data`：存储的数据信息
-+ `requires_grad`：设置为`True`表示张量需要计算梯度
-+ `grad`：张量的梯度值，记得每次迭代时归零，否则会累加
-+ `grad_fn`：表示得到张量的运算，叶节点通常为`None`
-+ `is_leaf`：指示张量是否为叶节点
+* `data`：存储的数据信息
+* `requires_grad`：设置为 `True` 表示张量需要计算梯度
+* `grad`：张量的梯度值，记得每次迭代时归零，否则会累加
+* `grad_fn`：表示得到张量的运算，叶节点通常为 `None`
+* `is_leaf`：指示张量是否为叶节点
 
 
 
 ## 自动微分
 
-来看一个简单的例子。我们创建两个张量`a`和`b`，使用选项`requires_grad=True`：
+来看一个简单的例子。我们创建两个张量 `a` 和 `b`，使用选项 `requires_grad=True`：
 
 ```python
 import torch
@@ -1132,7 +1132,7 @@ b = torch.tensor(2., requires_grad=True)
 > a.requires_grad = True
 > ```
 
-创建另一个张量$$c=a^2+b$$：
+创建另一个张量 $$c=a^2+b$$：
 
 ```python
 c = a**2 + b
@@ -1140,18 +1140,18 @@ c = a**2 + b
 
 > `requires_grad = True`具有传递性，只要`a`和`b`中有一个`requires_grad = True`，那么`c`也有`requires_grad = True`。这表示`requires_grad = True`张量的所有运算都需要追踪，其计算路径构成下面的计算图。
 
-假定`a`和`b`是神经网络的参数，`c`是误差。训练过程中，我们想要误差对各参数的梯度，即
+假定 `a` 和 `b` 是神经网络的参数，`c` 是误差。训练过程中，我们想要误差对各参数的梯度，即
 $$
-\frac{\partial c}{\partial a}=2a,\ 
+\frac{\partial c}{\partial a}=2a，\ 
 \frac{\partial c}{\partial b}=1
 $$
-当我们对`c`调用`.backward()`时，autograd计算这些梯度并将其保存在各张量的`.grad`属性中。
+当我们对 `c` 调用 `.backward()` 时，autograd 计算这些梯度并将其保存在各张量的 `.grad` 属性中。
 
 ```python
 c.backward()
 ```
 
-梯度现在被放置在`a.grad`和`b.grad`中：
+梯度现在被放置在 `a.grad` 和 `b.grad` 中：
 
 ```python
 print(c)
@@ -1166,7 +1166,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 
 
 
-再来看一个例子，此时$$c$$是一个向量：
+再来看一个例子，此时 $$c$$ 是一个向量：
 
 ```python
 import torch
@@ -1177,7 +1177,7 @@ b = torch.tensor([2., 4.], requires_grad=True)
 c = a**2 + b
 ```
 
-如果$$c$$对$$a,b$$直接求梯度，将会得到一个矩阵，但我们想要得到与$$a,b$$形状相同的梯度向量。我们可以通过求$$c$$和某常数向量的内积将其转换为标量，例如和全1向量的内积相当于求和所有元素，通过`backward()`的`grad_tensors`参数传入：
+如果 $$c$$ 对 $$a,b$$ 直接求梯度,将会得到一个矩阵,但我们想要得到与 $$a,b$$ 形状相同的梯度向量。我们可以通过求 $$c$$ 和某常数向量的内积将其转换为标量，例如和全 1 向量的内积相当于求和所有元素，通过 `backward()` 的 `grad_tensors` 参数传入：
 
 ```python
 external_grad = torch.tensor([1., 1.])
@@ -1192,7 +1192,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 # tensor([2., 4.]) True tensor([1., 1.]) None True
 ```
 
-改变`grad_tensors`再看结果：
+改变 `grad_tensors` 再看结果：
 
 ```python
 external_grad = torch.tensor([1., 2.])
@@ -1207,7 +1207,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 # tensor([2., 4.]) True tensor([1., 2.]) None True
 ```
 
-改变`grad_tensors`即为多个损失项赋予不同的权重。
+改变 `grad_tensors` 即为多个损失项赋予不同的权重。
 
 
 
@@ -1215,7 +1215,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 
 > 参考：pytorch-lib-torch.autograd.Function
 
-对（`requires_grad=True`的）张量的每一次运算都会创建一个新的`Function`对象，用于执行计算、记录过程。一个最简单的例子：
+对（`requires_grad=True` 的）张量的每一次运算都会创建一个新的 `Function` 对象，用于执行计算、记录过程。一个最简单的例子：
 
 ```python
 import torch
@@ -1228,9 +1228,9 @@ print(c)
 # tensor(3., grad_fn=<AddBackward0>)
 ```
 
-这里的张量加法就是一个`Function`对象。
+这里的张量加法就是一个 `Function` 对象。
 
-我们在构建网络的时候，通常使用`nn.Module` 对象（例如`nn.Conv2d`, `nn.ReLU`等）作为基本单元。而实际上这些 Module 通常包裹了 `Function`对象，作为实际运算（前向和反向计算）的部分。例如`nn.ReLU` 实际使用`torch.nn.functional.relu`（`F.relu`）:
+我们在构建网络的时候，通常使用 `nn.Module` 对象（例如 `nn.Conv2d`，`nn.ReLU` 等）作为基本单元。而实际上这些 Module 通常包裹了 `Function` 对象，作为实际运算（前向和反向计算）的部分。例如 `nn.ReLU` 实际使用 `torch.nn.functional.relu`（`F.relu`）：
 
 ```python
 class ReLU(Module):
@@ -1249,7 +1249,7 @@ class ReLU(Module):
         return inplace_str
 ```
 
-我们可以自定义`Function`对象，以`torch.autograd.Function`为基类，实现`forward()`（前向计算）和`backward()`（反向计算）方法。来看下面的例子：
+我们可以自定义 `Function` 对象，以 `torch.autograd.Function` 为基类，实现 `forward()`（前向计算）和 `backward()`（反向计算）方法。来看下面的例子：
 
 ```python
 class Exp(Function):                    # 此层计算e^x
@@ -1274,7 +1274,7 @@ print(x.grad)                               # tensor([2.7183])
 
 ```
 
-下面的例子展示了如何保存`tensor`之外的变量：
+下面的例子展示了如何保存 `tensor` 之外的变量：
 
 ```python
 class GradCoeff(Function):       
@@ -1297,7 +1297,7 @@ ret.backward()
 print(x.grad)                                   # tensor([-0.4000])，梯度已乘以相应系数
 ```
 
-再来看一个更复杂的例子，一个线性层的`Function`实现：
+再来看一个更复杂的例子，一个线性层的 `Function` 实现：
 
 ```python
 # Inherit from Function
@@ -1348,9 +1348,9 @@ class LinearFunction(Function):
 >
 > [PyTorch 源码解读之 torch.autograd](https://zhuanlan.zhihu.com/p/321449610)
 
-前一节我们描述了单个`Function`对象的前向和反向计算，而实际的模型是由多个函数复合而成，可以抽象为由Function对象组成的有向无环图(DAG)。本节将介绍图级别的前向和反向计算过程。
+前一节我们描述了单个 `Function` 对象的前向和反向计算，而实际的模型是由多个函数复合而成，可以抽象为由 Function 对象组成的有向无环图（DAG）。本节将介绍图级别的前向和反向计算过程。
 
-在前向计算的过程中，autograd会维护一个计算图（有向无环图），每次（`requires_grad=True`的）张量运算都会向其中添加一个Function对象，运算结果的`grad_fn`属性即指向该对象。来看下面的例子：
+在前向计算的过程中，autograd 会维护一个计算图（有向无环图），每次（`requires_grad=True` 的）张量运算都会向其中添加一个 Function 对象，运算结果的 `grad_fn` 属性即指向该对象。来看下面的例子：
 
 ```python
 import torch
@@ -1369,7 +1369,7 @@ loss = l4.mean()
 
 对于上述前向计算过程，构造的计算图为：
 
-<img src="https://pic3.zhimg.com/80/v2-1781041624f4c9fb31df04d11dd6a84a_720w.jpg" style="zoom:50%;" />
+<img src="https://pic3.zhimg.com/80/v2-1781041624f4c9fb31df04d11dd6a84a_720w.jpg"style="zoom：50%;"/>
 
 ```python
 def print_tensor(t):
@@ -1398,11 +1398,11 @@ print_tensor(loss)
 # tensor(40.) None <MeanBackward0 object at 0x7fd7f99aa668> False
 ```
 
-可以看到，变量`l1`的`grad_fn`指向乘法运算符`<MulBackward0>`对象，用于在反向传播中指导梯度计算；叶节点的`grad_fn`为None，因为它们由创建而非运算得到。
+可以看到，变量 `l1` 的 `grad_fn` 指向乘法运算符 `<MulBackward0>` 对象，用于在反向传播中指导梯度计算；叶节点的 `grad_fn` 为 None，因为它们由创建而非运算得到。
 
-计算图中的叶节点是输入张量（模型参数），根节点是输出张量（误差）。在反向传播过程中，autograd会从根节点溯源，利用链式法则计算所有叶节点的梯度。
+计算图中的叶节点是输入张量（模型参数），根节点是输出张量（误差）。在反向传播过程中，autograd 会从根节点溯源，利用链式法则计算所有叶节点的梯度。
 
-张量的`is_leaf`属性表示该张量是否为叶节点。反向计算过程中只有`is_leaf=True`的张量的梯度会被保留。
+张量的 `is_leaf` 属性表示该张量是否为叶节点。反向计算过程中只有 `is_leaf=True` 的张量的梯度会被保留。
 
 反向计算过程为：
 
@@ -1434,13 +1434,13 @@ print_tensor(loss)
 # tensor(40.) None <MeanBackward0 object at 0x7fd7f9160b38> False
 ```
 
-可以看到，只有`is_leaf=True`的张量的`grad`不为None。因为用户一般不会使用中间变量的梯度，为了节约内存/显存，这些梯度在使用之后就被释放了。
+可以看到，只有 `is_leaf=True` 的张量的 `grad` 不为 None。因为用户一般不会使用中间变量的梯度，为了节约内存/显存，这些梯度在使用之后就被释放了。
 
 
 
 
 
-注意Pytorch的计算图是<u>动态的</u>：每次反向计算结束，即调用`.backward()`返回后，计算图就在内存中被释放了；在下次前向计算过程中autograd会再创建一个新的计算图并为其填充数据。而tensorflow使用的静态计算图是预先设计好的。
+注意 PyTorch 的计算图是 <u> 动态的 </u>：每次反向计算结束，即调用 `.backward()` 返回后，计算图就在内存中被释放了；在下次前向计算过程中 autograd 会再创建一个新的计算图并为其填充数据。而 TensorFlow 使用的静态计算图是预先设计好的。
 
 ```python
 # PyTorch使用动态计算图
@@ -1467,9 +1467,9 @@ loss.backward() # 正常
 
 ## 从DAG中移除
 
-autograd追踪所有`requires_grad`属性为`True`的张量。对于那些不需要计算梯度的张量，设定该属性为`False`以将其移除出DAG。
+autograd 追踪所有 `requires_grad` 属性为 `True` 的张量。对于那些不需要计算梯度的张量，设定该属性为 `False` 以将其移除出 DAG。
 
-对于一个张量运算，只要有一个输入张量有`requires_grad=True`，那么输出张量就会有`requires_grad=True`。
+对于一个张量运算，只要有一个输入张量有 `requires_grad=True`，那么输出张量就会有 `requires_grad=True`。
 
 ```python
 x = torch.rand(5, 5)
@@ -1485,11 +1485,11 @@ print(f"Does `b` require gradients?: {b.requires_grad}")
 # Does `b` require gradients?: True
 ```
 
-在神经网络中，不计算梯度的参数通常称为**冻结参数(frozen parameters)**。如果你预先知道模型中的部分参数不需要计算梯度，那么可以冻结这些参数，这将降低autograd的计算量从而提升性能。
+在神经网络中，不计算梯度的参数通常称为**冻结参数（frozen parameters）**。如果你预先知道模型中的部分参数不需要计算梯度，那么可以冻结这些参数，这将降低 autograd 的计算量从而提升性能。
 
 
 
-另一个从DAG中移除参数的常见例子是精调预训练模型。在精调过程中，我们冻结模型的大部分而只修改其中几层。来看下面这个例子，我们加载了预训练resnet18模型，并冻结所有参数：
+另一个从 DAG 中移除参数的常见例子是精调预训练模型。在精调过程中，我们冻结模型的大部分而只修改其中几层。来看下面这个例子，我们加载了预训练 resnet18 模型，并冻结所有参数：
 
 ```python
 from torch import nn, optim
@@ -1501,13 +1501,13 @@ for param in model.parameters():
     param.requires_grad = False
 ```
 
-比如我们想要在一个新的数据集上精调该模型，resnet模型的分类器是最后一个线性层`model.fc`，我们可以简单地将其替换为一个新的线性层，以用作我们的分类器（默认是解冻状态）：
+比如我们想要在一个新的数据集上精调该模型，resnet 模型的分类器是最后一个线性层 `model.fc`，我们可以简单地将其替换为一个新的线性层，以用作我们的分类器（默认是解冻状态）：
 
 ```python
 model.fc = nn.Linear(512, 10)
 ```
 
-现在模型的所有参数，除了`model.fc`以外，都是冻结的，需要计算梯度的参数只有`model.fc`的权重和偏置：
+现在模型的所有参数，除了 `model.fc` 以外，都是冻结的，需要计算梯度的参数只有 `model.fc` 的权重和偏置：
 
 ```python
 # Optimize only the classifier
@@ -1524,19 +1524,19 @@ optimizer = optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
 
 保存和加载模型主要用到下面三个函数：
 
-+ `torch.save`：保存序列化对象到磁盘。此函数使用Python的pickle包序列化。模型、张量、词典等所有类型的对象都可以使用此函数。
-+ `torch.load`：使用pickle包的unpickle功能反序列化对象文件到内存。此函数方便设备加载各种数据。
-+ `torch.nn.Module.load_state_dict`: 使用一个反序列化的`state_dict`加载模型的参数词典
+* `torch.save`：保存序列化对象到磁盘。此函数使用 Python 的 pickle 包序列化。模型、张量、词典等所有类型的对象都可以使用此函数。
+* `torch.load`：使用 pickle 包的 unpickle 功能反序列化对象文件到内存。此函数方便设备加载各种数据。
+* `torch.nn.Module.load_state_dict`：使用一个反序列化的 `state_dict` 加载模型的参数词典
 
 
 
 ## `state_dict`是什么
 
-在PyTorch中，一个`torch.nn.Module`模型的可学习的参数（即权重和偏置）包含在模型的*参数*（`model.parameters()`）中。`state_dict`就是将每一层映射到其参数张量的一个Python词典对象。注意只有带可学习参数的层（卷积层、线性层等）和注册的缓冲区在`state_dict`中有词条。优化器对象`torch.optim`也有一个`state_dict`，包含优化器的状态和超参数信息。
+在 PyTorch 中，一个 `torch.nn.Module` 模型的可学习的参数（即权重和偏置）包含在模型的*参数*（`model.parameters()`）中。`state_dict` 就是将每一层映射到其参数张量的一个 Python 词典对象。注意只有带可学习参数的层（卷积层、线性层等）和注册的缓冲区在 `state_dict` 中有词条。优化器对象 `torch.optim` 也有一个 `state_dict`，包含优化器的状态和超参数信息。
 
 
 
-来看一个简单的模型的`state_dict`：
+来看一个简单的模型的 `state_dict`：
 
 ```python
 # Define model
@@ -1602,7 +1602,7 @@ param_groups     [{'lr': 0.001, 'momentum': 0.9, 'dampening': 0, 'weight_decay':
 
 > 使用notebook: ml/pytorch/save_and_load_model.ipynb
 
-**保存/加载`state_dict`（推荐）**
+**保存/加载 `state_dict`（推荐）**
 
 ```python
 # save
@@ -1616,9 +1616,9 @@ model.eval()
 
 若保存一个模型是为了以后使用，那么只需要保存已训练的模型的参数。
 
-PyTorch习惯使用`.pt`或`.pth`扩展名保存模型。
+PyTorch 习惯使用 `.pt` 或 `.pth` 扩展名保存模型。
 
-记得在使用前调用`model.eval()`以设定模型（丢弃层，批归一化层等）为评价模式。
+记得在使用前调用 `model.eval()` 以设定模型（丢弃层，批归一化层等）为评价模式。
 
 
 
@@ -1633,7 +1633,7 @@ model = torch.load(PATH)
 model.eval()
 ```
 
-这种保存方式将会使用Python的pickle模块保存整个模型。这种方法的坏处是序列化数据绑定了保存模型时特定的类和实际的目录结构，原因是pickle并不保存模型类`TheModelClass`本身，而只保存一个包含该类的文件的路径，供加载时使用。因此在用到其它项目或项目重构后你的代码会失效。
+这种保存方式将会使用 Python 的 pickle 模块保存整个模型。这种方法的坏处是序列化数据绑定了保存模型时特定的类和实际的目录结构，原因是 pickle 并不保存模型类 `TheModelClass` 本身，而只保存一个包含该类的文件的路径，供加载时使用。因此在用到其它项目或项目重构后你的代码会失效。
 
 
 
@@ -1666,11 +1666,11 @@ model.eval()
 model.train()
 ```
 
-当保存一个检查点，不管是为了以后的使用还是继续训练，你都必须保存除了模型的`state_dict`之外的更多内容。优化器的`state_dict`十分重要，因为它包含了模型训练过程中不断更新的缓冲区和参数。其它可能需要保存的项包括最后训练的epoch，最新记录的训练损失等。因此检查点的存档大小经常是模型的两到三倍。
+当保存一个检查点，不管是为了以后的使用还是继续训练，你都必须保存除了模型的 `state_dict` 之外的更多内容。优化器的 `state_dict` 十分重要，因为它包含了模型训练过程中不断更新的缓冲区和参数。其它可能需要保存的项包括最后训练的 epoch，最新记录的训练损失等。因此检查点的存档大小经常是模型的两到三倍。
 
-为了保存多个成分，将它们组织到一个词典里再使用`torch.save()`序列化这个词典。PyTorch习惯使用`.tar`扩展名保存检查点。
+为了保存多个成分，将它们组织到一个词典里再使用 `torch.save()` 序列化这个词典。PyTorch 习惯使用 `.tar` 扩展名保存检查点。
 
-加载这些项时，首先初始化模型和优化器，再使用`torch.load()`加载词典。这里你只需要简单地查询词典就能获取所有保存项。
+加载这些项时，首先初始化模型和优化器，再使用 `torch.load()` 加载词典。这里你只需要简单地查询词典就能获取所有保存项。
 
 
 
@@ -1706,9 +1706,9 @@ modelB.train()
 
 ```
 
-当保存由多个`torch.nn.Modules`组成的模型，例如编码器解码器模型，使用的方法和保存检查点是一样的。换言之，保存一个由每个模型的`state_dict`和相应的优化器组成的词典。正如之前提到的，你还可以添加其它可以帮助你继续训练的项。
+当保存由多个 `torch.nn.Modules` 组成的模型，例如编码器解码器模型，使用的方法和保存检查点是一样的。换言之，保存一个由每个模型的 `state_dict` 和相应的优化器组成的词典。正如之前提到的，你还可以添加其它可以帮助你继续训练的项。
 
-与保存检查点相同，PyTorch习惯使用`.tar`扩展名。
+与保存检查点相同，PyTorch 习惯使用 `.tar` 扩展名。
 
 
 
@@ -1725,7 +1725,7 @@ modelB.load_state_dict(torch.load(PATH), strict=False)
 
 充分利用预训练参数可以有效帮助热启动训练过程，使得训练更快地收敛。
 
-可能你加载的词典不能完全对应模型的`state_dict`，例如缺失或多出了一些键，这时可以设置`strict`参数为`False`来忽略不匹配的键。
+可能你加载的词典不能完全对应模型的 `state_dict`，例如缺失或多出了一些键，这时可以设置 `strict` 参数为 `False` 来忽略不匹配的键。
 
 如果你想更精细地控制模型每一层加载的参数，只需要修改加载的词典的键和值，使其与模型的层（字段）名匹配。
 
@@ -1733,7 +1733,7 @@ modelB.load_state_dict(torch.load(PATH), strict=False)
 
 ## 保存和加载跨设备模型
 
-**保存在GPU，加载在CPU**
+**保存在 GPU，加载在 CPU**
 
 ```python
 # save
@@ -1747,7 +1747,7 @@ model.load_state_dict(torch.load(PATH, map_location=device))
 
 
 
-**保存在GPU，加载在GPU**
+**保存在 GPU，加载在 GPU**
 
 ```python
 # save
@@ -1761,11 +1761,11 @@ model.to(device)
 # Make sure to call input = input.to(device) on any input tensors that you feed to the model
 ```
 
-注意`my_tensor.to(device)`返回的是`my_tensor`在GPU中的一个新副本，它不会覆写`my_tensor`，因此记得手动覆写张量`my_tensor = my_tensor.to(device)`。
+注意 `my_tensor.to(device)` 返回的是 `my_tensor` 在 GPU 中的一个新副本，它不会覆写 `my_tensor`，因此记得手动覆写张量 `my_tensor = my_tensor.to(device)`。
 
 
 
-**保存在CPU，加载在GPU**
+**保存在 CPU，加载在 GPU**
 
 ```python
 # save
@@ -1779,9 +1779,466 @@ model.to(device)
 # Make sure to call input = input.to(device) on any input tensors that you feed to the model
 ```
 
-设定参数`map_location`为`cuda:device_id`将模型加载到指定的GPU设备中。之后还要再调用`model.to(torch.device("cuda"))`使模型中的所有参数张量转换为CUDA张量。
+设定参数 `map_location` 为 `cuda:device_id` 将模型加载到指定的 GPU 设备中。之后还要再调用 `model.to(torch.device("cuda"))` 使模型中的所有参数张量转换为 CUDA 张量。
 
 
 
 
 
+# 分布式训练
+
+> 分布式训练的基本概念参见[tensorflow-分布式训练-基本概念](./tensorflow.md#基本概念)
+
+## 数据并行训练
+
+PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的发展轨迹为：
+
+1. 使用**单机训练**：如果数据和模型可以在单个 GPU 中完成训练，并且训练速度不成问题
+2. 使用**单机多卡数据并行**：如果机器上有多个 GPU，并且想通过最少的代码修改来加速训练
+3. 使用**单机多卡分布式数据并行**：如果你想进一步加速训练，通过多增加一些代码
+4. 使用**多机分布式数据并行和启动脚本**：如果应用需要在多机之间伸缩
+5. 使用 torchelastic 以启动分布式训练：如果可能出错或者在训练过程中动态地增减资源
+
+
+
+### `torch.nn.DataParallel`
+
+DataParallel 以最小的代码障碍实现单机多 GPU 数据并行，它只需要在应用中增加一行代码。
+
+
+
+在 PyTorch 中使用 GPU 非常简单，只需要把模型放到 GPU 中：
+
+```python
+device = torch.device("cuda:0")
+model.to(device)
+```
+
+再复制所有的张量到 GPU 中：
+
+```python
+mytensor = my_tensor.to(device)
+```
+
+注意 `my_tensor.to(device)` 返回的是 `my_tensor` 在 GPU 中的一个新副本，因此你需要将其赋给一个新的张量并使用该张量。
+
+PyTorch 默认只使用一个 GPU，你可以使用 `DataParallel` 来让模型并行运行在多个 GPU 上：
+
+```Python
+model = nn.DataParallel（model）
+```
+
+下面是一个详细的例子：
+
+```python
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+# Parameters and DataLoaders
+input_size = 5
+output_size = 2
+
+batch_size = 30
+data_size = 100
+
+class RandomDataset(Dataset):
+
+    def __init__(self, size, length):
+        self.len = length
+        self.data = torch.randn(length, size)
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def __len__(self):
+        return self.len
+
+rand_loader = DataLoader(dataset=RandomDataset(input_size, data_size),
+                         batch_size=batch_size, shuffle=True)
+
+class Model(nn.Module):
+    # Our model
+
+    def __init__(self, input_size, output_size):
+        super(Model, self).__init__()
+        self.fc = nn.Linear(input_size, output_size)
+
+    def forward(self, input):
+        output = self.fc(input)
+        print("\tIn Model: input size", input.size(),
+              "output size", output.size())
+
+        return output
+
+model = Model(input_size, output_size)
+if torch.cuda.device_count() > 1:
+  print("Let's use", torch.cuda.device_count(), "GPUs!")
+  model = nn.DataParallel(model)
+
+model.to(device)
+
+for data in rand_loader:
+    input = data.to(device)
+    output = model(input)
+    print("Outside: input size", input.size(),
+          "output_size", output.size())
+```
+
+如果机器没有 GPU 或只有一个 GPU，那么 `In Model`和`Outside` 的输入是相同的：
+
+```
+    In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+	In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+	In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+	In Model: input size torch.Size([10, 5]) output size torch.Size([10, 2])
+Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
+```
+
+如果有两个 GPU，那么每个 GPU 各有一个模型副本，各处理 `input` 的二分之一：
+
+```
+# on 2 GPUs
+Let's use 2 GPUs!
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+    In Model: input size torch.Size([15, 5]) output size torch.Size([15, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([5, 5]) output size torch.Size([5, 2])
+    In Model: input size torch.Size([5, 5]) output size torch.Size([5, 2])
+Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
+```
+
+类似地，如果有 8 个 GPU：
+
+```
+Let's use 8 GPUs!
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
+```
+
+
+
+### `torch.nn.parallel.DistributedDataParallel`
+
+**分布式数据并行训练（Distributed Data-Parallel Training，DDP）**是一种广泛采用的单程序多数据的训练范例。DDP 中，模型会被复制到多个进程中，而每个模型副本都会传入不同的输入数据集（可能是对同一数据集的切分）。DDP 负责梯度通信，以保证各模型副本同步和梯度计算叠加。
+
+
+
+### 比较`DataParallel`和`DistributedDataParallel`
+
+为什么你应该考虑使用 `DistributedDataParallel` 而非 `DataParallel`：
+
+* 首先，`DataParallel` 是单进程多线程，只能单机运行，而 `DistributedDataParallel` 是多进程，可以单机或多机运行。`DataParallel` 通常比 `DistributedDataParallel` 慢，即便是单机运行，因为线程间的 GIL 争夺、每次迭代都要广播模型，以及切分输入和汇总输入带来的花销。
+* 如果你的模型太大以至于不能在单个 GPU 上训练，那么就必须用模型并行来将其切分到多个 GPU 中。`DistributedDataParallel` 兼容模型并行而 `DataParallel` 不能。当 DDP 结合模型并行时，每个 DDP 进程都会使用模型并行，并且所有的进程共同使用数据并行。
+* 如果你的模型需要跨机器或者不适用于数据并行范例，请参考 RPC API。
+
+
+
+### 示例1
+
+让我们看一个简单的 `torch.nn.parallel.DistributedDataParallel` 例子：
+
+```python
+import torch
+import torch.distributed as dist
+import torch.multiprocessing as mp
+import torch.nn as nn
+import torch.optim as optim
+from torch.nn.parallel import DistributedDataParallel as DDP
+
+
+def example(rank, world_size):
+    # create default process group
+    dist.init_process_group("gloo", rank=rank, world_size=world_size)
+    # create local model
+    model = nn.Linear(10, 10).to(rank)
+    # construct DDP model
+    ddp_model = DDP(model, device_ids=[rank])
+    # define loss function and optimizer
+    loss_fn = nn.MSELoss()
+    optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)
+
+    # forward pass
+    outputs = ddp_model(torch.randn(20, 10).to(rank))
+    labels = torch.randn(20, 10).to(rank)
+    # backward pass
+    loss_fn(outputs, labels).backward()
+    # update parameters
+    optimizer.step()
+
+def main():
+    world_size = 2
+    mp.spawn(example,
+        args=(world_size,),
+        nprocs=world_size,
+        join=True)
+
+if __name__=="__main__":
+    main()
+```
+
+其中，模型是一个线性层，将其用 DDP 包装后，对 DDP 模型进行一次前馈计算、反向计算和更新参数。在这之后，模型的参数会被更新，并且所有进程的模型都完全相同。
+
+
+
+### 示例2
+
+首先设置进程组。
+
+```python
+import os
+import sys
+import tempfile
+import torch
+import torch.distributed as dist
+import torch.nn as nn
+import torch.optim as optim
+import torch.multiprocessing as mp
+
+from torch.nn.parallel import DistributedDataParallel as DDP
+
+
+def setup(rank, world_size):
+    os.environ['MASTER_ADDR'] = 'localhost'
+    os.environ['MASTER_PORT'] = '12355'
+
+    # initialize the process group
+    dist.init_process_group("gloo", rank=rank, world_size=world_size)
+
+def cleanup():
+    dist.destroy_process_group()
+```
+
+然后创建一个玩具模型，用 DDP 包装，并输入一些随机数据。请注意，DDP 构造函数广播 rank0 进程的模型状态到所有其它进程，因此不必担心不同的进程有不同的模型初始值。
+
+```python
+class ToyModel(nn.Module):
+    def __init__(self):
+        super(ToyModel, self).__init__()
+        self.net1 = nn.Linear(10, 10)
+        self.relu = nn.ReLU()
+        self.net2 = nn.Linear(10, 5)
+
+    def forward(self, x):
+        return self.net2(self.relu(self.net1(x)))
+
+
+def demo_basic(rank, world_size):
+    print(f"Running basic DDP example on rank {rank}.")
+    setup(rank, world_size)
+
+    # create model and move it to GPU with id rank
+    model = ToyModel().to(rank)
+    ddp_model = DDP(model, device_ids=[rank])
+
+    loss_fn = nn.MSELoss()
+    optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)
+
+    optimizer.zero_grad()
+    outputs = ddp_model(torch.randn(20, 10))
+    labels = torch.randn(20, 5).to(rank)
+    loss_fn(outputs, labels).backward()
+    optimizer.step()
+
+    cleanup()
+
+
+def run_demo(demo_fn, world_size):
+    mp.spawn(demo_fn,
+             args=(world_size,),
+             nprocs=world_size,
+             join=True)
+```
+
+可以看到，DDP 包装了底层分布式通信的细节并提供了一个简洁的 API。梯度同步通信发生在反向计算过程中，并叠加反向计算。当 `backward()` 返回时，`param.grad` 已经包含了同步的梯度张量。
+
+
+
+### 内部设计
+
+* 前提：DDP 依赖 c10d `ProcessGroup` 用于进程间通信，因此应用在构建 DDP 之前必须先创建 `Process Group` 实例
+* 构造：DDP 构造函数引用本地模块，并广播 rank0 进程的 `state_dict()` 到组内的所有进程以确保所有模型副本都从同样的状态开始。随后每个 DDP 进程创建一个本地 `Reducer`，其在之后的反向计算过程中负责梯度同步。为了提高通信效率，`Reducer` 组织参数梯度为桶结构，每次 reduce 一个桶。……
+
+
+
+### 注意事项
+
+对于基础使用，DDP 仅需要多一点的 LoC 来创建进程组；而当 DDP 应用到更高级的用例中，则还有一些注意事项。
+
+
+
+**不一致的进程速度**
+
+在 DDP 中，构造函数、前向计算和反向计算是分布式同步点。不同的进程应当在大致相同的时间到达这些同步点，否则快的进程会先到而等待落后的进程。因此用户应负责进程之间的负载均衡。
+
+有时由于网络延迟、资源争夺、无法预测的负载峰值等原因，不一致的进程速度也无法避免。但为了防止这些情形下的超时，在调用 `init_process_group` 时请确保 `timeout` 传入了一个足够大的值。
+
+
+
+**保存和加载检查点**
+
+使用 `torch.save` 和 `torch.load` 在检查点保存和恢复模型是非常常见的操作。使用 DDP 时的一种优化方法是，保存模型仅在一个进程中进行，而加载模型则加载到所有进程，这样可以减少写的花销。
+
+当加载模型时，你需要提供一个合适的 `map_location` 参数以防止进程进入其它的设备。当 `map_location` 参数缺失时，`torch.load` 会首先将模型加载到 CPU，再将每一个参数复制到它被保存的地方，这将导致同一机器上的所有进程会使用相同的设备。对于更高级的错误恢复和弹性支持，请参考 TorchElastic。
+
+```python
+def demo_checkpoint(rank, world_size):
+    print(f"Running DDP checkpoint example on rank {rank}.")
+    setup(rank, world_size)
+
+    model = ToyModel().to(rank)
+    ddp_model = DDP(model, device_ids=[rank])
+
+    loss_fn = nn.MSELoss()
+    optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)
+
+    CHECKPOINT_PATH = tempfile.gettempdir() + "/model.checkpoint"
+    if rank == 0:
+        # All processes should see same parameters as they all start from same
+        # random parameters and gradients are synchronized in backward passes.
+        # Therefore, saving it in one process is sufficient.
+        torch.save(ddp_model.state_dict(), CHECKPOINT_PATH)
+
+    # Use a barrier() to make sure that process 1 loads the model after process
+    # 0 saves it.
+    dist.barrier()
+    # configure map_location properly
+    map_location = {'cuda:%d' % 0: 'cuda:%d' % rank}
+    ddp_model.load_state_dict(
+        torch.load(CHECKPOINT_PATH, map_location=map_location))
+
+    optimizer.zero_grad()
+    outputs = ddp_model(torch.randn(20, 10))
+    labels = torch.randn(20, 5).to(rank)
+    loss_fn = nn.MSELoss()
+    loss_fn(outputs, labels).backward()
+    optimizer.step()
+
+    # Not necessary to use a dist.barrier() to guard the file deletion below
+    # as the AllReduce ops in the backward pass of DDP already served as
+    # a synchronization.
+
+    if rank == 0:
+        os.remove(CHECKPOINT_PATH)
+
+    cleanup()
+```
+
+
+
+**结合 DDP 和模型并行**
+
+DDP 兼容多 GPU 模型。当用巨量数据训练大型模型时，用 DDP 包装多 GPU 模型十分有用。
+
+```python
+class ToyMpModel(nn.Module):
+    def __init__(self, dev0, dev1):
+        super(ToyMpModel, self).__init__()
+        self.dev0 = dev0
+        self.dev1 = dev1
+        self.net1 = torch.nn.Linear(10, 10).to(dev0)
+        self.relu = torch.nn.ReLU()
+        self.net2 = torch.nn.Linear(10, 5).to(dev1)
+
+    def forward(self, x):
+        x = x.to(self.dev0)
+        x = self.relu(self.net1(x))
+        x = x.to(self.dev1)
+        return self.net2(x)
+```
+
+当传递一个多 GPU 模型到 DDP 时不能设置 `device_ids` 和 `output_device`，输入和输出数据会被放在合适的设备中。
+
+```python
+def demo_model_parallel(rank, world_size):
+    print(f"Running DDP with model parallel example on rank {rank}.")
+    setup(rank, world_size)
+
+    # setup mp_model and devices for this process
+    dev0 = rank * 2
+    dev1 = rank * 2 + 1
+    mp_model = ToyMpModel(dev0, dev1)
+    ddp_mp_model = DDP(mp_model)
+
+    loss_fn = nn.MSELoss()
+    optimizer = optim.SGD(ddp_mp_model.parameters(), lr=0.001)
+
+    optimizer.zero_grad()
+    # outputs will be on dev1
+    outputs = ddp_mp_model(torch.randn(20, 10))
+    labels = torch.randn(20, 5).to(dev1)
+    loss_fn(outputs, labels).backward()
+    optimizer.step()
+
+    cleanup()
+
+
+if __name__ == "__main__":
+    n_gpus = torch.cuda.device_count()
+    if n_gpus < 8:
+      print(f"Requires at least 8 GPUs to run, but got {n_gpus}.")
+    else:
+      run_demo(demo_basic, 8)
+      run_demo(demo_checkpoint, 8)
+      run_demo(demo_model_parallel, 4)
+```
+
+
+
+### 详解
+
+```python
+torch.distributed.init_process_group( )
+```
+
+
+
+## TorchElastic
+
+
+
+## 一般分布式训练
+
+许多训练范例不用于数据并行，例如参数服务器范例、分布式管道范例等。`torch.distributed.rpc` 的目标就是支持一般的分布式训练场景。

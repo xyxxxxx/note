@@ -119,7 +119,7 @@ Dictionary(12 unique tokens: ['computer', 'human', 'interface', 'response', 'sur
 
 ### 语料库流Corpus Streaming – One Document at a Time
 
-Gensim的语料库可以使用任何可迭代对象，包括但不限于列表、numpy数组、pandas dataframe等，每次返回一个文本。因此我们不必将语料库一次读入内存，尤其是对于规模巨大的语料库而言。
+Gensim 的语料库可以使用任何可迭代对象，包括但不限于列表、numpy 数组、pandas dataframe 等，每次返回一个文本。因此我们不必将语料库一次读入内存，尤其是对于规模巨大的语料库而言。
 
 ```python
 from gensim.test.utils import datapath
@@ -141,7 +141,7 @@ class MyCorpus:
 
 ### Dictionary
 
-为语料库中的token建立索引。
+为语料库中的 token 建立索引。
 
 ```python
 >>> from gensim.corpora import Dictionary
@@ -261,7 +261,7 @@ class MyCorpus:
 
 ### Word2Vec
 
-训练、使用和评价word2vec模型。
+训练、使用和评价 word2vec 模型。
 
 ```python
 >>> from gensim.utils import simple_preprocess
@@ -316,7 +316,7 @@ gensim.models.word2vec.Word2Vec(sentences=None, corpus_file=None, size=100, alph
 
 ```
 
-使用预定义的word2vec模型：
+使用预定义的 word2vec 模型：
 
 ```python
 >>> import gensim.downloader
@@ -434,7 +434,7 @@ with tempfile.NamedTemporaryFile(prefix='gensim-model-', delete=False) as tmp:
 
 ### SparseMatrixSimilarity
 
-计算查询向量和语料库各文本的余弦相似度，适用于稀疏向量（例如tf-idf向量）。
+计算查询向量和语料库各文本的余弦相似度，适用于稀疏向量（例如 tf-idf 向量）。
 
 
 
@@ -446,7 +446,7 @@ with tempfile.NamedTemporaryFile(prefix='gensim-model-', delete=False) as tmp:
 
 ### simple_preprocess
 
-将文本转换为小写的token列表。
+将文本转换为小写的 token 列表。
 
 ```python
 >>> from gensim.utils import simple_preprocess
@@ -464,7 +464,7 @@ gensim.utils.simple_preprocess(doc, deacc=False, min_len=2, max_len=15)
 
 ### tokenize
 
-迭代地yield unicode字符串形式的token，可以去掉语调符号和小写。
+迭代地 yield unicode 字符串形式的 token，可以去掉语调符号和小写。
 
 ```python
 >>> from gensim.utils import tokenize

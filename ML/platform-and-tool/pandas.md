@@ -1,8 +1,12 @@
 [toc]
 
-Pandas是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将Pandas数据结构作为输入。
+[Pandas](https://pandas.pydata.org/) 是一个快速、强大、灵活且易用的开源数据分析和操作工具。很多机器学习框架都支持将 Pandas 数据结构作为输入。
 
-> tutorial参见[intro_to_pandas](https://colab.research.google.com/notebooks/mlcc/intro_to_pandas.ipynb)
+> 官方教程参见[intro_to_pandas](https://colab.research.google.com/notebooks/mlcc/intro_to_pandas.ipynb)
+
+
+
+# 教程
 
 ## dataframe基本操作
 
@@ -201,7 +205,7 @@ Name: Sex, dtype: int64
 
 ### concat
 
-拼接dataframe。
+拼接 dataframe。
 
 ```python
 # series相同的dataframe的行拼接
@@ -239,11 +243,13 @@ Name: Sex, dtype: int64
 
 
 
+# API
 
+## dataframe
 
-## dataframe方法
+### add(), sub(), mul(), div(), floordiv(), mod(), pow(), \_\_add\_\_(), \_\_sub\_\_(), \_\_mul\_\_(), \_\_div\_\_(), \_\_mod()\_\_, \_\_pow()\_\_
 
-### 基本运算: add, sub, mul, div, floordiv, mod, pow
+基本算术运算。
 
 ```python
 >>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
@@ -252,12 +258,12 @@ Name: Sex, dtype: int64
 0  1  2
 1  3  4
 2  5  6
->>> df+1   # 或df.add(1)
+>>> df + 1   # 或df.add(1)
    A  B
 0  2  3
 1  4  5
 2  6  7
->>> df*2   # 或df.mul(2)
+>>> df * 2   # 或df.mul(2)
     A   B
 0   2   4
 1   6   8
@@ -266,7 +272,7 @@ Name: Sex, dtype: int64
 
 
 
-### append
+### append()
 
 增加一行。
 
@@ -288,7 +294,7 @@ Name: Sex, dtype: int64
 
 
 
-### apply
+### apply()
 
 对所有元素应用函数。
 
@@ -317,7 +323,7 @@ dtype: int64
 
 
 
-### drop
+### drop()
 
 删除指定行/列。
 
@@ -344,9 +350,9 @@ dtype: int64
 
 
 
-### dropna
+### dropna()
 
-删除含有NaN的行。
+删除含有 NaN 的行。
 
 ```python
 >>> df = pd.DataFrame([[1, 2, 5, 0],
@@ -367,9 +373,9 @@ dtype: int64
 
 
 
-### fillna
+### fillna()
 
-替换NaN。
+替换 NaN。
 
 ```python
 >>> df = pd.DataFrame([[1, 2, 5, 0],
@@ -400,13 +406,13 @@ dtype: int64
 
 
 
-### head
+### head()
 
-查看dataframe的前几行。
+查看 dataframe 的前几行。
 
 
 
-### iloc
+### iloc()
 
 查看指定行/列。
 
@@ -449,13 +455,9 @@ Name: 0, dtype: int64
 
 
 
+### join()
 
-
-
-
-### join
-
-与另一dataframe做列拼接。
+与另一 dataframe 做列拼接。
 
 ```python
 >>> df1 = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K3', 'K4', 'K5'],
@@ -494,9 +496,9 @@ K5   A5  NaN
 
 
 
-### merge
+### merge()
 
-与另一dataframe做数据库风格的列拼接，即匹配左键和右键。
+与另一 dataframe 做数据库风格的列拼接，即匹配左键和右键。
 
 ```python
 >>> df1 = pd.DataFrame({'lkey': ['foo', 'bar', 'baz', 'foo'],
@@ -515,9 +517,9 @@ K5   A5  NaN
 
 
 
-### plot
+### plot()
 
-对dataframe或series绘图。默认使用matplotlib。
+对 dataframe 或 series 绘图。默认使用 matplotlib。
 
 **散点图**
 
@@ -591,9 +593,9 @@ Tasks Completed    700
 
 
 
-### pop
+### pop()
 
-删除series并返回。
+删除 series 并返回。
 
 ```python
 >>> df = pd.DataFrame([('falcon', 'bird', 389.0),
@@ -623,9 +625,9 @@ Name: class, dtype: object
 
 
 
-### rename
+### rename()
 
-重命名series。
+重命名 series。
 
 ```python
 >>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
@@ -638,9 +640,9 @@ Name: class, dtype: object
 
 
 
-### set_index, reset_index
+### set_index(), reset_index()
 
-使用既有的series作为index。重置index。
+使用既有的 series 作为 index。重置 index。
 
 ```python
 >>> df = pd.DataFrame({'month': [1, 4, 7, 10],
@@ -669,9 +671,9 @@ year
 
 
 
-### sort_values
+### sort_values()
 
-将各行根据指定series排序
+将各行根据指定 series 排序
 
 ```python
 >>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
@@ -696,9 +698,9 @@ year
 
 
 
-### sampling
+### sampling()
 
-将dataframe中的数据按比例做随机抽样。
+将 dataframe 中的数据按比例做随机抽样。
 
 ```python
 >>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
@@ -718,9 +720,9 @@ year
 
 
 
-### to_csv
+### to_csv()
 
-将dataframe保存到csv文件。
+将 dataframe 保存到 csv 文件。
 
 ```python
 
@@ -728,13 +730,13 @@ year
 
 
 
-### to_datetime
+### to_datetime()
 
 
 
-## series方法
+## series
 
-### apply
+### apply()
 
 对所有元素应用函数。
 

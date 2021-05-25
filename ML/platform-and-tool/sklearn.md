@@ -6,13 +6,13 @@
 
 ### CountVectorizer
 
-见NLP工具。
+见 NLP 工具。
 
 
 
 ### TfidfVectorizer
 
-见NLP工具。
+见 NLP 工具。
 
 
 
@@ -85,13 +85,13 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 
 根据实际结果和预测结果计算混淆矩阵。
 
-见precision_score(), recall_score(), f1_score()。
+见 precision_score（），recall_score（），f1_score（）。
 
 
 
 ### precision_score(), recall_score(), f1_score()
 
-计算精确率、召回率、F1值。
+计算精确率、召回率、F1 值。
 
 ```python
 >>> from sklearn.metrics import precision_score
@@ -152,7 +152,7 @@ array([0.85714286, 0.57142857, 0.5       ])
 
 ### train_test_split
 
-将输入和输出list划分为训练集和测试集。
+将输入和输出 list 划分为训练集和测试集。
 
 ```python
 >>> from sklearn.model_selection import train_test_split
@@ -202,7 +202,7 @@ train_test_split(*arrays, test_size=None, train_size=None, random_state=None, sh
 
 ### MultinomialNB
 
-见NLP工具。
+见 NLP 工具。
 
 
 
@@ -212,7 +212,7 @@ train_test_split(*arrays, test_size=None, train_size=None, random_state=None, sh
 
 ### minmax_scale
 
-线性归一化到[0,1]区间。
+线性归一化到[0，1]区间。
 
 ```python
 >>> from sklearn.preprocessing import minmax_scale
@@ -229,7 +229,7 @@ array([0.9, 0.7, 0.1, 0.4, 0.8, 1. , 0.5, 0.3, 0.6, 0.2, 0. ])
 
 ### MinMaxScaler
 
-线性归一化到[0,1]区间的归一器。
+线性归一化到[0，1]区间的归一器。
 
 ```python
 >>> from sklearn.preprocessing import MinMaxScaler
@@ -254,7 +254,7 @@ array([[0. , 0. ],
 
 ### scale
 
-归一化到01正态分布（每个值减去均值，除以标准差）。
+归一化到 01 正态分布（每个值减去均值，除以标准差）。
 
 ```python
 >>> from sklearn.preprocessing import scale
@@ -273,7 +273,7 @@ array([ 1.26491106,  0.63245553, -1.26491106, -0.31622777,  0.9486833 ,
 
 ### StandardScaler
 
-归一化到01正态分布的归一器。
+归一化到 01 正态分布的归一器。
 
 ```python
 >>> from sklearn.preprocessing import StandardScaler
@@ -302,7 +302,7 @@ array([[-1.41421356, -1.41421356],
 
 ### SVC
 
-支持向量机模型。参考[SVM.ipynb](https://colab.research.google.com/drive/1qg5I5Jzrcjm930i9jkdDpcSnxYZ8riQe?usp=sharing)。
+支持向量机模型。参考 [SVM.ipynb](https://colab.research.google.com/drive/1qg5I5Jzrcjm930i9jkdDpcSnxYZ8riQe?usp=sharing)。
 
 ```python
 >>> from sklearn.datasets import load_iris

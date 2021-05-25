@@ -7,7 +7,7 @@
 将张量广播到兼容的形状。
 
 ```python
->>> a = tf.constant([1, 2, 3])
+>>> a = tf.constant([1, 2, 3])     # 
 >>> tf.broadcast_to(a, [3, 3])
 <tf.Tensor: shape=(3, 3), dtype=int32, numpy=
 array([[1, 2, 3],
@@ -33,7 +33,7 @@ array([[1, 2, 3],
 
 ## concat()
 
-沿指定维度拼接张量。见`tf.tile()`, `tf.stack()`, `tf.repeat()`。
+沿指定维度拼接张量。见 `tf.tile()`，`tf.stack()`，`tf.repeat()`。
 
 ```python
 >>> a1 = tf.constant([[1, 2, 3], [4, 5, 6]])
@@ -54,7 +54,7 @@ array([[ 1,  2,  3,  7,  8,  9],
 
 ## constant()
 
-用类似张量的对象（python数组，numpy数组等）创建一个常数张量。
+用类似张量的对象（python 数组，numpy 数组等）创建一个常数张量。
 
 ```python
 >>> tf.constant([1, 2, 3, 4, 5, 6])
@@ -99,9 +99,49 @@ TensorShape([2, 1, 5])
 
 
 
+## GradientTape
+
+`tf.GradientTape()` 是一个自动求导的记录器。以下示例计算 $$y=x^2$$ 在 $$x=3$$ 位置的导数：
+
+```python
+import tensorflow as tf
+
+x = tf.Variable(initial_value=3.)   # 初值为3.0的变量
+with tf.GradientTape() as tape:     # 在 tf.GradientTape() 的上下文内，所有计算步骤都会被记录以用于求导
+    y = tf.square(x)
+y_grad = tape.gradient(y, x)        # 计算y关于x的导数
+print(y, y_grad)                    # tf.Tensor(6.0, shape=(), dtype=float32)
+```
+
+以下示例计算 $$\mathcal{L}=||X\pmb w+b-\pmb y||^2$$ 在 $$\pmb w=[1,2]^{\rm T},b=1$$ 位置的对 $$\pmb w,b$$ 的导数：
+
+```python
+X = tf.constant([[1., 2.], [3., 4.]])
+y = tf.constant([[1.], [2.]])
+w = tf.Variable(initial_value=[[1.], [2.]])
+b = tf.Variable(initial_value=1.)
+with tf.GradientTape() as tape:
+    L = tf.reduce_sum(tf.square(tf.matmul(X, w) + b - y))
+    # tf.square 将输入张量的每个元素平方
+    # tf.reduce_sum 对输入张量的所有元素求和,输出一个标量
+w_grad, b_grad = tape.gradient(L, [w, b])        # 计算L(w, b)关于w, b的偏导数
+
+print(L, w_grad, b_grad)
+# tf.Tensor(125.0, shape=(), dtype=float32) tf.Tensor(
+# [[ 70.]
+#  [100.]], shape=(2, 1), dtype=float32) tf.Tensor(30.0, shape=(), dtype=float32)
+```
+
+可以看到计算结果
+$$
+\mathcal{L}=125，\\frac{\partial\mathcal{L}}{\partial\pmb w}=\begin{bmatrix}70\\100\end{bmatrix}，\\frac{\partial\mathcal{L}}{\partial b}=30
+$$
+
+
+
 ## matmul()
 
-张量乘法。`@`符号重载了此方法。
+张量乘法。`@` 符号重载了此方法。
 
 ```python
 # 矩阵×矩阵: 矩阵乘法
@@ -153,7 +193,7 @@ array([[[ 6.,  6.,  6.],
 
 ## ones()
 
-生成指定形状的全1张量。
+生成指定形状的全 1 张量。
 
 ```python
 >>> tf.ones([2,3])
@@ -189,7 +229,7 @@ TensorShape([4, None])
 
 ## range()
 
-根据给定的初值，末值和步长创建一维张量。与python的`range()`用法相同。
+根据给定的初值，末值和步长创建一维张量。与 python 的 `range()` 用法相同。
 
 ```python
 >>> tf.range(10)
@@ -305,7 +345,7 @@ array([[4, 3, 2, 1, 0],
 
 ## squeeze()
 
-返回一个张量，其在输入张量的基础上删除所有规模为1的维度。
+返回一个张量，其在输入张量的基础上删除所有规模为 1 的维度。
 
 ```python
 >>> a = tf.reshape(tf.range(10.), [1,2,1,5,1])
@@ -340,9 +380,21 @@ array([[1, 2, 3],
 
 ## Tensor
 
+张量类型。
+
+
+
+
+
+### device
+
+张量位于的设备的名称。
+
+
+
 ### dtype
 
-张量的数据类型。
+张量的元素的数据类型。
 
 ```python
 >>> a = tf.zeros([2,3])
@@ -352,7 +404,25 @@ tf.float32
 
 
 
-### shape, dim
+### graph
+
+包含张量的图。
+
+
+
+### name
+
+张量的字符串名称。
+
+
+
+### op
+
+产生此张量的运算。
+
+
+
+### shape, ndim
 
 张量的形状、维数。
 
@@ -434,9 +504,17 @@ array([[1, 2, 3],
 
 
 
+## Variable
+
+```python
+
+```
+
+
+
 ## zeros()
 
-生成指定形状的全0张量。
+生成指定形状的全 0 张量。
 
 ```python
 >>> tf.zeros([2,3])
@@ -472,7 +550,7 @@ False
 
 ## get_visible_devices()
 
-返回运行时当前可见的`PhysicalDevice`对象的列表。
+返回运行时当前可见的 `PhysicalDevice` 对象的列表。
 
 ```python
 physical_devices = tf.config.list_physical_devices('GPU')
@@ -493,7 +571,7 @@ except:
 
 返回运行时创建的逻辑设备列表。
 
-调用`list_logical_devices()`会引发运行时初始化所有可见的`PhysicalDevice`，因而不能继续配置。若不想要初始化运行时，请调用`list_physical_devices()`。
+调用 `list_logical_devices()` 会引发运行时初始化所有可见的 `PhysicalDevice`，因而不能继续配置。若不想要初始化运行时，请调用 `list_physical_devices()`。
 
 ```python
 >>> cpus = tf.config.list_physical_devices('CPU')
@@ -526,7 +604,7 @@ RuntimeError: Virtual devices cannot be modified after being initialized
 
 返回运行时可见的物理设备列表。
 
-物理设备指当前主机现有的硬件设备，包括所有已发现的CPU和GPU设备。此API用于在初始化运行时之前查询硬件资源，进而帮助调用更多的配置API。
+物理设备指当前主机现有的硬件设备，包括所有已发现的 CPU 和 GPU 设备。此 API 用于在初始化运行时之前查询硬件资源，进而帮助调用更多的配置 API。
 
 ```python
 >>> tf.config.list_physical_devices()
@@ -549,7 +627,7 @@ RuntimeError: Virtual devices cannot be modified after being initialized
 tf.config.LogicalDevice(name, device_type)
 ```
 
-一个`LogicalDevice`对象对应一个`PhysicalDevice`对象或者集群上的远程设备。张量或操作可以通过调用`tf.device()`并指定`LogicalDevice`，而被放置在指定的逻辑设备上。
+一个 `LogicalDevice` 对象对应一个 `PhysicalDevice` 对象或者集群上的远程设备。张量或操作可以通过调用 `tf.device()` 并指定 `LogicalDevice`，而被放置在指定的逻辑设备上。
 
 
 
@@ -562,7 +640,7 @@ tf.config.LogicalDeviceConfiguration(memory_limit=None, experimental_priority=No
 # memory_limit   为逻辑设备分配的显存
 ```
 
-此类用于在初始化运行时过程中，指定配置参数将`PhysicalDevice`初始化为`LogicalDevice`。
+此类用于在初始化运行时过程中，指定配置参数将 `PhysicalDevice` 初始化为 `LogicalDevice`。
 
 
 
@@ -574,15 +652,15 @@ tf.config.LogicalDeviceConfiguration(memory_limit=None, experimental_priority=No
 tf.config.PhysicalDevice(name, device_type)
 ```
 
-tensorflow可以利用各种设备进行计算，例如CPU或者（多个）GPU。在初始化本地设备之前，用户可以自定义设备的一些属性，例如可见性或者内存配置。
+TensorFlow 可以利用各种设备进行计算，例如 CPU 或者（多个）GPU。在初始化本地设备之前，用户可以自定义设备的一些属性，例如可见性或者内存配置。
 
 
 
 ## set_logical_device_configuration()
 
-为一个`PhysicalDevice`对象设定逻辑设备配置。
+为一个 `PhysicalDevice` 对象设定逻辑设备配置。
 
-一旦初始化运行时，一个可见的`PhysicalDevice`对象就默认创建一个`LogicalDevice`对象与之关联。指定`LogicalDeviceConfiguration`对象列表则会在一个`PhysicalDevice`对象上创建多个`LogicalDevice`对象。
+一旦初始化运行时，一个可见的 `PhysicalDevice` 对象就默认创建一个 `LogicalDevice` 对象与之关联。指定 `LogicalDeviceConfiguration` 对象列表会在一个 `PhysicalDevice` 对象上创建多个 `LogicalDevice` 对象。
 
 ```python
 # 将CPU分为2个逻辑设备
@@ -616,7 +694,7 @@ tensorflow可以利用各种设备进行计算，例如CPU或者（多个）GPU�
 
 ## experimental.set_memory_growth()
 
-设定一个`PhysicalDevice`对象是否启用内存增长。
+设定一个 `PhysicalDevice` 对象是否启用内存增长。
 
 ```python
 >>> gpus = tf.config.list_physical_devices('GPU')
@@ -642,7 +720,7 @@ False
 
 ## set_visible_devices()
 
-指定运行时可见的`PhysicalDevice`对象的列表。tensorflow只会将张量和操作分配到可见的物理设备，因为`LogicalDevice`只能创建在可见的`PhysicalDevice`上。默认情况下，所有已发现的CPU和GPU设备都是可见的。
+指定运行时可见的 `PhysicalDevice` 对象的列表。TensorFlow 只会将张量和操作分配到可见的物理设备，因为 `LogicalDevice` 只能创建在可见的 `PhysicalDevice` 上。默认情况下，所有已发现的 CPU 和 GPU 设备都是可见的。
 
 ```python
 >>> tf.config.list_physical_devices()                                                 # 所有物理设备
@@ -669,53 +747,494 @@ False
 
 
 
-# Variable
+# tf.dataset
+
+## Dataset
+
+数据集类型，用于构建高效的输入流水线。`Dataset` 实例的使用通常遵循以下模式：
+
+1. 根据输入数据创建一个数据集
+2. 应用数据集变换以预处理数据
+3. 迭代数据集并处理样本
+
+迭代以流的方式进行，因此不会将整个数据集全部放到内存中。
+
+
+
+### apply()
+
+为数据集应用一个变换函数，返回一个新的数据集。该变换函数通常是 `Dataset` 实例的变换方法的组合。
 
 ```python
-
+>>> ds = tf.data.Dataset.range(100)
+>>> def dataset_fn(ds):
+  return ds.filter(lambda x: x < 5)
+... 
+>>> ds = ds.apply(dataset_fn)
+>>> list(ds.as_numpy_iterator())
+[0, 1, 2, 3, 4]
 ```
 
 
 
-## GradientTape
+### as_numpy_iterator()
 
-`tf.GradientTape()` 是一个自动求导的记录器。以下示例计算$$y=x^2$$在$$x=3$$位置的导数：
-
-```python
-import tensorflow as tf
-
-x = tf.Variable(initial_value=3.)   # 初值为3.0的变量
-with tf.GradientTape() as tape:     # 在 tf.GradientTape() 的上下文内，所有计算步骤都会被记录以用于求导
-    y = tf.square(x)
-y_grad = tape.gradient(y, x)        # 计算y关于x的导数
-print(y, y_grad)                    # tf.Tensor(6.0, shape=(), dtype=float32)
-```
-
-以下示例计算$$\mathcal{L}=||X\pmb w+b-\pmb y||^2$$在$$\pmb w=[1,2]^{\rm T},b=1$$位置的对$$\pmb w,b$$的导数：
+返回一个迭代器，其中数据集的所有元素都被转换为 NumPy 数组。
 
 ```python
-X = tf.constant([[1., 2.], [3., 4.]])
-y = tf.constant([[1.], [2.]])
-w = tf.Variable(initial_value=[[1.], [2.]])
-b = tf.Variable(initial_value=1.)
-with tf.GradientTape() as tape:
-    L = tf.reduce_sum(tf.square(tf.matmul(X, w) + b - y))
-    # tf.square 将输入张量的每个元素平方
-    # tf.reduce_sum 对输入张量的所有元素求和,输出一个标量
-w_grad, b_grad = tape.gradient(L, [w, b])        # 计算L(w, b)关于w, b的偏导数
-
-print(L, w_grad, b_grad)
-# tf.Tensor(125.0, shape=(), dtype=float32) tf.Tensor(
-# [[ 70.]
-#  [100.]], shape=(2, 1), dtype=float32) tf.Tensor(30.0, shape=(), dtype=float32)
 ```
 
-可以看到计算结果
-$$
-\mathcal{L}=125,\ \frac{\partial \mathcal{L}}{\partial \pmb w}=\begin{bmatrix}70\\100\end{bmatrix},\ \frac{\partial \mathcal{L}}{\partial b}=30
-$$
 
 
+### from_generator()
+
+创建由
+
+
+
+### from_tensor_slices()
+
+创建由指定张量的元素构成的数据集。
+
+```python
+>>> ds = Dataset.from_tensor_slices([1, 2, 3])                  # 张量
+>>> list(ds.as_numpy_iterator())
+[1, 2, 3]                         # 张量的元素
+>>> ds = Dataset.from_tensor_slices([[1, 2, 3], [4, 5, 6]])
+>>> list(ds.as_numpy_iterator())
+[array([1, 2, 3], dtype=int32), array([4, 5, 6], dtype=int32)]
+>>> 
+>>> ds = Dataset.from_tensor_slices(([1, 2, 3], [3, 4], [5, 6]))    # 张量构成的元组
+>>> list(ds.as_numpy_iterator())
+[(1, 3, 5), (2, 4, 6)]                  # 元组,元素来自各张量
+>>> ds = Dataset.from_tensor_slices(([1, 2, 3], ['a', 'b', 'a']))   # 应用:绑定数据和标签
+>>> list(ds.as_numpy_iterator())
+[(1, b'a'), (2, b'b'), (3, b'a')]
+>>> ds = Dataset.from_tensor_slices({"a": [1, 2], "b": [3, 4], "c": [5, 6]})  # 张量构成的字典
+>>> list(ds.as_numpy_iterator())
+[{'a': 1, 'b': 3, 'c': 5}, {'a': 2, 'b': 4, 'c': 6}]    # 字典,元素来自各张量
+```
+
+
+
+### from_tensors()
+
+创建由单个张量元素构成的数据集。
+
+```python
+>>> ds = Dataset.from_tensors([1, 2, 3])
+>>> list(ds.as_numpy_iterator())
+[array([1, 2, 3], dtype=int32)]
+>>> 
+>>> ds = Dataset.from_tensors([[1, 2, 3], [4, 5, 6]])
+>>> list(ds.as_numpy_iterator())
+[array([[1, 2, 3],
+       [4, 5, 6]], dtype=int32)]
+```
+
+
+
+### list_files()
+
+
+
+### map()
+
+
+
+### range()
+
+创建由等差数列构成的数据集。
+
+```python
+>>> Dataset.range(5)
+<RangeDataset shapes: (), types: tf.int64>
+>>> list(Dataset.range(5).as_numpy_iterator())
+[0, 1, 2, 3, 4]
+>>> Dataset.range(1, 5, 2, output_type=tf.float32)
+<RangeDataset shapes: (), types: tf.float32>
+>>> list(Dataset.range(1, 5, 2, output_type=tf.float32).as_numpy_iterator())
+[1.0, 3.0]
+```
+
+
+
+### reduce()
+
+将数据集归约为一个元素。
+
+```python
+reduce(initial_state, reduce_func)
+# initial_state    初始状态
+# reduce_func      归约函数,将`(old_state, element)`映射到`new_state`.此函数会被不断地调用直到数据集被耗尽
+```
+
+```python
+>>> Dataset.range(5).reduce(np.int64(0), lambda x, y: x + y)
+<tf.Tensor: shape=(), dtype=int64, numpy=10>
+>>> Dataset.range(5).reduce(np.int64(0), lambda x, _: x + 1)
+<tf.Tensor: shape=(), dtype=int64, numpy=5>
+```
+
+
+
+### repeat()
+
+重复数据集多次，返回一个新的数据集。
+
+```python
+>>> list(Dataset.range(5).repeat(3).as_numpy_iterator())
+[0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4]
+```
+
+
+
+### shard()
+
+从数据集中等间距地抽取样本以构成新的数据集并返回。此方法在进行分布式训练时十分有用。
+
+```python
+shard(num_shards, index)
+# num_shards, index   每`num_shards`个样本抽取第`index`个
+```
+
+```python
+>>> ds = Dataset.range(10)
+>>> ds0 = ds.shard(num_shards=3, index=0)
+>>> list(ds0.as_numpy_iterator())
+[0, 3, 6, 9]
+>>> ds1 = ds.shard(num_shards=3, index=1)
+>>> list(ds1.as_numpy_iterator())
+[1, 4, 7]
+>>> ds2 = ds.shard(num_shards=3, index=2)
+>>> list(ds2.as_numpy_iterator())
+[2, 5, 8]
+```
+
+```python
+# 分布式训练准备数据集
+d = tf.data.TFRecordDataset(input_file)
+d = d.shard(num_workers, worker_index)
+d = d.repeat(num_epochs)
+d = d.shuffle(shuffle_buffer_size)
+d = d.map(parser_fn, num_parallel_calls=num_map_threads)
+```
+
+
+
+### shuffle()
+
+随机打乱数据集中的元素，返回一个新的数据集。
+
+```python
+shuffle(buffer_size, seed=None, reshuffle_each_iteration=None)
+# buffer_size                缓冲区大小.例如数据集包含1000个元素而`buffer_size`设为100,那么前100个元素首先进入缓冲区,
+#                            从中随机抽取一个,然后第101个元素进入缓冲区,再随机抽取一个,...
+# seed                       随机数种子
+# reshuffle_each_iteration   若为`True`,则数据集每迭代完成一次都会重新打乱
+```
+
+```python
+>>> list(Dataset.range(5).shuffle(5).as_numpy_iterator())    # 随机打乱
+[1, 0, 2, 4, 3]
+>>> 
+>>> list(Dataset.range(5).shuffle(2).as_numpy_iterator())    # 缓冲区设为2
+[0, 2, 1, 3, 4]   # 首先从0,1中抽取到0,再从1,2中抽取到2,再从1,3中抽取到1,...
+>>> 
+>>> ds = Dataset.range(5).shuffle(5, reshuffle_each_iteration=True)
+>>> list(ds.as_numpy_iterator())       # 每次迭代的顺序不同
+[1, 0, 3, 4, 2]
+>>> list(ds.as_numpy_iterator())
+[2, 0, 1, 4, 3]
+>>> list(ds.repeat(3).as_numpy_iterator())
+[0, 1, 3, 2, 4, 2, 0, 4, 3, 1, 2, 4, 3, 0, 1]    # 即使调用`repeat()`,每次迭代的顺序也不同
+```
+
+
+
+### skip()
+
+去除数据集的前几个元素以构成新的数据集并返回。
+
+```python
+>>> list(Dataset.range(5).skip(2).as_numpy_iterator())
+[2, 3, 4]
+```
+
+
+
+### take()
+
+用数据集的前几个元素构成新的数据集并返回。
+
+```python
+>>> list(Dataset.range(5).take(2).as_numpy_iterator())
+[0, 1]
+```
+
+
+
+### unbatch()
+
+将数据集的元素拆分为多个元素，返回一个新的数据集。
+
+```python
+>>> elements = [[1, 2, 3], [1, 2], [1, 2, 3, 4]]
+>>> ds = Dataset.from_generator(lambda: elements, tf.int64)
+>>> list(ds.as_numpy_iterator())
+[array([1, 2, 3]), array([1, 2]), array([1, 2, 3, 4])]
+>>> list(ds.unbatch().as_numpy_iterator())
+[1, 2, 3, 1, 2, 1, 2, 3, 4]
+```
+
+
+
+### window()
+
+将数据集中的相邻元素组合为窗口（窗口也是一个小规模的数据集），由这些窗口构成新的数据集并返回。
+
+```python
+window(size, shift=None, stride=1, drop_remainder=False)
+# size    窗口的元素数量
+# shift   窗口的移动距离
+# stride  取样的间距
+# drop_remainder   丢弃最后一个规模不足`size`的窗口
+```
+
+```python
+```
+
+
+
+### zip()
+
+组合多个数据集的对应元素以构成新的数据集并返回。类似于 Python 的内置函数 `zip()`。
+
+```python
+>>> ds1 = Dataset.range(1, 4)
+>>> ds2 = Dataset.range(4, 7)
+>>> ds = Dataset.zip((ds1, ds2))
+>>> list(ds.as_numpy_iterator())
+[(1, 4), (2, 5), (3, 6)]
+>>> 
+>>> ds3 = Dataset.range(7, 13).batch(2)
+>>> ds = Dataset.zip((ds1, ds2, ds3))    # 数据集的元素类型不要求相同
+>>> list(ds.as_numpy_iterator())
+[(1, 4, array([7, 8])), (2, 5, array([ 9, 10])), (3, 6, array([11, 12]))]
+>>> 
+>>> ds4 = Dataset.range(13, 15)
+>>> ds = Dataset.zip((ds1, ds2, ds4))    # 数据集的元素数量不要求相同,受限于数量最少的数据集
+>>> list(ds.as_numpy_iterator())
+[(1, 4, 13), (2, 5, 14)]
+```
+
+
+
+
+
+
+
+
+
+## TextLineDataset
+
+```python
+dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
+```
+
+
+
+
+
+
+
+
+
+# tf.distribute
+
+> 此模块设计复杂，难以使用，已经几乎被用户和团队抛弃。推荐使用 [Horovod](./hovorod.md)。
+
+分布式训练。
+
+
+
+## CentralStorageStrategy
+
+中央存储策略。
+
+
+
+## CrossDeviceOps
+
+归约和广播算法的基类。
+
+
+
+## get_replica_context()
+
+返回当前的 `ReplicaContext` 实例。
+
+```python
+```
+
+
+
+## get_strategy()
+
+返回当前的 `Strategy` 实例。
+
+```python
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> with strategy.scope():
+  print(tf.distribute.get_strategy())
+<tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7fb54795bf50>
+>>> print(tf.distribute.get_strategy())
+<tensorflow.python.distribute.distribute_lib._DefaultDistributionStrategy object at 0x7fb547e94bd0>
+```
+
+
+
+## has_strategy()
+
+返回当前是否为非默认的 `Strategy` 实例。
+
+```python
+with strategy.scope():
+  assert tf.distribute.has_strategy()
+```
+
+
+
+## HierarchicalCopyAllReduce
+
+hierarchical copy all-reduce 算法的实现。
+
+
+
+## MirroredStrategy
+
+镜像策略，其中模型的参数是 `MirroredVariable` 类型的变量，在所有的模型副本中保持同步。此策略用于单机多卡、数据并行、同步更新的情形。
+
+```python
+tf.distribute.MirroredStrategy(devices=None, cross_device_ops=None)
+# devices             设备列表.若为`None`或空列表,则使用所有可用的GPU;若没有发现GPU,则使用可用的CPU
+#                     注意TensorFlow将一台机器上的多核CPU视作单个设备,并且使用线程并行
+# cross_device_ops    
+```
+
+
+
+```python
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> with strategy.scope():
+  x = tf.Variable(1.)       # 在`MirroredStrategy`下创建的变量是一个`MirroredVariable`
+>>> x
+MirroredVariable:{
+  0: <tf.Variable 'Variable:0' shape=() dtype=float32, numpy=1.0>,
+  1: <tf.Variable 'Variable/replica_1:0' shape=() dtype=float32, numpy=1.0>
+}
+```
+
+
+
+## NcclAllReduce
+
+Nvidia NCCL all-reduce 算法的实现。默认使用的 all-reduce 算法。
+
+
+
+## OneDeviceStrategy
+
+在单个设备上运行。在此策略下创建的变量和通过 `strategy.run()` 调用的函数都会被放置在指定设备上。此策略通常用于测试代码对于 `tf.distribute.Strategy` API 的使用。
+
+```python
+tf.distribute.OneDeviceStrategy(device)
+```
+
+```python
+>>> strategy = tf.distribute.OneDeviceStrategy(device="/gpu:0")
+>>> with strategy.scope():
+  v = tf.Variable(1.0)
+  print(v.device)
+/job:localhost/replica:0/task:0/device:GPU:0
+>>> def step_fn(x):
+  return x * 2
+>>> result = 0
+>>> for i in range(10):
+  result += strategy.run(step_fn, args=(i,))
+>>> print(result)
+90
+```
+
+
+
+## ReductionToOneDevice
+
+reduce 算法的一个实现。
+
+
+
+
+
+## Server
+
+
+
+
+
+## Strategy
+
+在一组设备上的分布式计算策略。
+
+
+
+
+
+### gather()
+
+
+
+### num_replicas_in_sync
+
+进行梯度汇总的 replica 的数量。
+
+
+
+### reduce()
+
+
+
+### run()
+
+
+
+### scope()
+
+返回一个上下文管理器，
+
+
+
+
+
+
+
+# tf.image
+
+图像操作。
+
+## adjust_brightness()
+
+
+
+## adjust_contrast()
+
+
+
+## adjust_gamma()
+
+
+
+## adjust_hue()
 
 
 
@@ -760,13 +1279,13 @@ tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0],  # Output shape: (2, 4, 4)
 
 ## eigh()
 
-返回张量的一个特征分解$$A=Q\Lambda Q^{-1}$$。
+返回张量的一个特征分解 $$A=Q\Lambda Q^{-1}$$。
 
 
 
 ## svd()
 
-返回张量的一个奇异值分解$$A=U\Sigma V^*$$。
+返回张量的一个奇异值分解 $$A=U\Sigma V^*$$。
 
 
 
@@ -787,7 +1306,7 @@ tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0],  # Output shape: (2, 4, 4)
 
 ## add(), subtract()
 
-张量加法/减法。`+, -`符号重载了这些方法。
+张量加法/减法。`+,-` 符号重载了这些方法。
 
 ```python
 >>> a = tf.reshape(tf.range(12), [3, 4])
@@ -862,7 +1381,7 @@ array([[ 1.2651453 , -0.9885311 , -1.9029404 ,  1.0343136 ],
 
 ## equal()
 
-逐元素判断两个张量是否相等。`==`符号重载了此方法。
+逐元素判断两个张量是否相等。`==` 符号重载了此方法。
 
 ```python
 >>> one1 = tf.ones([2,3])
@@ -912,7 +1431,7 @@ array([[1.0000000e+00, 2.7182817e+00, 7.3890562e+00, 2.0085537e+01,
 
 ## greater(), greater_equal(), less(), less_equal()
 
-逐元素比较两个张量的大小。`>, >=, <, <=`符号重载了这些方法。
+逐元素比较两个张量的大小。`>,>=,<,<=` 符号重载了这些方法。
 
 ```python
 >>> a = tf.constant([5, 4, 6])
@@ -931,7 +1450,7 @@ array([[1.0000000e+00, 2.7182817e+00, 7.3890562e+00, 2.0085537e+01,
 
 ## log()
 
-张量逐元素应用自然对数函数。注意tensorflow没有`log2()`和`log10()`函数。
+张量逐元素应用自然对数函数。注意 TensorFlow 没有 `log2()` 和 `log10()` 函数。
 
 ```python
 >>> a = tf.reshape(tf.range(10.), [2,5])
@@ -965,7 +1484,7 @@ array([[     -inf, 0.       , 0.6931472, 1.0986123, 1.3862944],
 
 ## multiply(), divide()
 
-张量逐元素乘法/除法。`*, /`符号重载了此方法。
+张量逐元素乘法/除法。`*,/` 符号重载了此方法。
 
 ```python
 >>> a = tf.reshape(tf.range(12), [3,4])
@@ -1008,7 +1527,7 @@ array([[ 1,  2,  3,  4],
 
 ## pow()
 
-张量逐元素幂乘。`**`符号重载了此方法。
+张量逐元素幂乘。`**` 符号重载了此方法。
 
 ```python
 >>> a = tf.constant([[2, 2], [3, 3]])
@@ -1097,7 +1616,7 @@ array([[3],
 
 ## round()
 
-张量逐元素应用舍入函数，0.5会向偶数取整。
+张量逐元素应用舍入函数，0.5 会向偶数取整。
 
 ```python
 >>> a = tf.constant([0.9, 2.5, 2.3, 1.5, -4.5])
@@ -1109,7 +1628,7 @@ array([[3],
 
 ## sigmoid()
 
-Sigmoid激活函数。
+Sigmoid 激活函数。
 
 ```python
 >>> input = tf.random.normal([2])
@@ -1165,7 +1684,7 @@ array([[ 0.        ,  0.84147096,  0.9092974 ,  0.14112   , -0.7568025 ],
 
 ## square()
 
-张量逐元素平方。相当于`** 2`。
+张量逐元素平方。相当于 `**2`。
 
 ```python
 >>> a = tf.constant([4.0, 9.0])
@@ -1206,7 +1725,7 @@ array([[78.19693, 70.49714, 79.60359],
 涉及随机数的操作从全局种子和操作种子推导其自身的种子。全局种子和操作种子的关系如下：
 
 1. 若都没有设定，则操作随机选取一个种子。
-2. 若只设定了全局种子，则接下来的若干操作选取的种子都是确定的。注意不同版本的tensorflow可能会得到不同的结果。
+2. 若只设定了全局种子，则接下来的若干操作选取的种子都是确定的。注意不同版本的 TensorFlow 可能会得到不同的结果。
 3. 若只设定了操作种子，则使用默认的全局种子。
 4. 若都设定，则两个种子共同确定操作的种子。
 
@@ -1315,7 +1834,35 @@ array([[6.263931 , 5.2984324, 7.584572 ],
 
 
 
+# tf.signal
+
+信号处理操作。
+
+
+
+## fft()
+
+快速傅立叶变换。
+
+
+
+
+
+
+
 # tf.sparse
+
+## add
+
+
+
+## concat
+
+
+
+## mask
+
+
 
 ## SparseTensor
 
@@ -1337,6 +1884,8 @@ array([[1, 0, 0, 0],
 
 
 # tf.strings
+
+字符串张量操作。
 
 ## string tensor
 
@@ -1371,5 +1920,165 @@ print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
 # tf.Tensor([b'\xf0\x9f\xa5\xb3' b'\xf0\x9f\x91\x8d'], shape=(2,), dtype=string)
 # tf.Tensor([129395 128077], shape=(2,), dtype=int32)
 ```
+
+
+
+## format()
+
+
+
+## join()
+
+
+
+## ngrams()
+
+
+
+## regex_full_match()
+
+
+
+## regex_replace()
+
+
+
+
+
+## split()
+
+
+
+## strip()
+
+
+
+
+
+# tfds
+
+`tfds` 模块定义了一系列 TensorFlow 可以直接使用的数据集的集合。每个数据集都定义为一个 `tfds.core.DatasetBuilder` 实例，该实例封装了下载数据集、构建输入流水线的逻辑，也包含了数据集的文档。
+
+
+
+## as_dataframe()
+
+将数据集转换为 Pandas dataframe。
+
+```python
+tfds.as_dataframe(
+    ds: tf.data.Dataset,
+    ds_info: Optional[tfds.core.DatasetInfo] = None
+) -> StyledDataFrame
+# ds        要转换为Pandas dataframe的`Dataset`实例,其中样本不应分批
+# ds_info   `DatasetInfo`实例,用于帮助改善格式
+```
+
+
+
+## as_numpy()
+
+将数据集转换为 NumPy 数组。
+
+```python
+tfds.as_numpy(
+    dataset: Tree[TensorflowElem]
+) -> Tree[NumpyElem]
+```
+
+```python
+ds = tfds.load(name="mnist", split="train")
+ds_numpy = tfds.as_numpy(ds)  # Convert `tf.data.Dataset` to Python generator
+for ex in ds_numpy:
+  # `{'image': np.array(shape=(28, 28, 1)), 'labels': np.array(shape=())}`
+  print(ex)
+```
+
+
+
+## build()
+
+通过数据集名称获取一个 `DatasetBuilder` 实例。
+
+```python
+tfds.builder(name: str, *, try_gcs: bool = False, **builder_kwargs) -> tfds.core.DatasetBuilder
+# name                数据集名称,需要是`DatasetBuilder`中注册的名称.可以是'dataset_name'或'dataset_name/config_name'
+#                     (对于有`Builderconfig`的数据集)
+# try_gcs
+# **builder_kwargs    传递给`DatasetBuilder`的关键字参数字典
+```
+
+
+
+```python
+```
+
+
+
+
+
+## core.BuilderConfig
+
+
+
+## core.DatasetBuilder
+
+
+
+
+
+## core.DatasetInfo
+
+
+
+
+
+
+
+## load()
+
+通过数据集名称加载一个 `Dataset` 实例。
+
+```python
+tfds.load(
+    name: str,
+    *,
+    split: Optional[Tree[splits_lib.Split]] = None,
+    data_dir: Optional[str] = None,
+    batch_size: tfds.typing.Dim = None,
+    shuffle_files: bool = False,
+    download: bool = True,
+    as_supervised: bool = False,
+    decoders: Optional[TreeDict[decode.Decoder]] = None,
+    read_config: Optional[tfds.ReadConfig] = None,
+    with_info: bool = False,
+    builder_kwargs: Optional[Dict[str, Any]] = None,
+    download_and_prepare_kwargs: Optional[Dict[str, Any]] = None,
+    as_dataset_kwargs: Optional[Dict[str, Any]] = None,
+    try_gcs: bool = False
+)
+# name                数据集名称,需要是`DatasetBuilder`中注册的名称.可以是'dataset_name'或
+#                     'dataset_name/config_name'(对于有`Builderconfig`的数据集)
+# split               加载的数据集部分,例如'train','test',['train','test'],'train[80%:]',....若为`None`,
+#                     则返回部分名称到`Dataset`实例的字典
+# data_dir            读/写数据的目录
+# batch_size          批次规模,设定后会为样本增加一个批次维度
+# shuffle_files       若为`True`,打乱输入文件
+# download            若为`True`,在调用`DatasetBuilder.as_dataset()`之前调用
+#                     `DatasetBuilder.download_and_prepare()`,如果数据已经在`data_dir`下,则不执行任何操作;
+#                     若为`False`,则数据应当存在于`data_dir`下.
+# as_supervised
+# decoders
+# read_config
+# with_info           若为`True`,返回元组(`Dataset`, `DatasetInfo`)
+# builder_kwargs      传递给`DatasetBuilder`的关键字参数字典
+# download_and_prepare_kwargs     传递给`DatasetBuilder.download_and_prepare()`的关键字参数字典
+# as_dataset_kwargs               传递给`DatasetBuilder.as_dataset()`的关键字参数字典
+# try_gcs
+```
+
+```python
+```
+
 
 

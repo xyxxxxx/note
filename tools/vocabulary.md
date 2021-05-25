@@ -93,6 +93,7 @@
 | convolution kernel                 | 卷积核                       |
 | cookie                             |                              |
 | CPU, central process unit          | 中央处理器                   |
+| cross-platform                     | 跨平台                       |
 | CRUD, Create, Read, Update, Delete | 增删改查（数据库的基本操作） |
 | CSS                                | 层叠样式表                   |
 |                                    |                              |
@@ -140,6 +141,7 @@
 | embedded system                | 嵌入式系统                   |
 | embedding                      | 嵌入                         |
 | empirical risk                 | 经验风险                     |
+| encapsulate                    | 封装                         |
 | ensemble                       | 集成                         |
 | enumerate                      | 枚举                         |
 | error                          | 错误                         |
@@ -332,8 +334,10 @@
 | object                           | 对象         |
 | OOM, Out Of Memory               | 内存溢出     |
 | OOP, Object Oriented Programming | 面向对象编程 |
+| open-source                      | 开源         |
 | operand                          | 操作数       |
 | operator                         | 算子         |
+|                                  |              |
 | optimize                         | 优化         |
 | optimizer                        | 优化器       |
 | OS, Operating System             | 操作系统     |
@@ -376,6 +380,7 @@
 | POSIX, Portable Operating System Interface | 可移植操作系统接口 |
 | precision                                  | 精确率             |
 | predecessor                                | 前驱               |
+| preemption                                 | 抢占               |
 | preorder                                   | 先序               |
 | print                                      | 打印               |
 | priority queue                             | 优先级队列         |

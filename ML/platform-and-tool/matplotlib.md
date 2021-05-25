@@ -57,7 +57,7 @@ plt.show()
 
 > 参考[matplotlib gallery](https://matplotlib.org/gallery/index.html)
 
-![Histogram of IQ: $\mu=100$, $\sigma=15$](https://matplotlib.org/_images/sphx_glr_histogram_features_001.png)
+![Histogram of IQ：$\mu=100$，$\sigma=15$](https://matplotlib.org/_images/sphx_glr_histogram_features_001.png)
 
 ```python
 import matplotlib

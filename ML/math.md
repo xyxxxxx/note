@@ -46,4 +46,3 @@ $$
 \frac{\partial {\rm softmax}(\boldsymbol x)}{\partial \boldsymbol x}={\rm diag}({\rm softmax}(\boldsymbol x))-\rm softmax(\boldsymbol x)\rm softmax(\boldsymbol x)^{\rm T}
 $$
 
-

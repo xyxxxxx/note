@@ -1406,5 +1406,7 @@ trainer = Trainer(..., profiler="advanced")
 
 # 分布式训练
 
+> 分布式训练的基本概念参见[tensorflow-分布式训练-基本概念](./tensorflow.md#基本概念)
+
 ## 多GPU训练
 

@@ -1,14 +1,16 @@
 [toc]
 
-NumPy包用于向量和矩阵运算。
+[NumPy]() 是 Python 中进行科学计算的基本包。
 
 > tutorial参见[Quickstart tutorial](https://numpy.org/doc/stable/user/quickstart.html)
 
 
 
+# 教程
 
+> 官方教程参见[NumPy user guide](https://numpy.org/doc/stable/user/index.html)
 
-# 数组对象
+## 数组对象
 
 ```python
 >>> a = np.array([[6, 5], [11, 7], [4, 8]])
@@ -28,9 +30,9 @@ array([[ 6,  5],
 
 
 
-# 基本操作
+## 基本操作
 
-## 运算
+### 运算
 
 ```python
 >>> a = np.arange(6).reshape(2,3)
@@ -80,7 +82,7 @@ array([[0, 3],
 
 
 
-## 复制
+### 复制
 
 
 
@@ -88,7 +90,11 @@ array([[0, 3],
 
 
 
-# 库函数
+# API
+
+> 参见[NumPy Reference](https://numpy.org/doc/stable/reference/index.html)
+
+
 
 ## numpy
 
@@ -125,7 +131,7 @@ array([ 0,  1,  2,  3,  4,  5, 10])
 
 ### arange()
 
-根据给定的初值，末值和步长创建向量。与python的`range()`用法相同。
+根据给定的初值，末值和步长创建向量。与 python 的 `range()` 用法相同。
 
 ```python
 >>> np.arange(10)
@@ -161,7 +167,7 @@ array([1, 2, 0, 4, 3])  # 从小到大依次为索引为1, 2, 0, 4, 3的元素
 >>> vector
 array([1.2, 2.4, 3.5, 4.7, 6.1, 7.2, 8.3, 9.5])
 
->>> matrix = np.array([[6, 5], [11, 7], [4, 8]])
+>>> matrix = np.array([[6, 5], [11, 7], [4, 8]])     # 二维数组
 >>> matrix
 array([[ 6,  5],
        [11,  7],
@@ -388,7 +394,7 @@ array([0.08495886, 0.24187973, 0.13003434])
 
 ### ones(), zeros()
 
-创建全1/0数组。
+创建全 1/0 数组。
 
 ```python
 >>> np.ones(6)
@@ -404,7 +410,7 @@ array([0, 0, 0, 0, 0, 0])
 
 ### pi
 
-圆周率$$\pi$$。
+圆周率 $$\pi$$。
 
 ```python
 >>> np.sin(np.pi/2)
@@ -593,7 +599,7 @@ array([3, 2, 8, 7, 0, 9, 6, 4, 1, 5])
 
 ### random()/rand()
 
-根据给定的长度给出随机数向量，其中每个元素服从(0,1)区间的均匀分布。
+根据给定的长度给出随机数向量，其中每个元素服从（0，1）区间的均匀分布。
 
 ```python
 >>> np.random.random(10)
@@ -625,7 +631,7 @@ array([0.5488135 , 0.71518937, 0.60276338, 0.54488318, 0.4236548 ,
 
 ### shuffle()
 
-随机打乱数组（沿轴0的）各元素的位置。
+随机打乱数组（沿轴 0 的）各元素的位置。
 
 ```python
 >>> a = np.arange(12)
@@ -647,7 +653,7 @@ array([[ 8,  9, 10, 11],
 
 ### eig()
 
-返回数组的一个特征分解$$A=Q\Lambda Q^{-1}$$。
+返回数组的一个特征分解 $$A=Q\Lambda Q^{-1}$$。
 
 ```python
 >>> from numpy import linalg as LA
@@ -666,7 +672,7 @@ array([[ 4.,  6.,  0.],
 
 ### svd()
 
-返回数组的一个奇异值分解$$A=U\Sigma V^*$$。
+返回数组的一个奇异值分解 $$A=U\Sigma V^*$$。
 
 ```python
 >>> from numpy import linalg as LA
