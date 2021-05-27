@@ -1704,13 +1704,13 @@ array([[ 0.        ,  0.84147096,  0.9092974 ,  0.14112   , -0.7568025 ],
 
 ```python
 >>> tf.random.set_seed(5)
->>> tf.random.normal([2,3])
+>>> tf.random.normal([2, 3])         # 标准正态分布
 <tf.Tensor: shape=(2, 3), dtype=float32, numpy=
 array([[-0.18030666, -0.95028627, -0.03964049],
        [-0.7425406 ,  1.3231523 , -0.61854804]], dtype=float32)>
 
 >>> tf.random.set_seed(5)
->>> tf.random.normal([2,3], 80, 10)
+>>> tf.random.normal([2, 3], 80, 10)
 <tf.Tensor: shape=(2, 3), dtype=float32, numpy=
 array([[78.19693, 70.49714, 79.60359],
        [72.57459, 93.23152, 73.81452]], dtype=float32)>

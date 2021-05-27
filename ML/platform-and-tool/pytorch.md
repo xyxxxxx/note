@@ -180,7 +180,7 @@ print(y)
 ```python
 # 亦为Learning PyTorch with Examples的示例
 import torch
-from torch import nn
+import torch.nn as nn
 
 
 class TwoLayerNet(nn.Module):
@@ -189,7 +189,7 @@ class TwoLayerNet(nn.Module):
         """
         super(TwoLayerNet, self).__init__()
         
-        # 初始化模块
+        # 初始化层
         # self.linear1 = nn.Linear(D_in, H)
         # self.linear2 = nn.Linear(H, D_out)
 
@@ -202,7 +202,7 @@ class TwoLayerNet(nn.Module):
     def forward(self, x):
         """使用构造函数中声明的模块和参数
         """
-        # 使用模块
+        # 使用层
         # h_relu = self.linear1(x).clamp(min=0)
         # y_pred = self.linear2(h_relu)
 

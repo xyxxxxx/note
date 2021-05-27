@@ -219,8 +219,6 @@ test end ...                       # 测试结束
 
 
 
-
-
 ### EarlyStopping
 
 当监视的参数不再改善时提前停止训练。
@@ -230,12 +228,15 @@ tf.keras.callbacks.EarlyStopping(
     monitor='val_loss', min_delta=0, patience=0, verbose=0,
     mode='auto', baseline=None, restore_best_weights=False
 )
-# monitor               监视的指标
+# monitor               监视的指标,可以是'val_loss','val_accuracy',等等
 # min_delta             可以视为改善的最小绝对变化量,换言之,小于该值的指标绝对变化量视为没有改善
-# patience              若最近patience次epoch的指标都没有改善(即最后patience次的指标都比倒数第patience+1次差),则停止训练
-# mode                  若为'min',则指标减小视为改善;若为'max',则指标增加视为改善;若为'auto',则方向根据指标的名称自动推断
+# patience              若最近`patience`次epoch的指标都没有改善(即最后`patience`次的指标都比倒数第
+#                       `patience+1`次差),则停止训练
+# mode                  若为`'min'`,则指标减小视为改善;若为`'max'`,则指标增加视为改善;若为`'auto'`,
+#                       则方向根据指标的名称自动推断
 # baseline              监视的指标的基线值,若指标没有超过基线值则停止训练
-# restore_best_weights  若为True,训练结束时会恢复监视指标取最好值的epoch的权重;若为False,训练结束时会保留最后一个epoch的权重
+# restore_best_weights  若为`True`,训练结束时会恢复监视指标取最好值的epoch的权重;若为`False`,训练结束时
+#                       会保留最后一个epoch的权重
 ```
 
 
@@ -249,14 +250,14 @@ tf.keras.callbacks.LambdaCallback(
     on_epoch_begin=None, on_epoch_end=None, on_batch_begin=None, on_batch_end=None,
     on_train_begin=None, on_train_end=None, **kwargs
 )
-# on_epoch_begin  在每个epoch开始时调用
+# on_epoch_begin    在每个epoch开始时调用的函数
 # ...
 ```
 
 ```python
 # 自定义batch回调示例
 print_batch_callback = callbacks.LambdaCallback(
-    on_batch_end=lambda batch,logs: print(batch, logs))   # 需要两个位置参数: batch, logs
+    on_batch_end=lambda batch,logs: print(batch, logs))   # 需要两个位置参数: `batch`, `logs`
                                                           # 分别代表当前batch的序号和指标
 # 训练输出
   20/1500 [..............................] - ETA: 18s - loss: 2.2107 - accuracy: 0.206319 {'loss': 2.0734667778015137, 'accuracy': 0.3140625059604645}
@@ -269,7 +270,7 @@ print_batch_callback = callbacks.LambdaCallback(
 26 {'loss': 1.8743277788162231, 'accuracy': 0.40509259700775146}
 27 {'loss': 1.838417887687683, 'accuracy': 0.4151785671710968}  
   
-  
+
 # 自定义epoch回调示例
 print_epoch_callback = callbacks.LambdaCallback(
     on_epoch_end=lambda epoch,logs: print(epoch, logs))   # 需要两个位置参数: epoch, logs
@@ -285,13 +286,15 @@ Epoch 2/10
 
 
 
-
-
 ### LearningRateScheduler
 
 
 
+
+
 ### ModelCheckpoint
+
+
 
 
 
@@ -601,6 +604,22 @@ model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1, activation='sigmoid'))
 ```
+
+
+
+# losses
+
+## BinaryCrossentropy
+
+计算真实标签和预测标签之间的交叉熵损失，用于二分类问题。损失函数接受的真实标签为 `0` 或 `1`，预测标签为任意浮点数（当 `from_logits=True`）或概率值（当 `from_logits=False`）。
+
+
+
+## CategoricalCrossentropy
+
+
+
+
 
 
 
@@ -1035,6 +1054,112 @@ class Linear(tf.keras.Model):
 
 
 # optimizers
+
+## Adadelta
+
+实现 Adadelta 算法的优化器。
+
+```python
+tf.keras.optimizers.Adadelta(
+    learning_rate=0.001, rho=0.95, epsilon=1e-07, name='Adadelta',
+    **kwargs
+)
+# learning_rate   学习率
+# rho...          参见官方文档https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adadelta
+```
+
+
+
+## Adagrad
+
+实现 Adagrad 算法的优化器。
+
+```python
+tf.keras.optimizers.Adagrad(
+    learning_rate=0.001, initial_accumulator_value=0.1, epsilon=1e-07,
+    name='Adagrad', **kwargs
+)
+# learning_rate                   学习率
+# initial_accumulator_value...    参见官方文档
+#                                 https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adagrad
+```
+
+
+
+## Adam
+
+实现 Adam 算法的优化器。
+
+```python
+tf.keras.optimizers.Adam(
+    learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-07, amsgrad=False,
+    name='Adam', **kwargs
+)
+# learning_rate   学习率
+# beta_1...       参见官方文档https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adam
+```
+
+
+
+## Optimizer
+
+Keras 优化器的基类。
+
+```python
+tf.keras.optimizers.Optimizer(
+    name, gradient_aggregator=None, gradient_transformers=None, **kwargs
+)
+```
+
+
+
+### apply_gradients()
+
+
+
+### from_config()
+
+根据设置创建一个优化器。参见 [`get_config()`](#get_config())。
+
+
+
+### get_config()
+
+返回优化器的设置。参见 [`from_config()`](#from_config())。
+
+
+
+### get_weights()
+
+返回优化器的当前参数。
+
+
+
+### minimize()
+
+
+
+### set_weights()
+
+设置优化器的参数。
+
+
+
+## SGD
+
+梯度下降优化器。
+
+```python
+tf.keras.optimizers.SGD(
+    learning_rate=0.01, momentum=0.0, nesterov=False, name='SGD', **kwargs
+)
+# learning_rate   学习率
+# momentum        动量因子
+# nesterov        使用Nesterov动量
+# name            
+```
+
+
 
 
 

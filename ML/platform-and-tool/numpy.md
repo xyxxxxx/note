@@ -176,6 +176,12 @@ array([[ 6,  5],
 
 
 
+### array_equal()
+
+
+
+
+
 ### concatenate()
 
 沿指定轴拼接数组。
