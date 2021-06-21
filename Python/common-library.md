@@ -472,7 +472,7 @@ True
 
 
 
-# yaml
+# PyYAML (yaml)
 
 PyYAML 是一个 YAML 编码和解码器，使用方法类似于标准库的 json 包。
 

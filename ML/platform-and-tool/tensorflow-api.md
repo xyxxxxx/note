@@ -7,7 +7,7 @@
 将张量广播到兼容的形状。
 
 ```python
->>> a = tf.constant([1, 2, 3])     # 
+>>> a = tf.constant([1, 2, 3])
 >>> tf.broadcast_to(a, [3, 3])
 <tf.Tensor: shape=(3, 3), dtype=int32, numpy=
 array([[1, 2, 3],
@@ -205,6 +205,40 @@ array([[1., 1., 1.],
 array([[1, 1, 1],
        [1, 1, 1]], dtype=int32)>
 ```
+
+
+
+## one_hot()
+
+返回张量的独热编码。
+
+```python
+tf.one_hot(indices, depth, on_value=None, off_value=None, axis=None, dtype=None, name=None)
+# indices     索引张量
+# depth       独热维度的规模
+# on_value    索引位置填入的值,默认为1
+# off_value   非索引位置填入的值,默认为0
+```
+
+```python
+>>> tf.one_hot([0, 1, 2], 3)
+<tf.Tensor: shape=(3, 3), dtype=float32, numpy=
+array([[1., 0., 0.],                       # indices[0] = 1.0
+       [0., 1., 0.],                       # indices[1] = 1.0
+       [0., 0., 1.]], dtype=float32)>      # indices[2] = 1.0
+>>> tf.one_hot([0, 1, 2], 2)
+<tf.Tensor: shape=(3, 2), dtype=float32, numpy=
+array([[1., 0.],
+       [0., 1.],
+       [0., 0.]], dtype=float32)>
+>>> tf.one_hot([0, 1, 2], 4)
+<tf.Tensor: shape=(3, 4), dtype=float32, numpy=
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.]], dtype=float32)>
+```
+
+
 
 
 
@@ -766,7 +800,7 @@ False
 为数据集应用一个变换函数，返回一个新的数据集。该变换函数通常是 `Dataset` 实例的变换方法的组合。
 
 ```python
->>> ds = tf.data.Dataset.range(100)
+>>> ds = Dataset.range(100)
 >>> def dataset_fn(ds):
   return ds.filter(lambda x: x < 5)
 ... 
@@ -782,7 +816,60 @@ False
 返回一个迭代器，其中数据集的所有元素都被转换为 NumPy 数组。
 
 ```python
+>>> ds = Dataset.range(5)
 ```
+
+
+
+### batch()
+
+将数据集的连续元素组合为批，返回一个新的数据集。
+
+```python
+>>> list(Dataset.range(10).batch(3).as_numpy_iterator())
+[array([0, 1, 2]), array([3, 4, 5]), array([6, 7, 8]), array([9])]
+>>> list(Dataset.range(10).batch(3, drop_remainder=True).as_numpy_iterator())   # 丢弃达不到指定规模的最后一个批次
+[array([0, 1, 2]), array([3, 4, 5]), array([6, 7, 8])]
+```
+
+
+
+### cache()
+
+返回一个新的数据集，该数据集的元素被缓存到内存中。
+
+
+
+### cardinality()
+
+返回数据集的元素个数。如果数据集的元素个数是无限或不能确定，则返回 `tf.data.INFINITE_CARDINALITY`（`-1`） 或 `tf.data.UNKNOWN_CARDINALITY`（`-2`）。
+
+```python
+>>> Dataset.range(100).cardinality()
+<tf.Tensor: shape=(), dtype=int64, numpy=100>
+>>>
+>>> Dataset.range(100).repeat().cardinality()
+<tf.Tensor: shape=(), dtype=int64, numpy=-1>
+>>> Dataset.range(100).repeat().cardinality() == tf.data.INFINITE_CARDINALITY
+<tf.Tensor: shape=(), dtype=bool, numpy=True>
+>>>
+>>> Dataset.range(100).filter(lambda x: True).cardinality()
+<tf.Tensor: shape=(), dtype=int64, numpy=-2>
+>>> Dataset.range(100).filter(lambda x: True).cardinality() == tf.data.UNKNOWN_CARDINALITY
+<tf.Tensor: shape=(), dtype=bool, numpy=True>
+```
+
+
+
+
+
+
+
+### filter()
+
+
+
+
 
 
 
@@ -885,6 +972,28 @@ reduce(initial_state, reduce_func)
 ```python
 >>> list(Dataset.range(5).repeat(3).as_numpy_iterator())
 [0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4]
+
+>>> pprint(list(Dataset.range(100).shuffle(100).repeat(2).batch(10).as_numpy_iterator()))
+[array([63, 46, 66, 70, 96, 98,  7, 52, 50, 37]),
+ array([45, 60, 69, 61, 84, 41, 22, 27, 14, 57]),
+ array([ 9, 81,  8, 75,  4, 87, 18,  1, 51, 76]),
+ array([65, 59, 90, 23, 39, 74, 26,  3, 20, 78]),
+ array([91, 68, 85, 24, 53, 55, 16, 83, 94, 86]),
+ array([92, 54, 48, 93, 38, 13, 67, 71, 82, 56]),
+ array([40, 62,  5, 33, 15, 99, 32, 17,  6, 25]),
+ array([80, 43, 28, 77, 21, 11, 72, 88, 44, 89]),
+ array([31, 19, 12, 47, 36, 95, 29, 34,  0, 10]),
+ array([97,  2, 42, 30, 64, 49, 79, 58, 35, 73]),
+ array([19, 13, 77, 51, 56, 46, 67, 48, 27, 89]),
+ array([26, 72, 54, 14,  2, 18, 25, 44, 63, 82]),
+ array([24, 10, 23, 68, 64, 39, 28, 52, 53, 38]),
+ array([69,  1, 15, 92, 31, 49, 60, 33, 81, 37]),
+ array([65, 40, 20, 50,  5, 90, 34, 97, 84,  7]),
+ array([99,  0, 75, 59, 98,  3, 85, 83, 61,  8]),
+ array([73, 35, 36, 76, 55, 96, 91, 21, 94,  6]),
+ array([70, 47, 16, 86, 11, 57, 95, 45, 74, 43]),
+ array([87, 62, 29, 17, 12, 22, 66, 93, 88, 42]),
+ array([79,  4, 80, 78, 32, 30, 71,  9, 58, 41])]
 ```
 
 
@@ -927,7 +1036,7 @@ d = d.map(parser_fn, num_parallel_calls=num_map_threads)
 随机打乱数据集中的元素，返回一个新的数据集。
 
 ```python
-shuffle(buffer_size, seed=None, reshuffle_each_iteration=None)
+shuffle(buffer_size, seed=None, reshuffle_each_iteration=True)
 # buffer_size                缓冲区大小.例如数据集包含1000个元素而`buffer_size`设为100,那么前100个元素首先进入缓冲区,
 #                            从中随机抽取一个,然后第101个元素进入缓冲区,再随机抽取一个,...
 # seed                       随机数种子
@@ -941,13 +1050,19 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=None)
 >>> list(Dataset.range(5).shuffle(2).as_numpy_iterator())    # 缓冲区设为2
 [0, 2, 1, 3, 4]   # 首先从0,1中抽取到0,再从1,2中抽取到2,再从1,3中抽取到1,...
 >>> 
->>> ds = Dataset.range(5).shuffle(5, reshuffle_each_iteration=True)
->>> list(ds.as_numpy_iterator())       # 每次迭代的顺序不同
+>>> ds = Dataset.range(5).shuffle(5)
+>>> list(ds.as_numpy_iterator())                 # 每次迭代的顺序不同
 [1, 0, 3, 4, 2]
 >>> list(ds.as_numpy_iterator())
 [2, 0, 1, 4, 3]
 >>> list(ds.repeat(3).as_numpy_iterator())
 [0, 1, 3, 2, 4, 2, 0, 4, 3, 1, 2, 4, 3, 0, 1]    # 即使调用`repeat()`,每次迭代的顺序也不同
+>>> 
+>>> ds = Dataset.range(5).shuffle(5, reshuffle_each_iteration=False)
+>>> list(ds.as_numpy_iterator())
+[1, 4, 2, 3, 0]
+>>> list(ds.as_numpy_iterator())                 # 每次迭代的顺序相同
+[1, 4, 2, 3, 0]
 ```
 
 
@@ -976,7 +1091,7 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=None)
 
 ### unbatch()
 
-将数据集的元素拆分为多个元素，返回一个新的数据集。
+将数据集的元素（批）拆分为多个元素，返回一个新的数据集。
 
 ```python
 >>> elements = [[1, 2, 3], [1, 2], [1, 2, 3, 4]]
@@ -1052,7 +1167,7 @@ dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
 
 # tf.distribute
 
-> 此模块设计复杂，难以使用，已经几乎被用户和团队抛弃。推荐使用 [Horovod](./hovorod.md)。
+> 此模块设计复杂，难以使用，越来越多的用户开始使用 [Horovod](./hovorod.md)。
 
 分布式训练。
 
@@ -1066,7 +1181,27 @@ dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
 
 ## CrossDeviceOps
 
-归约和广播算法的基类。
+跨设备归约和广播算法的基类，用于实现不同的跨设备通信方法并传入到 `MirroredStrategy`。
+
+`ReductionToOneDevice`, `NcclAllReduce` 和 `HierarchicalCopyAllReduce` 是 `CrossDeviceOps` 的子类，实现了具体的归约算法。
+
+
+
+## DistributedDataset
+
+
+
+
+
+## DistributedIterator
+
+
+
+
+
+## DistributedValues
+
+
 
 
 
@@ -1075,6 +1210,19 @@ dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
 返回当前的 `ReplicaContext` 实例。
 
 ```python
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> print(tf.distribute.get_replica_context())    # 在默认分布式策略下,返回默认模型副本上下文实例
+<tensorflow.python.distribute.distribute_lib._DefaultReplicaContext object at 0x7f1b8057e190>
+>>> with strategy.scope():                        # 在`MirroredStrategy`下,返回`None`
+  print(tf.distribute.get_replica_context())
+None
+>>> def f():
+  return tf.distribute.get_replica_context()
+>>> strategy.run(f)
+PerReplica:{                                      # 在`strategy.run()`下,返回镜像模型副本上下文实例,为此函数的通常用法
+  0: <tensorflow.python.distribute.mirrored_run._MirroredReplicaContext object at 0x7f1b805c0610>,
+  1: <tensorflow.python.distribute.mirrored_run._MirroredReplicaContext object at 0x7f1b805c0390>
+}
 ```
 
 
@@ -1085,11 +1233,11 @@ dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
 
 ```python
 >>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
->>> with strategy.scope():
-  print(tf.distribute.get_strategy())
-<tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7fb54795bf50>
->>> print(tf.distribute.get_strategy())
+>>> print(tf.distribute.get_strategy())           # 默认分布式策略实例
 <tensorflow.python.distribute.distribute_lib._DefaultDistributionStrategy object at 0x7fb547e94bd0>
+>>> with strategy.scope():
+  print(tf.distribute.get_strategy())             # `MirroredStrategy`实例
+<tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7fb54795bf50>
 ```
 
 
@@ -1099,8 +1247,12 @@ dataset = tf.data.TextLineDataset(["file1.txt", "file2.txt"])
 返回当前是否为非默认的 `Strategy` 实例。
 
 ```python
-with strategy.scope():
-  assert tf.distribute.has_strategy()
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> print(tf.distribute.has_strategy())
+False
+>>> with strategy.scope():
+  print(tf.distribute.has_strategy())
+True
 ```
 
 
@@ -1111,18 +1263,35 @@ hierarchical copy all-reduce 算法的实现。
 
 
 
+## in_cross_replica_context()
+
+返回当前是否为跨模型副本的上下文。
+
+```python
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> print(tf.distribute.in_cross_replica_context())
+False
+>>> with strategy.scope():
+  print(tf.distribute.in_cross_replica_context())
+True
+>>> def f():
+  return tf.distribute.in_cross_replica_context()
+>>> strategy.run(f)
+False
+```
+
+
+
 ## MirroredStrategy
 
-镜像策略，其中模型的参数是 `MirroredVariable` 类型的变量，在所有的模型副本中保持同步。此策略用于单机多卡、数据并行、同步更新的情形。
+单机多卡同步训练。此策略下模型的参数是 `MirroredVariable` 类型的变量，在所有的模型副本中保持同步。
 
 ```python
 tf.distribute.MirroredStrategy(devices=None, cross_device_ops=None)
 # devices             设备列表.若为`None`或空列表,则使用所有可用的GPU;若没有发现GPU,则使用可用的CPU
-#                     注意TensorFlow将一台机器上的多核CPU视作单个设备,并且使用线程并行
-# cross_device_ops    
+#                     注意TensorFlow将一台机器上的多核CPU视作单个设备,并且隐式使用线程并行
+# cross_device_ops    `CrossDeviceOps`的子类的实例,默认使用`NcclAllReduce()`
 ```
-
-
 
 ```python
 >>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
@@ -1134,6 +1303,27 @@ MirroredVariable:{
   1: <tf.Variable 'Variable/replica_1:0' shape=() dtype=float32, numpy=1.0>
 }
 ```
+
+
+
+### cluster_resolver
+
+
+
+
+
+
+
+
+
+## experimental.MultiWorkerMirroredStrategy
+
+多机多卡同步训练。此策略下模型的参数是 `MirroredVariable` 类型的变量，在所有的模型副本中保持同步。
+
+```python
+```
+
+
 
 
 
@@ -1168,9 +1358,61 @@ tf.distribute.OneDeviceStrategy(device)
 
 
 
+## ReduceOp
+
+值的归约方法，`ReduceOp.SUM` 表示求和，`ReduceOp.MEAN` 表示求平均值。
+
+
+
 ## ReductionToOneDevice
 
-reduce 算法的一个实现。
+
+
+## ReplicaContext
+
+此类具有在模型副本上下文中调用的一系列 API，其实例通常由 `get_replica_context()` 得到，用于在 `strategy.run()` 传入的函数中调用以获取模型副本的信息。
+
+```python
+>>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+>>> def f():
+  replica_context = tf.distribute.get_replica_context()
+  return replica_context.replica_id_in_sync_group
+>>> strategy.run(f)
+PerReplica:{
+  0: <tf.Tensor: shape=(), dtype=int32, numpy=0>,
+  1: <tf.Tensor: shape=(), dtype=int32, numpy=1>
+}
+```
+
+
+
+### all_gather
+
+
+
+### all_reduce
+
+
+
+### merge_call
+
+
+
+### num_replicas_in_sync
+
+返回进行梯度汇总的模型副本的数量。
+
+
+
+### replica_id_in_sync_group
+
+返回模型副本的索引。
+
+
+
+### strategy
+
+返回当前的 `Strategy` 实例。
 
 
 
@@ -1196,7 +1438,7 @@ reduce 算法的一个实现。
 
 ### num_replicas_in_sync
 
-进行梯度汇总的 replica 的数量。
+返回进行梯度汇总的模型副本的数量。
 
 
 
@@ -1205,6 +1447,18 @@ reduce 算法的一个实现。
 
 
 ### run()
+
+```python
+run(fn, args=(), kwargs=None, options=None)
+```
+
+在每个模型副本上调用 `fn`，使用给定的参数。
+
+
+
+
+
+
 
 
 

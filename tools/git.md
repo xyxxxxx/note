@@ -147,6 +147,14 @@ $ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远
 
 
 
+### --abort
+
+
+
+### --continue
+
+
+
 ### -i
 
 
@@ -185,10 +193,10 @@ $ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远
 
 # 使用场景
 
-## 合并master之后的几次commit
+## 合并指定commit之后的几次commit
 
 ```shell
-$ git rebase -i master
+$ git rebase -i [commit]
 
 $ git push -f origin branch1
 ```

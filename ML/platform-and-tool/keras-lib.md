@@ -627,7 +627,202 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 # metrics
 
+## Accuracy
 
+准确率。
+
+```python
+>>> m = tf.keras.metrics.Accuracy()
+>>> m.update_state([1, 2, 3, 4], [0, 2, 3, 4])
+>>> m.result().numpy()
+0.75
+```
+
+```python
+model.compile(optimizer='sgd',
+              loss='mse',
+              metrics=[tf.keras.metrics.Accuracy()])
+```
+
+
+
+### update_state
+
+```python
+update_state(y_true, y_pred, sample_weight=None)
+# y_true         真实值
+# y_pred         预测值
+# sample_weight  样本权重
+```
+
+
+
+## BinaryAccuracy
+
+准确率（）。
+
+
+
+### update_state
+
+见 [Accuracy](#Accuracy)。
+
+
+
+## CategoricalAccuracy
+
+准确率（类别概率对独热标签）。
+
+```python
+>>> m = tf.keras.metrics.CategoricalAccuracy()
+>>> m.update_state([[0, 0, 1], [0, 1, 0], [0, 1, 0]], [[0.1, 0.1, 0.8],
+                [0.05, 0.95, 0], [0.3, 0.3, 0.4]])
+>>> m.result().numpy()
+0.6666667
+```
+
+
+
+### update_state
+
+见 [Accuracy](#Accuracy)。
+
+
+
+## FalseNegatives
+
+
+
+
+
+## FalsePositives
+
+
+
+
+
+## KLDivergence
+
+KL 散度。
+
+
+
+## Mean
+
+平均值。
+
+```python
+>>> m = tf.keras.metrics.Mean()
+>>> m.update_state([1, 3, 5, 7])
+>>> m.result().numpy()
+4.0
+```
+
+
+
+
+
+
+
+## Metric
+
+指标的基类。
+
+
+
+### reset_state
+
+重置状态，即移除所有样本。
+
+
+
+### result
+
+计算并返回指标值张量。
+
+
+
+### update_state
+
+更新状态，即添加样本。
+
+
+
+## Precision
+
+精确率。
+
+
+
+## Recall
+
+召回率。
+
+
+
+
+
+## Sum
+
+求和。
+
+```python
+>>> m = tf.keras.metrics.Sum()
+>>> m.update_state([1, 2, 3, 4])
+>>> m.result().numpy()
+10.0
+```
+
+
+
+### update_state
+
+```python
+update_state(values, sample_weight=None)
+# values         样本值
+# sample_weight  样本权重
+```
+
+
+
+## TrueNegatives
+
+真阴性的数量。
+
+```python
+```
+
+
+
+### update_state
+
+见 [TruePositives](#TruePositives)。
+
+
+
+
+
+## TruePositives
+
+真阳性的数量。
+
+```python
+>>> m = tf.keras.metrics.TruePositives()
+>>> m.update_state([0, 1, 1, 1], [1, 0, 1, 1])
+>>> m.result().numpy()
+2.0
+```
+
+
+
+### update_state
+
+```python
+update_state(y_true, y_pred, sample_weight=None)
+# y_true         真实值
+# y_pred         预测值
+# sample_weight  样本权重
+```
 
 
 
@@ -694,7 +889,7 @@ keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=
 #                       `keras.utils.Sequence`实例,则不可指定此参数
 # validation_data	   验证集,可以是一个元组`(x, y)`,etc.此参数会重载`validation_split`.若`x`是一个
 #                       `tf.data`数据集、生成器或`keras.utils.Sequence`实例,则不可指定此参数
-# shuffle       若为True,在每个epoch开始前打乱训练数据,仅会打乱batch的顺序.若`x`是一个生成器,则忽略此参数
+# shuffle       若为`True`,在每个epoch开始前打乱训练数据,仅会打乱batch的顺序.若`x`是一个生成器,则忽略此参数
 # class_weight
 # sample_weight
 # initial_epoch	

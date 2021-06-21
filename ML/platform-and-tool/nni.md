@@ -2,7 +2,7 @@
 
 **NNI（Neural Network Intelligence）**是一个工具包，帮助用户设计机器学习模型的神经网络架构，调优模型的超参数等。
 
-
+[toc]
 
 ## 主要概念
 
@@ -202,3 +202,6 @@ You can use these commands to get more information about the experiment
 ## Web界面
 
 在浏览器中打开命令行给出的 `Web UI url`，就可以看到 experiment 的详细信息。
+
+
+

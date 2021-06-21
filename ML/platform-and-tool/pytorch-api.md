@@ -820,11 +820,24 @@ torch.Size([100, 32, 10])
 二维卷积层。
 
 ```python
+torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+# in_channels     输入通道数
+# out_channels    输出通道数
+# kernel_size     卷积核大小(高/宽)
+# stride          卷积步长(高/宽)
+# padding         填充的行/列数(上下/左右)
+# padding_mode    填充模式
+# dilation        卷积核元素的间隔
+```
+
+
+
+```python
 >>> m1 = nn.Conv2d(1, 32, 3, 1)                 # 卷积核大小为(3,3),步长为1
-												                        # 将1个通道映射到32个卷积特征/通道
+												                        # 将1个通道(卷积特征)映射到32个通道(卷积特征)
 >>> m2 = nn.Conv2d(1, 32, (3,5), 1)             # 卷积核大小为(3,5)
 >>> m3 = nn.Conv2d(1, 32, 3, 3)                 # 步长为3
->>> m4 = nn.Conv2d(1, 32, 3, 3, padding=(1,1))  # 上下,左右各用1,1行零填充
+>>> m4 = nn.Conv2d(1, 32, 3, 3, padding=(1,1))  # 上下/左右各用1/1行零填充
 >>> input = torch.rand((100, 1, 28, 28))
 >>> m1(input).shape
 torch.Size([100, 32, 26, 26])
@@ -835,6 +848,10 @@ torch.Size([100, 32, 9, 9])
 >>> m4(input).shape
 torch.Size([100, 32, 10, 10])
 ```
+
+
+
+
 
 
 
@@ -987,6 +1004,12 @@ tensor([[[-0.0251, -1.6902,  0.7172],
          [-0.6431,  0.0748,  0.6969],
          [ 0.9124, -2.3616,  1.1151]]])
 ```
+
+
+
+## Flatten
+
+
 
 
 
@@ -1897,6 +1920,27 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 # torch.utils.data
 
+## DataLoader
+
+数据加载器，其结合数据集和采样器，返回一个给定数据集上的可迭代对象。
+
+```python
+torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=None, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None, multiprocessing_context=None, generator=None, *, prefetch_factor=2, persistent_workers=False)
+# dataset        数据集
+# batch_size     批次规模
+# shuffle        若为`True`,每完成一次迭代都会重新打乱数据
+# sampler        从数据集中采样的策略,可以是任何实现了`__len__`方法的可迭代对象.与`shuffle`互斥.
+# batch_sampler  
+# num_workers    用于加载数据的子进程数量
+
+```
+
+
+
+
+
+
+
 ## DataLoader详解
 
 DataLoaderPyTorch 数据加载功能的核心类，其将一个数据集表示为一个 Python 可迭代对象。
@@ -2070,6 +2114,19 @@ for data in iter(dataset):
 
 
 
+## random_split
+
+将数据集随机划分为多个指定规模的数据集。使用 `torch.generator` 以产生可重复的结果。
+
+```python
+```
+
+
+
+
+
+
+
 ## RandomSampler
 
 随机采样。如果 `replacement=False`，则为无放回随机采样；如果 `replacement=True`，则为有放回随机采样，并且可以指定 `num_samples`（取样数）。
@@ -2144,6 +2201,22 @@ for data in iter(dataset):
 [9]
 
 ```
+
+
+
+## Subset
+
+数据集的指定索引的样本构成的子集。
+
+```python
+torch.utils.data.Subset(dataset, indices)
+# dataset      数据集
+# indices      指定索引
+```
+
+
+
+
 
 
 

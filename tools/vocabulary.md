@@ -42,12 +42,13 @@
 | backslash                         | \                |
 | balanced binary tree              | 平衡二叉树       |
 | bandwidth                         | 带宽             |
-| batch                             | 批次             |
+| batch                             | 批，批量，批次   |
 | Bayesian statistics               | 贝叶斯统计学     |
 | BBST, Balanced Binary Search Tree | 平衡二叉查找树   |
 | big-end                           | 大端             |
 | binary search                     | 二分查找         |
 | binary tree                       | 二叉树           |
+|                                   |                  |
 | BIOS, Basic Input Output System   | 基本输入输出系统 |
 | bitwise                           | 位的             |
 | bottom                            | 栈底             |
@@ -87,6 +88,7 @@
 | congestion                         | 拥塞                         |
 | constant                           | 常量                         |
 | container                          | 容器                         |
+| contention                         | 竞争                         |
 | context                            | 上下文；容器                 |
 | converge                           | 收敛                         |
 | convolution                        | 卷积                         |
@@ -123,6 +125,7 @@
 | dictionary, dic         | 词典         |
 | digraph                 | 有向图       |
 | directory, dir          | 目录         |
+| divide-and-conquer      | 分而治之     |
 | DNS, Domain Name System | 域名系统     |
 | document                | 文档；记载   |
 | domain                  | 域名         |
