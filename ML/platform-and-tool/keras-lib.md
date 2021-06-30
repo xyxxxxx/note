@@ -384,9 +384,18 @@ model.summary()
 
 
 
-### MaxPooling2D
+### MaxPool2D
 
-汇聚层（池化层）。
+对二维数据进行最大汇聚（池化）。具有别名 `MaxPooling2D`。
+
+```python
+tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, **kwargs)
+# pool_size   
+```
+
+
+
+
 
 其包含的主要参数如下：
 

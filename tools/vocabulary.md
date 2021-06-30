@@ -269,6 +269,7 @@
 | learning rate            | 学习率     |
 | library, lib             | 库         |
 | LIFO, Last-In-First-Out  | 后进先出   |
+| lightweight              | 轻量的     |
 | linear programming       | 线性规划   |
 | linear structure         | 线性结构   |
 | link                     | 链接；链路 |

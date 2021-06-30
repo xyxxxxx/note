@@ -134,6 +134,79 @@ and they lived at the bottom of a well.
 
 
 
+# Pillow
+
+PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL 的一个分叉，提供了扩展的文件格式的支持、高效的内部表示和强大的图像处理功能。
+
+
+
+## Image
+
+
+
+
+
+
+
+### Image
+
+图像。此类的实例通过工厂函数 `Image.open()`、`Image.new()` 和 `Image.frombytes()` 创建得到。
+
+
+
+#### copy()
+
+返回图像的副本。
+
+
+
+#### crop()
+
+返回图像的一个矩形区域。
+
+```python
+with Image.open("hopper.jpg") as im:
+    im_crop = im.crop((20, 20, 100, 100))   # 元组(左,上,右,下)定义了裁剪的像素坐标
+```
+
+
+
+#### rotate()
+
+返回图像的旋转后的副本。
+
+```python
+with Image.open("hopper.jpg") as im:
+    im_rotated = im.rotate(angle=60, expand=True, fillcolor='white')
+    # 顺时针旋转60度,扩展输出图片以容纳旋转后的整个图像,空白部分用白色填充
+```
+
+
+
+#### save()
+
+保存图像。
+
+```python
+with Image.open("hopper.jpg") as im:
+    im.save('hopper1.jpg')
+```
+
+
+
+#### show()
+
+展示图像。
+
+```python
+with Image.open("hopper.jpg") as im:
+    im.show()
+```
+
+
+
+
+
 
 
 # requests

@@ -21,13 +21,13 @@ Horovod 基于下列 MPI 概念，这里结合实例进行解释。假设我们�
 + **size**：进程数，此处为 16
 + **rank**：进程的唯一 ID，这里为 0-15
 + **local rank**：进程在本机的唯一 ID，这里为 0-3
-+ **allreduce**, **allgather**, **broadcast**：参见 [MPI 集体通信模式](#../distribute/strategy.md)
++ **allreduce**, **allgather**, **broadcast**：参见 [MPI 集体通信模式](../distribute/strategy.md)
 
 
 
 
 
-# 使用示例
+# 脚本示例
 
 ## Keras
 
@@ -584,19 +584,71 @@ Horovod 的弹性训练允许在运行过程中动态地增加或减少工作器
 
 1. 将主要的训练过程（初始化之后的所有操作）包装到一个被 `hvd.elastic.run` 装饰的函数中。
 
-   装饰器的第一个参数是一个 `hvd.elastic.State` 实例，在执行被装饰的函数前，该状态实例会被同步到各工作器中。这将确保新增加的工作器以及状态不一致的工作器在训练开始前都同步到相同的状态。
+   被装饰的函数的第一个参数是一个 `hvd.elastic.State` 实例，在执行被装饰的函数前，该状态实例会被同步到各工作器中。这将确保新增加的工作器以及状态不一致的工作器在训练开始前都同步到相同的状态。
 
    在此函数之前不可调用 Horovod 集体通信操作（Broadcast, All-Reduce, All-Gather 等）。
 
 2. 将所有需要在各工作器间保持同步的变量（模型参数、优化器状态、训练参数等）放置到 `hvd.elastic.State` 实例中。
 
-   Horovod 提供了 TensorFlow、Keras 和 PyTorch 的标准的状态类型实现，
+   Horovod 提供了 TensorFlow、Keras 和 PyTorch 的标准的状态类型实现，但在有些情况下也需要重载基类 `hvd.elastic.State` 以处理自定义广播操作。
+
+3. 周期性地调用 `state.commit()` 以在内存中备份当前状态。
+
+   这有助于防止当工作器意外出错时状态被破坏。例如，如果训练在参数更新的过程中出错，部分参数的梯度更新被应用而部分参数的梯度仍在进行 All-Reduce 操作，那么此时将引发一个 `HorovodInternalError`，所有的参数都将恢复到上一次提交的值。
+
+   提交的代价可能十分昂贵（对于大型模型），因此你需要在提交的频率与回滚的距离之间寻求平衡。
+
+   Horovod 可以通过（我们称为）工作器的优雅移除来防止此类回滚。当主进程发现一个工作器被标记为移除时，其向所有工作器推送一个通知，在下次 `state.commit()` 被调用时引发一个 `HostsUpdatedInterrupt`，参数不会恢复到上一次提交的值。
+
+   通常情况下，如果你的硬件是比较可靠的，并且你的调度系统会在计划移除工作器时给予主进程足够的警告，那么你可以安全地以比较低的频率调用 `state.commit()`，并在每个 batch 结束时调用 `state.check_host_updates()`。
+
+4. 为 `hvd.elastic.State` 实例注册回调以因应训练过程中工作器成员的变化。
+
+   例如根据新的全局批次规模重新调整学习率，或者重新划分数据集等操作通常在这些回调中完成。
+   
+   回调在 Horovod 重新初始化之后、状态在各工作器之间同步之前调用。
 
 
 
+`HorovodInternalError`（出错）或 `HostsUpdatedInterrupt`（增加/移除请求）之后的重启过程如下：
+
+1. 抓取 `hvd.elastic.run` 装饰器内的异常，若为 `HorovodInternalError`，恢复到上一次提交的状态。
+2. 通过一轮新的协调组织重新初始化 Horovod 上下文。
+3. 通过广播新的 0 号工作器的状态同步各工作器的状态。上一个步骤中，越老的工作器被指定为 0 号工作器的优先级越高，以确保广播的状态是最新的。
+4. 继续训练，执行底层的训练函数。
 
 
 
+## 脚本示例
+
+[Keras 示例](https://horovod.readthedocs.io/en/stable/elastic_include.html#elastic-keras)
+
+[PyTorch 示例](https://horovod.readthedocs.io/en/stable/elastic_include.html#elastic-pytorch)
+
+
+
+## 使用 horovodrun 运行
+
+弹性训练通过 `horovodrun` 命令行工具启动，启动时最大的不同是不再显式地指定主机，而是在运行过程中动态地发现主机。最通常的使  Horovod 发现可用主机的方法是在 `--host-discovery-script` 选项下提供一个脚本：
+
+```shell
+$ horovodrun -np 8 --host-discovery-script discover_hosts.sh python train.py
+```
+
+该主机发现脚本需要有用户执行权限，并且以 `<hostname>:<slots>` 的格式每行返回一个主机和它的可用槽位，例如：
+
+```shell
+$ ./discover_hosts.sh
+host-1:4
+host-2:4
+host-3:4
+```
+
+……
+
+
+
+## 实践过程中的思考
 
 
 

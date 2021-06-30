@@ -822,9 +822,41 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 
 
+# base64——Base16, Base32, Base64, Base85 数据编码
+
+`base64` 模块提供了将二进制数据编码为可打印的 ASCII 字符以及将这些编码解码回二进制数据的函数，即 RFC 3548 指定的 Base16、Base32 和 Base64 编码以及已被广泛接受的 Ascii85 和 Base85 编码的编码和解码函数。
+
+
+
+## b64encode()
+
+对类似字节序列的对象进行 Base64 编码，返回编码后的字节序列。
+
+```python
+>>> import base64
+>>> encoded = base64.b64encode(b'data to be encoded')
+>>> encoded
+b'ZGF0YSB0byBiZSBlbmNvZGVk'
+>>> data = base64.b64decode(encoded)
+>>> data
+b'data to be encoded'
+```
+
+
+
+## b64decode()
+
+对 Base64 编码过的类似字节序列的对象进行解码，返回解码后的字节序列。
+
+
+
+
+
+
+
 # builtins——内建对象
 
-该模块提供对 Python 的所有内置对象的直接访问，例如 `builtins.open` 是内置函数 `open()` 的全名。
+`builtins` 模块提供对 Python 的所有内置对象的直接访问，例如 `builtins.open` 是内置函数 `open()` 的全名。
 
 大多数应用程序通常不会显式访问此模块，但在扩展内置对象时会很有用。
 
@@ -856,7 +888,7 @@ parser.add_argument('-s', '--stopwords', nargs='?', default=False, const=True, h
 
 # copy——浅层和深层复制操作
 
-Python 的赋值语句不复制对象，而是创建目标和对象的绑定关系。对于自身可变，或包含可变项的集合，有时要生成副本用于改变操作，而不必改变原始对象。本模块提供了通用的浅层复制和深层复制操作。
+Python 的赋值语句不复制对象，而是创建目标和对象的绑定关系。对于自身可变，或包含可变项的集合，有时要生成副本用于改变操作，而不必改变原始对象。此模块提供了通用的浅层复制和深层复制操作。
 
 
 
@@ -1473,9 +1505,43 @@ Expecting ':' delimiter
 
 
 
+# keyword——检验Python关键字
+
+`keyword` 模块用于确定某个某个字符串是否为 Python 关键字。
+
+
+
+### iskeyword()
+
+若传入的字符串是 Python 关键字则返回 `True`。
+
+
+
+### kwlist
+
+返回解释器定义的所有关键字组成的列表。
+
+
+
+### issoftkeyword()
+
+若传入的字符串是 Python 软关键字则返回 `True`。
+
+
+
+### softkwlist
+
+返回解释器定义的所有软关键字组成的列表。
+
+
+
+
+
+
+
 # math——数学函数
 
-该模块提供了对 C 标准定义的数学函数的访问。
+`math` 模块提供了对 C 标准定义的数学函数的访问。
 
 ## atan2()
 
@@ -2044,7 +2110,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 
 
-# operator——
+# operator——标准运算符替代函数
 
 
 
@@ -2052,59 +2118,160 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
 
 
-# [os](https://docs.python.org/zh-cn/3/library/os.html)——多种操作系统接口
+# os——多种操作系统接口
 
-## 进程
+## chdir()
 
-> 参考[进程和线程](./process-and-thread.md)
+切换当前工作目录为指定路径。
 
 ```python
->>> os.system('pwd')        # 创建一个shell子进程并执行字符串代表的命令
+>>> os.chdir('dir1')
+```
+
+
+
+## environ
+
+进程的环境变量，可以直接操作该映射以查询或修改环境变量。
+
+```python
+>>> os.environ
+environ({'SHELL': '/bin/zsh', ...
+>>> os.environ['HOME']           # 查询环境变量
+'/Users/xyx'
+>>> os.environ['MYENV'] = '1'    # 添加环境变量
+>>> os.environ['MYENV']
+'1'
+>>> del os.environ['MYENV']      # 删除环境变量
+>>> os.environ['MYENV']
+# KeyError: 'MYENV'
+```
+
+
+
+## fork()
+
+分叉出一个子进程，在子进程中返回 `0`，在父进程中返回子进程的进程号。
+
+
+
+## getcwd()
+
+返回当前工作目录的路径。
+
+```python
+>>> os.getcwd()
+'/Users/xyx'
+```
+
+
+
+## getenv()
+
+获取环境变量的值。
+
+```python
+os.getenv(key, default=None)
+# key        环境变量
+# default    若环境变量不存在,返回此默认值
+```
+
+
+
+## kill()
+
+```python
+os.kill(pid, sig)
+```
+
+将信号 *sig* 发送至进程 *pid*。
+
+
+
+## listdir()
+
+返回指定目录下各项目名称组成的列表，该列表按任意顺序排列，且不包括特殊项目 `.` 和 `..`。
+
+```python
+>>> os.listdir()
+['dir1', 'dir2', 'file1', 'file2']
+```
+
+
+
+## mkdir()
+
+创建指定名称和权限的目录。若目录已存在，则引发 `FileExistsError` 异常。
+
+```python
+>>> os.mkdir('dir1', mode=0o755)
+```
+
+
+
+## remove()
+
+删除指定文件。若文件不存在，则引发 `FileNotFoundError` 异常；若路径指向目录，则引发 `IsADirectoryError` 异常。
+
+```python
+>>> os.remove('file1')
+```
+
+
+
+## rename()
+
+```python
+os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
+```
+
+将文件或目录 *src* 重命名为 *dst*。若 *dst* 已存在，则下列情况下操作将会失败，并引发 `OSError` 的子类：
+
++ 在 Windows 上，引发 `FileExistsError` 异常
++ 在 Unix 上，若 *src* 是文件而 *dst* 是目录，将抛出 `IsADirectoryError` 异常，反之则抛出 `NotADirectoryError` 异常；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则抛出 `OSError` 异常；若两者都是文件，则在用户具有权限的情况下，将对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
+
+
+
+## rmdir()
+
+删除指定目录。若目录不存在，则引发 `FileNotFoundError` 异常；若目录不为空，则引发 `OSError` 异常。若要删除整个目录树，请使用 `shutil.rmtree()`。
+
+```python
+>>> os.rmdir('dir1')
+```
+
+
+
+## system()
+
+创建一个 Shell 子进程并执行指定命令（一个字符串），执行命令过程中产生的任何输出都将发送到解释器的标准输出流。
+
+```python
+>>> os.system('pwd')
 /Users/xyx
 ```
 
 
 
-## 文件和目录
+## times()
 
-```python
-# test/
-#     dir1/
-#         file2
-#     file1
-
->>> import os
->>> os.getcwd()             # 当前路径
-'/home/test'
->>> os.chdir('dir1')        # 切换路径
->>> os.getcwd()
-'/home/test/dir1'
->>> os.listdir()            # ls
-['dir1', 'file1']
->>> os.mkdir('dir2')        # 创建目录
->>> os.rename('dir2', 'dir3')  # 重命名目录或文件
->>> os.rmdir('dir2')        # 删除目录
->>> os.remove('file1')      # 删除文件
-```
+返回当前的全局进程时间。
 
 
 
-## 环境变量
+## wait()
 
-```python
->>> import os
->>> os.environ
-environ({'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 
-# ...
-/usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'fcitx', 'LC_TIME': 'en_US.UTF-8', '_': '/usr/bin/python3'})
->>> os.environ['HOME']                           # 获取环境变量
-'/home/xyx' 
->>> os.environ['MASTER_ADDR'] = 'localhost'      # 临时增加/修改环境变量
->>> os.getenv('MASTER_ADDR')                     # 获取环境变量的推荐方式
-'localhost'         
-```
+等待子进程执行完毕，返回一个元组，包含其 pid 和退出状态指示——一个 16 位数字，其低字节是终止该进程的信号编号，高字节是退出状态码（信号编号为零的情况下）。
 
 
+
+## waitid()
+
+
+
+## waitpid()
+
+ 
 
 ## walk()
 
@@ -2176,38 +2343,110 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 
 
 
-# [os.path](https://docs.python.org/zh-cn/3/library/os.path.html)——常用路径操作
+# os.path——常用路径操作
+
+## abspath()
+
+返回路径的绝对路径。
 
 ```python
-# test/
-#     dir1/
-#         file2
-#     file1
-
->>> from os import path
->>> path.abspath('.')      # 路径的绝对路径
-'/home/test'
->>> path.exists('./dir1')  # 存在路径
-True
->>> path.exists('./dir2')
-False
->>> path.isdir('dir1')     # 判断目录
-True
->>> path.isdir('dir2')
-False
->>> path.isfile('dir1')    # 判断文件
-False
->>> path.isfile('file1')
-True
->>> path.getsize('file1')  # 文件大小
-14560
->>> path.join(path.abspath('.'), 'file1')   # 拼接路径
-'/home/test/file1'
+>>> path.abspath('.')
+'/home/xyx'
 ```
 
 
 
+## dirname()
+
+返回路径中的目录名称。
+
+```python
+>>> path.dirname('/Users/xyx')
+'/Users'
+```
+
+
+
+## exists()
+
+若路径指向一个已存在的文件或目录或已打开的文件描述符，返回 `True`。
+
+```python
+>>> path.exists('dir1')
+```
+
+
+
+## getsize()
+
+返回路径指向的文件或目录的大小，以字节为单位。若文件或目录不存在或不可访问，则引发 `OSError` 异常。
+
+```python
+>>> path.getsize('file1')
+14560
+```
+
+
+
+## isabs()
+
+若路径是一个绝对路径，返回 `True`。在 Unix 上，绝对路径以 `/` 开始，而在 Windows 上，绝对路径可以是去掉驱动器号后以 `/` 或 `\` 开始。
+
+
+
+## isdir()
+
+若路径是现有的目录，返回 `True`。
+
+
+
+## isfile()
+
+若路径是现有的常规文件，返回 `True`。
+
+
+
+## ismount()
+
+若路径是挂载点，返回 `True`。
+
+
+
+## join()
+
+智能地拼接一个或多个路径部分。
+
+```python
+>>> path.join('/Users', 'xyx')
+'/Users/xyx'
+```
+
+
+
+## split()
+
+将路径拆分为两部分，以最后一个 `/` 为界。
+
+```python
+>>> path.split('/Users/xyx')
+('/Users', 'xyx')
+```
+
+
+
+## splitdrive()
+
+将路径拆分为两部分，前一部分是挂载点或驱动器盘符（对于 Windows 系统）。
+
+
+
+
+
 # pickle——Python对象序列化
+
+
+
+
 
 
 
@@ -2452,7 +2691,7 @@ class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None, *, compa
 
 # random——生成伪随机数
 
-该模块实现了各种分布的伪随机数生成器。
+`random` 模块实现了各种分布的伪随机数生成器。
 
 ## 重现
 
@@ -2524,11 +2763,11 @@ random.randint(a, b)
 
 
 
-## 序列用函数
+## 随机序列
 
 ### choice()
 
-从非空序列 *seq* 返回一个随机元素。如果 *seq* 为空，则引发 `IndexError`。
+从非空序列返回一个随机元素。如果序列为空，则引发 `IndexError`。
 
 
 
@@ -2538,11 +2777,13 @@ random.randint(a, b)
 
 ### shuffle()
 
+随机打乱序列。
+
 ```python
 random.shuffle(x[, random])
+# x           序列
+# random      一个不带参数的函数,返回[0.0,1.0)区间内的随机浮点数.默认为函数`random()`.
 ```
-
-将序列 *x* 随机打乱位置。可选参数 *random* 是一个不带参数的函数，返回[0.0，1.0）范围内的随机浮点数；默认情况下，这是函数 `random()`。
 
 ```python
 >>> a = list(range(10))
@@ -2555,7 +2796,7 @@ random.shuffle(x[, random])
 
 ### sample()
 
-返回从序列中选择的唯一元素的 *k* 长度列表。用于无重复的随机抽样。
+返回从序列中选择的唯一元素的指定长度列表，用于无重复的随机抽样。
 
 ```python
 >>> random.sample(range(10), k=5)
@@ -2577,7 +2818,7 @@ random.shuffle(x[, random])
 
 ### random()
 
-返回[0.0，1.0）范围内的下一个随机浮点数。
+返回服从 $$[0.0,1.0)$$ 区间内均匀分布的随机浮点数。
 
 ```python
 >>> random.random()
@@ -2592,7 +2833,7 @@ random.shuffle(x[, random])
 random.uniform(a, b)
 ```
 
-返回一个随机浮点数 *N*，当 `a <= b`时`a <= N <= b`，当`b < a`时`b <= N <= a`。
+返回服从 [*a*, *b*] 区间（*a* <= *b*）或 [*b*, *a*] 区间（*b* <= *a*）内均匀分布的随机浮点数。
 
 ```python
 >>> random.uniform(60, 80)
@@ -2607,7 +2848,7 @@ random.uniform(a, b)
 random.gauss(mu, sigma)
 ```
 
-正态分布，*mu* 是平均值，*sigma* 是标准差。
+返回服从平均值为 *mu*、标准差为 *sigma* 的正态分布的随机浮点数。
 
 多线程注意事项：当两个线程同时调用此方法时，它们有可能将获得相同的返回值。这可以通过三种办法来避免。1）让每个线程使用不同的随机数生成器实例；2）在所有调用外面加锁；3）改用速度较慢但是线程安全的 normalvariate（）函数。
 
@@ -2619,7 +2860,7 @@ random.gauss(mu, sigma)
 random.normalvariate(mu, sigma)
 ```
 
-正态分布，*mu* 是平均值，*sigma* 是标准差。
+返回服从平均值为 *mu*、标准差为 *sigma* 的正态分布的随机浮点数。
 
 
 
@@ -2630,6 +2871,80 @@ random.normalvariate(mu, sigma)
 # re——正则表达式操作
 
 见正则表达式。
+
+
+
+
+
+# shutil——高阶文件操作
+
+`shutil` 模块提供了一系列对文件和文件集合的高阶操作，特别是一些支持文件复制和删除的函数。
+
+
+
+## copy()
+
+将一个文件复制到目标位置并返回目标位置。
+
+```python
+shutil.copy(src, dst, *, follow_symlinks=True)
+# src            要复制的文件
+# dst            目标路径
+#                若`dst`不存在,则文件将复制到此路径;若`dst`是已存在的目录,则文件将使用原文件名复制到此目录中;
+#                若`dst`是已存在的文件,则此文件将被覆盖
+```
+
+
+
+## copytree()
+
+将一个目录树复制到目标位置并返回目标位置。
+
+```python
+shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False, dirs_exist_ok=False)
+# src            要复制的目录
+# dst            目标路径
+```
+
+
+
+
+
+## disk_usage()
+
+返回给定路径所在磁盘的使用统计数据，形式为一个命名的元组，*total*、*used* 和 *free* 属性分别表示总计、已使用和未使用空间的字节数。
+
+```python
+>>> shutil.disk_usage('.')
+usage(total=499963174912, used=107589382144, free=360688713728)
+```
+
+
+
+## move()
+
+将一个文件或目录树移动到目标位置并返回目标位置。
+
+```python
+shutil.move(src, dst, copy_function=copy2)
+# src            要移动的文件或目录
+# dst            目标路径
+#                若`dst`是已存在的目录,则`src`将被移至该目录下;...
+```
+
+
+
+## rmtree()
+
+删除一个目录树。
+
+```python
+shutil.rmtree(path, ignore_errors=False, onerror=None)
+# path           要删除的目录
+# ignore_errors  若为`True`,则删除失败导致的错误将被忽略
+```
+
+
 
 
 
@@ -2651,8 +2966,8 @@ subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, shell=
 #                subprocess.DEVNULL,一个已经存在的文件描述符,已经打开的文件对象或者
 #                None.subprocess.PIPE表示为子进程创建新的管道,subprocess.
 #                DEVNULL表示使用os.devnull.默认使用的是None,表示什么都不做.
-# timeout    命令超时时间.如果命令执行时间超时,子进程将被杀死,并抛出TimeoutExpired异常.
-# check      若为True,并且进程退出状态码不是0,则抛出CalledProcessError 异常.
+# timeout    命令超时时间.如果命令执行时间超时,子进程将被杀死,并引发TimeoutExpired异常.
+# check      若为True,并且进程退出状态码不是0,则引发CalledProcessError 异常.
 # encoding   若指定了该参数，则stdin,stdout,stderr可以接收字符串数据,并以该编码方
 #                式编码.否则只接收bytes类型的数据.
 # shell      若为True,将通过操作系统的shell执行指定的命令.
@@ -2710,7 +3025,7 @@ CompletedProcess(args='ls -l', returncode=0)
 
 **`check_returncode`（）**
 
-检查 `returncode`，非零则抛出 `CalledProcessError`。
+检查 `returncode`，非零则引发 `CalledProcessError`。
 
 
 
@@ -2742,7 +3057,7 @@ CompletedProcess(args='ls -l', returncode=0)
 
 ## exit()
 
-从 Python 中退出，实现方式是抛出一个 `SystemExit` 异常。
+从 Python 中退出，实现方式是引发一个 `SystemExit` 异常。
 
 可选参数可以是表示退出状态的整数（默认为整数 0），也可以是其他类型的对象。如果它是整数，则 shell 等将 0 视为“成功终止”，非零值视为“异常终止”。
 
@@ -2898,7 +3213,7 @@ Python 搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 # time——时间的访问和转换
 
-此模块提供了各种与时间相关的函数。相关功能还可以参阅 `datetime` 和 `calendar` 模块。
+`time` 模块提供了各种与时间相关的函数。相关功能还可以参阅 `datetime` 和 `calendar` 模块。
 
 下面是一些术语和惯例的解释：
 

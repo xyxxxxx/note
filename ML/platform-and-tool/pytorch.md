@@ -1785,9 +1785,35 @@ model.to(device)
 
 
 
+# 使用 TensorBoard
+
+## 设置 TensorBoard
+
+
+
+## 记录图片到 TensorBoard
+
+
+
+## 记录模型结构到 TensorBoard
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 分布式训练
 
 > 分布式训练的基本概念参见[tensorflow-分布式训练-基本概念](./tensorflow.md#基本概念)
+
+
 
 ## 数据并行训练
 
