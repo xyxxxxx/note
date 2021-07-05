@@ -11,10 +11,10 @@ var arrAge = [...]int{18, 20, 15, 22, 16}         //编译器统计数量
 var arrKeyValue = [5]string{3: "Chris", 4: "Ron"} //指定索引赋值
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.1_fig7.1.png?raw=true" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.1_fig7.1.png?raw=true"style="zoom：67%;"/>
 
-+ 当声明数组时所有的元素都会被自动初始化为默认值 0
-+ Go 语言中的数组是一种 **值类型**（不像 C/C++ 中是指向首元素的指针）
+* 当声明数组时所有的元素都会被自动初始化为默认值 0
+* Go 语言中的数组是一种**值类型**（不像 C/C++ 中是指向首元素的指针）
 
 ```go
 var arr1 = new([5]int)	//arr1的类型是*[5]int
@@ -65,10 +65,10 @@ func main() {
 
 切片是对数组一个连续片段的引用，所以切片是一个引用类型。
 
-+ 切片是可索引的
-+ 切片的长度是它包含的元素个数，切片的长度可变。`len()`函数返回切片的长度
-+ 切片的容量是<u>从它的第一个元素开始数，到其底层数组元素末尾的个数</u>。`cap()`函数返回切片的容量，切片的长度不会超过其容量，即`len(s) <= cap(s)`
-+ 可以把切片传递给以数组为形参的函数
+* 切片是可索引的
+* 切片的长度是它包含的元素个数，切片的长度可变。`len()` 函数返回切片的长度
+* 切片的容量是 <u> 从它的第一个元素开始数，到其底层数组元素末尾的个数 </u>。`cap()` 函数返回切片的容量，切片的长度不会超过其容量，即 `len(s)<= cap(s)`
+* 可以把切片传递给以数组为形参的函数
 
 > Go程序中切片比数组更常用
 
@@ -83,16 +83,16 @@ s1 := []int{1,2,3}
 s2 := s1[:]
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.png?raw=true" style="zoom:67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.png?raw=true"style="zoom：67%;"/>
 
-**make()创建切片**
+**make（）创建切片**
 
 ```go
 v := make([]int, 50, 100)	//分配一个长度为100的元素为0的int数组,并且创建了一个长度为50,容量为100的切片v,该切片指向数组的前50个元素
 new([100]int)[0:50]         //隐式间接引用,相当于 (*new([100]int))[0:50] 
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true" style="zoom: 50%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true"style="zoom：50%;"/>
 
 
 
@@ -104,7 +104,7 @@ p := make([]int, 0)  //如图7.3下,即创建了长度和容量为0一个切片,
                      // p != nil,因为指向了一个长度为0的数组
 ```
 
-<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.3.png?raw=true" style="zoom: 67%;" />
+<img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.3.png?raw=true"style="zoom：67%;"/>
 
 > `new(T)`为类型为T的新项分配已置零的内存空间，并返回它的地址。
 >

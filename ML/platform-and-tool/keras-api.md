@@ -317,6 +317,54 @@ tf.keras.callbacks.TensorBoard(
 
 
 
+
+
+# datasets
+
+## cifar10
+
+CIFAR10 数据集。
+
+
+
+### load_data()
+
+同 `tf.keras.datasets.mnist.load_data()`。
+
+
+
+## cifar100
+
+CIFAR100 数据集。
+
+
+
+### load_data()
+
+同 `tf.keras.datasets.mnist.load_data()`。
+
+
+
+## mnist
+
+MNIST 数据集。
+
+
+
+### load_data()
+
+```python
+tf.keras.datasets.mnist.load_data(path='mnist.npz')
+# path       数据集缓存在本地的路径.若该路径为相对路径,则视作相对于`~/.keras/datasets`的路径;
+#            若该路径不存在,则在线下载并保存到此路径;
+```
+
+
+
+
+
+
+
 # layers
 
 层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重张量，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
@@ -386,22 +434,62 @@ model.summary()
 
 ### MaxPool2D
 
-对二维数据进行最大汇聚（池化）。具有别名 `MaxPooling2D`。
+对二维数据（图片）进行最大汇聚（池化）操作。具有别名 `MaxPooling2D`。
 
 ```python
 tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None, **kwargs)
-# pool_size   
+# pool_size    窗口大小.若为2个整数组成的元组,则分别代表窗口的高和宽;若为1个整数,则同时代表窗口的高和宽.
+# strides      步长.若为2个整数组成的元组,则分别代表竖向和横向的步长;若为1个整数,则同时代表竖向和横向的步长.
+#              默认与`pool_size`相同.
+# padding      若为`'valid'`,则不填充;若为`'same'`,则在右侧和下侧填充0以补全不完整的窗口
+# data_format  若为`'channels_last'`,则输入和输出张量的形状为`(batch_size, height, width, channels)`;
+#              若为`'channels_first'`,则输入和输出张量的形状为`(batch_size, channels, height, width)`.
+#              默认为`'channels_last'`.
+```
+
+```python
+>>> x = tf.constant([[1., 2., 3.],
+                     [4., 5., 6.],
+                     [7., 8., 9.]])
+>>> x = tf.reshape(x, [1, 3, 3, 1])
+>>> max_pool_2d = tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(1, 1), padding='valid')
+>>> max_pool_2d(x)
+<tf.Tensor: shape=(1, 2, 2, 1), dtype=float32, numpy=
+array([[[[5.], [6.]],
+        [[8.], [9.]]]], dtype=float32)>
+
+>>> x = tf.constant([[1., 2., 3., 4.],
+                     [5., 6., 7., 8.],
+                     [9., 10., 11., 12.]])
+>>> x = tf.reshape(x, [1, 3, 4, 1])
+>>> max_pool_2d = tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2), padding='valid')
+>>> max_pool_2d(x)
+<tf.Tensor: shape=(1, 1, 2, 1), dtype=float32, numpy=
+array([[[[6.], [8.]]]], dtype=float32)>
+
+>>> x = tf.constant([[1., 2., 3., 4.],
+                     [5., 6., 7., 8.],
+                     [9., 10., 11., 12.]])
+>>> x = tf.reshape(x, [1, 3, 4, 1])
+>>> max_pool_2d = tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(1, 1), padding='same')
+>>> max_pool_2d(x)                                              
+<tf.Tensor: shape=(1, 3, 4, 1), dtype=float32, numpy=
+array([[[[ 6.], [ 7.], [ 8.], [ 8.]],                       # 右侧填充一列0,下侧填充一行0
+        [[10.], [11.], [12.], [12.]],
+        [[10.], [11.], [12.], [12.]]]], dtype=float32)>
+
+>>> x = tf.constant([[1., 2., 3., 4.],
+                     [5., 6., 7., 8.],
+                     [9., 10., 11., 12.]])
+>>> x = tf.reshape(x, [1, 3, 4, 1])
+>>> max_pool_2d = tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2), padding='same')
+>>> max_pool_2d(x)                                                                              
+<tf.Tensor: shape=(1, 2, 2, 1), dtype=float32, numpy=
+array([[[[ 6.], [ 8.]],                                     # 右侧不填充,下侧填充一行0
+        [[10.], [12.]]]], dtype=float32)>
 ```
 
 
-
-
-
-其包含的主要参数如下：
-
-* `pool_size`：最大汇聚的区域规模，默认为 `(2,2)`
-* `strides`：最大汇聚的步长，默认为 `None`
-* `padding`：`"valid"` 表示对于不够区域大小的部分丢弃，`"same"` 表示对于不够区域大小的部分补 0，默认为 `"valid"`
 
 
 

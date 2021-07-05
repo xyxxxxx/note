@@ -191,6 +191,21 @@ array([[[ 6.,  6.,  6.],
 
 
 
+## newaxis
+
+用于在张量的起始或末尾位置增加一个维度。
+
+```python
+>>> a = tf.reshape(tf.range(10.), [2,5])
+>>> a[tf.newaxis, ...].shape      # `...`代表其余所有原有维度
+TensorShape([1, 2, 5])
+>>> a[..., tf.newaxis].shape
+TensorShape([2, 5, 1])
+
+```
+
+
+
 ## ones()
 
 生成指定形状的全 1 张量。
@@ -408,6 +423,78 @@ array([[1, 4],
 <tf.Tensor: shape=(2, 3), dtype=int32, numpy=
 array([[1, 2, 3],
        [4, 5, 6]], dtype=int32)>
+```
+
+
+
+## strided_slice()
+
+提取张量的切片。
+
+```python
+tf.strided_slice(
+    input_, begin, end, strides=None, begin_mask=0, end_mask=0, ellipsis_mask=0,
+    new_axis_mask=0, shrink_axis_mask=0, var=None, name=None
+)
+# input_         被切片的张量
+# begin          各维度的起始索引(包含)
+# end            各维度的结束索引(不包含)
+# strides        各维度的步长
+# begin_mask     若设置了此参数的第i位,则`begin[i]`将被忽略,即第i个维度从最初的索引开始
+# end_mask       若设置了此参数的第i位,则`end[i]`将被忽略,即第i个维度到最终的索引结束
+# ellipsis_mask  若设置了此参数的第i位,则第i个维度及其之后的未指定的维度(贪婪匹配)将被完全保留.仅允许设置1位
+# new_axis_mask  若设置了此参数的第i位,则增加一个维度作为第i个维度
+# shrink_axis_mask  若设置了此参数的第i位,则移除第i个维度
+```
+
+```python
+>>> a = tf.reshape(tf.range(25.), [5, 5])
+
+>>> tf.strided_slice(a, [1, 1], [4, 4], [2, 2])    # 切片
+# or
+>>> a[1:4:2, 1:4:2]                                # 实际更常用NumPy风格的切片语法
+<tf.Tensor: shape=(2, 2), dtype=float32, numpy=
+array([[ 6.,  8.],
+       [16., 18.]], dtype=float32)>
+
+>>> tf.strided_slice(a, [0, 0], [0, 0], [2, 2], begin_mask=0b11, end_mask=0b11)
+# or
+>>> a[::2, ::2]
+<tf.Tensor: shape=(3, 3), dtype=float32, numpy=
+array([[ 0.,  2.,  4.],
+       [10., 12., 14.],
+       [20., 22., 24.]], dtype=float32)>
+
+>>> tf.strided_slice(a, [0, 0], [0, 0], [1, 2], begin_mask=0b11, end_mask=0b11)
+# or
+>>> a[:, ::2]
+<tf.Tensor: shape=(5, 3), dtype=float32, numpy=
+array([[ 0.,  2.,  4.],
+       [ 5.,  7.,  9.],
+       [10., 12., 14.],
+       [15., 17., 19.],
+       [20., 22., 24.]], dtype=float32)>
+
+>>> tf.strided_slice(a, [0, 0], [0, 0], strides=[1, 1], begin_mask=0b11, end_mask=0b11, new_axis_mask=0b10)
+# or
+>>> a[:, tf.newaxis, :]                            # 增加维度
+<tf.Tensor: shape=(5, 1, 5), dtype=float32, numpy=
+array([[[ 0.,  1.,  2.,  3.,  4.]],
+       [[ 5.,  6.,  7.,  8.,  9.]],
+       [[10., 11., 12., 13., 14.]],
+       [[15., 16., 17., 18., 19.]],
+       [[20., 21., 22., 23., 24.]]], dtype=float32)>
+
+>>> tf.strided_slice(a, [0, 0], [0, 0], strides=[1, 1], begin_mask=0b11, end_mask=0b11, shrink_axis_mask=0b10)
+# or
+>>> a[:, 0]                                        # 移除维度
+<tf.Tensor: shape=(5,), dtype=float32, numpy=array([ 0.,  5., 10., 15., 20.], dtype=float32)>
+```
+
+```python
+>>> a = tf.reshape(tf.range(256.), [4, 4, 4, 4])
+>>> a[::2, ..., ::2].shape                         # `...`贪婪匹配该位置及其之后的未指明的维度,并保留这些维度
+TensorShape([2, 4, 4, 2])
 ```
 
 

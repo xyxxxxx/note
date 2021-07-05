@@ -19,6 +19,12 @@ tensor([ 1.0000,  1.5000,  2.0000])
 
 
 
+### dtype
+
+数据类型。
+
+
+
 ### ones()
 
 返回指定形状的全 1 张量。
@@ -30,6 +36,57 @@ tensor([[ 1.,  1.,  1.],
 >>> torch.ones(2, 3, dtype=int)
 tensor([[1, 1, 1],
         [1, 1, 1]])
+```
+
+
+
+### set_default_tensor_type()
+
+设置默认的浮点数据类型。
+
+```python
+>>> torch.tensor([1.2, 3]).dtype
+torch.float32
+>>> torch.set_default_tensor_type(torch.DoubleTensor)
+>>> torch.tensor([1.2, 3]).dtype
+torch.float64
+```
+
+
+
+### tensor()
+
+根据数据创建张量。
+
+```python
+torch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) → Tensor
+# data           张量的初始数据,可以是数字,列表,元组,`numpy.ndarray`类型等.
+# dtype          张量的数据类型,默认从`data`中推断.
+# device         张量位于的设备,默认使用数据类型相应的设备:若为CPU数据类型,则使用CPU;若为CUDA数据类型,
+#                则使用当前的CUDA设备
+# requires_grad  若为`True`,则autograd应记录此张量参与的运算
+# pin_memory     若为`True`,则张量将被分配到锁页内存中.仅对位于CPU的张量有效.
+```
+
+```python
+>>> torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
+tensor([[ 0.1000,  1.2000],
+        [ 2.2000,  3.1000],
+        [ 4.9000,  5.2000]])
+
+>>> torch.tensor([0, 1])   # 从数据推断类型
+tensor([ 0,  1])
+
+>>> torch.tensor([[0.11111, 0.222222, 0.3333333]],
+...              dtype=torch.float64,
+...              device=torch.device('cuda:0'))   # 创建一个`torch.cuda.DoubleTensor`
+tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, device='cuda:0')
+
+>>> torch.tensor(3.14159)  # 创建一个标量(0维张量)
+tensor(3.1416)
+
+>>> torch.tensor([])       # 创建一个空张量(形状为(0,))
+tensor([])
 ```
 
 
@@ -494,6 +551,20 @@ torch.Size([10, 3, 5])
 
 
 
+### ceil()
+
+对张量的所有元素应用向上取整函数。
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-0.6341, -1.4208, -1.0900,  0.5826])
+>>> torch.ceil(a)
+tensor([-0., -1., -1.,  1.])
+```
+
+
+
 ### clamp()
 
 对张量的所有元素应用下限和上限。
@@ -544,6 +615,20 @@ tensor([[0., 1., 2., 3., 4.],
 >>> torch.exp(a)
 tensor([[1.0000e+00, 2.7183e+00, 7.3891e+00, 2.0086e+01, 5.4598e+01],
         [1.4841e+02, 4.0343e+02, 1.0966e+03, 2.9810e+03, 8.1031e+03]])
+```
+
+
+
+### floor()
+
+对张量的所有元素应用向下取整函数。
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-0.8166,  1.5308, -0.2530, -0.2091])
+>>> torch.floor(a)
+tensor([-1.,  1., -1., -1.])
 ```
 
 
@@ -712,9 +797,9 @@ tensor([[0.0717]])
 
 
 
-### mul(), div()
+### mul(), div(), fmod(), pow()
 
-张量逐元素乘法/除法。亦为 `torch.Tensor` 方法。`*,/` 符号重载了此方法。
+张量逐元素乘法/除法/除法取余/乘方。亦为 `torch.Tensor` 方法。`*, /, %, **` 符号重载了此方法。
 
 ```python
 >>> a = torch.arange(12).view(3, 4)
@@ -753,6 +838,20 @@ tensor([0.8558, 0.2710])
 
 
 
+### sign()
+
+对张量的所有元素应用符号函数。
+
+```python
+>>> a = torch.tensor([0.7, -1.2, 0., 2.3])
+>>> a
+tensor([ 0.7000, -1.2000,  0.0000,  2.3000])
+>>> torch.sign(a)
+tensor([ 1., -1.,  0.,  1.])
+```
+
+
+
 ### sin(), cos(), tan(), arcsin(), arccos(), arctan(), sinh(), cosh(), tanh(), arcsinh(), arccosh(), arctanh()
 
 对张量的所有元素应用三角函数和双曲函数。
@@ -768,6 +867,10 @@ tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
 tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
         [-0.9589, -0.2794,  0.6570,  0.9894,  0.4121]])
 ```
+
+
+
+
 
 
 
@@ -2601,7 +2704,7 @@ with SummaryWriter() as w:
 ```python
 add_histogram(tag: str, values, global_step: int = None, bins: str = 'tensorflow', walltime: float = None, max_bins=None)
 # tag           数据的标签
-# values        统计分布数据,是`torch.Tensor`或`numpy.array`类型
+# values        统计分布数据,是`torch.Tensor`或`numpy.ndarray`类型
 # global_step   当前的全局步数
 # bins
 # walltime      重载默认的真实经过时间(`time.time()`)
@@ -2631,7 +2734,7 @@ with SummaryWriter() as w:
 ```python
 add_image(tag: str, img_tensor, global_step: int = None, walltime: float = None, dataformats: str = 'CHW')
 # tag           数据的标签
-# img_tensor    图像张量,是`torch.Tensor`或`numpy.array`类型
+# img_tensor    图像张量,是`torch.Tensor`或`numpy.ndarray`类型
 # global_step   当前的全局步数,默认为0
 # walltime      重载默认的真实经过时间(`time.time()`)
 # dataformats   数据格式,例如'CHW'表示`img_tensor`的3个维度分别为通道,高,宽
@@ -2670,7 +2773,7 @@ with SummaryWriter() as w:
 ```python
 add_images(tag: str, img_tensor, global_step: int = None, walltime: float = None, dataformats: str = 'NCHW')
 # tag           数据的标签
-# img_tensor    图像张量,是`torch.Tensor`或`numpy.array`类型
+# img_tensor    图像张量,是`torch.Tensor`或`numpy.ndarray`类型
 # global_step   当前的全局步数,默认为0
 # walltime      重载默认的真实经过时间(`time.time()`)
 # dataformats   数据格式,例如'NCHW'表示`img_tensor`的4个维度分别为批次索引,通道,高,宽
@@ -2811,7 +2914,7 @@ with SummaryWriter() as w:
 
 ```python
 add_embedding(mat, metadata: list = None, label_img: torch.Tensor = None, global_step: int = None, tag: str = 'default', metadata_header=None)
-# mat           所有数据点(词)的嵌入向量组成的二维张量,是`torch.Tensor`或`numpy.array`类型
+# mat           所有数据点(词)的嵌入向量组成的二维张量,是`torch.Tensor`或`numpy.ndarray`类型
 # metadata      所有数据点(词)的名称
 # label_img     所有数据点(词)对应的图像组成的张量
 # global_step   当前的全局步数,默认为0
@@ -2910,7 +3013,7 @@ data_loader = torch.utils.data.DataLoader(imagenet_data,
 
 
 
-### CIFAR
+### CIFAR10
 
 CIFAR10 数据集。
 
@@ -2922,7 +3025,7 @@ torchvision.datasets.CIFAR10(root: str, train: bool = True, transform: Optional[
 
 
 
-### Fashion-MNIST
+### FashionMNIST
 
 Fashion-MNIST 数据集。
 

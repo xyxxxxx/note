@@ -427,29 +427,96 @@ P2P应用即具有P2P体系结构的应用，而P2P体系结构即在网络应�
 
 ## ssh
 
-### 登录
+### 连接
 
 ```shell
 # 连接服务器
-$ ssh hostname
+$ ssh host
 
 # 以指定用户名连接,默认使用ssh的当前用户名
-$ ssh user@hostname
-$ ssh -l username host
+$ ssh user@host
+$ ssh -l user host
 
 # 连接指定端口,默认为22端口
-$ ssh -p port hostname
+$ ssh -p port host
 ```
 
 
 
-### 安全
+### 命令
 
-当客户端第一次连接某一台服务器，命令行会显示一段文字，表示不认识这台机器，提醒用户确认是否需要连接。
+```shell
+# 执行远程命令
+$ ssh user@host command
+
+# 执行远程命令(启动互动式Shell环境)
+$ ssh -t user@host command
+```
+
+
+
+### 密钥
+
+```shell
+# 生成密钥,使用RSA/DSA加密算法
+$ ssh-keygen -t rsa/dsa
+
+# 显示所有公钥
+$ ls -l ~/.ssh/id_*.pub
+
+# 自动上传公钥到服务器
+$ ssh-copy-id -i key_file user@host
+
+# 手动上传公钥到服务器
+$ cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+# 删除服务器的公钥指纹,当服务器公钥变更时需要执行此操作
+$ ssh-keygen -R host
+```
 
 
 
 ## sshd
 
+### 启动
 
+```shell
+# 启动/停止sshd
+$ sudo sshd
+$ sudo /usr/sbin/sshd     # 使用绝对路径以确保启动真正的sshd
+$ sudo pkill sshd
+
+# 启动/停止/重启sshd服务
+$ sudo systemctl start sshd.service
+$ sudo systemctl stop sshd.service
+$ sudo systemctl restart sshd.service
+
+# 设置开机自启动
+$ sudo systemctl enable sshd.service
+```
+
+
+
+### 密码
+
+```shell
+# 修改连接密码
+$ sudo passwd
+```
+
+
+
+### 密钥
+
+```shell
+# 对于每种当前主机密钥中不存在的密钥类型(rsa,dsa,ecdsa,ed25519),生成主机密钥,使用默认设置
+$ sudo ssh-keygen -A
+
+# 查看主机公钥的指纹
+$ ssh-keygen -l -f /etc/ssh/ssh_host_rsa_key.pub
+```
+
+
+
+## 端口转发
 

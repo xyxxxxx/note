@@ -2,9 +2,9 @@
 
 ## 读文件
 
- Go 语言中，文件使用指向 `os.File` 类型的指针来表示，也叫做文件句柄。标准输入 `os.Stdin` 和标准输出 `os.Stdout`的类型都是 `*os.File`。
+ Go 语言中，文件使用指向 `os.File` 类型的指针来表示，也叫做文件句柄。标准输入 `os.Stdin` 和标准输出 `os.Stdout` 的类型都是 `*os.File`。
 
-`io.Reader`接口用于包装基本的读取方法：
+`io.Reader` 接口用于包装基本的读取方法：
 
 ```go
 type Reader interface {
@@ -12,11 +12,11 @@ type Reader interface {
 }
 ```
 
-`Read`方法读取`len(p)`字节数据写入`p`，返回写入的字节数和遇到的错误。如果有部分可用数据，但不够len(p)字节，Read按惯例会返回可以读取到的数据，而不是等待更多数据。
+`Read` 方法读取 `len(p)` 字节数据写入 `p`，返回写入的字节数和遇到的错误。如果有部分可用数据，但不够 len（p）字节，Read 按惯例会返回可以读取到的数据，而不是等待更多数据。
 
-当`Read`在读取n > 0个字节后遭遇错误或者到达文件结尾时，会返回读取的字节数。它可能会在该次调用返回一个非nil的错误，或者在下一次调用时返回0和该错误。一个常见的例子，Reader接口会在输入流的结尾返回非0的字节数，返回值err == EOF或err == nil，但不管怎样，下一次Read调用必然返回(0, EOF)。
+当 `Read` 在读取 n >0 个字节后遭遇错误或者到达文件结尾时，会返回读取的字节数。它可能会在该次调用返回一个非 nil 的错误，或者在下一次调用时返回 0 和该错误。一个常见的例子，Reader 接口会在输入流的结尾返回非 0 的字节数，返回值 err == EOF 或 err == nil，但不管怎样，下一次 Read 调用必然返回（0，EOF）。
 
-`bufio.Reader`结构给一个`io.Reader`接口对象附加缓冲。
+`bufio.Reader` 结构给一个 `io.Reader` 接口对象附加缓冲。
 
 
 
@@ -59,7 +59,7 @@ func main() {
 }
 ```
 
-`bufio`包中的`Reader.ReadString`和`Reader.ReadBytes`用于读取直到指定字符的内容。
+`bufio` 包中的 `Reader.ReadString` 和 `Reader.ReadBytes` 用于读取直到指定字符的内容。
 
 
 
@@ -144,7 +144,7 @@ func main() {
 
 
 
-为字符串创建Reader：
+为字符串创建 Reader：
 
 ```go
 package main
@@ -184,7 +184,7 @@ b[:n] = ""
 
 ## 写文件
 
-`io.Writer`接口用于包装基本的写入方法：
+`io.Writer` 接口用于包装基本的写入方法：
 
 ```go
 type Writer interface {
@@ -192,7 +192,7 @@ type Writer interface {
 }
 ```
 
-`Write`方法将`len(p)`字节数据从`p`写入底层的数据流。它会返回写入的字节数和遇到的任何导致写入提取结束的错误。
+`Write` 方法将 `len(p)` 字节数据从 `p` 写入底层的数据流。它会返回写入的字节数和遇到的任何导致写入提取结束的错误。
 
 
 
@@ -231,16 +231,16 @@ func main () {
 }
 ```
 
-`OpenFile` 函数是比`Open`更一般的文件打开函数，有三个参数：文件名、一个或多个标志（使用逻辑运算符“|”连接），使用的文件权限。
+`OpenFile` 函数是比 `Open` 更一般的文件打开函数，有三个参数：文件名、一个或多个标志（使用逻辑运算符“|”连接），使用的文件权限。
 
 我们通常会用到以下标志：
 
-- `os.O_RDONLY`：只读
-- `os.O_WRONLY`：只写
-- `os.O_CREATE`：创建：如果指定文件不存在，就创建该文件。
-- `os.O_TRUNC`：截断：如果指定文件已存在，就舍弃该文件的原有内容。
+* `os.O_RDONLY`：只读
+* `os.O_WRONLY`：只写
+* `os.O_CREATE`：创建：如果指定文件不存在，就创建该文件。
+* `os.O_TRUNC`：截断：如果指定文件已存在，就舍弃该文件的原有内容。
 
-不管是Unix还是Windows，文件权限都需要使用0666。
+不管是 Unix 还是 Windows，文件权限都需要使用 0666。
 
 
 
@@ -269,7 +269,7 @@ fmt.Fprintf(outputFile, "Some test data.\n")
 
 
 
-`[]byte`和`string`之间的转换可以使用简单的类型转换：
+`[]byte` 和 `string` 之间的转换可以使用简单的类型转换：
 
 ```go
 str1 := "hello"
@@ -320,7 +320,7 @@ func CopyFile(dstName, srcName string) (written int64, err error) {
 
 # 读取用户输入
 
-从标准输入`os.Stdin`（键盘）读取输入最简单的方法是使用`fmt`包提供的 Scan 和 Sscan 开头的函数。
+从标准输入 `os.Stdin`（键盘）读取输入最简单的方法是使用 `fmt` 包提供的 Scan 和 Sscan 开头的函数。
 
 ```go
 package main
@@ -351,7 +351,7 @@ func main() {
 
 
 
-也可以使用`bufio`包提供的缓冲读取来读取数据，示例如下：
+也可以使用 `bufio` 包提供的缓冲读取来读取数据，示例如下：
 
 ```go
 package main
@@ -376,7 +376,7 @@ func main() {
 
 
 
-标准输出`os.Stdout`和错误输出`os.Stderr`是屏幕。
+标准输出 `os.Stdout` 和错误输出 `os.Stderr` 是屏幕。
 
 
 
@@ -406,7 +406,7 @@ func main() {
 }
 ```
 
-命令行参数会放置在切片`os.Args[]`中，从索引1开始。
+命令行参数会放置在切片 `os.Args[]` 中，从索引 1 开始。
 
 
 
@@ -422,8 +422,8 @@ flag 包有一个扩展功能用来解析命令行选项。
 
 数据结构要在网络中传输或保存到文件，就必须对其编码和解码；目前存在很多编码格式：JSON，XML，gob，Google 缓冲协议等等。Go 语言支持所有这些编码格式。
 
-- 数据结构 --> 指定格式 = `序列化` 或 `编码`（传输之前）
-- 指定格式 --> 数据格式 = `反序列化` 或 `解码`（传输之后）
+* 数据结构 --> 指定格式 =`序列化` 或 `编码`（传输之前）
+* 指定格式 --> 数据格式 =`反序列化` 或 `解码`（传输之后）
 
 
 
@@ -431,16 +431,16 @@ flag 包有一个扩展功能用来解析命令行选项。
 
 JSON 与 Go 类型对应如下：
 
-- bool 对应 JSON 的 boolean
-- float64 对应 JSON 的 number
-- string 对应 JSON 的 string
-- nil 对应 JSON 的 null
+* bool 对应 JSON 的 boolean
+* float64 对应 JSON 的 number
+* string 对应 JSON 的 string
+* nil 对应 JSON 的 null
 
 
 
 ## 编码
 
-Marshal函数返回v的json编码：
+Marshal 函数返回 v 的 json 编码：
 
 ```go
 func Marshal(v interface{}) ([]byte, error)

@@ -51,6 +51,7 @@
 |                                   |                  |
 | BIOS, Basic Input Output System   | 基本输入输出系统 |
 | bitwise                           | 位的             |
+| bottleneck                        | 瓶颈             |
 | bottom                            | 栈底             |
 | BST, Binary Search Tree           | 二叉查找树       |
 | bucket                            | 桶               |
@@ -95,6 +96,8 @@
 | convolution kernel                 | 卷积核                       |
 | cookie                             |                              |
 | CPU, central process unit          | 中央处理器                   |
+| crawl                              | 爬取                         |
+| crawler                            | 爬虫                         |
 | cross-platform                     | 跨平台                       |
 | CRUD, Create, Read, Update, Delete | 增删改查（数据库的基本操作） |
 | CSS                                | 层叠样式表                   |
@@ -325,6 +328,7 @@
 | neural network                   | 神经网络       |
 | network layer                    | 网络层         |
 | node                             | 节点           |
+| non-volatile storage / memory    | 非易失性存储   |
 | NP, Nondeterministic Polynomial  | 非确定性多项式 |
 | null                             | 空值           |
 |                                  |                |
@@ -428,6 +432,8 @@
 | relative path                 | 相对路径       |
 | ReLU, Rectified Linear Unit   | 修正线性单元   |
 | remote control                | 远程控制       |
+| replica                       | 副本           |
+| replicate                     | 复制           |
 | repository                    | 仓库           |
 | representation                | 表示           |
 | request                       | 请求           |
@@ -451,6 +457,7 @@
 |                               |                      |
 | ----------------------------- | -------------------- |
 | sample                        | 样本                 |
+| scalability                   | 伸缩性               |
 | script                        | 脚本                 |
 | SDK, Software Development Kit | 软件开发工具包       |
 | search engine                 | 搜索引擎             |
@@ -501,6 +508,7 @@
 | thread                             | 线程                        |
 |                                    |                             |
 | three-way handshake                | 三路握手                    |
+| throughput                         | 吞吐量                      |
 | TLB, Translation Lookaside Buffer  | 转换检测缓冲区              |
 | token                              | （编译）标记 ；（认证）令牌 |
 | top                                | 栈顶                        |
