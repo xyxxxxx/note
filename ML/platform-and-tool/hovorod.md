@@ -745,7 +745,7 @@ horovod.torch.broadcast(tensor, root_rank, name=None)
 
 
 
-### compression
+### Compression
 
 可选的 All-Reduce 操作中用于减少数据通信量的压缩算法。
 
@@ -779,6 +779,8 @@ horovod.tensorflow.DistributedOptimizer(optimizer, name=None, use_locking=False,
 horovod.tensorflow.keras.DistributedOptimizer(optimizer, name=None, device_dense='', device_sparse='', compression=<class 'horovod.tensorflow.compression.NoneCompressor'>, sparse_as_dense=False, gradient_predivide_factor=1.0, op=<MagicMock name='mock().horovod_reduce_op_average()' id='140316232634960'>, backward_passes_per_step=1, average_aggregated_gradients=False, num_groups=0, groups=None)
 # optimizer      用于计算梯度和应用参数更新的优化器
 # compression    All-Reduce操作中用于减少数据通信量的压缩算法
+# backward_passes_per_step        
+# average_aggregated_gradients   
 ```
 
 ```python
@@ -789,8 +791,9 @@ horovod.keras.DistributedOptimizer(optimizer, name=None, device_dense='', device
 
 ```python
 horovod.torch.DistributedOptimizer(optimizer, named_parameters=None, compression=<class 'horovod.torch.compression.NoneCompressor'>, backward_passes_per_step=1, op=<MagicMock name='mock().horovod_reduce_op_average()' id='140316224808592'>, gradient_predivide_factor=1.0, num_groups=0, groups=None, sparse_as_dense=False)
-# optimizer      用于计算梯度和应用参数更新的优化器
-# compression    All-Reduce操作中用于减少数据通信量的压缩算法
+# optimizer          用于计算梯度和应用参数更新的优化器
+# named_parameters   参数名称到值的映射,用于allreduce操作的命名.一般就是`model.named_parameters()`
+# compression        All-Reduce操作中用于减少数据通信量的压缩算法
 ```
 
 
@@ -1053,6 +1056,36 @@ All-to-all 操作的异步版本，返回此操作的用于 `poll()` 和 `synchr
 ### broadcast_async()
 
 Broadcast 操作的异步版本，返回此操作的用于 `poll()` 和 `synchronize()` 调用的柄。
+
+
+
+### broadcast_object()
+
+
+
+
+
+### broadcast_optimizer_state()
+
+从根进程广播优化器状态到所有其它进程。
+
+```python
+horovod.torch.broadcast_optimizer_state(optimizer, root_rank)
+# optimizer      优化器
+# root_rank      进程的rank,该进程的优化器将被广播到所有其它进程
+```
+
+
+
+### broadcast_parameters()
+
+从根进程广播参数状态到所有其它进程，主要用于广播 `model.state_dict()`, `model.named_parameters()` 和 `model.parameters()`。
+
+```python
+horovod.torch.broadcast_parameters(params, root_rank)
+# params         模型参数
+# root_rank      进程的rank,该进程的优化器将被广播到所有其它进程
+```
 
 
 

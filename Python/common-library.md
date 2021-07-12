@@ -134,6 +134,36 @@ and they lived at the bottom of a well.
 
 
 
+# filelock
+
+支持 `with` 语句的文件锁。
+
+
+
+## Timeout
+
+若未能在 `timeout` 秒之内获得，则引发此异常。
+
+
+
+## FileLock
+
+
+
+
+
+## UnixFileLock
+
+在 Unix 系统上使用 `fcntl.flock()` 以硬锁定文件。
+
+
+
+## WindowsFileLock
+
+
+
+
+
 # Pillow
 
 PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL 的一个分叉，提供了扩展的文件格式的支持、高效的内部表示和强大的图像处理功能。
@@ -648,8 +678,6 @@ theme:
                        'primary': 'green',
                        'scheme': 'default'}}}
 ```
-
-
 
 
 

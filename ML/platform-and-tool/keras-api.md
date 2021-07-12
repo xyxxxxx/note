@@ -708,11 +708,131 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 ## BinaryCrossentropy
 
-计算真实标签和预测标签之间的交叉熵损失，用于二分类问题。损失函数接受的真实标签为 `0` 或 `1`，预测标签为任意浮点数（当 `from_logits=True`）或概率值（当 `from_logits=False`）。
+计算标签和预测值之间的交叉熵损失，用于二分类问题。损失函数接受的标签为 `0` 或 `1`，预测值为任意浮点数（若 `from_logits=True`，此时预测值的浮点数通过 logistic 函数映射到$$(0, 1)$$区间内）或概率值（若 `from_logits=False`）。
+
+> logit 函数是 logistic 函数的反函数。
+
+```python
+>>> y_true = [0, 1, 0, 0]
+>>> y_pred = [-18.6, 0.51, 2.94, -12.8]
+>>> bce = tf.keras.losses.BinaryCrossentropy(from_logits=True)  # 对预测值应用logistic函数
+>>> bce(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=0.865458>
+```
 
 
 
 ## CategoricalCrossentropy
+
+计算标签和预测值之间的交叉熵损失，用于二分类或多分类问题。损失函数接受的预测值为表示各类别概率值的向量，标签为相应的 one-hot 向量。
+
+```python
+>>> y_true = [[0, 1, 0], [0, 0, 1]]
+>>> y_pred = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+>>> cce = tf.keras.losses.CategoricalCrossentropy()
+>>> cce(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=1.1769392>
+```
+
+
+
+## CosineSimilarity
+
+计算标签和预测值之间的余弦相似度。返回值介于 -1 到 1 之间，-1 表示方向相同，1 表示方向相反，0 表示正交。
+
+```python
+>>> y_true = [1., 1.]
+>>> y_pred = [2., 2.]
+>>> cosine_loss = tf.keras.losses.CosineSimilarity()
+>>> cosine_loss(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=-0.99999994>
+
+>>> y_true = [1., 1.]
+>>> y_pred = [2., -2.]
+>>> cosine_loss = tf.keras.losses.CosineSimilarity()
+>>> cosine_loss(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=-0.0>
+```
+
+
+
+## Hinge
+
+
+
+
+
+
+
+## KLDiverence
+
+计算标签和预测值之间的 KL 散度。
+
+
+
+
+
+## Loss
+
+
+
+
+
+
+
+## MeanAbsoluteError
+
+计算标签和预测值之间的平均绝对误差。
+
+```python
+>>> y_true = [0., 1.]
+>>> y_pred = [0.1, 0.8]
+>>> mae = tf.keras.losses.MeanAbsoluteError()
+>>> mae(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=0.14999999>
+```
+
+
+
+## MeanSquareError
+
+计算标签和预测值之间的平均平方误差。
+
+```python
+>>> y_true = [0., 1.]
+>>> y_pred = [0.1, 0.8]
+>>> mse = tf.keras.losses.MeanSquaredError()
+>>> mse(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=0.024999999>
+```
+
+
+
+## Poisson
+
+计算标签和预测值之间的泊松损失。
+
+
+
+## Reduction
+
+
+
+## SparseCategoricalCrossentropy
+
+计算标签和预测值之间的交叉熵损失，用于二分类或多分类问题。损失函数接受的预测值为表示各类别概率值的向量，标签为类别的序号。
+
+```python
+>>> y_true = [1, 2]
+>>> y_pred = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+>>> scce = tf.keras.losses.SparseCategoricalCrossentropy()
+>>> scce(y_true, y_pred)
+<tf.Tensor: shape=(), dtype=float32, numpy=1.1769392>
+```
+
+
+
+## SquaredHinge
 
 
 

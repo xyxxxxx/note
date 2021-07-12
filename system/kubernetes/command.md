@@ -61,8 +61,6 @@ node01         Ready    <none>   106s    v1.18.0  # Node
 
 
 
-
-
 ## run
 
 创建一个Pod，运行指定镜像。

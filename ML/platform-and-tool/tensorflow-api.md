@@ -278,7 +278,7 @@ TensorShape([4, None])
 
 ## range()
 
-根据给定的初值，末值和步长创建一维张量。与 python 的 `range()` 用法相同。
+根据给定的初值，末值和步长创建一维张量。与 Python 的 `range()` 用法相同。
 
 ```python
 >>> tf.range(10)
@@ -332,11 +332,11 @@ array([[1, 1, 2, 2, 2],
 >>> a = tf.range(10)
 >>> a
 <tf.Tensor: shape=(10,), dtype=int32, numpy=array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=int32)>
->>> tf.reshape(a, [2,5])
+>>> tf.reshape(a, [2, 5])
 <tf.Tensor: shape=(2, 5), dtype=int32, numpy=
 array([[0, 1, 2, 3, 4],
        [5, 6, 7, 8, 9]], dtype=int32)>
->>> tf.reshape(a, [2,-1])                  # -1表示自动补全该位置的值
+>>> tf.reshape(a, [2, -1])                  # -1表示自动补全该位置的值
 <tf.Tensor: shape=(2, 5), dtype=int32, numpy=
 array([[0, 1, 2, 3, 4],
        [5, 6, 7, 8, 9]], dtype=int32)>
@@ -389,6 +389,43 @@ array([[4, 3, 2, 1, 0],
 <tf.Tensor: shape=(), dtype=int32, numpy=6>
 #                                 元素总数=6
 ```
+
+
+
+## split()
+
+划分张量为多个部分。
+
+```python
+>>> a = tf.reshape(tf.range(36), [6, 6])
+>>> a0, a1, a2 = tf.split(a, 3, axis=0)           # 沿轴0 3等分
+>>> a0
+<tf.Tensor: shape=(2, 6), dtype=int32, numpy=
+array([[ 0,  1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10, 11]], dtype=int32)>
+>>> a0, a1 = tf.split(a, 2, axis=1)               # 沿轴1 2等分
+>>> a0
+<tf.Tensor: shape=(6, 3), dtype=int32, numpy=
+array([[ 0,  1,  2],
+       [ 6,  7,  8],
+       [12, 13, 14],
+       [18, 19, 20],
+       [24, 25, 26],
+       [30, 31, 32]], dtype=int32)>
+>>> a0, a1, a2, a3 = tf.split(a, 4, axis=1)       # 不能4等分,出错
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Number of ways to split should evenly divide the split dimension, but got split_dim 1 (size = 6) and num_split 4 [Op:Split] name: split
+>>> a0, a1, a2 = tf.split(a, [1, 2, 3], axis=1)   # 沿轴1划分
+>>> a0
+<tf.Tensor: shape=(6, 1), dtype=int32, numpy=
+array([[ 0],
+       [ 6],
+       [12],
+       [18],
+       [24],
+       [30]], dtype=int32)>
+```
+
+
 
 
 
@@ -692,7 +729,9 @@ except:
 
 返回运行时创建的逻辑设备列表。
 
-调用 `list_logical_devices()` 会引发运行时初始化所有可见的 `PhysicalDevice`，因而不能继续配置。若不想要初始化运行时，请调用 `list_physical_devices()`。
+调用 `list_logical_devices()` 会引发运行时初始化所有可见的 `PhysicalDevice`（一个可见 `PhysicalDevice` 对象默认创建一个 `LogicalDevice` 对象），因而不能继续配置。若不想要初始化运行时，请调用 `list_physical_devices()`。
+
+即使不调用 `list_logical_devices()`，执行任何运算或使用任何 CPU 或 GPU 同样会初始化运行时。
 
 ```python
 >>> cpus = tf.config.list_physical_devices('CPU')
@@ -781,7 +820,7 @@ TensorFlow 可以利用各种设备进行计算，例如 CPU 或者（多个）G
 
 为一个 `PhysicalDevice` 对象设定逻辑设备配置。
 
-一旦初始化运行时，一个可见的 `PhysicalDevice` 对象就默认创建一个 `LogicalDevice` 对象与之关联。指定 `LogicalDeviceConfiguration` 对象列表会在一个 `PhysicalDevice` 对象上创建多个 `LogicalDevice` 对象。
+一旦初始化运行时，一个可见的 `PhysicalDevice` 对象就默认创建一个 `LogicalDevice` 对象与之关联。在运行时初始化之前指定 `LogicalDeviceConfiguration` 对象列表会在一个 `PhysicalDevice` 对象上创建多个 `LogicalDevice` 对象。
 
 ```python
 # 将CPU分为2个逻辑设备
@@ -859,7 +898,7 @@ False
 >>> tf.config.get_visible_devices()                                                   # 可见物理设备
 [PhysicalDevice(name='/physical_device:CPU:0', device_type='CPU'),
  PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
->>> tf.config.list_logical_devices()                                                  # 所有虚拟设备
+>>> tf.config.list_logical_devices()                                                  # 所有逻辑设备
 [LogicalDevice(name='/device:CPU:0', device_type='CPU'),
  LogicalDevice(name='/device:GPU:0', device_type='GPU')]
 ```
@@ -971,19 +1010,20 @@ False
 创建由指定张量的元素构成的数据集。
 
 ```python
->>> ds = Dataset.from_tensor_slices([1, 2, 3])                  # 张量
+>>> ds = Dataset.from_tensor_slices([1, 2, 3])                   # 张量
 >>> list(ds.as_numpy_iterator())
-[1, 2, 3]                         # 张量的元素
+[1, 2, 3]                               # 张量的元素
 >>> ds = Dataset.from_tensor_slices([[1, 2, 3], [4, 5, 6]])
 >>> list(ds.as_numpy_iterator())
 [array([1, 2, 3], dtype=int32), array([4, 5, 6], dtype=int32)]
 >>> 
->>> ds = Dataset.from_tensor_slices(([1, 2, 3], [3, 4], [5, 6]))    # 张量构成的元组
+>>> ds = Dataset.from_tensor_slices(([1, 2], [3, 4], [5, 6]))    # 张量构成的元组
 >>> list(ds.as_numpy_iterator())
 [(1, 3, 5), (2, 4, 6)]                  # 元组,元素来自各张量
 >>> ds = Dataset.from_tensor_slices(([1, 2, 3], ['a', 'b', 'a']))   # 应用:绑定数据和标签
 >>> list(ds.as_numpy_iterator())
 [(1, b'a'), (2, b'b'), (3, b'a')]
+
 >>> ds = Dataset.from_tensor_slices({"a": [1, 2], "b": [3, 4], "c": [5, 6]})  # 张量构成的字典
 >>> list(ds.as_numpy_iterator())
 [{'a': 1, 'b': 3, 'c': 5}, {'a': 2, 'b': 4, 'c': 6}]    # 字典,元素来自各张量
@@ -1107,13 +1147,31 @@ shard(num_shards, index)
 [2, 5, 8]
 ```
 
+
+
 ```python
-# 分布式训练准备数据集
-d = tf.data.TFRecordDataset(input_file)
-d = d.shard(num_workers, worker_index)
-d = d.repeat(num_epochs)
-d = d.shuffle(shuffle_buffer_size)
-d = d.map(parser_fn, num_parallel_calls=num_map_threads)
+# 准备分布式训练数据集
+
+# 每个worker分到数据集的不固定子集并打乱(推荐)
+>>> ds = Dataset.range(10).shuffle(100, seed=1).shard(num_shards=3, index=0).batch(2)
+>>> list(ds.as_numpy_iterator())
+[array([0, 1]), array([3, 4])]
+>>> ds = Dataset.range(10).shuffle(100, seed=1).shard(num_shards=3, index=1).batch(2)
+>>> list(ds.as_numpy_iterator())
+[array([9, 2]), array([8])]
+>>> ds = Dataset.range(10).shuffle(100, seed=1).shard(num_shards=3, index=2).batch(2)
+>>> list(ds.as_numpy_iterator())
+[array([5, 7]), array([6])]
+
+# 每个worker分到数据集的固定子集并打乱
+>>> ds = Dataset.range(10).shard(num_shards=3, index=0).shuffle(100).batch(2)
+>>> list(ds.as_numpy_iterator())
+[array([3, 0]), array([6, 9])]
+
+# 每个worker分到数据集的固定子集并跨epoch打乱(不推荐)
+>>> ds = Dataset.range(10).shard(num_shards=3, index=0).repeat(3).shuffle(100).batch(2)
+>>> list(ds.as_numpy_iterator())       # 将3个epoch的输入数据放在一起打乱
+[array([0, 0]), array([3, 3]), array([6, 6]), array([9, 6]), array([3, 0]), array([9, 9])]
 ```
 
 

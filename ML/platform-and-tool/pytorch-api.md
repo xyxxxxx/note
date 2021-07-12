@@ -4,90 +4,35 @@
 
 ## 张量
 
-### arange()
+### device
 
-生成包含指定等差数列的一维张量。
-
-```python
->>> torch.arange(5)
-tensor([ 0,  1,  2,  3,  4])
->>> torch.arange(1, 4)
-tensor([ 1,  2,  3])
->>> torch.arange(1, 2.5, 0.5)
-tensor([ 1.0000,  1.5000,  2.0000])
-```
+`torch.device` 实例代表 `torch.Tensor` 被分配到的设备。
 
 
 
 ### dtype
 
-数据类型。
+`torch.dtype` 实例代表 `torch.Tensor` 的数据类型。PyTorch 有如下数据类型：
+
+| Data type                | dtype                                 | Legacy Constructors      |
+| ------------------------ | ------------------------------------- | ------------------------ |
+| 32-bit floating point    | `torch.float32` or `torch.float`      | `torch.*.FloatTensor`    |
+| 64-bit floating point    | `torch.float64` or `torch.double`     | `torch.*.DoubleTensor`   |
+| 64-bit complex           | `torch.complex64` or `torch.cfloat`   |                          |
+| 128-bit complex          | `torch.complex128` or `torch.cdouble` |                          |
+| 16-bit floating point 1  | `torch.float16` or `torch.half`       | `torch.*.HalfTensor`     |
+| 16-bit floating point 2  | `torch.bfloat16`                      | `torch.*.BFloat16Tensor` |
+| 8-bit integer (unsigned) | `torch.uint8`                         | `torch.*.ByteTensor`     |
+| 8-bit integer (signed)   | `torch.int8`                          | `torch.*.CharTensor`     |
+| 16-bit integer (signed)  | `torch.int16` or `torch.short`        | `torch.*.ShortTensor`    |
+| 32-bit integer (signed)  | `torch.int32` or `torch.int`          | `torch.*.IntTensor`      |
+| 64-bit integer (signed)  | `torch.int64` or `torch.long`         | `torch.*.LongTensor`     |
+| Boolean                  | `torch.bool`                          | `torch.*.BoolTensor`     |
 
 
 
-### ones()
-
-返回指定形状的全 1 张量。
-
-```python
->>> torch.ones(2, 3)
-tensor([[ 1.,  1.,  1.],
-        [ 1.,  1.,  1.]])
->>> torch.ones(2, 3, dtype=int)
-tensor([[1, 1, 1],
-        [1, 1, 1]])
-```
 
 
-
-### set_default_tensor_type()
-
-设置默认的浮点数据类型。
-
-```python
->>> torch.tensor([1.2, 3]).dtype
-torch.float32
->>> torch.set_default_tensor_type(torch.DoubleTensor)
->>> torch.tensor([1.2, 3]).dtype
-torch.float64
-```
-
-
-
-### tensor()
-
-根据数据创建张量。
-
-```python
-torch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) → Tensor
-# data           张量的初始数据,可以是数字,列表,元组,`numpy.ndarray`类型等.
-# dtype          张量的数据类型,默认从`data`中推断.
-# device         张量位于的设备,默认使用数据类型相应的设备:若为CPU数据类型,则使用CPU;若为CUDA数据类型,
-#                则使用当前的CUDA设备
-# requires_grad  若为`True`,则autograd应记录此张量参与的运算
-# pin_memory     若为`True`,则张量将被分配到锁页内存中.仅对位于CPU的张量有效.
-```
-
-```python
->>> torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
-tensor([[ 0.1000,  1.2000],
-        [ 2.2000,  3.1000],
-        [ 4.9000,  5.2000]])
-
->>> torch.tensor([0, 1])   # 从数据推断类型
-tensor([ 0,  1])
-
->>> torch.tensor([[0.11111, 0.222222, 0.3333333]],
-...              dtype=torch.float64,
-...              device=torch.device('cuda:0'))   # 创建一个`torch.cuda.DoubleTensor`
-tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, device='cuda:0')
-
->>> torch.tensor(3.14159)  # 创建一个标量(0维张量)
-tensor(3.1416)
-
->>> torch.tensor([])       # 创建一个空张量(形状为(0,))
-tensor([])
-```
 
 
 
@@ -388,6 +333,147 @@ tensor([[2],
 
 
 
+
+
+## 张量创建
+
+### arange()
+
+根据给定的初值，末值和步长创建一维张量。与 Python 的 `range()` 用法相同。
+
+```python
+>>> torch.arange(5)
+tensor([ 0,  1,  2,  3,  4])
+>>> torch.arange(1, 4)
+tensor([ 1,  2,  3])
+>>> torch.arange(1, 2.5, 0.5)
+tensor([ 1.0000,  1.5000,  2.0000])
+```
+
+
+
+### from_numpy()
+
+由 NumPy 数组（`numpy.ndarray` 实例）创建张量。
+
+```python
+>>> a = numpy.array([1, 2, 3])
+>>> t = torch.from_numpy(a)
+>>> t
+tensor([ 1,  2,  3])
+>>> t[0] = -1         # 返回的张量与NumPy数组共享内存
+>>> a
+array([-1,  2,  3])
+```
+
+
+
+### full()
+
+返回指定形状的用指定值填充的张量。
+
+```python
+>>> torch.full((2, 3), 3.141592)
+tensor([[ 3.1416,  3.1416,  3.1416],
+        [ 3.1416,  3.1416,  3.1416]])
+```
+
+
+
+### linspace()
+
+根据给定的初值，末值和项数创建一维张量。
+
+```python
+>>> torch.linspace(0, 10, steps=5)
+tensor([ 0.0000,  2.5000,  5.0000,  7.5000, 10.0000])
+>>> torch.linspace(0, 10, steps=1)
+tensor([0.])
+```
+
+
+
+### logspace()
+
+根据给定的底数和指数的初值，末值和项数创建一维张量。
+
+```python
+>>> torch.logspace(0, 10, steps=5)           # 默认底数为10
+tensor([1.0000e+00, 3.1623e+02, 1.0000e+05, 3.1623e+07, 1.0000e+10])
+>>> torch.logspace(0, 10, steps=5, base=2)
+tensor([1.0000e+00, 5.6569e+00, 3.2000e+01, 1.8102e+02, 1.0240e+03])
+>>> torch.logspace(0, 10, steps=1)
+tensor([1.])
+```
+
+
+
+### ones()
+
+返回指定形状的全 1 张量。
+
+```python
+>>> torch.ones(2, 3)
+tensor([[ 1.,  1.,  1.],
+        [ 1.,  1.,  1.]])
+>>> torch.ones(2, 3, dtype=int)
+tensor([[1, 1, 1],
+        [1, 1, 1]])
+```
+
+
+
+### set_default_tensor_type()
+
+设置默认的浮点数据类型。
+
+```python
+>>> torch.tensor([1.2, 3]).dtype
+torch.float32
+>>> torch.set_default_tensor_type(torch.DoubleTensor)
+>>> torch.tensor([1.2, 3]).dtype
+torch.float64
+```
+
+
+
+### tensor()
+
+由数据创建张量。
+
+```python
+torch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) → Tensor
+# data           张量的初始数据,可以是数字,列表,元组,`numpy.ndarray`类型等.
+# dtype          张量的数据类型,默认从`data`中推断.
+# device         张量位于的设备,默认使用数据类型相应的设备:若为CPU数据类型,则使用CPU;若为CUDA数据类型,
+#                则使用当前的CUDA设备
+# requires_grad  若为`True`,则autograd应记录此张量参与的运算
+# pin_memory     若为`True`,则张量将被分配到锁页内存中.仅对位于CPU的张量有效.
+```
+
+```python
+>>> torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
+tensor([[ 0.1000,  1.2000],
+        [ 2.2000,  3.1000],
+        [ 4.9000,  5.2000]])
+
+>>> torch.tensor([0, 1])   # 从数据推断类型
+tensor([ 0,  1])
+
+>>> torch.tensor([[0.11111, 0.222222, 0.3333333]],
+...              dtype=torch.float64,
+...              device=torch.device('cuda:0'))   # 创建一个`torch.cuda.DoubleTensor`
+tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, device='cuda:0')
+
+>>> torch.tensor(3.14159)  # 创建一个标量(0维张量)
+tensor(3.1416)
+
+>>> torch.tensor([])       # 创建一个空张量(形状为(0,))
+tensor([])
+```
+
+
+
 ### zeros()
 
 返回指定形状的全 0 张量。
@@ -401,6 +487,8 @@ tensor([[ 0.,  0.,  0.],
 
 
 ## 张量操作
+
+> 以下操作均不是原位操作，即返回一个新的张量，而不改变原张量。
 
 ### cat()
 
@@ -427,6 +515,32 @@ tensor([[ 0.6580, -1.0969, -0.4614,  0.6580, -1.0969, -0.4614,  0.6580,
 
 
 
+### index_select()
+
+选择张量的沿指定轴的若干索引，返回相应的子张量。
+
+```python
+>>> a = torch.arange(24).view(2, 3, 4)
+>>> a
+tensor([[[ 0,  1,  2,  3],
+         [ 4,  5,  6,  7],
+         [ 8,  9, 10, 11]],
+
+        [[12, 13, 14, 15],
+         [16, 17, 18, 19],
+         [20, 21, 22, 23]]])
+>>> torch.index_select(a, 2, torch.tensor([0, 2]))
+tensor([[[ 0,  2],
+         [ 4,  6],
+         [ 8, 10]],
+
+        [[12, 14],
+         [16, 18],
+         [20, 22]]])
+```
+
+
+
 ### flatten()
 
 将张量展开为向量。
@@ -441,6 +555,100 @@ tensor([1, 2, 3, 4, 5, 6, 7, 8])
 >>> torch.flatten(a, start_dim=1)
 tensor([[1, 2, 3, 4],
         [5, 6, 7, 8]])
+```
+
+
+
+### masked_select()
+
+根据布尔掩码返回由张量的部分元素组成的一维张量。
+
+```python
+>>> a = torch.randn(3, 4)
+>>> a
+tensor([[ 0.3552, -2.3825, -0.8297,  0.3477],
+        [-1.2035,  1.2252,  0.5002,  0.6248],
+        [ 0.1307, -2.0608,  0.1244,  2.0139]])
+>>> mask = a.ge(0.5)       # 比较运算产生与张量形状相同的掩码
+>>> mask
+tensor([[False, False, False, False],
+        [False, True, True, True],
+        [False, False, False, True]])
+>>> torch.masked_select(a, mask)
+tensor([ 1.2252,  0.5002,  0.6248,  2.0139])   # `True`对应的元素组成的一维张量
+```
+
+
+
+### movedim()
+
+移动张量指定轴的位置。
+
+```python
+>>> a = torch.arange(24).view(2, 3, 4)
+>>> torch.movedim(a, 1, 0).shape
+torch.Size([3, 2, 4])
+>>> torch.movedim(a, 2, 0).shape
+torch.Size([4, 2, 3])
+```
+
+
+
+### reshape()
+
+改变张量的形状。
+
+```python
+>>> a = torch.arange(10).view(2, -1)
+>>> a
+tensor([[0, 1, 2, 3, 4],
+        [5, 6, 7, 8, 9]])
+>>> torch.reshape(a, (5, 2))      # 保持各元素的顺序
+tensor([[0, 1],
+        [2, 3],
+        [4, 5],
+        [6, 7],
+        [8, 9]])
+>>> torch.reshape(a, (-1,))
+tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+
+
+### split()
+
+划分张量为多个部分，每个部分是原始张量的一个视图。
+
+```python
+>>> a = torch.arange(36).reshape(6, 6)
+>>> a0, a1, a2 = torch.split(a, 2, dim=0)         # 沿轴0 每2个索引划分
+>>> a0
+tensor([[ 0,  1,  2,  3,  4,  5],
+        [ 6,  7,  8,  9, 10, 11]])
+>>> a0, a1 = torch.split(a, 3, dim=1)             # 沿轴1 每3个索引划分
+>>> a0
+tensor([[ 0,  1,  2],
+        [ 6,  7,  8],
+        [12, 13, 14],
+        [18, 19, 20],
+        [24, 25, 26],
+        [30, 31, 32]])
+>>> a0, a1 = torch.split(a, 4, dim=1)             # 最后一个部分不足4个索引 
+>>> a1
+tensor([[ 4,  5],
+        [10, 11],
+        [16, 17],
+        [22, 23],
+        [28, 29],
+        [34, 35]])
+>>> a0, a1, a2 = torch.split(a, [1, 2, 3], dim=1) # 沿轴1划分
+>>> a0
+tensor([[ 0],
+        [ 6],
+        [12],
+        [18],
+        [24],
+        [30]])
 ```
 
 
@@ -507,6 +715,12 @@ tensor([[ 0,  2,  4,  6],
         [16, 18, 20, 22]])
 
 ```
+
+
+
+### all(), any()
+
+
 
 
 
@@ -870,6 +1084,26 @@ tensor([[ 0.0000,  0.8415,  0.9093,  0.1411, -0.7568],
 
 
 
+### sqrt()
+
+对张量的所有元素应用平方根函数。
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-2.0755,  1.0226,  0.0831,  0.4806])
+>>> torch.sqrt(a)
+tensor([    nan,  1.0112,  0.2883,  0.6933])
+```
+
+
+
+### square()
+
+对张量的所有元素应用平方函数，相当于 `** 2`。
+
+
+
 
 
 
@@ -1050,6 +1284,18 @@ tensor(1.0896)
 >>> loss(input, target)
 tensor(1.0896)
 ```
+
+
+
+## DataParallel
+
+
+
+
+
+## parallel.DistributedDataParallel
+
+
 
 
 
@@ -1847,7 +2093,7 @@ output = Exp.apply(input)
 
 ## device()
 
-改变选择设备的上下文管理器。
+改变当前选择设备的上下文管理器。
 
 ```python
 >>> torch.cuda.device(0)
@@ -1869,7 +2115,7 @@ output = Exp.apply(input)
 
 ## get_device_name()
 
-获取设备的名称。
+获取设备的名称，默认返回当前设备（由 `current_device()` 给出）的名称。
 
 ```python
 >>> torch.cuda.get_device_name(0)
@@ -2254,26 +2500,85 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
 
+## Adam
+
+实现 Adam 算法。
+
+```python
+torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
+# params        要优化的参数的可迭代对象,或定义了参数组的字典
+# lr            学习率
+# betas         用于计算梯度的running average和其平方的系数
+# eps           添加到分母的项,用于提升数值稳定性
+# weight_decay  权重衰退(L2惩罚)
+# amsgrad       是否使用此算法的AMSGrad变体
+```
+
+
+
+## Optimizer
+
+所有优化器的基类。
+
+
+
+### load_state_dict()
+
+加载优化器状态。
+
+
+
+### state_dict()
+
+返回优化器状态。返回的字典包含两项：
+
++ `state`：包含当前优化状态的字典
++ `param_groups`：包含所有参数组的字典
+
+
+
+### step
+
+执行单步优化。
+
+
+
+### zero_grad
+
+
+
+
+
+
+
+## SGD
+
+实现随机梯度下降。
+
+```python
+torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
+# params        要优化的参数的可迭代对象,或定义了参数组的字典
+# lr            学习率
+# momentum      动量系数
+# weight_decay  权重衰退(L2惩罚)
+# dampening     
+# nesterov      启用Nesterov动量
+```
+
+```python
+>>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
+>>> optimizer.zero_grad()
+>>> loss_fn(model(input), target).backward()
+>>> optimizer.step()
+```
+
+
+
 
 
 # torch.utils.data
 
-## DataLoader
-
-数据加载器，其结合数据集和采样器，返回一个给定数据集上的可迭代对象。
-
-```python
-torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=None, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None, multiprocessing_context=None, generator=None, *, prefetch_factor=2, persistent_workers=False)
-# dataset        数据集
-# batch_size     批次规模
-# shuffle        若为`True`,每完成一次迭代都会重新打乱数据
-# sampler        从数据集中采样的策略,可以是任何实现了`__len__`方法的可迭代对象.与`shuffle`互斥.
-# batch_sampler  
-# num_workers    用于加载数据的子进程数量
-
-```
-
-
+PyTorch 数据加载功能的核心是 `torch.utils.data.Dataloader` 类，
 
 
 
@@ -2383,117 +2688,13 @@ for data in iter(dataset):
 
 
 
-
-
-
-
 ### 单进程和多进程数据加载
-
-
-
-
 
 
 
 ### num_workers
 
 
-
-
-
-
-
-## Dataset
-
-表示数据集的一个抽象类。
-
-所有映射数据集应继承此类。所有子类应覆写 `__getitem__()` 方法，用于根据键拿到数据样本。子类可以覆写 `__len__()`，
-
-> 对于映射数据集，`DataLoader` 默认构造一个索引 `sampler`，yield整数索引。如果映射数据集的索引或键不是整数，则需要提供一个自定义 `sampler`。
-
-
-
-## IterableDataset
-
-可迭代数据集。
-
-所有迭代数据集应继承此类。当数据来源于一个流时，这种形式的数据集尤为有用。
-
-所有子类应覆写 `__iter__()` 方法，用于返回一个数据集的样本的迭代器。
-
-当 `Dataloader` 使用迭代数据集时，`Dataloader` 的迭代器会 yield 数据集的每一个项目
-
-
-
-## Sampler
-
-所有 Sampler 的基类。
-
-每个 Sampler 子类必须提供一个 `__iter__()` 方法，用于提供一个迭代数据集样本索引的方法，和一个 `__len__()` 方法，用于返回实例化的迭代器的长度。
-
-
-
-## SequentialSampler
-
-顺序采样，并且总是以相同的顺序。
-
-```python
->>> from torch.utils.data import SequentialSampler
->>> sampler = SequentialSampler(range(5))
->>> for i in sampler:
-...   print(i)
-... 
-0
-1
-2
-3
-4
-```
-
-
-
-## random_split
-
-将数据集随机划分为多个指定规模的数据集。使用 `torch.generator` 以产生可重复的结果。
-
-```python
-```
-
-
-
-
-
-
-
-## RandomSampler
-
-随机采样。如果 `replacement=False`，则为无放回随机采样；如果 `replacement=True`，则为有放回随机采样，并且可以指定 `num_samples`（取样数）。
-
-```python
->>> from torch.utils.data import RandomSampler
->>> sampler = RandomSampler(range(5))
->>> for i in sampler:
-...   print(i)
-... 
-1
-3
-4
-0
-2
-```
-
-```python
->>> sampler = RandomSampler(range(10), replacement=True, num_samples=100)
->>> for i in sampler:
-...   print(i)
-... 
-7
-7
-6
-5
-4
-# ...
-```
 
 
 
@@ -2538,6 +2739,356 @@ for data in iter(dataset):
 [5, 7, 0]
 [9]
 
+```
+
+
+
+
+
+## ChainDataset
+
+
+
+
+
+## ConcatDataset
+
+
+
+
+
+## DataLoader
+
+数据加载器，其结合数据集和采样器，返回一个给定数据集上的可迭代对象。
+
+```python
+torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=None, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None, multiprocessing_context=None, generator=None, *, prefetch_factor=2, persistent_workers=False)
+# dataset        加载的数据集
+# batch_size     批次规模
+# shuffle        若为`True`,则每完成一次迭代都重新打乱数据
+# sampler        采样器,其定义了从数据集中采样的策略,可以是任何实现了`__len__`方法的可迭代对象.与`shuffle`互斥
+# batch_sampler  与`sampler`类似,但每次返回一个批次的索引.与`batch_size`,`shuffle`,`sample`,`drop_last`互斥
+# num_workers    用于加载数据的工作进程(子进程)数量,`0`表示在主进程中加载数据
+# collate_fn
+# pin_memory     若为`True`,则数据加载器将在返回张量之前将它们复制到
+# drop_last      若为`True`,则丢弃末尾的达不到批次规模的剩余样本;若为`False`,则剩余样本将组成一个较小的批次
+# timeout        从工作进程收集一个批次数据的超时时间
+# worker_init_fn
+# generator
+# prefetch_factor
+# persistant_workers
+```
+
+```python
+>>> from torchvision import datasets, transforms
+>>> transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5), (0.5))])
+>>> train_set = datasets.MNIST(root='./data',
+                           train=True,
+                           download=True,
+                           transform=transform)
+>>> train_set, val_set = torch.utils.data.random_split(train_set, [48000, 12000])
+>>> train_loader = torch.utils.data.DataLoader(train_set,
+                                           batch_size=32,
+                                           shuffle=True)
+>>> type(train_loader)
+<class 'torch.utils.data.dataloader.DataLoader'>
+>>> train_loader.dataset                                          # 采样的数据集
+<torch.utils.data.dataset.Subset object at 0x1559ae8e0>
+>>> train_loader.sampler                                          # 当`shuffle=True`时创建并使用的随机采样器
+<torch.utils.data.sampler.RandomSampler object at 0x152229f40>
+>>> len(train_loader.sampler)
+48000
+>>> list(train_loader.sampler)                                    # 每次采样的顺序不同
+[1883, 2208, 28103, 25083, 3052, 44262, 2523, 12614, 44167, 44528, 43330, 4986, 38242, 5401, 20988, 10679, 26630, 5071, 39648, 12959, 37922, 47678, 16923, 39058, 411, 24899, 3682, 21712, 9970, 20472, 18930, 3124, 12951, ...]
+>>> train_loader.batch_size                                       # 批次规模
+32
+>>> len(train_loader)                                             # 数据加载器规模,即产生多少个批次
+1500
+```
+
+
+
+
+
+## Dataset
+
+表示数据集的抽象类。
+
+所有映射数据集应继承此类。所有子类应覆写 `__getitem__()` 方法，以支持由键拿到数据样本。子类也可以覆写 `__len__()` 方法，用于由于 `Sampler` 的许多实现和 `DataLoader` 的默认选项而返回数据集的大小。
+
+> 对于映射数据集，`DataLoader` 默认构造一个产生整数索引的索引采样器。如果映射数据集的索引或键不是整数，则需要提供一个自定义采样器。
+
+```python
+# 自定义映射数据集
+>>> 
+```
+
+
+
+```python
+# torchvision提供的MNIST数据集
+>>> from torchvision import datasets, transforms
+>>> transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5), (0.5))])
+>>> train_set = datasets.MNIST(root='./data',
+                           train=True,
+                           download=True,
+                           transform=transform)
+>>> type(train_set)
+<class 'torchvision.datasets.mnist.MNIST'>
+>>> isinstance(train_set, torch.utils.data.Dataset)            # 是映射数据集
+True
+>>> isinstance(train_set, torch.utils.data.IterableDataset)    # 而非迭代数据集
+False
+>>> train_set                                                  # 数据集概况
+Dataset MNIST
+    Number of datapoints: 60000
+    Root location: ./data
+    Split: Train
+    StandardTransform
+Transform: Compose(
+               ToTensor()
+               Normalize(mean=0.5, std=0.5)
+           )
+>>> len(train_set)                                             # 数据集大小
+60000
+>>> train_set.data                                             # 数据张量
+tensor([[[0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0],
+         ...,
+         [0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0]]], dtype=torch.uint8)
+>>> train_set.data.shape                                       # 数据张量形状
+torch.Size([60000, 28, 28])
+>>> train_set.targets                                          # 标签张量
+tensor([5, 0, 4,  ..., 5, 6, 8])
+>>> train_set.targets.shape                                    # 标签张量形状
+torch.Size([60000])
+>>> train_set.classes                                          # 标签类型
+['0 - zero', '1 - one', '2 - two', '3 - three', '4 - four', '5 - five', '6 - six', '7 - seven', '8 - eight', '9 - nine']
+>>> train_set.train                                            # 是否为训练数据
+True
+>>> train_set.transforms                                       # 预处理步骤
+StandardTransform
+Transform: Compose(
+               ToTensor()
+               Normalize(mean=0.5, std=0.5)
+           )
+>>> train_set.root                                             # 数据集存放的路径
+'./data'
+```
+
+
+
+
+
+
+
+
+
+## distributed.DistributedSampler
+
+分布式采样器，将采样限定在数据集的一个子集中。常用于分布式训练（与 `torch.nn.parallel.DistributedDataParallel` 或 `horovod.torch` 结合使用），其中每个进程传入一个 `DistributedSampler` 实例作为 `Dataloader` 的采样器，并加载一个原始数据集的一个独占的子集。
+
+```python
+torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank=None, shuffle=True, seed=0, drop_last=False)
+# dataset           采样的数据集
+# num_replicas      参与分布式训练的进程数,默认从当前进程组获取`WORLD_SIZE`
+# rank              当前进程的rank,默认从当前进程组获取`RANK`
+# shuffle           若为`True`,则采样器打乱索引的顺序
+# seed              当`shuffle=True`时采样器打乱使用的随机种子.此参数应在进程组的各进程中保持一致
+# drop_last         若为`True`,则采样器将会丢弃末尾的样本以使样本平分到各进程;若为`False`,则采样器将会
+#                   添加起始的样本以使样本平分到各进程
+```
+
+```python
+>>> from torch.utils.data import DistributedSampler
+
+>>> sampler0 = DistributedSampler(range(10), num_replicas=3, rank=0, shuffle=False, drop_last=True)
+>>> sampler1 = DistributedSampler(range(10), num_replicas=3, rank=1, shuffle=False, drop_last=True)
+>>> sampler2 = DistributedSampler(range(10), num_replicas=3, rank=2, shuffle=False, drop_last=True)
+>>> list(sampler0)
+[0, 3, 6]               # 丢弃索引为10的样本以使样本平分到各进程
+>>> list(sampler1)
+[1, 4, 7]
+>>> list(sampler2)
+[2, 5, 8]
+
+>>> sampler0 = DistributedSampler(range(10), num_replicas=3, rank=0, shuffle=False, drop_last=False)
+>>> sampler1 = DistributedSampler(range(10), num_replicas=3, rank=1, shuffle=False, drop_last=False)
+>>> sampler2 = DistributedSampler(range(10), num_replicas=3, rank=2, shuffle=False, drop_last=False)
+>>> list(sampler0)
+[0, 3, 6, 9]
+>>> list(sampler1)
+[1, 4, 7, 0]            # 添加索引为0,1的样本以使样本平分到各进程
+>>> list(sampler2)
+[2, 5, 8, 1]
+
+>>> sampler0 = DistributedSampler(range(10), num_replicas=3, rank=0, shuffle=True, drop_last=True)
+>>> sampler1 = DistributedSampler(range(10), num_replicas=3, rank=1, shuffle=True, drop_last=True)
+>>> sampler2 = DistributedSampler(range(10), num_replicas=3, rank=2, shuffle=True, drop_last=True)
+>>> list(sampler0)      # 随机划分,默认随机种子为`0`因此每次划分的结果相同
+[4, 5, 0]
+>>> list(sampler1)
+[1, 3, 8]
+>>> list(sampler2)
+[7, 9, 6]
+```
+
+
+
+### set_epoch()
+
+此方法在每个 epoch 开始、创建 `DataLoader` 迭代器之前调用，以使得每个 epoch 被打乱的顺序不同。
+
+```python
+>>> sampler = DistributedSampler(dataset) if is_distributed else None
+>>> loader = DataLoader(dataset, shuffle=(sampler is None),
+...                     sampler=sampler)
+>>> for epoch in range(start_epoch, n_epochs):
+...     if is_distributed:
+...         sampler.set_epoch(epoch)
+...     train(loader)
+```
+
+```python
+>>> sampler0 = DistributedSampler(range(10), num_replicas=3, rank=0, shuffle=True, drop_last=True)
+>>> sampler1 = DistributedSampler(range(10), num_replicas=3, rank=1, shuffle=True, drop_last=True)
+>>> sampler2 = DistributedSampler(range(10), num_replicas=3, rank=2, shuffle=True, drop_last=True)
+>>> list(sampler0)
+[4, 5, 0]
+>>> list(sampler1)
+[1, 3, 8]
+>>> list(sampler2)
+[7, 9, 6]
+
+>>> sampler0.set_epoch(0)   # 相当于设置随机种子为`0`
+>>> list(sampler0)
+[4, 5, 0]
+>>> list(sampler1)
+[1, 3, 8]
+>>> list(sampler2)
+[7, 9, 6]
+
+>>> sampler0.set_epoch(1)
+>>> list(sampler0)
+[5, 2, 9]
+>>> list(sampler1)
+[1, 3, 8]
+>>> list(sampler2)
+[7, 9, 6]
+```
+
+
+
+## get_worker_info()
+
+
+
+
+
+## IterableDataset
+
+迭代数据集。
+
+所有迭代数据集应继承此类。当数据来源于一个流时，这种形式的数据集尤为有用。
+
+所有子类应覆写 `__iter__()` 方法，用于返回数据集的样本的一个迭代器。
+
+当 `Dataloader` 使用迭代数据集时，`Dataloader` 的迭代器会产生数据集的每一个样本。当 `num_worker>0` 时，每一个工作进程都会有数据集对象的一份单独的副本
+
+
+
+```python
+# 自定义迭代数据集
+>>> class MyIterableDataset(torch.utils.data.IterableDataset):
+     def __init__(self, start, end):
+         super(MyIterableDataset).__init__()
+         assert end > start, "this example code only works with end > start"
+         self.start = start
+         self.end = end
+
+     def __iter__(self):
+         worker_info = torch.utils.data.get_worker_info()
+         if worker_info is None:        # 主进程读取数据,返回完整的迭代器
+             iter_start = self.start
+             iter_end = self.end
+         else:                          # 工作进程读取数据,划分数据集并返回相应子集的迭代器
+             per_worker = int(math.ceil((self.end - self.start) / float(worker_info.num_workers)))
+             worker_id = worker_info.id
+             iter_start = self.start + worker_id * per_worker
+             iter_end = min(iter_start + per_worker, self.end)
+         return iter(range(iter_start, iter_end))    # `Dataloader`调用数据集实例的`__iter__()`方法,
+                                                     # 使用其返回的迭代器
+
+>>> ds = MyIterableDataset(start=1, end=11)     # range(1, 11) as dataset  
+
+
+>>> list(torch.utils.data.DataLoader(ds, num_workers=0))   # 主进程读取数据
+[tensor([1]), tensor([2]), tensor([3]), tensor([4]), tensor([5]), tensor([6]), tensor([7]), tensor([8]), tensor([9]), tensor([10])]                 # 包装为`torch.tensor`
+>>> list(torch.utils.data.DataLoader(ds, num_workers=2))   # 2个工作进程读取数据
+(error)
+>>> list(torch.utils.data.DataLoader(ds, num_workers=8))   # 更多工作进程读取数据
+(error)
+```
+
+
+
+
+
+
+
+## random_split
+
+将数据集随机划分为多个指定规模的数据集。使用 `torch.generator` 以产生可重复的结果。
+
+```python
+
+```
+
+
+
+
+
+## RandomSampler
+
+随机采样器。若 `replacement=False`，则为无放回随机采样；若 `replacement=True`，则为有放回随机采样，并且可以指定 `num_samples`（采样数）。
+
+```python
+>>> from torch.utils.data import RandomSampler
+>>> sampler = RandomSampler(range(5))
+>>> list(sampler)
+```
+
+```python
+>>> sampler = RandomSampler(range(10), replacement=True, num_samples=100)
+>>> list(sampler)
+```
+
+
+
+## Sampler
+
+所有采样器的基类。
+
+每个采样器子类必须提供一个 `__iter__()` 方法，用于迭代数据集中所有样本的索引，和一个 `__len__()` 方法，用于返回实例化的迭代器的长度。
+
+
+
+## SequentialSampler
+
+顺序采样器，并且总是以相同的顺序。
+
+```python
+>>> from torch.utils.data import SequentialSampler
+>>> sampler = SequentialSampler(range(5))
+>>> list(sampler)
+[0, 1, 2, 3, 4]
 ```
 
 
