@@ -462,12 +462,9 @@ $ unset MYENV         # 删除环境变量,仅在当前Shell中有效
 `xargs` 是给命令传递参数的一个过滤器，通常和管道一起使用，相当于将前一命令的输出解析为后一命令的参数。
 
 ```shell
-$ cat test.txt              # 对于该文本文件
+$ cat test.txt
 a b c d e f g
-h i j k l m n
-o p q
-r s t
-u v w x y z
+h i j k
 $ cat test.txt | xargs	    # `xargs`
 $ cat test.txt | xargs -n3	# 多行输出,每行3个参数
 $ echo "nameXnameXnameXname" | xargs -dX	# 用X分割并输出
@@ -476,9 +473,23 @@ $ echo "nameXnameXnameXname" | xargs -dX	# 用X分割并输出
 $ ls *.jpg | xargs -n1 -I {} cp {} /data/images
 # 将当前目录下所有.jpg文件备份并压缩
 $ find . -type f -name "*.jpg" -print | xargs tar -czvf images.tar.gz
-# 按照url-list.txt内容批量下载
-$ cat url-list.txt | xargs wget -i
+
+$ cat url-list.txt | xargs wget -i      # 批量下载`url-list.txt`中的链接
 ```
+
+
+
+```shell
+$ ls
+$ ls -lrt               # 显示文件和目录的详细信息,按从旧到新的顺序排列
+$ ls s*                 # 显示文件名匹配`s*`的文件
+$ ls -a                 # 显示`.`开头的隐藏文件
+#    -l                   显示文件权限、所有者、大小、创建时间等详细信息
+#    -r                   逆序显示
+#    -t                   按文件创建时间的先后顺序排列
+```
+
+
 
 
 

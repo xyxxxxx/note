@@ -15,9 +15,52 @@ keras 有两个重要的概念：**模型（model）**和**层（layer）**。�
 
 
 
+# activations
+
+## elu
+
+指数线性单元。
+$$
+{\rm elu}(x)=\begin{cases}x,& x\ge0\\\alpha(e^x-1),&x<0 \end{cases}
+$$
+
+```python
+tf.keras.activations.elu(x, alpha=1.0)
+```
+
+
+
+
+
+## exponential
+
+
+
+
+
+
+
+## linear
+
+
+
+## relu
+
+
+
+## softmax
+
+
+
+## tanh
+
+
+
+
+
 # callbacks
 
-### Callback
+## Callback
 
 用于创建新回调的抽象类。若要创建回调，继承此类并任意重载以下方法。
 
@@ -219,7 +262,7 @@ test end ...                       # 测试结束
 
 
 
-### EarlyStopping
+## EarlyStopping
 
 当监视的参数不再改善时提前停止训练。
 
@@ -241,7 +284,7 @@ tf.keras.callbacks.EarlyStopping(
 
 
 
-### LambdaCallback
+## LambdaCallback
 
 创建简单的自定义回调。
 
@@ -286,19 +329,19 @@ Epoch 2/10
 
 
 
-### LearningRateScheduler
+## LearningRateScheduler
 
 
 
 
 
-### ModelCheckpoint
+## ModelCheckpoint
 
 
 
 
 
-### TensorBoard
+## TensorBoard
 
 为 TensorBoard 可视化记录日志。
 
@@ -367,26 +410,60 @@ tf.keras.datasets.mnist.load_data(path='mnist.npz')
 
 # layers
 
-层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重张量，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
+层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重参数，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
 
-### Dense
 
-全连接层（densely connected layer，fully connected layer，`tf.keras.layers.Dense`）是 keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行`tf.matmul(input,kernel)+ bias`的线性变换（`kernel`和`bias`是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数`activation`，从而输出形状为`[batch_size,units]` 的二维张量。
+
+## Dense
+
+全连接层（densely connected layer，fully connected layer）是 Keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行 `tf.matmul(input,kernel)+ bias` 的线性变换（`kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation`，从而输出形状为 `[batch_size, units]` 的二维张量。
 
 [![../../_images/dense.png](https://tf.wiki/_images/dense.png)](https://tf.wiki/_images/dense.png)
 
-其包含的主要参数如下：
 
-* `units`：神经元的个数，也是输出张量的维度
+
 * `activation`：激活函数，默认为无激活函数。常用的激活函数包括 `tf.nn.relu`、`tf.nn.tanh` 和 `tf.nn.sigmoid` 
 * `use_bias`：是否加入偏置向量 `bias`，默认为 `True` 
 * `kernel_initializer`、`bias_initializer`：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0
 
-该层包含权重矩阵 `kernel =[input_dim,units]`和偏置向量`bias =[units]` 两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
+该层包含权重矩阵  `kernel=[input_dim,units]` 和偏置向量 `bias=[units]`  两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
+
+```python
+tf.keras.layers.Dense(units, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None, **kwargs)
+# units         神经元的个数,即输出空间的维数
+# activation    激活函数,默认为无激活函数。常用的激活函数包括 `tf.nn.relu`、`tf.nn.tanh` 和 `tf.nn.sigmoid` 
+```
+
+```python
+>>> model = models.Sequential([
+    layers.Dense(16, activation='relu', input_shape=(16,)),
+    layers.Dense(4, activation='relu'),
+    layers.Dense(1),
+])
+>>> model.summary()
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense (Dense)                (None, 16)                272           # 16*16+16 = 272
+_________________________________________________________________
+dense_1 (Dense)              (None, 4)                 68            # 16*4+4 = 68
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 5             # 4*1+1 = 5
+=================================================================
+Total params: 345
+Trainable params: 345
+Non-trainable params: 0
+_________________________________________________________________
+```
 
 
 
-### Conv2D
+
+
+
+
+## Conv2D
 
 卷积层。
 
@@ -432,7 +509,7 @@ model.summary()
 
 
 
-### MaxPool2D
+## MaxPool2D
 
 对二维数据（图片）进行最大汇聚（池化）操作。具有别名 `MaxPooling2D`。
 
@@ -493,7 +570,7 @@ array([[[[ 6.], [ 8.]],                                     # 右侧不填充,�
 
 
 
-### Embedding
+## Embedding
 
 > 参考[单词嵌入向量](https://www.tensorflow.org/tutorials/text/word_embeddings)
 
@@ -512,7 +589,7 @@ array([[[[ 6.], [ 8.]],                                     # 右侧不填充,�
 
 
 
-### SimpleRNN
+## SimpleRNN
 
 SRN 层是最简单的循环神经网络层。
 
@@ -599,7 +676,7 @@ model.summary()
 
 
 
-### LSTM
+## LSTM
 
 LSTM 层。
 
@@ -660,13 +737,13 @@ model.add(keras.layers.Dense(1))
 
 
 
-### GRU
+## GRU
 
 GRU 层。
 
 
 
-### Bidirectional
+## Bidirectional
 
 双向 RNN 层在某些特定的任务上比一般的 RNN 层表现得更好，经常应用于 NLP。
 
@@ -689,7 +766,7 @@ model.add(keras.layers.Dense(1, activation='sigmoid'))
 
 
 
-### Dropout
+## Dropout
 
 示例：
 

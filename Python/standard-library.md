@@ -1957,7 +1957,140 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
 # multiprocessing——基于进程的并行
 
-multiprocessing 是一个支持使用与 threading 模块类似的 API 来产生进程的包。multiprocessing 包同时提供了本地和远程并发操作，通过使用子进程而非线程有效地绕过了全局解释器锁。因此，multiprocessing 模块允许程序员充分利用给定机器上的多个处理器。它在 Unix 和 Windows 上均可运行。
+`multiprocessing` 是一个支持使用与 `threading` 模块类似的 API 来产生进程的包。`multiprocessing` 包同时提供了本地和远程并发操作，通过使用子进程而非线程有效地绕过了全局解释器锁。因此，`multiprocessing` 模块允许程序员充分利用给定机器上的多个处理器。它在 Unix 和 Windows 上均可运行。
+
+
+
+## 启动方法
+
+根据不同的平台，`multiprocessing` 支持三种启动进程的方法，包括：
+
++ *spawn*：父进程会启动一个全新的 Python 解释器进程，子进程将只继承那些运行进程对象的 `run()` 方法所必需的资源。特别地，来自父进程的非必需文件描述符和句柄将不会被继承。 使用此方法启动进程相比使用 *fork* 或 *forkserver* 要慢上许多。
+
+  可在 Unix 和 Windows 上使用，是 Windows 上的默认设置。
+
++ *fork*：父进程使用 `os.fork()` 来产生 Python 解释器分叉，子进程在开始时实际上与父进程相同，继承父进程的所有资源。请注意，安全分叉多线程进程是棘手的。
+
+  只存在于 Unix，Unix 中的默认值。
+
++ *forkserver*：程序启动并选择 *forkserver* 启动方法时，将启动服务器进程。之后每当需要一个新进程时，父进程就会连接到服务器并请求它分叉一个新进程。分叉服务器进程是单线程的，因此使用 `os.fork()` 是安全的。没有不必要的资源被继承。
+
+  可在 Unix 平台上使用，支持通过 Unix 管道传递文件描述符。
+
+> 对于 macOS，*spawn* 启动方式是默认方式。 因为 *fork* 可能导致 subprocess 崩溃，而被认为是不安全的，查看 [bpo-33725](https://bugs.python.org/issue33725) 。
+
+在 Unix 上通过 *spawn* 和 *forkserver* 方式启动多进程会同时启动一个 *资源追踪* 进程，负责追踪当前程序的进程产生的、并且不再被使用的命名系统资源（如命名信号量以及 [`SharedMemory`](https://docs.python.org/zh-cn/3/library/multiprocessing.shared_memory.html#multiprocessing.shared_memory.SharedMemory) 对象）。当所有进程退出后，资源追踪会负责释放这些仍被追踪的的对象。通常情况下是不会有这种对象的，但是假如一个子进程被某个信号杀死，就可能存在这一类资源的“泄露”情况。（泄露的信号量以及共享内存不会被释放，直到下一次系统重启，对于这两类资源来说，这是一个比较大的问题，因为操作系统允许的命名信号量的数量是有限的，而共享内存也会占据主内存的一片空间。）
+
+你可以在主模块的 `if __name__ == '__main__'` 子句中调用 `set_start_method()` 以选择启动方法。
+
+如果你想要在同一程序中使用多种启动方法，可以使用 `get_context()` 来获取上下文对象，上下文对象与 `multiprocessing` 模块具有相同的 API。需要注意的是，对象在不同上下文创建的进程间可能并不兼容，特别是使用 *fork* 上下文创建的锁不能传递给使用 *spawn* 或 *forkserver* 启动方法启动的进程。
+
+
+
+## 进程间交换对象
+
+`multiprocessing` 支持进程之间的两种通信通道：
+
++ *队列*：先进先出的多生产者多消费者队列，队列是线程和进程安全的。
+
+  ```python
+  ```
+
+  
+
++ *管道*：`Pipe()` 函数返回由管道连接的两个连接对象，表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法。注意，如果两个进程（或线程）同时尝试读取或写入管道的<u>同一端</u>，则管道中的数据可能会损坏。在不同进程中同时使用管道的<u>不同端</u>则不存在损坏的风险。
+
+ 
+
+## 进程间同步
+
+对于所有在 `threading` 存在的同步原语，`multiprocessing` 中都有类似的等价物。例如可以使用锁来确保一次只有一个进程打印到标准输出：
+
+```python
+from multiprocessing import Process, Lock
+
+def f(l, i):
+    l.acquire()
+    try:
+        print('hello world', i)
+        print('hello world', i)
+    finally:
+        l.release()
+
+if __name__ == '__main__':
+    lock = Lock()
+    ps = []
+    for num in range(5):
+        p = Process(target=f, args=(lock, num))
+        ps.append(p)
+        p.start()
+    for p in ps:
+        p.join()
+```
+
+```
+hello world 1
+hello world 1
+hello world 0
+hello world 0
+hello world 2
+hello world 2
+hello world 4
+hello world 4
+hello world 3
+hello world 3
+```
+
+
+
+## 进程间共享状态
+
+在进行并发编程时应尽量避免使用共享状态，使用多个进程时尤其如此。
+
+但是，如果你真的需要使用一些共享数据，那么 `multiprocessing` 提供了两种方法：
+
++ *共享内存*：可以使用 `Value` 或 `Array` 将数据存储在共享内存映射中。
+
+  ```python
+  from multiprocessing import Process, Value, Array
+  
+  def f(n, a):
+      n.value = 3.1415927
+      for i, v in enumerate(a):
+          a[i] = -v
+  
+  if __name__ == '__main__':
+      num = Value('d', 0.0)
+      arr = Array('i', range(10))
+  
+      p = Process(target=f, args=(num, arr))
+      p.start()
+      p.join()
+  
+      print(num.value)
+      print(arr[:])
+  ```
+
+  ```
+  3.1415927
+  [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+  ```
+
++ *服务进程*：
+
+  
+
+  
+
+  
+
+
+
+## 使用工作进程
+
+
+
+## get_context()
 
 
 
@@ -1971,6 +2104,41 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 ```
 
 进程对象表示在单独进程中运行的活动。`Process` 类拥有和 `threading.Thread` 等价的大部分方法。
+
+
+
+```python
+from multiprocessing import Process
+import os
+
+def info(title):
+    print(title)
+    print('module name:', __name__)
+    print('parent process:', os.getppid())
+    print('process id:', os.getpid())
+
+def f(name):
+    info('function f')
+    print('hello', name)
+
+if __name__ == '__main__':
+    info('main line')
+    p = Process(target=f, args=('bob',))
+    p.start()
+    p.join()
+```
+
+```
+main line
+module name: __main__
+parent process: 25082
+process id: 25386
+function f
+module name: __mp_main__
+parent process: 25386
+process id: 25403
+hello bob
+```
 
 
 
@@ -2077,6 +2245,10 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 ## parent_process()
 
 返回当前进程的父进程相对应的 `Process` 对象。
+
+
+
+## set_start_method()
 
 
 
@@ -3176,6 +3348,10 @@ Python 搜索标准目录列表，以找到调用者可以在其中创建文件�
 
 
 # threading——基于线程的并行
+
+在 CPython 中，由于存在全局解释器锁，同一时刻只有一个线程可以执行 Python 代码（虽然某些性能导向的库可能会去除此限制）。 如果你想让你的应用更好地利用多核心计算机的计算资源，推荐你使用 `multiprocessing` 或 `concurrent.futures.ProcessPoolExecutor`。 但是，如果你想要同时运行多个 I/O 密集型任务，则多线程仍然是一个合适的模型。
+
+
 
 ## active_count()
 

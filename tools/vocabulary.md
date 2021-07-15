@@ -388,7 +388,7 @@
 | POSIX, Portable Operating System Interface | 可移植操作系统接口 |
 | precision                                  | 精确率             |
 | predecessor                                | 前驱               |
-| preemption                                 | 抢占               |
+| preempt                                    | 抢占               |
 | preorder                                   | 先序               |
 | print                                      | 打印               |
 | priority queue                             | 优先级队列         |

@@ -35,8 +35,13 @@
 
 
 
-
 ### Tensor
+
+#### bool()
+
+
+
+
 
 #### cpu()
 
@@ -247,20 +252,6 @@ tensor([[[ 1,  1,  2,  3],       # 不共享内存
 
 
 
-#### squeeze()
-
-返回一个张量，其在输入张量的基础上删除所有规模为 1 的维度。返回张量与输入张量共享内存。
-
-```python
->>> a = torch.randn(1,2,1,3,1,4)
->>> a.shape
-torch.Size([1, 2, 1, 3, 1, 4])
->>> a.squeeze().shape
-torch.Size([2, 3, 4])
-```
-
-
-
 #### T
 
 返回将调用对象的所有维度反转后的张量。
@@ -289,22 +280,6 @@ tensor([[-0.5044,  0.0005],
 >>> a.to(cuda0, dtype=torch.float64)
 tensor([[-0.5044,  0.0005],
         [ 0.3310, -0.0584]], dtype=torch.float64, device='cuda:0')
-```
-
-
-
-#### unsqueeze()
-
-返回一个张量，其在输入张量的基础上在指定位置增加一个规模为 1 的维度。返回张量与输入张量共享内存。
-
-```python
->>> a = torch.randn(2,3,4)
->>> a.shape
-torch.Size([2, 3, 4])
->>> a.unsqueeze(0).shape
-torch.Size([1, 2, 3, 4])
->>> a.unsqueeze(3).shape
-torch.Size([2, 3, 4, 1])
 ```
 
 
@@ -354,14 +329,14 @@ tensor([ 1.0000,  1.5000,  2.0000])
 
 ### from_numpy()
 
-由 NumPy 数组（`numpy.ndarray` 实例）创建张量。
+由 NumPy 数组（`numpy.ndarray` 实例）创建张量。返回张量与 NumPy 数组共享内存。
 
 ```python
 >>> a = numpy.array([1, 2, 3])
 >>> t = torch.from_numpy(a)
 >>> t
 tensor([ 1,  2,  3])
->>> t[0] = -1         # 返回的张量与NumPy数组共享内存
+>>> t[0] = -1         # 返回张量与NumPy数组共享内存
 >>> a
 array([-1,  2,  3])
 ```
@@ -492,7 +467,7 @@ tensor([[ 0.,  0.,  0.],
 
 ### cat()
 
-拼接张量。
+沿指定轴拼接张量。
 
 ```python
 >>> a = torch.randn(2, 3)
@@ -653,22 +628,137 @@ tensor([[ 0],
 
 
 
+### squeeze()
+
+移除张量的规模为 1 的维度。返回张量与输入张量共享内存。亦为 `torch.Tensor` 方法。
+
+```python
+>>> a = torch.randn(1,2,1,3,1,4)
+>>> a.shape
+torch.Size([1, 2, 1, 3, 1, 4])
+>>> torch.squeeze(a).shape           # 移除所有规模为1的维度
+torch.Size([2, 3, 4])
+>>> torch.squeeze(a, 0).shape        # 移除指定规模为1的维度
+torch.Size([2, 1, 3, 1, 4])
+```
+
+
+
+### stack()
+
+沿新轴拼接形状相同的张量。
+
+```python
+>>> a1 = torch.randn(3, 4)
+>>> a2 = torch.randn(3, 4)
+>>> torch.stack((a1, a2), 0).shape
+torch.Size([2, 3, 4])
+>>> torch.stack((a1, a2), 1).shape
+torch.Size([3, 2, 4])
+```
+
+
+
+### t()
+
+转置二维张量。
+
+```python
+>>> a = torch.arange(12).view(3, 4)
+>>> a
+tensor([[ 0,  1,  2,  3],
+        [ 4,  5,  6,  7],
+        [ 8,  9, 10, 11]])
+>>> torch.t(a)
+tensor([[ 0,  4,  8],
+        [ 1,  5,  9],
+        [ 2,  6, 10],
+        [ 3,  7, 11]])
+```
+
+
+
+### take()
+
+根据索引返回由张量的部分元素组成的一维张量，其中将张量视作展开处理。
+
+```python
+>>> a = torch.arange(12).view(3, 4)
+>>> torch.take(a, torch.tensor([0, 2, 5]))
+tensor([ 0,  2,  5])
+```
+
+
+
+### take_along_dim()
+
+
+
+
+
+### tile()
+
+重复张量的元素。亦为 `torch.Tensor` 方法。
+
+```python
+>>> a = torch.tensor([1, 2, 3])
+>>> a.tile((2,))
+tensor([1, 2, 3, 1, 2, 3])
+>>> a = torch.tensor([[1, 2], [3, 4]])
+>>> torch.tile(a, (2, 2))
+tensor([[1, 2, 1, 2],
+        [3, 4, 3, 4],
+        [1, 2, 1, 2],
+        [3, 4, 3, 4]])
+```
+
+
+
 ### transpose()
 
 交换张量的指定两个维度。亦为 `torch.Tensor` 方法。
 
 ```python
->>> a = torch.arange(10.).view(2, -1)
+>>> a = torch.arange(12).view(3, 4)
 >>> a
-tensor([[0., 1., 2., 3., 4.],
-        [5., 6., 7., 8., 9.]])
+tensor([[ 0,  1,  2,  3],
+        [ 4,  5,  6,  7],
+        [ 8,  9, 10, 11]])
 >>> torch.transpose(a, 0, 1)
-tensor([[0., 5.],
-        [1., 6.],
-        [2., 7.],
-        [3., 8.],
-        [4., 9.]])
+tensor([[ 0,  4,  8],
+        [ 1,  5,  9],
+        [ 2,  6, 10],
+        [ 3,  7, 11]])
 ```
+
+
+
+### unbind()
+
+移除张量的一个维度，返回沿此维度的所有切片组成的元组。
+
+```python
+>>> torch.unbind(torch.tensor([[1, 2, 3],
+                           [4, 5, 6],
+                           [7, 8, 9]]))
+(tensor([1, 2, 3]), tensor([4, 5, 6]), tensor([7, 8, 9]))
+```
+
+
+
+### unsqueeze()
+
+在张量的指定位置插入一个规模为 1 的维度。返回张量与输入张量共享内存。亦为 `torch.Tensor` 方法。
+
+```python
+>>> a = torch.randn(2, 3, 4)
+>>> torch.unsqueeze(a, 0).shape
+torch.Size([1, 2, 3, 4])
+>>> a.unsqueeze(3).shape
+torch.Size([2, 3, 4, 1])
+```
+
+
 
 
 
@@ -1179,9 +1269,39 @@ tensor([[ 1.5954,  2.8929, -1.0923],
 
 # torch.nn
 
-## Conv1d
+## 线性层
+
+### Linear
+
+全连接层。
+
+```python
+>>> m = nn.Linear(20, 4)
+>>> input = torch.randn(128, 20)
+>>> m(input).size()
+torch.Size([128, 4])
+```
+
+
+
+## 卷积层
+
+### Conv1d
 
 一维卷积层。
+
+```python
+torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+# in_channels     输入通道数
+# out_channels    输出通道数
+# kernel_size     卷积核大小(高/宽)
+# stride          卷积步长(高/宽)
+# padding         填充的行/列数(上下/左右)
+# padding_mode    填充模式
+# dilation        卷积核元素的间隔
+```
+
+
 
 ```python
 >>> m1 = nn.Conv1d(1, 32, 3, 1)                 # 卷积核长度为3,步长为1
@@ -1199,7 +1319,7 @@ torch.Size([100, 32, 10])
 
 
 
-## Conv2d
+### Conv2d
 
 二维卷积层。
 
@@ -1235,71 +1355,140 @@ torch.Size([100, 32, 10, 10])
 
 
 
+## 汇聚层（池化层）
 
+### MaxPool1d
 
-
-
-## CrossEntropyLoss
-
-交叉熵损失函数。见 `torch.nn.NLLLoss`。
+一维最大汇聚层。见 torch.nn.functional.max_pool1d。
 
 ```python
->>> loss = nn.CrossEntropyLoss()
->>> a1 = torch.tensor([[0.1, 0.8, 0.1]])
->>> a2 = torch.tensor([1])
->>> b = loss(a1, a2)
->>> b
-tensor(0.6897)
->>> a2 = torch.tensor([0])
->>> b = loss(a1, a2)
->>> b
-tensor(1.3897)
-
-# CrossEntropyLoss() = softmax() + log() + NLLLoss() = logsoftmax() + NLLLoss()
->>> loss = nn.CrossEntropyLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
-
->>> loss = nn.NLLLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> input = input.softmax(dim=1)
->>> input = input.log()
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
-
->>> loss = nn.NLLLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> logsoftmax = nn.LogSoftmax(dim=1)
->>> input = logsoftmax(input)
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
+>>> m1 = nn.MaxPool1d(2, stride=1)
+>>> m2 = nn.MaxPool1d(2, stride=2)
+>>> input = torch.randn(1, 8)
+>>> output1 = m1(input)
+>>> output2 = m2(input)
+>>> input
+tensor([[ 0.3055,  0.5521,  1.9417, -0.7325,  0.3202, -1.4555,  1.7270,  3.1311]])
+>>> output1
+tensor([[0.5521, 1.9417, 1.9417, 0.3202, 0.3202, 1.7270, 3.1311]])
+>>> output2
+tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
 ```
 
 
 
-## DataParallel
+### MaxPool2d
+
+二维最大汇聚层。见 torch.nn.functional.max_pool2d。
+
+```python
+>>> m1 = nn.MaxPool2d(2, stride=1)
+>>> m2 = nn.MaxPool2d(2, stride=2)
+>>> input = torch.randn(1, 1, 4, 4)
+>>> output1 = m1(input)
+>>> output2 = m2(input)
+>>> input
+tensor([[[[-0.5308,  1.2014, -1.3582,  1.1337],
+          [ 0.2359,  0.9501,  1.1915,  0.3432],
+          [-1.4260, -0.1276, -2.2615,  0.8555],
+          [-0.8545,  0.5436,  1.6482,  1.2749]]]])
+>>> output1
+tensor([[[[1.2014, 1.2014, 1.1915],
+          [0.9501, 1.1915, 1.1915],
+          [0.5436, 1.6482, 1.6482]]]])
+>>> output2
+tensor([[[[1.2014, 1.1915],
+          [0.5436, 1.6482]]]])
+```
 
 
 
+## 循环层
+
+### GRU
+
+GRU 层。
+
+```python
+>>> rnn = nn.GRU(5, 10, 2)           # GRU可以视作简化的LSTM,各参数含义与LSTM相同
+>>> input = torch.randn(20, 64, 5)
+>>> h0 = torch.randn(2, 64, 10)
+>>> output, hn = rnn(input, h0)
+>>> output.shape
+torch.Size([20, 64, 10])
+>>> hn.shape
+torch.Size([2, 64, 10])
+```
 
 
-## parallel.DistributedDataParallel
+
+### LSTM
+
+> 参考：[理解Pytorch中LSTM的输入输出参数含义](https://www.cnblogs.com/marsggbo/p/12123755.html)
+
+LSTM 层。
+
+```python
+>>> rnn = nn.LSTM(5, 10, 2, [dropout=0.5]) # 输入向量x的维数为5,隐状态h的维数为10,堆叠2层
+										   # 在每层(最上层除外)的输出位置增加一个dropout层
+									       # 多层LSTM中,上层的输入是下层的隐状态
+>>> input = torch.randn(20, 64, 5)         # 一批64个序列,每个序列有20个5维向量
+>>> h0 = torch.randn(2, 64, 10)            # 第一个参数为层数与方向数的乘积,单向和双向LSTM
+										   #   的方向数分别为1和2
+    									   # 第二个参数为输入序列的数量
+>>> c0 = torch.randn(2, 64, 10)            # 第三个参数为隐状态维数
+>>> output, (hn, cn) = rnn(input, (h0, c0)) # 输入h,c的初值,输出h,c的终值
+											# 若不输入初值,则默认为0
+>>> output.shape
+torch.Size([20, 64, 10])                   # 从前往后输出最上层的所有隐状态
+>>> hn.shape
+torch.Size([2, 64, 10])                    # 输出每一(层,方向)的最终隐状态
+                                           # 对于单向LSTM, hn[-1]==output[-1]
+
+
+>>> rnn = nn.LSTM(5, 10, 2, bidirectional=True)  # 双向LSTM,相当于将输入向量正向和反向各
+                                                 #   输入一次
+>>> input = torch.randn(20, 64, 5)
+>>> h0 = torch.randn(4, 64, 10)                  # 层数*方向数=4
+>>> c0 = torch.randn(4, 64, 10)
+>>> output, (hn, cn) = rnn(input, (h0, c0))
+>>> output.shape
+torch.Size([20, 64, 20])                   # 输出最上层的所有隐状态,拼接正向与反向的输出
+>>> hn.shape
+torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状态
+```
+
+> 尤其需要注意的是，这里接受的输入张量的形状为`(seq_len, batch, input_size)`，而常见的输入的形状为`(batch, seq_len, input_size)`，为此需要使用`transpose()`或`permute()`方法交换维度。参见[For beginners: Do not use view() or reshape() to swap dimensions of tensors!](https://discuss.pytorch.org/t/for-beginners-do-not-use-view-or-reshape-to-swap-dimensions-of-tensors/75524)
 
 
 
+## 嵌入层
+
+### Embedding
+
+嵌入层。
+
+```python
+>>> embedding = nn.Embedding(10, 3)  # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
+                                     # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
+>>> input = torch.LongTensor([[1,2,4,5],[4,3,2,9]])
+>>> embedding(input)
+tensor([[[-0.0251, -1.6902,  0.7172],
+         [-0.6431,  0.0748,  0.6969],
+         [ 1.4970,  1.3448, -0.9685],
+         [-0.3677, -2.7265, -0.1685]],
+
+        [[ 1.4970,  1.3448, -0.9685],
+         [ 0.4362, -0.4004,  0.9400],
+         [-0.6431,  0.0748,  0.6969],
+         [ 0.9124, -2.3616,  1.1151]]])
+```
 
 
-## Dropout
+
+## 丢弃层
+
+### Dropout
 
 以给定概率将张量中的每个数置零，剩余的数乘以 $$1/(1-p)$$。每次使用 Dropout 层的结果是随机的。
 
@@ -1321,7 +1510,7 @@ tensor([[-0.0000,  0.2677, -0.0000, -3.2831],
 
 
 
-## Dropout2d
+### Dropout2d
 
 以给定概率将张量 $$(N,C,H,W)$$ 的每个通道置零,剩余的通道乘以 $$1/(1-p)$$。每次使用 Dropout 层的结果是随机的。
 
@@ -1381,182 +1570,119 @@ tensor([[[[ 0.0000, -0.0000],
 
 
 
-## Embedding
+## 激活函数
 
-嵌入层。
+### ReLU
+
+ReLU 激活函数层。见 `torch.nn.functional.relu`。
 
 ```python
->>> embedding = nn.Embedding(10, 3)  # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
-                                     # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
->>> input = torch.LongTensor([[1,2,4,5],[4,3,2,9]])
->>> embedding(input)
-tensor([[[-0.0251, -1.6902,  0.7172],
-         [-0.6431,  0.0748,  0.6969],
-         [ 1.4970,  1.3448, -0.9685],
-         [-0.3677, -2.7265, -0.1685]],
-
-        [[ 1.4970,  1.3448, -0.9685],
-         [ 0.4362, -0.4004,  0.9400],
-         [-0.6431,  0.0748,  0.6969],
-         [ 0.9124, -2.3616,  1.1151]]])
+>>> m = nn.ReLU()
+>>> input = torch.randn(2)
+>>> output = m(input)
+>>> input
+tensor([ 1.2175, -0.7772])
+>>> output
+tensor([1.2175, 0.0000])
 ```
 
 
 
-## Flatten
+### Sigmoid
 
-
-
-
-
-## GRU
-
-GRU 层。
+Logistic 激活函数层。见 `torch.sigmoid`。
 
 ```python
->>> rnn = nn.GRU(5, 10, 2)           # GRU可以视作简化的LSTM,各参数含义与LSTM相同
->>> input = torch.randn(20, 64, 5)
->>> h0 = torch.randn(2, 64, 10)
->>> output, hn = rnn(input, h0)
->>> output.shape
-torch.Size([20, 64, 10])
->>> hn.shape
-torch.Size([2, 64, 10])
+>>> m = nn.Sigmoid()
+>>> input = torch.randn(2)
+>>> output = m(input)
+>>> input
+tensor([ 1.7808, -0.9893])
+>>> output
+tensor([0.8558, 0.2710])
 ```
 
 
 
-## L1Loss
+### Softmax, LogSoftmax
 
-平均绝对误差损失函数。
-
-```python
->>> a1 = torch.arange(10.0)
->>> a2 = a1+2
->>> loss = nn.L1Loss()
->>> b = loss(a1, a2)
->>> b
-tensor(2.)
->>> loss = nn.MSELoss(reduction='sum')
->>> b = loss(a1, a2)
->>> b
-tensor(20.)
-```
-
-
-
-## Linear
-
-全连接层。
+Softmax 层。torch.nn.LogSoftmax 相当于在 Softmax 的基础上为每个输出值求（自然）对数。
 
 ```python
->>> m = nn.Linear(20, 4)
->>> input = torch.randn(128, 20)
->>> m(input).size()
-torch.Size([128, 4])
-```
-
-
-
-## LSTM
-
-> 参考：[理解Pytorch中LSTM的输入输出参数含义](https://www.cnblogs.com/marsggbo/p/12123755.html)
-
-LSTM 层。
-
-```python
->>> rnn = nn.LSTM(5, 10, 2, [dropout=0.5]) # 输入向量x的维数为5,隐状态h的维数为10,堆叠2层
-										   # 在每层(最上层除外)的输出位置增加一个dropout层
-									       # 多层LSTM中,上层的输入是下层的隐状态
->>> input = torch.randn(20, 64, 5)         # 一批64个序列,每个序列有20个5维向量
->>> h0 = torch.randn(2, 64, 10)            # 第一个参数为层数与方向数的乘积,单向和双向LSTM
-										   #   的方向数分别为1和2
-    									   # 第二个参数为输入序列的数量
->>> c0 = torch.randn(2, 64, 10)            # 第三个参数为隐状态维数
->>> output, (hn, cn) = rnn(input, (h0, c0)) # 输入h,c的初值,输出h,c的终值
-											# 若不输入初值,则默认为0
->>> output.shape
-torch.Size([20, 64, 10])                   # 从前往后输出最上层的所有隐状态
->>> hn.shape
-torch.Size([2, 64, 10])                    # 输出每一(层,方向)的最终隐状态
-                                           # 对于单向LSTM, hn[-1]==output[-1]
-
-
->>> rnn = nn.LSTM(5, 10, 2, bidirectional=True)  # 双向LSTM,相当于将输入向量正向和反向各
-                                                 #   输入一次
->>> input = torch.randn(20, 64, 5)
->>> h0 = torch.randn(4, 64, 10)                  # 层数*方向数=4
->>> c0 = torch.randn(4, 64, 10)
->>> output, (hn, cn) = rnn(input, (h0, c0))
->>> output.shape
-torch.Size([20, 64, 20])                   # 输出最上层的所有隐状态,拼接正向与反向的输出
->>> hn.shape
-torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状态
-```
-
-> 尤其需要注意的是，这里接受的输入张量的形状为`(seq_len, batch, input_size)`，而常见的输入的形状为`(batch, seq_len, input_size)`，为此需要使用`transpose()`或`permute()`方法交换维度。参见[For beginners: Do not use view() or reshape() to swap dimensions of tensors!](https://discuss.pytorch.org/t/for-beginners-do-not-use-view-or-reshape-to-swap-dimensions-of-tensors/75524)
-
-
-
-## MaxPool1d
-
-一维最大汇聚层。见 torch.nn.functional.max_pool1d。
-
-```python
->>> m1 = nn.MaxPool1d(2, stride=1)
->>> m2 = nn.MaxPool1d(2, stride=2)
->>> input = torch.randn(1, 8)
+>>> m1 = nn.Softmax(dim=0)
+>>> m2 = nn.LogSoftmax(dim=0)
+>>> input = torch.arange(4.0)
 >>> output1 = m1(input)
 >>> output2 = m2(input)
 >>> input
-tensor([[ 0.3055,  0.5521,  1.9417, -0.7325,  0.3202, -1.4555,  1.7270,  3.1311]])
+tensor([0., 1., 2., 3.])
 >>> output1
-tensor([[0.5521, 1.9417, 1.9417, 0.3202, 0.3202, 1.7270, 3.1311]])
->>> output2
-tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
+tensor([0.0321, 0.0871, 0.2369, 0.6439])
+>>> output2            # logsoftmax() = softmax() + log()
+tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
 
 
 
-## MaxPool2d
 
-二维最大汇聚层。见 torch.nn.functional.max_pool2d。
+
+## 损失函数
+
+### CrossEntropyLoss
+
+交叉熵损失函数。见 `torch.nn.NLLLoss`。
 
 ```python
->>> m1 = nn.MaxPool2d(2, stride=1)
->>> m2 = nn.MaxPool2d(2, stride=2)
->>> input = torch.randn(1, 1, 4, 4)
->>> output1 = m1(input)
->>> output2 = m2(input)
->>> input
-tensor([[[[-0.5308,  1.2014, -1.3582,  1.1337],
-          [ 0.2359,  0.9501,  1.1915,  0.3432],
-          [-1.4260, -0.1276, -2.2615,  0.8555],
-          [-0.8545,  0.5436,  1.6482,  1.2749]]]])
->>> output1
-tensor([[[[1.2014, 1.2014, 1.1915],
-          [0.9501, 1.1915, 1.1915],
-          [0.5436, 1.6482, 1.6482]]]])
->>> output2
-tensor([[[[1.2014, 1.1915],
-          [0.5436, 1.6482]]]])
+torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
 ```
 
 
 
-## Module
+
+
+```python
+>>> loss = nn.CrossEntropyLoss()
+>>> a1 = torch.tensor([[0.1, 0.8, 0.1]])    # prediction
+>>> a2 = torch.tensor([1])                  # label
+>>> loss(a1, a2)
+tensor(0.6897)
+>>> a2 = torch.tensor([0])
+>>> loss(a1, a2)
+tensor(1.3897)
+
+# CrossEntropyLoss() = softmax() + log() + NLLLoss() = logsoftmax() + NLLLoss()
+>>> loss = nn.CrossEntropyLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+
+>>> loss = nn.NLLLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> input = input.softmax(dim=1)
+>>> input = input.log()
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+
+>>> loss = nn.NLLLoss()
+>>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                          [ 1.8402, -0.1696,  0.4744],
+                          [-3.4641, -0.2303,  0.3552]])
+>>> logsoftmax = nn.LogSoftmax(dim=1)
+>>> input = logsoftmax(input)
+>>> target = torch.tensor([0, 1, 2])
+>>> loss(input, target)
+tensor(1.0896)
+```
 
 
 
-### named_parameters
-
-
-
-### parameters
-
-
-
-## MSELoss
+### MSELoss
 
 均方差损失函数。
 
@@ -1575,7 +1701,7 @@ tensor(40.)
 
 
 
-## NLLLoss
+### NLLLoss
 
 见 `torch.nn.CrossEntropyLoss`。
 
@@ -1594,55 +1720,66 @@ tensor(1.0896)
 
 
 
-## ReLU
+### L1Loss
 
-ReLU 激活函数层。见 `torch.nn.functional.relu`。
+平均绝对误差损失函数。
 
 ```python
->>> m = nn.ReLU()
->>> input = torch.randn(2)
->>> output = m(input)
->>> input
-tensor([ 1.2175, -0.7772])
->>> output
-tensor([1.2175, 0.0000])
+>>> a1 = torch.arange(10.0)
+>>> a2 = a1+2
+>>> loss = nn.L1Loss()
+>>> b = loss(a1, a2)
+>>> b
+tensor(2.)
+>>> loss = nn.MSELoss(reduction='sum')
+>>> b = loss(a1, a2)
+>>> b
+tensor(20.)
 ```
 
 
 
-## Sigmoid
 
-Logistic 激活函数层。见 `torch.sigmoid`。
+
+## 模组
+
+### Module
+
+
+
+named_parameters
+
+
+
+parameters
+
+
+
+## 数据并行模组
+
+### DataParallel
+
+
+
+
+
+### parallel.DistributedDataParallel
+
+
+
+
+
+## 实用功能
+
+### Flatten
+
+将张量展开为向量，用于顺序模型。
 
 ```python
->>> m = nn.Sigmoid()
->>> input = torch.randn(2)
->>> output = m(input)
->>> input
-tensor([ 1.7808, -0.9893])
->>> output
-tensor([0.8558, 0.2710])
+
 ```
 
 
-
-## Softmax, LogSoftmax
-
-Softmax 层。torch.nn.LogSoftmax 相当于在 Softmax 的基础上为每个输出值求（自然）对数。
-
-```python
->>> m1 = nn.Softmax(dim=0)
->>> m2 = nn.LogSoftmax(dim=0)
->>> input = torch.arange(4.0)
->>> output1 = m1(input)
->>> output2 = m2(input)
->>> input
-tensor([0., 1., 2., 3.])
->>> output1
-tensor([0.0321, 0.0871, 0.2369, 0.6439])
->>> output2            # logsoftmax() = softmax() + log()
-tensor([-3.4402, -2.4402, -1.4402, -0.4402])
-```
 
 
 
