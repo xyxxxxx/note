@@ -114,7 +114,8 @@ module2 initialized.       # 初始化`module2`
   >>> dir()               # 属性列表仅增加了`func2`,没有`module1`
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'func2']
   >>> func2()             # 可以访问`module1`中的全局变量
-  100                     # `from ... import ...`与`import ...`的区别仅在于,前者仅添加部分名称到属性列表中
+  100                     # `from ... import ...`与`import ...`的区别仅在于,前者直接添加模块的部分名称
+                          # 到当前作用域的属性列表中
   ```
 
 + `from ... import *`：直接导入模块内定义的所有（不以`_`开头的）名称：
@@ -173,7 +174,7 @@ module2 initialized.       # 初始化`module2`
 
 Python 对比编译版本与源码的修改日期，查看它是否已过期，是否要重新编译，此过程完全自动化。此外，编译模块与平台无关，因此，可在不同架构系统之间共享相同的支持库。
 
-Python 在两种情况下不检查缓存：其一，将模块作为脚本执行，这时只重新编译，不保存编译结果；其二，没有源模块，故不会检查缓存。为了支持无源文件（仅编译）发行版本， 编译模块必须在源目录下，并且绝不能有源模块。
+Python 在两种情况下不检查缓存：其一，将模块作为脚本执行，这时只重新编译，不保存编译结果；其二，没有源模块，故不会检查缓存。为了支持无源文件（仅编译）发行版本，编译模块必须在源目录下，并且绝不能有源模块。
 
 
 
@@ -216,7 +217,7 @@ print 8 // 7   # 整数除法取商
 
 Python 是一种动态语言，或称为脚本语言，即读一行解释一行执行一行。在交互的 Python 解释器中执行若干条语句，与将这些语句放入一个模块中作为脚本执行实际上没有差别。
 
-> 脚本(script)相当于电影或者戏剧的脚本（或剧本），演员读完脚本就知道要表演什么，而计算机读完脚本就知道要完成什么操作。
+> 脚本（script）相当于电影或者戏剧的脚本（或剧本），演员读完脚本就知道要表演什么，而计算机读完脚本就知道要完成什么操作。
 >
 > 脚本指短小的、用来让计算机自动化完成一系列工作的程序，这类程序可以用文本编辑器修改，并且通常是解释运行的（亦即，计算机中有一个程序能将脚本里的内容一句一句地转换成CPU能理解的指令，而且它每次只解释一句，待CPU执行完再解释下一句）。
 
@@ -254,8 +255,6 @@ if __name__ == "__main__":
 
 ## 标准模块定义
 
-标准的模块
-
 ```python
 #!/usr/bin/env python3			 # 标准注释:py3文件
 # -*- coding: utf-8 -*-			 # 标准注释:使用UTF-8编码
@@ -275,7 +274,7 @@ def test():
     else:
         print('Too many arguments!')
 
-if __name__=='__main__':        # 执行该模块时运行
+if __name__=='__main__':     # 执行该模块时运行
     test()
 ```
 
@@ -285,7 +284,7 @@ if __name__=='__main__':        # 执行该模块时运行
 
 # 包
 
-包(package)是一种使用“点式模块名”构造 Python 模块命名空间的方法，例如模块名 `A.B` 表示包 `A` 中名为 `B` 的子模块。正如模块可以区分不同模块的全局变量名称一样，点式模块名可以区分 NumPy 或 Pillow 等不同多模块包的模块名称。
+包（package）是一种使用“点式模块名”构造 Python 模块命名空间的方法，例如模块名 `A.B` 表示包 `A` 中名为 `B` 的子模块。正如模块可以区分不同模块的全局变量名称一样，点式模块名可以区分 NumPy 或 Pillow 等不同多模块包的模块名称。
 
 
 
@@ -306,7 +305,7 @@ package1                   # 顶级包
     └───module4.py
 ```
 
-其中 `__init__.py` 为空，`module1.py`, `module2.py` 与[模块](#导入模块)部分定义的相同，`module3.py`, `module4.py` 定义如下：
+其中所有 `__init__.py` 只有一行 `print(__name__)`，`module1.py`, `module2.py` 与[模块](#导入模块)部分定义的相同，`module3.py`, `module4.py` 定义如下：
 
 ```python
 # package1/subpackage2/module3.py
@@ -332,7 +331,7 @@ print('module4 initialized.')
 
 ```
 
-Python 仅将含有 `__init__.py` 文件的目录当作包。最简情况下，`__init__.py` 只是一个空文件，但该文件也可以执行包的初始化代码，或设置 `__all__` 变量。
+Python 只把含有 `__init__.py` 文件的目录当作包。最简单的情况下，`__init__.py` 只是一个空文件，但该文件也可以执行包的初始化代码，或设置 `__all__` 变量。
 
 
 
@@ -375,6 +374,7 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
   ```python
   >>> import package1
+  package1
   >>> dir()               # 导入了包`package1`,即将模块实例加入到当前作用域的属性列表
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1']
   >>> dir(package1)       # 包`package1`仅有特殊属性
@@ -383,6 +383,8 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
   ```python
   >>> import package1.subpackage1
+  package1
+  package1.subpackage1
   >>> dir()               # 导入了包`package1`
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1']
   >>> dir(package1)       # 包`package1`有属性`subpackage1`
@@ -393,6 +395,8 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
   ```python
   >>> import package1.subpackage1.module1
+  package1
+  package1.subpackage1
   module1 initialized.
   package1.subpackage1.module1
   >>> dir()               # 导入了包`package1`
@@ -405,53 +409,83 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
   ['Class1', 'GLOBAL', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_func3', 'func1', 'func2']
   ```
 
-+ `from ... import ...`：从包导入子包/模块，或从模块导入模块内的（类、函数或全局变量的）名称，被导入的名称会存在导入模块的全局符号表里：
++ `from ... import ...`：从包导入子包/模块/名称，或从模块导入模块内的（类、函数或全局变量的）名称，被导入的名称会存在导入模块的全局符号表里：
 
   ```python
   >>> from package1 import subpackage1
+  package1
+  package1.subpackage1
   >>> dir()               # 导入了子包`subpackage1`
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'subpackage1']
-  
+  >>> dir(subpackage1)    # 子包`subpackage1`仅有特殊属性
+  ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']             # `from A import B`与`import A.B`的区别仅在于,前者直接添加子包/模块
+                          # 到当前作用域的属性列表中
   ```
 
-  
+  ```python
+  >>> from package1.subpackage1 import module1
+  package1
+  package1.subpackage1
+  module1 initialized.
+  package1.subpackage1.module1
+  >>> dir()               # 导入了模块`module1`
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'module1']
+  >>> dir(module1)        # 模块`module1`有下列属性
+  ['Class1', 'GLOBAL', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_func3', 'func1', 'func2']
+  ```
+
+  ```python
+  # 若在`package1`的`__init__.py`中添加一行 `INIT = 100`
+  >>> from package1 import INIT
+  package1
+  >>> dir()               # 导入了名称`INIT`.与从模块导入名称相同.
+  ['INIT', '__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
+  ```
 
   ```python
   >>> from package1.subpackage1.module1 import func2
+  package1
+  package1.subpackage1
   module1 initialized.
   package1.subpackage1.module1
   >>> dir()               # 属性列表增加了`func2`
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'func2']
   >>> func2()
-  100
+  100                     # `from ... import ...`与`import ...`的区别仅在于,前者直接添加模块的部分名称
+                          # 到当前作用域的属性列表中
   ```
 
-+ `from ... import *`：如果包的 `__init__.py` 定义了属性 `__all__` 为模块名列表，则导入这些模块（详见初始化包），否则只导入 `__init__.py` 中定义的名称，以及之前 `import` 语句显式加载的包的子包/模块；或从模块导入模块内定义的所有（不以`_`开头的）名称：
++ `from ... import *`：如果包的 `__init__.py` 定义了属性 `__all__` 为子包/模块名列表，则导入这些子包/模块（详见初始化包），否则只导入 `__init__.py` 中定义的名称，以及之前 `import` 语句显式加载的包的子包/模块；或从模块导入模块内定义的所有（不以`_`开头的）名称：
 
   ```python
-  # package1的__init__.py为空
   >>> from package1 import *
+  package1
   >>> dir()               # 未导入任何名称
   ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
   ```
 
   ```python
-  # 修改package1的__init__.py为
-  # import package1.subpackage1.module1    # 定义了名称`subpackage1`, `module1`
-  # 
+  # 若在`package1`的`__init__.py`中添加一行 `INIT = 100`
   >>> from package1 import *
-  module1 initialized.
-  package1.subpackage1.module1
-  >>> dir()
-  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'package1', 'subpackage1']   # 导入`__init__.py`中定义的名称
+  package1
+  >>> dir()               # 导入`__init__.py`中定义的名称
+  ['INIT', '__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
   ```
 
   ```python
-  
+  # 若在`package1`的`__init__.py`中再添加一行 `__all__ = ['subpackage1']`
+  >>> from package1 import *
+  package1
+  package1.subpackage1
+  >>> dir()               # 导入`__all__`中包含的子包,相当于`from package1 import subpackage1`
+                          # 不导入`__init__.py`中定义的名称
+  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'subpackage1']
   ```
 
   ```python
   >>> from package1.subpackage1.module1 import *
+  package1
+  package1.subpackage1
   module1 initialized.
   package1.subpackage1.module1
   >>> dir()
@@ -460,22 +494,26 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
   一般情况下，不建议使用这个功能，因为这种方式导入的一批未知的名称可能会与当前模块的其它名称相互覆盖，并且让读者难以得知到底导入了哪些名称。
 
-+ `import ... as ...`：使用 `as` 之后的名称代表被导入模块：
++ `import ... as ...`：使用 `as` 之后的名称代表被导入的包/子包/模块：
 
   ```python
-  >>> import module1 as m1
-  This is module1.
-  >>> dir()
-  ['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'm1']
+  >>> import package1.subpackage1.module1 as m1
+  package1
+  package1.subpackage1
+  module1 initialized.
+  package1.subpackage1.module1
   >>> m1.func1()
   This is module1.func1
   ```
 
-+ `from ... import ... as ...`：使用 `as` 之后的名称代表被导入的名称。
++ `from ... import ... as ...`：使用 `as` 之后的名称代表被导入的子包/模块/名称。
 
   ```python
-  >>> from module1 import func1 as f1
-  This is module1.
+  >>> from package1.subpackage1.module1 import func1 as f1
+  package1
+  package1.subpackage1
+  module1 initialized.
+  package1.subpackage1.module1
   >>> f1()
   This is module1.func1
   ```
@@ -484,144 +522,162 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 
 ### 初始化包
 
-最简单的
+`__init__.py` 包含的可执行语句以及类和函数的定义用于初始化包，在且仅在 `import` 语句第一次遇到包名时执行。将包 `package1` 的 `__init__.py` 修改如下：
 
-`__all__`
+```python
+print(__name__)
+
+INIT = 100
+
+def init():
+    print(INIT)
+```
+
+导入该包：
+
+```python
+>>> import package1
+package1
+>>> dir(package1)         # 导入`__init__.py`中定义的名称
+['INIT', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'init']
+>>> import package1       # 再次导入时不再调用`print()`函数
+>>> 
+```
 
 
+
+`__init__.py` 包含的 `import` 语句用于将子包/模块/名称作为包实例的属性。将包 `package1` 的 `__init__.py` 修改如下：
+
+```python
+print(__name__)
+
+from . import subpackage1                   # 相对导入,点表示当前路径(.../package1)
+# from package1 import subpackage1          # 绝对导入
+from .subpackage2 import module3            # 相对导入
+# from package1.subpackage2 import module3  # 绝对导入
+
+# import package1.subpackage1               # 不好的示例,会导致`package1`作为自身的属性
+```
+
+导入该包：
+
+```python
+>>> import package1
+package1
+package1.subpackage1
+package1.subpackage2
+module3 initialized.
+>>> dir(package1)
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'module3', 'subpackage1', 'subpackage2']   # 注意此时`subpackage2`也被导入
+>>> dir(package1.subpackage2)                          # 可能是因为复用了`package1`
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'module3']
+```
+
+
+
+如果 `__init__.py` 定义了列表 `__all__`，则执行 `from ... import *` 时将导入列表中包含的子包/模块名；如果没有定义此列表，则应视作包的作者不建议执行导入全部的操作。将包 `package1` 的 `__init__.py` 修改如下：
+
+```python
+print(__name__)
+
+__all__ = ['subpackage1']
+```
+
+从该包导入全部：
+
+```python
+>>> from package1 import *        # 相当于 `from package1 import subpackage1`
+package1
+package1.subpackage1
+>>> dir()
+['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'subpackage1']
+```
+
+在没有定义此列表的情况下执行 `from ... import *` 时将导入 `__init__.py` 中定义的名称，以及之前 `import` 语句显式加载的包的子包/模块。将包 `package1` 的 `__init__.py` 修改如下：
+
+```python
+print(__name__)
+
+INIT = 100
+
+def init():
+    print(INIT)
+
+from . import subpackage1
+from .subpackage2 import module3
+```
+
+从该包导入全部：
+
+```python
+>>> from package1 import *
+package1
+package1.subpackage1
+package1.subpackage2
+module3 initialized.
+>>> dir()                   # 导入`__init__.py`中定义的名称以及显式导入的子包/模块
+['INIT', '__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'init', 'module3', 'subpackage1', 'subpackage2']
+```
 
 
 
 ### 包是特殊的模块
 
-前面提到，，包只是模块的一种组织方式
-
-
-
-
-
-导入包 `bar` 时，Python 解释器从 `sys.path` 的目录列表里查找子目录 `bar` 。
-
-
-
-
-
-
-
-导入模块之后，使用模块名访问模块中的类和函数：
+包是一种组织模块的方法，但实际上包也可以视作是一种特殊的模块。导入的包和模块在 Python 解释器中都是 `module` 类型，唯一的区别在于包具有特殊属性 `__path__`：
 
 ```python
->>> module1.func1()
-This is module1.func1
->>> instance1 = module1.Class1()
+>>> import numpy
+>>> type(numpy)
+<class 'module'>
+>>> numpy.__path__
+['/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy']
 ```
 
-模块有自己的私有符号表，用作模块中所有类和函数的全局符号表，因此在模块内使用全局变量时，不用担心与用户定义的全局变量发生冲突；与此同时，可以用与访问模块类和函数一样的标记法访问模块的全局变量：
+包的 `__path__` 属性会在导入其子包期间被使用。在导入机制内部，它的功能与 `sys.path` 基本相同，即在导入期间提供一个模块搜索位置列表。`__path__` 必须是由字符串组成的可迭代对象，但它也可以为空。
+
+> 包的 `__init__.py` 文件可以设置或更改包的 `__path__` 属性，而且这是在 **PEP 420** 之前实现命名空间包的典型方式。 随着 **PEP 420** 的引入，命名空间包不再需要提供仅包含 `__path__` 操控代码的 `__init__.py` 文件，导入机制会自动为命名空间包正确地设置 `__path__`。
+
+
+
+导入包 `bar` 时，Python 解释器从 `sys.path` 的目录列表里查找子目录 `bar`，与[模块的搜索路径](#模块搜索路径)相同。
+
+
+
+### 模块之间的相互导入
+
+模块导入同一个包下的另一个模块或其名称有绝对导入和相对导入两种方法，下面给出相应的示例：
 
 ```python
->>> module1.GLOBAL     # 模块的全局变量
-100
->>> GLOBAL = 50        # 用户定义的全局变量
->>> module1.func2()    # 使用模块的私有符号表
-100
->>> dir()              # 当前解释器作用域(模块)的属性列表(也可以理解为全局符号表);刚才定义的变量是属性之一
-['GLOBAL', '__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'module1']
->>> dir(module1)       # 模块的属性列表;模块的全局变量是属性之一
-['Class1', 'GLOBAL', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '_func3', 'func1', 'func2']
-```
-
-可以在模块中导入其它模块，被导入模块的名称会存在导入模块的全局符号表里。这里再在同一目录下定义模块 `module2.py`：
-
-```python
-import module1         # 按照惯例,`import`语句都放在模块开头
-
-class Class2(object):
-    pass
-
-def func4():
-    print('This is module2.func4')
-
-print('module2 initialized.')
-
-```
-
-导入该模块：
-
-```python
->>> import module2
-module1 initialized.       # 初始化`module1`
-module2 initialized.       # 初始化`module2`
->>> dir(module2)
-['Class2', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'func4', 'module1']    # `module1`作为`module2`的属性
-```
-
-
-
-
-
-## 标准包定义
-
-
-
-对于更大规模的库文件，通常的做法是将模块组织成包（package）。
-
-```python
-# from this
-util1.py
-util2.py
-util3.py
-
-# to this
-util/
-    __init__.py
-    util1.py
-    util2.py
-    util3.py
-    
-# use package
-import util
-util.util1.func1()
-
-from util import util1
-util1.func1()
-
-from util.util1 import func1
-func1()
-```
-
-同一包中各个模块的互相导入方法需要改变：
-
-```python
-# from this
-# util1.py
-import util2
-
-# to this
-# util1.py
-from . import util2
-```
-
-运行包中这些模块的命令也需要改变：
-
-```shell
-# from this
-$ python3 util/util1.py
-
-# to this
-$ python3 -m util.util1
+package1
+├───__init__.py
+├───subpackage1
+│   ├───__init__.py
+│   ├───module1.py
+│   └───module2.py
+└───subpackage2
+    ├───__init__.py
+    ├───module3.py
+    └───module4.py
 ```
 
 ```python
-# __init__.py
-from .util1 import func1
+# module1.py
+from . import module2                            # 相对导入同一个子包下的模块
+from package1.subpackage1 import module2         # 绝对导入
+import module2                                   # error
 
-# 上述声明使func1成为util命名空间下的顶级名称
-import util
-util.func1()
+from .module2 import func4                       # 相对导入同一个子包下的模块的名称
+from package1.subpackage1.module2 import func4   # 绝对导入
+from module2 import func4                        # error
 
-from util import func1
-func1()
+from ..subpackage2 import module4                # 相对导入另一个子包下的模块
+from package1.subpackage2 import module4         # 绝对导入
+
+from ..subpackage2.module4 import Class2         # 相对导入另一个子包下的模块的名称
+from package1.subpackage2.module4 import Class2  # 绝对导入
 ```
+
+一般建议使用绝对导入，因为相对导入的路径不直观。
 
 
 

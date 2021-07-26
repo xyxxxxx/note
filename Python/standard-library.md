@@ -452,6 +452,23 @@ iter(object[, sentinel])
 
 
 
+## locals()
+
+更新并返回表示当前本地符号表的字典。
+
+符号表是由 Python 解释器维护的数据结构，
+
+
+
+ 在函数代码块但不是类代码块中调用 `locals()` 时将返回自由变量。
+
+```python
+```
+
+
+
+
+
 ## map()
 
 
@@ -1023,51 +1040,129 @@ a,b,c
 
 
 
-# [datetime](https://docs.python.org/zh-cn/3/library/datetime.html)——处理日期和时间
-
-
+# datetime——基本日期和时间类型
 
 ## timedelta
 
-```python
-import datetime
-from datetime import timedelta
+`timedelta` 对象表示两个 date 或者 time 之间的时间间隔。
 
+```python
+class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
+```
+
+所有这些参数都是可选的并且默认为 `0`，可以是整数或者浮点数，也可以是正数或者负数。
+
+只有 *days*, *seconds* 和 *microseconds* 会存储在内部，各参数单位的换算规则如下：
+
+- 1毫秒会转换成1000微秒。
+- 1分钟会转换成60秒。
+- 1小时会转换成3600秒。
+- 1星期会转换成7天。
+
+并且 *days*, *seconds* 和 *microseconds* 会经标准化处理以保证表达方式的唯一性，即：
+
+- `0 <= microseconds < 1000000`
+- `0 <= seconds < 3600*24`
+- `-999999999 <= days <= 999999999`
+
+```python
+>>> from datetime import timedelta
 >>> delta = timedelta(
 ...     weeks=2,              # 1星期转换成7天
 ...     days=50,
 ...     hours=8,              # 1小时转换成3600秒
-...     minutes=5,            # 1小时转换成60秒
+...     minutes=5,            # 1分钟转换成60秒
 ...     seconds=27,
-...     milliseconds=29000,   # 1毫秒转换成1000微秒
+...     milliseconds=29000,   # 1毫秒转换成1000微秒,或1000毫秒转换成1秒
 ...     microseconds=10
 ... )
 >>> delta
-datetime.timedelta(64, 29156, 10)   # 日,秒,毫秒
+datetime.timedelta(64, 29156, 10)   # 64天,29156秒,10毫秒
 >>> delta.total_seconds()
 5558756.00001                       # 秒
-
->>> d1 = timedelta(minutes=5)
->>> d2 = timedelta(seconds=20)
->>> d1 + d2
-datetime.timedelta(0, 320)
->>> d1 - d2
-datetime.timedelta(0, 280)
->>> d1 * 2
-datetime.timedelta(0, 600)
->>> d1 / d2
-15.0
->>> d1 // d2
-15
 ```
+
+
+
+下面演示了 `timedelta` 对象支持的运算：
+
+```python
+>>> t1 = timedelta(minutes=10)
+>>> t2 = timedelta(seconds=10)
+>>> t3 = timedelta(seconds=11)
+>>> t1 + t2
+datetime.timedelta(seconds=610)
+>>> t1 - t2
+datetime.timedelta(seconds=590)
+>>> t2 * 2
+datetime.timedelta(seconds=1200)
+>>> t2 * 1.234                           # 乘以浮点数,结果舍入到微秒的整数倍
+datetime.timedelta(seconds=12, microseconds=340000)
+>>> t2 * 1.23456789
+datetime.timedelta(seconds=12, microseconds=345679)
+>>> t2 / 3                               # 除以整数或浮点数,结果舍入到微秒的整数倍
+datetime.timedelta(seconds=3, microseconds=333333)
+>>> t1 / t3                              # `timedelta`对象相除,返回一个浮点数
+54.54545454545455
+>>> t1 // t3                             # 带余除法取商
+54
+>>> t1 % t3                              # 带余除法取余
+datetime.timedelta(seconds=6)
+>>> -t1                                  # 相反的时间间隔
+datetime.timedelta(days=-1, seconds=85800)
+>>> abs(-t1)                             # 取绝对值
+datetime.timedelta(seconds=600)
+>>> t2 < t3                              # 比较
+True
+>>> str(t1)
+'0:10:00'
+>>> repr(t1)
+'datetime.timedelta(seconds=600)'
+```
+
+除此之外，`timedelta` 对象还支持与 `date` 和 `datetime` 对象进行特定的相加和相减运算。
+
+
+
+### days
+
+（实例属性）天数。
+
+
+
+### microseconds
+
+（实例属性）微秒数。
+
+
+
+### seconds
+
+（实例属性）秒数。
+
+
+
+### total_seconds()
+
+（实例方法）返回时间间隔总共包含的秒数。
 
 
 
 ## date
 
-一个理想化日期，它假设当今的公历在过去和未来永远有效。包含属性 `year`、`month` 和 `day`。
+`date` 对象代表一个理想化历法的日期，它假设当今的公历在过去和未来永远有效。
 
+```python
+class datetime.date(year, month, day)
+```
 
+所有参数都是必要的并且必须是在下列范围内的整数：
+
+- `1 <= year <= 9999`
+- `1 <= month <= 12`
+- `1 <= day <= 给定年月对应的天数`
+
+如果参数不在这些范围内，则抛出 `ValueError` 异常。
 
 
 
@@ -1090,6 +1185,32 @@ datetime.date(2020, 11, 27)
 >>> date.today().isoweekday()
 5                              # Friday
 ```
+
+
+
+### day
+
+（实例属性）
+
+
+
+
+
+### month
+
+（实例属性）
+
+
+
+### today()
+
+（类方法）
+
+
+
+### year
+
+（实例属性）
 
 
 
@@ -1198,6 +1319,388 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 ## timezone
 
 一个实现了 `tzinfo` 抽象基类的子类，用于表示相对于 UTC 的偏移量。
+
+
+
+
+
+# enum——对枚举的支持
+
+## 模块内容
+
+### Enum
+
+创建枚举常量的基类。
+
+
+
+### IntEnum
+
+创建 `int` 类枚举常量的基类。
+
+
+
+### IntFlag
+
+创建可与位运算符搭配使用，又不失去 `IntFlag` 成员资格的枚举常量的基类。
+
+
+
+### Flag
+
+创建可与位运算符搭配使用，又不失去 `Flag` 成员资格的枚举常量的基类。
+
+
+
+### unique()
+
+确保一个名称只绑定一个值的 Enum 类装饰器。
+
+
+
+### auto
+
+以合适的值代替 Enum 成员的实例。初始值默认从 1 开始。
+
+
+
+## 定义枚举类
+
+继承 `Enum` 类以定义枚举类，例如：
+
+```python
+>>> from enum import Enum
+>>> class Color(Enum):        # `Color`是枚举类
+    RED = 1                   # `Color.RED`是枚举类的成员,其中`RED`是名称,`1`是值
+    GREEN = 2
+    BLUE = 3
+>>> print(Color.RED)          # 成员的打印结果
+Color.RED
+>>> Color.RED
+<Color.RED: 1>
+>>> type(Color.RED)           # 成员的类型
+<enum 'Color'>
+>>> isinstance(Color.RED, Color)
+True
+>>> print(Color.RED.name)     # 成员的名称
+RED
+>>> print(Color.RED.value)    # 成员的值
+1
+>>> list(Color)               # 迭代枚举类
+[<Color.RED: 1>, <Color.GREEN: 2>, <Color.BLUE: 3>]
+```
+
+> 枚举类中定义的所有类属性将成为该枚举类的成员。
+>
+> 枚举类表示的是常量，因此建议成员名称使用大写字母；以单下划线开头和结尾的名称由枚举保留而不可使用。
+>
+> 尽管枚举类同样由 `class` 语法定义，但它并不是常规的 Python 类，详见 [How are Enums different?](https://docs.python.org/zh-cn/3/library/enum.html#how-are-enums-different)。
+
+除了 `Color.RED`，成员还支持如下访问方式：
+
+```python
+>>> Color['RED']
+<Color.RED: 1>
+>>> Color(1)
+<Color.RED: 1>
+```
+
+成员的值一般设定为整数、字符串等。若成员取何值并不重要，则可以使用 `auto()` 自动为成员分配值：
+
+```python
+>>> from enum import Enum, auto
+>>> class Color(Enum):
+    RED = auto()
+    GREEN = auto()
+    BLUE = auto()
+... 
+>>> list(Color)
+[<Color.RED: 1>, <Color.GREEN: 2>, <Color.BLUE: 3>]
+```
+
+`auto()` 的行为可以由重载 `_generate_next_value_()` 方法来定义：
+
+```python
+>>> class Color(Enum):
+    def _generate_next_value_(name, start, count, last_values):  # 必须定义在任何成员之前
+        return name
+    RED = auto()
+    GREEN = auto()
+    BLUE = auto()
+... 
+>>> list(Color)
+[<Color.RED: 'RED'>, <Color.GREEN: 'GREEN'>, <Color.BLUE: 'BLUE'>]
+```
+
+成员的值可哈希，因此成员可用于字典和集合：
+
+```python
+>>> apples = {}
+>>> apples[Color.RED] = 'red delicious'
+```
+
+
+
+## 重复的成员值
+
+两个成员的名称不能相同，但值可以相同，此时后定义的成员的名称将作为先定义的成员的别名：
+
+```python
+>>> class Shape(Enum):
+    SQUARE = 2
+    SQUARE = 3
+...
+TypeError: Attempted to reuse key: 'SQUARE'
+>>> 
+>>> class Shape(Enum):
+    SQUARE = 2
+    DIAMOND = 1
+    CIRCLE = 3
+    ALIAS_FOR_SQUARE = 2     # 作为`SQUARE`的别名
+... 
+>>> Shape.SQUARE
+<Shape.SQUARE: 2>
+>>> Shape.ALIAS_FOR_SQUARE
+<Shape.SQUARE: 2>
+>>> Shape(2)
+<Shape.SQUARE: 2>
+```
+
+迭代枚举类时不会给出别名；枚举类的特殊属性 `__members__` 是从名称到成员的只读有序映射，其包含别名在内的所有名称：
+
+```python
+>>> list(Shape)
+[<Shape.SQUARE: 2>, <Shape.DIAMOND: 1>, <Shape.CIRCLE: 3>]
+>>> list(Shape.__members__.items())
+[('SQUARE', <Shape.SQUARE: 2>), ('DIAMOND', <Shape.DIAMOND: 1>), ('CIRCLE', <Shape.CIRCLE: 3>), ('ALIAS_FOR_SQUARE', <Shape.SQUARE: 2>)]
+>>> [name for name, member in Shape.__members__.items() if member.name != name]  # 找出所有别名
+['ALIAS_FOR_SQUARE']
+```
+
+如果想要禁用别名，则可以使用装饰器 `unique`：
+
+```python
+>>> from enum import Enum, unique
+>>> @unique
+class Shape(Enum):
+    SQUARE = 2
+    DIAMOND = 1
+    CIRCLE = 3
+    ALIAS_FOR_SQUARE = 2
+...
+ValueError: duplicate values found in <enum 'Shape'>: ALIAS_FOR_SQUARE -> SQUARE
+```
+
+
+
+## 比较
+
+成员之间按照标识值进行比较：
+
+```python
+>>> Color.RED is Color.RED
+True
+>>> Color.RED is Color.GREEN
+False
+>>> Color.RED == Color.RED
+True
+>>> Color.RED == Color.GREEN
+False
+```
+
+成员之间的排序比较不被支持：
+
+```python
+>>> Color.RED < Color.BLUE
+...
+TypeError: '<' not supported between instances of 'Color' and 'Color'
+```
+
+成员与其它类型的实例的比较将总是不相等：
+
+```python
+>>> Color.RED == 1
+False
+```
+
+
+
+## 枚举类的方法
+
+枚举类是特殊的 Python 类，同样可以具有普通方法和特殊方法，例如：
+
+```python
+>>> class Mood(Enum):
+    FUNKY = 1
+    HAPPY = 3
+    def describe(self):       # self here is the member
+        return self.name, self.value
+    def __str__(self):
+        return 'my custom str! {0}'.format(self.value)
+    @classmethod
+    def favorite_mood(cls):   # cls here is the enumeration
+        return cls.HAPPY
+... 
+>>> Mood.favorite_mood()
+<Mood.HAPPY: 3>
+>>> Mood.HAPPY.describe()
+('HAPPY', 3)
+>>> print(Mood.FUNKY)
+my custom str! 1
+```
+
+
+
+## 继承枚举类
+
+一个新的枚举类必须继承自一个既有的枚举类，并且父类不可定义有任何成员，因此禁止下列定义：
+
+```python
+>>> class MoreColor(Color):
+    PINK = 17
+......
+TypeError: MoreColor: cannot extend enumeration 'Color'
+```
+
+但是允许下列定义：
+
+```python
+>>> class Foo(Enum):
+    def some_behavior(self):
+        pass
+... 
+>>> class Bar(Foo):
+    HAPPY = 1
+    SAD = 2
+... 
+```
+
+
+
+## 功能性API
+
+`Enum` 类属于可调用对象，它提供了以下功能性 API：
+
+```python
+>>> Animal = Enum('Animal', 'ANT BEE CAT DOG')
+>>> Animal
+<enum 'Animal'>
+>>> Animal.ANT
+<Animal.ANT: 1>
+>>> Animal.ANT.value
+1
+>>> list(Animal)
+[<Animal.ANT: 1>, <Animal.BEE: 2>, <Animal.CAT: 3>, <Animal.DOG: 4>]
+```
+
+`Enum` 的第一个参数是枚举的名称；第二个参数是枚举成员名称的来源，它可以是一个用空格分隔的名称字符串、名称序列、键值对二元组的序列或者名称到值的映射，最后两种选项使得可以为枚举任意赋值，而其他选项会自动以从 1 开始递增的整数赋值（使用 `start` 形参可指定不同的起始值）。返回值是一个继承自 `Enum` 的新类，换句话说，上述对 `Animal` 的赋值就等价于:
+
+```python
+>>> class Animal(Enum):
+    ANT = 1
+    BEE = 2
+    CAT = 3
+    DOG = 4
+```
+
+默认以 `1` 而以 `0` 作为起始数值的原因在于 `0` 的布尔值为 `False`，但所有枚举成员都应被求值为 `True`。
+
+
+
+## IntEnum
+
+`IntEnum` 是 `Enum` 的一个变种，同时也是 `int` 的一个子类。`IntEnum` 的成员可以与整数进行比较，不同 `IntEnum` 子类的成员也可以互相比较：
+
+```python
+>>> from enum import IntEnum
+>>> class Shape(IntEnum):
+    CIRCLE = 1
+    SQUARE = 2
+... 
+>>> class Request(IntEnum):
+    POST = 1
+    GET = 2
+... 
+>>> Shape == 1
+False
+>>> Shape.CIRCLE == 1
+True
+>>> Shape.CIRCLE == Request.POST
+True
+```
+
+`IntEnum` 成员的值在其它方面的行为都类似于整数：
+
+```python
+>>> ['a', 'b', 'c'][Shape.CIRCLE]
+'b'
+```
+
+
+
+## IntFlag
+
+`IntFlag` 变种同样基于 `int`，与 `IntEnum` 的不同之处在于 `IntFlag` 成员可以使用按位运算符进行组合并且结果仍然为 `IntFlag` 成员：
+
+```python
+>>> from enum import IntFlag
+>>> class Perm(IntFlag):
+    R = 4
+    W = 2
+    X = 1
+... 
+>>> Perm.R | Perm.W
+<Perm.R|W: 6>
+>>> type(Perm.R | Perm.W)
+<enum 'Perm'>
+>>> Perm.R in (Perm.R | Perm.W)
+True
+>>> Perm.R + Perm.W
+6
+>>> Perm.R | 8               # 与整数进行组合
+<Perm.8|R: 12>
+>>> type(Perm.R | 8)         # 仍为`IntFlag`成员
+<enum 'Perm'>
+```
+
+`IntFlag` 和 `IntEnum` 的另一个重要区别在于如果值为 0，则其布尔值为 `False`：
+
+```python
+>>> Perm.R & Perm.X
+<Perm.0: 0>
+>>> bool(Perm.R & Perm.X)
+False
+```
+
+
+
+## Flag
+
+`Flag` 变种与 `IntFlag` 类似，成员可以使用按位运算符进行组合，但不同之处在于成员不可与其它 `Flag` 子类的成员或整数进行组合或比较。虽然可以直接指定值，但推荐使用 `auto` 选择适当的值。
+
+```python
+>>> from enum import Flag, auto
+>>> class Color(Flag):
+    BLACK = 0                    # 定义值为0的flag
+    RED = auto()                 # 1
+    BLUE = auto()                # 2
+    GREEN = auto()               # 4
+    WHITE = RED | BLUE | GREEN   # 定义作为多个flag的组合的flag
+... 
+>>> Color.RED & Color.GREEN
+<Color.0: 0>
+>>> bool(Color.RED & Color.GREEN)
+False
+>>> Color.BLACK
+<Color.BLACK: 0>
+>>> bool(Color.BLACK)
+False
+>>> Color.WHITE
+<Color.WHITE: 7>
+
+```
+
+
 
 
 
@@ -1979,11 +2482,35 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
 > 对于 macOS，*spawn* 启动方式是默认方式。 因为 *fork* 可能导致 subprocess 崩溃，而被认为是不安全的，查看 [bpo-33725](https://bugs.python.org/issue33725) 。
 
-在 Unix 上通过 *spawn* 和 *forkserver* 方式启动多进程会同时启动一个 *资源追踪* 进程，负责追踪当前程序的进程产生的、并且不再被使用的命名系统资源（如命名信号量以及 [`SharedMemory`](https://docs.python.org/zh-cn/3/library/multiprocessing.shared_memory.html#multiprocessing.shared_memory.SharedMemory) 对象）。当所有进程退出后，资源追踪会负责释放这些仍被追踪的的对象。通常情况下是不会有这种对象的，但是假如一个子进程被某个信号杀死，就可能存在这一类资源的“泄露”情况。（泄露的信号量以及共享内存不会被释放，直到下一次系统重启，对于这两类资源来说，这是一个比较大的问题，因为操作系统允许的命名信号量的数量是有限的，而共享内存也会占据主内存的一片空间。）
+在 Unix 上通过 *spawn* 和 *forkserver* 方式启动多进程会同时启动一个 *资源追踪* 进程，负责追踪当前程序的进程产生的、并且不再被使用的命名系统资源（如命名信号量以及 `SharedMemory` 对象）。当所有进程退出后，资源追踪会负责释放这些仍被追踪的的对象。通常情况下是不会有这种对象的，但是假如一个子进程被某个信号杀死，就可能存在这一类资源的“泄露”情况。（泄露的信号量以及共享内存不会被释放，直到下一次系统重启，对于这两类资源来说，这是一个比较大的问题，因为操作系统允许的命名信号量的数量是有限的，而共享内存也会占据主内存的一片空间。）
 
 你可以在主模块的 `if __name__ == '__main__'` 子句中调用 `set_start_method()` 以选择启动方法。
 
-如果你想要在同一程序中使用多种启动方法，可以使用 `get_context()` 来获取上下文对象，上下文对象与 `multiprocessing` 模块具有相同的 API。需要注意的是，对象在不同上下文创建的进程间可能并不兼容，特别是使用 *fork* 上下文创建的锁不能传递给使用 *spawn* 或 *forkserver* 启动方法启动的进程。
+```python
+import multiprocessing as mp
+
+...
+
+if __name__ == '__main__':
+    mp.set_start_method('spawn')
+    q = mp.Queue()
+    p = mp.Process(target=foo, args=(q,))
+    ...
+```
+
+如果你想要在同一程序中使用多种启动方法，可以使用 `get_context()` 来获取上下文对象，上下文对象与 `multiprocessing` 模块具有相同的 API。需要注意的是，对象在不同上下文创建的进程之间可能并不兼容，特别是使用 *fork* 上下文创建的锁不能传递给使用 *spawn* 或 *forkserver* 启动方法启动的进程。
+
+```python
+import multiprocessing as mp
+
+...
+
+if __name__ == '__main__':
+    ctx = mp.get_context('spawn')
+    q = ctx.Queue()
+    p = ctx.Process(target=foo, args=(q,))
+    ...
+```
 
 
 
@@ -1991,20 +2518,44 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
 `multiprocessing` 支持进程之间的两种通信通道：
 
-+ *队列*：先进先出的多生产者多消费者队列，队列是线程和进程安全的。
++ *队列*：先进先出的多生产者多消费者队列。队列是线程和进程安全的。
 
   ```python
+  from multiprocessing import Process, Queue
+  
+  def f(q):
+      q.put([42, None, 'hello'])
+  
+  if __name__ == '__main__':
+      q = Queue()
+      p = Process(target=f, args=(q,))
+      p.start()
+      print(q.get())              # [42, None, 'hello']
+      p.join()
+  ```
+
++ *管道*：`Pipe()` 函数返回由管道连接的两个连接对象，表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法。注意，如果两个进程（或线程）同时尝试读取或写入管道的<u>同一端</u>，则管道中的数据可能会损坏。在不同进程中同时使用管道的<u>不同端</u>则不存在损坏的风险。
+
+  ```python
+  from multiprocessing import Process, Pipe
+  
+  def f(conn):
+      conn.send([42, None, 'hello'])
+      conn.close()
+  
+  if __name__ == '__main__':
+      parent_conn, child_conn = Pipe()
+      p = Process(target=f, args=(child_conn,))
+      p.start()
+      print(parent_conn.recv())   # [42, None, 'hello']
+      p.join()
   ```
 
   
 
-+ *管道*：`Pipe()` 函数返回由管道连接的两个连接对象，表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法。注意，如果两个进程（或线程）同时尝试读取或写入管道的<u>同一端</u>，则管道中的数据可能会损坏。在不同进程中同时使用管道的<u>不同端</u>则不存在损坏的风险。
-
- 
-
 ## 进程间同步
 
-对于所有在 `threading` 存在的同步原语，`multiprocessing` 中都有类似的等价物。例如可以使用锁来确保一次只有一个进程打印到标准输出：
+对于所有在 `threading` 中存在的同步原语，`multiprocessing` 中都有类似的等价物。例如可以使用锁来确保一次只有一个进程打印到标准输出：
 
 ```python
 from multiprocessing import Process, Lock
@@ -2060,52 +2611,215 @@ hello world 3
           a[i] = -v
   
   if __name__ == '__main__':
-      num = Value('d', 0.0)
-      arr = Array('i', range(10))
+      num = Value('d', 0.0)         # 'd' 表示双精度浮点数
+      arr = Array('i', range(10))   # 'i' 表示有符号整数
   
       p = Process(target=f, args=(num, arr))
       p.start()
       p.join()
   
-      print(num.value)
-      print(arr[:])
+      print(num.value)     # 3.1415927
+      print(arr[:])        # [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
   ```
 
+  这些共享对象是进程和线程安全的。
+
++ *服务进程*：由 `Manager()` 返回的管理器对象控制一个服务进程，该进程保存 Python 对象并允许其他进程使用代理操作它们。管理器支持下列类型：`list`、`dict`、`Namespace`、`Lock`、`RLock`、`Semaphore`、`BoundedSemaphore`、`Condition`、`Event`、`Barrier`、`Queue`、`Value` 和 `Array`。
+
+  ```python
+  from multiprocessing import Process, Manager
+  
+  def f(d, l):
+      d[1] = '1'
+      d['2'] = 2
+      d[0.25] = None
+      l.reverse()
+  
+  if __name__ == '__main__':
+      with Manager() as manager:
+          d = manager.dict()
+          l = manager.list(range(10))
+  
+          p = Process(target=f, args=(d, l))
+          p.start()
+          p.join()
+  
+          print(d)         # {1: '1', '2': 2, 0.25: None}
+          print(l)         # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
   ```
-  3.1415927
-  [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
-  ```
-
-+ *服务进程*：
-
   
-
+  使用服务进程的管理器比使用共享内存对象更灵活，因为它们可以支持任意对象类型。此外单个管理器也可以通过网络由不同计算机上的进程共享。但是它们比使用共享内存慢。
   
-
   
-
-
+  
 
 ## 使用工作进程
 
+`Pool` 类表示一个工作进程池，它具有几种不同的将任务分配到工作进程的方法。
 
 
-## get_context()
 
 
 
-## Process
+## 模块内容
+
+### Array()
+
+
+
+### Barrier
+
+类似 `threading.Barrier` 的栅栏对象。
+
+
+
+### connection.Connection
+
+#### send()
+
+将一个对象发送到连接的另一端，另一端使用 `recv()` 读取。
+
+发送的对象必须是可以序列化的，过大的对象（接近 32MiB+，具体值取决于操作系统）有可能引发 `ValueError` 异常。
+
+
+
+#### recv()
+
+返回一个由另一端使用 `send()` 发送的对象。该方法会一直阻塞直到接收到对象。如果对端关闭了连接或者没有东西可接收，则抛出 `EOFError` 异常。
+
+
+
+#### fileno()
+
+返回由连接对象使用的描述符或者句柄。
+
+
+
+#### close()
+
+关闭连接对象。
+
+当连接对象被垃圾回收时会自动调用。
+
+
+
+#### poll()
+
+返回连接对象中是否有可以读取的数据。
+
+```python
+poll(self, timeout=0.0)
+```
+
+如果未指定 *timeout*，此方法会马上返回；如果 *timeout* 是一个数字，则指定了最大阻塞的秒数；如果 *timeout* 是 `None`，那么将一直等待，不会超时。
+
+
+
+#### send_bytes()
+
+从一个字节类对象中取出字节数组并作为一条完整消息发送。
+
+```python
+send_bytes(self, buf, offset=0, size=None)
+```
+
+
+
+
+
+#### recv_bytes()
+
+以字符串形式返回一条从连接对象另一端发送过来的字节数据。此方法在接收到数据前将一直阻塞。如果连接对象被对端关闭或者没有数据可读取，将抛出 `EOFError` 异常。
+
+```python
+recv_bytes(self, maxlength=None)
+```
+
+
+
+
+
+### cpu_count()
+
+返回系统的 CPU 数量。
+
+
+
+### current_process()
+
+返回当前进程相对应的 `Process` 对象。
+
+
+
+### get_context()
+
+```python
+multiprocessing.get_context(method=None)
+```
+
+返回一个 `Context` 对象，该对象具有和 `multiprocessing` 模块相同的API。
+
+
+
+### get_start_method()
+
+返回启动进程时使用的启动方法名。
+
+
+
+### JoinableQueue
+
+
+
+### Lock
+
+原始锁（非递归锁）对象，类似于 `threading.Lock`。一旦一个进程或者线程拿到了锁，后续的任何其它进程或线程的其它请求都会被阻塞直到锁被释放。任何进程或线程都可以释放锁。除非另有说明，否则 `multiprocessing.Lock`  用于进程或者线程的概念和行为都和 `threading.Lock` 一致。
+
+
+
+#### acquire()
+
+```python
+acquire(self, block=True, timeout=None)
+```
+
+获得锁。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，然后将锁设置为锁定状态并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 参数会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则将锁设置成锁定状态并返回 `True`。
+
+注意此函数的参数的一些行为与 `threading.Lock.acquire()` 的实现有所不同。
+
+
+
+#### release()
+
+释放锁。
+
+可以在任何进程中使用，并不限于锁的拥有者。当尝试释放一个没有被持有的锁时，会抛出 `ValueError` 异常。除此之外其行为与 `threading.Lock.release()` 相同。
+
+
+
+### Manager()
+
+
+
+### parent_process()
+
+返回当前进程的父进程相对应的 `Process` 对象。
+
+
+
+### Process
 
 ```python
 class multiprocessing.Process(group=None, target=None, name=None, args=(), kwargs={}, *, daemon=None)
-# target    由run()方法调用的可调用对象
+# group     始终为`None`,仅用于兼容`threading.Thread`
+# target    由`run()`方法调用的可调用对象
+# name      进程名称
 # args      目标调用的顺序参数
 # kwargs    目标调用的关键字参数
+# daemon    进程的daemon标志.若为`None`,则该标志从创建它的进程继承
 ```
 
 进程对象表示在单独进程中运行的活动。`Process` 类拥有和 `threading.Thread` 等价的大部分方法。
-
-
 
 ```python
 from multiprocessing import Process
@@ -2114,7 +2828,7 @@ import os
 def info(title):
     print(title)
     print('module name:', __name__)
-    print('parent process:', os.getppid())
+    print('parent process id:', os.getppid())
     print('process id:', os.getpid())
 
 def f(name):
@@ -2131,32 +2845,36 @@ if __name__ == '__main__':
 ```
 main line
 module name: __main__
-parent process: 25082
-process id: 25386
+parent process id: 982
+process id: 27363
 function f
 module name: __mp_main__
-parent process: 25386
-process id: 25403
+parent process id: 27363
+process id: 27380
 hello bob
 ```
 
 
 
-### run()
+#### run()
 
 表示进程活动的方法。
 
 
 
-### start()
+#### start()
 
 启动进程活动。
 
-这个方法每个进程对象最多只能调用一次。它会将对象的 `run()` 方法安排在一个单独的进程中调用。
+此方法每个进程对象最多只能调用一次。它会将对象的 `run()` 方法安排在一个单独的进程中调用。
 
 
 
-### join([timeout])
+#### join()
+
+```python
+join(self, timeout=None)
+```
 
 如果可选参数 *timeout* 是 `None`（默认值），则该方法将阻塞，直到调用 `join()` 方法的进程终止；如果 *timeout* 是一个正数，它最多会阻塞 *timeout* 秒。不管是进程终止还是方法超时，该方法都返回 `None`。
 
@@ -2166,19 +2884,19 @@ hello bob
 
 
 
-### is_alive()
-
-返回进程是否处于活动状态。从 `start()` 方法返回到子进程终止之间，进程对象都处于活动状态。
-
-
-
-### name
+#### name
 
 进程的名称。该名称是一个字符串，仅用于识别，没有具体语义。可以为多个进程指定相同的名称。
 
 
 
-### daemon
+#### is_alive()
+
+返回进程是否处于活动状态。从 `start()` 方法返回到子进程终止之间，进程对象都处于活动状态。
+
+
+
+#### daemon
 
 进程的守护标志，一个布尔值。必须在 `start()` 被调用之前设置。
 
@@ -2188,95 +2906,137 @@ hello bob
 
 
 
-### pid
+#### pid
 
 返回进程 ID。
 
 
 
-### exitcode
+#### exitcode
 
-子进程的退出代码。`None` 表示进程尚未终止；负值-N 表示子进程被信号 N 终止。
-
-
-
-### terminate()
-
-终止进程。在 Unix 上由 `SIGTERM` 信号完成。
+子进程的退出代码。`None` 表示进程尚未终止；负值 *-N* 表示子进程被信号 *N* 终止。
 
 
 
-### kill()
+#### authkey
+
+进程的身份验证密钥（字节字符串）。
+
+
+
+#### terminate()
+
+终止进程。在 Unix 上由 `SIGTERM` 信号完成；在 Windows 上由 `TerminateProcess()` 完成。注意进程终止时不会执行退出处理程序和 finally 子句等。
+
+
+
+#### kill()
 
 与 `terminate()` 相同，但在 Unix 上使用 `SIGKILL` 信号。
 
 
 
-### close()
+#### close()
 
 关闭 `Process` 对象，释放与之关联的所有资源。如果底层进程仍在运行，则会引发 `ValueError`。一旦 `close()` 成功返回，`Process` 对象的大多数其他方法和属性将引发 `ValueError`。
 
 
 
-## Pipe
+### Pipe
+
+```python
+multiprocessing.Pipe([duplex])
+```
+
+返回一对 `Connection` 对象 `(conn1, conn2)` ，分别表示管道的两端。
+
+如果 *duplex* 被置为 `True`（默认值），那么该管道是双向的；如果 *duplex* 被置为 `False` ，那么该管道是单向的，即 `conn1` 只能用于接收消息，而 `conn2` 仅能用于发送消息。
 
 
 
-## Connection
+### Pool
 
 
 
-## Queue
+### Queue
+
+返回一个使用一个管道和少量锁和信号量实现的共享队列实例。当一个进程将一个对象放进队列中时，一个写入线程会启动并将对象从缓冲区写入管道中。
+
+`Queue` 实现了标准库类 `queue.Queue` 的所有方法，除了 `task_done()` 和 `join()`。一旦超时，将抛出标准库 `queue` 模块中常见的异常 `queue.Empty` 和 `queue.Full`。
 
 
 
-## cpu_count()
+#### qsize()
 
-返回系统的 CPU 数量。
-
-
-
-## current_process()
-
-返回当前进程相对应的 `Process` 对象。
+返回队列的大致长度。由于多线程或者多进程的环境，该数字是不可靠的。
 
 
 
-## parent_process()
+#### empty(), full()
 
-返回当前进程的父进程相对应的 `Process` 对象。
-
-
-
-## set_start_method()
+如果队列是空/满的，返回 `True`，反之返回 `False` 。由于多线程或多进程的环境，该状态是不可靠的。
 
 
 
-## Lock
+#### put()
+
+```python
+put(self, obj, block=True, timeout=None)
+```
+
+将 *obj* 放入队列。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程，直到有空的缓冲槽；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后还是没有可用的缓冲槽的情况下抛出 `queue.Full` 异常；若 *block* 为 `False`，则会在有可用缓冲槽的情况下放入对象，否则抛出 `queue.Full` 异常（此时 *timeout* 参数会被忽略）。
 
 
 
-## RLock
+### RLock
+
+递归锁对象，类似于 `threading.RLock`。递归锁必须由持有线程、进程亲自释放。如果某个进程或者线程拿到了递归锁，这个进程或者线程可以再次拿到这个锁而不需要等待。但是这个进程或者线程的拿锁操作和释放锁操作的次数必须相同。
+
+`RLock` 支持上下文管理器，因此可在 `with` 语句内使用。
 
 
 
-## Semaphore
+#### acquire()
+
+```python
+acquire(self, block=True, timeout=None)
+```
+
+获得锁。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，除非当前进程已经持有此锁，然后持有此锁，将锁的递归等级加一，并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 参数会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则持有此锁，将锁的递归等级加一，并返回 `True`。
+
+注意此函数的参数的一些行为与 `threading.RLock.acquire()` 的实现有所不同。
 
 
 
-## Value()
+#### release()
+
+释放锁，即使锁的递归等级减一。如果释放后锁的递归等级降为 0，则会重置锁的状态为释放状态。
+
+必须在拥有此锁的进程中使用，否则会抛出 `AssertionError` 异常。除了异常类型之外，其行为与 `threading.RLock.release()` 相同。
 
 
 
-## Array()
+### Semaphore
 
 
 
-## Manager()
+### set_start_method()
+
+```python
+multiprocessing.set_start_method(method)
+```
+
+设置启动子进程的方法。*method* 可以是 `'fork'` , `'spawn'` 或者 `'forkserver'` 。
 
 
 
-## Pool
+### SimpleQueue
+
+
+
+### Value()
+
+
 
 
 
@@ -3120,6 +3880,10 @@ shutil.rmtree(path, ignore_errors=False, onerror=None)
 
 
 
+# socket——底层网络接口
+
+
+
 
 
 # subprocess——子进程管理
@@ -3674,6 +4438,84 @@ AttributeError: 'Student' object has no attribute 'get_name'
 >>> bart.set_name('Bartt')                               # 注意若实例方法设为只读则无法覆盖
 Succeeded.
 ```
+
+
+
+
+
+# typing——类型提示支持
+
+> 注意：Python 运行时不强制执行函数和变量类型注解，但这些注解可用于类型检查器、IDE、静态检查器等第三方工具。
+
+
+
+## 类型别名
+
+
+
+
+
+## 泛型
+
+
+
+
+
+## 模块内容
+
+### 特殊类型原语
+
+#### Any
+
+不受限的特殊类型，与所有类型兼容。
+
+
+
+#### NoReturn
+
+标记函数没有返回值的特殊类型，例如：
+
+```python
+from typing import NoReturn
+
+def stop() -> NoReturn:
+    raise RuntimeError('no way')
+```
+
+
+
+#### Union
+
+联合类型，`Union[X, Y]` 表示非 X 即 Y。联合类型具有以下特征：
+
++ 参数必须是其中某种类型
+
++ 联合类型的嵌套会被展开，例如：
+
+  ```python
+  Union[Union[int, str], float] == Union[int, str, float]
+  ```
+
++ 仅有一种类型的联合类型就是该类型自身，例如：
+
+  ```python
+  Union[int] == int
+  ```
+
++ 重复的类型会被忽略，例如：
+
+  ```python
+  Union[int, str, int] == Union[int, str]
+  ```
+  
++ 联合类型不能创建子类，也不能实例化
+  
+  
+  
+
+#### Optional
+
+可选类型，`Optional[X]` 等价于 `Union[X, None]` 。
 
 
 

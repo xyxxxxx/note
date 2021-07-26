@@ -1,3 +1,5 @@
+[toc]
+
 # MPI 集体通信模式
 
 ## All-to-All

@@ -133,6 +133,7 @@
 | document                | 文档；记载   |
 | domain                  | 域名         |
 | DP, Dynamic Programming | 动态规划     |
+| duplex                  | 双工         |
 
 
 

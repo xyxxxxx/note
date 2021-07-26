@@ -300,7 +300,7 @@ tf.keras.callbacks.LambdaCallback(
 ```python
 # 自定义batch回调示例
 print_batch_callback = callbacks.LambdaCallback(
-    on_batch_end=lambda batch,logs: print(batch, logs))   # 需要两个位置参数: `batch`, `logs`
+    on_batch_end=lambda batch, logs: print(batch, logs))  # 需要两个位置参数: `batch`, `logs`
                                                           # 分别代表当前batch的序号和指标
 # 训练输出
   20/1500 [..............................] - ETA: 18s - loss: 2.2107 - accuracy: 0.206319 {'loss': 2.0734667778015137, 'accuracy': 0.3140625059604645}
@@ -316,7 +316,7 @@ print_batch_callback = callbacks.LambdaCallback(
 
 # 自定义epoch回调示例
 print_epoch_callback = callbacks.LambdaCallback(
-    on_epoch_end=lambda epoch,logs: print(epoch, logs))   # 需要两个位置参数: epoch, logs
+    on_epoch_end=lambda epoch, logs: print(epoch, logs))  # 需要两个位置参数: `epoch`, `logs`
                                                           # 分别代表当前epoch的序号和指标
 # 训练输出
 Epoch 1/10

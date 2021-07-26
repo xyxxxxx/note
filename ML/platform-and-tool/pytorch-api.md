@@ -6,7 +6,28 @@
 
 ### device
 
-`torch.device` 实例代表 `torch.Tensor` 被分配到的设备。
+`torch.device` 实例代表张量被分配到的设备，其包含了设备类型（`'cpu'` 或 `'cuda'`）和可选的该类型的设备序号。如果设备序号没有给出，则默认为该类型的当前设备（由 `torch.cuda.current_device()` 给出）。
+
+张量的设备可以通过 `device` 属性得到。
+
+`torch.device` 实例可以通过字符串或者字符串加上设备序号来构建：
+
+```python
+>>> torch.device('cpu')
+device(type='cpu')
+
+>>> torch.device('cuda:0')    # 0号CUDA设备
+device(type='cuda', index=0)
+
+>>> torch.device('cuda')      # 当前CUDA设备
+device(type='cuda')
+
+>>> torch.device('cpu', 0)
+device(type='cpu', index=0)
+
+>>> torch.device('cuda', 0)
+device(type='cuda', index=0)  # 0号CUDA设备
+```
 
 
 
@@ -36,6 +57,12 @@
 
 
 ### Tensor
+
+张量。
+
+
+
+
 
 #### bool()
 
@@ -254,7 +281,7 @@ tensor([[[ 1,  1,  2,  3],       # 不共享内存
 
 #### T
 
-返回将调用对象的所有维度反转后的张量。
+反转张量的所有维度。
 
 ```python
 >>> a = torch.randn(3, 4, 5)
@@ -266,7 +293,7 @@ torch.Size([5, 4, 3])
 
 #### to()
 
-返回调用对象更改 `torch.dtype` 和 `torch.device` 后的张量。
+更改张量的 `dtype` 和 `device` 属性。
 
 ```python
 >>> a = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
@@ -419,7 +446,7 @@ torch.float64
 ```python
 torch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) → Tensor
 # data           张量的初始数据,可以是数字,列表,元组,`numpy.ndarray`类型等.
-# dtype          张量的数据类型,默认从`data`中推断.
+# dtype          张量的数据类型,默认从`data`中推断(推断的结果一定是CPU数据类型).
 # device         张量位于的设备,默认使用数据类型相应的设备:若为CPU数据类型,则使用CPU;若为CUDA数据类型,
 #                则使用当前的CUDA设备
 # requires_grad  若为`True`,则autograd应记录此张量参与的运算
@@ -2219,7 +2246,7 @@ output = Exp.apply(input)
 
 ## current_device()
 
-返回当前选择设备的索引。
+返回当前设备的索引。
 
 ```python
 >>> torch.cuda.current_device()
@@ -2230,7 +2257,7 @@ output = Exp.apply(input)
 
 ## device()
 
-改变当前选择设备的上下文管理器。
+改变当前设备的上下文管理器。
 
 ```python
 >>> torch.cuda.device(0)
@@ -2294,7 +2321,7 @@ True
 
 ## 后端
 
-`torch.distributed` 支持三种后端：gloo、mpi 和 nccl，它们各自的适用条件请参考[官方文档](https://pytorch.org/docs/stable/distributed.html#backends)。
+`torch.distributed` 支持三种后端：GLOO、MPI 和 NCCL，它们各自的适用条件请参考[官方文档](https://pytorch.org/docs/stable/distributed.html#backends)。
 
 
 
@@ -2302,26 +2329,28 @@ True
 
 ### init_process_group()
 
-初始化默认的分布式进程组，同时初始化 `torch.distributed` 包。
+初始化默认的分布式进程组，同时初始化 `torch.distributed` 包。阻塞进程直到所有进程已经加入。
 
 ```python
 torch.distributed.init_process_group(backend, init_method=None, timeout=datetime.timedelta(0, 1800), world_size=-1, rank=-1, store=None, group_name='', pg_options=None)
-# backend      使用的后端,可以是`'mpi'`,`'gloo'`或`'nccl'`
+# backend      使用的后端,可以是`'mpi'`,`'gloo'`或`'nccl'`,取决于构建时的设置.如果使用NCCL后端并且一台机器上
+#              有多个进程,那么每个进程必须对其使用的每个GPU有排他的访问权,否则进程间共享GPU可能会造成死锁
 # init_method  指明如何初始化进程组的URL.如果`init_method`和`store`都没有指定,则默认为'env://'.与`store`互斥
 # world_size   参与任务的进程数
 # rank         当前进程的rank
 # store        对于所有worker可见的键值存储,用于交换连接/地址信息.与`init_method`互斥
-# timeout      进程组执行操作的超时时间,默认为30min
+# timeout      进程组执行操作的超时时间,默认为30min,对于gloo后端适用
 # group_name   进程组名称
+# pg_options
 ```
 
 
 
-当前主要有以下三种初始化方法：
+目前支持以下三种初始化方法：
 
 + **TCP 初始化**
 
-  此方法需要指定 rank 0 进程所在节点的地址以及各进程的 rank。
+  此方法需要指定一个属于 rank 0 进程的所有进程都可以访问的网络地址，各进程的 rank，以及 `world_size`。
 
   ```python
   import torch.distributed as dist
@@ -2335,20 +2364,36 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 
 + **共享文件系统初始化**
 
+  此方法需要指定一个对所有进程可见的共享文件系统，以及 `world_size`。URL 应以 `file://` 开头，并且包含一个到已经存在的目录下的不存在的文件的路径。
 
+  ```python
+  import torch.distributed as dist
+  
+  # rank should always be specified
+  dist.init_process_group(backend, init_method='file:///mnt/nfs/sharedfile',
+                          world_size=4, rank=args.rank)
+  ```
+
+  
 
 + **环境变量初始化**
 
   此方法从环境变量中读取配置，允许用户完全自定义配置信息。需要设置的变量有：
 
-  + `MASTER_ADDR`：rank 0 进程所在节点的地址
-  + `MASTER_PORT`：rank 0 进程所在节点的空闲端口号
-  + `WORLD_SIZE`：进程数
-  + `RANK`：当前进程的 rank
+  + `MASTER_ADDR`：rank 0 进程所在节点的网络地址。
+  + `MASTER_PORT`：rank 0 进程所在节点的一个空闲端口号，rank 0 进程将监听此端口并负责建立所有链接。
+  + `WORLD_SIZE`：进程数，rank 0 进程据此确定要等待来自多少个进程的连接。可以设为环境变量或直接传入初始化函数。
+  + `RANK`：当前进程的 rank，进程据此确定自己是否是 rank 0 进程。可以设为环境变量或直接传入初始化函数。
 
   此方法为默认方法。
-
-
+  
+  ```python
+  os.environ['MASTER_ADDR'] = '127.0.0.1'
+  os.environ['MASTER_PORT'] = '29500'
+  dist.init_process_group(backend, rank=args.rank, world_size=4)
+  ```
+  
+  
 
 ### is_available()
 
@@ -2383,25 +2428,9 @@ True
 
 ### Backend
 
-所有可用后端的近似于枚举类。
+可用后端的枚举类，包括成员 `GlOO`, `MPI`, `NCCL`，对应的值分别为字符串 `'gloo'`, `'mpi'`, `'nccl'`（即 `Backend.GLOO == 'gloo'`）。
 
-
-
-#### GLOO
-
-gloo 后端。
-
-
-
-#### MPI
-
-MPI 后端。
-
-
-
-#### NCCL
-
-NCCL 后端。
+可以直接调用此类以解析字符串，例如 `Backend('GLOO')` 将返回 `'gloo'`。
 
 
 
@@ -2414,14 +2443,6 @@ NCCL 后端。
 ## 分布式键值存储
 
 分布式键值存储用于在一个进程组的各进程之间共享数据或者初始化进程组，共有 3 种类型：`TCPStore`、`FileStore` 和 `HashStore`。
-
-
-
-### FileStore
-
-
-
-### HashStore
 
 
 
@@ -2451,6 +2472,14 @@ NCCL 后端。
 
 
 
+### FileStore
+
+
+
+### HashStore
+
+
+
 ### TCPStore
 
 基于 TCP 的分布式键值存储实现。存储服务器保存数据，而存储客户端则可以通过 TCP 连接到存储服务器。只能有一个存储服务器。
@@ -2469,47 +2498,383 @@ class torch.distributed.TCPStore(host_name: str, port: int, world_size: int = -1
 
 ## 进程组
 
+默认情况下集体通信操作在 world 上执行，并要求所有进程都进入该分布式函数调用。然而，更加细粒度的通信有利于一些工作负载，这时就可以使用进程组。`new_group()` 函数可以对所有进程的任意子集创建新的进程组，返回的不透明组局柄可以用作所有集体通信方法的 `group` 参数。
+
 ### new_group()
 
+创建一个新的分布式进程组。
 
+此函数要求所有进程都进入（调用）此函数，即使进程不会成为该进程组的成员。此外，所有进程中的 `ranks` 参数应该是相同的，包括 rank 的顺序。
+
+```python
+torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(0, 1800), backend=None, pg_options=None)
+# ranks       进程组成员的rank列表.若为None,则设定为所有进程的rank
+# timeout     进程组执行操作的超时时间,默认为30min,对于gloo后端适用
+# backend     使用的后端,可以是`gloo`和`nccl`,取决于构建时的设置.默认与world使用相同的后端
+# pg_options  
+```
 
 
 
 ## 点对点通信
 
+### send()
+
+同步地发送一个张量。
+
+```python
+torch.distributed.send(tensor, dst, group=None, tag=0)
+# tensor    发送的张量
+# dst       目标rank
+# group     工作的进程组.若为`None`,则设为world
+# tag       用于与远程`recv`匹配的标签
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([0.])
+    if rank == 0:
+        tensor += 1
+        # rank 0 sends the tensor to rank 1
+        dist.send(tensor=tensor, dst=1)
+    elif rank == 1:
+        # rank 1 receives tensor from rank 0
+        dist.recv(tensor=tensor, src=0)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  2  has data  tensor([0.])
+Rank  3  has data  tensor([0.])
+Rank  1  has data  tensor([1.])
+Rank  0  has data  tensor([1.])
+```
 
 
 
+### recv()
+
+同步地接收一个张量。
+
+```python
+torch.distributed.recv(tensor, src=None, group=None, tag=0)
+# tensor    放置接收数据的张量
+# src       源rank.若为`None`,则接收来自任意进程的数据
+# group     工作的进程组.若为`None`,则设为world
+# tag       用于与远程`send`匹配的标签
+```
+
+
+
+### isend()
+
+异步地发送一个张量。
+
+`isend()` 和 `irecv()` 返回一个分布式请求对象，支持下面两个方法：
+
++ `is_completed()`：当操作结束时返回 `True`
++ `wait()`：阻塞进程直到操作结束。当 `wait()` 返回后，`is_completed()` 一定返回 `True`
+
+```python
+torch.distributed.isend(tensor, dst, group=None, tag=0)
+# tensor    发送的张量
+# dst       目标rank
+# group     工作的进程组.若为`None`,则设为world
+# tag       用于与远程`recv`匹配的标签
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([0.])
+    if rank == 0:
+        tensor += 1
+        # rank 0 sends the tensor to rank 1
+        req = dist.isend(tensor=tensor, dst=1)
+        print('Rank 0 started sending')
+    elif rank == 1:
+        # rank 1 receives tensor from rank 0
+        req = dist.irecv(tensor=tensor, src=0)
+        print('Rank 1 started receiving')
+    if rank == 0 or rank == 1:
+        req.wait()
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank 1 started receiving
+Rank 0 started sending
+Rank  3  has data  tensor([0.])
+Rank  2  has data  tensor([0.])
+Rank  0  has data  tensor([1.])
+Rank  1  has data  tensor([1.])
+```
+
+
+
+### irecv()
+
+异步地接收一个张量。
+
+```python
+torch.distributed.irecv(tensor, src=None, group=None, tag=0)
+# tensor    放置接收数据的张量
+# src       源rank.若为`None`,则接收来自任意进程的数据
+# group     工作的进程组.若为`None`,则设为world
+# tag       用于与远程`send`匹配的标签
+```
 
 
 
 ## 集体通信
 
-### all_gather()
+每个集体通信操作函数都支持下面两种操作类型：
 
++ **同步操作**：当函数返回时，相应的集体通信操作会确保已经完成。但对于 CUDA 操作则不能确保其已经完成，因为 CUDA 操作是异步的。因此对于 CPU 集体通信操作，对其返回值的操作结果会符合预期；对于 CUDA 集体通信操作，在同一个 CUDA 流上对其返回值的操作结果会符合预期；在运行在不同 CUDA 流上的情形下，用户必须自己负责同步。
++ **异步操作**：函数返回一个分布式请求对象，支持下面两个方法：
+  + `is_completed()`：对于 CPU 操作，当操作结束时返回 `True`；对于 GPU 操作，当操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）时返回 `True`。
+  + `wait()`：对于 CPU 操作，阻塞进程直到操作结束；对于 GPU 操作，阻塞进程直到操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）。
 
-
-### all_reduce()
-
-
-
-### all_to_all()
+```python
+```
 
 
 
 ### broadcast()
 
+Broadcast 操作。参与到此集体通信操作的所有进程的 `tensor` 必须具有相同的形状。
 
+```python
+torch.distributed.broadcast(tensor, src, group=None, async_op=False)
+# tensor    若当前进程的rank是`src`,则为发送的张量,否则为放置接收数据的张量
+# src       源rank
+# group     工作的进程组.若为`None`,则设为world
+# async_op  是否为异步操作
+```
 
-### gather()
+```python
+def run(rank, size):
+    if rank == 0:
+        tensor = torch.tensor([1.])
+    else:
+        tensor = torch.tensor([0.])
+    dist.broadcast(tensor, 0)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  0  has data  tensor([1.])
+Rank  1  has data  tensor([1.])
+Rank  2  has data  tensor([1.])
+Rank  3  has data  tensor([1.])
+```
 
 
 
 ### reduce()
 
+Reduce 操作。原位操作，rank 为 `dst` 的进程的 `tensor` 将放置最终归约结果，其它进程的 `tensor` 将放置中间结果。
+
+```python
+torch.distributed.reduce(tensor, dst, op=<ReduceOp.SUM: 0>, group=None, async_op=False)
+# tensor      归约的张量兼放置归约结果的张量(原位操作,rank为`dst`的进程将放置最终结果,其它进程将放置中间结果)
+# dst         目标rank
+# op          归约操作,是`torch.distributed.ReduceOp`枚举类的实例之一
+# group       工作的进程组.若为`None`,则设为world
+# async_op    是否为异步操作
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([rank], dtype=torch.float32)
+    dist.reduce(tensor, 0, op=dist.ReduceOp.SUM)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  3  has data  tensor([3.])        # 3.
+Rank  2  has data  tensor([5.])        # 3. + 2.
+Rank  1  has data  tensor([6.])        # 3. + 2. + 1.
+Rank  0  has data  tensor([6.])        # 3. + 2. + 1. + 0.
+```
+
+
+
+### all_reduce()
+
+All-Reduce 操作。
+
+```python
+torch.distributed.all_reduce(tensor, op=<ReduceOp.SUM: 0>, group=None, async_op=False)
+# tensor      归约的张量兼放置归约结果的张量(原位操作)
+# op          归约操作,是`torch.distributed.ReduceOp`枚举类的实例之一
+# group       工作的进程组.若为`None`,则设为world
+# async_op    是否为异步操作
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([rank], dtype=torch.float32)
+    dist.all_reduce(tensor, op=dist.ReduceOp.SUM)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  0  has data  tensor([6.])
+Rank  3  has data  tensor([6.])
+Rank  2  has data  tensor([6.])
+Rank  1  has data  tensor([6.])
+```
+
+
+
+### gather()
+
+Gather 操作。
+
+```python
+torch.distributed.gather(tensor, gather_list=None, dst=0, group=None, async_op=False)
+# tensor       收集的张量
+# gather_list  放置收集数据的张量列表,必须包含正确数量和形状的张量元素(仅限rank为`dst`的进程)
+# dst          目标rank
+# group        工作的进程组.若为`None`,则设为world
+# async_op     是否为异步操作
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([rank], dtype=torch.float32)
+    gather_list = [torch.zeros(1) for _ in range(4)] if rank == 0 else []
+    dist.gather(tensor, gather_list=gather_list, dst=0)
+    print('Rank ', rank, ' has data ', tensor)
+    print('Rank ', rank, ' has list ', gather_list)
+```
+
+```
+Rank  0  has data  tensor([0.])
+Rank  1  has data  tensor([1.])
+Rank  2  has data  tensor([2.])
+Rank  1  has list  []
+Rank  2  has list  []
+Rank  3  has data  tensor([3.])
+Rank  3  has list  []
+Rank  0  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+```
+
+
+
+### all_gather()
+
+All-Gather 操作。
+
+```python
+torch.distributed.all_gather(tensor_list, tensor, group=None, async_op=False)
+# tensor_list  放置收集数据的张量列表,必须包含正确数量和形状的张量元素
+# tensor       收集的张量
+# group        工作的进程组.若为`None`,则设为world
+# async_op     是否为异步操作
+```
+
+```python
+def run(rank, size):
+    tensor = torch.tensor([rank], dtype=torch.float32)
+    tensor_list = [torch.zeros(1) for _ in range(4)]
+    dist.all_gather(tensor_list, tensor)
+    print('Rank ', rank, ' has data ', tensor)
+    print('Rank ', rank, ' has list ', tensor_list)
+```
+
+```
+Rank  0  has data  tensor([0.])
+Rank  1  has data  tensor([1.])
+Rank  2  has data  tensor([2.])
+Rank  3  has data  tensor([3.])
+Rank  0  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+Rank  2  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+Rank  1  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+Rank  3  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+```
+
+
+
+### all_to_all()
+
+All-to-All 操作。
+
+```python
+torch.distributed.all_to_all(output_tensor_list, input_tensor_list, group=None, async_op=False)
+# output_tensor_list   放置分发数据的张量列表
+# input_tensor_list    分发的张量列表
+# group         工作的进程组.若为`None`,则设为world
+# async_op      是否为异步操作
+```
+
+```python
+def run(rank, size):
+    input_tensor_list = [torch.tensor([rank * size + i], dtype=torch.float32) for i in range(size)]
+    output_tensor_list = [torch.zeros(1) for _ in range(4)]
+    dist.all_to_all(output_tensor_list=output_tensor_list, input_tensor_list=input_tensor_list)
+    print('Rank ', rank, ' has input list ', input_tensor_list)
+    print('Rank ', rank, ' has output list ', output_tensor_list)
+```
+
+```
+```
+
 
 
 ### scatter()
+
+Scatter 操作。
+
+```python
+torch.distributed.scatter(tensor, scatter_list=None, src=0, group=None, async_op=False)
+# tensor        放置分发数据的张量
+# scatter_list  分发的张量列表
+# scr           源rank
+# group         工作的进程组.若为`None`,则设为world
+# async_op      是否为异步操作
+```
+
+```python
+def run(rank, size):
+    tensor = torch.zeros(1)
+    scatter_list = [torch.tensor([i], dtype=torch.float32) for i in range(size)] if rank == 0 else []
+    dist.scatter(tensor, scatter_list=scatter_list)
+    print('Rank ', rank, ' has list ', scatter_list)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  2  has list  []
+Rank  1  has list  []
+Rank  3  has list  []
+Rank  3  has data  tensor([3.])
+Rank  1  has data  tensor([1.])
+Rank  2  has data  tensor([2.])
+Rank  0  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
+Rank  0  has data  tensor([0.])
+```
+
+
+
+### barrier()
+
+同步所有进程，即阻塞进入此函数的进程，直到进程组的所有进程全部进入此函数。
+
+```python
+torch.distributed.barrier(group=None, async_op=False, device_ids=None)
+# group         工作的进程组.若为`None`,则设为world
+# async_op      是否为异步操作
+# device_ids    GPU设备的id列表,仅对NCCL后端有效
+```
+
+
+
+### ReduceOp
+
+可用归约操作的枚举类，包括成员：`SUM`, `PRODUCT`, `MIN`, `MAX`, `BAND`, `BOR`, `BXOR`。
+
+注意 `BAND`, `BOR`, `BXOR` 不适用于 `NCCL` 后端；`MAX`, `MIN`, `PRODUCT` 不适用于复张量。
 
 
 
@@ -2674,13 +3039,13 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 
 
 
-### step
+### step()
 
 执行单步优化。
 
 
 
-### zero_grad
+### zero_grad()
 
 
 

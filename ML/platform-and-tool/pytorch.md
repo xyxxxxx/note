@@ -1785,6 +1785,45 @@ model.to(device)
 
 
 
+# 使用 GPU
+
+```python
+print(torch.cuda.current_device())
+# 0
+cuda = torch.device('cuda')                     # 当前CUDA设备,此时为'cuda:0'
+cuda0 = torch.device('cuda:0')
+cuda2 = torch.device('cuda:2')
+
+x = torch.tensor([1., 2.], device=cuda0)
+y = torch.tensor([1., 2.]).cuda()               # 将张量从CPU移动到当前CUDA设备
+# x.device and y.device are device(type='cuda', index=0)
+
+with torch.cuda.device(1):                      # 'cuda:1'的上下文管理器
+    a = torch.tensor([1., 2.], device=cuda)     # 当前CUDA设备,此时为'cuda:1'
+    b = torch.tensor([1., 2.]).cuda()           # 将张量从CPU移动到当前CUDA设备
+    b2 = torch.tensor([1., 2.]).to(cuda)        # 同上
+    # a.device, b.device and b2.device are device(type='cuda', index=1)
+
+    c = a + b
+    # c.device is device(type='cuda', index=1)
+
+    z = x + y
+    # z.device is device(type='cuda', index=0)
+
+    d = torch.randn(2, device=cuda2)
+    e = torch.randn(2).to(cuda2)                # 将张量从CPU移动到'cuda:2'
+    f = torch.randn(2).cuda(cuda2)              # 同上
+    # d.device, e.device, and f.device are all device(type='cuda', index=2)
+```
+
+
+
+
+
+
+
+
+
 # 使用 TensorBoard
 
 ## 设置 TensorBoard
@@ -1815,9 +1854,17 @@ model.to(device)
 
 
 
+## 设置
+
+
+
+
+
+
+
 ## 数据并行训练
 
-PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的发展轨迹为：
+PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的发展顺序为：
 
 1. 使用**单机训练**：如果数据和模型可以在单个 GPU 中完成训练，并且训练速度不成问题
 2. 使用**单机多卡数据并行**：如果机器上有多个 GPU，并且想通过最少的代码修改来加速训练
