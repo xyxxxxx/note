@@ -163,7 +163,7 @@
 |                                 |                |
 | ------------------------------- | -------------- |
 |                                 |                |
-|                                 |                |
+| failure                         | 故障           |
 | FAT, File Allocation Table      | 文件分配表     |
 | feature                         | 特征           |
 | FIFO, First-In-First-Out        | 先进先出       |
@@ -383,6 +383,7 @@
 | pipe                                       | 管道               |
 | pipeline                                   | 流水线             |
 | pointer                                    | 指针               |
+| policy                                     | 策略               |
 | pooling layer                              | 汇聚层，池化层     |
 | pop                                        | 弹栈/出栈          |
 | port                                       | 端口               |
@@ -390,6 +391,7 @@
 | precision                                  | 精确率             |
 | predecessor                                | 前驱               |
 | preempt                                    | 抢占               |
+| prefetch                                   | 预取               |
 | preorder                                   | 先序               |
 | print                                      | 打印               |
 | priority queue                             | 优先级队列         |
