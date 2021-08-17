@@ -1549,13 +1549,15 @@ tf.distribute.cluster_resolver.TFConfigClusterResolver(task_type=None, task_id=N
 
 **处理 task 故障**
 
-
+此类有内置的对于工作器故障的容错机制，即当部分工作器由于任何原因变得对于协调器不可用时，训练过程由剩余的工作器继续完成。……
 
 
 
 ### create_per_worker_dataset()
 
 通过在工作器的设备上调用 `dataset_fn()` 创建工作器的数据集。
+
+
 
 ```python
 strategy = tf.distribute.experimental.ParameterServerStrategy(
@@ -3089,11 +3091,11 @@ print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
 为了创建有 2 个 job 和 5 个 task 的一个集群，我们传入从 job 名称到网络地址列表的映射：
 
 ```python
-cluster = tf.train.ClusterSpec({"worker": ["worker0.example.com:2222",
-                                           "worker1.example.com:2222",
-                                           "worker2.example.com:2222"],
-                                "ps": ["ps0.example.com:2222",
-                                       "ps1.example.com:2222"]})
+cluster_spec = tf.train.ClusterSpec({"worker": ["worker0.example.com:2222",
+                                                "worker1.example.com:2222",
+                                                "worker2.example.com:2222"],
+                                     "ps": ["ps0.example.com:2222",
+                                            "ps1.example.com:2222"]})
 ```
 
 

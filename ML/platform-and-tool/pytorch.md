@@ -1054,15 +1054,22 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 
 
-# `torch.autograd`的简单入门
+# `torch.autograd` 的简单入门
 
+> 推荐阅读：
+>
+> [Automatic Differentiation with `torch.autograd`](https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html#)
+>
 > 参考：
+>
+> [`torch.autograd`](./pytorch-api-0.md#torchautograd)
 >
 > Notebook ml/pytorch/autograd.ipynb
 >
-> pytorch-lib-autograd
 
 `torch.autograd` 是 PyTorch 的自动微分引擎，用于驱动神经网络训练。
+
+
 
 ## 用法
 
@@ -1078,14 +1085,14 @@ labels = torch.rand(1, 1000)
 然后进行前向计算：
 
 ```python
-prediction = model(data) # forward pass
+prediction = model(data)   # forward pass
 ```
 
 下一步计算损失和进行反向传播。反向传播通过我们对误差张量调用 `.backward()` 启动，autograd 会计算所有模型参数的梯度并保存在每个参数的 `.grad` 属性中。
 
 ```python
 loss = (prediction - labels).sum()
-loss.backward() # backward pass
+loss.backward()            # backward pass
 ```
 
 接着，加载一个优化器，并在当中注册模型的所有参数：
@@ -1138,7 +1145,7 @@ b = torch.tensor(2., requires_grad=True)
 c = a**2 + b
 ```
 
-> `requires_grad = True`具有传递性，只要`a`和`b`中有一个`requires_grad = True`，那么`c`也有`requires_grad = True`。这表示`requires_grad = True`张量的所有运算都需要追踪，其计算路径构成下面的计算图。
+> `requires_grad = True` 具有传递性，只要 `a` 和 `b` 中有一个 `requires_grad = True`，那么 `c` 也有 `requires_grad = True`。这表示 `requires_grad = True` 张量的所有运算都需要追踪，其计算路径构成下面的计算图。
 
 假定 `a` 和 `b` 是神经网络的参数，`c` 是误差。训练过程中，我们想要误差对各参数的梯度，即
 $$
@@ -1369,7 +1376,7 @@ loss = l4.mean()
 
 对于上述前向计算过程，构造的计算图为：
 
-<img src="https://pic3.zhimg.com/80/v2-1781041624f4c9fb31df04d11dd6a84a_720w.jpg"style="zoom：50%;"/>
+<img src="https://pic3.zhimg.com/80/v2-1781041624f4c9fb31df04d11dd6a84a_720w.jpg" style="zoom：50%;"/>
 
 ```python
 def print_tensor(t):
@@ -1438,9 +1445,7 @@ print_tensor(loss)
 
 
 
-
-
-注意 PyTorch 的计算图是 <u> 动态的 </u>：每次反向计算结束，即调用 `.backward()` 返回后，计算图就在内存中被释放了；在下次前向计算过程中 autograd 会再创建一个新的计算图并为其填充数据。而 TensorFlow 使用的静态计算图是预先设计好的。
+注意 PyTorch 的计算图是动态的：每次反向计算结束，即调用 `.backward()` 返回后，计算图就在内存中被释放了；在下次前向计算过程中 autograd 会再创建一个新的计算图并为其填充数据。而 TensorFlow 使用的静态计算图是预先设计好的。
 
 ```python
 # PyTorch使用动态计算图
@@ -1864,21 +1869,23 @@ with torch.cuda.device(1):                      # 'cuda:1'的上下文管理器
 
 ## 数据并行训练
 
-PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的发展顺序为：
+PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的升级路径为：
 
-1. 使用**单机训练**：如果数据和模型可以在单个 GPU 中完成训练，并且训练速度不成问题
-2. 使用**单机多卡数据并行**：如果机器上有多个 GPU，并且想通过最少的代码修改来加速训练
-3. 使用**单机多卡分布式数据并行**：如果你想进一步加速训练，通过多增加一些代码
-4. 使用**多机分布式数据并行和启动脚本**：如果应用需要在多机之间伸缩
-5. 使用 torchelastic 以启动分布式训练：如果可能出错或者在训练过程中动态地增减资源
+1. 使用**单卡训练**：如果数据和模型可以容纳在单个 GPU 中，并且训练速度不成问题。
+2. 使用**单机多卡数据并行**：如果机器上有多个 GPU，并且你想要通过最少的代码修改来加速训练。
+3. 使用**单机多卡分布式数据并行**：如果你想要进一步加速训练，并且愿意多写一点代码来进行设置。
+4. 使用**多机分布式数据并行和启动脚本**：如果应用需要在多机之间伸缩。
+5. 使用 torchelastic 以启动分布式训练：如果训练可能出错或者资源会在训练过程中动态地增减。
 
 
 
 ### `torch.nn.DataParallel`
 
-DataParallel 以最小的代码障碍实现单机多 GPU 数据并行，它只需要在应用中增加一行代码。
+`DataParallel` 能够以最少的代码修改来启用单机多卡数据并行——它只需要在应用中增加一行代码。尽管如此，我们通常会使用 `DistributedDataParallel` 而不是 `DataParallel`，因为 `DistributedDataParallel` 能提供更好的性能表现，而 `DataParallel` 的具体实现实际上损失了很多性能（详见 [`torch.nn.parallel.DistributedDataParallel`](#`torch.nn.parallel.DistributedDataParallel`) 部分）。
 
 
+
+#### 示例
 
 在 PyTorch 中使用 GPU 非常简单，只需要把模型放到 GPU 中：
 
@@ -1898,7 +1905,7 @@ mytensor = my_tensor.to(device)
 PyTorch 默认只使用一个 GPU，你可以使用 `DataParallel` 来让模型并行运行在多个 GPU 上：
 
 ```Python
-model = nn.DataParallel（model）
+model = nn.DataParallel(model)
 ```
 
 下面是一个详细的例子：
@@ -1918,7 +1925,6 @@ batch_size = 30
 data_size = 100
 
 class RandomDataset(Dataset):
-
     def __init__(self, size, length):
         self.len = length
         self.data = torch.randn(length, size)
@@ -1932,9 +1938,8 @@ class RandomDataset(Dataset):
 rand_loader = DataLoader(dataset=RandomDataset(input_size, data_size),
                          batch_size=batch_size, shuffle=True)
 
+# Model
 class Model(nn.Module):
-    # Our model
-
     def __init__(self, input_size, output_size):
         super(Model, self).__init__()
         self.fc = nn.Linear(input_size, output_size)
@@ -1943,13 +1948,12 @@ class Model(nn.Module):
         output = self.fc(input)
         print("\tIn Model: input size", input.size(),
               "output size", output.size())
-
         return output
 
 model = Model(input_size, output_size)
 if torch.cuda.device_count() > 1:
-  print("Let's use", torch.cuda.device_count(), "GPUs!")
-  model = nn.DataParallel(model)
+    print("Let's use", torch.cuda.device_count(), "GPUs!")
+    model = nn.DataParallel(model)
 
 model.to(device)
 
@@ -1960,10 +1964,10 @@ for data in rand_loader:
           "output_size", output.size())
 ```
 
-如果机器没有 GPU 或只有一个 GPU，那么 `In Model`和`Outside` 的输入是相同的：
+如果机器没有 GPU 或只有一个 GPU，那么 `In Model` 和 `Outside` 的输入是相同的：
 
 ```
-    In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
+	In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
 Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
 	In Model: input size torch.Size([30, 5]) output size torch.Size([30, 2])
 Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
@@ -1995,6 +1999,7 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 类似地，如果有 8 个 GPU：
 
 ```
+# on 8 GPUs
 Let's use 8 GPUs!
     In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
     In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
@@ -2023,7 +2028,7 @@ Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
     In Model: input size torch.Size([4, 5]) output size torch.Size([4, 2])
     In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
 Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
-    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
+    In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])  # 10个样本仅分配到5个GPU上
     In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
     In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
     In Model: input size torch.Size([2, 5]) output size torch.Size([2, 2])
@@ -2035,25 +2040,27 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 ### `torch.nn.parallel.DistributedDataParallel`
 
-**分布式数据并行训练（Distributed Data-Parallel Training，DDP）**是一种广泛采用的单程序多数据的训练范例。DDP 中，模型会被复制到多个进程中，而每个模型副本都会传入不同的输入数据集（可能是对同一数据集的切分）。DDP 负责梯度通信，以保证各模型副本同步和梯度计算叠加。
+`DistributedDataParallel` 是一种广泛采用的数据并行训练范式。使用 DDP 时，模型被复制到各个进程中，而每个模型副本会传入不同组的输入数据样本（可能是对同一数据集的切分）。DDP 负责梯度通信，以保证各模型副本同步和梯度计算叠加。
+
+`DistributedDataParallel` 实现了模块级别的数据并行，并且可以跨多台机器运行。使用 DDP 的应用应产生多个进程并在每个进程中创建一个 DDP 实例，DDP 使用 `torch.distributed` 包中的集体通信方法来同步梯度和缓冲区。更具体地说，DDP 为每个由 `model.parameters()` 给出的模型参数注册一个 autograd 钩子，这些钩子会在相应的梯度在反向传递过程中被计算时激活，随后 DDP 接收到该信号并引发跨进程的梯度同步。 
 
 
 
-### 比较`DataParallel`和`DistributedDataParallel`
+比较 `DataParallel` 和 `DistributedDataParallel`：为什么你会考虑使用 `DistributedDataParallel` 而非 `DataParallel`：
 
-为什么你应该考虑使用 `DistributedDataParallel` 而非 `DataParallel`：
-
-* 首先，`DataParallel` 是单进程多线程，只能单机运行，而 `DistributedDataParallel` 是多进程，可以单机或多机运行。`DataParallel` 通常比 `DistributedDataParallel` 慢，即便是单机运行，因为线程间的 GIL 争夺、每次迭代都要广播模型，以及切分输入和汇总输入带来的花销。
-* 如果你的模型太大以至于不能在单个 GPU 上训练，那么就必须用模型并行来将其切分到多个 GPU 中。`DistributedDataParallel` 兼容模型并行而 `DataParallel` 不能。当 DDP 结合模型并行时，每个 DDP 进程都会使用模型并行，并且所有的进程共同使用数据并行。
-* 如果你的模型需要跨机器或者不适用于数据并行范例，请参考 RPC API。
+* 首先，`DataParallel` 是单进程多线程，并且只能单机运行，而 `DistributedDataParallel` 是多进程，可以单机或多机运行。`DataParallel` 通常比 `DistributedDataParallel` 慢，即便是单机运行，因为线程间的 GIL 争夺、每次迭代（前向计算）都要广播模型，以及切分输入和汇总输入带来的额外花销。
+* 如果你的模型太大以至于不能在单个 GPU 上训练，那么就必须用模型并行来将其切分到多个 GPU 中。`DistributedDataParallel` 兼容模型并行而 `DataParallel` 不能。当 DDP 结合模型并行时，每个 DDP 进程都会使用模型并行，而所有的进程共同使用数据并行。
+* 如果你的模型需要跨多台机器或者不适用于数据并行范式，请参考 [RPC API](#一般分布式训练) 以获取更通用的分布式训练支持。
 
 
 
-### 示例1
+#### 示例1
 
-让我们看一个简单的 `torch.nn.parallel.DistributedDataParallel` 例子：
+让我们来看一个简单的 `torch.nn.parallel.DistributedDataParallel` 示例：
 
 ```python
+import os
+
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
@@ -2063,10 +2070,13 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 
 
 def example(rank, world_size):
+    # setup distributed environment
+    os.environ['MASTER_ADDR'] = '127.0.0.1'
+    os.environ['MASTER_PORT'] = '29500'
     # create default process group
     dist.init_process_group("gloo", rank=rank, world_size=world_size)
     # create local model
-    model = nn.Linear(10, 10).to(rank)
+    model = nn.Linear(10, 10).to(rank)           # require 2 GPUs
     # construct DDP model
     ddp_model = DDP(model, device_ids=[rank])
     # define loss function and optimizer
@@ -2083,12 +2093,9 @@ def example(rank, world_size):
 
 def main():
     world_size = 2
-    mp.spawn(example,
-        args=(world_size,),
-        nprocs=world_size,
-        join=True)
+    mp.spawn(example, args=(world_size, ), nprocs=world_size, join=True)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
 ```
 
@@ -2096,7 +2103,7 @@ if __name__=="__main__":
 
 
 
-### 示例2
+#### 示例2
 
 首先设置进程组。
 
@@ -2124,7 +2131,7 @@ def cleanup():
     dist.destroy_process_group()
 ```
 
-然后创建一个玩具模型，用 DDP 包装，并输入一些随机数据。请注意，DDP 构造函数广播 rank0 进程的模型状态到所有其它进程，因此不必担心不同的进程有不同的模型初始值。
+然后创建一个玩具模型，用 DDP 包装，并输入一些随机数据。请注意，DDP 构造函数会广播 rank0 进程的模型状态到所有其它进程，因此不必担心不同的进程有不同的模型参数初始值。
 
 ```python
 class ToyModel(nn.Module):
@@ -2165,36 +2172,29 @@ def run_demo(demo_fn, world_size):
              join=True)
 ```
 
-可以看到，DDP 包装了底层分布式通信的细节并提供了一个简洁的 API。梯度同步通信发生在反向计算过程中，并叠加反向计算。当 `backward()` 返回时，`param.grad` 已经包含了同步的梯度张量。
+可以看到，DDP 包装了底层分布式通信的细节并提供了一个简洁的 API。梯度同步通信发生在反向传递过程中，并且与反向计算部分重叠。当 `backward()` 返回时，`param.grad` 已经包含了同步的梯度张量。
 
 
 
-### 内部设计
+### [注意事项](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html#skewed-processing-speeds)
 
-* 前提：DDP 依赖 c10d `ProcessGroup` 用于进程间通信，因此应用在构建 DDP 之前必须先创建 `Process Group` 实例
-* 构造：DDP 构造函数引用本地模块，并广播 rank0 进程的 `state_dict()` 到组内的所有进程以确保所有模型副本都从同样的状态开始。随后每个 DDP 进程创建一个本地 `Reducer`，其在之后的反向计算过程中负责梯度同步。为了提高通信效率，`Reducer` 组织参数梯度为桶结构，每次 reduce 一个桶。……
-
-
-
-### 注意事项
-
-对于基础使用，DDP 仅需要多一点的 LoC 来创建进程组；而当 DDP 应用到更高级的用例中，则还有一些注意事项。
+对于基本使用，DDP 只需要多几行代码来创建进程组；但当 DDP 应用到更高级的用例中，则还需要注意一些问题。
 
 
 
-**不一致的进程速度**
+**不一致的处理速度**
 
-在 DDP 中，构造函数、前向计算和反向计算是分布式同步点。不同的进程应当在大致相同的时间到达这些同步点，否则快的进程会先到而等待落后的进程。因此用户应负责进程之间的负载均衡。
+在 DDP 中，（DDP 的）构造函数、前向传递和反向传递是分布式同步点。不同的进程应当启动相同数量的同步，以相同的顺序到达这些同步点，以及在大致相同的时间到达这些同步点，否则快的进程会先到而等待落后的进程。因此用户应负责进程之间的负载均衡。
 
-有时由于网络延迟、资源争夺、无法预测的负载峰值等原因，不一致的进程速度也无法避免。但为了防止这些情形下的超时，在调用 `init_process_group` 时请确保 `timeout` 传入了一个足够大的值。
+有时由于网络延迟、资源争夺、无法预测的负载峰值等原因，不一致的处理速度也难以避免。但为了防止这些情形下超时，在调用 `init_process_group()` 时请确保传入了一个足够大的 `timeout` 值。
 
 
 
 **保存和加载检查点**
 
-使用 `torch.save` 和 `torch.load` 在检查点保存和恢复模型是非常常见的操作。使用 DDP 时的一种优化方法是，保存模型仅在一个进程中进行，而加载模型则加载到所有进程，这样可以减少写的花销。
+使用 `torch.save` 和 `torch.load` 在检查点保存和恢复模型是非常常见的操作。使用 DDP 时的一种优化方法是，保存模型仅在一个进程中进行，而加载模型则加载到所有进程，这样可以减少写的花销，但注意加载不要在保存结束之前开始。
 
-当加载模型时，你需要提供一个合适的 `map_location` 参数以防止进程进入其它的设备。当 `map_location` 参数缺失时，`torch.load` 会首先将模型加载到 CPU，再将每一个参数复制到它被保存的地方，这将导致同一机器上的所有进程会使用相同的设备。对于更高级的错误恢复和弹性支持，请参考 TorchElastic。
+当加载模型时，你需要提供一个合适的 `map_location` 参数以防止进程进入其它进程的设备。当 `map_location` 参数缺失时，`torch.load` 会首先将模型加载到 CPU，再将每一个参数复制到它被保存的地方，这将导致同一机器上的所有进程会使用相同的一组设备。对于更高级的错误恢复和弹性支持，请参考 TorchElastic。
 
 ```python
 def demo_checkpoint(rank, world_size):
@@ -2243,14 +2243,14 @@ def demo_checkpoint(rank, world_size):
 
 **结合 DDP 和模型并行**
 
-DDP 兼容多 GPU 模型。当用巨量数据训练大型模型时，用 DDP 包装多 GPU 模型十分有用。
+DDP 兼容多 GPU 模型。当用巨量数据训练大型模型时，DDP 包装的多 GPU 模型十分有用。
 
 ```python
 class ToyMpModel(nn.Module):
     def __init__(self, dev0, dev1):
         super(ToyMpModel, self).__init__()
-        self.dev0 = dev0
-        self.dev1 = dev1
+        self.dev0 = dev0   # first GPU
+        self.dev1 = dev1   # second GPU
         self.net1 = torch.nn.Linear(10, 10).to(dev0)
         self.relu = torch.nn.ReLU()
         self.net2 = torch.nn.Linear(10, 5).to(dev1)
@@ -2262,7 +2262,7 @@ class ToyMpModel(nn.Module):
         return self.net2(x)
 ```
 
-当传递一个多 GPU 模型到 DDP 时不能设置 `device_ids` 和 `output_device`，输入和输出数据会被放在合适的设备中。
+当 DDP 传入一个多 GPU 模型时，不能设置 `device_ids` 和 `output_device`，输入和输出数据会被放在合适的设备中。
 
 ```python
 def demo_model_parallel(rank, world_size):
@@ -2291,27 +2291,38 @@ def demo_model_parallel(rank, world_size):
 if __name__ == "__main__":
     n_gpus = torch.cuda.device_count()
     if n_gpus < 8:
-      print(f"Requires at least 8 GPUs to run, but got {n_gpus}.")
+        print(f"Requires at least 8 GPUs to run, but got {n_gpus}.")
     else:
-      run_demo(demo_basic, 8)
-      run_demo(demo_checkpoint, 8)
-      run_demo(demo_model_parallel, 4)
+        run_demo(demo_basic, 8)
+        run_demo(demo_checkpoint, 8)
+        run_demo(demo_model_parallel, 4)
 ```
 
 
 
-### 详解
+### [内部设计](https://pytorch.org/docs/stable/notes/ddp.html#internal-design)
 
-```python
-torch.distributed.init_process_group( )
-```
-
+* 前提：DDP 依赖 c10d `ProcessGroup` 用于进程间通信，因此应用在构建 DDP 之前必须先创建 `ProcessGroup` 实例
+* 构造：DDP 构造函数引用本地模块，并广播 rank0 进程的 `state_dict()` 到组内的所有进程以确保所有模型副本都从同样的状态开始。随后每个 DDP 进程创建一个本地 `Reducer`，其在之后的反向计算过程中负责梯度同步。为了提高通信效率，`Reducer` 组织参数梯度为桶结构，每次 reduce 一个桶。……
 
 
-## TorchElastic
+
+### TorchElastic
+
+随着应用的复杂度和规模的增长，故障恢复变成了一个非常迫切的需求。在使用 DDP 时，我们有时会不可避免地遇见诸如 OOM 这样的错误，但 DDP 自己无法从这些错误中恢复，这是因为 DDP 要求所有进程以一种紧密同步的方式工作并且不同进程中启动的 `AllReduce` 通信必须匹配。如果一个进程抛出了 OOM 异常，这将很可能导致不同步（不匹配的 `AllReduce` 操作），进而导致训练崩溃或挂起。如果你预期故障会在训练过程中发生或者资源会动态地增减，那么请使用 TorchElastic 启动分布式数据并行训练。
+
+
 
 
 
 ## 一般分布式训练
 
-许多训练范例不用于数据并行，例如参数服务器范例、分布式管道范例等。`torch.distributed.rpc` 的目标就是支持一般的分布式训练场景。
+许多训练范式不能由数据并行的形式所包容，例如参数服务器范式、分布式流水线范式、有多个观察者或代理的强化学习应用等。`torch.distributed.rpc` 的目标就是支持一般的分布式训练场景。
+
+`torch.distributed.rpc` 包有以下四大支柱：
+
++ RPC 支持在远程工作器上运行给定的函数
++ RRef 帮助管理远程对象的生命周期
++ Distributed Autograd 扩展 autograd 引擎到跨多个机器
++ Distributed Optimizer 自动联系所有参与的工作器以使用分布式 autograd 引擎计算得到的梯度更新参数
+
