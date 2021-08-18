@@ -280,6 +280,10 @@ tensor([[0],
 
 
 
+#### expand_as()
+
+
+
 #### get_device()
 
 对于 CUDA 张量，返回其所位于的 GPU 设备的序号；对于 CPU 张量，抛出一个错误。
@@ -470,9 +474,9 @@ tensor([[[ 1,  1,  2,  3],       # 不共享内存
 >>> w = torch.randn(4)
 >>> w
 tensor([-0.1482, -0.2680,  1.4278,  1.7212])
->>> w.requires_grad_()
+>>> w.requires_grad_()          # 相当于 w.requires_grad = True
 tensor([-0.1482, -0.2680,  1.4278,  1.7212], requires_grad=True)
->>> w.requires_grad_(False)
+>>> w.requires_grad_(False)     # 相当于 w.requires_grad = False
 tensor([-0.1482, -0.2680,  1.4278,  1.7212])
 ```
 

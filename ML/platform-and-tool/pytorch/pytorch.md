@@ -1088,7 +1088,7 @@ labels = torch.rand(1, 1000)
 prediction = model(data)   # forward pass
 ```
 
-下一步计算损失和进行反向传播。反向传播通过我们对误差张量调用 `.backward()` 启动，autograd 会计算所有模型参数的梯度并保存在每个参数的 `.grad` 属性中。
+下一步计算损失和进行反向传播。反向传播通过我们对损失张量调用 `.backward()` 启动，autograd 会计算所有模型参数的梯度并保存在每个参数的 `.grad` 属性中。
 
 ```python
 loss = (prediction - labels).sum()
@@ -1355,7 +1355,7 @@ class LinearFunction(Function):
 
 前一节我们描述了单个 `Function` 对象的前向和反向计算，而实际的模型是由多个函数复合而成，可以抽象为由 Function 对象组成的有向无环图（DAG）。本节将介绍图级别的前向和反向计算过程。
 
-在前向计算的过程中，autograd 会维护一个计算图（有向无环图），每次（`requires_grad=True` 的）张量运算都会向其中添加一个 Function 对象，运算结果的 `grad_fn` 属性即指向该对象。来看下面的例子：
+在前向计算的过程中，autograd 会维护一个计算图（有向无环图），每次（`requires_grad=True` 的）张量运算都会向其中添加一个 `Function` 对象，运算结果的 `grad_fn` 属性即指向该对象。来看下面的例子：
 
 ```python
 import torch
@@ -1405,7 +1405,7 @@ print_tensor(loss)
 
 可以看到，变量 `l1` 的 `grad_fn` 指向乘法运算符 `<MulBackward0>` 对象，用于在反向传播中指导梯度计算；叶节点的 `grad_fn` 为 None，因为它们由创建而非运算得到。
 
-计算图中的叶节点是输入张量（模型参数），根节点是输出张量（误差）。在反向传播过程中，autograd 会从根节点溯源，利用链式法则计算所有叶节点的梯度。
+计算图中的叶节点是输入张量（模型参数），根节点是输出张量（损失）。在反向传播过程中，autograd 会从根节点溯源，利用链式法则计算所有叶节点的梯度。
 
 张量的 `is_leaf` 属性表示该张量是否为叶节点。反向计算过程中只有 `is_leaf=True` 的张量的梯度会被保留。
 
@@ -1480,11 +1480,11 @@ y = torch.rand(5, 5)
 z = torch.rand((5, 5), requires_grad=True)
 
 a = x + y
-print(f"Does `a` require gradients? : {a.requires_grad}")
+print(f"Does `a` require gradients?: {a.requires_grad}")
 b = x + z
 print(f"Does `b` require gradients?: {b.requires_grad}")
 
-# Does `a` require gradients? : False
+# Does `a` require gradients?: False
 # Does `b` require gradients?: True
 ```
 
