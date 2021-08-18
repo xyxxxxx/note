@@ -1132,7 +1132,7 @@ a = torch.tensor(1., requires_grad=True)
 b = torch.tensor(2., requires_grad=True)
 ```
 
-> 也可以初始化之后再设置张量的`requires_grad`属性：
+> 也可以初始化之后再设置张量的 `requires_grad` 属性：
 >
 > ```python
 > a = torch.tensor(1.)
@@ -1184,7 +1184,7 @@ b = torch.tensor([2., 4.], requires_grad=True)
 c = a**2 + b
 ```
 
-如果 $$c$$ 对 $$a,b$$ 直接求梯度,将会得到一个矩阵,但我们想要得到与 $$a,b$$ 形状相同的梯度向量。我们可以通过求 $$c$$ 和某常数向量的内积将其转换为标量，例如和全 1 向量的内积相当于求和所有元素，通过 `backward()` 的 `grad_tensors` 参数传入：
+如果 $$c$$ 对 $$a,b$$ 直接求梯度，将会得到一个矩阵，但我们想要得到与 $$a,b$$ 形状相同的梯度向量。我们可以通过求 $$c$$ 和某常数向量的内积将其转换为标量，例如和全 1 向量的内积相当于求和所有元素，通过 `backward()` 的 `gradient` 参数传入：
 
 ```python
 external_grad = torch.tensor([1., 1.])
@@ -1199,7 +1199,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 # tensor([2., 4.]) True tensor([1., 1.]) None True
 ```
 
-改变 `grad_tensors` 再看结果：
+改变 `gradient` 再看结果：
 
 ```python
 external_grad = torch.tensor([1., 2.])
@@ -1214,7 +1214,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 # tensor([2., 4.]) True tensor([1., 2.]) None True
 ```
 
-改变 `grad_tensors` 即为多个损失项赋予不同的权重。
+改变 `gradient` 即为多个损失项赋予不同的权重。
 
 
 
@@ -1277,8 +1277,6 @@ ret = Exp.apply(x)                          # 使用apply方法调用自定义au
 print(ret)                                  # tensor([2.7183], grad_fn=<ExpBackward>)
 ret.backward()                              # 反传梯度
 print(x.grad)                               # tensor([2.7183])
-
-
 ```
 
 下面的例子展示了如何保存 `tensor` 之外的变量：
