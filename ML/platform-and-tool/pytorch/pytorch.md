@@ -1523,6 +1523,134 @@ optimizer = optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
 
 
 
+# 使用优化器
+
+> 参考：
+>
+> [torch.optim](https://pytorch.org/docs/stable/optim.html#)
+
+## 如何使用优化器
+
+要使用 `torch.optim` 包，你需要构造一个优化器实例，其保存了当前状态并会根据计算的梯度更新模型参数。
+
+
+
+### 构造优化器
+
+为了构造 `Optimizer` 实例，你需要传入一个包含要优化的模型参数（应为 `Variable` 实例）的可迭代对象，然后指定优化器相关的选项，例如学习率、权重衰减等等。
+
+示例：
+
+```python
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+optimizer = optim.Adam([var1, var2], lr=0.0001)
+```
+
+> 如果你需要将模型移动到 GPU（通过调用 `.cuda()` 或 `.to()`），请在为此模型构造优化器之前完成这一操作。`.cuda()` 或 `.to()` 调用之后的模型的参数将会是一组不同的对象。
+>
+> 总的来说，你需要保证在优化器构建和使用的整个过程中，被优化的模型参数存活在一致的位置。
+
+
+
+`Optimizer` 也支持为部分参数单独指定选项，这时需要传入一个字典的可迭代对象，其中每个字典定义一个单独的参数组。字典应包含一个 `params` 键，对应包含要优化的部分模型参数的可迭代对象；其它键应匹配 `Optimizer` 实例接受的关键字参数，并用作这一组参数的选项。
+
+例如为每一层单独设定学习率：
+
+```python
+optim.SGD([{
+    'params': model.base.parameters()
+}, {
+    'params': model.classifier.parameters(),
+    'lr': 1e-3            # 为这一组参数重载学习率
+}],
+          lr=1e-2,        # 关键字参数作为全局的默认选项
+          momentum=0.9)
+```
+
+
+
+### 执行一步优化
+
+所有的优化器都实现了 `step()` 方法，用于更新模型参数。可以有两种使用方法：
+
++ `optimizer.step()`：大多数优化器支持的简化方法。一旦使用例如 `backward()` 计算出梯度后，就可以调用此方法。例如：
+
+  ```python
+  for input, target in dataset:
+      optimizer.zero_grad()
+      output = model(input)
+      loss = loss_fn(output, target)
+      loss.backward()
+      optimizer.step()
+  ```
+
++ `optimizer.step(closure)`：一些优化算法例如共轭梯度和 LBFGS，需要多次……，因此你必须传入一个能够反复计算模型的闭包。该闭包应清除梯度，计算损失，最后返回损失。例如：
+
+  ```python
+  for input, target in dataset:
+      def closure():
+          optimizer.zero_grad()
+          output = model(input)
+          loss = loss_fn(output, target)
+          loss.backward()
+          return loss
+      optimizer.step(closure)
+  ```
+
+  
+
+## 如何调整学习率
+
+`torch.optim.lr_scheduler` 提供了数种基于回合数调整学习率的方法。`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于一些验证方法动态降低学习率。
+
+学习率的调整应在每个回合的结束时应用，例如：
+
+```python
+model = [Parameter(torch.randn(2, 2, requires_grad=True))]
+optimizer = SGD(model, 0.1)
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+
+for epoch in range(20):
+    for input, target in dataset:
+        optimizer.zero_grad()
+        output = model(input)
+        loss = loss_fn(output, target)
+        loss.backward()
+        optimizer.step()
+    scheduler.step()
+```
+
+
+
+大多数学习率规划器都可以连续调用（也被称为连锁规划器），依次作用于学习率，例如：
+
+```python
+model = [Parameter(torch.randn(2, 2, requires_grad=True))]
+optimizer = SGD(model, 0.1)
+scheduler1 = ExponentialLR(optimizer, gamma=0.9)
+scheduler2 = MultiStepLR(optimizer, milestones=[30,80], gamma=0.1)
+
+for epoch in range(20):
+    for input, target in dataset:
+        optimizer.zero_grad()
+        output = model(input)
+        loss = loss_fn(output, target)
+        loss.backward()
+        optimizer.step()
+    scheduler1.step()
+    scheduler2.step()
+```
+
+
+
+## 随机权重平均
+
+
+
+
+
+
+
 # 保存和加载模型
 
 保存和加载模型主要用到下面三个函数：

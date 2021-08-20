@@ -2,17 +2,65 @@
 
 # torch.nn
 
+## 容器
+
+### Module
+
+
+
+
+
+#### named_parameters
+
+
+
+#### parameters
+
+
+
 ## 线性层
 
 ### Linear
 
 全连接层。
 
+此模块支持 TensorFloat32。
+
 ```python
->>> m = nn.Linear(20, 4)
->>> input = torch.randn(128, 20)
->>> m(input).size()
-torch.Size([128, 4])
+class torch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=None)
+# in_features    输入特征数
+# out_features   输出特征数
+# bias           是否使用偏置
+```
+
++ 输入形状：$$(N,*,H_{\rm in})$$，其中 $$N$$ 表示批次规模，$$*$$ 表示任意个额外的维度，$$H_{\rm in}={\rm in\_features}$$。
++ 输出形状：$$(N,*,H_{\rm out})$$，其中 $$H_{\rm out}={\rm out\_features}$$。
++ 参数：
+  + `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=1/{\rm in\_features}$$。
+  + `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=1/{\rm in\_features}$$。
+
+
+
+```python
+>>> linear1 = nn.Linear(10, 4)
+>>> input = torch.randn(32, 10)
+>>> output = linear1(input)
+>>> output.size()
+torch.Size([32, 4])
+>>> 
+>>> linear1.weight
+Parameter containing:
+tensor([[-0.0285,  0.0458, -0.0013,  0.2764,  0.0984, -0.1178, -0.1910, -0.0530,
+         -0.1364, -0.1013],
+        [ 0.0151,  0.1885,  0.1719, -0.3091,  0.1960,  0.0883,  0.3000,  0.2087,
+         -0.2881, -0.3007],
+        [-0.1525,  0.2777, -0.0527,  0.1353, -0.1470,  0.3103, -0.1338,  0.2371,
+          0.0037, -0.1666],
+        [ 0.1625, -0.1679,  0.0930, -0.0913, -0.0347, -0.3040, -0.1508,  0.1716,
+         -0.0769,  0.3150]], requires_grad=True)
+>>> linear1.bias
+Parameter containing:
+tensor([ 0.2535, -0.0148, -0.2111,  0.1926], requires_grad=True)
 ```
 
 
@@ -23,30 +71,35 @@ torch.Size([128, 4])
 
 一维卷积层。
 
+此模块支持 TensorFloat32。
+
 ```python
-torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # in_channels     输入通道数
 # out_channels    输出通道数
-# kernel_size     卷积核大小(高/宽)
-# stride          卷积步长(高/宽)
-# padding         填充的行/列数(上下/左右)
-# padding_mode    填充模式
+# kernel_size     卷积核大小
+# stride          卷积步长
+# padding         输入的两端填充的个数
+# padding_mode    填充模式.若为`zeros`,则填充零;……
 # dilation        卷积核元素的间隔
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
+#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
+#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-
+参照 [Conv2d](#Conv2d)。
 
 ```python
->>> m1 = nn.Conv1d(1, 32, 3, 1)                 # 卷积核长度为3,步长为1
->>> m2 = nn.Conv1d(1, 32, 3, 3)                 # 步长为3
->>> m3 = nn.Conv1d(1, 32, 3, 3, padding=(1,1))  # 左右各用1个零填充
+>>> conv1 = nn.Conv1d(1, 32, 3, 1)                   # 卷积核长度为3,步长为1
+>>> conv2 = nn.Conv1d(1, 32, 3, 3)                   # 步长为3
+>>> conv3 = nn.Conv1d(1, 32, 3, 3, padding=(1, 1))   # 左右各用1个零填充
 >>> input = torch.rand((100, 1, 28))
->>> output1, output2, output3= m1(input), m2(input), m3(input)
->>> output1.shape
+>>> conv1(input).shape
 torch.Size([100, 32, 26])
->>> output2.shape
+>>> conv2(input).shape
 torch.Size([100, 32, 9])
->>> output3.shape
+>>> conv3(input).shape
 torch.Size([100, 32, 10])
 ```
 
@@ -56,35 +109,54 @@ torch.Size([100, 32, 10])
 
 二维卷积层。
 
+此模块支持 TensorFloat32。
+
 ```python
-torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # in_channels     输入通道数
 # out_channels    输出通道数
-# kernel_size     卷积核大小(高/宽)
-# stride          卷积步长(高/宽)
-# padding         填充的行/列数(上下/左右)
-# padding_mode    填充模式
+# kernel_size     卷积核大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
+# stride          卷积步长
+# padding         输入的四边填充的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组(分别表示
+#                 上下填充的行数和左右填充的列数)
+# padding_mode    填充模式.若为`zeros`,则填充零;……
 # dilation        卷积核元素的间隔
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
+#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
+#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
+> `kernel_size` 等参数的具体意义请参见 [An Introduction to different Types of Convolutions in Deep Learning](https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d)。
 
++ 输入形状：$$(N,C_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 参数：
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1]]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
 
 ```python
->>> m1 = nn.Conv2d(1, 32, 3, 1)                 # 卷积核大小为(3,3),步长为1
-												                        # 将1个通道(卷积特征)映射到32个通道(卷积特征)
->>> m2 = nn.Conv2d(1, 32, (3,5), 1)             # 卷积核大小为(3,5)
->>> m3 = nn.Conv2d(1, 32, 3, 3)                 # 步长为3
->>> m4 = nn.Conv2d(1, 32, 3, 3, padding=(1,1))  # 上下/左右各用1/1行零填充
+>>> conv1 = nn.Conv2d(1, 32, 3, 1)                 # 卷积核大小为(3,3),步长为1
+                                                   # 将1个通道(卷积特征)映射到32个通道(卷积特征)
+>>> conv2 = nn.Conv2d(1, 32, (3, 5), 1)            # 卷积核大小为(3,5)
+>>> conv3 = nn.Conv2d(1, 32, 3, 3)                 # 步长为3
+>>> conv4 = nn.Conv2d(1, 32, 3, 3, padding=(1,1))  # 上下/左右各填充1行/1列零
 >>> input = torch.rand((100, 1, 28, 28))
->>> m1(input).shape
+>>> conv1(input).shape
 torch.Size([100, 32, 26, 26])
->>> m2(input).shape
+>>> conv2(input).shape
 torch.Size([100, 32, 26, 24])
->>> m3(input).shape
+>>> conv3(input).shape
 torch.Size([100, 32, 9, 9])
->>> m4(input).shape
+>>> conv4(input).shape
 torch.Size([100, 32, 10, 10])
 ```
+
+
+
+### Conv3d
+
+三维卷积层。
 
 
 
@@ -92,7 +164,7 @@ torch.Size([100, 32, 10, 10])
 
 ### MaxPool1d
 
-一维最大汇聚层。见 torch.nn.functional.max_pool1d。
+一维最大汇聚层。见 `torch.nn.functional.max_pool1d`。
 
 ```python
 >>> m1 = nn.MaxPool1d(2, stride=1)
@@ -112,7 +184,7 @@ tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
 
 ### MaxPool2d
 
-二维最大汇聚层。见 torch.nn.functional.max_pool2d。
+二维最大汇聚层。见 `torch.nn.functional.max_pool2d`。
 
 ```python
 >>> m1 = nn.MaxPool2d(2, stride=1)
@@ -474,20 +546,6 @@ tensor(20.)
 
 
 
-## 模组
-
-### Module
-
-
-
-named_parameters
-
-
-
-parameters
-
-
-
 ## 数据并行模组
 
 ### DataParallel
@@ -646,10 +704,7 @@ tanh 激活函数。
 
 # torch.optim
 
-```python
-optimizer = optim.SGD(model.parameters(), lr=0.01)
-              # 梯度下降法   需要学习的参数  学习率
-```
+`torch.optim` 包实现了多种优化算法。最常用的优化方法已经得到支持，并且接口足够泛用，使得更加复杂的方法在未来也能够容易地集成进去。
 
 
 
@@ -661,7 +716,7 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
 # params        要优化的参数的可迭代对象,或定义了参数组的字典
 # lr            学习率
-# betas         用于计算梯度的running average和其平方的系数
+# betas         用于计算梯度的移动平均和其平方的系数
 # eps           添加到分母的项,用于提升数值稳定性
 # weight_decay  权重衰退(L2惩罚)
 # amsgrad       是否使用此算法的AMSGrad变体
@@ -675,15 +730,56 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 
 
 
+### add_param_group()
+
+向优化器的 `param_groups` 添加一个参数组。
+
+```python
+
+```
+
+
+
 ### load_state_dict()
 
-加载优化器状态。
+加载优化器状态字典。
+
+
+
+### param_groups
+
+返回优化器的所有参数组。
+
+```python
+>>> w = torch.tensor([1.], requires_grad=True)
+>>> b = torch.tensor([1.], requires_grad=True)
+>>> x = torch.tensor([2.])
+>>> y = torch.tensor([4.])
+>>> z = w @ x + b
+>>> l = (y - z)**2
+>>> l.backward()
+>>> w.grad
+tensor([-4.])
+>>> b.grad
+tensor([-2.])
+>>> optimizer = torch.optim.SGD([
+        {'params': w},
+        {'params': b, 'lr':1e-3},
+    ], lr=1e-2)
+>>> optimizer.step()
+>>> w
+tensor([1.0400], requires_grad=True)
+>>> b
+tensor([1.0020], requires_grad=True)
+>>> optimizer.param_groups      # 两组参数
+[{'params': [tensor([1.0400], requires_grad=True)], 'lr': 0.01, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}, {'params': [tensor([1.0020], requires_grad=True)], 'lr': 0.001, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}]
+```
 
 
 
 ### state_dict()
 
-返回优化器状态。返回的字典包含两项：
+返回优化器的状态为一个字典，其中包含两项：
 
 + `state`：包含当前优化状态的字典
 + `param_groups`：包含所有参数组的字典
@@ -698,18 +794,16 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 
 ### zero_grad()
 
-
-
-
+将所有参数的梯度置零。
 
 
 
 ## SGD
 
-实现随机梯度下降。
+实现随机梯度下降算法。
 
 ```python
-torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
+class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
 # params        要优化的参数的可迭代对象,或定义了参数组的字典
 # lr            学习率
 # momentum      动量系数
@@ -724,6 +818,231 @@ torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight
 >>> loss_fn(model(input), target).backward()
 >>> optimizer.step()
 ```
+
+
+
+## lr_scheduler
+
+学习率规划器。
+
+
+
+### _LRScheduler
+
+所有学习率规划器的基类。
+
+
+
+#### get_last_lr()
+
+返回规划器计算的最后一个学习率。
+
+
+
+#### load_state_dict()
+
+加载规划器状态字典。
+
+
+
+#### print_lr()
+
+打印规划器的当前学习率。
+
+
+
+#### state_dict()
+
+返回规划器的状态为一个字典。
+
+
+
+#### step()
+
+更新学习率，具体操作取决于规划器的实现以及当前回合数。
+
+
+
+### CosineAnnealingLR
+
+使用余弦退火算法设定学习率，……
+
+
+
+### CosineAnnealingWarmRestarts
+
+
+
+### CyclicLR
+
+根据循环学习率策略设定学习率，此策略下学习率在两个边界之间以固定频率变化。
+
+循环学习率策略在每个批次结束时都要改变学习率，因此 `step()` 应在每个批次训练完毕后调用。
+
+```python
+class torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr, max_lr, step_size_up=2000, step_size_down=None, mode='triangular', gamma=1.0, scale_fn=None, scale_mode='cycle', cycle_momentum=True, base_momentum=0.8, max_momentum=0.9, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# base_lr     初始学习率,同时是学习率的下界
+# max_lr      学习率的上界
+# step_size_up    循环上升期的训练批次数
+# step_size_down  循环下降期的训练批次数
+# mode        `'triangular'`,`'triangular2'`或`'exp_range'`,对应的三种模式见论文
+#             https://arxiv.org/pdf/1506.01186.pdf
+# gamma       `'exp_range'`模式下的学习率上下界的衰减乘数
+# scale_fn    自定义缩放策略,由接收单个参数的匿名函数定义.若指定了此参数,则`mode`参数将被忽略(到底缩放的是上界还是下界?)
+# scale_mode  若为`'cycle'`,则`scale_fn`接收的参数视为回合数;若为`'iterations'`,则`scale_fn`接收的参数视为批次数
+# cycle_momentum  若为`True`,则动量与学习率反相循环
+# base_momentum   动量的下界
+# max_momentum    动量的上界
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+
+
+### ExponentialLR
+
+```python
+class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# gamma       学习率衰减乘数
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+每回合学习率衰减为原来的 `gamma` 倍。
+
+
+
+### LambdaLR
+
+每回合学习率设定为原来的自定义函数返回值的倍数。
+
+```python
+class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# lr_lambda   接收一个整数参数(回合数)并返回一个乘数的自定义函数,或为每组参数分别指定的自定义函数列表
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+```python
+>>> lambda1 = lambda epoch: epoch // 30
+>>> lambda2 = lambda epoch: 0.95 ** epoch
+>>> scheduler = LambdaLR(optimizer, lr_lambda=[lambda1, lambda2])  # 此优化器有两组参数,两个函数分别对应一组
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+
+
+### MultiplicativeLR
+
+每回合学习率设定为原来的自定义函数返回值的倍数。
+
+```python
+class torch.optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# lr_lambda   接收一个整数参数(回合数)并返回一个乘数的自定义函数,或为每组参数分别指定的自定义函数列表
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+```python
+>>> lambda1 = lambda epoch: epoch // 30
+>>> lambda2 = lambda epoch: 0.95 ** epoch
+>>> scheduler = MultiplicativeLR(optimizer, lr_lambda=[lambda1, lambda2])  # 此优化器有两组参数,两个函数分别对应一组
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+
+
+### OneCycleLR
+
+
+
+
+
+### StepLR
+
+```python
+class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# step_size   学习率衰减周期
+# gamma       学习率衰减乘数
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+每 `step_size` 回合学习率衰减为原来的 `gamma` 倍。注意此衰减可以与其它规划器引起的学习率变化同时发生。
+
+```python
+# Assuming optimizer uses lr = 0.05 for all groups
+# lr = 0.05     if epoch < 30
+# lr = 0.005    if 30 <= epoch < 60
+# lr = 0.0005   if 60 <= epoch < 90
+# ...
+>>> scheduler = StepLR(optimizer, step_size=30, gamma=0.1)
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+
+
+### MultiStepLR
+
+```python
+class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, last_epoch=-1, verbose=False)
+# optimzer    包装的优化器
+# milestones  回合索引列表,必须是递增的
+# gamma       学习率衰减乘数
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+每当回合数到达里程碑之一时学习率衰减为原来的 `gamma` 倍。注意此衰减可以与其它规划器引起的学习率变化同时发生。
+
+```python
+# Assuming optimizer uses lr = 0.05 for all groups
+# lr = 0.05     if epoch < 30
+# lr = 0.005    if 30 <= epoch < 80
+# lr = 0.0005   if epoch >= 80
+>>> scheduler = MultiStepLR(optimizer, milestones=[30,80], gamma=0.1)
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+
+
+### ReduceLROnPlateau
+
+当指标不再改善时降低学习率。每当学习停滞时，降低学习率为原来的二到十分之一一般都能够改善模型。此规划器读取一个指标的值，并在若干个回合内没有看到改善时降低学习率。
+
+```python
+class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08, verbose=False)
+# optimzer    包装的优化器
+# mode        若为`min`,则在监视的量不再减小时降低学习率;若为`max`,则在监视的量不再增加时降低学习率
+# factor      学习率衰减的乘数
+# patience    等待的没有改善的回合数.例如此参数为2,则会忽略前2次指标没有改善,而在第3次指标仍没有改善时降低学习率
+# threshold   可以被视作指标改善的阈值
+# threshold_mode  若为`rel`,则动态阈值为`best*(1+threshold)`(对于`mode=max`)或`best*(1-threshold)`(对于`mode=min`)
+#                 若为`abs`,则动态阈值为`best+threshold`(对于`mode=max`)或`best-threshold`(对于`mode=min`)
+# cooldown    降低学习率之后再次恢复工作的冷却回合数
+# min_lr      学习率的下限,或为每组参数分别指定的列表
+# eps         应用于学习率的最小衰减,若新旧学习率之间的差值小于此参数,则忽略此次更新
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+
 
 
 

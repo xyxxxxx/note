@@ -464,6 +464,9 @@ $ ssh-keygen -t rsa/dsa
 # 显示所有公钥
 $ ls -l ~/.ssh/id_*.pub
 
+# 显示公钥信息
+$ cat ~/.ssh/id_rsa.pub
+
 # 自动上传公钥到服务器
 $ ssh-copy-id -i key_file user@host
 

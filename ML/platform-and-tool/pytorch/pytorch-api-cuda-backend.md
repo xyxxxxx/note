@@ -1,3 +1,5 @@
+[toc]
+
 # torch.cuda
 
 ## current_device()

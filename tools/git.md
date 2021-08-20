@@ -1,14 +1,27 @@
+[toc]
+
+
+
 # 命令
 
 ## add
 
-添加指定文件和目录到暂存区。
+添加指定文件或目录（递归地添加目录下的所有文件）（或其修改）到暂存区。
 
+```shell
+$ git add [file1] [file2] ...   # 添加指定文件到暂存区
+$ git add [dir]                 # 添加指定目录到暂存区（递归地添加目录下的所有文件）
+$ git add .                     # 添加当前目录到暂存区
 
+# oh-my-zsh:
+# git add -> ga
+```
 
 
 
 ## branch
+
+
 
 
 
@@ -26,12 +39,17 @@
 
 ```shell
 $ git clone https://github.com/tensorflow/tensorflow.git
+
 $ git branch --remotes             # 查看远程跟踪分支
 ```
 
 
 
 ## commit
+
+提交暂存区的文件（或其修改）到本地仓库中。
+
+
 
 
 
@@ -81,6 +99,17 @@ core.precomposeunicode=true
 
 
 ## diff
+
+比较暂存区快照与当前文件或上一次提交之间的差异。
+
+```shell
+$ git diff              # 比较暂存区快照和当前文件之间的差异
+
+$ git diff --staged     # 比较暂存区快照和最后一次提交之间的差异
+$ git diff --cached     # 同上
+
+$ git diff --stat       # 显示修改的摘要而非详情
+```
 
 
 
@@ -185,7 +214,35 @@ $ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远
 
 ## status
 
+检查当前的文件状态。
 
+![lifecycle](https://git-scm.com/book/en/v2/images/lifecycle.png)
+
+```shell
+$ git status         
+On branch master
+Your branch is based on 'origin/master', but the upstream is gone.
+  (use "git branch --unset-upstream" to fixup)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   folder1/file1.md        # 已添加到暂存区的修改，使用`commit`命令以提交
+        new file:   folder1/file2.md        # 已添加到暂存区的新文件，使用`commit`命令以提交
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   folder1/file1.md        # 未添加到暂存区的修改。可以看到同一文件可以同时有已暂存和未暂存的修改
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        folder1/file3.md                    # 未追踪的新文件
+
+$ git status -s              # 简化输出
+MM folder1/file1.md          # `M`表示修改，第一列对应暂存区，第二列对应工作区
+A  folder1/file2.md          # `A`表示已添加到暂存区但未提交的新文件
+?? folder1/file3.md          # `??`表示未追踪的新文件
+```
 
 
 
@@ -195,27 +252,47 @@ $ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远
 
 
 
+
+
+# .gitignore 文件
+
+参考：
+
++ [Git 官方教程](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring)
++ [Git 官方文档](https://git-scm.com/docs/gitignore)
++ [.gitignore 模版合集](https://github.com/github/gitignore)
+
+
+
+
+
 # 使用场景
 
-## 合并指定commit之后的几次commit
+## 合并指定提交之后的几次提交
 
 ```shell
-$ git rebase -i [commit]
+$ git rebase -i [commit]            # 修改指定提交之后的所有提交
 
-$ git push -f origin branch1
+pick 4dac89b Update file1           # 下方的提交是新的提交，将新的提交的行首命令修改为`s`
+s 7d1dbd3 Update file1
+s d3bbb50 Update file1              # 保存并退出
+
+Update file1                        # 下方的提交是新的提交，将不需要的消息添加注释
+# Update file1
+# Update file1                      # 保存并退出
+
+$ git push -f origin branch1        # 合并之后推送到远程仓库时，需要附加`-f`选项
 ```
 
 
 
-## 修改commit的message
+## 修改上次提交的消息
 
 ```shell
-$ git commit -m "Some messages."
+$ git commit -m "Some messages."                # 提交
 
-$ git commit --amend -m "Modified messages."
+$ git commit --amend -m "Modified messages."    # 修改上次提交的消息
 ```
-
-
 
 
 
