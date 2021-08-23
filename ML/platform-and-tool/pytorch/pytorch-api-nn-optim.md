@@ -6,15 +6,385 @@
 
 ### Module
 
+所有神经网络模块（module）的基类。你的自定义模型应继承此类。
+
+模块可以包含其它模块，使得它们可以嵌套成为树形结构。你可以将子模块赋为常规属性：
+
+```python
+import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)     # 子模块赋为常规属性
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+```
+
+以此种方式赋值的子模块将被注册，当你对模块调用 `to()` 等方法时这些子模块的参数也会被同样地转换。
 
 
 
+#### add_module()
 
-#### named_parameters
+为当前模块添加一个子模块。添加的子模块可以作为属性访问（使用给定的名称）。
+
+```python
+add_module(name, module)
+# name     子模块的名称
+# module   被添加的子模块
+```
 
 
 
-#### parameters
+#### apply()
+
+递归地为模块及其子模块应用指定函数。典型的应用包括初始化模型的参数。
+
+```python
+>>> @torch.no_grad()
+>>> def init_weights(m):
+>>>     print(m)
+>>>     if type(m) == nn.Linear:
+>>>         m.weight.fill_(1.0)
+>>>         print(m.weight)
+>>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
+>>> net.apply(init_weights)
+Linear(in_features=2, out_features=2, bias=True)
+Parameter containing:
+tensor([[ 1.,  1.],
+        [ 1.,  1.]])
+Linear(in_features=2, out_features=2, bias=True)
+Parameter containing:
+tensor([[ 1.,  1.],
+        [ 1.,  1.]])
+Sequential(
+  (0): Linear(in_features=2, out_features=2, bias=True)
+  (1): Linear(in_features=2, out_features=2, bias=True)
+)
+Sequential(
+  (0): Linear(in_features=2, out_features=2, bias=True)
+  (1): Linear(in_features=2, out_features=2, bias=True)
+)
+```
+
+
+
+#### buffers()
+
+返回所有缓冲区的一个迭代器。
+
+
+
+#### children()
+
+返回所有直接子模块的一个迭代器。
+
+
+
+#### cpu()
+
+移动所有的模型参数和缓冲区到 CPU。
+
+
+
+#### cuda()
+
+移动所有的模型参数和缓冲区到 GPU。
+
+如果你需要将模型移动到 GPU（通过调用 `.cuda()` 或 `.to()`），请在为此模型构造优化器之前完成这一操作。`.cuda()` 或 `.to()` 调用之后的模型的参数将会是一组不同的对象。
+
+
+
+#### eval()
+
+设置模块为测试模式。
+
+仅对某些模块有效，请参阅特定模块的文档以了解其在训练/测试模式下的行为细节。
+
+等价于 `train(False)`。
+
+
+
+#### forward()
+
+定义每次调用时执行的前向计算。
+
+
+
+#### get_parameter()
+
+```python
+get_parameter(target)
+```
+
+返回由 `target` 给出的参数，若其不存在则引发异常。
+
+
+
+#### get_submodule()
+
+```python
+get_submodule(target)
+```
+
+返回由 `target` 给出的子模块，若其不存在则引发异常。
+
+例如，现有模块 `a`，其有一个嵌套的子模块 `net_b`，`net_b` 又有两个子模块 `net_c` 和 `linear`，`net_c` 又有子模块 `conv`。为了检查我们是否有子模块 `linear`，应调用 `get_submodule("net_b.linear")`；为了检查我们是否有子模块 `conv`，应调用 `get_submodule("net_b.net_c.linear")`。
+
+
+
+#### load_state_dict()
+
+```python
+load_state_dict(state_dict, strict=True)
+# state_dict    包含模块参数和持久缓冲区的字典
+# strict        若为`True`,则`state_dict`的键必须正好匹配当前模块的`state_dict()`方法返回的模块的键
+```
+
+从 `state_dict` 复制参数和缓冲区到当前模块及其子模块。
+
+
+
+#### modules()
+
+返回所有模块（当前模块及其子模块）的一个迭代器。
+
+```python
+>>> l = nn.Linear(2, 2)
+>>> net = nn.Sequential(l, l)
+>>> for idx, m in enumerate(net.modules()):
+    print(idx, '->', m)
+0 -> Sequential(                                          # 0 -> 当前模块
+  (0): Linear(in_features=2, out_features=2, bias=True)
+  (1): Linear(in_features=2, out_features=2, bias=True)
+)
+1 -> Linear(in_features=2, out_features=2, bias=True)     # 1 -> 子模块1
+2 -> Linear(in_features=2, out_features=2, bias=True)     # 2 -> 子模块2
+```
+
+
+
+#### named_buffers()
+
+返回所有缓冲区的一个迭代器，产出缓冲区及其名称。
+
+
+
+#### named_children()
+
+返回所有直接子模块的一个迭代器，产出模块及其名称。
+
+
+
+#### named_parameters()
+
+返回所有参数的一个迭代器，产出模块及其名称。
+
+
+
+#### parameters()
+
+返回所有参数的一个迭代器，通常用于传给优化器。
+
+
+
+#### register_buffer()
+
+为模块添加一个缓冲区。
+
+通常用于注册一个不应被看作为模型参数的缓冲区。例如，BatchNorm 的 `running_mean` 不是一个参数，但却是模块状态的一部分。默认情况下，缓冲区是持久的，并和参数一起保存。
+
+缓冲区可以作为属性访问（使用给定的名称）。
+
+```python
+register_buffer(name, tensor, persistent=True)
+# name        缓冲区的名称
+# tensor      要注册的缓冲区
+# persistent  若为`True`,则缓冲区是持久的,并会成为模块的`state_dict`的一部分
+```
+
+
+
+#### register_forward_hook()
+
+为模块注册一个前向钩子。
+
+此钩子会在每次 `forward()` 返回后被调用；其应该有如下签名：
+
+```python
+hook(module, input, output) -> None or modified output
+```
+
+其中 `input` 仅包含传给模块（`forward()`）的位置参数，传给模块的关键字参数不会传给钩子。钩子可以修改 `output`，也可以原位修改 `input`，但是这并不会影响到前向计算，因为钩子在 `forward()` 返回后才被调用。
+
+
+
+#### register_pre_hook()
+
+为模块注册一个前向前钩子。
+
+此钩子会在每次 `forward()` 调用前被调用；其应该有如下签名：
+
+```python
+hook(module, input) -> None or modified input
+```
+
+其中 `input` 仅包含传给模块（`forward()`）的位置参数，传给模块的关键字参数不会传给钩子。钩子可以修改 `input`，返回修改后的值。
+
+
+
+#### register_full_backward_hook()
+
+为模块注册一个反向钩子。
+
+此钩子会在每次 `backward()` 返回后被调用；其应该有如下签名：
+
+```python
+hook(module, grad_input, grad_output) -> tuple(Tensor) or None
+```
+
+其中 `grad_input` 和 `grad_output` 是分别包含了对于输入和输出的梯度的元组。此钩子不应修改其参数，但可以可选地返回一个新的对于输入的梯度以替代 `grad_input` 用于接下来的计算。`grad_input` 仅对应于传给模块的位置参数，传给模块的关键字参数将被忽略；`grad_input` 和 `grad_output` 中对应于非张量的元素为 `None`。
+
+
+
+#### register_parameter()
+
+为模块添加一个参数。
+
+该参数可以作为属性访问（使用给定的名称）。
+
+```python
+register_parameter(name, param)
+# name        参数的名称
+# param       要添加的参数
+```
+
+
+
+#### requires_grad_()
+
+设置 autograd 是否应该记录模块参数参与的运算，通过设置参数的 `requires_grad` 属性。
+
+此方法有助于冻结部分模块以精调，或单独训练模型的各个部分（例如 GAN 训练）。
+
+
+
+#### state_dict()
+
+返回包含了模块完整状态的字典。
+
+参数和持久缓冲区都包含在内；字典的键对应于参数和缓冲区的名称。
+
+
+
+#### to()
+
+移动参数和缓冲区到指定设备，或转换其数据类型。此方法**原位**修改模块。
+
+```python
+to(device=None, dtype=None, non_blocking=False)
+to(dtype, non_blocking=False)
+to(tensor, non_blocking=False)
+to(memory_format=torch.channels_last)
+# device          要移动到的设备
+# dtype           要转换为的浮点或复数数据类型
+# tensor          张量实例,其设备和数据类型作为此模块所有参数和缓冲区要移动和转换的目标
+# memory_format   要转换为的内存格式
+```
+
+其函数签名类似于 `torch.Tensor.to()`，但 `dtype` 仅接受浮点或复数类型，并且只有浮点或复数参数和缓冲区会被转型；整数参数和缓冲区的类型保持不变。
+
+```python
+>>> linear = nn.Linear(2, 2)
+>>> linear.weight
+Parameter containing:
+tensor([[ 0.1913, -0.3420],
+        [-0.5113, -0.2325]])
+>>> linear.to(torch.double)
+Linear(in_features=2, out_features=2, bias=True)
+>>> linear.weight
+Parameter containing:
+tensor([[ 0.1913, -0.3420],
+        [-0.5113, -0.2325]], dtype=torch.float64)
+>>> gpu1 = torch.device("cuda:1")
+>>> linear.to(gpu1, dtype=torch.half, non_blocking=True)
+Linear(in_features=2, out_features=2, bias=True)
+>>> linear.weight
+Parameter containing:
+tensor([[ 0.1914, -0.3420],
+        [-0.5112, -0.2324]], dtype=torch.float16, device='cuda:1')
+>>> cpu = torch.device("cpu")
+>>> linear.to(cpu)
+Linear(in_features=2, out_features=2, bias=True)
+>>> linear.weight
+Parameter containing:
+tensor([[ 0.1914, -0.3420],
+        [-0.5112, -0.2324]], dtype=torch.float16)
+
+>>> linear = nn.Linear(2, 2, bias=None).to(torch.cdouble)
+>>> linear.weight
+Parameter containing:
+tensor([[ 0.3741+0.j,  0.2382+0.j],
+        [ 0.5593+0.j, -0.4443+0.j]], dtype=torch.complex128)
+>>> linear(torch.ones(3, 2, dtype=torch.cdouble))
+tensor([[0.6122+0.j, 0.1150+0.j],
+        [0.6122+0.j, 0.1150+0.j],
+        [0.6122+0.j, 0.1150+0.j]], dtype=torch.complex128)
+```
+
+
+
+#### train()
+
+设置模块为训练模式。
+
+仅对某些模块有效，请参阅特定模块的文档以了解其在训练/测试模式下的行为细节。
+
+
+
+#### training
+
+若为 `True`，表示模块处于训练模式；若为 `False`，表示模块处于测试模式。
+
+
+
+#### type()
+
+将所有参数和缓冲区转换为指定数据类型。
+
+
+
+#### zero_grad()
+
+设置所有模型参数的梯度为 0。见 `torch.optim.Optimizer.zero_grad()`。
+
+
+
+### Sequential
+
+模块的顺序容器。模块将以它们被传入到初始化函数的顺序被添加，并以同样的顺序组成流水线。
+
+整个容器可以被当作一个模块进行调用，对其执行的变换会被应用于其保存的每个模块（每个模块都被注册为 `Sequential` 实例的子模块）。
+
+```python
+# Using Sequential to create a small model. When `model` is run,
+# input will first be passed to `Conv2d(1,20,5)`. The output of
+# `Conv2d(1,20,5)` will be used as the input to the first
+# `ReLU`; the output of the first `ReLU` will become the input
+# for `Conv2d(20,64,5)`. Finally, the output of
+# `Conv2d(20,64,5)` will be used as input to the second `ReLU`
+model = nn.Sequential(
+          nn.Conv2d(1,20,5),
+          nn.ReLU(),
+          nn.Conv2d(20,64,5),
+          nn.ReLU()
+        )
+```
 
 
 
@@ -88,7 +458,11 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-参照 [Conv2d](#Conv2d)。
++ 输入形状：$$(N,C_{\rm in},L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
++ 输出形状：$$(N,C_{\rm out},L_{\rm out})$$。
++ 参数：
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
 
 ```python
 >>> conv1 = nn.Conv1d(1, 32, 3, 1)                   # 卷积核长度为3,步长为1
@@ -158,6 +532,30 @@ torch.Size([100, 32, 10, 10])
 
 三维卷积层。
 
+此模块支持 TensorFloat32。
+
+```python
+class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+# in_channels     输入通道数
+# out_channels    输出通道数
+# kernel_size     卷积核大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
+# stride          卷积步长
+# padding         输入的六面填充的层数,可以是单个整数(同时表示三个方向填充的层数)或三个整数组成的元组(分别表示
+#                 深,高,宽三个方向填充的层数)
+# padding_mode    填充模式.若为`zeros`,则填充零;……
+# dilation        卷积核元素的间隔
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
+#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
+#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# bias            若为`True`,为输出加上一个可以学习的偏置
+```
+
++ 输入形状：$$(N,C_{\rm in},D_{\rm in}, H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C_{\rm out},D_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 参数：
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+
 
 
 ## 汇聚层（池化层）
@@ -167,17 +565,31 @@ torch.Size([100, 32, 10, 10])
 一维最大汇聚层。见 `torch.nn.functional.max_pool1d`。
 
 ```python
->>> m1 = nn.MaxPool1d(2, stride=1)
->>> m2 = nn.MaxPool1d(2, stride=2)
->>> input = torch.randn(1, 8)
->>> output1 = m1(input)
->>> output2 = m2(input)
+class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+# kernel_size     滑动窗口的大小
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的两端填充的负无穷的个数
+# dilation        滑动窗口元素的间隔
+# return_indices  若为`True`,将最大值连同索引一起返回,用于之后调用`MaxUnpool1d`
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
+```
+
++ 输入形状：$$(N,C,L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
++ 输出形状：$$(N,C,L_{\rm out})$$。
+
+```python
+>>> input = torch.randint(10, (1, 10)).to(torch.float32)
+>>> mp1 = nn.MaxPool1d(3, stride=1)
+>>> mp2 = nn.MaxPool1d(3, stride=2)
+>>> mp3 = nn.MaxPool1d(3, stride=2, ceil_mode=True)
 >>> input
-tensor([[ 0.3055,  0.5521,  1.9417, -0.7325,  0.3202, -1.4555,  1.7270,  3.1311]])
->>> output1
-tensor([[0.5521, 1.9417, 1.9417, 0.3202, 0.3202, 1.7270, 3.1311]])
->>> output2
-tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
+tensor([[6., 3., 5., 9., 7., 1., 8., 2., 5., 7.]])
+>>> mp1(input)
+tensor([[6., 9., 9., 9., 8., 8., 8., 7.]])
+>>> mp2(input)
+tensor([[6., 9., 8., 8.]])
+>>> mp3(input)
+tensor([[6., 9., 8., 8., 7.]])
 ```
 
 
@@ -187,24 +599,167 @@ tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
 二维最大汇聚层。见 `torch.nn.functional.max_pool2d`。
 
 ```python
->>> m1 = nn.MaxPool2d(2, stride=1)
->>> m2 = nn.MaxPool2d(2, stride=2)
->>> input = torch.randn(1, 1, 4, 4)
->>> output1 = m1(input)
->>> output2 = m2(input)
->>> input
-tensor([[[[-0.5308,  1.2014, -1.3582,  1.1337],
-          [ 0.2359,  0.9501,  1.1915,  0.3432],
-          [-1.4260, -0.1276, -2.2615,  0.8555],
-          [-0.8545,  0.5436,  1.6482,  1.2749]]]])
->>> output1
-tensor([[[[1.2014, 1.2014, 1.1915],
-          [0.9501, 1.1915, 1.1915],
-          [0.5436, 1.6482, 1.6482]]]])
->>> output2
-tensor([[[[1.2014, 1.1915],
-          [0.5436, 1.6482]]]])
+class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+# kernel_size     滑动窗口的大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的四边填充的负无穷的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组
+#                 (分别表示上下填充的行数和左右填充的列数)
+# dilation        滑动窗口元素的间隔
+# return_indices  若为`True`,将最大值连同索引一起返回,用于之后调用`MaxUnpool2d`
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 ```
+
++ 输入形状：$$(N,C,H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C,H_{\rm out}, W_{\rm out})$$。
+
+```python
+>>> input = torch.randint(10, (1, 6, 6)).to(torch.float32)
+>>> mp1 = nn.MaxPool2d(3, stride=1)
+>>> mp2 = nn.MaxPool2d(3, stride=2)
+>>> mp3 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
+>>> input
+tensor([[[3., 5., 9., 4., 5., 6.],
+         [0., 0., 5., 1., 9., 3.],
+         [4., 5., 0., 9., 2., 2.],
+         [8., 0., 3., 0., 0., 4.],
+         [7., 7., 3., 7., 0., 0.],
+         [2., 5., 0., 0., 8., 3.]]])
+>>> mp1(input)
+tensor([[[9., 9., 9., 9.],
+         [8., 9., 9., 9.],
+         [8., 9., 9., 9.],
+         [8., 7., 8., 8.]]])
+>>> mp2(input)
+tensor([[[9., 9.],
+         [8., 9.]]])
+>>> mp3(input)
+tensor([[[9., 9., 9.],
+         [8., 9., 4.],
+         [7., 8., 8.]]])
+```
+
+
+
+### MaxPool3d
+
+三维最大汇聚层。见 `torch.nn.functional.max_pool3d`。
+
+```python
+class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+# kernel_size     滑动窗口的大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的六面填充的负无穷的层数,可以是单个整数(同时表示三个方向填充的层数)或三个整数组成的元组(分别表示
+#                 深,高,宽三个方向填充的层数)
+# dilation        滑动窗口元素的间隔
+# return_indices  若为`True`,将最大值连同索引一起返回,用于之后调用`MaxUnpool3d`
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
+```
+
++ 输入形状：$$(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$$。
+
+
+
+### AvgPool1d
+
+一维平均汇聚层。见 `torch.nn.functional.avg_pool1d`。
+
+```python
+class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
+# kernel_size     滑动窗口的大小
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的两端填充的零的个数
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
+# count_include_pad  若为`True`,则平均计算将包括填充的零
+```
+
++ 输入形状：$$(N,C,L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
++ 输出形状：$$(N,C,L_{\rm out})$$。
+
+```python
+>>> input = torch.randint(10, (1, 1, 10)).to(torch.float32)
+>>> mp1 = nn.AvgPool1d(3, stride=1)
+>>> mp2 = nn.AvgPool1d(3, stride=2)
+>>> mp3 = nn.AvgPool1d(3, stride=2, ceil_mode=True)
+>>> input
+tensor([[[6., 3., 5., 9., 7., 1., 8., 2., 5., 7.]]])
+>>> mp1(input)
+tensor([[[4.6667, 5.6667, 7.0000, 5.6667, 5.3333, 3.6667, 5.0000, 4.6667]]])
+>>> mp2(input)
+tensor([[[4.6667, 7.0000, 5.3333, 5.0000]]])
+>>> mp3(input)
+tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
+```
+
+
+
+### AvgPool2d
+
+二维平均汇聚层。见 `torch.nn.functional.avg_pool2d`。
+
+```python
+class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)
+# kernel_size     滑动窗口的大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的四边填充的零的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组
+#                 (分别表示上下填充的行数和左右填充的列数)
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
+# count_include_pad  若为`True`,则平均计算将包括填充的零
+# divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
+```
+
++ 输入形状：$$(N,C,H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C,H_{\rm out}, W_{\rm out})$$。
+
+```python
+>>> input = torch.randint(10, (1, 1, 6, 6)).to(torch.float32)
+>>> mp1 = nn.AvgPool2d(3, stride=1)
+>>> mp2 = nn.AvgPool2d(3, stride=2)
+>>> mp3 = nn.AvgPool2d(3, stride=2, ceil_mode=True)
+>>> input
+tensor([[[[3., 5., 9., 4., 5., 6.],
+          [0., 0., 5., 1., 9., 3.],
+          [4., 5., 0., 9., 2., 2.],
+          [8., 0., 3., 0., 0., 4.],
+          [7., 7., 3., 7., 0., 0.],
+          [2., 5., 0., 0., 8., 3.]]]])
+>>> mp1(input)
+tensor([[[[3.4444, 4.2222, 4.8889, 4.5556],
+          [2.7778, 2.5556, 3.2222, 3.3333],
+          [4.1111, 3.7778, 2.6667, 2.6667],
+          [3.8889, 2.7778, 2.3333, 2.4444]]]])
+>>> mp2(input)
+tensor([[[[3.4444, 4.8889],
+          [4.1111, 2.6667]]]])
+>>> mp3(input)
+tensor([[[[3.4444, 4.8889, 4.5000],
+          [4.1111, 2.6667, 1.3333],
+          [4.0000, 3.0000, 2.7500]]]])
+```
+
+
+
+### AvgPool3d
+
+三维平均汇聚层。见 `torch.nn.functional.avg_pool3d`。
+
+```python
+class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)
+# kernel_size     滑动窗口的大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
+# stride          滑动窗口的步长,默认为`kernel_size`
+# padding         输入的六面填充的零的层数,可以是单个整数(同时表示三个方向填充的层数)或三个整数组成的元组(分别表示
+#                 深,高,宽三个方向填充的层数)
+# ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
+# count_include_pad  若为`True`,则平均计算将包括填充的零
+# divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
+```
+
++ 输入形状：$$(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
++ 输出形状：$$(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$$。
+
+
+
+
 
 
 
@@ -578,99 +1133,194 @@ tensor(20.)
 
 # torch.nn.functional
 
+## 汇聚函数（池化函数）
 
+### max_pool1d()
 
-## max_pool1d()
-
-一维最大汇聚函数。见 `torch.nn.MaxPool1d`。
+一维最大汇聚函数。用法参见 `torch.nn.MaxPool1d`。
 
 ```python
->>> input = torch.randn(1, 8)
->>> output1 = F.max_pool1d(input, 2, 1)
->>> output2 = F.max_pool1d(input, 2)
+>>> input = torch.randint(10, (1, 10)).to(torch.float32)
 >>> input
-tensor([[ 0.3055,  0.5521,  1.9417, -0.7325,  0.3202, -1.4555,  1.7270,  3.1311]])
->>> output1
-tensor([[0.5521, 1.9417, 1.9417, 0.3202, 0.3202, 1.7270, 3.1311]])
->>> output2
-tensor([[0.5521, 1.9417, 0.3202, 3.1311]])
+tensor([[6., 3., 5., 9., 7., 1., 8., 2., 5., 7.]])
+>>> F.max_pool1d(input, 3, stride=1)
+tensor([[6., 9., 9., 9., 8., 8., 8., 7.]])
+>>> F.max_pool1d(input, 3, stride=2)
+tensor([[6., 9., 8., 8.]])
+>>> F.max_pool1d(input, 3, stride=2, ceil_mode=True)
+tensor([[6., 9., 8., 8., 7.]])
 ```
 
 
 
-## max_pool2d()
+### max_pool2d()
 
-二维最大汇聚函数。见 `torch.nn.MaxPool2d`。
+二维最大汇聚函数。用法参见 `torch.nn.MaxPool2d`。
 
 ```python
->>> input = torch.randn(1, 1, 4, 4)
+>>> input = torch.randint(10, (1, 6, 6)).to(torch.float32)
 >>> input
-tensor([[[[-0.5308,  1.2014, -1.3582,  1.1337],
-          [ 0.2359,  0.9501,  1.1915,  0.3432],
-          [-1.4260, -0.1276, -2.2615,  0.8555],
-          [-0.8545,  0.5436,  1.6482,  1.2749]]]])
->>> F.max_pool2d(input, 2, 1)
-tensor([[[[1.2014, 1.2014, 1.1915],
-          [0.9501, 1.1915, 1.1915],
-          [0.5436, 1.6482, 1.6482]]]])
->>> F.max_pool2d(input, 2)
-tensor([[[[1.2014, 1.1915],
-          [0.5436, 1.6482]]]])
+tensor([[[3., 5., 9., 4., 5., 6.],
+         [0., 0., 5., 1., 9., 3.],
+         [4., 5., 0., 9., 2., 2.],
+         [8., 0., 3., 0., 0., 4.],
+         [7., 7., 3., 7., 0., 0.],
+         [2., 5., 0., 0., 8., 3.]]])
+>>> F.max_pool2d(input, 3, stride=1)
+tensor([[[9., 9., 9., 9.],
+         [8., 9., 9., 9.],
+         [8., 9., 9., 9.],
+         [8., 7., 8., 8.]]])
+>>> F.max_pool2d(input, 3, stride=2)
+tensor([[[9., 9.],
+         [8., 9.]]])
+>>> F.max_pool2d(input, 3, stride=2, ceil_mode=True)
+tensor([[[9., 9., 9.],
+         [8., 9., 4.],
+         [7., 8., 8.]]])
 ```
 
 
 
-## one_hot()
+### max_pool3d()
 
-将向量转换为 one-hot 表示。
+三维最大汇聚函数。用法参见 `torch.nn.MaxPool3d`。
+
+
+
+### avg_pool1d()
+
+一维平均汇聚函数。用法参见 `torch.nn.AvgPool1d`。
 
 ```python
->>> F.one_hot(torch.arange(0, 5))
-tensor([[1, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 1]])
-
->>> F.one_hot(torch.arange(0, 5) % 3, num_classes=5)
-tensor([[1, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [1, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0]])
+>>> input = torch.randint(10, (1, 1, 10)).to(torch.float32)
+>>> input
+tensor([[[6., 3., 5., 9., 7., 1., 8., 2., 5., 7.]]])
+>>> F.avg_pool1d(input, 3, stride=1)
+tensor([[[4.6667, 5.6667, 7.0000, 5.6667, 5.3333, 3.6667, 5.0000, 4.6667]]])
+>>> F.avg_pool1d(input, 3, stride=2)
+tensor([[[4.6667, 7.0000, 5.3333, 5.0000]]])
+>>> F.avg_pool1d(input, 3, stride=2, ceil_mode=True)
+tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
 ```
 
 
 
-## relu()
+### avg_pool2d()
+
+二维平均汇聚函数。用法参见 `torch.nn.AvgPool2d`。
+
+```python
+>>> input = torch.randint(10, (1, 1, 6, 6)).to(torch.float32)
+>>> input
+tensor([[[[3., 5., 9., 4., 5., 6.],
+          [0., 0., 5., 1., 9., 3.],
+          [4., 5., 0., 9., 2., 2.],
+          [8., 0., 3., 0., 0., 4.],
+          [7., 7., 3., 7., 0., 0.],
+          [2., 5., 0., 0., 8., 3.]]]])
+>>> F.avg_pool2d(input, 3, stride=1)
+tensor([[[[3.4444, 4.2222, 4.8889, 4.5556],
+          [2.7778, 2.5556, 3.2222, 3.3333],
+          [4.1111, 3.7778, 2.6667, 2.6667],
+          [3.8889, 2.7778, 2.3333, 2.4444]]]])
+>>> F.avg_pool2d(input, 3, stride=2)
+tensor([[[[3.4444, 4.8889],
+          [4.1111, 2.6667]]]])
+>>> F.avg_pool2d(input, 3, stride=2, ceil_mode=True)
+tensor([[[[3.4444, 4.8889, 4.5000],
+          [4.1111, 2.6667, 1.3333],
+          [4.0000, 3.0000, 2.7500]]]])
+```
+
+
+
+### avg_pool3d()
+
+三维平均汇聚函数。用法参见 `torch.nn.AvgPool3d`。
+
+
+
+## 激活函数
+
+### elu()
+
+ELU 激活函数。
+$$
+{\rm ELU}(x)=\max(0,x)+\min(0,\alpha(e^x-1))
+$$
+
+```python
+torch.nn.functional.elu(input, alpha=1.0, inplace=False)
+```
+
+```python
+>>> input = torch.randn(4)
+>>> input
+tensor([ 0.4309, -2.3080,  1.2376,  1.2595])
+>>> F.elu(input)
+tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
+>>> F.elu_(input)          # 原位操作
+tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
+```
+
+
+
+### leaky_relu()
+
+Leaky ReLU 激活函数。
+$$
+{\rm LeakyReLU}(x)=\max(0,x)+{\rm negative\_slope*\min(0,x)}
+$$
+
+```python
+>>> input = torch.randn(4)
+>>> input
+tensor([-0.6722,  0.3839,  0.7086, -0.9332])
+>>> F.leaky_relu(input)
+tensor([-0.0067,  0.3839,  0.7086, -0.0093])
+>>> F.leaky_relu_(input)
+tensor([-0.0067,  0.3839,  0.7086, -0.0093])
+```
+
+
+
+### relu()
 
 ReLU 激活函数。见 `torch.nn.ReLU`。
+$$
+{\rm ReLU}(x)=\max(0,x)
+$$
 
 ```python
->>> input = torch.randn(2)
+>>> input = torch.randn(4)
 >>> input
-tensor([1.2175, -0.7772])
+tensor([-0.5151,  0.0423, -0.8955,  0.0784])
 >>> F.relu(input)
-tensor([1.2175, 0.0000])
+tensor([0.0000, 0.0423, 0.0000, 0.0784])
+>>> F.relu_(input)        # 原位操作
+tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ```
 
 
 
-## sigmoid() (deprecated)
+### sigmoid()
 
-Sigmoid 激活函数。见 `torch.nn.Sigmoid,torch.sigmoid`。
+Sigmoid 激活函数（实际上是 Logistic 激活函数）。见 `torch.nn.Sigmoid`、`torch.sigmoid`、`torch.special.expit`。
 
 ```python
->>> input = torch.randn(2)
+>>> input = torch.randn(4)
 >>> input
-tensor([1.7808, -0.9893])
+tensor([-0.0796, -0.5545,  1.6273, -1.3333])
 >>> F.sigmoid(input)
-tensor([0.8558, 0.2710])
+tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ```
 
+> `nn.functional.sigmoid` is deprecated. Use `torch.sigmoid` instead.
 
 
-## softmax()
+
+### softmax()
 
 softmax 回归。
 
@@ -690,13 +1340,73 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
 
 
 
-## tanh()
+### tanh()
 
 tanh 激活函数。
 
 ```python
-
+>>> input = torch.randn(4)
+>>> input
+tensor([ 0.7553,  1.6975, -0.0451,  0.3348])
+>>> F.tanh(input)
+tensor([ 0.6383,  0.9351, -0.0451,  0.3228])
 ```
+
+> `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
+
+
+
+## 稀疏函数
+
+### one_hot()
+
+将向量转换为 one-hot 表示。
+
+```python
+>>> F.one_hot(torch.arange(0, 5))
+tensor([[1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 1]])
+>>> 
+>>> F.one_hot(torch.arange(0, 5) % 3, num_classes=5)
+tensor([[1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0]])
+```
+
+
+
+
+
+## 距离函数
+
+### cosine_similarity()
+
+计算两个张量沿指定维度的余弦相似度。
+$$
+{\rm cos\_similarity}=\frac{x_1\cdot x_2}{\max(\|x_1\|_2\cdot \|x_2\|_2, \epsilon)}
+$$
+
+```python
+>>> input1 = torch.randn(3, 4, 5)
+>>> input2 = torch.randn(3, 4, 5)
+>>> F.cosine_similarity(input1, input2).shape
+torch.Size([3, 5])
+```
+
+
+
+## 损失函数
+
+### binary_cross_entropy()
+
+
+
+### cross_entropy()
 
 
 

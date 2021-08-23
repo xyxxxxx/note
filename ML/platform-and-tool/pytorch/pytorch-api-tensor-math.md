@@ -282,6 +282,20 @@ tensor([[0],
 
 
 
+#### fill_()
+
+以指定值填充张量。
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-1.3756, -0.0195,  1.2633, -0.2588])
+>>> a.fill_(1.)
+tensor([1., 1., 1., 1.])
+```
+
+
+
 #### get_device()
 
 对于 CUDA 张量，返回其所位于的 GPU 设备的序号；对于 CPU 张量，抛出一个错误。
@@ -691,6 +705,19 @@ tensor([ 0,  1,  2,  3,  4])
 tensor([ 1,  2,  3])
 >>> torch.arange(1, 2.5, 0.5)
 tensor([ 1.0000,  1.5000,  2.0000])
+```
+
+
+
+### eye()
+
+返回指定行列数的方阵（二维张量），其中对角元素为 1、其余元素为 0。
+
+```python
+>>> torch.eye(3)
+tensor([[ 1.,  0.,  0.],
+        [ 0.,  1.,  0.],
+        [ 0.,  0.,  1.]])
 ```
 
 
@@ -1199,7 +1226,7 @@ tensor([[ 0],
 移除张量的规模为 1 的维度。返回张量与原张量共享内存。
 
 ```python
->>> a = torch.randn(1,2,1,3,1,4)
+>>> a = torch.randn(1, 2, 1, 3, 1, 4)
 >>> a.shape
 torch.Size([1, 2, 1, 3, 1, 4])
 >>> torch.squeeze(a).shape           # 移除所有规模为1的维度
@@ -2370,15 +2397,7 @@ tensor([ 1.,  1.,  1., -1.])
 
 ### sigmoid()
 
-Sigmoid 激活函数。见 `torch.nn.Sigmoid`。
-
-```python
->>> a = torch.randn(4)
->>> a
-tensor([ 1.3938, -0.2393, -0.6540, -1.2838])
->>> a.sigmoid()
-tensor([0.8012, 0.4405, 0.3421, 0.2169])
-```
+`torch.special.expit()` 的别名。
 
 
 
@@ -2795,6 +2814,125 @@ tensor([1, 6, 9, 0, 3, 2, 4, 5, 7, 8])
 
 
 
+## 禁用梯度计算
+
+### no_grad()
+
+禁用梯度计算的上下文管理器。也可用作装饰器。
+
+对于模型推断（确定不会调用 `Tensor.backward()`），禁用梯度计算可以降低 `requires_grad=True` 变量参与的计算的内存消耗。
+
+在此模式下，每个计算的结果都有 `requires_grad=False`，即使参与计算的张量有 `requires_grad=True`。
+
+此上下文管理器是线程局部的，它不会影响到其它线程的计算。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.no_grad():
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> 
+>>> @torch.no_grad()
+... def doubler(x):
+...     return x * 2
+>>> z = doubler(x)
+>>> z.requires_grad
+False
+```
+
+
+
+### enable_grad()
+
+启用梯度计算的上下文管理器。也可用作装饰器。
+
+用于当梯度计算被 `no_grad()` 或 `set_grad_enabled()` 禁用时启用梯度计算。
+
+此上下文管理器是线程局部的，它不会影响到其它线程的计算。
+
+```python
+>>> x = torch.tensor([1.], requires_grad=True)
+>>> with torch.no_grad():
+...   with torch.enable_grad():
+...     y = x * 2
+>>> y.requires_grad
+True
+>>> 
+>>> @torch.enable_grad()
+... def doubler(x):
+...     return x * 2
+>>> with torch.no_grad():
+...     z = doubler(x)
+>>> z.requires_grad
+True
+```
+
+
+
+### set_grad_enabled()
+
+设置梯度计算开或关的上下文管理器。也可直接调用。
+
+此上下文管理器是线程局部的，它不会影响到其它线程的计算。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> is_train = False
+>>> with torch.set_grad_enabled(is_train):
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> 
+>>> torch.set_grad_enabled(True)
+>>> y = x * 2
+>>> y.requires_grad
+True
+>>> torch.set_grad_enabled(False)
+>>> y = x * 2
+>>> y.requires_grad
+False
+```
+
+
+
+### is_grad_enabled()
+
+若当前启用了梯度计算，返回 `True`。
+
+
+
+### inference_mode()
+
+启用或禁用推断模式的上下文管理器。也可用作装饰器。
+
+推断模式是一种新的上下文，类似于 `no_grad()` 的禁用梯度计算，用于你确定运算不会使用 autograd 的情形下。此模式下运行的代码可以得到更好的性能，通过禁用视图追踪以及 version counter bumps。
+
+此上下文管理器是线程局部的，它不会影响到其它线程的计算。
+
+```python
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.inference_mode():
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> 
+>>> @torch.inference_mode()
+... def doubler(x):
+...     return x * 2
+>>> z = doubler(x)
+>>> z.requires_grad
+False
+```
+
+
+
+### is_inference_mode_enabled()
+
+若当前启用了推断模式，返回 `True`。
+
+
+
 
 
 # torch.view
@@ -2985,6 +3123,31 @@ output = Exp.apply(input)
 
 ## det()
 
+计算方阵的行列式。支持批量计算。
+
+```python
+>>> a = torch.randn(3, 3)
+>>> a
+tensor([[ 0.9478,  0.9158, -1.1295],
+        [ 0.9701,  0.7346, -1.8044],
+        [-0.2337,  0.0557,  0.6929]])
+>>> torch.linalg.det(a)
+tensor(0.0934)
+>>> 
+>>> a = torch.randn(3, 2, 2)
+>>> a
+tensor([[[ 0.9254, -0.6213],
+         [-0.5787,  1.6843]],
+
+        [[ 0.3242, -0.9665],
+         [ 0.4539, -0.0887]],
+
+        [[ 1.1336, -0.4025],
+         [-0.7089,  0.9032]]])
+>>> torch.linalg.det(a)
+tensor([1.1990, 0.4099, 0.7386])
+```
+
 
 
 ## eig()
@@ -3003,7 +3166,14 @@ output = Exp.apply(input)
 
 ## matrix_rank()
 
-返回
+计算矩阵的秩。
+
+
+
+```python
+```
+
+
 
 
 
@@ -3096,6 +3266,23 @@ tensor([[0., 1., 2., 3., 4.],
 >>> a.exp2()
 tensor([[  1.,   2.,   4.,   8.,  16.],
         [ 32.,  64., 128., 256., 512.]])
+```
+
+
+
+## expit()
+
+对张量的所有元素应用 expit 函数（逻辑函数）。expit 函数定义如下：
+$$
+{\rm expit}(x)=\frac{1}{1+e^{-t}}
+$$
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([-0.6974,  0.0021,  1.4883,  0.3381])
+>>> a.sigmoid()
+tensor([0.3324, 0.5005, 0.8158, 0.5837])
 ```
 
 
