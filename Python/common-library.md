@@ -190,6 +190,12 @@ PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL �
 
 
 
+#### create()
+
+以给定的模式和大小创建一个新的图像。
+
+
+
 #### crop()
 
 返回图像的一个矩形区域。
@@ -197,6 +203,16 @@ PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL �
 ```python
 with Image.open("hopper.jpg") as im:
     im_crop = im.crop((20, 20, 100, 100))   # 元组(左,上,右,下)定义了裁剪的像素坐标
+```
+
+
+
+#### open()
+
+打开并识别给定的图像文件。
+
+```python
+im = Image.open("hopper.jpg")
 ```
 
 
@@ -241,7 +257,7 @@ with Image.open("hopper.jpg") as im:
 
 # requests
 
-requests 是一个简单而优雅的 HTTP 库。
+requests 是一个简单而优雅的 HTTP 库。[使用教程](https://docs.python-requests.org/zh_CN/latest/user/quickstart.html)
 
 
 
@@ -251,7 +267,7 @@ requests 是一个简单而优雅的 HTTP 库。
 
 ## 接口
 
-Requests 所有的功能都可以通过以下 7 个方法访问，它们都会返回一个`Response`对象的实例。
+requests 所有的功能都可以通过以下 7 个方法访问，它们都会返回一个 `Response` 对象的实例。
 
 ### delete()
 
@@ -262,6 +278,27 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 ### get()
 
 发送 `GET` 请求。
+
+```python
+>>> payload = {'key1': 'value1', 'key2': 'value2'}
+>>> r = requests.get('https://httpbin.org/get', params=payload)   # 传入字典作为请求查询参数
+>>> print(r.text)
+{
+  "args": {
+    "key1": "value1", 
+    "key2": "value2"
+  }, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "gzip, deflate", 
+    "Host": "httpbin.org", 
+    "User-Agent": "python-requests/2.25.1", 
+    "X-Amzn-Trace-Id": "Root=1-6124b95d-2a6ab1a21adacae014c17dbe"
+  }, 
+  "origin": "64.225.113.187", 
+  "url": "https://httpbin.org/get?key1=value1&key2=value2"        # URL被正确编码
+}
+```
 
 
 
@@ -282,9 +319,29 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 发送 `POST` 请求。
 
 ```shell
->>> r = requests.post('http://httpbin.org/post', data = {'key':'value'})
->>> r.text
-'{\n  "args": {}, \n  "data": "", \n  "files": {}, \n  "form": {\n    "key": "value"\n  }, \n  "headers": {\n    "Accept": "*/*", \n    "Accept-Encoding": "gzip, deflate", \n    "Content-Length": "9", \n    "Content-Type": "application/x-www-form-urlencoded", \n    "Host": "httpbin.org", \n    "User-Agent": "python-requests/2.25.1", \n    "X-Amzn-Trace-Id": "Root=1-60616431-7b1c56ca0f9832ba30ed9655"\n  }, \n  "json": null, \n  "origin": "106.121.161.184", \n  "url": "http://httpbin.org/post"\n}\n'
+>>> r = requests.post('http://httpbin.org/post', data = {'key': 'value'})
+>>> print(r.text)
+{
+  "args": {}, 
+  "data": "", 
+  "files": {}, 
+  "form": {
+    "key": "value"
+  }, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "gzip, deflate", 
+    "Cache-Control": "max-age=259200", 
+    "Content-Length": "9", 
+    "Content-Type": "application/x-www-form-urlencoded", 
+    "Host": "httpbin.org", 
+    "User-Agent": "python-requests/2.25.1", 
+    "X-Amzn-Trace-Id": "Root=1-6124bace-36ee999f01d29eee1bc634a5"
+  }, 
+  "json": null, 
+  "origin": "64.225.113.187", 
+  "url": "http://httpbin.org/post"
+}
 ```
 
 
@@ -292,6 +349,32 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 ### put()
 
 发送 `PUT` 请求。
+
+```python
+>>> r = requests.put('http://httpbin.org/put', data = {'key': 'value'})
+>>> print(r.text)
+{
+  "args": {}, 
+  "data": "", 
+  "files": {}, 
+  "form": {
+    "key": "value"
+  }, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "gzip, deflate", 
+    "Cache-Control": "max-age=259200", 
+    "Content-Length": "9", 
+    "Content-Type": "application/x-www-form-urlencoded", 
+    "Host": "httpbin.org", 
+    "User-Agent": "python-requests/2.25.1", 
+    "X-Amzn-Trace-Id": "Root=1-6124bb00-4fb3f8d0573f63313be75fc8"
+  }, 
+  "json": null, 
+  "origin": "64.225.113.187", 
+  "url": "http://httpbin.org/put"
+}
+```
 
 
 
@@ -302,9 +385,9 @@ Requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 ```python
 requests.request(method, url, **kwargs)
 # method    请求方法
-# url       url
-# params    作为查询字符串的字典或字节
-# data      随请求体发送的字典、元组列表`[(key,value)]`、字节或类似文件的对象
+# url       URL
+# params    作为请求查询参数的字典,列表或字节,用于构造查询字符串
+# data      随请求体发送的字典,元组列表`[(key,value)]`,字节或类似文件的对象
 # json      随请求体发送的json数据
 # headers   设定请求头的字典
 # cookies   设定cookies的字典或CookieJar对象
@@ -325,8 +408,6 @@ requests.request(method, url, **kwargs)
 >>> requests.request('GET', 'https://www.example.com')
 <Response [200]>
 ```
-
-
 
 ```python
 

@@ -54,7 +54,7 @@ array([[ 1,  2,  3,  7,  8,  9],
 
 ## constant()
 
-用类似张量的对象（python 数组，numpy 数组等）创建一个常数张量。
+用类似张量的对象（python 数组、numpy 数组等）创建一个常数张量。
 
 ```python
 >>> tf.constant([1, 2, 3, 4, 5, 6])
@@ -62,6 +62,29 @@ array([[ 1,  2,  3,  7,  8,  9],
   
 >>> tf.constant(np.arange(1,7))
 <tf.Tensor: shape=(6,), dtype=int64, numpy=array([1, 2, 3, 4, 5, 6])>
+```
+
+
+
+## convert_to_tensor()
+
+将指定值转换为张量。
+
+```python
+>>> tf.convert_to_tensor([[1, 2], [3, 4]])
+<tf.Tensor: shape=(2, 2), dtype=int32, numpy=
+array([[1, 2],
+       [3, 4]], dtype=int32)>
+
+>>> tf.convert_to_tensor(tf.constant([[1, 2], [3, 4]]))
+<tf.Tensor: shape=(2, 2), dtype=int32, numpy=
+array([[1, 2],
+       [3, 4]], dtype=int32)>
+
+>>> tf.convert_to_tensor(np.array([[1, 2], [3, 4]], dtype=np.int32))
+<tf.Tensor: shape=(2, 2), dtype=int32, numpy=
+array([[1, 2],
+       [3, 4]], dtype=int32)>
 ```
 
 
@@ -134,7 +157,7 @@ print(L, w_grad, b_grad)
 
 可以看到计算结果
 $$
-\mathcal{L}=125，\\frac{\partial\mathcal{L}}{\partial\pmb w}=\begin{bmatrix}70\\100\end{bmatrix}，\\frac{\partial\mathcal{L}}{\partial b}=30
+\mathcal{L}=125，\frac{\partial\mathcal{L}}{\partial\pmb w}=\begin{bmatrix}70\\100\end{bmatrix}，\frac{\partial\mathcal{L}}{\partial b}=30
 $$
 
 

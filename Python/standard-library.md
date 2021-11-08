@@ -2464,6 +2464,14 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
 
 
+## 生成进程
+
+
+
+
+
+
+
 ## 启动方法
 
 根据不同的平台，`multiprocessing` 支持三种启动进程的方法，包括：
@@ -2480,7 +2488,7 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
   可在 Unix 平台上使用，支持通过 Unix 管道传递文件描述符。
 
-> 对于 macOS，*spawn* 启动方式是默认方式。 因为 *fork* 可能导致 subprocess 崩溃，而被认为是不安全的，查看 [bpo-33725](https://bugs.python.org/issue33725) 。
+> 对于 macOS，*spawn* 启动方式是默认方式。 因为 *fork* 可能导致子进程崩溃，而被认为是不安全的，查看 [bpo-33725](https://bugs.python.org/issue33725)。
 
 在 Unix 上通过 *spawn* 和 *forkserver* 方式启动多进程会同时启动一个 *资源追踪* 进程，负责追踪当前程序的进程产生的、并且不再被使用的命名系统资源（如命名信号量以及 `SharedMemory` 对象）。当所有进程退出后，资源追踪会负责释放这些仍被追踪的的对象。通常情况下是不会有这种对象的，但是假如一个子进程被某个信号杀死，就可能存在这一类资源的“泄露”情况。（泄露的信号量以及共享内存不会被释放，直到下一次系统重启，对于这两类资源来说，这是一个比较大的问题，因为操作系统允许的命名信号量的数量是有限的，而共享内存也会占据主内存的一片空间。）
 
@@ -2498,7 +2506,7 @@ if __name__ == '__main__':
     ...
 ```
 
-如果你想要在同一程序中使用多种启动方法，可以使用 `get_context()` 来获取上下文对象，上下文对象与 `multiprocessing` 模块具有相同的 API。需要注意的是，对象在不同上下文创建的进程之间可能并不兼容，特别是使用 *fork* 上下文创建的锁不能传递给使用 *spawn* 或 *forkserver* 启动方法启动的进程。
+如果你想要在同一程序中<u>使用多种启动方法</u>，可以使用 `get_context()` 来获取上下文对象，上下文对象与 `multiprocessing` 模块具有相同的 API。需要注意的是，对象在不同上下文创建的进程之间可能并不兼容，特别是使用 *fork* 上下文创建的锁不能传递给使用 *spawn* 或 *forkserver* 启动方法启动的进程。
 
 ```python
 import multiprocessing as mp
@@ -3131,6 +3139,16 @@ os.kill(pid, sig)
 
 
 
+## makedirs()
+
+递归地创建指定名称和权限的目录。与 `mkdir()` 类似，但会自动创建到达最后一级目录所需要的中间目录。
+
+```python
+>>> os.mkdir('dir1/dir2', mode=0o755)
+```
+
+
+
 ## mkdir()
 
 创建指定名称和权限的目录。若目录已存在，则引发 `FileExistsError` 异常。
@@ -3138,6 +3156,8 @@ os.kill(pid, sig)
 ```python
 >>> os.mkdir('dir1', mode=0o755)
 ```
+
+要递归地创建目录（一次创建多级目录），请使用 `makedirs()`。
 
 
 
@@ -3288,6 +3308,17 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 
 
 
+## basename()
+
+返回路径的基本名称，即将路径传入到 `split()` 函数所返回的元组的后一个元素。
+
+```python
+>>> path.basename('/Users/xyx')
+'xyx'
+```
+
+
+
 ## dirname()
 
 返回路径中的目录名称。
@@ -3368,7 +3399,18 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 
 ## splitdrive()
 
-将路径拆分为两部分，前一部分是挂载点或驱动器盘符（对于 Windows 系统）。
+将路径拆分为两部分，其中前一部分是挂载点（对于 Windows 系统为驱动器盘符）或空字符串。
+
+
+
+## splitext()
+
+将路径拆分为两部分，其中后一部分是文件扩展名（以 `.` 开始并至多包含一个 `.`）或空字符串。
+
+```python
+>>> path.splitext('/path/to/foo.bar.exe')
+('/path/to/foo.bar', '.exe')
+```
 
 
 
@@ -3653,10 +3695,6 @@ random.seed(a=None, version=2)
 
 ### setstate()
 
-```python
-random.setstate(state)
-```
-
 将生成器的内部状态恢复到 `getstate()` 被调用时的状态。
 
 ```python
@@ -3691,7 +3729,7 @@ random.randrange(start, stop[, step])
 random.randint(a, b)
 ```
 
-返回随机整数 *N* 满足 `a <= N <= b`。相当于`randrange(a,b+1)`。
+返回随机整数 *N* 满足 `a <= N <= b`。相当于 `randrange(a, b+1)`。
 
 
 
@@ -3699,11 +3737,33 @@ random.randint(a, b)
 
 ### choice()
 
-从非空序列返回一个随机元素。如果序列为空，则引发 `IndexError`。
+从非空序列中随机选择一个元素并返回。如果序列为空，则引发 `IndexError`。
+
+```python
+>>> a = list(range(10))
+>>> random.choice(a)
+9
+>>> random.choice(a)
+5
+```
 
 
 
 ### choices()
+
+从非空序列中（有放回地）随机选择多个元素并返回。如果序列为空，则引发 `IndexError`。如果指定了权重，则根据权重进行选择。
+
+```python
+>>> a = list(range(5))
+>>> random.choices(a, k=3)
+[2, 0, 2]
+>>> random.choices(a, k=3)
+[2, 1, 4]
+>>> random.choices(a, [70.0, 22.0, 6.0, 1.5, 0.5], k=3)                    # 相对权重
+[0, 0, 0]
+>>> random.choices(a, cum_weights=[70.0, 92.0, 98.0, 99.5, 100.0], k=3)    # 累积权重
+[1, 0, 0]
+```
 
 
 
@@ -3728,7 +3788,7 @@ random.shuffle(x[, random])
 
 ### sample()
 
-返回从序列中选择的唯一元素的指定长度列表，用于无重复的随机抽样。
+从非空序列中（无放回地）随机选择多个元素并返回。如果序列长度小于样本数量，则引发 `IndexError`。
 
 ```python
 >>> random.sample(range(10), k=5)
@@ -3741,8 +3801,6 @@ random.shuffle(x[, random])
 >>> random.sample(range(10000000), k=60)
 [9787526, 3664860, 8467240, 2336625, 4728454, 2344545, 1590996, 4202798, 8934935, 2465603, 5203412, 1656973, 1237192, 5539790, 7921240, 9392115, 1689485, 5935633, 7284194, 5304900, 3430567, 9269809, 8002896, 7427162, 8746862, 4370335, 1044878, 9205646, 235580, 1564842, 6691148, 19173, 8280862, 5589080, 4092145, 5456023, 1056700, 3205573, 9521250, 3719574, 4003310, 2390659, 9109859, 7515682, 1530349, 1349656, 5369625, 8521829, 8208870, 1829687, 5057437, 9248729, 4883691, 2093976, 9184534, 5582627, 9064454, 3409161, 9180997, 9858578]
 ```
-
-
 
 
 
@@ -3782,7 +3840,7 @@ random.gauss(mu, sigma)
 
 返回服从平均值为 *mu*、标准差为 *sigma* 的正态分布的随机浮点数。
 
-多线程注意事项：当两个线程同时调用此方法时，它们有可能将获得相同的返回值。这可以通过三种办法来避免。1）让每个线程使用不同的随机数生成器实例；2）在所有调用外面加锁；3）改用速度较慢但是线程安全的 normalvariate（）函数。
+多线程注意事项：当两个线程同时调用此方法时，它们有可能将获得相同的返回值。这可以通过三种办法来避免。1）让每个线程使用不同的随机数生成器实例；2）在所有调用外面加锁；3）改用速度较慢但是线程安全的 `normalvariate()` 函数。
 
 
 
@@ -3795,6 +3853,34 @@ random.normalvariate(mu, sigma)
 返回服从平均值为 *mu*、标准差为 *sigma* 的正态分布的随机浮点数。
 
 
+
+### expovariate()
+
+```python
+random.expovariate(lambd)
+```
+
+返回服从参数为 *lambd* 的指数分布的随机浮点数。
+
+
+
+### gammavariate()
+
+```python
+random.gammavariate(alpha, beta)
+```
+
+返回服从参数为 *alpha* 和 *beta* 的 Gamma 分布的随机浮点数。
+
+
+
+### betavariate()
+
+```python
+random.betavariate(alpha, beta)
+```
+
+返回服从参数为 *alpha* 和 *beta* 的 Beta 分布的随机浮点数。
 
 
 
@@ -4516,6 +4602,22 @@ def stop() -> NoReturn:
 #### Optional
 
 可选类型，`Optional[X]` 等价于 `Union[X, None]` 。
+
+
+
+
+
+# urllib.request——用于打开 URL 的可扩展库
+
+## urlretrieve()
+
+将 URL 形式的网络对象复制为本地文件。返回值为元组 `(filename, headers)` ，其中 *filename* 是保存网络对象的本地文件名， *headers* 是由 `urlopen()` 返回的远程对象 `info()` 方法的调用结果。可能触发的异常与 `urlopen()` 相同。
+
+```python
+>>> import urllib.request
+>>> url, filename = "https://github.com/pytorch/hub/raw/master/images/dog.jpg", "dog.jpg"
+>>> urllib.request.urlretrieve(url, filename)
+```
 
 
 

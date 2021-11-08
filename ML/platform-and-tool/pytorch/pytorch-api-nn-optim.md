@@ -678,16 +678,16 @@ class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 ```python
 >>> input = torch.randint(10, (1, 1, 10)).to(torch.float32)
->>> mp1 = nn.AvgPool1d(3, stride=1)
->>> mp2 = nn.AvgPool1d(3, stride=2)
->>> mp3 = nn.AvgPool1d(3, stride=2, ceil_mode=True)
+>>> ap1 = nn.AvgPool1d(3, stride=1)
+>>> ap2 = nn.AvgPool1d(3, stride=2)
+>>> ap3 = nn.AvgPool1d(3, stride=2, ceil_mode=True)
 >>> input
 tensor([[[6., 3., 5., 9., 7., 1., 8., 2., 5., 7.]]])
->>> mp1(input)
+>>> ap1(input)
 tensor([[[4.6667, 5.6667, 7.0000, 5.6667, 5.3333, 3.6667, 5.0000, 4.6667]]])
->>> mp2(input)
+>>> ap2(input)
 tensor([[[4.6667, 7.0000, 5.3333, 5.0000]]])
->>> mp3(input)
+>>> ap3(input)
 tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
 ```
 
@@ -713,9 +713,9 @@ class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 ```python
 >>> input = torch.randint(10, (1, 1, 6, 6)).to(torch.float32)
->>> mp1 = nn.AvgPool2d(3, stride=1)
->>> mp2 = nn.AvgPool2d(3, stride=2)
->>> mp3 = nn.AvgPool2d(3, stride=2, ceil_mode=True)
+>>> ap1 = nn.AvgPool2d(3, stride=1)
+>>> ap2 = nn.AvgPool2d(3, stride=2)
+>>> ap3 = nn.AvgPool2d(3, stride=2, ceil_mode=True)
 >>> input
 tensor([[[[3., 5., 9., 4., 5., 6.],
           [0., 0., 5., 1., 9., 3.],
@@ -723,15 +723,15 @@ tensor([[[[3., 5., 9., 4., 5., 6.],
           [8., 0., 3., 0., 0., 4.],
           [7., 7., 3., 7., 0., 0.],
           [2., 5., 0., 0., 8., 3.]]]])
->>> mp1(input)
+>>> ap1(input)
 tensor([[[[3.4444, 4.2222, 4.8889, 4.5556],
           [2.7778, 2.5556, 3.2222, 3.3333],
           [4.1111, 3.7778, 2.6667, 2.6667],
           [3.8889, 2.7778, 2.3333, 2.4444]]]])
->>> mp2(input)
+>>> ap2(input)
 tensor([[[[3.4444, 4.8889],
           [4.1111, 2.6667]]]])
->>> mp3(input)
+>>> ap3(input)
 tensor([[[[3.4444, 4.8889, 4.5000],
           [4.1111, 2.6667, 1.3333],
           [4.0000, 3.0000, 2.7500]]]])
@@ -828,10 +828,23 @@ torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状�
 
 嵌入层。
 
+此模块保存固定词汇表规模和维数的嵌入，输入索引列表，输出相应的嵌入。
+
 ```python
->>> embedding = nn.Embedding(10, 3)  # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
-                                     # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
->>> input = torch.LongTensor([[1,2,4,5],[4,3,2,9]])
+class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False, _weight=None, device=None, dtype=None)
+# num_embeddings      词汇表规模
+# embedding_dim       嵌入维数
+# padding_idx         指定索引的嵌入向量默认为全0,并且在训练过程中不会更新
+# max_norm            若嵌入向量的范数大于此参数,则重新规范化到范数等于此参数
+# norm_type           lp范数的p值
+# scale_grad_by_freq  若为`True`,则梯度乘以小批次中词频的倒数
+# sparse              若为`True`,则对于`weight`矩阵的梯度将会是一个稀疏张
+```
+
+```python
+>>> embedding = nn.Embedding(10, 3)   # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
+                                      # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
+>>> input = torch.LongTensor([[1, 2, 4, 5], [4, 3, 2, 9]])
 >>> embedding(input)
 tensor([[[-0.0251, -1.6902,  0.7172],
          [-0.6431,  0.0748,  0.6969],
@@ -842,7 +855,36 @@ tensor([[[-0.0251, -1.6902,  0.7172],
          [ 0.4362, -0.4004,  0.9400],
          [-0.6431,  0.0748,  0.6969],
          [ 0.9124, -2.3616,  1.1151]]])
+>>> 
+>>> padding_idx = 0
+>>> embedding = nn.Embedding(3, 3, padding_idx=padding_idx)
+>>> embedding.weight
+Parameter containing:
+tensor([[ 0.0000,  0.0000,  0.0000],    # 默认为全0
+        [-0.7895, -0.7089, -0.0364],
+        [ 0.6778,  0.5803,  0.2678]], requires_grad=True)
+>>> with torch.no_grad():
+...     embedding.weight[padding_idx] = torch.ones(3)   # 手动修改
+>>> embedding.weight
+Parameter containing:
+tensor([[ 1.0000,  1.0000,  1.0000],
+        [-0.7895, -0.7089, -0.0364],
+        [ 0.6778,  0.5803,  0.2678]], requires_grad=True)
 ```
+
+> 当 `max_norm` 不为 `None` 时，嵌入层的前向方法会原位修改 `weight` 张量的值（如果嵌入向量的范数超限）。由于需要计算梯度的张量不能被原位修改，如果在调用嵌入层的前向方法之前要对 `weight` 张量执行可微运算就需要克隆 `weight` 张量，例如：
+>
+> ```python
+> n, d, m = 3, 5, 7
+> embedding = nn.Embedding(n, d, max_norm=1.)
+> W = torch.randn((m, d), requires_grad=True)
+> idx = torch.tensor([1, 2])
+> a = embedding.weight.clone() @ W.t()  # weight must be cloned for this to be differentiable
+> b = embedding(idx) @ W.t()            # modifies weight in-place
+> out = (a.unsqueeze(0) + b.unsqueeze(1))
+> loss = out.sigmoid().prod()
+> loss.backward()
+> ```
 
 
 
@@ -850,34 +892,66 @@ tensor([[[-0.0251, -1.6902,  0.7172],
 
 ### Dropout
 
-以给定概率将张量中的每个数置零，剩余的数乘以 $$1/(1-p)$$。每次使用 Dropout 层的结果是随机的。
+一维丢弃层。
+
+在训练模式下，以给定概率 $$p$$ 将张量的每个元素随机置零，剩余的元素乘以 $$1/(1-p)$$。每次调用丢弃层的结果是独立的。
+
+在测试模式下，直接返回输入张量。
 
 ```python
->>> m = nn.Dropout(0.5)
+class torch.nn.Dropout(p=0.5, inplace=False)
+# p        元素置零的概率
+# inplace  若为`True`,则原位执行此操作
+```
+
+```python
+>>> dropout = nn.Dropout(0.5)
 >>> input = torch.randn(4, 4)
->>> output = m(input)
 >>> input
 tensor([[-1.1218,  0.1338, -0.0065, -1.6416],
         [ 0.8897, -1.6002, -0.6922,  0.0689],
         [-1.3392, -0.5207, -0.2739, -0.9653],
         [ 0.6608,  0.9212,  0.0579,  0.9670]])
+>>> output = dropout(input)
 >>> output
-tensor([[-0.0000,  0.2677, -0.0000, -3.2831],
-        [ 1.7795, -3.2004, -1.3843,  0.0000],
+tensor([[-2.2436,  0.0000, -0.0000, -3.2832],
+        [ 1.7794, -3.2004, -1.3844,  0.0000],
+        [-0.0000, -1.0414, -0.0000, -1.9306],
+        [ 0.0000,  0.0000,  0.0000,  1.9340]])
+>>> output = dropout(output)
+>>> output
+tensor([[-0.0000,  0.0000, -0.0000, -6.5664],
+        [ 0.0000, -6.4008, -2.7688,  0.0000],
         [-0.0000, -0.0000, -0.0000, -0.0000],
-        [ 0.0000,  1.8425,  0.1158,  0.0000]])
+        [ 0.0000,  0.0000,  0.0000,  3.8680]])
+>>> 
+>>> dropout.eval()
+>>> dropout(input)
+tensor([[-1.1218,  0.1338, -0.0065, -1.6416],
+        [ 0.8897, -1.6002, -0.6922,  0.0689],
+        [-1.3392, -0.5207, -0.2739, -0.9653],
+        [ 0.6608,  0.9212,  0.0579,  0.9670]])
 ```
 
 
 
 ### Dropout2d
 
-以给定概率将张量 $$(N,C,H,W)$$ 的每个通道置零,剩余的通道乘以 $$1/(1-p)$$。每次使用 Dropout 层的结果是随机的。
+二维丢弃层。
+
+在训练模式下，以给定概率 $$p$$ 将张量 $$(N,C,H,W)$$ 的每个通道随机置零，剩余的通道乘以 $$1/(1-p)$$。通常用于 `nn.Conv2d` 模块的输出。每次调用丢弃层的结果是独立的。
+
+在测试模式下，直接返回输入张量。
 
 ```python
->>> m = nn.Dropout2d(0.5)
+class torch.nn.Dropout2d(p=0.5, inplace=False)
+# p        通道置零的概率
+# inplace  若为`True`,则原位执行此操作
+```
+
+```python
+>>> dropout = nn.Dropout2d(0.5)
 >>> input = torch.randn(1, 8, 2, 2)
->>> output = m(input)
 >>> input
 tensor([[[[ 1.7200, -0.7948],
           [-0.1551, -0.8467]],
@@ -902,6 +976,7 @@ tensor([[[[ 1.7200, -0.7948],
 
          [[ 0.1152,  0.1012],
           [ 0.5634, -0.1202]]]])
+>>> output = dropout(input)
 >>> output
 tensor([[[[ 0.0000, -0.0000],
           [-0.0000, -0.0000]],
@@ -926,6 +1001,33 @@ tensor([[[[ 0.0000, -0.0000],
 
          [[ 0.0000,  0.0000],
           [ 0.0000, -0.0000]]]])
+>>> 
+>>> dropout.eval()
+Dropout2d(p=0.5, inplace=False)
+>>> dropout(input)
+tensor([[[[ 1.7200, -0.7948],
+          [-0.1551, -0.8467]],
+
+         [[-1.0479, -0.6172],
+          [-0.8419, -0.8668]],
+
+         [[ 0.4776,  1.7682],
+          [ 1.0376,  0.8871]],
+
+         [[-0.8826,  1.5624],
+          [ 1.4573, -0.0573]],
+
+         [[-1.4288, -0.6288],
+          [ 1.2000,  1.3250]],
+
+         [[ 1.8099,  0.7262],
+          [-0.5595,  1.4562]],
+
+         [[ 0.7452, -2.1875],
+          [ 0.0116,  0.5224]],
+
+         [[ 0.1152,  0.1012],
+          [ 0.5634, -0.1202]]]])
 ```
 
 
@@ -935,169 +1037,297 @@ tensor([[[[ 0.0000, -0.0000],
 ### ReLU
 
 ReLU 激活函数层。见 `torch.nn.functional.relu`。
+$$
+{\rm ReLU}(x)=\max(0,x)
+$$
 
 ```python
->>> m = nn.ReLU()
->>> input = torch.randn(2)
->>> output = m(input)
+>>> relu = nn.ReLU()
+>>> input = torch.randn(4)
 >>> input
-tensor([ 1.2175, -0.7772])
->>> output
-tensor([1.2175, 0.0000])
+tensor([-0.5151,  0.0423, -0.8955,  0.0784])
+>>> relu(input)
+tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ```
 
 
 
 ### Sigmoid
 
-Logistic 激活函数层。见 `torch.sigmoid`。
+Logistic 激活函数层。见 `torch.sigmoid`、`torch.special.expit`。
+$$
+f(x)=\frac{1}{1+e^{-x}}
+$$
 
 ```python
->>> m = nn.Sigmoid()
->>> input = torch.randn(2)
->>> output = m(input)
+>>> logistic = nn.Sigmoid()
+>>> input = torch.randn(4)
 >>> input
-tensor([ 1.7808, -0.9893])
->>> output
-tensor([0.8558, 0.2710])
+tensor([-0.0796, -0.5545,  1.6273, -1.3333])
+>>> logistic(input)
+tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ```
 
 
 
 ### Softmax, LogSoftmax
 
-Softmax 层。torch.nn.LogSoftmax 相当于在 Softmax 的基础上为每个输出值求（自然）对数。
+Softmax 层。`torch.nn.LogSoftmax` 相当于在 Softmax 层的基础上再对所有元素求（自然）对数。
+$$
+{\rm Softmax}(x_i)=\frac{\exp(x_i)}{\sum_j\exp(x_j)}\\
+{\rm LogSoftmax}(x_i)=\ln \frac{\exp(x_i)}{\sum_j\exp(x_j)}
+$$
 
 ```python
->>> m1 = nn.Softmax(dim=0)
->>> m2 = nn.LogSoftmax(dim=0)
+>>> sm = nn.Softmax(dim=0)
+>>> lsm = nn.LogSoftmax(dim=0)
 >>> input = torch.arange(4.0)
->>> output1 = m1(input)
->>> output2 = m2(input)
 >>> input
 tensor([0., 1., 2., 3.])
->>> output1
+>>> sm(input)
 tensor([0.0321, 0.0871, 0.2369, 0.6439])
->>> output2            # logsoftmax() = softmax() + log()
+>>> lsm(input)            # logsoftmax() = softmax() + log()
+tensor([-3.4402, -2.4402, -1.4402, -0.4402])
+>>> sm(input).log()
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
 
 
 
-
-
 ## 损失函数
+
+### BCELoss
+
+二元交叉熵损失函数层。
+$$
+l_n=-w_n(t_n\log y_n+(1-t_n)\log (1-y_n))\\
+l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
+$$
+其中 $$N$$ 为批次规模，$$w_n$$ 为  `weight` 参数指定的权重。
+
+> 若 $$y_n$$ 取 $$0$$ 或 $$1$$，则 $$l_n$$ 表达式中的对数项之一就会在数学上无意义。PyTorch 选择设 $$\log(0)=-\infty$$，但损失表达式中存在无穷项会产生一些问题：
+>
+> 1. 若 $$t_n=0$$ 或 $$1-t_n=0$$，则会出现 0 乘以无穷。
+> 2. 梯度计算链中也会存在无穷项，因为 $$\frac{\partial l_n}{\partial y_n}=-w_n(\frac{t_n}{y_n}-\frac{1-t_n}{1-y_n})$$。
+>
+> PyTorch 的解决方法是为对数项应用最小值 -100，这样损失值总是有限值，并且反向计算也是线性的。
+
+```python
+class torch.nn.BCELoss(weight=None, size_average=None, reduce=None, reduction='mean')
+# weight         为每个类别手动指定的权重,应为长度为C的一维张量.默认为全1张量
+# size_average   deprecated
+# reduce         deprecated
+# reduction      指定对输出应用的归约方法.若为`'none'`,则不归约;若为`'sum'`,则对输出的所有元素求和;
+#                若为`'mean'`,则对输出的所有元素求平均
+```
+
+```python
+>>> y = torch.rand(3)
+>>> y
+tensor([0.5620, 0.1098, 0.8769])
+>>> t = torch.tensor([1., 0, 1])
+>>> loss = nn.BCELoss()
+>>> loss(y, t)
+tensor(0.2746)
+>>> t = torch.tensor([0., 0, 1])
+>>> loss(y, t)
+tensor(0.3577)
+>>> t = torch.tensor([1., 0, 0])
+>>> loss(y, t)
+tensor(0.9293)
+
+>>> y = tensor([1.])
+>>> t = tensor([.5])
+>>> loss(y, t)
+tensor(50.)
+```
+
+
 
 ### CrossEntropyLoss
 
-交叉熵损失函数。见 `torch.nn.NLLLoss`。
+交叉熵损失函数层。相当于将 `LogSoftmax` 和 `NLLLoss` 组合为一个模块。
+
+通常用于多分类问题（$$C$$ 个类别）；输入张量应当包含的是生的、未归一化的每个类别的分数，形状为 $$(batch\_size,C)$$；目标张量应当是批次规模长度的一维张量，其中每个值是 $$[0, C-1]$$ 范围内的整数索引，代表正确的类别。
 
 ```python
-torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
+class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
+# weight         为每个类别手动指定的权重,应为长度为C的一维张量.默认为全1张量
+# size_average   deprecated
+# ignore_index   忽略所有类别为指定索引的样本
+# reduce         deprecated
+# reduction      指定对输出应用的归约方法.若为`'none'`,则不归约;若为`'sum'`,则对输出的所有元素求和;
+#                若为`'mean'`,则对输出的所有元素求平均
 ```
 
-
-
-
++ 输入形状：$$(N,C)$$，其中 $$N$$ 表示批次规模，$$C$$ 表示类别数；或 $$(N,C,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 目标形状：$$(N)$$，其中 $$N$$ 表示批次规模，每一个值是 $$[0, C-1]$$ 范围内的整数索引；或 $$(N,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
 
 ```python
+>>> y = torch.tensor([[0.2, 5.0, 0.8]])    # 输出分数
+>>> t = torch.tensor([0])                  # 标签
 >>> loss = nn.CrossEntropyLoss()
->>> a1 = torch.tensor([[0.1, 0.8, 0.1]])    # prediction
->>> a2 = torch.tensor([1])                  # label
->>> loss(a1, a2)
-tensor(0.6897)
->>> a2 = torch.tensor([0])
->>> loss(a1, a2)
-tensor(1.3897)
+>>> loss(y, t)
+tensor(4.8230)
+>>> t = torch.tensor([1])
+>>> loss(y, t)
+tensor(0.0230)
+>>> t = torch.tensor([2])
+>>> loss(y, t)
+tensor(4.2230)
 
 # CrossEntropyLoss() = softmax() + log() + NLLLoss() = logsoftmax() + NLLLoss()
+>>> y = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                      [ 1.8402, -0.1696,  0.4744],
+                      [-3.4641, -0.2303,  0.3552]])
+>>> t = torch.tensor([0, 0, 2])
 >>> loss = nn.CrossEntropyLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
+>>> loss(y, t)
+tensor(0.4197)
 
+>>> y = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                      [ 1.8402, -0.1696,  0.4744],
+                      [-3.4641, -0.2303,  0.3552]])
+>>> y = y.softmax(dim=1)
+>>> y = y.log()
+>>> t = torch.tensor([0, 0, 2])
 >>> loss = nn.NLLLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> input = input.softmax(dim=1)
->>> input = input.log()
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
+>>> loss(y, t)
+tensor(0.4197)
 
->>> loss = nn.NLLLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
+>>> y = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                      [ 1.8402, -0.1696,  0.4744],
+                      [-3.4641, -0.2303,  0.3552]])
 >>> logsoftmax = nn.LogSoftmax(dim=1)
->>> input = logsoftmax(input)
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
+>>> y = logsoftmax(y)
+>>> t = torch.tensor([0, 0, 2])
+>>> loss = nn.NLLLoss()
+>>> loss(y, t)
+tensor(0.4197)
 ```
+
+
+
+### KLDivLoss
 
 
 
 ### MSELoss
 
-均方差损失函数。
+均方差损失函数层。
+$$
+l_n=(y_n-t_n)^2\\
+l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
+$$
+其中 $$N$$ 为批次规模。
 
 ```python
->>> a1 = torch.arange(10.0)
->>> a2 = a1+2
+class torch.nn.MSELoss(size_average=None, reduce=None, reduction='mean')
+# size_average    deprecated
+# reduce          deprecated
+# reduction       指定对输出应用的归约方法.若为`'none'`,则不归约;若为`'sum'`,则对输出的所有元素求和;
+#                 若为`'mean'`,则对输出的所有元素求平均
+```
+
+```python
+>>> y = torch.randint(4, (4,)).to(torch.float32)
+>>> t = torch.randint(4, (4,)).to(torch.float32)
+>>> y
+tensor([3., 2., 1., 3.])
+>>> t
+tensor([3., 1., 3., 1.])
+>>> 
 >>> loss = nn.MSELoss()
->>> b = loss(a1, a2)
->>> b
-tensor(4.)
+>>> loss(y, t)
+tensor(2.2500)
 >>> loss = nn.MSELoss(reduction='sum')
->>> b = loss(a1, a2)
->>> b
-tensor(40.)
+>>> loss(y, t)
+tensor(9.)
 ```
 
 
 
 ### NLLLoss
 
-见 `torch.nn.CrossEntropyLoss`。
+负对数似然损失层。
+$$
+l_n = -w_ny_{n,t_n}\\
+l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
+$$
+其中 $$N$$ 为批次规模，$$w_n$$ 为  `weight` 参数指定的权重。
+
+通常用于多分类问题（$$C$$ 个类别）；输入张量应当包含的是每个类别的概率的（自然）对数，形状为 $$(batch\_size,C)$$；目标张量应当是批次规模长度的一维张量，其中每个值是 $$[0, C-1]$$ 范围内的整数索引，代表正确的类别。
 
 ```python
->>> loss = nn.NLLLoss()
->>> input = torch.tensor([[ 0.4377, -0.3976, -1.3221],
-                          [ 1.8402, -0.1696,  0.4744],
-                          [-3.4641, -0.2303,  0.3552]])
->>> input = input.softmax(dim=1)
->>> input = input.log()
->>> target = torch.tensor([0, 1, 2])
->>> loss(input, target)
-tensor(1.0896)
+class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
+# weight         为每个类别手动指定的权重,应为长度为C的一维张量.默认为全1张量
+# size_average   deprecated
+# ignore_index   忽略所有类别为指定索引的样本
+# reduce         deprecated
+# reduction      指定对输出应用的归约方法.若为`'none'`,则不归约;若为`'sum'`,则对输出的所有元素求和;
+#                若为`'mean'`,则对输出的所有元素求平均
+```
 
++ 输入形状：$$(N,C)$$，其中 $$N$$ 表示批次规模，$$C$$ 表示类别数；或 $$(N,C,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 目标形状：$$(N)$$，其中 $$N$$ 表示批次规模，每一个值是 $$[0, C-1]$$ 范围内的整数索引；或 $$(N,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
+
+```python
+>>> y = torch.tensor([[ 0.4377, -0.3976, -1.3221],
+                      [ 1.8402, -0.1696,  0.4744],
+                      [-3.4641, -0.2303,  0.3552]])
+>>> lsm = nn.LogSoftmax(dim=1)
+>>> y = lsm(y)
+>>> y
+tensor([[-0.4736, -1.3089, -2.2334],
+        [-0.3287, -2.3385, -1.6945],
+        [-4.2759, -1.0421, -0.4566]])
+>>> t = torch.tensor([0, 0, 2])
+>>> loss = nn.NLLLoss()
+>>> loss(y, t)
+tensor(0.4197)         # 0.4197 = (0.4736 + 0.3287 + 0.4566) / 3
+>>> loss = nn.NLLLoss(ignore_index=2)
+>>> loss(y, t)
+tensor(0.4012)         # 0.4012 = (0.4736 + 0.3287) / 2
 ```
 
 
 
 ### L1Loss
 
-平均绝对误差损失函数。
+平均绝对误差损失函数层。
+$$
+l_n=|y_n-t_n|\\
+l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
+$$
+其中 $$N$$ 为批次规模。
+
+支持实数值和复数值输入。
 
 ```python
->>> a1 = torch.arange(10.0)
->>> a2 = a1+2
->>> loss = nn.L1Loss()
->>> b = loss(a1, a2)
->>> b
-tensor(2.)
->>> loss = nn.MSELoss(reduction='sum')
->>> b = loss(a1, a2)
->>> b
-tensor(20.)
+class torch.nn.L1Loss(size_average=None, reduce=None, reduction='mean')
+# size_average    deprecated
+# reduce          deprecated
+# reduction       指定对输出应用的归约方法.若为`'none'`,则不归约;若为`'sum'`,则对输出的所有元素求和;
+#                 若为`'mean'`,则对输出的所有元素求平均
 ```
 
-
+```python
+>>> y = torch.randint(4, (4,)).to(torch.float32)
+>>> t = torch.randint(4, (4,)).to(torch.float32)
+>>> y
+tensor([3., 2., 1., 3.])
+>>> t
+tensor([3., 1., 3., 1.])
+>>> 
+>>> loss = nn.L1Loss()
+>>> loss(y, t)
+tensor(1.2500)
+>>> loss = nn.L1Loss(reduction='sum')
+>>> loss(y, t)
+tensor(5.)
+```
 
 
 
@@ -1111,7 +1341,40 @@ tensor(20.)
 
 ### parallel.DistributedDataParallel
 
+在模块级别实现基于 `torch.distributed` 包的分布式数据并行。
 
+此容器通过沿批次维度分割输入数据并分配到各指定设备来并行化指定模块的运行。模块被复制到每一台机器和每一个设备上，每一个模型副本处理输入数据的一部分。在反向传递的过程中，来自每一个模型副本的梯度会被平均。
+
+创建此类的对象需要 `torch.distributed` 已经初始化，通过调用 `torch.distributed.init_process_group()`。
+
+要在一台有 N 个 GPU 的主机上使用 `DistributedDataParallel`，你需要 spawn N 个进程，并保证每个进程独占地使用一个 GPU。这可以通过为每个进程设定环境变量 `CUDA_VISIBLE_DEVICES` 或调用 `torch.cuda.set_device(i)` 来实现。在每一个进程中，你需要参照下面的方法构造模块：
+
+```python
+torch.distributed.init_process_group(
+    backend='nccl', world_size=N, init_method='...'
+)
+model = DistributedDataParallel(model, device_ids=[i], output_device=i)
+```
+
+> 当使用 GPU 时，`nccl` 后端是目前最快和最推荐使用的后端。该后端同时适用于单节点和多节点分布式训练。
+
+> 一个模型训练在 M 个节点上并且批次规模为 N，相比其训练在单个节点上并且批次规模为 MN，在损失在批次的各样本间求和（而非求平均）的情况下，前者的梯度将是后者的 M 分之一。当你想要得到一个与本地训练在数学上等价的分布式训练过程时，你需要将这一点考虑在内。但在大部分情况下，你可以将 `DistributedDataParallel` 包装的模型、 `DateParallel` 包装的模型和单个 GPU 上的普通模型同等对待。
+
+> 模型参数不会在进程间广播；`DistributedDataParallel` 模块对梯度执行 All-Reduce 操作，并假定所有进程中的参数被优化器以同样的方式修改。缓冲区（例如 BatchNorm 数据）在每一次迭代中从 rank 0 进程的模型副本广播到所有其他模型副本。
+
+```python
+class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_device=None, dim=0, broadcast_buffers=True, process_group=None, bucket_cap_mb=25, find_unused_parameters=False, check_reduction=False, gradient_as_bucket_view=False)
+# module             要并行化的模块
+# device_ids         1)对于单设备模块,`device_ids`只能包含一个设备的id,其代表此进程的模块所放置的CUDA设备
+#                    2)对于多设备模块,`device_ids`必须为`None`
+#                    在这两种情况下,当`device_ids`为`None`时,前向计算的输入数据和实际的模块都必须放置在
+#                    正确的设备上
+# output_device      单CUDA设备模块的输出放置的设备位置.对于多设备模块和CPU模块,此参数必须为`None`,并且模块本身
+#                    决定了输出的位置
+# broadcast_buffers
+# process_group      用于进行分布式数据All-Reduce的进程组.若为`None`,则使用默认进程组,即由
+#                    `torch.distributed.init_process_group()`创建的进程组
+```
 
 
 
@@ -1119,15 +1382,17 @@ tensor(20.)
 
 ### Flatten
 
-将张量展开为向量，用于顺序模型。
+展开张量的若干个连续维度，用于 `Sequential` 顺序模型。
 
 ```python
-
+>>> input = torch.randn(2, 3, 4, 5)
+>>> flatten = nn.Flatten()
+>>> flatten(input).shape
+torch.Size([2, 60])
+>>> flatten = nn.Flatten(start_dim=1, end_dim=2)   # 展开第1到第2个维度
+>>> flatten(input).shape
+torch.Size([2, 12, 5])
 ```
-
-
-
-
 
 
 
@@ -1307,6 +1572,9 @@ tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ### sigmoid()
 
 Sigmoid 激活函数（实际上是 Logistic 激活函数）。见 `torch.nn.Sigmoid`、`torch.sigmoid`、`torch.special.expit`。
+$$
+f(x)=\frac{1}{1+e^{-x}}
+$$
 
 ```python
 >>> input = torch.randn(4)
@@ -1407,6 +1675,20 @@ torch.Size([3, 5])
 
 
 ### cross_entropy()
+
+交叉熵损失函数。见 `torch.nn.CrossEntropyLoss`。
+
+
+
+### kl_div()
+
+
+
+### mse_loss()
+
+
+
+### nll_loss()
 
 
 

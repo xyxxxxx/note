@@ -1670,3 +1670,79 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 
 
+
+
+
+
+# utils
+
+## array_to_img()
+
+将 NumPy 数组转换为 PIL 图像实例。
+
+```python
+>>> from PIL import Image
+>>> import tensorflow as tf
+>>> import numpy as np
+>>> array = np.random.random(size=(100, 100, 3))
+>>> img = tf.keras.preprocessing.image.array_to_img(img)
+>>> img.show()
+```
+
+
+
+## get_file()
+
+从指定 URL 下载一个文件，如果其不在缓存中。返回到下载的文件的路径。
+
+```python
+tf.keras.utils.get_file(
+    fname=None, origin=None, untar=False, md5_hash=None, file_hash=None,
+    cache_subdir='datasets', hash_algorithm='auto',
+    extract=False, archive_format='auto', cache_dir=None
+)
+```
+
+默认情况下位于 URL `origin` 的文件被下载到缓存目录 `~/.keras`，放置在缓存子目录 `datasets`，并被命名为 `fname`。因此文件 `example.txt` 的最终位置将是 `~/.keras/datasets/example.txt`。
+
+`tar`、`tar.gz`、`tar.bz` 和 `zip` 格式的压缩文件可以被解压。传入一个哈希值将会在下载后验证文件。
+
+```python
+path_to_downloaded_file = tf.keras.utils.get_file(
+    "flower_photos",
+    "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz",
+    untar=True)
+```
+
+
+
+## image_dataset_from_directory()
+
+从目录中的图像文件生成一个 `tf.data.Dataset` 实例。
+
+```python
+tf.keras.utils.image_dataset_from_directory(
+    directory, labels='inferred', label_mode='int',
+    class_names=None, color_mode='rgb', batch_size=32, image_size=(256,
+    256), shuffle=True, seed=None, validation_split=None, subset=None,
+    interpolation='bilinear', follow_links=False,
+    crop_to_aspect_ratio=False, **kwargs
+)
+```
+
+
+
+## img_to_array()
+
+将 PIL 图像实例转换为 NumPy 数组。
+
+```python
+>>> from PIL import Image
+>>> import tensorflow as tf
+>>> import numpy as np
+>>> array = np.random.random(size=(100, 100, 3))
+>>> img = tf.keras.preprocessing.image.array_to_img(img)
+>>> img.show()
+>>> array = tf.keras.preprocessing.image.img_to_array(img)
+```
+

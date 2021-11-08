@@ -1,5 +1,7 @@
-> XML尽管功能全面，但标签繁琐，格式复杂，在Web上使用越来越少，而被JSON取而代之
-> JSON更小，更快，更易解析
+> XML 尽管功能全面，但标签繁琐，格式复杂，在 Web 上使用越来越少，而被 JSON 取而代之
+> JSON 更小，更快，更易解析
+
+[toc]
 
 ## JSON
 
@@ -21,7 +23,7 @@ JSON（JavaScript Object Notation）去除了JavaScript的执行代码，而仅�
 JSON存在以下优点：
 
 + 只允许UTF-8编码，不存在编码问题
-+ 只允许使用双引号作为key，转义使用`\`
++ 只允许使用双引号作为key，转义使用 `\`
 + 浏览器内置JSON支持
 
 JSON格式简单，仅支持以下数据类型：
@@ -39,9 +41,9 @@ JSON格式简单，仅支持以下数据类型：
 
 ### Java
 
-常用的解析JSON的第三方库包含：Jackson, Gson, Fastjson, ...
+常用的解析 JSON 的第三方库包含：Jackson, Gson, Fastjson, ...
 
-例如使用Jackson，先引入以下Maven依赖：
+例如使用 Jackson，先引入以下 Maven 依赖：
 
 ```xml
 <dependency>
@@ -70,3 +72,12 @@ String json = mapper.writeValueAsString(book);
 
 
 ### Go
+
+
+
+
+
+### Python
+
+
+
