@@ -1,15 +1,3 @@
-> 参考[Docker —— 从入门到实践](https://yeasy.gitbook.io/docker_practice/)
-
-> 如果出现权限问题：
->
-> ```
-> Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.40/version: dial unix /var/run/docker.sock: connect: permission denied
-> ```
->
-> 使用`sudo docker`命令
-
-
-
 [toc]
 
 操作系统分为内核和用户空间，对于 Linux 而言，内核启动后会挂载 `root` 文件系统为其提供用户空间支持。Docker 镜像（image）就相当于是一个 `root` 文件系统，比如官方镜像 `ubuntu:18.04` 就包含了完整的一套 Ubuntu 18.04 最小系统的 `root` 文件系统。

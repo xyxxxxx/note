@@ -243,12 +243,6 @@ PING busybox2 (172.19.0.3): 56 data bytes
 > 参考：
 >
 > [Manage data in Docker](https://docs.docker.com/storage/)
->
-> [Docker——从入门到实践 数据管理](https://yeasy.gitbook.io/docker_practice/data_management)
-
-
-
-
 
 
 
