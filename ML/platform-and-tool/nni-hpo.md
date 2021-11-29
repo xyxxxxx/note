@@ -400,7 +400,7 @@ tuner:
 ### 使用方法与建议
 
 * 搜索空间必须是连续区间或者离散的数值，不能是离散的类别，因为需要计算样本点之间的距离。
-* 此算法的时间复杂度为 $$O(n^3)$$,其中 $$n$$ 为已观测的样本点数量，因此建议在运行少量 trial（几十到几百）的情形下使用。
+* 此算法的时间复杂度为 $O(n^3)$ ,其中 $n$ 为已观测的样本点数量，因此建议在运行少量 trial（几十到几百）的情形下使用。
 * 在低维空间中，此算法的表现远远优于随机搜索；但在高维（几十维）空间中，此算法近乎于随机搜索，因为想要观测样本点布满整个搜索空间就需要指数数量的样本，但我们有的样本远远没有这么多，样本点之间距离比较远，几乎不能提供有用信息。因此此算法也不适用于超参数非常多的大规模系统。
 * 此算法的朴素形式不支持并行。
 
@@ -408,7 +408,7 @@ tuner:
 
 ## TPE
 
-TPE（Tree-structured Parzen Estimator）算法来自于论文 [Algorithms for Hyper-Parameter Optimization](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)，也是一种 SMBO 算法，但与使用高斯过程的贝叶斯回归不同的是，它使用贝叶斯公式为 $$p(x|y)$$ 而非 $$p(y|x)$$ 建立概率模型(这里 $$x$$ 指超参数配置,$$y$$ 指目标函数值),并根据阈值 $$y^*$$ 将 $$p(x|y)$$ 划分为两个分布 $$l(x)$$ 和 $$g(x)$$，取它们的商作为代理函数的优化目标。具体细节请参考原论文。
+TPE（Tree-structured Parzen Estimator）算法来自于论文 [Algorithms for Hyper-Parameter Optimization](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)，也是一种 SMBO 算法，但与使用高斯过程的贝叶斯回归不同的是，它使用贝叶斯公式为 $p(x|y)$ 而非 $p(y|x)$ 建立概率模型(这里 $x$ 指超参数配置, $y$ 指目标函数值),并根据阈值 $y^*$ 将 $p(x|y)$ 划分为两个分布 $l(x)$ 和 $g(x)$，取它们的商作为代理函数的优化目标。具体细节请参考原论文。
 
 此算法处理树状结构的超参数空间，也就是参数间存在依赖关系，例如必须在指定神经网络的层数之后才能指定某一层的参数。
 

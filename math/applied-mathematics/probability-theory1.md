@@ -82,7 +82,7 @@ $$
 
 # 连续型随机变量continuous random variable
 
-概率密度函数（probability density function，確率密度関数）$$f(x)$$，累积分布函数（cumulative distribution function）$$F(x)$$
+概率密度函数（probability density function，確率密度関数） $f(x)$，累积分布函数（cumulative distribution function） $F(x)$ 
 $$
 F(x)=\int_{-\infty}^{x}f(t)dt\\
 F'(x)=f(x)\\
@@ -119,7 +119,7 @@ E(X)=0, ~Var(X)=1\\
 E(X)=\mu,~Var(X)=\sigma^2
 $$
 
-**定理** 设随机变量$$X_1,X_2,\cdots,X_n$$相互独立，且$$X_i\sim N(\mu_i,\sigma_i^2)$$，则$$\sum X_i\sim N(\sum\mu_i,\sum \sigma_i^2)$$
+**定理** 设随机变量 $X_1,X_2,\cdots,X_n$ 相互独立，且 $X_i\sim N(\mu_i,\sigma_i^2)$，则 $\sum X_i\sim N(\sum\mu_i,\sum \sigma_i^2)$ 
 
 
 
@@ -128,8 +128,8 @@ $$
 **二元正态分布的性质**
 
 + 二元正态分布的边缘分布为一元正态分布
-+ 如果$$(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$$，则X,Y相互独立当且仅当$$Cov(X,Y)=0$$
-+ 如果$$(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$$，则$$(a_1X+b_1Y,a_2X+b_2Y)$$也服从二元正态分布，其中$$aX+bY\sim N(a\mu_1+b\mu_2,a^2\sigma_1^2+b^2\sigma_2^2+2ab\rho\sigma_1\sigma_2)$$
++ 如果 $(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$，则X,Y相互独立当且仅当 $Cov(X,Y)=0$ 
++ 如果 $(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$，则 $(a_1X+b_1Y,a_2X+b_2Y)$ 也服从二元正态分布，其中 $aX+bY\sim N(a\mu_1+b\mu_2,a^2\sigma_1^2+b^2\sigma_2^2+2ab\rho\sigma_1\sigma_2)$ 
 
 
 
@@ -139,9 +139,9 @@ $$
 
 ## 二维离散型随机变量
 
-**联合分布$$P(X=x_i,Y=y_j)$$**
+**联合分布 $P(X=x_i,Y=y_j)$ **
 
-**边缘分布$$P(X=x_i)$$**
+**边缘分布 $P(X=x_i)$ **
 
 
 
@@ -149,7 +149,7 @@ $$
 $$
 P(X=x_i,Y=y_i)=P(X=x_i)P(Y=y_i)
 $$
-表明随机变量$$X,Y$$独立
+表明随机变量 $X,Y$ 独立
 
 
 
@@ -174,7 +174,7 @@ $$
 $$
 f(x_i,y_i)=f_X(x_i)f_Y(y_i)
 $$
-表明随机变量$$X,Y$$独立
+表明随机变量 $X,Y$ 独立
 
 
 
@@ -276,11 +276,11 @@ $$
 
 **Jensen不等式**
 
-对于凸函数$$g$$，
+对于凸函数 $g$，
 $$
 g(E(X))\le E(g(X))
 $$
-等式当且仅当$$X$$是常数或$$g$$是线性时成立
+等式当且仅当 $X$ 是常数或 $g$ 是线性时成立
 
 
 
@@ -297,11 +297,11 @@ $$
 
 =∫+∞−∞(t−μ)2fX(t)dt
 
-对于$$M$$维和$$N$$维随机变量$$\pmb X$$和$$\pmb Y$$，
+对于 $M$ 维和 $N$ 维随机变量 $\pmb X$ 和 $\pmb Y$，
 $$
 Cov(\pmb X,\pmb Y)=E((\pmb X-E(\pmb X))(\pmb Y-E(\pmb Y))^{\rm T})
 $$
-即$$Cov(\pmb X,\pmb Y)$$的第$$(m,n)$$个元素是$$X_m$$和$$Y_n$$的协方差。
+即 $Cov(\pmb X,\pmb Y)$ 的第 $(m,n)$ 个元素是 $X_m$ 和 $Y_n$ 的协方差。
 
 
 
@@ -347,7 +347,7 @@ $$
 
 ## 大数定律,large numbers law
 
-设$$X_1,X_2,\cdots$$是相互独立，服从同一分布的随机变量序列，且具有数学期望$$E(X_k)=\mu(k=1,2,\cdots)$$，作前n个变量的算数平均$$\frac{1}{n}\sum_{k=1}^{n}X_k$$，则对于任意$$\varepsilon>0$$，有
+设 $X_1,X_2,\cdots$ 是相互独立，服从同一分布的随机变量序列，且具有数学期望 $E(X_k)=\mu(k=1,2,\cdots)$，作前n个变量的算数平均 $\frac{1}{n}\sum_{k=1}^{n}X_k$，则对于任意 $\varepsilon>0$，有
 $$
 \lim_{n\to \infty}P(\left | \frac{1}{n}\sum_{k=1}^nX_k-\mu \right |<\varepsilon)=1
 $$
@@ -359,7 +359,7 @@ $$
 \forall \varepsilon>0,\ P(|X-\mu)|\ge \varepsilon)\le \frac{Var(X)}{\varepsilon^2}
 $$
 
-> 证明：以连续型随机变量$$X$$为例
+> 证明：以连续型随机变量 $X$ 为例
 > $$
 > Var(X)=\int_{-\infty}^{+\infty}(t-\mu)^2f_X(t){\rm d}t\\
 > \ge \int_{-\infty}^{\mu-\varepsilon}(t-\mu)^2f_X(t){\rm d}t+\int_{\mu+\varepsilon}^{+\infty}(t-\mu)^2f_X(t){\rm d}t\\
@@ -380,7 +380,7 @@ $$
 
 独立同分布的中心极限定理
 
-设随机变量$$X_1,X_2,\cdots,X_n,\cdots$$相互独立，服从同一分布，且具有数学期望和方差：$$E(X_k)=\mu,Var(X_k)=\sigma^2>0(k=1,2,\cdots)$$，则随机变量的算数平均$$\overline{X}=\frac{1}{n}\sum_{k=1}^{n}X_k$$满足
+设随机变量 $X_1,X_2,\cdots,X_n,\cdots$ 相互独立，服从同一分布，且具有数学期望和方差： $E(X_k)=\mu,Var(X_k)=\sigma^2>0(k=1,2,\cdots)$，则随机变量的算数平均 $\overline{X}=\frac{1}{n}\sum_{k=1}^{n}X_k$ 满足
 $$
 \overline{X} \sim N(\mu,\sigma^2/n)
 $$

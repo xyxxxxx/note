@@ -12,7 +12,7 @@ $$
 \end{align}
 $$
 
-其中$$\pmb x$$称为问题的优化变量，函数$$f:\mathbb{R}^n\to \mathbb{R}$$称为**目标函数**，函数$$g_i:\mathbb{R}^n\to \mathbb{R}, i=1,\cdots,m$$称为**约束函数**。如果在所有满足约束的向量中向量$$\pmb x^*$$对应的目标函数值最小，则称$$\pmb x^*$$为问题的**最优解**。
+其中 $\pmb x$ 称为问题的优化变量，函数 $f:\mathbb{R}^n\to \mathbb{R}$ 称为**目标函数**，函数 $g_i:\mathbb{R}^n\to \mathbb{R}, i=1,\cdots,m$ 称为**约束函数**。如果在所有满足约束的向量中向量 $\pmb x^*$ 对应的目标函数值最小，则称 $\pmb x^*$ 为问题的**最优解**。
 
 
 

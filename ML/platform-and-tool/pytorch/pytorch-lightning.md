@@ -932,7 +932,7 @@ checkpoint_callback = ModelCheckpoint(monitor='val_loss')
 trainer = Trainer(callbacks=[checkpoint_callback])
 ```
 
-你也可以控制更多的高级选项，例如 `save_top_k` 保存最佳的 $$k$$ 个检查点，`mode` 指定监视变量取最大值还是最小值等等。
+你也可以控制更多的高级选项，例如 `save_top_k` 保存最佳的 $k$ 个检查点，`mode` 指定监视变量取最大值还是最小值等等。
 
 ```python
 from pytorch_lightning.callbacks import ModelCheckpoint

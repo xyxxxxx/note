@@ -124,7 +124,7 @@ TensorShape([2, 1, 5])
 
 ## GradientTape
 
-`tf.GradientTape()` 是一个自动求导的记录器。以下示例计算 $$y=x^2$$ 在 $$x=3$$ 位置的导数：
+`tf.GradientTape()` 是一个自动求导的记录器。以下示例计算 $y=x^2$ 在 $x=3$ 位置的导数：
 
 ```python
 import tensorflow as tf
@@ -136,7 +136,7 @@ y_grad = tape.gradient(y, x)        # 计算y关于x的导数
 print(y, y_grad)                    # tf.Tensor(6.0, shape=(), dtype=float32)
 ```
 
-以下示例计算 $$\mathcal{L}=||X\pmb w+b-\pmb y||^2$$ 在 $$\pmb w=[1,2]^{\rm T},b=1$$ 位置的对 $$\pmb w,b$$ 的导数：
+以下示例计算 $\mathcal{L}=||X\pmb w+b-\pmb y||^2$ 在 $\pmb w=[1,2]^{\rm T},b=1$ 位置的对 $\pmb w,b$ 的导数：
 
 ```python
 X = tf.constant([[1., 2.], [3., 4.]])
@@ -1066,17 +1066,17 @@ False
 创建由指定张量的元素构成的数据集。
 
 ```python
->>> ds = Dataset.from_tensor_slices([1, 2, 3])                   # 张量
+>>> ds = Dataset.from_tensor_slices([1, 2, 3])                                # 张量
 >>> list(ds.as_numpy_iterator())
-[1, 2, 3]                               # 张量的元素
+[1, 2, 3]                                               # 张量的元素
 >>> ds = Dataset.from_tensor_slices([[1, 2, 3], [4, 5, 6]])
 >>> list(ds.as_numpy_iterator())
 [array([1, 2, 3], dtype=int32), array([4, 5, 6], dtype=int32)]
 >>> 
->>> ds = Dataset.from_tensor_slices(([1, 2], [3, 4], [5, 6]))    # 张量构成的元组
+>>> ds = Dataset.from_tensor_slices(([1, 2], [3, 4], [5, 6]))                 # 张量构成的元组
 >>> list(ds.as_numpy_iterator())
-[(1, 3, 5), (2, 4, 6)]                  # 元组,元素来自各张量
->>> ds = Dataset.from_tensor_slices(([1, 2, 3], ['a', 'b', 'a']))   # 应用:绑定数据和标签
+[(1, 3, 5), (2, 4, 6)]                                  # 元组,元素来自各张量
+>>> ds = Dataset.from_tensor_slices(([1, 2, 3], ['a', 'b', 'a']))             # 应用:绑定数据和标签
 >>> list(ds.as_numpy_iterator())
 [(1, b'a'), (2, b'b'), (3, b'a')]
 
@@ -2413,13 +2413,13 @@ tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0],  # Output shape: (2, 4, 4)
 
 ## eigh()
 
-返回张量的一个特征分解 $$A=Q\Lambda Q^{-1}$$。
+返回张量的一个特征分解 $A=Q\Lambda Q^{-1}$。
 
 
 
 ## svd()
 
-返回张量的一个奇异值分解 $$A=U\Sigma V^*$$。
+返回张量的一个奇异值分解 $A=U\Sigma V^*$。
 
 
 

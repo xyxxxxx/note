@@ -22,7 +22,7 @@ $$
 
 ## examples
 
-An example is a particular instance of data, $$\boldsymbol x$$. Examples are divided into labeled and unlabeled examples.
+An example is a particular instance of data, $\boldsymbol x$ . Examples are divided into labeled and unlabeled examples.
 
 A **labeled example** includes both feature(s) and the label: 
 
@@ -64,15 +64,15 @@ Training a model simply means determining good values for all the weights and th
 
 Loss is the penalty for a bad prediction. That is, **loss** is a number indicating how bad the model's prediction was on a single example. If the model's prediction is perfect, the loss is zero; otherwise, the loss is greater. The goal of training a model is to find a set of weights and biases that have *low* loss, on average, across all examples.
 
-The linear regression models use a loss function called **squared loss**. The squared loss for a single example is $$(y-y')^2$$. **Mean square error** (**MSE**) is the average squared loss per example over the whole dataset. To calculate MSE, sum up all the squared losses for individual examples and then divide by the number of examples:
+The linear regression models use a loss function called **squared loss**. The squared loss for a single example is $(y-y')^2$ . **Mean square error** (**MSE**) is the average squared loss per example over the whole dataset. To calculate MSE, sum up all the squared losses for individual examples and then divide by the number of examples:
 $$
 MSE=\frac{1}{N}\sum_{(x,y)\in D}(y-{\rm prediction}(x))^2
 $$
 
-+ $$(x,y)$$ is an example, $$x$$ is the set of features, $$y$$ is the example's label.
-+ $${\rm prediction}(x)$$ is a function that predicts label with the set of features.
++ $(x,y)$ is an example, $x$ is the set of features, $y$ is the example's label.
++ ${\rm prediction}(x)$ is a function that predicts label with the set of features.
 + $D$ is a data set containing many labeled examples
-+ $$N$$ is the number of examples in D
++ $N$ is the number of examples in D
 
 
 

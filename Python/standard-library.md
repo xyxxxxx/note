@@ -3326,6 +3326,8 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 ```python
 >>> path.dirname('/Users/xyx')
 '/Users'
+>>> path.dirname('/Users/xyx/Codes')
+'/Users/xyx'
 ```
 
 
@@ -3808,7 +3810,7 @@ random.shuffle(x[, random])
 
 ### random()
 
-返回服从 $$[0.0,1.0)$$ 区间内均匀分布的随机浮点数。
+返回服从 $[0.0,1.0)$ 区间内均匀分布的随机浮点数。
 
 ```python
 >>> random.random()

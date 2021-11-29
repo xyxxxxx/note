@@ -323,6 +323,21 @@ array([1, 2, 3, 4])
 
 
 
+### identity()
+
+返回一个指定形状的单位数组（单位矩阵）。
+
+```python
+>>> np.identity(2)
+array([[1., 0.],
+       [0., 1.]])
+>>> np.identity(2, dtype=int)
+array([[1, 0],
+       [0, 1]])
+```
+
+
+
 ### insert()
 
 在数组的指定轴的指定索引位置插入元素。
@@ -401,25 +416,24 @@ array([0.08495886, 0.24187973, 0.13003434])
 
 
 
-### ones(), zeros()
+### ones()
 
-创建全 1/0 数组。
+返回一个指定形状和类型的全 1 数组。
 
 ```python
->>> np.ones(6)
-array([1., 1., 1., 1., 1., 1.])
->>> np.zeros((2,6))
-array([[0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0.]])
->>> np.zeros(6, dtype=int)
-array([0, 0, 0, 0, 0, 0])
+>>> np.ones((2, 2))
+array([[1., 1.],
+       [1., 1.]])
+>>> np.ones((2, 2), dtype=int)
+array([[1, 1],
+       [1, 1]])
 ```
 
 
 
 ### pi
 
-圆周率 $$\pi$$。
+圆周率 $\pi$。
 
 ```python
 >>> np.sin(np.pi/2)
@@ -546,6 +560,56 @@ array([[[ 0, 12],
 
 
 
+### zeros()
+
+返回一个指定形状和类型的全 0 数组。
+
+```python
+>>> np.zeros((2, 2))
+array([[0., 0.],
+       [0., 0.]])
+>>> np.zeros((2, 2), dtype=int)
+array([[0, 0],
+       [0, 0]])
+```
+
+
+
+## numpy.ndarray
+
+### astype()
+
+复制数组并转为指定类型。
+
+```python
+>>> a = np.array([1, 2, 2.5])
+>>> a.astype(int)
+array([1, 2, 2])
+>>> a
+array([1. , 2. , 2.5])
+```
+
+
+
+### shape
+
+返回数组的形状。
+
+```python
+>>> np.zeros((2, 3, 4)).shape
+(2, 3, 4)
+```
+
+
+
+### T
+
+返回数组的转置。
+
+
+
+
+
 ## numpy.random
 
 ### choice()
@@ -662,7 +726,7 @@ array([[ 8,  9, 10, 11],
 
 ### eig()
 
-返回数组的一个特征分解 $$A=Q\Lambda Q^{-1}$$。
+返回数组的一个特征分解 $A=Q\Lambda Q^{-1}$。
 
 ```python
 >>> from numpy import linalg as LA
@@ -681,7 +745,7 @@ array([[ 4.,  6.,  0.],
 
 ### svd()
 
-返回数组的一个奇异值分解 $$A=U\Sigma V^*$$。
+返回数组的一个奇异值分解 $A=U\Sigma V^*$。
 
 ```python
 >>> from numpy import linalg as LA

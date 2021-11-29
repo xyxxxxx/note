@@ -15,10 +15,10 @@ $$
 y'=b+w_1x_1+w_2x_2+w_3x_3+\cdots
 $$
 
-+ $$y'$$ is the predicted label
-+ $$b$$ is the bias, sometimes referred to as $$w_0$$
-+ $$w_i$$ is the weight of feature i
-+ $$x_i$$ is a feature (a known input).
++ $y'$ is the predicted label
++ $b$ is the bias, sometimes referred to as $w_0$ 
++ $w_i$ is the weight of feature i
++ $x_i$ is a feature (a known input).
 
 
 
@@ -49,15 +49,15 @@ Can you draw a single straight line that neatly separates the sick trees from th
 
 
 
-To solve the nonlinear problem shown in Figure 2, create a feature cross. A **feature cross** is a synthetic feature that encodes nonlinearity in the feature space by multiplying two or more input features together. (The term *cross* comes from [*cross product*](https://wikipedia.org/wiki/Cross_product).) Let's create a feature cross named $$x_3$$ by crossing $$x_1$$ and $$x_2$$:
+To solve the nonlinear problem shown in Figure 2, create a feature cross. A **feature cross** is a synthetic feature that encodes nonlinearity in the feature space by multiplying two or more input features together. (The term *cross* comes from [*cross product*](https://wikipedia.org/wiki/Cross_product).) Let's create a feature cross named $x_3$ by crossing $x_1$ and $x_2$ :
 $$
 x_3 = x_1x_2
 $$
-We treat this newly minted $$x_3$$ feature cross just like any other feature. The linear formula becomes:
+We treat this newly minted $x_3$ feature cross just like any other feature. The linear formula becomes:
 $$
 y=b+w_1x_1+w_2x_2+w_3x_3
 $$
-A linear algorithm can learn a weight for $$w_3$$ just as it would for $$w_1$$ and $$w_2$$. In other words, although $$w_3$$ encodes nonlinear information, you don’t need to change how the linear model trains to determine the value of $$w_3$$.
+A linear algorithm can learn a weight for $w_3$ just as it would for $w_1$ and $w_2$ . In other words, although $w_3$ encodes nonlinear information, you don’t need to change how the linear model trains to determine the value of $w_3$ .
 
 Thanks to stochastic gradient descent, linear models can be trained efficiently. Consequently, supplementing scaled linear models with feature crosses has traditionally been an efficient way to train on massive-scale data sets.
 

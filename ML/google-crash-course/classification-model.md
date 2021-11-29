@@ -16,8 +16,8 @@ y′=\frac{1}{1+e^{-z}}
 $$
 where:
 
-+ $$y'$$ is the output of the logistic regression model for a particular example.
-+ $$z=b+w_1x_1+w_2x_2+…+w_Nx_N$$
++ $y'$ is the output of the logistic regression model for a particular example.
++ $z=b+w_1x_1+w_2x_2+…+w_Nx_N$ 
 
 Note that *z* is also referred to as the *log-odds* because the inverse of the sigmoid states that `z` can be defined as the log of the probability of the "1" label (e.g., "dog barks") divided by the probability of the "0" label (e.g., "dog doesn't bark"):
 $$
@@ -35,9 +35,9 @@ $$
 $$
 where:
 
-+ $$(x,y)∈D$$ is the data set containing many labeled examples, which are $$(x,y)$$ pairs.
-+ $$y$$ is the label in a labeled example. Since this is logistic regression, every value of $$y$$ must either be 0 or 1.
-+ $$y′$$ is the predicted value (somewhere between 0 and 1), given the set of features in $$x$$.
++ $(x,y)∈D$ is the data set containing many labeled examples, which are $(x,y)$ pairs.
++ $y$ is the label in a labeled example. Since this is logistic regression, every value of $y$ must either be 0 or 1.
++ $y′$ is the predicted value (somewhere between 0 and 1), given the set of features in $x$ .
 
 
 

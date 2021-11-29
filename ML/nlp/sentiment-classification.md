@@ -21,7 +21,7 @@
 
 总的来说，分类的目标就是取单次观测，提取出有用的特征，然后将特征分类到若干个离散的类中。
 
-人为设定规则在NLP的分类任务中十分重要，许多领域中基于人工规则的分类器都是最先进NLP系统的重要部分。尽管如此，人工规则也十分脆弱，其普适性不够强，划分效果也不够好，因此我们在大多数情况下用有监督的机器学习方法替代。习惯上我们用$$(d_1,c_1),\cdots,(d_N,c_N)$$表示训练集，其中$$d$$为文本，$$c$$为正确的类别。
+人为设定规则在NLP的分类任务中十分重要，许多领域中基于人工规则的分类器都是最先进NLP系统的重要部分。尽管如此，人工规则也十分脆弱，其普适性不够强，划分效果也不够好，因此我们在大多数情况下用有监督的机器学习方法替代。习惯上我们用 $(d_1,c_1),\cdots,(d_N,c_N)$ 表示训练集，其中 $d$ 为文本， $c$ 为正确的类别。
 
 本章介绍的朴素贝叶斯算法和之后介绍的逻辑回归算法分别代表了两种分类的思路：**Generative** classifiers like naive Bayes build a model of how a class could generate some input data. Given an observation, they return the class most likely to have generated the observation. **Discriminative** classifiers like logistic regression instead learn what features from the input are most useful to discriminate between the different possible classes. While discriminative systems are often more accurate and hence more commonly used, generative classifiers still have a role.
 
@@ -33,7 +33,7 @@
 
 ![](https://i.loli.net/2020/12/28/asg6SXbzpKhrnyj.png)
 
-朴素贝叶斯是一种概率分类器，即对于特定文本$$d$$，从所有类别中返回具有最大后验概率的类别，即
+朴素贝叶斯是一种概率分类器，即对于特定文本 $d$，从所有类别中返回具有最大后验概率的类别，即
 $$
 \hat{c}=\arg\max_{c\in C} P(c|d)
 $$
@@ -41,11 +41,11 @@ Mosteller and Wallace (1964) 最早将贝叶斯推断应用于文本分类，其
 $$
 \hat{c}=\arg\max_{c\in C} P(c|d)=\arg\max_{c\in C} \frac{P(d|c)P(c)}{P(d)}=\arg\max_{c\in C} P(d|c)P(c)
 $$
-上式去掉分母的原因是文本是给定的，因此$$P(d)$$是定值（也可以理解为1）。于是后验概率被拆分为先验概率$$P(c)$$和似然$$P(d|c)$$的积。尽管如此，上式还是难以计算，因此朴素贝叶斯分类器做了两个简化假定：
+上式去掉分母的原因是文本是给定的，因此 $P(d)$ 是定值（也可以理解为1）。于是后验概率被拆分为先验概率 $P(c)$ 和似然 $P(d|c)$ 的积。尽管如此，上式还是难以计算，因此朴素贝叶斯分类器做了两个简化假定：
 
 1. 词的位置并不重要（如同词袋模型所展示的）
 
-2. **朴素贝叶斯假定(naive Bayes assumption)**：各特征条件独立，即$$P(f_i|c)$$独立，有
+2. **朴素贝叶斯假定(naive Bayes assumption)**：各特征条件独立，即 $P(f_i|c)$ 独立，有
    $$
    P(d|c)=P(f_1,f_2,\cdots,f_n|c)=P(f_1|c)\cdot P(f_2|c)\cdots P(f_n|c)
    $$
@@ -66,13 +66,13 @@ $$
 
 # 训练朴素贝叶斯分类器
 
-那么如何得到$$P(c)$$和$$P(w_i|c)$$？最直接的方法是最大似然估计法，即使用训练集上的频率作为概率
+那么如何得到 $P(c)$ 和 $P(w_i|c)$？最直接的方法是最大似然估计法，即使用训练集上的频率作为概率
 $$
 \hat{P}(c)=\frac{N_c}{N_{all}}\\
 \hat{P}(w_i|c)=\frac{{\rm count}(w_i,c)}{\sum_{w\in V}{\rm count}(w,c)}
 $$
 
-> 注意词汇表$$V$$是所有类别下所有文本的词汇表。
+> 注意词汇表 $V$ 是所有类别下所有文本的词汇表。
 
 这种方法存在一个问题：设想我们现在想要estimate the likelihood of the word “fantastic” given class positive，但训练集中positive类别下的文本均不包含词fantastic，反而是negative类别下有一个文本包含fantastic（可能是讽刺？），此时计算有
 $$
@@ -188,7 +188,7 @@ F值定义为
 $$
 F=\frac{(1+\beta^2)PR}{\beta^2P+ R}
 $$
-当$$\beta=1$$时，F值称为F1值，是精确率和召回率的调和平均数
+当 $\beta=1$ 时，F值称为F1值，是精确率和召回率的调和平均数
 $$
 F_1=\frac{2PR}{P+R}
 $$

@@ -24,9 +24,9 @@
 
 基本步骤
 
-1. 建立假设$$H_0:\theta\in \Theta_0,H_1:\theta\in \Theta_1$$
-2. 选择检验统计量，给出拒绝域W的形式（接受域$$\overline{W}$$
-3. 选择显著性水平$$\alpha$$，$$\alpha=P(拒绝H_0|H_0为真)=P_\theta(X\in W)$$
+1. 建立假设 $H_0:\theta\in \Theta_0,H_1:\theta\in \Theta_1$ 
+2. 选择检验统计量，给出拒绝域W的形式（接受域 $\overline{W}$ 
+3. 选择显著性水平 $\alpha$， $\alpha=P(拒绝H_0|H_0为真)=P_\theta(X\in W)$ 
 
 ![difee3rgfvbgnjyrhd](C:\Users\Xiao Yuxuan\Documents\pic\difee3rgfvbgnjyrhd.PNG)
 
@@ -55,7 +55,7 @@ $$
 + 假设检验中两类错误的概率<u>不能同时减小</u>
 + 原假设是经验上认为正常的假设
 + 理想的检验应该是，在控制犯第一类错误的基础上尽量少犯第二类错误
-+ 犯第一类错误的概率不高于显著性水平$$\alpha$$
++ 犯第一类错误的概率不高于显著性水平 $\alpha$ 
 + 显著性检验具有“保护原假设”的特点
 + 增加样本量可以降低犯第二类错误的概率
 
@@ -69,8 +69,8 @@ $$
 
 **p值检验法**
 
-1. 若p值$$\le \alpha$$，则在显著性水平$$\alpha$$下拒绝$$H_0$$
-2. 若p值$$> \alpha$$，则在显著性水平$$\alpha$$下接受$$H_0$$
+1. 若p值 $\le \alpha$，则在显著性水平 $\alpha$ 下拒绝 $H_0$ 
+2. 若p值 $> \alpha$，则在显著性水平 $\alpha$ 下接受 $H_0$ 
 
 
 
@@ -80,7 +80,7 @@ $$
 
 
 
-### $$\sigma$$已知：Z检验
+### $\sigma$ 已知：Z检验
 
 $$
 Z=\frac{\overline{X}-\mu_0}{\sigma/\sqrt{n}}
@@ -102,7 +102,7 @@ $$
 
 
 
-### $$\sigma$$未知：t检验
+### $\sigma$ 未知：t检验
 
 ![zxeqjirwgon524itjnjgb](C:\Users\Xiao Yuxuan\Documents\pic\zxeqjirwgon524itjnjgb.PNG)
 

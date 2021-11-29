@@ -1139,7 +1139,7 @@ b = torch.tensor(2., requires_grad=True)
 > a.requires_grad = True
 > ```
 
-创建另一个张量 $$c=a^2+b$$：
+创建另一个张量 $c=a^2+b$ ：
 
 ```python
 c = a**2 + b
@@ -1173,7 +1173,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 
 
 
-再来看一个例子，此时 $$c$$ 是一个向量：
+再来看一个例子，此时 $c$ 是一个向量：
 
 ```python
 import torch
@@ -1184,7 +1184,7 @@ b = torch.tensor([2., 4.], requires_grad=True)
 c = a**2 + b
 ```
 
-如果 $$c$$ 对 $$a,b$$ 直接求梯度，将会得到一个矩阵，但我们想要得到与 $$a,b$$ 形状相同的梯度向量。我们可以通过求 $$c$$ 和某常数向量的内积将其转换为标量，例如和全 1 向量的内积相当于求和所有元素，通过 `backward()` 的 `gradient` 参数传入：
+如果 $c$ 对 $a,b$ 直接求梯度，将会得到一个矩阵，但我们想要得到与 $a,b$ 形状相同的梯度向量。我们可以通过求 $c$ 和某常数向量的内积将其转换为标量，例如和全 1 向量的内积相当于求和所有元素，通过 `backward()` 的 `gradient` 参数传入：
 
 ```python
 external_grad = torch.tensor([1., 1.])

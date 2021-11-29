@@ -416,7 +416,7 @@ tf.keras.datasets.mnist.load_data(path='mnist.npz')
 
 ## Dense
 
-全连接层（densely connected layer，fully connected layer）是 Keras 中最基础和常用的层之一，对输入矩阵 $$A$$ 进行 $$f(A\pmb w+b)$$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $$A\pmb w+b$$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行 `tf.matmul(input,kernel)+ bias` 的线性变换（`kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation`，从而输出形状为 `[batch_size, units]` 的二维张量。
+全连接层（densely connected layer，fully connected layer）是 Keras 中最基础和常用的层之一，对输入矩阵 $A$ 进行 $f(A\pmb w+b)$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $A\pmb w+b$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行 `tf.matmul(input,kernel)+ bias` 的线性变换（`kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation`，从而输出形状为 `[batch_size, units]` 的二维张量。
 
 [![../../_images/dense.png](https://tf.wiki/_images/dense.png)](https://tf.wiki/_images/dense.png)
 
@@ -426,7 +426,7 @@ tf.keras.datasets.mnist.load_data(path='mnist.npz')
 * `use_bias`：是否加入偏置向量 `bias`，默认为 `True` 
 * `kernel_initializer`、`bias_initializer`：权重矩阵 `kernel` 和偏置向量 `bias` 两个变量的初始化器。默认为 `tf.glorot_uniform_initializer`。设置为 `tf.zeros_initializer` 表示将两个变量均初始化为全 0
 
-该层包含权重矩阵  `kernel=[input_dim,units]` 和偏置向量 `bias=[units]`  两个可训练变量，对应于 $$f(A\pmb w+b)$$ 中的 $$\pmb w$$ 和 $$b$$。
+该层包含权重矩阵  `kernel=[input_dim,units]` 和偏置向量 `bias=[units]`  两个可训练变量，对应于 $f(A\pmb w+b)$ 中的 $\pmb w$ 和 $b$。
 
 ```python
 tf.keras.layers.Dense(units, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None, **kwargs)
@@ -785,7 +785,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 ## BinaryCrossentropy
 
-计算标签和预测值之间的交叉熵损失，用于二分类问题。损失函数接受的标签为 `0` 或 `1`，预测值为任意浮点数（若 `from_logits=True`，此时预测值的浮点数通过 logistic 函数映射到$$(0, 1)$$区间内）或概率值（若 `from_logits=False`）。
+计算标签和预测值之间的交叉熵损失，用于二分类问题。损失函数接受的标签为 `0` 或 `1`，预测值为任意浮点数（若 `from_logits=True`，此时预测值的浮点数通过 logistic 函数映射到 $(0, 1)$ 区间内）或概率值（若 `from_logits=False`）。
 
 > logit 函数是 logistic 函数的反函数。
 

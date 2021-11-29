@@ -50,7 +50,7 @@ w_1^2+w_2^2+w_3^2+w_4^2+w_5^2+w_6^2 \\
 =0.04+0.25+25+1+0.0625+0.5625 \\
 =26.915
 $$
-But $$w_3$$, with a squared value of 25, contributes nearly all the complexity. The sum of the squares of all five other weights adds just 1.915 to the *L2* regularization term.
+But $w_3$ , with a squared value of 25, contributes nearly all the complexity. The sum of the squares of all five other weights adds just 1.915 to the *L2* regularization term.
 
 
 
@@ -106,8 +106,8 @@ However, there is a regularization term called L1 regularization that serves as 
 
 |                                                 | L1                                        | L2                                          |
 | ----------------------------------------------- | ----------------------------------------- | ------------------------------------------- |
-| penalize                                        | $$|w|$$                                   | $$w^2$$                                     |
-| derivative                                      | 1                                         | $$2w$$                                      |
+| penalize                                        | $|w|$                                   | $w^2$                                     |
+| derivative                                      | 1                                         | $2w$                                      |
 | difference between <br />training and test loss | low                                       | high                                        |
 | weight absolute value                           | low                                       | high                                        |
 |                                                 |                                           |                                             |

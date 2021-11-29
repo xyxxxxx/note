@@ -2,11 +2,11 @@
 
 # 排序算法sorting
 
-> 排序算法时间复杂度下界为$$O(n\log n)$$
+> 排序算法时间复杂度下界为 $O(n\log n)$ 
 
 ## 冒泡排序bubble sort
 
-$$T(n)=\frac{n(n-1)}{2}=O(n^2)$$
+$T(n)=\frac{n(n-1)}{2}=O(n^2)$ 
 
 
 
@@ -24,7 +24,7 @@ for i ← 1 to n-1 do
 		if A[j]<A[i] then swap(A[j],A[i])	
 ```
 
-$$T(n)=O(n^2)$$
+$T(n)=O(n^2)$ 
 
 
 
@@ -46,7 +46,7 @@ for j ← 2 to n do
 	A[i+1] ← x
 ```
 
-$$W(n)=W(n-1)+n-1=O(n^2),\quad T(n)=O(n^2)$$
+$W(n)=W(n-1)+n-1=O(n^2),\quad T(n)=O(n^2)$ 
 
 
 
@@ -99,7 +99,7 @@ for i ← length[A] downto 2 do
 	Heapify(A,i)
 ```
 
-$$T(n)=O(n\log n)$$
+$T(n)=O(n\log n)$ 
 
 
 
@@ -144,7 +144,7 @@ then copy C[j..y] into A[k..r]
 else copy B[i..y] into A[k..r]
 ```
 
-$$W(n)=2W(n/2)+n-1=O(n\log n)$$
+$W(n)=2W(n/2)+n-1=O(n\log n)$ 
 
 
 
@@ -184,19 +184,19 @@ while i<j do
 	else return j
 ```
 
-最坏情况$$T(n)=O(n^2)$$，平均情况$$T(n)=O(n\log n)$$
+最坏情况 $T(n)=O(n^2)$，平均情况 $T(n)=O(n\log n)$ 
 
 
 
 ## 桶排序bucket sort
 
-> 桶排序因为假设输入数据服从均匀分布，平均情况下时间复杂度达到$$O(n)$$
+> 桶排序因为假设输入数据服从均匀分布，平均情况下时间复杂度达到 $O(n)$ 
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\xjcvioh46j7ioyjpegrhw.PNG" alt="xjcvioh46j7ioyjpegrhw" style="zoom:80%;" />
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\jksgfiopj2345tiotgnmo.PNG" alt="jksgfiopj2345tiotgnmo" style="zoom:80%;" />
 
-$$T(n)=\Theta(n)+\sum_{i=0}^{n-1}O(n_i^2)$$，平均情况$$T(n)=\Theta(n)$$
+$T(n)=\Theta(n)+\sum_{i=0}^{n-1}O(n_i^2)$，平均情况 $T(n)=\Theta(n)$ 
 
 
 
@@ -265,7 +265,7 @@ for i←2 to n do
 return max	
 ```
 
-$$T(n)=n-1$$
+$T(n)=n-1$ 
 
 
 
@@ -284,7 +284,7 @@ Findmaxmin （最优）
 在ceil(n/2)个较大元素中求最大值
 ```
 
-$$W(n)=\lceil 3n/2 \rceil-2$$
+$W(n)=\lceil 3n/2 \rceil-2$ 
 
 
 
@@ -309,7 +309,7 @@ max	← 最后剩余元素
 second ← max链表中的最大元素
 ```
 
-$$W(n)=n+\lceil \log n \rceil-2$$
+$W(n)=n+\lceil \log n \rceil-2$ 
 
 
 
@@ -325,7 +325,7 @@ Select(S,k) （阶最优）
 //P43
 ```
 
-$$W(n)\leq W(n/5)+W(7n/10)+O(n)=O(n)$$
+$W(n)\leq W(n/5)+W(7n/10)+O(n)=O(n)$ 
 
 
 
@@ -335,7 +335,7 @@ $$W(n)\leq W(n/5)+W(7n/10)+O(n)=O(n)$$
 
 ## Huffman algorithm
 
-输入：字符集$$C=\{x_1,x_2,\cdots,x_n\}$$，每个字符的频率$$f(x_i)$$
+输入：字符集 $C=\{x_1,x_2,\cdots,x_n\}$，每个字符的频率 $f(x_i)$ 
 输出：Q
 
 ```
@@ -366,7 +366,7 @@ return Q
 
 ## Prim algorithm
 
-输入：图$$G=(V,E,W)$$
+输入：图 $G=(V,E,W)$ 
 输出：最小生成树
 
 算法Prim(G,E,W)
@@ -378,13 +378,13 @@ while V-S!=emptyset do
 	T←T\bigcup {e};S←S\bigcup {j}
 ```
 
-$$T(n)=O(n^2)$$
+$T(n)=O(n^2)$ 
 
 
 
 ## Kruskal algorithm
 
-输入：图$$G=(V,E,W)$$
+输入：图 $G=(V,E,W)$ 
 输出：最小生成树
 
 算法Kruskal
@@ -399,9 +399,9 @@ repeat
 until T包含n-1条边	
 ```
 
-$$T(n)=O(m\log n)$$
+$T(n)=O(m\log n)$ 
 
-> 当$$m=\Theta(n^2)$$时，Prim算法效率更高；当$$m=\Theta(n)$$时，Kruskal算法效率更高
+> 当 $m=\Theta(n^2)$ 时，Prim算法效率更高；当 $m=\Theta(n)$ 时，Kruskal算法效率更高
 
 
 
@@ -415,8 +415,8 @@ $$T(n)=O(m\log n)$$
 
 > 所有边权重非负的单源最短路径算法，时间复杂度低于Bellman-Ford algorithm
 
-输入：带权有向图$$G=(V,E,W)$$，源点$$s\in V$$
-输出：数组L，$$\forall j \in V-\{s\}$$，$$L[j]$$表示s到j的最短路径上j前一个结点的标号
+输入：带权有向图 $G=(V,E,W)$，源点 $s\in V$ 
+输出：数组L， $\forall j \in V-\{s\}$， $L[j]$ 表示s到j的最短路径上j前一个结点的标号
 
 ```
 S←{s}
@@ -431,7 +431,7 @@ while V-S!=\empty do
 		then dist[i]←dist[j]+w[j,i]
 ```
 
-$$T(n)=O(n^2)$$
+$T(n)=O(n^2)$ 
 
 
 
@@ -471,23 +471,23 @@ $$T(n)=O(n^2)$$
 
 ## 多项式计算
 
-计算$$A(x)=a_0+a_1x+\cdots+a_{n-1}x^{n-1}$$
+计算 $A(x)=a_0+a_1x+\cdots+a_{n-1}x^{n-1}$ 
 
 **蛮力算法**
 
-$$T(n)=O(n^2)$$
+$T(n)=O(n^2)$ 
 
 **减治算法**
 $$
 A_{i}(x)=xA_{i-1}(x)+a_{n-i}
 $$
-$$T(n)=T(n-1)+O(1)=O(n)$$
+$T(n)=T(n-1)+O(1)=O(n)$ 
 
 **分治算法**
 $$
 A(x)=A_{even}(x^2)+xA_{odd}(x^2)
 $$
-$$T(n)=2T(n/2)+O(1)=O(n)$$，计算n个多项式时$$T(n)=2T(n/2)+O(n)=O(n\log n)$$
+$T(n)=2T(n/2)+O(1)=O(n)$，计算n个多项式时 $T(n)=2T(n/2)+O(n)=O(n\log n)$ 
 
 > 参见离散数学-多项式-快速傅里叶变换
 
@@ -495,7 +495,7 @@ $$T(n)=2T(n/2)+O(1)=O(n)$$，计算n个多项式时$$T(n)=2T(n/2)+O(n)=O(n\log n
 
 ## 多项式乘法(卷积计算)
 
-考虑多项式乘法$$C(x)=A(x)B(x)$$，其中$$A(x)$$的系数向量为$$(a_0,a_1,\cdots,a_{n-1})$$，$$B(x)$$的系数向量为$$(b_0.b_1,\cdots,b_{n-1})$$，求$$C(x)$$的系数向量
+考虑多项式乘法 $C(x)=A(x)B(x)$，其中 $A(x)$ 的系数向量为 $(a_0,a_1,\cdots,a_{n-1})$， $B(x)$ 的系数向量为 $(b_0.b_1,\cdots,b_{n-1})$，求 $C(x)$ 的系数向量
 
 ### 蛮力算法
 
@@ -506,7 +506,7 @@ for(int i = 0; i < n; ++i)
 	}
 ```
 
-$$T(n)=O(n^2)$$
+$T(n)=O(n^2)$ 
 
 
 
@@ -530,7 +530,7 @@ $$T(n)=O(n^2)$$
 
 
 
-选择2n个数为1的2n次根$$\omega_j=e^{\frac{j}{n}\pi i},j=0,1,\cdots,2n-1$$
+选择2n个数为1的2n次根 $\omega_j=e^{\frac{j}{n}\pi i},j=0,1,\cdots,2n-1$ 
 
 ```c++
 求值A(omega_j)和B(omega_j) //O(nlogn)
@@ -578,19 +578,19 @@ return y
 
 ## 幂乘
 
-计算$$a^n$$
+计算 $a^n$ 
 
 
 
 ### 蛮力算法
 
-做n-1次乘法，$$T(n)=O(n)$$
+做n-1次乘法， $T(n)=O(n)$ 
 
 
 
 ### 快速幂/二进制取幂
 
-计算$$a,a^2,\cdots,a^{2^{\lfloor \log_2 n\rfloor}}$$，再相乘得到
+计算 $a,a^2,\cdots,a^{2^{\lfloor \log_2 n\rfloor}}$，再相乘得到
 
 ```c++
 long long binpow(long long a, long long n) {
@@ -604,7 +604,7 @@ long long binpow(long long a, long long n) {
 }
 ```
 
-$$T(n)=O(\log n)+O(\log n)=O(\log n)$$
+$T(n)=O(\log n)+O(\log n)=O(\log n)$ 
 
 
 

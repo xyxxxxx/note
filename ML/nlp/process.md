@@ -30,11 +30,11 @@ cats和cat是否是相同的词？我们知道它们是同一**词元(lemma, 又
 | COCA                                | 440 million  | 2 million     |
 | Google N-grams                      | 1 trillion   | 13 million    |
 
-上表展示了常用的英文语料库的大致type数和token数。我们看到越大的语料库就有越大的type数，type数$$|V|$$和token数$$N$$的关系称为Herdan's Law
+上表展示了常用的英文语料库的大致type数和token数。我们看到越大的语料库就有越大的type数，type数 $|V|$ 和token数 $N$ 的关系称为Herdan's Law
 $$
 |V|=kN^{\beta}
 $$
-参数$$\beta$$取决于语料库大小和体裁，但至少对于上表，$$\beta$$取0.67-0.75。
+参数 $\beta$ 取决于语料库大小和体裁，但至少对于上表， $\beta$ 取0.67-0.75。
 
 另一种衡量词数量的方法是取<u>词元</u>而非词形，英文词典上的**词条(entry)**即对应这种方法。
 
@@ -153,7 +153,7 @@ $$
 
 ![](https://i.loli.net/2020/12/21/7mAKwWvoJsbpfjS.png)
 
-重复上述步骤，总共执行步骤的次数为超参数$$k$$，
+重复上述步骤，总共执行步骤的次数为超参数 $k$，
 
 ![](https://i.loli.net/2020/12/21/KnX8ScJ75jkWL2E.png)
 
@@ -163,7 +163,7 @@ $$
 
 在测试过程中我们使用同样的分词方法。如果测试文本中包含`n e w e r _`，那么其将按照上述规则分词为`newer_`；如果包含`l o w e r _`，那么其将按照上述规则分词为`low er_`。
 
-实际应用中对于较大的词汇表，$$k$$通常取几千，这时大多数常用词的完整形式都被加入到token表，而少数罕见词和训练集未出现的词被表示为几部分。
+实际应用中对于较大的词汇表， $k$ 通常取几千，这时大多数常用词的完整形式都被加入到token表，而少数罕见词和训练集未出现的词被表示为几部分。
 
 
 
@@ -213,7 +213,7 @@ $$
 
 ​        ATIONAL → ATE (e.g. relational→relate)
 
-​                 ING → $$\epsilon$$，如果词干包含元音 (e.g., motoring → motor)
+​                 ING → $\epsilon$，如果词干包含元音 (e.g., motoring → motor)
 
 ​               SSES → SS (e.g., grasses → grass)
 

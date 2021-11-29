@@ -26,11 +26,11 @@
 
 ![](https://i.loli.net/2020/12/03/923lZIUgGLVyaDK.png)
 
-假设有一组$$D$$维的样本$$\pmb x^{(n)} ∈\mathbb{R}^D, 1 ≤ n ≤ N$$，我们希望将其投影到一维空间中，投影向量为$$\pmb w\in\mathbb{R}^D$$。不失一般性，我们限制$$\pmb w$$的模为 1 ，即$$\pmb w^{T}\pmb w = 1$$。每个样本点$$\pmb x^{(n)}$$投影之后的表示为
+假设有一组 $D$ 维的样本 $\pmb x^{(n)} ∈\mathbb{R}^D, 1 ≤ n ≤ N$，我们希望将其投影到一维空间中，投影向量为 $\pmb w\in\mathbb{R}^D$。不失一般性，我们限制 $\pmb w$ 的模为 1 ，即 $\pmb w^{T}\pmb w = 1$。每个样本点 $\pmb x^{(n)}$ 投影之后的表示为
 $$
 z^{(n)}=\pmb w^{\rm T}\pmb x^{(n)}
 $$
-用矩阵$$X=[\pmb x^{(1)},\pmb x^{(2)},\cdots\pmb x^{(N)}]$$表示输入样本，$$\bar{\pmb x}=\frac{1}{N}\sum_{n=1}^N\pmb x^{(n)}$$为原始样本的中心点，所有样本投影后的方差为
+用矩阵 $X=[\pmb x^{(1)},\pmb x^{(2)},\cdots\pmb x^{(N)}]$ 表示输入样本， $\bar{\pmb x}=\frac{1}{N}\sum_{n=1}^N\pmb x^{(n)}$ 为原始样本的中心点，所有样本投影后的方差为
 $$
 \sigma(X;\pmb w)=\frac{1}{N}\sum_{n=1}^N(\pmb w^{\rm T}\pmb x^{(n)}-)
 $$

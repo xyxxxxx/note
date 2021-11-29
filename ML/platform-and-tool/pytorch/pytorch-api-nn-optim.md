@@ -403,11 +403,11 @@ class torch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=N
 # bias           是否使用偏置
 ```
 
-+ 输入形状：$$(N,*,H_{\rm in})$$，其中 $$N$$ 表示批次规模，$$*$$ 表示任意个额外的维度，$$H_{\rm in}={\rm in\_features}$$。
-+ 输出形状：$$(N,*,H_{\rm out})$$，其中 $$H_{\rm out}={\rm out\_features}$$。
++ 输入形状： $(N,*,H_{\rm in})$，其中 $N$ 表示批次规模， $*$ 表示任意个额外的维度， $H_{\rm in}={\rm in\_features}$。
++ 输出形状： $(N,*,H_{\rm out})$，其中 $H_{\rm out}={\rm out\_features}$。
 + 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=1/{\rm in\_features}$$。
-  + `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=1/{\rm in\_features}$$。
+  + `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
+  + `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
 
 
 
@@ -458,11 +458,11 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-+ 输入形状：$$(N,C_{\rm in},L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
-+ 输出形状：$$(N,C_{\rm out},L_{\rm out})$$。
++ 输入形状： $(N,C_{\rm in},L_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $L$ 表示长，下同。
++ 输出形状： $(N,C_{\rm out},L_{\rm out})$。
 + 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 ```python
 >>> conv1 = nn.Conv1d(1, 32, 3, 1)                   # 卷积核长度为3,步长为1
@@ -503,11 +503,11 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 > `kernel_size` 等参数的具体意义请参见 [An Introduction to different Types of Convolutions in Deep Learning](https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d)。
 
-+ 输入形状：$$(N,C_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C_{\rm out},H_{\rm out}, W_{\rm out})$。
 + 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1]]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 ```python
 >>> conv1 = nn.Conv2d(1, 32, 3, 1)                 # 卷积核大小为(3,3),步长为1
@@ -550,11 +550,11 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-+ 输入形状：$$(N,C_{\rm in},D_{\rm in}, H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C_{\rm out},D_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C_{\rm in},D_{\rm in}, H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C_{\rm out},D_{\rm out},H_{\rm out}, W_{\rm out})$。
 + 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $$(-\sqrt{k},\sqrt{k})$$ 区间上的均匀分布，其中 $$k=\cdots$$。
+  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 
 
@@ -574,8 +574,8 @@ class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 ```
 
-+ 输入形状：$$(N,C,L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
-+ 输出形状：$$(N,C,L_{\rm out})$$。
++ 输入形状： $(N,C,L_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $L$ 表示长，下同。
++ 输出形状： $(N,C,L_{\rm out})$。
 
 ```python
 >>> input = torch.randint(10, (1, 10)).to(torch.float32)
@@ -609,8 +609,8 @@ class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 ```
 
-+ 输入形状：$$(N,C,H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C,H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C,H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C,H_{\rm out}, W_{\rm out})$。
 
 ```python
 >>> input = torch.randint(10, (1, 6, 6)).to(torch.float32)
@@ -655,8 +655,8 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 ```
 
-+ 输入形状：$$(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$。
 
 
 
@@ -673,8 +673,8 @@ class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 # count_include_pad  若为`True`,则平均计算将包括填充的零
 ```
 
-+ 输入形状：$$(N,C,L_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$L$$ 表示长，下同。
-+ 输出形状：$$(N,C,L_{\rm out})$$。
++ 输入形状： $(N,C,L_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $L$ 表示长，下同。
++ 输出形状： $(N,C,L_{\rm out})$。
 
 ```python
 >>> input = torch.randint(10, (1, 1, 10)).to(torch.float32)
@@ -708,8 +708,8 @@ class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 # divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
 ```
 
-+ 输入形状：$$(N,C,H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C,H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C,H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C,H_{\rm out}, W_{\rm out})$。
 
 ```python
 >>> input = torch.randint(10, (1, 1, 6, 6)).to(torch.float32)
@@ -754,8 +754,8 @@ class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 # divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
 ```
 
-+ 输入形状：$$(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$$，其中 $$N$$ 表示批次规模，$$C$$ 表示通道数，$$D$$ 表示深，$$H$$ 表示高，$$W$$ 表示宽，下同。
-+ 输出形状：$$(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$$。
++ 输入形状： $(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
++ 输出形状： $(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$。
 
 
 
@@ -894,7 +894,7 @@ tensor([[ 1.0000,  1.0000,  1.0000],
 
 一维丢弃层。
 
-在训练模式下，以给定概率 $$p$$ 将张量的每个元素随机置零，剩余的元素乘以 $$1/(1-p)$$。每次调用丢弃层的结果是独立的。
+在训练模式下，以给定概率 $p$ 将张量的每个元素随机置零，剩余的元素乘以 $1/(1-p)$。每次调用丢弃层的结果是独立的。
 
 在测试模式下，直接返回输入张量。
 
@@ -939,7 +939,7 @@ tensor([[-1.1218,  0.1338, -0.0065, -1.6416],
 
 二维丢弃层。
 
-在训练模式下，以给定概率 $$p$$ 将张量 $$(N,C,H,W)$$ 的每个通道随机置零，剩余的通道乘以 $$1/(1-p)$$。通常用于 `nn.Conv2d` 模块的输出。每次调用丢弃层的结果是独立的。
+在训练模式下，以给定概率 $p$ 将张量 $(N,C,H,W)$ 的每个通道随机置零，剩余的通道乘以 $1/(1-p)$。通常用于 `nn.Conv2d` 模块的输出。每次调用丢弃层的结果是独立的。
 
 在测试模式下，直接返回输入张量。
 
@@ -1103,12 +1103,12 @@ $$
 l_n=-w_n(t_n\log y_n+(1-t_n)\log (1-y_n))\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
-其中 $$N$$ 为批次规模，$$w_n$$ 为  `weight` 参数指定的权重。
+其中 $N$ 为批次规模， $w_n$ 为  `weight` 参数指定的权重。
 
-> 若 $$y_n$$ 取 $$0$$ 或 $$1$$，则 $$l_n$$ 表达式中的对数项之一就会在数学上无意义。PyTorch 选择设 $$\log(0)=-\infty$$，但损失表达式中存在无穷项会产生一些问题：
+> 若 $y_n$ 取 $0$ 或 $1$，则 $l_n$ 表达式中的对数项之一就会在数学上无意义。PyTorch 选择设 $\log(0)=-\infty$，但损失表达式中存在无穷项会产生一些问题：
 >
-> 1. 若 $$t_n=0$$ 或 $$1-t_n=0$$，则会出现 0 乘以无穷。
-> 2. 梯度计算链中也会存在无穷项，因为 $$\frac{\partial l_n}{\partial y_n}=-w_n(\frac{t_n}{y_n}-\frac{1-t_n}{1-y_n})$$。
+> 1. 若 $t_n=0$ 或 $1-t_n=0$，则会出现 0 乘以无穷。
+> 2. 梯度计算链中也会存在无穷项，因为 $\frac{\partial l_n}{\partial y_n}=-w_n(\frac{t_n}{y_n}-\frac{1-t_n}{1-y_n})$。
 >
 > PyTorch 的解决方法是为对数项应用最小值 -100，这样损失值总是有限值，并且反向计算也是线性的。
 
@@ -1148,7 +1148,7 @@ tensor(50.)
 
 交叉熵损失函数层。相当于将 `LogSoftmax` 和 `NLLLoss` 组合为一个模块。
 
-通常用于多分类问题（$$C$$ 个类别）；输入张量应当包含的是生的、未归一化的每个类别的分数，形状为 $$(batch\_size,C)$$；目标张量应当是批次规模长度的一维张量，其中每个值是 $$[0, C-1]$$ 范围内的整数索引，代表正确的类别。
+通常用于多分类问题（ $C$ 个类别）；输入张量应当包含的是生的、未归一化的每个类别的分数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
 
 ```python
 class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
@@ -1160,8 +1160,8 @@ class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-10
 #                若为`'mean'`,则对输出的所有元素求平均
 ```
 
-+ 输入形状：$$(N,C)$$，其中 $$N$$ 表示批次规模，$$C$$ 表示类别数；或 $$(N,C,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
-+ 目标形状：$$(N)$$，其中 $$N$$ 表示批次规模，每一个值是 $$[0, C-1]$$ 范围内的整数索引；或 $$(N,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 输入形状： $(N,C)$，其中 $N$ 表示批次规模， $C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
++ 目标形状： $(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
 + 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
 
 ```python
@@ -1220,7 +1220,7 @@ $$
 l_n=(y_n-t_n)^2\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
-其中 $$N$$ 为批次规模。
+其中 $N$ 为批次规模。
 
 ```python
 class torch.nn.MSELoss(size_average=None, reduce=None, reduction='mean')
@@ -1255,9 +1255,9 @@ $$
 l_n = -w_ny_{n,t_n}\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
-其中 $$N$$ 为批次规模，$$w_n$$ 为  `weight` 参数指定的权重。
+其中 $N$ 为批次规模， $w_n$ 为  `weight` 参数指定的权重。
 
-通常用于多分类问题（$$C$$ 个类别）；输入张量应当包含的是每个类别的概率的（自然）对数，形状为 $$(batch\_size,C)$$；目标张量应当是批次规模长度的一维张量，其中每个值是 $$[0, C-1]$$ 范围内的整数索引，代表正确的类别。
+通常用于多分类问题（ $C$ 个类别）；输入张量应当包含的是每个类别的概率的（自然）对数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
 
 ```python
 class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
@@ -1269,8 +1269,8 @@ class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce
 #                若为`'mean'`,则对输出的所有元素求平均
 ```
 
-+ 输入形状：$$(N,C)$$，其中 $$N$$ 表示批次规模，$$C$$ 表示类别数；或 $$(N,C,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
-+ 目标形状：$$(N)$$，其中 $$N$$ 表示批次规模，每一个值是 $$[0, C-1]$$ 范围内的整数索引；或 $$(N,d_1,d_2,\cdots,d_k)$$，其中 $$d_i$$ 表示额外的维度。
++ 输入形状： $(N,C)$，其中 $N$ 表示批次规模， $C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
++ 目标形状： $(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
 + 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
 
 ```python
@@ -1301,7 +1301,7 @@ $$
 l_n=|y_n-t_n|\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
-其中 $$N$$ 为批次规模。
+其中 $N$ 为批次规模。
 
 支持实数值和复数值输入。
 
