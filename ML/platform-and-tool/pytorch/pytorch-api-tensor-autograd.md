@@ -3153,7 +3153,118 @@ False
 
 
 
+## 序列化
 
+### save()
+
+保存对象为文件。按照惯例，保存的文件使用 `.pt` 或 `.pth` 后缀名。
+
+### load()
+
+从文件中加载通过 `torch.save()` 保存的对象。
+
+### 保存和加载张量
+
+```python
+>>> a = torch.tensor([0, 1, 2, 3])   # 保存张量
+>>> torch.save(a, 'tensor.pt')
+>>> torch.load('tensor.pt')          # 加载张量
+tensor([0, 1, 2, 3])
+```
+
+`torch.save()` 和 `torch.load()` 默认使用 Python 的 pickle 进行序列化，因此你也可以将张量保存为 Python 实例（例如元组、列表、字典）的一部分：
+
+```python
+>>> d = {'a': torch.tensor([1., 2.]), 'b': torch.tensor([3., 4.])}
+>>> torch.save(d, 'tensor_dict.pt')
+>>> torch.load('tensor_dict.pt')
+{'a': tensor([1., 2.]), 'b': tensor([3., 4.])}
+```
+
+保存张量时张量的视图关系也被保留：
+
+```python
+>>> sequence = torch.arange(1, 10)
+>>> subsequence = a[1::2]
+>>> torch.save([sequence, subsequence], 'tensors.pt')
+>>> loaded_sequence, loaded_subsequence = torch.load('tensors.pt')
+>>> loaded_subsequence *= 2
+>>> loaded_sequence
+tensor([ 1,  4,  3,  8,  5, 12,  7, 16,  9])
+```
+
+实际上，不论视图如何，张量的存储对象都会完整地保存下来：
+
+```python
+>>> large = torch.arange(1, 1000)
+>>> small = large[0:5]
+>>> torch.save(small, 'small.pt')
+>>> loaded_small = torch.load('small.pt')
+>>> loaded_small.storage().size()
+999
+```
+
+### 保存和加载 `torch.nn.Modules`
+
+另见：[保存和加载模型](./pytorch.md#保存和加载模型)
+
+在 PyTorch 中，模块的状态常使用“状态字典”进行序列化。模块的状态字典包含了其所有的参数和持久缓冲区：
+
+```python
+>>> bn = torch.nn.BatchNorm1d(3, track_running_stats=True)
+>>> list(bn.named_parameters())
+[('weight', Parameter containing: tensor([1., 1., 1.], requires_grad=True)),
+ ('bias', Parameter containing: tensor([0., 0., 0.], requires_grad=True))]
+>>> list(bn.named_buffers())
+[('running_mean', tensor([0., 0., 0.])),
+ ('running_var', tensor([1., 1., 1.])),
+ ('num_batches_tracked', tensor(0))]
+>>> bn.state_dict()
+OrderedDict([('weight', tensor([1., 1., 1.])),
+             ('bias', tensor([0., 0., 0.])),
+             ('running_mean', tensor([0., 0., 0.])),
+             ('running_var', tensor([1., 1., 1.])),
+             ('num_batches_tracked', tensor(0))])
+```
+
+出于兼容性的原因，推荐仅保存模块的状态字典而不是整个模块。模块的 `load_state_dict()` 方法用于从状态字典中还原状态：
+
+```python
+>>> torch.save(bn.state_dict(), 'bn.pt')
+>>> bn_state_dict = torch.load('bn.pt')
+>>> new_bn = torch.nn.BatchNorm1d(3, track_running_stats=True)
+>>> new_bn.load_state_dict(bn_state_dict)
+<All keys matched successfully>
+```
+
+自定义模块或者包含其他模块的模块也有状态字典并且可以使用此方法进行保存和加载：
+
+```python
+# A module with two linear layers
+>>> class MyModule(torch.nn.Module):
+      def __init__(self):
+        super(MyModule, self).__init__()
+        self.l0 = torch.nn.Linear(4, 2)
+        self.l1 = torch.nn.Linear(2, 1)
+      def forward(self, input):
+        out0 = self.l0(input)
+        out0_relu = torch.nn.functional.relu(out0)
+        return self.l1(out0_relu)
+>>> 
+>>> m = MyModule()
+>>> m.state_dict()
+OrderedDict([('l0.weight', tensor([[ 0.1400, 0.4563, -0.0271, -0.4406],
+                                   [-0.3289, 0.2827, 0.4588, 0.2031]])),
+             ('l0.bias', tensor([ 0.0300, -0.1316])),
+             ('l1.weight', tensor([[0.6533, 0.3413]])),
+             ('l1.bias', tensor([-0.1112]))])
+>>> 
+>>> torch.save(m.state_dict(), 'mymodule.pt')
+>>> m_state_dict = torch.load('mymodule.pt')
+>>> new_m = MyModule()
+>>> new_m.load_state_dict(m_state_dict)
+<All keys matched successfully>
+```
 
 # torch.view
 

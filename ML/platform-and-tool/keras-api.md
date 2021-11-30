@@ -1169,31 +1169,37 @@ keras.Model.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=N
 ### fit()
 
 ```python
-keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_batch_size=None, validation_freq=1, max_queue_size=10, workers=1, use_multiprocessing=False)
+keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, 
+validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, 
+sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, 
+validation_batch_size=None, validation_freq=1, max_queue_size=10, workers=1, 
+use_multiprocessing=False)
 # x             输入数据,可以是一个numpy数组,tensorflow张量,返回元组`(x, y)`的`tf.data`数据集、
 #                  生成器或`keras.utils.Sequence`实例,etc
 # y             目标数据,可以是一个numpy数组或tensorflow张量.若`x`是一个`tf.data`数据集、生成器或
 #                  `keras.utils.Sequence`实例,则不可指定此参数
 # batch_size    批次规模,即每一次梯度更新计算的样本数量,默认为32.若`x`是一个`tf.data`数据集、生成器或
 #                  `keras.utils.Sequence`实例,则不可指定此参数
-# epoch         回合数,即训练过程迭代训练集的次数
+# epochs        回合数,即训练过程迭代训练集的次数
 # verbose       若为0,控制台无输出;若为1,输出每个epoch的进度条和结果;若为2,仅输出每个epoch的结果
 # callbacks     训练过程中使用的回调,是一个`keras.callbacks.Callback`实例的列表
-# validation_split   使用多少比例的训练集作为验证集.若`x`是一个`tf.data`数据集、生成器或
-#                       `keras.utils.Sequence`实例,则不可指定此参数
-# validation_data	   验证集,可以是一个元组`(x, y)`,etc.此参数会重载`validation_split`.若`x`是一个
+# validation_split   使用多少比例的训练数据作为验证数据.验证数据取自`x`和`y`的末尾样本.若`x`是一个
 #                       `tf.data`数据集、生成器或`keras.utils.Sequence`实例,则不可指定此参数
+# validation_data    验证集,可以是一个numpy数组或tensorflow张量的元组`(x, y)`、`tf.data`数据集、
+#                       生成器或`keras.utils.Sequence`实例.此参数会重载`validation_split`
 # shuffle       若为`True`,在每个epoch开始前打乱训练数据,仅会打乱batch的顺序.若`x`是一个生成器,则忽略此参数
 # class_weight
 # sample_weight
-# initial_epoch	
+# initial_epoch
 # steps_per_epoch    每个epoch的最大步数,即每个epoch在训练这么多批次的样本后直接结束.若`x`是一个无限重复的
 #                       `tf.data`数据集,则必须指定此参数;若`x`是一个numpy数组或tensorflow张量,则不可指定
 #                       此参数
-# validation_steps   验证的最大步数,仅在提供了`validation_data`并且是`tf.data`数据集时有效
-# validation_batch_size   验证的批次规模,默认为`batch_size`
+# validation_steps   验证的最大步数,仅在提供了`validation_data`并且是`tf.data`数据集时有效.若为None,
+#                       则验证会进行至`validation_data`数据集耗尽
+# validation_batch_size   验证的批次规模,默认为`batch_size`.若验证数据是一个`tf.data`数据集、生成器或
+#                  `keras.utils.Sequence`实例,则不可指定此参数
 # validation_freq    进行验证的频率.若为整数,例如2,则每2个epoch进行一次验证;若为`Container`容器类型,
-#                       例如[1, 2, 10],则在第1,2,10个epoch进行验证
+#                       例如[1, 2, 10],则在第1、2、10个epoch进行验证
 # workers       基于进程的并行的最大进程数.仅在`x`为生成器或`keras.utils.Sequence`实例时有效
 # use_multiprocessing     若为True,使用基于进程的并行.仅在`x`为生成器或`keras.utils.Sequence`实例时有效
 ```
@@ -1214,7 +1220,7 @@ keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=
 
 ### save()
 
-保存模型为 TensorFlow SavedModel 或 HDF5 文件。参见[`keras.models.save_model()`](#save_model（)）。
+保存模型为 TensorFlow SavedModel 或 HDF5 文件。参见[`keras.models.save_model()`](#save_model（)。
 
 ```python
 keras.Model.save(filepath, overwrite=True, include_optimizer=True, save_format=None, signatures=None, options=None, save_traces=True)

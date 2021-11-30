@@ -822,6 +822,19 @@ torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状�
 
 
 
+## 归一化层
+
+### BatchNorm1d
+
+### BatchNorm2d
+
+### BatchNorm3d
+
+
+## Transformer 层
+
+
+
 ## 嵌入层
 
 ### Embedding
