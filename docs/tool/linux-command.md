@@ -147,6 +147,22 @@ $ mv dir1 dir2          # 移动目录并重命名
 #    -n                   不覆盖同名文件
 ```
 
+### rename
+
+批量重命名文件。
+
+```shell
+$ rename -x *.bak       # 去掉当前目录下所有BAK文件的后缀名    
+$ rename -s abc def *   # 将当前目录下所有文件的文件名中的'abc'替换为'def'
+$ rename -s abc '' *    # 去掉当前目录下所有文件的文件名中的'abc'
+```
+
+在没有安装 `rename` 的情形下：
+
+```shell
+# 脚本
+```
+
 ### rm
 
 删除文件或目录。

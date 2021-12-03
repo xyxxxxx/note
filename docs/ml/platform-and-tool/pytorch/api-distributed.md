@@ -1,5 +1,3 @@
-[toc]
-
 # torch.distributed
 
 `torch.distributed` 包为跨多个计算节点的多进程并行提供了 PyTorch 支持和通信原语。建立在此功能上的 `torch.nn.parallel.DistributedDataParallel` 类提供了 PyTorch 模型的同步训练的包装器，它与 `torch.multiprocessing` 提供的并行方法以及 `torch.nn.DataParallel` 的不同之处在于它支持在由网络连接的多台机器上运行，以及用户必须显式地为每个进程启动一个训练脚本的一个单独的副本。
