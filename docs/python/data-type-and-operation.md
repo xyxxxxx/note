@@ -6,8 +6,6 @@
 > 2. `type` 可以接受一个任意对象，返回该对象所属的类，例如 `type(1)` 返回 `<class 'int'>`。上面这个例子的常见表述包括：`1` 是 `int` 类的实例；`1` 属于 `int` 类；`1` 的类型（type）是 `int`；等等。最后一种表述又衍生出“`1` 是哪种类型？”、“`1` 是 `int` 类型”之类的表述，于是造成“`int` 类型“和”`int` 类“两种表述同时存在，例如[官方文档](https://docs.python.org/zh-cn/3/library/stdtypes.html)中"内置类型"、“数字类型”这样的表述普遍存在。
 > 3. 在很多文档中，“类型”实际上代表的是“类”，在阅读时应当注意这一点。由于这两个词语义相近并且关系紧密，很多文档已经不加区分地使用它们，但基本上也不会造成阅读障碍（将“类”和“类型”都理解为“类”或“类型”）。即便如此，我们依然推荐根据 1. 给出的类（class）和类型（type）的关系来决定应当使用哪一个词。如果你仍然感到迷惑而不确定该使用哪个词，那么至少确保自己文档的上下文的用法一致。
 
-[toc]
-
 # 数字类型，算术运算和位运算
 
 内置的数字类型包括整数 `int`、浮点数 `float` 和复数 `complex`。数字由数字字面值或内置函数和运算符的结果创建。
@@ -15,8 +13,6 @@
 Python 完全支持混合运算：当一个二元算术运算符的操作数有不同数值类型时，"较窄"类型的操作数会拓宽到另一个操作数的类型，其中整数比浮点数窄，浮点数比复数窄。不同类型的数字之间的比较结果，与这些数字的精确值（在数学上）的比较结果相同。
 
 构造函数 `int()`、`float()` 和 `complex()` 可以用来构造特定类型的数字。
-
-
 
 ## 整数
 
@@ -51,8 +47,6 @@ Python 完全支持混合运算：当一个二元算术运算符的操作数有�
 
 内置函数 `format()` 可以将整数转换为没有前缀的二、八、十、十六进制字符串，参见 [`format()`](./standard-library#format())。
 
-
-
 ### 附加方法
 
 #### bit_length()
@@ -65,8 +59,6 @@ Python 完全支持混合运算：当一个二元算术运算符的操作数有�
 >>> (-37).bit_length()
 6
 ```
-
-
 
 #### to_bytes()
 
@@ -87,8 +79,6 @@ b'\x01\x00'
 >>> (-1).to_bytes(2, byteorder='little', signed=True)
 b'\xff\xff'
 ```
-
-
 
 #### from_bytes()
 
@@ -114,8 +104,6 @@ classmethod int.from_bytes(bytes, byteorder, *, signed=False)
 256
 ```
 
-
-
 ## 浮点数
 
 包含小数点、幂运算符 `e` 的数字字面值会生成浮点数：
@@ -140,8 +128,6 @@ sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.
 
 内置函数 `float()` 可以构造浮点数，参见 [`float()`](./standard-library#float())。
 
-
-
 ### 附加方法
 
 #### as_integer_ratio()
@@ -153,8 +139,6 @@ sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.
 (5404319552844595, 4503599627370496)
 ```
 
-
-
 #### is_integer()
 
 如果 `float` 实例可用有限位整数表示则返回 `True`，否则返回 `False`。
@@ -165,8 +149,6 @@ True
 >>> (3.2).is_integer()
 False
 ```
-
-
 
 #### hex()
 
@@ -181,8 +163,6 @@ False
 
 > 由于 Python 浮点数在内部存储为二进制数，因此浮点数与十进制数字符串之间的转换往往会导致微小的舍入错误，而十六进制数字符串却可以精确地表示和描述浮点数。这在进行调试和计算数值时非常有用。
 
-
-
 #### fromhex()
 
 返回十六进制字符串表示的浮点数。字符串可以带有前导和尾随的空格。
@@ -191,8 +171,6 @@ False
 >>> float.fromhex('-0x1.3p+0')
 -1.1875
 ```
-
-
 
 ## 复数
 
@@ -213,8 +191,6 @@ False
 ```
 
 内置函数 `complex()` 可以构造复数，参见 [`complex()`](./standard-library#complex())。
-
-
 
 ## 算术运算
 
@@ -259,8 +235,6 @@ False
 | --------------- | ---------- | ---- |
 | `x.conjugate()` | *x* 的共轭 |      |
 
-
-
 ## 位运算
 
 只有整数支持位运算。位运算相当于对整数的具有无穷多个符号位的补码执行位操作。
@@ -285,10 +259,6 @@ False
 -15                 # 因此按位或得到 ..10001
 ```
 
-
-
-
-
 # 布尔类型，布尔运算和比较运算
 
 ## 布尔类型
@@ -304,8 +274,6 @@ True
 
 实际上，`bool` 类是 `int` 的子类，其他类不能继承自它，它只有 `False` 和 `True` 两个实例，分别为 `int` 实例 `0` 和 `1` 的扩展。
 
-
-
 ## 逻辑值检测
 
 任何对象都可以进行逻辑值的检测，以作为 `if` 或 `while` 语句的条件或者布尔运算的操作数来使用。
@@ -317,8 +285,6 @@ True
 * 空的序列和多项集：`''`，`()`，`[]`，`{}`，`set()`，`range(0)`
 
 产生布尔值结果的运算和内置函数总是返回 `0` 或 `False` 作为假值，`1` 或 `True` 作为真值，除非另行说明（注意布尔运算 `or` 和 `and` 总是返回其中一个操作数）。
-
-
 
 ## 布尔运算
 
@@ -354,15 +320,11 @@ True
 False           # 结果是布尔值
 ```
 
-
-
 ## 比较运算
 
 **比较运算**返回一个布尔值；比较运算符共有 8 种：`>,>=,==,<=,<,!=,is[not],[not]in`，它们的优先级相同（高于布尔运算，低于算术、移位和位运算）。
 
 比较运算可以任意串连，例如 `x < y <= z`等价于`x < y and y <= z`，前者的不同之处在于 *y* 只被求值一次（但在两种情况下当 `x < y`结果为`False` 时 *z* 都不会被求值）。
-
-
 
 ### 值比较
 
@@ -374,8 +336,6 @@ False           # 结果是布尔值
 * 默认的**次序比较**（`<`，`>`，`<=` 和 `>=`）没有定义，如果尝试比较将引发 `TypeError`。
 
 类型可以通过实现比较方法来定义实例的比较行为，详见[基本定制](./oop.md#基本定制)。
-
-
 
 下面给出了主要内置类型的比较行为：
 
@@ -400,8 +360,6 @@ False           # 结果是布尔值
 * 集合（`set` 或 `frozenset` 的实例）可进行类型内部和跨类型的比较，它们将比较运算符定义为子集和超集检测。这类关系没有定义完全排序（例如 `{1,2}` 和 `{2,3}` 两个集合不相等，不为彼此的子集，也不为彼此的超集），因此集合不适合作为依赖于完全排序的函数的参数（例如将集合列表作为 `min()`，`max()` 或 `sorted()` 的参数将产生未定义的结果）。
 
 * 其它内置类型的大多数没有实现比较方法，因此它们会继承默认的比较行为。
-
-
 
 在条件允许的情况下，用户在定制自定义类的比较行为时应遵循以下一致性规则（尽管 Python 并不强制要求）：
 
@@ -431,8 +389,6 @@ False           # 结果是布尔值
 
   `x < y`和`not x >= y`（对于完全排序）
 
-
-
 ### 成员检测运算
 
 运算符 `in` 和 `not in` 用于成员检测。如果 *x* 是 *s* 的成员则 `x in s`求值为`True`，否则为`False`。`x not in s`返回与`x in s`相反的逻辑值。所有内置序列、集合类型和字典都支持此运算，对于字典来说`in` 检测其是否有给定的键。对于 list，tuple，set，frozenset，dict 或 collections.deque 这样的容器类型，表达式 `x in y`等价于`any(x is e or x == e for e in y)`。
@@ -457,8 +413,6 @@ True
 >>> 'ab' in 'abc'                  # string
 True
 ```
-
-
 
 ### 标识号比较
 
@@ -503,10 +457,6 @@ False
 True
 ```
 
-
-
-
-
 # 文本序列（字符串）类型
 
 字符串是不可变类型。
@@ -528,8 +478,6 @@ print('''line1
          line3''')
 ```
 
-
-
 **转义字符**
 
 | \\'  | ‘      | \\\  | \    |
@@ -537,8 +485,6 @@ print('''line1
 | \\"  | “      | %%   | %    |
 | \n   | 换行   |      |      |
 | \t   | 制表符 |      |      |
-
-
 
 ## 字符串方法
 
@@ -576,11 +522,7 @@ True
 'INININnoVation'
 ```
 
-
-
 ## 格式化字符串
-
-
 
 ## Unicode编解码
 
@@ -610,8 +552,6 @@ Unicode 字符与转义的 Unicode 编码是等价的：
 >>> '\u4e2d文'
 '中文'
 ```
-
-
 
 Python 字符串（`str` 类型）在内存中以 Unicode 表示，如果要保存到磁盘上或者在网络上传输，就需要将其编码为字节序列（`bytes` 类型）：
 
@@ -671,25 +611,13 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 # -*- coding: utf-8 -*-
 ```
 
-
-
-
-
 # 容器类型
 
 参见[容器类型](./container-type.md)，包括序列类型、二进制序列类型、集合类型、映射类型以及 `collections` 模块定义的容器类型。
 
-
-
-
-
 # 迭代器类型
 
 参见[迭代器和生成器](./iterator-and-generator.md)。
-
-
-
-
 
 # 其它内置类型
 
@@ -707,8 +635,6 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 ['JSONDecodeError', 'JSONDecoder', 'JSONEncoder', '__all__', '__author__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', '__version__', '_default_decoder', '_default_encoder', 'codecs', 'decoder', 'detect_encoding', 'dump', 'dumps', 'encoder', 'load', 'loads', 'scanner']
 ```
 
-
-
 ## 函数类型
 
 参见[函数](./function.md)。
@@ -723,8 +649,6 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 >>> type(f)
 <class 'function'>                        # 自定义函数
 ```
-
-
 
 ## 方法类型
 
@@ -742,8 +666,6 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 <class 'method'>                          # 自定义方法
 ```
 
-
-
 ## 类类型
 
 类类型 `type` 是一个元类，所有类都是 `type` 的实例，包括 `type` 自身。
@@ -760,8 +682,6 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid 
 >>> type(type)          # `type`自身
 <class 'type'>
 ```
-
-
 
 ## 空类型
 
@@ -785,8 +705,6 @@ None
 >>> dir(None)
 ['__bool__', '__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
 ```
-
-
 
 ## 未实现类型
 
@@ -817,16 +735,10 @@ False
 
 `NotImplemented` 与 `NotimplementedError` 的关系参见……
 
-
-
-
-
 # 赋值语句
 
 ```python
 >>> i, j = 0, 1     # i=0, j=1. 实质是元组的封包和解包
 >>> a = b = 0       # a=0, b=0. 实质是赋值表达式`b = 0`本身返回`0`
 ```
-
-
 

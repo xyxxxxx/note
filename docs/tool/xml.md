@@ -25,8 +25,6 @@ XML的特点：
 + 可嵌套，适合表示结构化数据
 + XML内容保存为.xml文件，常通过网络传输
 
-
-
 ## XML结构
 
 ```xml
@@ -52,8 +50,6 @@ XML的特点：
 
 XML文件格式的正确性可以通过拖拽至浏览器验证
 
-
-
 **转义**
 
 | 字符 | 表示       |
@@ -68,8 +64,6 @@ XML文件格式的正确性可以通过拖拽至浏览器验证
 <name>Java&lt;tm&gt;</name>
 ```
 
-
-
 ## XML解析
 
 ### Java
@@ -79,8 +73,6 @@ XML文件格式的正确性可以通过拖拽至浏览器验证
 DOM一次性读取XML，并在内存中表示为树形结构。以之前的Java核心技术.xml为例，解析为DOM结构：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/adipfojh4ovejnthkfqe.PNG)
-
-
 
 顶端的document代表XML文档，book是其根元素
 
@@ -123,8 +115,6 @@ void printNode(Node n, int indent) {
     }
 }
 ```
-
-
 
 #### SAX
 
@@ -180,8 +170,6 @@ class MyHandler extends DefaultHandler {
     }
 }
 ```
-
-
 
 #### Jackson
 

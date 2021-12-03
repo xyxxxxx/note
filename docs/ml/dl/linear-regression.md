@@ -21,8 +21,6 @@ $$
 
 之后将采用简化的表示方法，即直接用 $\pmb w$ 和 $\pmb x$ 表示増广权重向量和増广特征向量。
 
-
-
 ## 参数学习
 
 给定一组包含 $N$ 个训练样本的训练集 $\mathcal{D} = \{(\pmb x^{(n)},y^{(n)})\}_{n=1}^N$，我们希望能够学习一个最优的线性回归的模型参数 $\pmb w$。
@@ -59,8 +57,6 @@ $$
 $$
 建立这种求解线性回归参数的方法也叫**最小二乘法(Least Square Method , LSM)**。
 
-
-
 @对平面直角坐标系上的点： $(1,1),(3,2),(5,5),(8,6),(9,7),(11,8)$ 进行线性回归，其中 $x$ 为自变量， $y$ 为因变量。
 $$
 X=\begin{bmatrix}1&3&5&8&9&11\\
@@ -74,9 +70,6 @@ $$
 
 <img src="https://i.loli.net/2020/10/28/zbmDUGLBrSJ21cw.png" alt="Screenshot from 2020-10-28 18-07-23.png" style="zoom:50%;" />
 
-
-
-
 最小二乘法要求 $XX^{\rm T}\in \mathbb{R}^{(D+1)\times (D+1)}$ 必须存在逆矩阵。一种常见的 $XX^{\rm T}$ 不可逆的情况是样本数量 $N$ 小于特征数量 $(D+1)$，这时 $XX^{\rm T}$ 的秩为 $N$。
 
 当 $XX^{\rm T}$ 不可逆时, 可以通过下面两种方法来估计参数：
@@ -88,8 +81,6 @@ $$
    \pmb w ←\pmb w +αX(\pmb y −X^{\rm T}\pmb w),
    $$
    这种方法也称为最小均方(least mean squares, LMS)算法。
-
-
 
 @对平面直角坐标系上的点： $(1,1),(1,2)$ 进行线性回归，其中 $x$ 为自变量， $y$ 为因变量。
 $$
@@ -106,8 +97,6 @@ $$
 $$
 <img src="https://i.loli.net/2020/10/28/KBC6g5aUwTSHqZV.png" alt="Screenshot from 2020-10-28 20-06-19.png" style="zoom:50%;" />
 
-
-
 ### 结构风险最小化（岭回归和Lasso回归）
 
 即使 $XX^{\rm T}$ 可逆，如果特征之间有较大的**多重共线性(multicollinearity)**，也会使得 $XX^{\rm T}$ 的逆在数值上无法准确计算。数据集 $X$ 上一些小的扰动就会导致 $(XX^{\rm T})^{-1}$ 发生大的改变，进而使得最小二乘法的计算变得很不稳定。
@@ -119,8 +108,6 @@ $$
 \pmb w^*=(XX^{\rm T} +\lambda I)^{-1}X\pmb y
 $$
 其中 $\lambda >0$。
-
-
 
 @求线性回归
 $$
@@ -153,8 +140,6 @@ X=\begin{bmatrix}1&1.1\\1&1
 $$
 <img src="https://i.loli.net/2020/10/28/Q6DzdBVx2MtjlrK.png" alt="Screenshot from 2020-10-28 21-29-39.png" style="zoom:50%;" />
 
-
-
 @求线性回归
 $$
 X=\begin{bmatrix}1&2&3&4.05&5\\2&3&4&5&6 \\
@@ -182,8 +167,6 @@ X=\begin{bmatrix}1&2&3&4.1&5\\2&3&4&5&6 \\
 \pmb w^*=(X X^{\rm T}+\lambda I)^{-1} X \pmb y=(6.372,3.628,-2.504)^{\rm T}\\
 $$
 
-
-
 岭回归的解 $\pmb w^*$ 可以看作结构风险最小化准则下的最小二乘法估计，其结构风险在经验风险的基础上增加了 $l_2$ 范数的正则化项：
 $$
 \mathcal{R}(\pmb w)=\frac{1}{2}||\pmb y-X^{\rm T} \pmb w||^2+\frac{1}{2}\lambda||\pmb w||^2
@@ -192,9 +175,6 @@ $$
 $$
 \mathcal{R}(\pmb w)=\frac{1}{2}||\pmb y-X^{\rm T} \pmb w||^2+\lambda\sum_{i=1}^{D+1}\sqrt{w_i^2+\varepsilon}
 $$
-
-
-
 
 ### 最大似然估计
 
@@ -224,8 +204,6 @@ $$
 \pmb w^{MLE} = (X X^{\rm T})^{-1} X \pmb y\\
 $$
 可以看到，最大似然估计的解和最小二乘法的解相同。
-
-
 
 ### 最大后验估计
 

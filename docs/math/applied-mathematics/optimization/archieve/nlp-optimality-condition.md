@@ -2,8 +2,6 @@
 
 最优性条件即非线性规划的最优解满足的必要条件和充分条件，这些条件十分重要，为各种算法的推导和分析提供了理论基础。
 
-
-
 ## 无约束极值问题的极值条件
 
 **无约束极值问题** 考虑非线性规划问题
@@ -21,8 +19,6 @@ $$
 **局部极小点的二阶充分条件** 设函数 $f(\pmb x)$ 在点 $\overline{\pmb x}$ 处二阶可微，若梯度 $\nabla f(\overline{\pmb x})=\pmb 0$，且Hessian矩阵 $\nabla^2 f(\overline{\pmb x})$ 正定，则 $\overline{\pmb x}$ 是局部极小点。
 
 **凸函数的全局最小点的充要条件** 设 $f(\pmb x)$ 是定义在 $\mathbb{R}^n$ 上的可微凸函数， $\overline{\pmb x}\in \mathbb{R}^n$，则 $\overline{\pmb x}$ 是全局极小点的充要条件是梯度 $\nabla f(\overline{\pmb x})=\pmb 0$。
-
-
 
 @利用极值条件解下列问题：
 $$
@@ -55,8 +51,6 @@ $$
 $$
 根据二阶必要条件， $\pmb x^{(1)},\pmb x^{(3)},\pmb x^{(4)}$ 不是极小点；根据二阶充分条件， $\pmb x^{(2)}$ 是极小点。
 
-
-
 ## 约束极值问题的最优性条件
 
 **约束极值问题** **约束极值问题**一般表示为
@@ -74,8 +68,6 @@ $$
 称为**可行域**。
 
 由于在约束极值问题中，自变量的取值受到限制，目标函数在无约束情况下的极小点很可能不在可行域内，因此一般不能用无约束极值条件处理约束问题。
-
-
 
 ### 下降方向和可行方向
 
@@ -104,7 +96,6 @@ F_0=\{\pmb d|\pmb d^{\rm T} \nabla f(\overline{\pmb x})<0  \}\\
 D=\{集合S在\overline{\pmb x}处的可行方向锥\}
 $$
 
-
 ### 不等式约束极值问题的一阶最优性条件
 
 **起作用约束，不起作用约束** 考虑**不等式约束极值问题**
@@ -129,7 +120,6 @@ $$
 I=\{i|g_i(\overline{\pmb x})= 0\}
 $$
 
-
 **一阶最优性必要条件** 设在不等式约束极值问题中， $\overline{\pmb x}\in S$， $f(\pmb x)$ 和 $g_i(\pmb x),(i\in I)$ 在 $\overline{\pmb x}$ 处可微， $g_i(\pmb x),(i\notin I)$ 在 $\overline{\pmb x}$ 处连续。如果 $\overline{\pmb x}$ 是局部最优解，那么 $F_0\cap G_0 =\varnothing$，其中 $G_0=\{\pmb d|\pmb d^{\rm T}\nabla g_i(\overline{\pmb x})>0, i\in I \}$。
 
 > $G_0$ 是 $D$ 的另一种表示方法。
@@ -138,7 +128,6 @@ $$
 $$
 w_0 \nabla f(\overline{\pmb x})-\sum_{i\in I}w_i\nabla g_i(\overline{\pmb x})=\pmb 0
 $$
-
 
 @已知 $\overline{\pmb x}=(3,1)^{\rm T}$ 是以下非线性规划问题的最优解：
 $$
@@ -172,8 +161,6 @@ w_0\begin{bmatrix}-8\\-4
 $$
 存在非零解，因此满足Fritz John条件。
 
-
-
 Fritz John条件允许 $w_0$ 为零，为了使 $w_0\neq 0$，我们对约束函数进一步施加限制：
 
 **Kuhn-Tucker必要条件** 设在不等式约束极值问题中， $\overline{\pmb x}\in S,I=\{i|g_i(\overline{\pmb x})= 0\},f,g_i(i\in I)$ 在 $\overline{\pmb x}$ 处可微， $g_i(i\notin I)$ 在 $\overline{\pmb x}$ 处连续，向量组 $\{\nabla g_i(\overline{\pmb x})|i\in I\}$ 线性无关，如果 $\overline{\pmb x}$ 是局部最优解，则存在非负数 $w_i(i\in I)$，使得
@@ -187,8 +174,6 @@ w_ig_i(\overline{\pmb x})=0,\quad i=1,\cdots,m\quad (互补松弛条件)\\
 w_i\ge 0,\quad i=1,\cdots,m
 $$
 **互补松弛条件**的含义是，当 $i\notin I$ 时， $g_i(\overline{\pmb x})\neq 0$，因此 $w_i=0$ ；当 $i\in I$ 时， $g_i(\overline{\pmb x})= 0$，因此 $w_i\ge 0$。
-
-
 
 @对于非线性规划问题
 $$
@@ -249,11 +234,7 @@ $$
 
 **凸优化的一阶最优性充分条件** 设在不等式约束极值问题中， $f$ 是凸函数， $g_i(i=1,\cdots,m)$ 是凹函数， $\overline{\pmb x}\in S,I=\{i|g_i(\overline{\pmb x})= 0\}$，且在 $\overline{\pmb x}$ 处K-T条件成立，则 $\overline{\pmb x}$ 为全局最优解。
 
-
-
 @上个例子中的K-T点是全局最优解。
-
-
 
 ### 约束极值问题的一阶最优性条件
 
@@ -274,8 +255,6 @@ $$
 **超切平面** 曲线 $\pmb x(t)$ 的导数 $\pmb x'(t)$ 称为在 $\pmb x(t)$ 处的**切向量**，曲面 $S$ 在点 $\pmb x$ 处的所有可微曲线的切向量的集合，称为曲面 $S$ 在点 $\pmb x$ 处的**超切平面**，记作 $T(\pmb x)$。
 
 **定理** 设 $\overline{\pmb x}$ 是超曲面 $S=\{\pmb x|\pmb h(\pmb x)=\pmb 0\}$ 上的一个正则点（即 $\nabla h_1(\overline{\pmb x}),\nabla h_2(\overline{\pmb x}),\cdots,\nabla h_l(\overline{\pmb x})$ 线性无关），则超切平面 $T(\overline{\pmb x})$ 等于子空间 $H=\{\pmb d|\pmb d^{\rm T}\nabla h(\overline{\pmb x})=\pmb 0 \}$。
-
-
 
 **一阶最优性必要条件** 设在约束极值问题中， $\overline{\pmb x}\in S,I=\{i|g_i(\overline{\pmb x})= 0\},f,g_i(i\in I)$ 在 $\overline{\pmb x}$ 处可微， $g_i(i\notin I)$ 在 $\overline{\pmb x}$ 处连续， $h_j$ 在 $\overline{\pmb x}$ 处连续可微，且 $\nabla h_1(\overline{\pmb x}),\nabla h_2(\overline{\pmb x}),\cdots,\nabla h_l(\overline{\pmb x})$ 线性无关，如果 $\overline{\pmb x}$ 是局部最优解，则在 $\overline{\pmb x}$ 处有
 $$
@@ -302,8 +281,6 @@ w_ig_i(\overline{\pmb x})=0,\quad i=1,\cdots,m\quad (互补松弛条件)\\
 w_i\ge 0,\quad i=1,\cdots,m
 $$
 **凸优化的一阶最优性充分条件** 设在约束极值问题中， $f$ 是凸函数， $g_i(i=1,\cdots,m)$ 是凹函数， $h_j(j=1,\cdots,l)$ 是线性函数， $\overline{\pmb x}\in S,I=\{i|g_i(\overline{\pmb x})= 0\}$，且在 $\overline{\pmb x}$ 处K-T条件成立，则 $\overline{\pmb x}$ 为全局最优解。
-
-
 
 @求下列非线性规划问题的最优解（如图所示）
 $$
@@ -336,8 +313,6 @@ $$
 $$
 解上述非线性方程组，验证 $\overline{\pmb x}\in S$，得 $w_1=2/3,w_2=2/3,x_1=1,x_2=1$。由于本题中 $f$ 是凸函数， $g_i$ 是凹函数，因此 $\overline{\pmb x}$ 是全局最优解。
 
-
-
 ### 二阶条件
 
 目标函数和约束函数的二阶导数反映函数的曲率特性，对稳定算法的设计具有重要意义。对于无约束问题，二阶条件由目标函数的Hessian矩阵给出；然而约束问题比无约束问题要复杂得多，研究目标函数的Hessian矩阵仍不足够。
@@ -351,9 +326,5 @@ $$
 ![Screenshot from 2020-10-13 17-22-58.png](https://i.loli.net/2020/10/13/GxrdqKuveBigQUb.png)
 
 ……
-
-
-
-
 
 # 

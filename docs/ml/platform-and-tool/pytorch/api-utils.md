@@ -1,4 +1,4 @@
-[toc]
+
 
 # torch.utils.data
 
@@ -24,16 +24,12 @@ DataLoader(dataset, batch_size=1, shuffle=False, sampler=None,
 
 下面各节将详细介绍这些选项的效果和使用方法。
 
-
-
 ### 数据集类型
 
 `dataset` 是 `DataLoader` 最重要的初始化参数，将从其表示的数据集对象加载数据。PyTorch 支持两种类型的数据集：
 
 * **映射数据集**：实现了 `__getitem__()` 和 `__len()__` 方法，表示一个从索引/键到数据样本的映射。例如访问 `dataset[idx]` 时，会读取第 `idx` 个图像和相应的标签。参见 [`Dataset`](#Dataset)。
 * **迭代数据集**：`IterableDataset` 的子类的实例，实现了 `__iter__()` 方法，表示数据样本的一个可迭代对象。此类数据集特别适用于随机读取非常昂贵的情形（如使用磁盘）。例如调用 `iter(dataset)` 时，会返回一个来自数据库、远程服务器甚至实时生成的日志的数据读取流。参见 [`IterableDataset`](#IterableDataset)。
-
-
 
 ### 加载顺序和采样器
 
@@ -45,13 +41,9 @@ DataLoader(dataset, batch_size=1, shuffle=False, sampler=None,
 
 > 采样器与迭代数据集不兼容，因为这种数据集没有键或索引。
 
-
-
 ### 加载单个和批次数据
 
 `dataloader` 支持自动整理单个数据样本为批次，通过指定参数 `batch_size`、`drop_last` 和 `batch_sampler`。
-
-
 
 #### 自动分批（默认）
 
@@ -82,8 +74,6 @@ for indices in batch_sampler:
 
 自定义 `collate_fn` 可以用于自定义整理过程，例如填充顺序数据到批次的最大长度。
 
-
-
 #### 禁用自动分批
 
 在有些情况下，用户可能想要手动处理分批，或仅加载单个样本。例如，直接加载分批数据会使得花销更小（从数据库批量读取，从磁盘批量读取，读取内存的连续块等），或者批次规模取决于数据本身，或者模型被设计为在单个样本上运行。在这些情景下，更好的做法是不使用自动分批（和 `collate_fn` 函数），而让 `dataloader` 直接返回 `dataset` 的每个样本。
@@ -106,8 +96,6 @@ for data in iter(dataset):
     yield collate_fn(data)
 ```
 
-
-
 #### 使用 `collate_fn` 函数
 
 `collate_fn` 函数的使用根据自动分批是否启用而略有差异。
@@ -124,21 +112,15 @@ for data in iter(dataset):
 
 用户可以使用自定义的 `collate_fn` 以实现自定义分批，例如沿第一个维度以外的维度整理，填充变长序列，或为自定义数据类型添加支持。
 
-
-
 ### 单进程和多进程数据加载
 
 `dataloader` 默认使用单进程数据加载。
 
 在 Python 进程中，全局解释器锁（GIL）阻止了真正的线程间并行。为了防止计算代码阻塞在数据加载上，PyTorch 转变为执行多进程数据加载，只需要简单地设置 `num_workers` 参数为正整数。
 
-
-
 #### 单进程数据加载
 
 在此模式下，数据加载在 `DataLoader` 初始化的同一进程中完成，因此数据加载可能阻塞计算。但当用于进程间共享数据的资源（例如共享内存或文件描述符）有限，或当整个数据集小到可以整个加载进内存时，此模式可能是更好的选择。此外，单进程加载经常显示更多可读的错误轨迹因而有助于调试。
-
-
 
 #### 多进程数据加载
 
@@ -164,8 +146,6 @@ for data in iter(dataset):
 > 默认情况下，每个工作进程的随机数种子被设置为 `base_seed + worker_id`，其中 `base_seed` 是由主进程使用其随机数生成器或指定的 `generator` 生成的 `long` 类型整数。然而，其它库的随机种子可能在初始化工作进程时被复制，从而导致各工作进程返回相同的随机数。
 >
 > 在 `worker_init_fn` 中，你可以通过 `torch.utils.data.get_worker_info().seed` 或 `torch.initial_seed()` 访问每个工作进程的 PyTorch 随机种子，或在数据加载前为其它库设置种子。
-
-
 
 ### 内存锁页
 
@@ -201,8 +181,6 @@ for batch_ndx, sample in enumerate(loader):
     print(sample.tgt.is_pinned())
 ```
 
-
-
 ## BatchSampler
 
 包装另一个 sampler 并产出一个 mini-batch 的索引。
@@ -235,21 +213,9 @@ for batch_ndx, sample in enumerate(loader):
 [1, 4, 5][6, 8, 9]       # ...[5, 7, 0][9]
 ```
 
-
-
-
-
 ## ChainDataset
 
-
-
-
-
 ## ConcatDataset
-
-
-
-
 
 ## DataLoader
 
@@ -312,10 +278,6 @@ class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=
 ```python
 >>> train_set = 
 ```
-
-
-
-
 
 ## Dataset
 
@@ -396,8 +358,6 @@ Transform: Compose(
 './data'
 ```
 
-
-
 ## distributed.DistributedSampler
 
 分布式采样器，将采样限定在数据集的一个子集中。常用于分布式训练（与 `torch.nn.parallel.DistributedDataParallel` 或 `horovod.torch` 结合使用），其中每个进程传入一个 `DistributedSampler` 实例作为 `Dataloader` 的采样器，并加载一个原始数据集的一个独占的子集。
@@ -435,8 +395,6 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 >>> list(sampler2)[7, 9, 6]
 ```
 
-
-
 ### set_epoch()
 
 此方法在每个 epoch 开始、创建 `DataLoader` 迭代器之前调用，以使得每个 epoch 被打乱的顺序不同。
@@ -464,13 +422,7 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 >>> list(sampler2)[7, 9, 6]
 ```
 
-
-
 ## get_worker_info()
-
-
-
-
 
 ## IterableDataset
 
@@ -482,8 +434,6 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 
 当 `Dataloader` 使用迭代数据集时，`Dataloader` 的迭代器会产出数据集的每一个样本。当 `num_worker > 0` 时，每一个工作进程都会有数据集对象的一份单独的副本，因此我们经常
 
-
-
 ```python
 # 自定义迭代数据集
 >>> class MyIterableDataset(torch.utils.data.IterableDataset):     def __init__(self, start, end):         super(MyIterableDataset).__init__()         assert end > start, "this example code only works with end > start"         self.start = start         self.end = end     def __iter__(self):         worker_info = torch.utils.data.get_worker_info()         if worker_info is None:        # 主进程读取数据,返回完整的迭代器             iter_start = self.start             iter_end = self.end         else:                          # 工作进程读取数据,划分数据集并返回相应子集的迭代器             per_worker = int(math.ceil((self.end - self.start) / float(worker_info.num_workers)))             worker_id = worker_info.id             iter_start = self.start + worker_id * per_worker             iter_end = min(iter_start + per_worker, self.end)         return iter(range(iter_start, iter_end))    # `Dataloader`调用数据集实例的`__iter__()`方法,                                                     # 使用其返回的迭代器
@@ -493,12 +443,6 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 >>> list(torch.utils.data.DataLoader(ds, num_workers=8))   # 更多工作进程读取数据(error)
 ```
 
-
-
-
-
-
-
 ## random_split
 
 将数据集随机划分为多个指定规模的数据集。使用 `torch.generator` 以产生可重复的结果。
@@ -506,10 +450,6 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 ```python
 
 ```
-
-
-
-
 
 ## RandomSampler
 
@@ -526,15 +466,11 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 >>> list(sampler)
 ```
 
-
-
 ## Sampler
 
 所有采样器的基类。
 
 每个采样器子类必须提供一个 `__iter__()` 方法，用于迭代数据集中所有样本的索引，和一个 `__len__()` 方法，用于返回实例化的迭代器的长度。
-
-
 
 ## SequentialSampler
 
@@ -546,8 +482,6 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 >>> list(sampler)[0, 1, 2, 3, 4]
 ```
 
-
-
 ## Subset
 
 数据集的指定索引的样本构成的子集。
@@ -558,25 +492,11 @@ torch.utils.data.Subset(dataset, indices)
 # indices      指定索引
 ```
 
-
-
 ## SubsetRandomSampler
-
-
-
-
 
 ## WeightedRandomSampler
 
-
-
-
-
 ## TensorDataset
-
-
-
-
 
 # torch.utils.tensorboard
 
@@ -613,8 +533,6 @@ writer.close()
 tensorboard --logdir=runs
 ```
 
-
-
 ## SummaryWriter
 
 `SummaryWriter` 类提供了用于在指定目录下创建日志文件并写入数据的高级 API。日志文件更新以异步的方式进行，这表示训练进程可以在训练循环中直接调用方法写入数据而不会造成训练速度的减慢。
@@ -645,8 +563,6 @@ writer = SummaryWriter("runs/exp1")
 writer = SummaryWriter(comment="LR_0.1_BATCH_16")
 # folder location: runs/May04_22-14-54_s-MacBook-Pro.localLR_0.1_BATCH_16/
 ```
-
-
 
 ### add_scalar()
 
@@ -687,8 +603,6 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/wYDNcyXJjeo3CLn.png)
 
-
-
 ### add_scalars()
 
 添加一组标量数据，绘制在同一幅图上。
@@ -717,8 +631,6 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/wuHtp7NFABfiJX3.png)
 
-
-
 ### add_histogram()
 
 添加直方图，即特定的统计分布数据。
@@ -746,8 +658,6 @@ with SummaryWriter() as w:
 ![](https://i.loli.net/2021/06/24/WmyORqGBrlSDvns.png)
 
 ![](https://i.loli.net/2021/06/24/DKRyk6OZ1Ivqjp4.png)
-
-
 
 ### add_image()
 
@@ -786,8 +696,6 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/ysXNFqGpBWTthHQ.png)
 
-
-
 ### add_images()
 
 添加一组图像。
@@ -824,25 +732,17 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/5IcGTEBPWdJbwxZ.png)
 
-
-
 ### add_figure()
 
 解析 `matplotlib.pyplot.figure` 实例为图像并添加。
-
-
 
 ### add_video()
 
 添加视频。
 
-
-
 ### add_audio()
 
 添加音频。
-
-
 
 ### add_text()
 
@@ -865,8 +765,6 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/D6Jn9iQOZmIotyH.png)
 
-
-
 ### add_graph()
 
 添加模型的结构图。
@@ -885,7 +783,6 @@ import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 import torchvision
 import torchvision.transforms as transforms
-
 
 transform = transforms.Compose(
     [transforms.ToTensor()])
@@ -928,8 +825,6 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/z5jAu6O9E2dZFp8.png)
 
-
-
 ### add_embedding()
 
 添加嵌入投影数据。
@@ -966,17 +861,9 @@ with SummaryWriter() as w:
     w.add_embedding(torch.randn(100, 5), metadata=meta, label_img=label_img)
 ```
 
-
-
-
-
 ### add_pr_curve()
 
-
-
 ### add_mesh()
-
-
 
 ### add_hparams()
 
@@ -1003,13 +890,9 @@ with SummaryWriter() as w:
 
 ![](https://i.loli.net/2021/06/24/osPzdgOGyARZUpW.png)
 
-
-
 ### close()
 
 关闭流。
-
-
 
 ### flush()
 

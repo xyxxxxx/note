@@ -1,4 +1,4 @@
-[toc]
+
 
 # datasets
 
@@ -12,8 +12,6 @@ data_loader = torch.utils.data.DataLoader(imagenet_data,
                                           num_workers=args.nThreads)
 ```
 
-
-
 ## CIFAR10
 
 CIFAR10 数据集。
@@ -24,8 +22,6 @@ class torchvision.datasets.CIFAR10(root: str, train: bool = True, transform: Opt
 # ...
 ```
 
-
-
 ## FashionMNIST
 
 Fashion-MNIST 数据集。
@@ -35,8 +31,6 @@ class torchvision.datasets.FashionMNIST(root: str, train: bool = True, transform
 # root         同`torchvision.datasets.MNIST`
 # ...
 ```
-
-
 
 ## ImageNet
 
@@ -50,8 +44,6 @@ class torchvision.datasets.ImageNet(root: str, split: str = 'train', download: O
 ```
 
 > 使用此类需要安装 `scipy`
-
-
 
 ## MNIST
 
@@ -94,8 +86,6 @@ torch.Size([60000, 28, 28])    # 60000个单通道28×28图像
  5)
 ```
 
-
-
 ## ImageFolder
 
 一个通用的数据加载器，其加载路径下的图片应组织如下：
@@ -109,14 +99,6 @@ root/cat/123.png
 root/cat/nsdf3.png
 root/cat/[...]/asd932_.png
 ```
-
-
-
-
-
-
-
-
 
 # models
 
@@ -181,19 +163,7 @@ normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
 ```
 
-
-
-
-
-
-
-
-
 ## ResNet
-
-
-
-
 
 # transforms
 
@@ -208,8 +178,6 @@ normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
 随机化的变换会对同一个批次的所有图像应用相同的变换，但对不同的批次产生不同的变换。若要在多次调用中复现变换，请使用函数变换。
 
 各个变换的预览效果请参见[此示例](https://pytorch.org/vision/stable/auto_examples/plot_transforms.html)。
-
-
 
 ```python
 import torch
@@ -231,8 +199,6 @@ images, labels = iter(trainloader).next()
 print(images.shape)    # torch.Size([32, 1, 28, 28]): 32个单通道28×28图像
 ```
 
-
-
 ## 变换的组合
 
 ### Compose()
@@ -247,83 +213,55 @@ transform = transforms.Compose([
 ])
 ```
 
-
-
 ## 适用于 PIL 图像和 torch 张量的变换
 
 ### CenterCrop()
 
 裁剪图像的中心。如果图像是张量，则应有形状 `[..., H, W]`。
 
-
-
 ### FiveCrop()
 
 裁剪图像的四角和中心。如果图像是张量，则应有形状 `[..., H, W]`。
-
-
 
 ### Grayscale()
 
 将图像转换为灰度图。如果图像是张量，则应有形状 `[..., 3, H, W]`。
 
-
-
 ### Pad()
 
 在给定图像的四周填充指定值。如果图像是张量，则应有形状 `[..., H, W]`。
-
-
 
 ### RandomApply()
 
 以给定概率随机地应用一个变换列表。
 
-
-
 ### RandomHorizontalFlip()
 
 以给定概率随机地水平翻转给定图像。如果图像是张量，则应有形状 `[..., H, W]`。
-
-
 
 ### RandomResizedCrop()
 
 裁剪图像的随机部分并修改为指定大小。如果图像是张量，则应有形状 `[..., H, W]`。
 
-
-
 ### RandomRotation()
 
 旋转图像随机角度。如果图像是张量，则应有形状 `[..., H, W]`。
-
-
 
 ### RandomVerticalFlip()
 
 以给定概率随机地垂直翻转给定图像。如果图像是张量，则应有形状 `[..., H, W]`。
 
-
-
 ### Resize()
 
 将图像修改为指定大小（进行下采样）。
 
-
-
-
-
 ## 仅适用于 PIL 图像的变换
-
-
 
 ## 仅适用于 torch 张量的变换
 
 ### ConvertImageDtype()
 
 将张量图像转换为给定的数据类型并相应地缩放值。
-
-
 
 ### Normalize()
 
@@ -338,13 +276,9 @@ class torchvision.transforms.Normalize(mean, std, inplace=False)
 # inplace    若为`True`,则此变换变为原位操作
 ```
 
-
-
 #### forward()
 
 归一化张量图像。
-
-
 
 ## 转换变换
 
@@ -352,13 +286,9 @@ class torchvision.transforms.Normalize(mean, std, inplace=False)
 
 将张量（形状为 `(C, H, W)`）或 NumPy 数组（形状为 `(H, W, C)`）转换为 PIL 图像。
 
-
-
 ### ToTensor()
 
 将 PIL 图像或 NumPy 数组（形状为 `(H, W, C)`）转换为张量（形状为 `(C, H, W)`）。
-
-
 
 # utils
 
@@ -383,8 +313,6 @@ img_grid = torchvision.utils.make_grid(images)
 print(img_grid.shape)   # torch.Size([3, 122, 242]): 三通道,32个图像排列为4行8列,故高为4×28+5×2=122,
                         #                            宽为8×28+9×2=242
 ```
-
-
 
 ## save_image()
 

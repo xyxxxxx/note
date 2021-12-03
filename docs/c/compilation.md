@@ -13,8 +13,6 @@ gcc -E hello.c -o hello.i
 5. 添加行号和文件标识
 6. 保留`#pragma`编译器指令
 
-
-
 **compilation**
 
 ```
@@ -26,27 +24,17 @@ gcc -S hello.c -o hello.s
 3. 语义分析
 4. 生成汇编代码
 
-
-
 **assembly**
 
 ```
 gcc -c hello.c -o hello.o
 ```
 
-
-
-
-
 **link**
 
 ```
 gcc hello.c -o hello.exe
 ```
-
-
-
-
 
 # 编译多个文件
 

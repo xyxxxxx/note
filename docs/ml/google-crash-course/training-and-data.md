@@ -9,23 +9,17 @@
 
 **Figure 1. Sick (blue) and healthy (orange) trees.**
 
-
-
 Figure 2 shows how a certain machine learning model separated the sick trees from the healthy trees. Note that this model produced a very low loss.
 
 ![This Figure contains the same arrangement of blue and orange dots as Figure 1. However, this figure accurately encloses nearly all of the blue dots and orange dots with a collection of complex shapes.](https://developers.google.com/machine-learning/crash-course/images/GeneralizationB.png)
 
 **Figure 2. A complex model for distinguishing sick from healthy trees.**
 
-
-
 Figure 3 shows what happened when we added new data to the model. It turned out that the model adapted very poorly to the new data. Notice that the model miscategorized much of the new data.
 
 ![Same illustration as Figure 2, except with about a 100 more dots added.  Many of the new dots fall well outside of the predicted model.](https://developers.google.com/machine-learning/crash-course/images/GeneralizationC.png)
 
 **Figure 3. The model did a bad job predicting new data.**
-
-
 
 The model shown in Figures 2 and 3 overfits the peculiarities of the data it trained on. An **overfit model** gets a low loss during training but does a poor job predicting new data. Overfitting is caused by making a model more complex than necessary. The fundamental tension of machine learning is between <u>fitting our data well</u>, but also <u>fitting the data as simply as possible</u>.
 
@@ -39,10 +33,6 @@ The following three basic assumptions guide generalization:
 + We draw examples **independently and identically** (**i.i.d**) at random from the distribution. In other words, examples don't influence each other. (An alternate explanation: i.i.d. is a way of referring to the randomness of variables.)
 + The distribution is **stationary**; that is the distribution doesn't change within the data set.
 + We draw examples from partitions from the **same distribution.**
-
-
-
-
 
 # Training and Test Sets
 
@@ -62,17 +52,11 @@ For example, consider the following figure. Notice that the model learned for th
 
 **Never train on test data.** If you are seeing surprisingly good results on your evaluation metrics, it might be a sign that you are accidentally training on the test set.
 
-
-
-
-
 # Validation Set
 
 We looked at a process of using a test set and a training set to drive iterations of model development. On each iteration, we'd train on the training data and evaluate on the test data, using the evaluation results on test data to guide choices of and changes to various model hyperparameters like learning rate and features. However, doing many rounds of this procedure might cause us to <u>implicitly fit to the peculiarities of our specific test set</u>.
 
 ![A workflow diagram consisting of three stages. 1. Train model on training set. 2. Evaluate model on test set. 3. Tweak model according to results on test set. Iterate on 1, 2, and 3, ultimately picking the model that does best on the test set.](https://developers.google.com/machine-learning/crash-course/images/WorkflowWithTestSet.svg)
-
-
 
 You can greatly reduce your chances of overfitting by partitioning the data set into the three subsets shown in the following figure:
 
@@ -82,8 +66,6 @@ Use the **validation set** to evaluate results from the training set. Then, use 
 
 ![Similar workflow to Figure 1, except that instead of evaluating the model against the test set, the workflow evaluates the model against the validation set. Then, once the training set and validation set more-or-less agree, confirm the model against the test set.](https://developers.google.com/machine-learning/crash-course/images/WorkflowWithValidationSet.svg)
 
-
-
 In this improved workflow:
 
 1. Pick the model that does best on the validation set.
@@ -91,15 +73,9 @@ In this improved workflow:
 
 This is a better workflow because it creates fewer exposures to the test set.
 
-
-
-
-
 # Representation
 
 In traditional programming, the focus is on code. In machine learning projects, the focus shifts to representation. That is, one way developers hone a model is by adding and improving its features.
-
-
 
 ## Feature Engineering
 
@@ -111,8 +87,6 @@ Many machine learning models must represent the features as real-numbered vector
 
 **Figure 1. Feature engineering maps raw data to ML features.**
 
-
-
 ### Mapping numeric values
 
 Integer and floating-point data don't need a special encoding because they can be multiplied by a numeric weight. As suggested in Figure 2, converting the raw integer value 6 to the feature value 6.0 is trivial:
@@ -120,8 +94,6 @@ Integer and floating-point data don't need a special encoding because they can b
 ![An example of a feature that can be copied directly from the raw data](https://developers.google.com/machine-learning/crash-course/images/FloatingPointFeatures.svg)
 
 **Figure 2. Mapping integer values to floating-point values.**
-
-
 
 ### Mapping categorical values
 
@@ -165,13 +137,9 @@ This approach effectively creates a Boolean variable for every feature value (e.
 
 Similarly, if a house is at the corner of two streets, then two binary values are set to 1, and the model uses both their respective weights.
 
-
-
 ### Sparse Representation
 
 Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for `street_name`. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a [sparse representation](https://developers.google.com/machine-learning/glossary#sparse_representation) in which only nonzero values are stored. In sparse representations, an independent model weight is still learned for each feature value, as described above.
-
-
 
 ## Qualities of Good Features
 
@@ -191,13 +159,9 @@ Suppose that you had 1,000,000 different street names in your data set that you 
 
   The definition of a feature shouldn't change over time.
 
-
-
 ## Cleaning Data
 
 As an ML engineer, you'll spend enormous amounts of your time tossing out bad examples and cleaning up the salvageable ones. Even a few "bad apples" can spoil a large data set.
-
-
 
 ### Scaling feature values
 
@@ -208,8 +172,6 @@ As an ML engineer, you'll spend enormous amounts of your time tossing out bad ex
 + Helps the model learn appropriate weights for each feature. Without feature scaling, the model will pay too much attention to the features having a wider range.
 
 You don't have to give every floating-point feature exactly the same scale. Nothing terrible will happen if Feature A is scaled from -1 to +1 while Feature B is scaled from -3 to +3. However, your model will react poorly if Feature B is scaled from 5000 to 100000.
-
-
 
 ### Binning
 
@@ -231,8 +193,6 @@ Instead of having one floating-point feature, we now have 11 distinct boolean fe
 
 Thanks to binning, our model can now learn completely different weights for each latitude.
 
-
-
 ### Scrubbing
 
 In real-life, many examples in data sets are unreliable due to one or more of the following:
@@ -250,8 +210,6 @@ In addition to detecting bad individual examples, you must also detect bad data 
 + Mean and median
 + Standard deviation
 
-
-
 ### Know your data
 
 Follow these rules:
@@ -261,6 +219,4 @@ Follow these rules:
 + Double-check that the training data agrees with other sources (for example, dashboards).
 
 Treat your data with all the care that you would treat any mission-critical code. Good ML relies on good data.
-
-
 

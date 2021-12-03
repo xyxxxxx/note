@@ -1,10 +1,8 @@
-[toc]
+
 
 # 模块
 
 模块（module）是包含 Python 定义和语句的文件，文件名为模块名加上后缀名 `.py`。
-
-
 
 ## 导入模块
 
@@ -89,8 +87,6 @@ module2 initialized.       # 初始化`module2`
 ['Class2', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'func4', 'module1']    # `module1`作为`module2`的属性
 ```
 
-
-
 ### import语句的变体
 
 `import` 语句有如下几种变体：
@@ -149,8 +145,6 @@ module2 initialized.       # 初始化`module2`
   This is module1.func1
   ```
 
-
-
 ### 模块搜索路径
 
 导入模块 `foo` 时，Python 解释器从变量 `sys.path` 的目录列表里查找文件 `foo.py` 。`sys.path` 初始化时包含以下位置：
@@ -166,8 +160,6 @@ module2 initialized.       # 初始化`module2`
 >>> sys.path.append('/ufs/guido/lib/python')
 ```
 
-
-
 ### 已编译文件
 
 为了快速加载模块，Python 把模块的编译版缓存在 `__pycache__` 目录中，文件名为 `module.*version*.pyc`，*version* 对编译文件格式进行编码，一般是 Python 的版本号。例如，CPython 的 3.3 发行版中，spam.py 的编译版本缓存为 `__pycache__/spam.cpython-33.pyc`。使用这种命名惯例，可以让不同 Python 发行版及不同版本的已编译模块共存。
@@ -176,13 +168,9 @@ Python 对比编译版本与源码的修改日期，查看它是否已过期，�
 
 Python 在两种情况下不检查缓存：其一，将模块作为脚本执行，这时只重新编译，不保存编译结果；其二，没有源模块，故不会检查缓存。为了支持无源文件（仅编译）发行版本，编译模块必须在源目录下，并且绝不能有源模块。
 
-
-
 ### 标准库
 
 Python 附带了标准（模块）库，其中内置了一些模块，用于访问不属于语言核心的内置操作，其目的主要是为了提高运行效率，或访问系统调用等操作系统原语。详见标准库。
-
-
 
 ### 导入\__future__模块
 
@@ -210,8 +198,6 @@ print 8 // 7   # 整数除法取商
 | unicode_literals | 2.6.0a2  | 3.0      | 默认为 unicode    | [PEP-3112](https://www.python.org/dev/peps/pep-3112/) |
 | generator_stop   | 3.5.0b1  | 3.7      | 终止生成器        | [PEP-0479](https://www.python.org/dev/peps/pep-0479/) |
 | annotations      | 3.7.0b1  | 3.10     | 注解              | [PEP-0563](https://www.python.org/dev/peps/pep-0563/) |
-
-
 
 ## 执行模块
 
@@ -251,8 +237,6 @@ if __name__ == "__main__":
 
 这样当模块作为脚本执行时，会执行条件体下的代码，而导入该模块时则不会执行。
 
-
-
 ## 标准模块定义
 
 ```python
@@ -278,15 +262,9 @@ if __name__=='__main__':     # 执行该模块时运行
     test()
 ```
 
-
-
-
-
 # 包
 
 包（package）是一种使用“点式模块名”构造 Python 模块命名空间的方法，例如模块名 `A.B` 表示包 `A` 中名为 `B` 的子模块。正如模块可以区分不同模块的全局变量名称一样，点式模块名可以区分 NumPy 或 Pillow 等不同多模块包的模块名称。
-
-
 
 ## 导入包
 
@@ -333,8 +311,6 @@ print('module4 initialized.')
 
 Python 只把含有 `__init__.py` 文件的目录当作包。最简单的情况下，`__init__.py` 只是一个空文件，但该文件也可以执行包的初始化代码，或设置 `__all__` 变量。
 
-
-
 与导入模块相同，使用 `import` 语句导入包：
 
 ```python
@@ -363,8 +339,6 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
 ```
 
 这是因为包 `package1` 未进行初始化，子包 `subpackage1` 和 `subpackage2` 都不是它的属性。
-
-
 
 ### import语句的变体
 
@@ -518,8 +492,6 @@ AttributeError: module 'package1' has no attribute 'subpackage2'
   This is module1.func1
   ```
 
-
-
 ### 初始化包
 
 `__init__.py` 包含的可执行语句以及类和函数的定义用于初始化包，在且仅在 `import` 语句第一次遇到包名时执行。将包 `package1` 的 `__init__.py` 修改如下：
@@ -543,8 +515,6 @@ package1
 >>> import package1       # 再次导入时不再调用`print()`函数
 >>> 
 ```
-
-
 
 `__init__.py` 包含的 `import` 语句用于将子包/模块/名称作为包实例的属性。将包 `package1` 的 `__init__.py` 修改如下：
 
@@ -572,8 +542,6 @@ module3 initialized.
 >>> dir(package1.subpackage2)                          # 可能是因为复用了`package1`
 ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'module3']
 ```
-
-
 
 如果 `__init__.py` 定义了列表 `__all__`，则执行 `from ... import *` 时将导入列表中包含的子包/模块名；如果没有定义此列表，则应视作包的作者不建议执行导入全部的操作。将包 `package1` 的 `__init__.py` 修改如下：
 
@@ -619,8 +587,6 @@ module3 initialized.
 ['INIT', '__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'init', 'module3', 'subpackage1', 'subpackage2']
 ```
 
-
-
 ### 包是特殊的模块
 
 包是一种组织模块的方法，但实际上包也可以视作是一种特殊的模块。导入的包和模块在 Python 解释器中都是 `module` 类型，唯一的区别在于包具有特殊属性 `__path__`：
@@ -637,11 +603,7 @@ module3 initialized.
 
 > 包的 `__init__.py` 文件可以设置或更改包的 `__path__` 属性，而且这是在 **PEP 420** 之前实现命名空间包的典型方式。 随着 **PEP 420** 的引入，命名空间包不再需要提供仅包含 `__path__` 操控代码的 `__init__.py` 文件，导入机制会自动为命名空间包正确地设置 `__path__`。
 
-
-
 导入包 `bar` 时，Python 解释器从 `sys.path` 的目录列表里查找子目录 `bar`，与[模块的搜索路径](#模块搜索路径)相同。
-
-
 
 ### 模块之间的相互导入
 
@@ -679,10 +641,6 @@ from package1.subpackage2.module4 import Class2  # 绝对导入
 
 一般建议使用绝对导入，因为相对导入的路径不直观。
 
-
-
-
-
 # pip
 
 ```shell
@@ -701,8 +659,6 @@ $ pip install package -i <url>   # 指定pypi镜像地址,默认为https://pypi.
 $ pip install -e .                 # 以"可编辑"模式从VCS安装项目;安装当前目录下的项目
 $ pip install -e path/to/project   # 安装指定目录下的项目
 ```
-
-
 
 `requirements.txt`是
 

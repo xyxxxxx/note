@@ -1,10 +1,6 @@
 vi/vim是一个文本编辑器，内建在所有类Unix系统中。
 
-
-
 ![](https://www.runoob.com/wp-content/uploads/2015/10/vi-vim-cheat-sheet-sch.gif)
-
-
 
 ## 工作模式
 
@@ -52,8 +48,6 @@ vi/vim有三种工作模式，分别是**命令模式(Command mode)**，**输入
 + **w** 保存文件
 + **ESC**，退出底线命令模式，切换到命令模式
 
-
-
 ## Get started
 
 **使用 vi/vim 进入一般模式**
@@ -68,8 +62,6 @@ $ vim runoob.txt
 
 ![](https://www.runoob.com/wp-content/uploads/2014/07/078207F0-B204-4464-AAEF-982F45EDDAE9.jpg)
 
-
-
 **按下 a/i/o 进入输入模式(也称为编辑模式)，开始编辑文字**
 
 在一般模式之中，只要按下 a/i/o 等字符就可以进入输入模式了！
@@ -80,13 +72,9 @@ $ vim runoob.txt
 
 ![](https://www.runoob.com/wp-content/uploads/2014/07/1C928383-471E-4AF1-A61E-9E2CCBD5A913.jpg)
 
-
-
 **按下 ESC 按钮回到一般模式**
 
 好了，假设我已经按照上面的样式给他编辑完毕了，那么应该要如何退出呢？是的！没错！就是给他按下 **Esc** 这个按钮即可！马上你就会发现画面左下角的 – INSERT – 不见了！
-
-
 
 **在一般模式中按下 :wq 储存后离开 vi**
 

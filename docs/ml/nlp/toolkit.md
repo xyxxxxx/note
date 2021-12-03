@@ -1,9 +1,3 @@
-[toc]
-
-
-
-
-
 
 
 # tokenization分词
@@ -18,8 +12,6 @@
 [['上海市', '气象台', '发布', '大风', '黄色', '预警', '。']]
 ```
 
-
-
 ## English
 
 ```python
@@ -31,13 +23,7 @@
 ['At', 'eight', "o'clock", 'on', 'Thursday', 'morning', 'Arthur', 'did', "n't", 'feel', 'very', 'good', '.']
 ```
 
-
-
-
-
 # stem词干提取
-
-
 
 ## English
 
@@ -47,12 +33,6 @@
 >>> stemmer.stem('distributing')
 'distribut'
 ```
-
-
-
-
-
-
 
 # 词性标注
 
@@ -66,10 +46,6 @@
 >>> pos
 [['ns', 'n', 'v', 'n', 'n', 'v', 'wp']]
 ```
-
-
-
-
 
 # vectorization向量化
 
@@ -127,8 +103,6 @@ CountVectorizer(*, input='content', encoding='utf-8', decode_error='strict', str
 # token_pattern  用来界定token(分词)的正则表达式
 ```
 
-
-
 ## TfidfVectorizer
 
 `TfidfVectorizer`使用TF-IDF算法。参考[文档](https://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting)。
@@ -159,19 +133,9 @@ CountVectorizer(*, input='content', encoding='utf-8', decode_error='strict', str
 
 参数与`CountVectorizer`类似。
 
-
-
 ## word2vec
 
 参考gensim。
-
-
-
-
-
-
-
-
 
 # 模型
 
@@ -196,15 +160,7 @@ MultinomialNB()
 [3]
 ```
 
-
-
-
-
 # 停用词
-
-
-
-
 
 # 工具列表
 
@@ -224,8 +180,6 @@ MultinomialNB()
 
   （最后更新于2017年）
 
-
-
 ## 英文
 
 + [CoreNLP](https://github.com/stanfordnlp/CoreNLP) by Stanford (Java) A Java suite of core NLP tools.
@@ -236,8 +190,6 @@ MultinomialNB()
 + [OpenNLP](https://opennlp.apache.org/) (Java) A machine learning based toolkit for the processing of natural language text.
 + [gensim](https://github.com/RaRe-Technologies/gensim) (Python) Gensim is a Python library for topic modelling, document indexing and similarity retrieval with large corpora.
 + [Kashgari](https://github.com/BrikerMan/Kashgari) - Simple and powerful NLP framework, build your state-of-art model in 5 minutes for named entity recognition (NER), part-of-speech tagging (PoS) and text classification tasks. Includes BERT and word2vec embedding.
-
-
 
 ## 多语言
 

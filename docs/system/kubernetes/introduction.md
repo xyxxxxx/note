@@ -1,7 +1,5 @@
 > 参考[Kubernetes 初体验](https://www.qikqiak.com/k8s-book/docs/14.Kubernetes%E5%88%9D%E4%BD%93%E9%AA%8C.html)，[学习Kubernetes基础知识](https://kubernetes.io/zh/docs/tutorials/kubernetes-basics/)
 
-[toc]
-
 # 什么是Kubernetes?
 
 > 参考[Kubernetes 是什么？](https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/)
@@ -10,23 +8,15 @@ Kubernetes 是一个可移植的、可扩展的开源平台，用于管理容器
 
 名称 **Kubernetes** 源于希腊语，意为“舵手”或“飞行员”。Google 在 2014 年开源了 Kubernetes 项目。 Kubernetes 建立在 [Google 在大规模运行生产工作负载方面拥有十几年的经验](https://research.google/pubs/pub43438) 的基础上，结合了社区中最好的想法和实践。
 
-
-
-
-
 # 架构
 
 ![](https://d33wubrfki0l68.cloudfront.net/7016517375d10c702489167e704dcb99e570df85/7bb53/images/docs/components-of-kubernetes.png)
-
-
 
 ## 集群
 
 一个 Kubernetes 集群由一组被称作节点的机器组成。这些节点上运行 Kubernetes 所管理的容器化应用。集群具有至少一个工作节点和至少一个主节点。
 
 ![](https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg)
-
-
 
 ## Master
 
@@ -46,8 +36,6 @@ Master 节点上运行着以下一组关键进程：
 + etcd：保存 Kubernetes 所有集群数据的后台数据库
 + cloud-controller-manager：云控制器管理器是 1.8 的 alpha 特性。在未来发布的版本中，这是将 Kubernetes 与任何其他云集成的最佳方式。
 
-
-
 ## Node
 
 ![](https://d33wubrfki0l68.cloudfront.net/5cb72d407cbe2755e581b6de757e0d81760d5b86/a9df9/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg)
@@ -60,10 +48,7 @@ Node（工作节点）是 Kubernetes 中的参与计算的机器（除了 Master
 + container runtime（如 Docker），负责运行容器的软件
 + kube-proxy，实现 Service 的服务发现和负载均衡
 
-
 Node 节点可以在运行期间动态增加到 Kubernetes 集群中，条件是在这个 Node 上配置和启动了上述关键进程。在默认情况下 kubelet 会向 Master 注册自己，这也是 Kubernetes 推荐的 Node 管理方式。一旦 Node 被纳入集群管理范围，kubelet 就会定时向 Master 汇报自身的情报，例如操作系统、Docker版本、机器的CPU和内存使用，哪些 Pod 在运行等，这样 Master 就可以获知每个 Node 的资源使用情况，并实现高效均衡的资源调度策略。如果某个 Node 超过指定时间不上报信息，那么会被 Master 判定为失去连接，Master 将 Node 的状态标记为不可用(Not Ready)，并触发“工作负载大转移”的自动流程。
-
-
 
 ## Pod
 
@@ -89,8 +74,6 @@ spec:
     ports:
     - containerPort: 80  # 暴露容器的80端口
 ```
-
-
 
 ## Label
 
@@ -122,8 +105,6 @@ $ kubectl get pods -l environment=production,tier=frontend
 # 或
 $ kubectl get pods -l 'environment in (production),tier in (frontend)'
 ```
-
-
 
 ## Replication Controller (deprecated)
 
@@ -157,11 +138,7 @@ spec:
         - containerPort: 80
 ```
 
-
-
 当我们定义了一个 RC 并提交到 Kubernetes 集群中后， Master 节点上的 Controller Manager 组件就得到通知，定期巡检系统中当前运行的目标 Pod，如果运行的副本多于期望值则停掉一些 Pod，少于则自动创建一些 Pod。
-
-
 
 ## Deployment
 
@@ -203,8 +180,6 @@ spec:
         - containerPort: 80
 ```
 
-
-
 ## Service
 
 ![img](https://d33wubrfki0l68.cloudfront.net/cc38b0f3c0fd94e66495e3a4198f2096cdecd3d5/ace10/docs/tutorials/kubernetes-basics/public/images/module_04_services.svg)
@@ -224,8 +199,6 @@ Service 有以下`type`的方式暴露
 + *LoadBalancer* - 在当前云中创建一个外部负载均衡器(如果支持的话)，并为 Service 分配一个固定的外部IP。是 NodePort 的超集。
 + *ExternalName* - 通过返回带有该名称的 CNAME 记录，使用任意名称(由 spec 中的`externalName`指定)公开 Service。不使用代理。这种类型需要`kube-dns`的v1.7或更高版本。
 
-
-
 假定有一组 Pod，它们对外暴露了 9376 端口，同时还被打上 `app=MyApp` 标签，以下配置创建一个 Service 对象
 
 ```yaml
@@ -243,8 +216,6 @@ spec:
 ```
 
 该 Service 对象会将请求代理到使用 TCP 端口 9376，并且具有标签 `app=MyApp` 的 Pod 上。 
-
-
 
 ## Namespace
 
@@ -285,15 +256,9 @@ $ kubectl get pods --namespace=development
 
 我们给每个租户创建一个 namespace 来实现多租户的资源隔离时，还能结合 Kubernetes 的资源限额管理，限定不同租户能占用的资源，例如 CPU、内存使用量等。
 
-
-
 ## Annotation
 
 Annotation 与 Label 类似，也使用 key/value 键值对的形式定义。但不同的是 Annotation 是用户任意定义的附加信息，以便于外部工具查找。很多时候，Kubernetes 的模块会通过 Annotation 的方式标记资源对象的一些特殊信息。
-
-
-
-
 
 # 对象管理
 
@@ -310,8 +275,6 @@ Annotation 与 Label 类似，也使用 key/value 键值对的形式定义。但
 Kubernetes 对象是 “目标性记录” —— 一旦创建对象，Kubernetes 系统将持续工作以确保对象存在。 创建对象本质上是在告知 Kubernetes 系统，所需要的集群工作负载看起来是什么样子的， 这就是 Kubernetes 集群的 **期望状态（Desired State）**。
 
 操作 Kubernetes 对象 —— 无论是创建、修改，或者删除 —— 需要使用 Kubernetes API。 比如当使用 `kubectl` 命令行接口时，CLI 会执行必要的 Kubernetes API 调用。
-
-
 
 ## 定义对象
 
@@ -355,13 +318,9 @@ spec:
 kubectl apply -f https://k8s.io/examples/application/deployment.yaml --record
 ```
 
-
-
 ## 管理对象
 
 > kubectl的所有命令参见https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
-
-
 
 ### Imperative commands(命令式命令)
 
@@ -371,8 +330,6 @@ kubectl apply -f https://k8s.io/examples/application/deployment.yaml --record
 # 创建 Deployment 对象来运行 nginx 容器的实例
 $ kubectl run nginx --image nginx
 ```
-
-
 
 ### Imperative object configuration(命令式对象配置)
 
@@ -389,8 +346,6 @@ $ kubectl delete -f nginx.yaml -f redis.yaml
 $ kubectl replace -f nginx.yaml
 ```
 
-
-
 ### Declarative object configuration(声明式对象配置)
 
 声明式对象配置对本地存储的对象配置文件进行操作，但是用户未定义要对该文件执行的操作。`kubectl` 会自动检测每个文件的创建、更新和删除操作。这使得配置可以在目录上工作，根据目录中配置文件对不同的对象执行不同的操作。例如：
@@ -402,13 +357,9 @@ $ kubectl diff -f configs/
 $ kubectl apply -f configs/
 ```
 
-
-
 ## 对象名称和ID
 
 每个 Kubernetes 对象对象都有一个 name(名称) 来标识在同类资源中的唯一性，也有一个 UID 来标识在整个集群中的唯一性。
-
-
 
 ## namespace
 
@@ -419,10 +370,6 @@ Kubernetes 支持基于同一个物理集群的多个虚拟集群， 这些虚�
 namespace 适用于存在多个用户的场景，提供了在多个用户之间划分集群资源的一种方法。在 Kubernetes 未来版本中，相同 namespace 中的对象默认将具有相同的访问控制策略。
 
 namespace 为名称提供了一个范围。资源的名称需要在 namespace 内是唯一的。  namespace 不能相互嵌套，每个 Kubernetes 资源只能在一个 namespace 中。
-
-
-
-
 
 # API
 

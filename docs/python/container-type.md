@@ -1,5 +1,3 @@
-[toc]
-
 
 
 # 序列类型——list, tuple, range
@@ -24,8 +22,6 @@
 | `s.count(x)`           | *x* 在 *s* 中出现的总次数                                    |
 | `s > t`                | 比较序列 *s* 和 *t* 元素的字典顺序                           |
 
-
-
 ### 方法
 
 #### count()
@@ -39,8 +35,6 @@
 >>> a.count(5)
 0
 ```
-
-
 
 #### index()
 
@@ -57,8 +51,6 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 ValueError: 5 is not in list
 ```
-
-
 
 ## 列表[]
 
@@ -152,19 +144,13 @@ True
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ..., 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
 ```
 
-
-
 ### 引用列表
 
 当
 
 多个列表会引用同一个列表对象，例如：
 
-
-
 地址图
-
-
 
 另一个会令 Python 初学者感到困惑的例子：
 
@@ -215,8 +201,6 @@ True
 
 列表添加自身将造成自身的循环引用，即成为一个递归对象，添加自身的副本不会产生这个问题。
 
-
-
 有时我们想要拷贝列表，创建独立的副本，而不是引用同一列表。下面演示了三种拷贝列表的方法：
 
 ```python
@@ -236,8 +220,6 @@ True
 [1, 2, [3, 4]]
 ```
 
-
-
 ### 方法
 
 #### append()
@@ -251,8 +233,6 @@ True
 [1, 2, 7, 4, 3, 5]
 ```
 
-
-
 #### clear()
 
 移除列表中的所有元素。
@@ -263,8 +243,6 @@ True
 >>> a
 []
 ```
-
-
 
 #### copy()
 
@@ -281,8 +259,6 @@ True
 [1, 2, 7, [4, 3, 0]]
 ```
 
-
-
 #### extend()
 
 使用可迭代对象中的所有元素来扩展列表。
@@ -294,8 +270,6 @@ True
 [1, 2, 7, 4, 3, 0, 1, 2, 3, 4]
 ```
 
-
-
 #### insert()
 
 在列表的指定位置插入一个元素。
@@ -306,8 +280,6 @@ True
 >>> a
 [1, 2, 9, 7, 4, 3]
 ```
-
-
 
 #### pop()
 
@@ -322,8 +294,6 @@ True
 >>> a
 [1, 7, 4]
 ```
-
-
 
 #### remove()
 
@@ -340,8 +310,6 @@ Traceback (most recent call last):
 ValueError: list.remove(x): x not in list
 ```
 
-
-
 #### reverse()
 
 翻转列表中的元素。
@@ -352,8 +320,6 @@ ValueError: list.remove(x): x not in list
 >>> a
 [3, 4, 7, 2, 1]
 ```
-
-
 
 #### sort()
 
@@ -368,8 +334,6 @@ ValueError: list.remove(x): x not in list
 [-4, -2, 1, 3, 7]
 >>> 
 ```
-
-
 
 ### 迭代
 
@@ -407,19 +371,13 @@ toe
 
 > 永远不要修改正在迭代的对象。
 
-
-
 ### 实现栈
 
 列表使用 `append()` 和 `pop()` 方法。
 
-
-
 ### 实现队列
 
 列表也可以实现队列，但在列表的开头插入或弹出元素很慢。建议使用 `collections.deque`，它被设计成可以快速地从两端添加或弹出元素。
-
-
 
 ### 列表推导式
 
@@ -445,10 +403,6 @@ toe
 >>> [[row[i] for row in matrix] for i in range(4)]
 [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]                 # 嵌套的列表推导式
 ```
-
-
-
-
 
 ## 元组()
 
@@ -488,15 +442,9 @@ TypeError: 'tuple' object does not support item assignment
 
 元组之间可以进行比较，采用逐元素比较法。
 
-
-
 ### 迭代
 
-
-
 ### 可迭代拆包
-
-
 
 ## range
 
@@ -524,8 +472,6 @@ range(0,-10,-3)  # [0,-3,-6,-9]
 ```
 
 `range()` 函数返回的对象尽管表现得像一个列表，但实际上是一个迭代器。
-
-
 
 # 字典dict-{:}
 
@@ -580,8 +526,6 @@ dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
 [(95, 'Michael'), (85, 'Tracy'), (67, 'Adam')]
 ```
 
-
-
 ## 方法
 
 ```python
@@ -598,8 +542,6 @@ dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
 >>> d
 {'a': 1, 'b': 2, 'c': 4, 'd': 8}
 ```
-
-
 
 ## 迭代
 
@@ -644,8 +586,6 @@ c 3
 {'a': 1, 'c': 3}
 ```
 
-
-
 ## 字典推导式
 
 ```python
@@ -673,10 +613,6 @@ tech_names = {'AAPL', 'IBM', 'HPQ', 'MSFT'}
 p2 = {key: value for key, value in prices.items() if key in tech_names}
 ```
 
-
-
-
-
 # 集合set-{}
 
 集合中元素无序，且重复元素只计算 1 个。集合的基本用法包括成员检测和消除重复元素。
@@ -701,16 +637,11 @@ p2 = {key: value for key, value in prices.items() if key in tech_names}
 {3, 4}
 ```
 
-
-
-
-
 # 高级特性
 
 ## 切片
 
 ```python
-
 
 # tuple也可以使用切片操作，只是返回的仍为tuple
 
@@ -726,16 +657,12 @@ p2 = {key: value for key, value in prices.items() if key in tech_names}
 'Pto'
 ```
 
-
-
 ## map()
 
 ```python
 r = map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])	# map()将一元函数应用在序列上，iterator
 list(r)	# list()返回iterator所有元素
 ```
-
-
 
 ## filter()
 
@@ -745,8 +672,6 @@ def is_odd(n):
 
 list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))	#filter()将判别函数作用在序列上，删去返回False的元素,iterator
 ```
-
-
 
 ## sorted()
 
@@ -771,15 +696,9 @@ L1 = sorted(L, key=by_name)
 L2 = sorted(L, key=by_score, reverse=True)
 ```
 
-
-
-
-
 # `collections` 容器数据类型
 
 `collections` 模块实现了一些具有特定功能的容器，以提供 Python 标准内建容器 `dict`，`list`，`set` 和 `tuple` 的替代选择。
-
-
 
 ## ChainMap
 
@@ -834,8 +753,6 @@ print(combined['color'])
 print(combined['user'])
 ```
 
-
-
 ## Counter
 
 `Counter` 是 `dict` 的子类，用于计数可哈希对象。元素存储为键，它们的计数存储为值。计数可以是任何整数值，包括 0 和负数。
@@ -883,8 +800,6 @@ Counter({'b': 4})
 Counter({'a': 2})
 ```
 
-
-
 ## defaultdict
 
 `defaultdict` 是 `dict` 的子类，其实例包含一个名为 `default_factory` 的属性，由构造时的第一个参数传入。当 `default_factory` 不为 `None` 时，它会被不带参数地调用来为新增加的键提供一个默认值。
@@ -914,8 +829,6 @@ defaultdict(<class 'list'>, {'a': [1], 'b': []})
 'John ran to <missing>'
 ```
 
-
-
 ## deque
 
 返回双向队列对象，从左到右初始化，从可迭代对象创建（如果可迭代对象没有指定，则新队列为空）。
@@ -943,8 +856,6 @@ deque(['l', 'm', 'n'])
 deque(['k', 'l', 'm', 'n', 'o'])
 ```
 
-
-
 ### clear()
 
 移除所有元素，使其长度为 0。
@@ -956,8 +867,6 @@ deque(['l', 'm', 'n'])
 >>> dq
 deque([])
 ```
-
-
 
 ### copy()
 
@@ -971,8 +880,6 @@ deque([])
 deque(['l', 'm', ['n', 'o']])
 ```
 
-
-
 ### count()
 
 计算 `deque` 中等于参数的元素个数。
@@ -983,8 +890,6 @@ deque(['l', 'm', 'n', 'l', 'm', 'l'])
 >>> dq.count('l')
 3
 ```
-
-
 
 ### extend(), extendleft()
 
@@ -998,8 +903,6 @@ deque(['l', 'm', 'n'])
 >>> dq
 deque(['k', 'j', 'i', 'l', 'm', 'n', 'o', 'p', 'q'])
 ```
-
-
 
 ### index()
 
@@ -1016,8 +919,6 @@ deque(['l', 'm', 'n', 'l', 'm', 'l'])
 1
 ```
 
-
-
 ### insert()
 
 在指定位置插入元素。如果插入会导致一个限长 `deque` 超出最大长度 `maxlen`，则引发 `IndexError`。
@@ -1028,8 +929,6 @@ deque(['l', 'm', 'n'])
 >>> dq
 deque(['l', 'a', 'm', 'n'])
 ```
-
-
 
 ### maxlen
 
@@ -1042,8 +941,6 @@ deque(['l', 'a', 'm', 'n'])
 >>> dq.maxlen
 3
 ```
-
-
 
 ### pop(), popleft()
 
@@ -1058,8 +955,6 @@ deque(['l', 'm', 'n'])
 'l'
 ```
 
-
-
 ### remove()
 
 移除找到的第一个等于参数的元素，如果没有相应元素则引发 `ValueError`。
@@ -1073,8 +968,6 @@ deque(['l', 'm', 'n', 'l', 'm', 'l'])
 deque(['l', 'n', 'l', 'm', 'l'])
 ```
 
-
-
 ### reverse()
 
 将 `deque` 逆序排列。
@@ -1086,8 +979,6 @@ deque(['l', 'm', 'n'])
 >>> dq
 deque(['n', 'm', 'l'])
 ```
-
-
 
 ### rotate()
 
@@ -1107,8 +998,6 @@ deque(['n', 'l', 'm'])
 >>> dq
 deque(['l', 'm', 'n'])
 ```
-
-
 
 ### 应用
 
@@ -1140,10 +1029,6 @@ def roundrobin(*iterables):
             # Remove an exhausted iterator.
             iterators.popleft()
 ```
-
-
-
-
 
 # 自定义容器数据类型
 
@@ -1205,8 +1090,6 @@ print(list(iter(overlap)))
 ['d', 'e', 'f', 'g', 'h', 'i']
 ['d', 'e', 'f']
 ```
-
-
 
 `collections.abc` 模块提供了以下抽象基类：
 

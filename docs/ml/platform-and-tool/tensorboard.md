@@ -23,16 +23,12 @@ TensorBoard 是 TensorFlow 的可视化工具包，提供了机器学习实验�
 %tensorboard --logdir logs
 ```
 
-
-
 ## 本机
 
 ```bash
 # 启动TensorBoard
 $ tensorboard --logdir logs
 ```
-
-
 
 ## Jupyter notebook
 

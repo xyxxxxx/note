@@ -1,4 +1,4 @@
-[toc]
+
 
 # 基本命令
 
@@ -15,8 +15,6 @@ $ kubectl create -f ./pod.yaml
 
 下列诸命令使用命令行参数，而非配置文件创建资源，基本上用于测试过程。
 
-
-
 ### deployment
 
 ```shell
@@ -28,16 +26,12 @@ $ kubectl create deployment my-dep --image=nginx --replicas=3
 # --replicas -r  Number of replicas to create. Default is 1.
 ```
 
-
-
 ### namespace
 
 ```shell
 # Create a new namespace named my-namespace
 $ kubectl create namespace my-namespace
 ```
-
-
 
 ## get
 
@@ -59,8 +53,6 @@ controlplane   Ready    master   2m18s   v1.18.0  # Master
 node01         Ready    <none>   106s    v1.18.0  # Node
 ```
 
-
-
 ## run
 
 创建一个Pod，运行指定镜像。
@@ -69,10 +61,6 @@ node01         Ready    <none>   106s    v1.18.0  # Node
 # Start a nginx pod
 $ kubectl run nginx --image=nginx
 ```
-
-
-
-
 
 ## expose
 
@@ -91,8 +79,6 @@ $ kubectl expose deployment nginx --port=80 --target-port=8000
 # --target-port  Port on the container that the service should direct traffic to
 ```
 
-
-
 ## delete
 
 根据配置文件、资源名称或资源Label删除资源。
@@ -109,10 +95,6 @@ $ kubectl delete pod,service baz foo
 $ kubectl delete pods,services -l name=myLabel
 ```
 
-
-
-
-
 # 应用管理
 
 ## apply
@@ -125,8 +107,6 @@ $ kubectl apply -f ./pod.yaml
 # Flags
 # --filename -f  Filename, directory or URL to files to use to create the resource
 ```
-
-
 
 ## label
 
@@ -149,8 +129,6 @@ $ kubectl label pods foo app-
 
 ```
 
-
-
 ## rollout
 
 管理资源的滚动更新。
@@ -169,8 +147,6 @@ $ kubectl rollout history daemonset/abc --revision=3
 # --filename -f  Filename, directory or URL to files to use to create the resource
 # --revision     See the details, including podTemplate of the revision specified
 ```
-
-
 
 ### status
 
@@ -195,15 +171,9 @@ Waiting for deployment "kubernetes-bootcamp" rollout to finish: 1 old replicas a
 deployment "kubernetes-bootcamp" successfully rolled out
 ```
 
-
-
 ### undo
 
 回滚到最近一次的滚动更新。
-
-
-
-
 
 ## scale
 
@@ -217,8 +187,6 @@ $ kubectl scale --replicas=3 rs/foo
 $ kubectl scale --replicas=3 -f foo.yaml
 ```
 
-
-
 ## set
 
 更改现有的应用资源。
@@ -228,8 +196,6 @@ $ kubectl scale --replicas=3 -f foo.yaml
 $ kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
 
 ```
-
-
 
 # 检查应用
 
@@ -291,8 +257,6 @@ Events:
   Normal   Created           32s                kubelet, minikube  Created containerkubernetes-bootcamp
   Normal   Started           31s                kubelet, minikube  Started containerkubernetes-bootcamp
 ```
-
-
 
 ```shell
 # 获取Node详细信息
@@ -384,8 +348,6 @@ Events:
   Normal  NodeReady                2m23s                  kubelet, node01     Node node01 status is now: NodeReady
 ```
 
-
-
 ## exec
 
 在容器上执行命令。
@@ -400,10 +362,6 @@ root@kubernetes-bootcamp-765bf4c7b4-p4td5:/#
 # Flag
 # --container -c  Container name. If omitted, first container in the pod will be chosen
 ```
-
-
-
-
 
 ## proxy
 

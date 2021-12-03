@@ -2,8 +2,6 @@
 
 奥卡姆剃刀原理是由14世纪逻辑学家William of Occam提出的一个解决问题的法则：“如无必要，勿增实体”。奥卡姆剃刀的思想和机器学习中的正则化思想十分类似：简单的模型泛化能力更好。如果有两个性能相近的模型，我们应该选择更简单的模型。因此，在机器学习的学习准则上，我们经常会引入参数正则化来限制模型能力，避免过拟合。
 
-
-
 ## overfitting过拟合
 
 给定一个假设空间 $\mathcal{F}$，一个假设 $f$ 属于 $\mathcal{F}$，如果存在其他的假设 $f′$ 也属于 $\mathcal{F}$，使得在训练集上 $f$ 的损失比 $f′$ 的损失小，但在整个样本空间上 $f′$ 的损失比 $f$ 的损失小，那么就说假设 $f$ 过度拟合训练数据。
@@ -11,8 +9,6 @@
 和过拟合相反的一个概念是欠拟合，即模型不能很好地拟合训练数据，在训练集上的错误率比较高。欠拟合一般是由于模型能力不足造成的。
 
 ![Screenshot from 2020-09-01 16-49-14.png](https://i.loli.net/2020/09/01/Lm9NMzw7JC1gRrT.png)
-
-
 
 ## precision and recall精确率和召回率
 
@@ -35,44 +31,29 @@ $$
 $$
 其中 $β$ 用于平衡精确率和召回率的重要性，一般取值为1。 $β = 1$ 时的 $F$ 值称为 $F1$ 值，是精确率和召回率的调和平均。
 
-
-
-
 ## reinforcement learning, RL强化学习
 
 强化学习是一类通过交互来学习的机器学习算法。在强化学习中，智能体根据环境的状态做出一个动作，并得到即时或延时的奖励。智能体在和环境的交互中不断学习并调整策略，以取得最大化的期望总回报。
-
-
 
 ## regression回归
 
 见supervised learning
 
-
-
 ## regularization正则化
 
 我们引入正则化参数来限制模型能力，使其不要过度地最小化经验风险。
-
-
 
 ## representation learning表示学习
 
 见feature learning
 
-
-
 ## ROC curve ROC曲线
 
 见[ROC曲线](https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF)
 
-
-
 ## sample space样本空间
 
 输入空间 $\mathcal{X}$ 和输出空间 $\mathcal{Y}$ 构成了一个样本空间 $\mathcal{X}\times \mathcal{Y}$。
-
-
 
 ## supervised learning监督学习
 
@@ -82,19 +63,13 @@ $$
 2. 分类问题中的标签 $y$ 是离散的类别(符号)。在分类问题中，学习到的模型也称为分类器(classifier)；分类问题根据其类别数量又可分为二分类(binary classification)和多分类(multi-class classification)问题.
 3. 结构化学习……
 
-
-
 ## underfitting欠拟合
 
 见overfitting
 
-
-
 ## unsupervised learning, UL无监督学习
 
 无监督学习是指从不包含目标标签的训练样本中自动学习到一些有价值的信息。典型的无监督学习问题有聚类、密度估计、特征学习、降维等。
-
-
 
 ## validation set验证集
 

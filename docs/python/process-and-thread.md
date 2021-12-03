@@ -1,4 +1,4 @@
-[toc]
+
 
 # fork
 
@@ -19,10 +19,6 @@ else:
 # I (876) just created a child process (877).
 # I am child process (877) and my parent is 876.
 ```
-
-
-
-
 
 # 多进程
 
@@ -53,8 +49,6 @@ Run child process test (929)...
 Child process end.
 ```
 
-
-
 ## 启动方法
 
 根据不同的平台，`multiprocessing`支持三种启动进程的方法。这些启动方法有：
@@ -83,8 +77,6 @@ if __name__ == '__main__':
     print(q.get())
     p.join()
 ```
-
-
 
 ## IRC
 
@@ -141,8 +133,6 @@ Get C from queue.
 
 队列是线程和进程安全的。
 
-
-
 ### `Pipe`
 
 `Pipe()`函数返回一个由管道连接的连接对象，默认情况下是双工（双向）。例如：
@@ -164,8 +154,6 @@ if __name__ == '__main__':
 
 返回的两个连接对象`parent_conn`和`child_conn`表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法（相互之间的）。注意如果两个进程（或线程）同时尝试读取或写入管道的同一 端，则管道中的数据可能会损坏；当然在不同进程（或线程）中同时使用管道的不同端的情况下不会存在损坏的风险。
 
-
-
 ## 进程间同步
 
 对于`threading`的所有同步原语，`multiprocessing`中都有同名的等价物。例如，可以使用锁来确保一次只有一个进程打印到标准输出：
@@ -186,8 +174,6 @@ if __name__ == '__main__':
     for num in range(10):
         Process(target=f, args=(lock, num)).start()
 ```
-
-
 
 ## 进程间共享状态
 
@@ -259,11 +245,7 @@ if __name__ == '__main__':
 
 使用服务进程的管理器比使用共享内存对象更灵活，因为它们可以支持任意对象类型；单个管理器可以通过网络由不同计算机上的进程共享。但是它们比使用共享内存更慢。
 
-
-
 ## 代理对象
-
-
 
 ## 进程池
 
@@ -306,8 +288,6 @@ Task 0 runs 1.41 sec——基于进程的并行onds.
 Task 4 runs 1.91 seconds.
 All subprocesses done.
 ```
-
-
 
 ## 编程指导
 
@@ -397,10 +377,6 @@ if __name__ == '__main__':
         Process(target=f, args=(lock,)).start()
 ```
 
-
-
-
-
 # 子进程
 
 `subprocess`模块可以让我们非常方便地启动一个子进程，然后控制其输入和输出。
@@ -420,10 +396,6 @@ $ echo hello
 hello
 Exit code: 0
 ```
-
-
-
-
 
 # 多线程
 
@@ -465,8 +437,6 @@ thread LoopThread >>> 5
 thread LoopThread ended.
 thread MainThread ended.
 ```
-
-
 
 ## Lock
 
@@ -511,8 +481,6 @@ print(balance)
 获得锁的线程在操作结束之后一定要释放锁，否则其它阻塞的线程将永远等待下去，成为死线程。因此我们用`try...finally`来确保锁一定会被释放。
 
 锁的好处就是确保了某段关键代码只能由一个线程从头到尾完整地执行。坏处当然也很多，首先是阻止了多线程并发执行，包含锁的某段代码实际上只能以单线程模式执行；其次，由于可以存在多个锁，不同的线程持有不同的锁，并试图获取对方持有的锁时，可能会造成多个线程全部阻塞，即死锁。
-
-
 
 ## 全局解释器锁
 

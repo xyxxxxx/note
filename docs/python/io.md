@@ -1,4 +1,4 @@
-[toc]
+
 
 # shell I/O
 
@@ -70,14 +70,7 @@ IBM 100 91.10                                                     # {:s} 对应�
 >>> print(f'{value:*>16.2f}')
 *******42,863.10
 
-
 ```
-
-
-
-
-
-
 
 ## 输入
 
@@ -87,10 +80,6 @@ name = input()	      # 输入字符串
 print('Hello,',name)
 
 ```
-
-
-
-
 
 # 文件读写
 
@@ -194,25 +183,17 @@ abcdefg
 
 ```
 
-
-
 ## 字符编码
 
 ```python
 f = open('gbk.txt', 'r', encoding='gbk')	  # 以gbk编码读取,默认为UTF-8
 ```
 
-
-
 ## 二进制文件
 
 ```python
 f = open('test.jpg', 'rb')	                # 标示符b表示binary
 ```
-
-
-
-
 
 # 流
 
@@ -230,8 +211,6 @@ sys.stdin   # 标准输入
 $ python3 prog.py > results.txt  # stdio连接到文件
 ```
 
-
-
 ## StringIO
 
 ```python
@@ -245,8 +224,6 @@ print(f.getvalue())	#获取
 #亦可用读取文件的方式读取字符串流
 ```
 
-
-
 ## BytesIO
 
 ```python
@@ -258,15 +235,7 @@ print(f.getvalue())
 #亦可用读取文件的方式读取字节流
 ```
 
-
-
-
-
 # 操作文件和目录
-
-
-
-
 
 # 序列化
 

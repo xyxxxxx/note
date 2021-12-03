@@ -42,8 +42,6 @@ fprintf(stderr,"%s: %s\n",s,err_msg)
 　　#define EROFS 30 /* Read-only file system */
 ```
 
-
-
 ```c
 #include <stdio.h>
 #include <errno.h>
@@ -71,10 +69,4 @@ int main ()
 }
 
 ```
-
-
-
-
-
-
 

@@ -1,7 +1,5 @@
 [Make](http://en.wikipedia.org/wiki/Make_(software))是最常用的构建工具，诞生于1977年，主要用于C语言的项目。但是实际上 ，任何只要某个文件有变化，就要重新构建的项目，都可以用Make构建。
 
-
-
 ## Introduction
 
 假设工作目录下有文件`b`和`c`，想要拼接这两个文件为一个新文件，可以执行命令
@@ -25,8 +23,6 @@ $ make a
 
 即可由 make 自动完成文件`a`的构建。
 
-
-
 ## makefile文件格式
 
 makefile文件包含了所有构建规则。
@@ -41,8 +37,6 @@ makefile文件由一系列规则(rules)构成，每条规则的形式如下
 ```
 
 注意命令之前是tab字符而非空格。
-
-
 
 ### 目标target
 
@@ -64,8 +58,6 @@ clean:
 ```
 
 如果执行make命令时没有指定目标，那么默认执行makefile文件的第一个目标。
-
-
 
 ### 前置条件prerequisites
 
@@ -100,8 +92,6 @@ source: file1 file2 file3
 
 其中`source`是一个伪目标，只有三个前置文件，这些前置文件的构建规则再分别定义。这样执行`make source`命令，就会一次性生成 `file1，file2，file3` 三个文件。
 
-
-
 ### 命令commands
 
 命令(commands)表示如何更新目标文件，由一行或多行的Shell命令组成。它是构建目标的具体指令，它的运行结果通常就是生成目标文件。
@@ -115,8 +105,6 @@ all:
 ```
 
 上面`.RECIPEPREFIX`声明为`>`，因此每一行命令的起首变成了`>`。
-
-
 
 需要注意的是，每行命令在一个单独的shell中执行。
 
@@ -150,8 +138,6 @@ var-kept:
     echo "foo=[$$foo]"
 ```
 
-
-
 ## makefile文件语法
 
 ### 注释
@@ -165,8 +151,6 @@ var-kept:
 
 @echo "hello"
 ```
-
-
 
 ### 回声echoing
 
@@ -191,8 +175,6 @@ test:
     @# 这是测试
 ```
 
-
-
 ### 模式匹配
 
 make命令允许对文件名进行类似正则运算的匹配，使用匹配符`%`。比如，假定当前目录下有 `f1.c` 和 `f2.c` 两个源码文件，需要将它们编译为对应的对象文件，那么
@@ -209,8 +191,6 @@ f2.o: f2.c
 ```
 
 使用匹配符可以将大量同类型的文件只用一条规则就完成构建。
-
-
 
 ### 变量和赋值符
 
@@ -253,8 +233,6 @@ VARIABLE += value
 # 将值追加到变量的尾端。
 ```
 
-
-
 ### 内置变量
 
 make命令提供一系列内置变量，比如，`$(CC)` 指向当前使用的编译器，`$(MAKE)` 指向当前使用的Make工具。这主要是为了跨平台的兼容性，详细的内置变量清单见[手册](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)。
@@ -263,8 +241,6 @@ make命令提供一系列内置变量，比如，`$(CC)` 指向当前使用的�
 output:
     $(CC) -o output input.c
 ```
-
-
 
 ### 自动变量
 
@@ -284,8 +260,6 @@ b.txt:
     touch b.txt
 ```
 
-
-
 `$<` 指代第一个前置条件。比如，规则为 `t: p1 p2`，那么`$<` 就指代`p1`。
 
 ```makefile
@@ -300,23 +274,13 @@ a.txt: b.txt c.txt
     cp b.txt a.txt 
 ```
 
-
-
 `$?` 指代比目标更新的所有前置条件，之间以空格分隔。
-
-
 
 `$^` 指代所有前置条件，之间以空格分隔。
 
-
-
 `$(@D)` 和 `$(@F)` 分别指向 `$@` 的目录名和文件名。
 
-
-
 `$(<D)` 和 `$(<F)` 分别指向 `$<` 的目录名和文件名。
-
-
 
 ### 条件和循环结构
 
@@ -338,8 +302,6 @@ all:
 	done
 ```
 
-
-
 ## 函数
 
 makefile 还可以使用函数，格式如下。
@@ -350,13 +312,9 @@ $(function arguments)
 ${function arguments}
 ```
 
-
-
 ```
 srcfiles := $(shell echo src/{00..99}.txt)
 ```
-
-
 
 ### subst
 
@@ -372,8 +330,6 @@ $(subst from,to,text)
 $(subst ee,EE,feet on the street)
 ```
 
-
-
 ### patsubst
 
 `patsubst` 函数用于模式匹配的替换，格式如下。
@@ -387,8 +343,6 @@ $(patsubst pattern,replacement,text)
 ```makefile
 $(patsubst %.c, %.o, x.c.c bar.c)
 ```
-
-
 
 ## 实例
 

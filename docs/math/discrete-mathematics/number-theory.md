@@ -25,11 +25,7 @@ bool isPrime(a) {
 
 **定理** 整数a和b互素当且仅当存在整数x和y使得 $xa+yb=1$ 
 
-
-
 ## 欧几里得算法
-
-
 
 ## 算数基本定理
 
@@ -37,15 +33,9 @@ bool isPrime(a) {
 
 设 $a=p_1^{k_{a_1}}p_2^{k_{a_2}}\cdots p_s^{k_{a_s}},b=p_1^{k_{b_1}}p_2^{k_{b_2}}\cdots p_s^{k_{b_s}}$，则 $gcd(a,b)=p_1^{k_{\min(a_1,b_1)}}p_2^{k_{\min(a_2,b_2)}}\cdots p_s^{k_{\min(a_s,b_s)}}$ , $lsm(a,b)=p_1^{k_{\max(a_1,b_1)}}p_2^{k_{\max(a_2,b_2)}}\cdots p_s^{k_{\max(a_s,b_s)}}$ , 故 $ab=gcd(a,b)lcm(a,b)$ 
 
-
-
 # 欧拉定理
 
-
-
 # 筛法
-
-
 
 ### 双平方定理
 

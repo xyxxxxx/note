@@ -3,17 +3,9 @@
 + 以下划线开始的函数，结构体，类型，变量名表示仅在库中被使用，相当于Java的private
 + 
 
-
-
-
-
 # stdio.h
 
 参见IO
-
-
-
-
 
 # stdlib.h
 
@@ -39,18 +31,12 @@ printf("余数=%d\n",res.rem);
 abs()       //返回绝对值
 ```
 
-
-
 ```c
 system()   //将字符串交由环境(shell)去执行
 abort()    //程序异常终止
 exit(status)     //程序终止,status=0正常终止,=-1因错误而终止
     			 //exit亦会调用fclose关闭所有文件指针并flush
 ```
-
-
-
-
 
 # string.h
 
@@ -80,24 +66,15 @@ int memcmp(const void *str1, const void *str2, size_t n) //比较str1指向的�
 void *memchr(const void *str, int c, size_t n) //查找字符c在str指向的内存块的前n个字节中首次出现的位置
 ```
 
-
-
-
-
 # ctype.h
 
 ```c
 //判定变量类型
 
-
 isdigit(c)        // 0-9
     
 tolower(c)        // A-Z -> a-z    
 ```
-
-
-
-
 
 # stdarg.h
 
@@ -134,8 +111,6 @@ int sum(int num_args, ...)
 }
 ```
 
-
-
 # signal.h
 
 ```c
@@ -167,23 +142,11 @@ void sighandler(int signum) //信号处理函数
 }
 ```
 
-
-
-
-
 # math.h
-
-
-
-
 
 # unistd.h, sys/stat.h, sys/mman.h
 
 参见[文件管理]()
-
-
-
-
 
 # dirent.h
 

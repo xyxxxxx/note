@@ -4,8 +4,6 @@
 
 ![](https://i.loli.net/2020/12/25/OInAhS3MaRxYtdu.png)
 
-
-
 ## 性质
 
 $$
@@ -15,8 +13,6 @@ z=r\ang\theta=r(\cos\theta+i\sin\theta)\quad \frac{R\ang\phi}{r\ang\theta}=\frac
 \frac{1}{x+iy}=\frac{x}{x^2+y^2}-i\frac{y}{x^2+y^2}\\
 \overline{z_1+z_2}=\overline{z}_1+\overline{z}_2\quad \overline{z_1z_2}=\overline{z}_1\overline{z}_2\quad \overline{z_1/z_2}=\overline{z}_1/\overline{z}_2 
 $$
-
-
 
 ## 欧拉公式
 

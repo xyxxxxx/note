@@ -32,8 +32,6 @@ $$
 
 ![Screenshot from 2020-09-10 16-54-13.png](https://i.loli.net/2020/09/10/PH5lYyu3oX1aWCL.png)
 
-
-
 ## 语言和DFA接受的语言
 
 **定义** DFA $M=(Q,\Sigma,\delta,q_0,F)$ 接收的语言是定义在 $\Sigma$ 上被 $M$ 接受的所有符号串的集合，表示为
@@ -51,12 +49,9 @@ $$
 L=\{a^nb:n\ge 0\}
 $$
 
-
 **定理** 设 $M=(Q,\Sigma,\delta,q_0,F)$ 是DFA， $G_M$ 是与之对应的转换图，那么对于任意 $q_i,q_j\in Q$ 和 $w\in \Sigma^+$， $\delta^*(q_i,w)=q_j$ 当且仅当 $G_M$ 中有一条从 $q_i$ 到 $q_j$ 并标有 $w$ 的通道。
 
 > 此定理用于确保DFA和转换图的等价性，证明略。
-
-
 
 除了转换图，我们还可以用状态转移表来表示函数 $\delta$，下表与上面的转换图是等价的，其中行表示当前状态，列表示当前输入符号，正文表示下一个状态。
 $$
@@ -72,9 +67,6 @@ q_2 & q_2 & q_2 \\
 \hline
 \end{array}
 $$
-
-
-
 
 ## 正则语言
 
@@ -102,10 +94,6 @@ $$
 
 > 这里暗含了结论：正则语言 $L$ 的自连接 $L^n$ 也是正则语言。
 
-
-
-
-
 # 非确定型有穷自动机
 
 在非确定型有穷自动机中，自动机的每一步迁移都不是唯一的，而是一个由所有可能的迁移构成的集合。
@@ -132,18 +120,12 @@ NFA也可以用转移图表示，@例如
 
 ![Screenshot from 2020-09-10 17-42-57.png](https://i.loli.net/2020/09/10/ojXOgQxnDAGY6Tb.png)
 
-
-
 **定义** 设 $M=(Q,\Sigma,\delta,q_0,F)$ 是NFA， $G_M$ 是与之对应的转换图，那么扩展的转移函数定义为：对于任意 $q_i,q_j\in Q$ 和 $w\in \Sigma^+$， $q_j\in \delta^*(q_i,w)$ 当且仅当 $G_M$ 中有一条从 $q_i$ 到 $q_j$ 并标有 $w$ 的通道。
-
-
 
 **定义** NFA $M=(Q,\Sigma,\delta,q_0,F)$ 接收的语言是定义在 $\Sigma$ 上被 $M$ 接受的所有符号串的集合，表示为
 $$
 L(M)=\{w\in \Sigma^*:\delta^*(q_0,w)\cap F\neq \varnothing\}
 $$
-
-
 
 ## 为什么需要非确定型
 
@@ -155,10 +137,6 @@ $$
 
 我们下面将指明两种自动机并没有本质上的区别，因此使用NFA会使得有些结论更容易得到。
 
-
-
-
-
 # 确定型有穷自动机和非确定型有穷自动机的等价性
 
 **定义** 对于两个有穷自动机 $M_1$ 和 $M_2$，如果
@@ -169,13 +147,9 @@ $$
 
 > 容易看出DFA接受的任何语言NFA也可以接受，因为DFA可以看做一种特殊的NFA；反过来，也容易为 $|Q|$ 个状态的NFA构造 $2^{|Q|}$ 个状态的DFA。
 
-
-
 **定理** 设 $L(M_N)$ 是被NFA $M_N=(Q_N,\Sigma,\delta_N,q_0,F_N)$ 接受的语言，那么一定存在一个DFA $M_D=(Q_D,\Sigma,\delta_D,\{q_0\},F_D)$，满足 $L(M_D)=L(M_N)$。
 
 > 构造程序与证明略。
-
-
 
 @例如，将下图的NFA转化为等价的DFA
 
@@ -196,8 +170,6 @@ $$
 于是得到
 
 ![Screenshot from 2020-09-11 10-01-16.png](https://i.loli.net/2020/09/11/42txbWaw1RvTPpH.png)
-
-
 
 @将下图的NFA转化为等价的DFA
 
@@ -229,8 +201,6 @@ $$
 
 ![Screenshot from 2020-09-11 10-36-33.png](https://i.loli.net/2020/09/11/DrWpOoXHLBGMYZu.png)
 
-
-
 # *化简DFA
 
 **定义** 对于所有的 $w\in \Sigma^*$，如果
@@ -251,11 +221,7 @@ $$
 
 ![Screenshot from 2020-09-11 10-34-18.png](https://i.loli.net/2020/09/11/2DJNLgdmrnatyMK.png)
 
-
-
 **定理** 给定DFA $M$，应用程序reduce可以得到另一个DFA $\hat M$，满足 $L(M)=L(\hat M)$，并且 $\hat M$ 是所有接受 $L(M)$ 的DFA中状态数最少的。
 
 > 证明略。
-
-
 

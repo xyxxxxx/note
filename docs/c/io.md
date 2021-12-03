@@ -28,8 +28,6 @@ fp = fopen ("file.txt", "w+");
 //tmpfile返回一个临时文件的流
 ```
 
-
-
 ## IO function
 
 **printf, scanf**
@@ -64,8 +62,6 @@ int sprintf(char *str, const char *format, ...)
 
 ```
 
-
-
 |       |                                              |
 | ----- | -------------------------------------------- |
 | %d    | int                                          |
@@ -85,8 +81,6 @@ int sprintf(char *str, const char *format, ...)
 | \b   | 退格             |
 |      | 空格             |
 | \\\  | \                |
-
-
 
 **getchar, putchar**
 
@@ -113,8 +107,6 @@ int main( )
 int getc(FILE *fp)               //return EOF if end or err
 int putc(int c, FILE *fp)        //return EOF if err
 ```
-
-
 
 **gets, puts**
 
@@ -145,8 +137,6 @@ char *fgets( char *buf, int n, FILE *fp );
 
 int fputs(char *s, FILE *fp);
 ```
-
-
 
 **read, write**
 
@@ -185,8 +175,6 @@ int main()
 }
 ```
 
-
-
 **positioning**
 
 ```c
@@ -217,8 +205,6 @@ int main ()
 //rewind(倒带)使位置指针回到文件头
 //ftell返回指针当前位置
 ```
-
-
 
 **error**
 

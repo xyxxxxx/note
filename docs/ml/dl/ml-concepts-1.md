@@ -5,24 +5,15 @@ $$
 \mathcal{A}=\frac{1}{N}\sum_{n=1}^N I(y^{(n)}=\hat y^{(n)})
 $$
 
-
 ## classification分类
 
 见supervised learning
 
-
-
 ## cross validation交叉验证
-
-
-
-
 
 ## deep learning深度学习
 
 如果将表示学习和预测学习有机地统一到一个模型中，建立一个端到端的学习算法，就可以有效地避免它们之间准则的不一致性。这种表示学习方法称为**深度学习(deep learning, DL)**。深度学习方法的难点是如何评价表示学习对最终系统输出结果的贡献或影响，即**贡献度分配问题**。目前比较有效的模型是神经网络，即将最后的输出层作为预测学习，其他层作为表示学习。
-
-
 
 ## early stop提前停止
 
@@ -30,17 +21,11 @@ $$
 
 ![Screenshot from 2020-09-01 16-56-16.png](https://i.loli.net/2020/09/01/gUNMbxPaft1RY4V.png)
 
-
-
 ## embedding嵌入
-
-
 
 ## empirical risk经验风险
 
 经验风险即在训练集上的平均损失。
-
-
 
 ## feature engineering特征工程
 
@@ -58,8 +43,6 @@ $$
 
 为了提高机器学习算法的能力，我们需要抽取有效、稳定的特征。传统的特征提取是通过人工方式进行的，需要大量的人工和专家知识。一个成功的机器学习系统通常需要尝试大量的特征，这称为特征工程。
 
-
-
 ## feature learning特征学习
 
 传统的特征学习包含特征选择和特征抽取：
@@ -75,8 +58,6 @@ $$
 
 $L_1$ 正则化会导致稀疏特征，因而间接实现了特征选择。
 
-
-
 **特征抽取（feature extraction）**是构造一个新的特征空间，并将原始特征投影在新的空间中得到新的表示。以线性投影为例，令 $\boldsymbol x ∈ \mathbb{R}^D$ 为原始特征向量， $\boldsymbol x ′∈\mathbb{R}^K$ 为经过线性投影后得到的在新空间中的特征向量, 有
 $$
 \boldsymbol x'=\boldsymbol W \boldsymbol x
@@ -85,39 +66,25 @@ $$
 
 特征抽取又可以分为监督和无监督的方法。监督的特征学习的目标是抽取对一个特定的预测任务最有用的特征，比如**线性判别分析(linear discriminant analysis , LDA)**。
 
-
-
 特征选择和特征抽取的优点是可以用较少的特征来表示原始特征中的大部分相关信息，去掉噪声信息，并进而提高计算效率和减小**维度灾难(curse of dimensionality)**。对于很多没有正则化的模型，特征选择和特征抽取非常必要。经过特征选择或特征抽取后，特征的数量一般会减少，因此特征选择和特征抽取也经常称为维数约减或**降维(dimension reduction)**。
 
-
-
 ## gradient descent梯度下降法
-
-
 
 ## hyper-parameter超参数
 
 定义模型结构或优化策略的参数叫作超参数。常见的超参数包括：聚类算法中的类别个数、梯度下降法中的步长、正则化项的系数、神经网络的层数、支持向量机中的核函数等。超参数的选取一般都是组合优化问题，很难通过优化算法来自动学习。因此，超参数优化是机器学习的一个经验性很强的技术，通常是按照人的经验设定，或者通过搜索的方法对一组超参数组合进行不断试错调整。
 
-
-
 ## hypothesis space假设空间
 
 见model
-
-
 
 ## IID独立同分布
 
 我们经常假设训练集 $\mathcal{D}$ 中包含的N个样本是根据某个固定的特定的分布生成的，即这N个样本是独立同分布的。
 
-
-
 ## learning rate学习率
 
 见gradient descent
-
-
 
 ## loss function损失函数
 
@@ -128,8 +95,6 @@ $$
 + 交叉熵损失函数（cross-entropy loss function）
 + Hinge损失函数（hinge loss function）
 
-
-
 ## macro average宏平均
 
 宏平均是在所有类别上的总体精确率、召回率和F1值的算术平均值：
@@ -139,14 +104,9 @@ $$
 \mathcal{F1}_{macro}=\frac{2\times \mathcal{P}_{macro}\times \mathcal{R}_{macro}}{\mathcal{P}_{macro}+\mathcal{R}_{macro}}
 $$
 
-
 ## model模型
 
 假设空间是根据经验假设的一个函数集合 $\mathcal{F}$， $\mathcal{F}=\{f(\boldsymbol x;\theta)|\theta\in \mathbb{R}^D \}$ 中的任一函数 $f(\boldsymbol x;\theta)$ 都称为假设或模型。
 
 我们需要从假设空间选择一个最接近真实映射函数的假设。
-
-
-
-
 

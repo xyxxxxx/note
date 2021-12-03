@@ -1,12 +1,6 @@
 > 参考https://www.w3school.com.cn/html/index.asp
 
-[toc]
-
-
-
 HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
-
-
 
 # 元素
 
@@ -20,8 +14,6 @@ HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
 
 <a href="http://www.w3school.com.cn">This is a link</a>
 
-
-
 ## \<addr>
 
 缩写。
@@ -30,15 +22,11 @@ HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
 
 The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 
-
-
 ## \<area>
 
 图像映射内部的区域。
 
 示例参见[\<map>](#\<map>)。
-
-
 
 ## \<artical>
 
@@ -53,8 +41,6 @@ The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 </article>
 ```
 
-
-
 ## \<audio>
 
 音频。
@@ -64,8 +50,6 @@ The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 <audio src="/i/horse.ogg" controls="controls">
 Your browser does not support the audio element.
 </audio>
-
-
 
 ## \<body>
 
@@ -79,8 +63,6 @@ Your browser does not support the audio element.
 </body>
 ```
 
-
-
 ## \<br />
 
 换行。
@@ -88,8 +70,6 @@ Your browser does not support the audio element.
 示例：（markdown 支持此语法）
 
 123<br />456
-
-
 
 ## \<button>
 
@@ -99,15 +79,11 @@ Your browser does not support the audio element.
 
 <button type="button">Click Me!</button>
 
-
-
 ## \<caption>
 
 表格标题。
 
 示例参见[\<table>](#\<table>)。
-
-
 
 ## \<del>
 
@@ -116,8 +92,6 @@ Your browser does not support the audio element.
 示例：（markdown 支持此语法）
 
 <del>删除文本</del>
-
-
 
 ## \<details>
 
@@ -129,8 +103,6 @@ Your browser does not support the audio element.
 <summary>Copyright 2011.</summary>
 <p>All pages and graphics on this web site are the property of W3School.</p>
 </details>
-
-
 
 ## \<div>
 
@@ -145,8 +117,6 @@ Your browser does not support the audio element.
   <p>This is a paragraph.</p>
 </div>
 
-
-
 ## \<footer>
 
 页脚。
@@ -157,8 +127,6 @@ Your browser does not support the audio element.
   <p>Posted by: W3School</p>
   <p>Contact information: <a href="mailto:someone@example.com">someone@example.com</a>.</p>
 </footer>
-
-
 
 ## \<form>
 
@@ -186,8 +154,6 @@ Last name:<br>
 <input type="radio" name="sex" id="female" />
 </form>
 
-
-
 ## \<h1> - \<h6>
 
 标题，`<h1>` 最大，`<h6>` 最小。
@@ -197,8 +163,6 @@ Last name:<br>
 <h1>This is a heading</h1>
 <h2>This is a heading</h2>
 <h3>This is a heading</h3>
-
-
 
 ## \<head>
 
@@ -211,8 +175,6 @@ Last name:<br>
 <title>我的第一个 HTML 页面</title>
 </head>
 ```
-
-
 
 ## \<header>
 
@@ -227,8 +189,6 @@ Last name:<br>
 </header>
 ```
 
-
-
 ## \<hr>
 
 水平线。
@@ -236,8 +196,6 @@ Last name:<br>
 示例：（markdown 支持此语法）
 
 <hr />
-
-
 
 ## \<html>
 
@@ -255,8 +213,6 @@ Last name:<br>
 </html>
 ```
 
-
-
 ## \<img>
 
 图像。
@@ -265,15 +221,11 @@ Last name:<br>
 
 <img src="https://dummyimage.com/480x320/eee/aaa&text=-image-" width="240" height="160" />
 
-
-
 ## \<input>
 
 输入控件。
 
 示例参见[\<form>](#\<form>)。
-
-
 
 ## \<ins>
 
@@ -283,23 +235,17 @@ Last name:<br>
 
 <ins>下划线文本</ins>
 
-
-
 ## \<label>
 
 input 元素的标注。
 
 示例参见[\<form>](#\<form>)。
 
-
-
 ## \<li>
 
 列表的项目。
 
 示例参见[\<ol>](#\<ol>)，[\<ul>](#\<ul>)。
-
-
 
 ## \<link>
 
@@ -312,8 +258,6 @@ input 元素的标注。
 <link rel="stylesheet" type="text/css" href="/html/csstest1.css" >
 </head>
 ```
-
-
 
 ## \<main>
 
@@ -342,8 +286,6 @@ input 元素的标注。
   </article>
 </main> 
 ```
-
-
 
 ## \<map>
 
@@ -385,8 +327,6 @@ alt="Sun" />
 </map>
 ```
 
-
-
 ## \<mark>
 
 高亮显示文本。
@@ -394,8 +334,6 @@ alt="Sun" />
 示例：（markdown 支持此语法）
 
 <mark>高亮文本</mark>
-
-
 
 ## \<meta>
 
@@ -423,8 +361,6 @@ alt="Sun" />
 </html>
 ```
 
-
-
 ## \<nav>
 
 导航链接集合。
@@ -440,13 +376,9 @@ alt="Sun" />
 </nav>
 ```
 
-
-
 ## \<object>
 
 内嵌对象，例如图像、音频、视频、ActiveX、pdf、Flash等。其中定义了对象的数据和参数，以及可用来显示和操作数据的代码。
-
-
 
 ## \<ol>
 
@@ -461,15 +393,11 @@ alt="Sun" />
   <li>关上冰箱门</li>
 </ol>
 
-
-
 ## \<option>
 
 选择列表的选项。
 
 示例参见[\<select>](#\<select>)。
-
-
 
 ## \<output>
 
@@ -485,8 +413,6 @@ alt="Sun" />
 </form> 
 ```
 
-
-
 ## \<p>
 
 段落。
@@ -496,15 +422,11 @@ alt="Sun" />
 <p>This is a paragraph.</p>
 <p>This is another paragraph.</p>
 
-
-
 ## \<param>
 
 对象的参数。
 
 示例参见[\<object>](#\<object>)。
-
-
 
 ## \<progress>
 
@@ -515,8 +437,6 @@ alt="Sun" />
 下载进度：
 <progress value="22" max="100">
 </progress>
-
-
 
 ## \<script>
 
@@ -529,8 +449,6 @@ alt="Sun" />
 document.write("Hello World!")
 </script>
 ```
-
-
 
 ## \<section>
 
@@ -545,8 +463,6 @@ document.write("Hello World!")
 </section>
 ```
 
-
-
 ## \<select>
 
 选择列表（下拉列表）。
@@ -560,8 +476,6 @@ document.write("Hello World!")
   <option value="audi">Audi</option>
 </select>
 
-
-
 ## \<source>
 
 媒介源，用于为媒介元素（video 和 audio）定义资源，并且可以提供可替换的视频/音频文件供浏览器根据它对媒体类型或者编解码器的支持进行选择。
@@ -573,8 +487,6 @@ document.write("Hello World!")
 <source src="/i/horse.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
-
-
 
 ## \<span>
 
@@ -592,8 +504,6 @@ p.tip span {
 	color:#ff9955;
 	}
 ```
-
-
 
 ## \<style>
 
@@ -617,15 +527,11 @@ p {color:blue}
 </html>
 ```
 
-
-
 ## \<summary>
 
 为 details 元素定义可见的标题。
 
 示例参见[\<summary>](#\<summary>)。
-
-
 
 ## \<svg>
 
@@ -652,8 +558,6 @@ SVG 图形的容器。
 <ellipse cx="100" cy="70" rx="85" ry="55" fill="url(#grad1)" />
 <text fill="#ffffff" font-size="45" font-family="Verdana" x="50" y="86">SVG</text>
 </svg>
-
-
 
 ## \<table>
 
@@ -700,24 +604,17 @@ SVG 图形的容器。
   </tfoot>
 </table>
 
-
-
 ## \<tbody>
 
 表格的主体。
 
 示例参见[\<table>](#\<table>)。
 
-
-
-
 ## \<td>
 
 表格的单元。
 
 示例参见[\<table>](#\<table>)。
-
-
 
 ## \<template>
 
@@ -753,8 +650,6 @@ function showContent() {
 </html>
 ```
 
-
-
 ## \<textarea>
 
 多行文本输入控件。
@@ -765,15 +660,11 @@ function showContent() {
 在w3school，你可以找到你所需要的所有的网站建设教程。
 </textarea>
 
-
-
 ## \<tfoot>
 
 表格的脚注。
 
 示例参见[\<table>](#\<table>)。
-
-
 
 ## \<th>
 
@@ -781,15 +672,11 @@ function showContent() {
 
 示例参见[\<table>](#\<table>)。
 
-
-
 ## \<thead>
 
 表格的表头。
 
 示例参见[\<table>](#\<table>)。
-
-
 
 ## \<time>
 
@@ -799,8 +686,6 @@ function showContent() {
 
 <p>我们在每天早上 <time>9:00</time> 开始营业。</p>
 <p>我在 <time datetime="2008-02-14">情人节</time> 有个约会。</p>
-
-
 
 ## \<title>
 
@@ -823,15 +708,11 @@ function showContent() {
 </html>
 ```
 
-
-
 ## \<tr>
 
 表格的行。
 
 示例参见[\<table>](#\<table>)。
-
-
 
 ## \<track>
 
@@ -846,8 +727,6 @@ function showContent() {
 </video>
 ```
 
-
-
 ## \<ul>
 
 无序列表。
@@ -861,7 +740,6 @@ function showContent() {
   <li>凉茶</li>
 </ul>
 
-
 ## \<video>
 
 视频。
@@ -871,9 +749,6 @@ function showContent() {
 <video src="/i/movie.ogg" controls="controls">
 your browser does not support the video tag
 </video>
-
-
-
 
 # 属性
 
@@ -893,8 +768,6 @@ your browser does not support the video tag
 <h2 align="center">This is a heading</h2>
 <h3 align="right">This is a heading</h3>
 
-
-
 ## bgcolor
 
 背景颜色。
@@ -913,25 +786,15 @@ your browser does not support the video tag
 </body>
 ```
 
-
-
 ## border
 
 边框线宽。
-
-
 
 ## href
 
 链接的 url。
 
-
-
 ## style
-
-
-
-
 
 # 颜色
 
@@ -945,19 +808,9 @@ your browser does not support the video tag
 | **fuchsia** | **gray** | **white** |         |         |         |
 | #FF00FF     | #C0C0C0  | #FFFFFF   |         |         |         |
 
-
-
 ## 颜色名
 
 参见[HTML 颜色名](https://www.w3school.com.cn/html/html_colornames.asp)。
-
-
-
-
-
-
-
-
 
 # 练习
 
@@ -1006,7 +859,6 @@ your browser does not support the video tag
         <input type="button" value="按钮"/>   <!--普通按钮 -->
         <input type="image" src="" />       <!--图片提交按钮 -->
     </form>
-
 
     <h1>
         哈批旅游
@@ -1059,8 +911,6 @@ your browser does not support the video tag
             <td>成都</td>
 
     </table>
-
-
 
     <footer>
     <div id="footer">

@@ -1,4 +1,4 @@
-[toc]
+
 
 # Tutorial
 
@@ -115,8 +115,6 @@ Dictionary(12 unique tokens: ['computer', 'human', 'interface', 'response', 'sur
 [(0, 0.0), (1, 0.32448703), (2, 0.41707572), (3, 0.7184812), (4, 0.0), (5, 0.0), (6, 0.0), (7, 0.0), (8, 0.0)]
 ```
 
-
-
 ### 语料库流Corpus Streaming – One Document at a Time
 
 Gensim 的语料库可以使用任何可迭代对象，包括但不限于列表、numpy 数组、pandas dataframe 等，每次返回一个文本。因此我们不必将语料库一次读入内存，尤其是对于规模巨大的语料库而言。
@@ -132,10 +130,6 @@ class MyCorpus:
         for line in open(corpus_path):
             yield utils.simple_preprocess(line)
 ```
-
-
-
-
 
 # genism.corpora
 
@@ -190,12 +184,6 @@ class MyCorpus:
 {}
 ```
 
-
-
-
-
-
-
 # gensim.models
 
 ## keyedvectors
@@ -205,10 +193,6 @@ class MyCorpus:
 ```python
 
 ```
-
-
-
-
 
 ## tfidfmodel
 
@@ -250,12 +234,6 @@ class MyCorpus:
 [(6, 0.5773502691896258), (7, 0.5773502691896258), (8, 0.5773502691896258)]
 [(0, 0.383332888988391), (1, 0.9236102512530996)]
 ```
-
-
-
-
-
-
 
 ## word2vec
 
@@ -350,8 +328,6 @@ gensim.models.word2vec.Word2Vec(sentences=None, corpus_file=None, size=100, alph
  ('internet', 0.8753897547721863)]
 ```
 
-
-
 ## 保存和读取
 
 官方文档推荐的模型保存和读取方法。
@@ -371,19 +347,11 @@ with tempfile.NamedTemporaryFile(prefix='gensim-model-', delete=False) as tmp:
     new_model = gensim.models.Word2Vec.load(temporary_filepath)
 ```
 
-
-
-
-
-
-
 # gensim.similarities
 
 ### MatrixSimilarity
 
 计算查询向量和语料库各文本的余弦相似度，仅适用于内存占用较小的情形。
-
-
 
 ### Similarity
 
@@ -428,19 +396,9 @@ with tempfile.NamedTemporaryFile(prefix='gensim-model-', delete=False) as tmp:
 0.0 And this is the third one.
 ```
 
-
-
-
-
 ### SparseMatrixSimilarity
 
 计算查询向量和语料库各文本的余弦相似度，适用于稀疏向量（例如 tf-idf 向量）。
-
-
-
-
-
-
 
 # gensim.utils
 
@@ -460,8 +418,6 @@ gensim.utils.simple_preprocess(doc, deacc=False, min_len=2, max_len=15)
 # max_len    最大长度,大于该长度的token将被丢弃
 ```
 
-
-
 ### tokenize
 
 迭代地 yield unicode 字符串形式的 token，可以去掉语调符号和小写。
@@ -478,6 +434,4 @@ gensim.utils.tokenize(text, lowercase=False, deacc=False, encoding='utf8', error
 # lowercase    小写
 # deacc        去掉语调符号
 ```
-
-
 

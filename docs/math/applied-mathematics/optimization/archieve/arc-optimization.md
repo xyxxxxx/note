@@ -2,8 +2,6 @@
 
 数学优化问题的定义为：给定一个目标函数（也称为代价函数） $f:\mathcal{A}\rightarrow \mathbb{R}$，寻找一个变量 $\boldsymbol x^*\in \mathcal{D}\sub \mathcal{A}$，使得对于所有 $\mathcal{D}$ 中的 $\boldsymbol x$，都满足 $f(\boldsymbol x^*)\le f(\boldsymbol x)$ （最小化）或 $f(\boldsymbol x^*)\ge f(\boldsymbol x)$ （最大化），其中 $\mathcal{D}$ 为变量 $\boldsymbol x$ 的约束集，也叫**可行域**； $\mathcal{D}$ 中的变量被称为**可行解**。
 
-
-
 # 类型
 
 ## 离散优化和连续优化
@@ -19,13 +17,9 @@
 
 **连续优化(continuous optimization)**问题是目标函数的输入变量为连续变量 $\boldsymbol x ∈ \mathbb{R}^D$，即目标函数为实函数。
 
-
-
 ## 无约束优化和约束优化
 
 在连续优化问题中，根据是否有变量的约束条件，可以将优化问题分为无约束优化问题和约束优化问题。**无约束优化(unconstrained optimization)**问题的可行域通常为整个实数域 $\mathcal{D}=\mathbb{R}^D$ ；而**约束优化(constrained optimization)**问题中变量 $\boldsymbol x$ 需要满足一些等式或不等式的约束。约束优化问题通常使用**拉格朗日乘数法**来进行求解。
-
-
 
 ## 线性优化和非线性优化
 
@@ -38,17 +32,11 @@ $$
 
 此外还需要等式约束函数为线性函数，不等式约束函数为凸函数。
 
-
-
-
-
 # 优化算法
 
 优化问题一般都可以通过迭代的方式来求解：通过猜测一个初始的估计 $\boldsymbol x_0$，然后不断迭代产生新的估计 $\boldsymbol x_1,\boldsymbol x_2,\cdots,\boldsymbol x_t$，希望 $\boldsymbol x_t$ 最终收敛到期望的最优解 $\boldsymbol x^*$。
 
 优化算法中常用的迭代方法有线性搜索和置信域方法等。线性搜索的策略是寻找方向和步长，具体算法有梯度下降法、牛顿法、共轭梯度法等。
-
-
 
 ## 全局最小解和局部最小解
 
@@ -68,8 +56,6 @@ $$
 > ∇f(\boldsymbol x) = [\frac{\partial f(\boldsymbol x)}{\partial x_1},\frac{\partial f(\boldsymbol x)}{\partial x_2},\cdots,\frac{\partial f(\boldsymbol x)}{\partial x_n}]^{\rm T}\\
 > ∇^2f(\boldsymbol x) = [\frac{\partial^2 f(\boldsymbol x)}{\partial x_1^2},\frac{\partial^2 f(\boldsymbol x)}{\partial x_2^2},\cdots,\frac{\partial^2 f(\boldsymbol x)}{\partial x_n^2}]^{\rm T}
 > $$
-
-
 
 ## 梯度下降法
 
@@ -94,13 +80,7 @@ $$
 梯度下降法为一阶收敛算法，当靠近局部最小解时梯度变小，收敛速度会变慢，并且可能以 “之字形” 的方式下降。如果目标函数为二阶连续可微，我们可以采用牛顿法。**牛顿法(Newton’s method)**为二阶收敛算法，收敛速度更快，但是每次迭代需要计算Hessian矩阵的逆矩阵，复杂度较高.
 相反，如果我们要求解一个最大值问题，就需要向梯度正方向迭代进行搜索，逐渐接近函数的局部最大解，这个过程则被称为**梯度上升法(Gradient Ascent Method)**。
 
-
-
 ## 牛顿法
 
-
-
 ## 拉格朗日乘数法
-
-
 

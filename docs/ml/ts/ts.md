@@ -4,8 +4,6 @@
 
 **实践**
 
-
-
 **论文复现**
 
 [Time-weighted LSTM Model with Redefined Labeling for Stock Trend Prediction, 2017](./Time-weighted LSTM Model with Redefined Labeling for Stock Trend Prediction.md)

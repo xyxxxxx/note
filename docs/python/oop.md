@@ -1,12 +1,8 @@
-[toc]
-
 
 
 OOP 把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数
 
 面向对象的三大特点：**数据封装**，**继承**，**多态**
-
-
 
 # 对象，类型和实例
 
@@ -44,8 +40,6 @@ wip…
 
 Python 变量在许多方面就像 C 指针，例如：多个变量可以绑定到同一个对象；传递对象（变量为变量赋值）的代价很小，因为实现只传递一个指针；如果函数修改了作为参数传递的对象，调用者可以看到更改等等。
 
-
-
 **对象**是 Python 对数据的抽象。Python 程序中的所有数据都是由对象或对象间关系来表示的。 
 
 每个对象都有自己的 **id**、**类型**和**值**。对象的 id 是对象的唯一标识。一个对象被创建后，它的 id 在对象的整个生命周期内都是不变且唯一的；`is` 运算符可以比较两个对象的 id 是否相同；`id()` 函数能返回一个代表其 id 的整型数（在 CPython 中，`id(x)` 就是存放 `x` 的内存的地址）。
@@ -57,8 +51,6 @@ Python 变量在许多方面就像 C 指针，例如：多个变量可以绑定�
 对象无法被显式地销毁，但当无法访问时它们可能会被作为垃圾回收。垃圾回收有不同的实现方式，只要可访问的对象不会被回收即可。
 
 有些对象包含对其他对象的引用，它们被称为**容器（container）**，例如列表、元组和字典等。多数情况下，当我们谈论一个容器的值时，指的是其所引用的对象的值而不是 id；但是当我们谈论一个容器的可变性时，则仅指其直接包含的对象的 id。因此，如果一个不可变容器（例如元组）包含对一个可变对象的引用，则当该可变对象被改变时容器的值也会改变。
-
-
 
 # 作用域
 
@@ -127,8 +119,6 @@ outer()
 <class 'int'>
 ```
 
-
-
 Python 中只有模块（module），类（class）以及函数（def、lambda）才会引入新的作用域，其它的代码块（如 if/elif/else、try/except、for/while 等）是不会引入新的作用域的，也就是说这些语句内定义的变量，外部也可以访问，例如：
 
 ```python
@@ -144,8 +134,6 @@ Python 中只有模块（module），类（class）以及函数（def、lambda�
 >>> print(k)
 15
 ```
-
-
 
 如果想要在局部作用域中修改全局变量，可以使用 `global` 关键字声明：
 
@@ -165,8 +153,6 @@ print(i)
 2
 ```
 
-
-
 如果想要在局部作用域中修改嵌套作用域的变量，可以使用 `nonlocal` 关键字声明：
 
 ```python
@@ -184,10 +170,6 @@ outer()
 ```
 2
 ```
-
-
-
-
 
 # 类
 
@@ -220,8 +202,6 @@ outer()
 ```
 
 详见标准库-内置函数-type。
-
-
 
 ## 属性
 
@@ -289,8 +269,6 @@ Traceback (most recent call last):
 AttributeError: 'Student' object has no attribute 'age'
 ```
 
-
-
 ### 可见性
 
 类和实例的属性的可见性（即 C，Java 中的 `private,protected,public`）由其名称决定：
@@ -320,8 +298,6 @@ AttributeError: 'Student' object has no attribute '__rank'
 >>> bart.get_score()                        # 调用方法访问内部属性
 Bart Simpson: 59 77
 ```
-
-
 
 ### 限制属性
 
@@ -358,8 +334,6 @@ class Student(object):
         return self._score             # 属性_score用score调用
 ```
 
-
-
 ### 实例的特殊属性
 
 除了类的实例，（被导入的）模块、类、函数/方法、描述器、生成器本身也是实例，即 Python 的“一切皆对象”。
@@ -378,20 +352,13 @@ class Student(object):
 >>> dir(json.loads)   # 函数/方法实例
 ['__annotations__', '__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__get__', '__getattribute__', '__globals__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__kwdefaults__', '__le__', '__lt__', '__module__', '__name__', '__ne__', '__new__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
 
-
 ```
 
-
-
 #### __all__
-
-
 
 #### __author__
 
 模块实例的作者信息。
-
-
 
 #### __class__
 
@@ -399,13 +366,9 @@ class Student(object):
 
 所有类实例属于 `type` 类；所有函数/方法实例属于 `function` 类。
 
-
-
 #### __copyright__
 
 模块实例的版权信息。
-
-
 
 #### __dict__
 
@@ -425,13 +388,9 @@ class Student(object):
 {'name': 'Bart Simpson', 'score': 59, 'age': 10}    # 保存实例的属性
 ```
 
-
-
 #### __doc__
 
 模块、类、函数/方法、描述器或生成器实例的 docstring。
-
-
 
 #### __file__
 
@@ -458,13 +417,9 @@ print(__file__)          # 模块作为脚本执行
 test.py                  # 脚本名称
 ```
 
-
-
 #### __module__
 
 类、函数/方法、描述器或生成器实例所属的模块的名称。
-
-
 
 #### __name__
 
@@ -472,19 +427,11 @@ test.py                  # 脚本名称
 
 作为脚本运行的模块的 `__name__` 属性被赋值为 `'__main__'`。
 
-
-
 #### __package__
 
 模块实例所属的包的名称。
 
-
-
 #### __path__
-
-
-
-
 
 #### `__slots__`
 
@@ -529,33 +476,21 @@ AttributeError: 'Student' object has no attribute 'age'        # 不能动态绑
 {'age': 10}                                                    # 保存 `__slots__` 声明的变量以外的属性
 ```
 
-
-
 #### __spec__
-
-
 
 #### __version__
 
 模块实例的版本信息。
 
-
-
-
-
 ## 函数
 
 类中定义的函数也是类属性（即函数对象）。
-
-
 
 ### 方法
 
 **方法（method）**是从属于对象的函数，第一个参数为对象自身。调用方法 `object.method(*args)` 实际上就相当于 `Class.method(object,*args)`。
 
 了解方法的运作原理有助于加深对方法的理解。当一个实例的非数据属性被引用时，将搜索实例所属的类，如果被引用的属性名称表示一个有效的类属性中的函数对象，会通过打包实例对象和查找到的函数对象到一个抽象对象的方式来创建方法对象。当附带参数列表调用方法对象时，将基于实例对象和参数列表构建一个新的参数列表，并使用这个新参数列表调用相应的函数对象。
-
-
 
 方法定义并非一定要包含在类定义之内，将一个函数对象赋值给一个变量也是可以的，例如：
 
@@ -571,8 +506,6 @@ class Student(object):
 ```
 
 但是不建议这么做，因为这样只会让读程序的人感到迷惑。
-
-
 
 ### 类方法和静态方法
 
@@ -597,8 +530,6 @@ class Student(object):
 1
 ```
 
-
-
 在开发中，我们常常需要定义一些方法，这些方法跟类有关，但在实现时并不需要引用类或者实例，例如设置环境变量，修改另一个类的属性等，这个时候我们可以使用**静态方法（static method）**。静态方法使用 `@staticmethod` 装饰器声明，例如：
 
 ```python
@@ -621,29 +552,15 @@ in education
 in education
 ```
 
-
-
 ### 方法的实现
-
-
-
-
 
 ### 动态绑定方法
 
 参见标准库-types。
 
-
-
-
-
-
-
 # 继承和多态
 
 ## 继承
-
-
 
 ```python
 class Animal(object):     # 类默认继承自object类
@@ -679,17 +596,11 @@ class Dog(Animal):
         self.price = price
 ```
 
-
-
 ### 继承内置类型
 
 有时我们使用内置类型时想要增加或者修改
 
-
-
 ## object类
-
-
 
 ## 多重继承
 
@@ -752,8 +663,6 @@ Dog,再调用其noise()方法.
 '''
 ```
 
-
-
 ## 抽象类
 
 抽象类用于定义不具体实现的父类，方法由子类实现
@@ -772,12 +681,6 @@ class Dog(Animal):
         print('Dog is eating...')
 ```
 
-
-
-
-
-
-
 # 高级类
 
 ## 类的特殊属性
@@ -785,8 +688,6 @@ class Dog(Animal):
 一个类可以通过定义具有特殊名称的方法来实现由特殊语法所引发的特定操作，这是 Python 实现操作符重载的方式，允许每个类自行定义基于操作符的特定行为。例如，如果一个类定义了名为 `__getitem__()` 的方法，并且 `x` 为该类的一个实例，则 `x[i]` 基本就等同于 `type(x).__getitem__(x,i)`。
 
 当没有定义特殊方法，或将特殊方法设为 `None` 时，对应的操作将不可用。例如，将一个类的 `__iter__()` 设为 `None`，则该类就是不可迭代的，因此对其实例调用 `iter()` 将引发一个 `TypeError`。
-
-
 
 ### 基本定制
 
@@ -816,29 +717,19 @@ print(new2)
 <__main__.NewInt object at 0x000002BB02FF6080>
 ```
 
-
-
-
-
 #### __init__()
 
 在实例（通过 `__new__()`）被创建之后，返回调用者之前调用，用于初始化实例的属性。其参数与传递给对象构造器表达式的参数相同。如果一个派生类的基类也有 `__init__()` 方法，就必须显式地调用它以确保实例基类部分的正确初始化，例如 `super().__init__([args...])`.
 
 因为对象是由 `__new__()` 和 `__init__()` 协作构造完成的（由 `__new__()` 创建，并由 `__init__()` 定制），所以 `__init__()` 返回的值只能是 `None`，否则会在运行时引发 `TypeError`。
 
-
-
 #### __del__()
 
 在实例将被销毁时调用。这还被称为终结器或析构器（不适当）。如果一个派生类的基类也有 `__del__()` 方法，就必须显式地调用它以确保实例基类部分的正确清除。
 
-
-
 #### __dir__()
 
 被内置函数 `dir()` 调用以返回对象的属性列表。
-
-
 
 #### __repr__()
 
@@ -858,8 +749,6 @@ print(new2)
 >>> bart
 Student({name: Bart Simpson, score: 59})
 ```
-
-
 
 #### __str__()
 
@@ -881,8 +770,6 @@ Student({name: Bart Simpson, score: 59})
 >>> print(bart)
 Student Bart Simpson with score 59.
 ```
-
-
 
 #### __format__()
 
@@ -915,8 +802,6 @@ Traceback (most recent call last):
 ValueError: Unknown format code 'b' for object of type 'Student'
 ```
 
-
-
 #### \_\_lt\_\_(), \_\_le\_\_(), \_\_eq\_\_(), \_\_ne\_\_(), \_\_gt\_\_(), \_\_ge\_\_()
 
 * `x<y` 调用 `x.__lt__(y)`
@@ -946,13 +831,9 @@ ValueError: Unknown format code 'b' for object of type 'Student'
 True
 ```
 
-
-
 #### __bool__()
 
 在对象进行真值检测或被内置函数 `bool()` 调用时调用，返回一个布尔值。如果未定义此方法，则会查找并调用 `__len__()` 并在其返回非零值时视对象的逻辑值为真。如果一个类既未定义 `__len__()` 也未定义 `__bool__()` 则视其所有实例的逻辑值为真。
-
-
 
 ### 自定义属性访问
 
@@ -992,13 +873,9 @@ Traceback (most recent call last):
 AttributeError: 'Student' object has no attribute 'gender' or key 'gender' in info dict
 ```
 
-
-
 #### __getattribute__()
 
 此方法会无条件地被调用以实现对类实例属性的访问。如果类还定义了 `__getattr__()`，则后者不会被调用，除非 `__getattribute__()` 显式地调用它或是引发了 `AttributeError`。此方法应当返回（找到的）属性值或是引发一个 `AttributeError` 异常。为了避免此方法中的无限递归，其实现应该总是调用具有相同名称的基类方法来访问它所需要的任何属性，例如 `object.__getattribute__(self,name)`。
-
-
 
 #### __setattr__()
 
@@ -1036,19 +913,13 @@ To assign: age = 10
 {'name': 'Bart Simpson', 'score': 59, 'age': 10}
 ```
 
-
-
 #### __delattr__()
 
 类似于 `__setattr__()` 但其作用为删除而非赋值。
 
-
-
 #### __dir__()
 
 被内置函数 `dir()` 调用，返回值必须为一个序列。`dir()` 会把返回的序列转换为列表并对其排序。
-
-
 
 ### 模拟可调用对象
 
@@ -1056,15 +927,11 @@ To assign: age = 10
 
 在对象作为一个函数被调用时调用。如果定义了此方法，则 `x(arg1,arg2,...)` 就大致可以被改写为 `type(x).__call__(x,arg1,...)`。
 
-
-
 ### 模拟容器类型
 
 #### __len__()
 
 被内置函数 `len()` 调用以返回对象的长度，返回一个非负整数。
-
-
 
 #### \_\_getitem\_\_(), \_\_setitem\_\_(), \_\_delitem\_\_()
 
@@ -1106,23 +973,17 @@ To assign: age = 10
 59      
 ```
 
-
-
 #### __iter__()
 
 在需要为容器对象创建迭代器时被调用，返回一个迭代器对象，它能够逐个迭代容器中的所有对象。
 
 详见[容器提供迭代支持](./iterator-and-generator.md#容器提供迭代支持)。
 
-
-
 #### __reverse__()
 
 被内置函数 `reverse()` 调用以实现逆向迭代，返回一个迭代器对象，它能够逆序逐个迭代容器中的所有对象。
 
 详见
-
-
 
 #### __contains__()
 
@@ -1133,8 +994,6 @@ object.__contains__(self, item)
 调用此方法以实现成员检测运算符 `in`。如果 *item* 是 *self* 的成员则应返回真，否则返回假。对于映射类型，此检测应基于映射的键而不是值或者键值对。
 
 对于未定义 `__contains__()` 的对象，成员检测将首先尝试通过 `__iter__()` 进行迭代，然后再使用 `__getitem__()` 的旧式序列迭代协议。
-
-
 
 ### 模拟数学类型
 
@@ -1157,13 +1016,9 @@ object.__contains__(self, item)
 * `x^y` 调用 `x.__xor__(y)`
 * `x|y` 调用 `x.__or__(y)`
 
-
-
 #### \_\_radd\_\_(), \_\_rsub\_\_(), \_\_rmul\_\_(), \_\_rmatmul\_\_(), \_\_rtruediv\_\_(), \_\_rfloordiv\_\_(), \_\_rmod\_\_(), \_\_rdivmod\_\_(), \_\_rpow\_\_(), \_\_rlshift\_\_(), \_\_rrshift\_\_(), \_\_rand\_\_(), \_\_rxor\_\_(), \_\_ror\_\_()
 
 二元算术运算方法的反射方法，即在左操作数不支持相应运算且两个操作数类型不同时被调用。例如，求表达式 `x - y` 的值，其中 `y` 是具有 `__rsub__()` 方法的类的一个实例，则当 `x.__sub__(y)` 返回 `NotImplemented` 时会调用 `y.__rsub__(x)`。
-
-
 
 #### \_\_iadd\_\_(), \_\_isub\_\_(), \_\_imul\_\_(), \_\_imatmul\_\_(), \_\_itruediv\_\_(), \_\_ifloordiv\_\_(), \_\_imod\_\_(), \_\_idivmod\_\_(), \_\_ipow\_\_(), \_\_ilshift\_\_(), \_\_irshift\_\_(), \_\_iand\_\_(), \_\_ixor\_\_(), \_\_ior\_\_()
 
@@ -1172,8 +1027,6 @@ object.__contains__(self, item)
 + `x+=y` 调用 `x.__iadd__(y)`
 + `x-=y` 调用 `x.__isub__(y)`
 + ……
-
-
 
 #### \_\_neg\_\_(), \_\_pos\_\_(), \_\_abs\_\_(), \_\_invert\_\_()
 
@@ -1184,44 +1037,20 @@ object.__contains__(self, item)
 * `|x|` 调用 `x.__abs__(y)`
 * `~x` 调用 `x.__invert__(y)`
 
-
-
 #### \_\_int\_\_(), \_\_float\_\_(), \_\_complex\_\_()
 
 被内置函数 `int()`, `float()`, `complex()` 调用以返回一个相应类型的值。
-
-
 
 #### \_\_index\_\_()
 
 调用此方法以实现 `operator.index()`，以及将对象转换为整数（用于切片或者内置的 `int()`, `bin()`, `hex()` 和 `oct()` 函数)，必须返回一个整数。
 
-
-
 #### \_\_round\_\_(), \_\_trunc\_\_(), \_\_floor\_\_(), \_\_ceil\_\_()
 
 被内置函数 `round()` 和 `math` 函数 `trunc()`, `floor()`, `ceil()` 调用以返回一个近似/取整值。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```python
 #__call__() 实例() 返回值
-
-
 
 #__getattr__()为不存在的属性设定返回值
 class Chain(object):
@@ -1247,7 +1076,6 @@ f[10]		#调用方法
     
 #__init__()定义构造函数
 
-
 #__iter__()定义迭代器
 class Fib(object):
     def __init__(self):
@@ -1265,9 +1093,6 @@ for n in Fib():	#先后进入init,iter,next,next,...
     
     
 #__len__()
-
-
-
 
 #__slots__()定义类允许绑定的属性
 class Student(object):
@@ -1290,7 +1115,6 @@ class Date(object):
     # print(repr(i))打印该信息
     def __repr__(self):
         return f'Date({self.year},{self.month},{self.day})'
-
 
 ```
 
@@ -1329,8 +1153,6 @@ class Sequence:
         pass
 ```
 
-
-
 ## 枚举类
 
 ```python
@@ -1357,23 +1179,7 @@ print(day1)
 print(day1.value)
 ```
 
-
-
 ## 元类
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # 获取对象信息
 
@@ -1427,10 +1233,6 @@ id(a)        # 140295002377160
 id(b)        # 140295002377160
 a is c       # False
 ```
-
-
-
-
 
 # 面向对象的实现
 

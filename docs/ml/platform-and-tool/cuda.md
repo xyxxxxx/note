@@ -1,11 +1,5 @@
 `nvidia-smi` 是一个跨平台工具，提供监控 GPU 使用情况和更改 GPU 状态的功能。N 卡驱动附带此工具，只要安装好驱动就可以使用。下面介绍 `nvidia-smi` 命令系列。
 
-
-
-[toc]
-
-
-
 ## `nvidia-smi`
 
 显示所有 GPU 的当前信息状态。
@@ -51,8 +45,6 @@ Wed Jan 27 09:25:50 2021
 | `Compute M.`        | 计算模式，0/DEFAULT,1/EXCLUSIVE_PROCESS,2/PROHIBITED         |
 | `Processes`         | 正在使用GPU的进程                                            |
 
-
-
 ## `nvidia-smi -q`
 
 显示所有 GPU 的当前详细信息状态。
@@ -81,8 +73,6 @@ GPU 00000000:41:00.0
 # ...
 ```
 
-
-
 ## 命令附加选项
 
 ```shell
@@ -96,18 +86,12 @@ $ nvidia-smi –f <file>
 # 将信息写入指定文件中,不在终端显示
 ```
 
-
-
 ## 设备状态更改选项
 
 ```shell
 $ nvidia-smi –r
 # GPU复位
 ```
-
-
-
-
 
 ## `nvidia-smi dmon`
 
@@ -124,8 +108,6 @@ $ nvidia-smi dmon
     0     9    32     -     0     0     0     0   405   139
 # ...    
 ```
-
-
 
 ## `nvidia-smi pmon`
 

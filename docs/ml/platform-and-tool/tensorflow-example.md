@@ -28,8 +28,6 @@
 # visualize
 ```
 
-
-
 | Problem type                            | Last-layer activation | Loss function                  |
 | --------------------------------------- | --------------------- | ------------------------------ |
 | Binary classification                   | `sigmoid`             | `binary_crossentropy`          |
@@ -37,8 +35,6 @@
 | Multiclass, multilabel classification   | `sigmoid`             | `binary_crossentropy`          |
 | Regression to arbitrary values          | None                  | `mse`                          |
 | Regression to values between 0 and 1    | `sigmoid`             | `mse` or `binary_crossentropy` |
-
-
 
 # 预测燃油效率
 
@@ -213,14 +209,6 @@ for i in range(k):
 1. 使用训练集训练模型的过程中，监视验证集在每个 `epoch` 的损失函数，若此函数在连续几个 `epoch` 中没有改善，则停止训练模型
 2. 使用训练集训练模型的过程中，监视验证集在每个 `epoch` 的损失函数，若此函数在连续几个 `epoch` 中没有改善，则记录最优的超参数 `epochs` 的值，将验证集并入训练集，使用该超参数重新训练
 
-
-
-
-
-
-
-
-
 # 识别图片中的服装类型
 
 | 类型         | 数据类型     | 结构       |          |
@@ -349,10 +337,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-
-
-
-
 # MNIST
 
 | 类型         | 数据类型     | 结构       |          |
@@ -452,10 +436,6 @@ results = model.evaluate(test_images, test_labels, verbose=2)
 # visualize: prediction
 test_prediction = model.predict(test_images)
 ```
-
-
-
-
 
 # CIFAR-10
 
@@ -650,10 +630,6 @@ plt.legend(loc='lower right')
 plt.show()
 ```
 
-
-
-
-
 # 将影评的态度分类
 
 | 类型                | 数据类型     | 结构           |          |
@@ -763,10 +739,6 @@ plt.show()
 ![png](https://tensorflow.google.cn/tutorials/keras/text_classification_files/output_nGoYf2Js-lle_0.png?hl=zh-cn)
 
 出现过拟合。
-
-
-
-
 
 # 将影评的态度分类：原始数据处理与嵌入模块
 
@@ -906,13 +878,7 @@ plt.legend()
 plt.show()
 ```
 
-
-
-
-
 # 生成莎士比亚风格的剧本
-
-
 
 ```python
 import tensorflow as tf
@@ -954,10 +920,6 @@ for i, sentence in enumerate(sentences):
     y[i, char2idx[next_chars[i]]] = 1
 
 ```
-
-
-
-
 
 # 天气预报
 

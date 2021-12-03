@@ -2,8 +2,6 @@
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/giornh3yjhognvwrj.PNG)
 
-
-
 # 网际协议IP
 
 与IP协议配套使用的还有三个协议：
@@ -25,15 +23,9 @@
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/etoihjgoihn4jtnhwrfjkg.PNG)
 
-
-
 互联网由多种异构网络互连组成：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/oeipthjephtomkebtoh.PNG)
-
-
-
-
 
 # IP地址
 
@@ -65,8 +57,6 @@ B类地址的网络号有14位可用，网络地址128.0.0.0不指派
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/erykhm64knkhjbetk.PNG)
 
-
-
 ## IP地址特点
 
 + IP地址是一种分等级的地址结构，这样：(1) IP地址管理机构分配IP地址时只分配网络号；(2) 路由器仅需根据目的主机所连接的网络号来分组
@@ -81,8 +71,6 @@ B类地址的网络号有14位可用，网络地址128.0.0.0不指派
 + 路由器总是有两个或以上的IP地址
 + 两个路由器直接相连时，可以分配或不分配IP地址（如图中N1,N2,N3），未分配地址的称为无编号网络或无名网络
 
-
-
 ## IP地址和硬件地址
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/gekohj4ngvwrjkb35y.PNG)
@@ -90,8 +78,6 @@ B类地址的网络号有14位可用，网络地址128.0.0.0不指派
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/eth24tmfokghjnkrwv.PNG)
 
 IP层抽象的互联网上只能看到IP数据报，而屏蔽了下层的细节。由此在网络层上讨论问题，就能够使用统一的、抽象的IP地址研究主机或路由器之间的通信
-
-
 
 ## 地址解析协议ARP
 
@@ -101,19 +87,13 @@ ARP可以从网络层使用的IP地址中，解析出在链路层中使用的硬
 
 再将主机B的映射写入高速缓存；
 
-
-
 ### ARP工作典型情况
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfoigmt3k5nhjk3.PNG)
 
-
-
 ## IP数据报
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/jteiksflngjkh532grf.PNG)
-
-
 
 (1) **版本** 4位，IP协议的版本，目前广泛使用的版本号为4
 
@@ -133,8 +113,6 @@ ARP可以从网络层使用的IP地址中，解析出在链路层中使用的硬
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfgktehmk5lnygj3vr.PNG)
 
-
-
 (8) **生存时间** 8位，其目的是防止无法交付的数据报无限在互联网中兜圈子；TTL设置为跳数限制，路由器每次转发数据报之前把TTL值减1，当TTL减小到0则丢弃该数据报。若将TTL的值设置为1，就表示该数据报只能在本局域网中传送.
 
 (9) **协议** 8位，指出该数据报携带的数据使用何种协议
@@ -147,8 +125,6 @@ ARP可以从网络层使用的IP地址中，解析出在链路层中使用的硬
 
 (12) **目的地址** 32位
 
-
-
 ## IP层转发分组的流程
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/adjokhn6jkbte.PNG)
@@ -156,10 +132,6 @@ ARP可以从网络层使用的IP地址中，解析出在链路层中使用的硬
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/fokhetnjkgrvwghgwy.PNG)
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/grwtncjkhtwhj7ik5.PNG)
-
-
-
-
 
 # 子网和超网
 
@@ -171,8 +143,6 @@ ARP可以从网络层使用的IP地址中，解析出在链路层中使用的硬
 + 划分方法是从主机号中借用若干位作为子网号(subnet-id)，于是两级IP地址在单位内部变为三级IP地址：网络号、子网号和主机号
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sdfmknjrynhj4o5g.PNG)
-
-
 
 ### 子网掩码
 
@@ -190,15 +160,11 @@ B类网络子网划分示例：
 
 其中子网数等于$2^{子网位数}-2$，去掉的2个分别为全0和全1；但现在全0和全1也可以使用
 
-
-
 ## 分组转发
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfoklngjket5hnyj3k.PNG)
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/wrojghoiu36nyjgrw.PNG)
-
-
 
 ## 无分类编址CIDR
 
@@ -218,21 +184,13 @@ CIDR使用32位的**地址掩码(address mask)**，其由一串1和一串0组成
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/getionht3jk3hj5y.PNG)
 
-
-
 ### 二叉线索查找路由表
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfiogj364oiuhn3j5t.PNG)
 
-
-
-
-
 # ICMP
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfgjiom46ukolngjrw.PNG)
-
-
 
 ## 种类
 
@@ -244,19 +202,11 @@ ICMP报文分为**ICMP差错报告报文**和**ICMP询问报文**:
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/rjieojnu36ojlre.PNG)
 
-
-
-
-
 ## 应用
 
 **PING(Packet InterNet Groper)**用来测试两台主机之间的连通性，其使用了ICMP回送请求和回答报文，而没有通过运输层的TCP或UDP.
 
 **tracert**用来追踪一个分组从源点到终点的路径.
-
-
-
-
 
 # 互联网的路由选择协议
 
@@ -272,8 +222,6 @@ ICMP报文分为**ICMP差错报告报文**和**ICMP询问报文**:
 AS之间的路由选择称为**域间路由选择**，自治系统内部的路由选择称为**域内路由选择**，例如：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfjviogtnhuyj35ntjg.PNG)
-
-
 
 ## IGP--RIP
 
@@ -291,8 +239,6 @@ RIP协议的特点：
 
 路由表中最重要的信息是到某个网络的距离以及应经过的下一条地址，更新的原则就是找出到每个网络的最短距离
 
-
-
 ### 距离向量算法
 
 见例：
@@ -303,8 +249,6 @@ RIP协议的特点：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfhgnoj46u46hio4.PNG)
 
-
-
 ### RIP协议报文格式
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/3igtokhn3jkfwnjg.PNG)
@@ -312,8 +256,6 @@ RIP协议的特点：
 RIP协议的优点是实现简单，开销较小，缺点是限制网络规模，路由表随网络规模扩大而增加，“坏消息传播得慢”：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/vfsjion3y5ojngwjr.PNG)
-
-
 
 ## IGP--OSPF
 
@@ -337,8 +279,6 @@ OSPF的数据报直接使用IP数据报传送，结构如下：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfgop46kuiohngwbjroh3.PNG)
 
-
-
 OSPF协议的特点：
 
 + 允许管理员为每条路有指派不同的代价，对于不同类型的业务可计算出不同的路由
@@ -361,15 +301,11 @@ OSPF规定每两个相邻路由器每隔10s要交换一次问候分组，以确�
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/bhnejktjynjgrwojiy25.PNG)
 
-
-
 ## BGP
 
 BGP采用**路径向量(path vector)路由选择协议**。配置BGP时，每个AS的管理员都需要选择至少一个路由器作为该AS的**BGP发言人**，一个BGP发言人要和其他AS的BGP发言人（即**邻站**）交换路由信息，要先建立TCP连接（端口号179），然后在此连接上交换BGP报文以建立BGP会话，利用其交换路由信息。
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/fsjighon35yjogwnujgy.PNG)
-
-
 
 ## 路由器
 
@@ -378,10 +314,6 @@ BGP采用**路径向量(path vector)路由选择协议**。配置BGP时，每个
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/sfipgoj64ionyjgwory2.PNG)
 
 路由器结构分为**路由选择部分**和**分组转发部分**
-
-
-
-
 
 # IPv6
 
@@ -399,8 +331,6 @@ IPv6的主要变化：
 IPv6的数据报的结构如下：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/snfjlkbnjk5ynjk5wgh.PNG)
-
-
 
 ## IPv6的基本首部
 
@@ -426,8 +356,6 @@ IPv6的数据报的结构如下：
 
 略
 
-
-
 ## IPv6地址
 
 3种基本类型：
@@ -446,8 +374,6 @@ IPv6的数据报的结构如下：
 
 **本地链路单播地址(Link-Local Unicast Address)** 有些单位的内网使用TCP/IP协议，但没有连接到互联网. 内网上的主机可以使用这种本地地址进行通信
 
-
-
 ## IPv4至IPv6的过渡策略
 
 **双协议栈(dual stack)**指一部分主机或路由器装有IPv4和IPv6双协议栈. 双协议栈主机在和IPv6主机通信时采用IPv6地址，而和IPv4主机通信时使用IPv4地址. 域名系统DNS若返回IPv4地址，则源主机使用IPv4地址. 
@@ -458,15 +384,9 @@ IPv6的数据报的结构如下：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/gdpoitju46ioyngjrwht.PNG)
 
-
-
 ## ICMPv6
 
 略
-
-
-
-
 
 # IP多播
 
@@ -476,17 +396,11 @@ IPv6的数据报的结构如下：
 
 IP多播分为两种：本地局域网上进行硬件多播，在互联网范围多播
 
-
-
 ## 网际组管理协议IGMP
 
 IGMP协议让连接在本地局域网上的多播路由器知道本局域网上是否有主机参加或推出了某个多播组
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/wgfpiy35nmkhb.PNG)
-
-
-
-
 
 # 虚拟专用网VPN和网络地址转换NAT
 
@@ -507,10 +421,6 @@ IGMP协议让连接在本地局域网上的多播路由器知道本局域网上�
 通过NAT路由器的通信必须由专用网内的主机发起，因此专用网内部的主机不能作为服务器
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/etiyj35ioygrmjoihte6u.PNG)
-
-
-
-
 
 # 多协议标记交换MPLS
 

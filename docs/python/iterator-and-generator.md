@@ -1,4 +1,4 @@
-[toc]
+
 
 # 迭代器
 
@@ -15,8 +15,6 @@
 从迭代器中返回下一项。如果已经没有项可返回，则会引发 `StopIteration` 异常。
 
 > 参见内置函数 [`iter()`](./standard-library#iter()), [`next()`](./standard-library#next())。
-
-
 
 下面实现了一个简单的迭代器：
 
@@ -51,8 +49,6 @@ Traceback (most recent call last):
 StopIteration
 ```
 
-
-
 ## 可迭代对象
 
 实现了以下方法的（容器）对象称为**可迭代对象（iterable）**，可迭代对象用于 [`for` 语句](./control-flow.md#for 语句)可以迭代容器中的元素。
@@ -60,8 +56,6 @@ StopIteration
 ### \__iter__()
 
 返回一个迭代器对象，即该对象支持上文所述的迭代器协议。如果容器支持不同的迭代类型，则可以提供额外的方法来专门地请求不同迭代类型的迭代器（例如同时支持深度优先和广度优先的遍历）。
-
-
 
 利用前面实现的迭代器实现一个简单的可迭代对象：
 
@@ -81,8 +75,6 @@ StopIteration
 4
 ```
 
-
-
 迭代器对象实现了 `__iter__()` 方法，因此也是可迭代对象，同样可以用于 `for` 语句：
 
 ```python
@@ -96,8 +88,6 @@ StopIteration
 3
 4
 ```
-
-
 
 ### 内置类型中的可迭代对象
 
@@ -148,13 +138,9 @@ Traceback (most recent call last):
 StopIteration
 ```
 
-
-
 ## `itertools` 创建常用迭代器
 
 `itertools` 模块实现了一系列迭代器，意在为 Python 创建简洁、快速、高效利用内存的核心工具集。
-
-
 
 ### 总览
 
@@ -199,8 +185,6 @@ StopIteration
 | `combinations('ABCD', 2)`                  | `AB AC AD BC BD CD`                               |
 | `combinations_with_replacement('ABCD', 2)` | `AA AB AC AD BB BC BD CC CD DD`                   |
 
-
-
 ### chain()
 
 创建一个迭代器，它首先返回第一个可迭代对象中所有元素，接着返回下一个可迭代对象中所有元素，直到耗尽所有可迭代对象。大致相当于：
@@ -214,8 +198,6 @@ def chain(*iterables):
 # chain('ABC', 'DEF') --> A B C D E F
 ```
 
-
-
 ### chain.from_iterable()
 
 类似于 `chain()`，但是接受的参数是包含多个可迭代对象元素的可迭代对象。大致相当于：
@@ -228,8 +210,6 @@ def from_iterable(iterables):
             
 # chain.from_iterable(['ABC', 'DEF']) --> A B C D E F
 ```
-
-
 
 ### combinations()
 
@@ -258,8 +238,6 @@ def combinations(iterable, r):
 # combinations(range(4), 3) --> 012 013 023 123,   012 for tuple (0, 1, 2)
 ```
 
-
-
 ### combinations_with_replacement()
 
 创建一个迭代器，它返回由输入可迭代对象中的元素组合为长度为 `r` 的所有子序列，允许每个元素重复出现。大致相当于：
@@ -284,8 +262,6 @@ def combinations_with_replacement(iterable, r):
 # combinations_with_replacement('ABC', 2) --> AA AB AC BB BC CC
 ```
 
-
-
 ### count()
 
 创建一个迭代器，它从 `start` 值开始，返回一个等差数列。大致相当于：
@@ -299,8 +275,6 @@ def count(start=0, step=1):
         
 # count(2.5, 0.5) -> 2.5 3.0 3.5 ...
 ```
-
-
 
 ### cycle()
 
@@ -318,8 +292,6 @@ def cycle(iterable):
                 
 # cycle('ABCD') --> A B C D A B C D A B C D ...
 ```
-
-
 
 ### islice()
 
@@ -353,8 +325,6 @@ def islice(iterable, *args):
 # islice('ABCDEFG', 0, None, 2) --> A C E G           start = 0, stop = None, step = 2
 ```
 
-
-
 ### permutations()
 
 创建一个迭代器，它返回由输入可迭代对象中的元素生成的长度为 `r` 的所有排列。大致相当于：
@@ -387,8 +357,6 @@ def permutations(iterable, r=None):
 # permutations(range(3)) --> 012 021 102 120 201 210,   012 for tuple (0, 1, 2)
 ```
 
-
-
 ### product()
 
 多个输入可迭代对象的笛卡尔积。大致相当于元组推导式的嵌套循环，例如 `product(A,B)` 和 `((x,y)for x in A for y in B)` 返回结果一样。
@@ -399,8 +367,6 @@ def permutations(iterable, r=None):
 # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
 # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
 ```
-
-
 
 ### repeat()
 
@@ -425,10 +391,6 @@ def repeat(object, times=None):
 [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 ```
 
-
-
-
-
 # 生成器
 
 **生成器（generator）**提供了一种实现迭代器协议的便捷方式，因此可以视作一种特殊的迭代器。
@@ -437,11 +399,7 @@ def repeat(object, times=None):
 
 如果生成器在生成器函数的执行被挂起（还没有返回）的状态下被销毁（因为引用计数到零或是因为被垃圾回收），则它的 `close()` 方法将被调用。
 
-
-
 如果（容器）对象的 `__iter__()` 方法被实现为一个生成器，它将自动返回一个生成器对象，该对象提供 `__iter__()` 和 `__next__()` 方法。
-
-
 
 ## 方法
 
@@ -474,8 +432,6 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
 ```
-
-
 
 ### send()
 
@@ -510,8 +466,6 @@ Traceback (most recent call last):
 StopIteration
 ```
 
-
-
 ### throw()
 
 ```python
@@ -545,8 +499,6 @@ Traceback (most recent call last):
 ValueError: A value error raised
 ```
 
-
-
 ### close()
 
 恢复执行并令当前 `yield` 表达式引发一个 `GeneratorExit`。如果生成器函数随后退出、关闭或没有捕获 `GeneratorExit`，则此方法正常返回；如果生成器函数继续执行到下一个 `yield` 语句，则引发一个 `RuntimeError`；如果生成器函数引发了其它类型的异常，则上抛该异常至此方法的调用者。如果生成器已经正常退出或由于异常退出，则此方法不会执行任何操作。
@@ -572,8 +524,6 @@ StopIteration
 >>> ge.close()        # 不执行任何操作
 ```
 
-
-
 ## 生成器表达式
 
 ```python
@@ -586,10 +536,6 @@ StopIteration
 ...
 2 4 6 8
 ```
-
-
-
-
 
 ## 生成器generator
 
@@ -614,11 +560,7 @@ for n in ge:
                        # 迭代完成后generator即失去作用,不可重用
 ```
 
-
-
 ## 异步生成器
-
-
 
 ## 流水线
 

@@ -34,8 +34,6 @@
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/wti9yogj5io2hnjktb.PNG)
 
-
-
 ## UDP
 
 ### 概述
@@ -51,7 +49,6 @@ UDP的主要特点：
 + **面向报文**，即对应用程序向下交付的报文，添加首部后就向下交付IP层
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/tjieoyjnoigrwno245ut.PNG)
-
 
 + **没有拥塞控制**，网络出现的拥塞不会使源主机的发送速率降低
 
@@ -81,8 +78,6 @@ TCP的主要特点：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/j3y5iojgtioenhetjkteg.PNG)
 
-
-
 ### TCP连接
 
 TCP连接的端点是socket
@@ -92,8 +87,6 @@ TCP连接的端点是socket
 **停止等待协议**
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/350ypmgrwknejlfeq.PNG)
-
-
 
 + A在发送完一个分组后，必须暂时保留已发送的分组的副本，收到相应的确认后才能清除
 + 分组和确认分组必须编号
@@ -119,8 +112,6 @@ $$
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/y4j0i5jgrwiowh.PNG)
 
 略
-
-
 
 ### 首部格式
 
@@ -176,8 +167,6 @@ $$
 
 略
 
-
-
 ### 流量控制
 
 流量控制(flow control)即让发送方的发送速率不要太快，以免接收方来不及接收
@@ -208,8 +197,6 @@ $$
 
 略
 
-
-
 ### 连接管理
 
 **连接建立**
@@ -223,8 +210,6 @@ TCP建立连接的过程称为**握手**，握手需要在客户和服务器之�
 3. B收到连接请求报文段，同意建立连接，发送<u>确认报文段</u>，其SYN=1，ACK=1，seq=y，ack=x+1，TCP服务器进程进入SYN-RCVD状态
 4. A收到确认报文段后，再次向B发送<u>确认报文段</u>，其ACK=1，seq=x+1，ack=y+1，该报文段可以携带数据，如果不携带数据则不消耗序号，A进入ESTABLISHED状态
 5. B收到A的确认后，也进入ESTABLISHED状态
-
-
 
 需要A再次确认的原因：防止A第一次发出的连接请求报文延误较长时间到达B，B同意则再次建立连接，一直等待A发送数据
 
@@ -243,15 +228,7 @@ TCP建立连接的过程称为**握手**，握手需要在客户和服务器之�
 
 等待2MSL时间的理由：若A最后发送的确认报文段丢失，B会超时重传FIN+ACK报文段，A收到后会重传确认报文段，并重新计时；等待本连接产生的所有报文段从网络中消失，避免影响下一次连接
 
-
-
-
-
-
-
 **TCP有限状态机**
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/tk3i5ojy36uiogejkeht.PNG)
-
-
 

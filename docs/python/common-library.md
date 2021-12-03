@@ -1,12 +1,8 @@
-[toc]
-
 
 
 # BeautifulSoup
 
 [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
-
-
 
 参考[Beautiful Soup 4.4.0 文档](https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/)
 
@@ -130,71 +126,39 @@ and they lived at the bottom of a well.
 
 ```
 
-
-
-
-
 # filelock
 
 支持 `with` 语句的文件锁。
-
-
 
 ## Timeout
 
 若未能在 `timeout` 秒之内获得，则引发此异常。
 
-
-
 ## FileLock
-
-
-
-
 
 ## UnixFileLock
 
 在 Unix 系统上使用 `fcntl.flock()` 以硬锁定文件。
 
-
-
 ## WindowsFileLock
-
-
-
-
 
 # Pillow
 
 PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL 的一个分叉，提供了扩展的文件格式的支持、高效的内部表示和强大的图像处理功能。
 
-
-
 ## Image
-
-
-
-
-
-
 
 ### Image
 
 图像。此类的实例通过工厂函数 `Image.open()`、`Image.new()` 和 `Image.frombytes()` 创建得到。
 
-
-
 #### copy()
 
 返回图像的副本。
 
-
-
 #### create()
 
 以给定的模式和大小创建一个新的图像。
-
-
 
 #### crop()
 
@@ -205,8 +169,6 @@ with Image.open("hopper.jpg") as im:
     im_crop = im.crop((20, 20, 100, 100))   # 元组(左,上,右,下)定义了裁剪的像素坐标
 ```
 
-
-
 #### open()
 
 打开并识别给定的图像文件。
@@ -214,8 +176,6 @@ with Image.open("hopper.jpg") as im:
 ```python
 im = Image.open("hopper.jpg")
 ```
-
-
 
 #### rotate()
 
@@ -227,8 +187,6 @@ with Image.open("hopper.jpg") as im:
     # 顺时针旋转60度,扩展输出图片以容纳旋转后的整个图像,空白部分用白色填充
 ```
 
-
-
 #### save()
 
 保存图像。
@@ -237,8 +195,6 @@ with Image.open("hopper.jpg") as im:
 with Image.open("hopper.jpg") as im:
     im.save('hopper1.jpg')
 ```
-
-
 
 #### show()
 
@@ -249,21 +205,11 @@ with Image.open("hopper.jpg") as im:
     im.show()
 ```
 
-
-
-
-
-
-
 # requests
 
 requests 是一个简单而优雅的 HTTP 库。[使用教程](https://docs.python-requests.org/zh_CN/latest/user/quickstart.html)
 
-
-
 ## 使用示例
-
-
 
 ## 接口
 
@@ -272,8 +218,6 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 ### delete()
 
 发送 `DELETE` 请求。
-
-
 
 ### get()
 
@@ -300,19 +244,13 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 }
 ```
 
-
-
 ### head()
 
 发送 `HEAD` 请求。
 
-
-
 ### options()
 
 发送 `OPTIONS` 请求。
-
-
 
 ### post()
 
@@ -344,8 +282,6 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 }
 ```
 
-
-
 ### put()
 
 发送 `PUT` 请求。
@@ -375,8 +311,6 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
   "url": "http://httpbin.org/put"
 }
 ```
-
-
 
 ### request()
 
@@ -413,19 +347,11 @@ requests.request(method, url, **kwargs)
 
 ```
 
-
-
-
-
 ## 请求和响应
 
 ### PreparedRequest
 
-
-
 ### Request
-
-
 
 ### Response
 
@@ -471,8 +397,6 @@ b'<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n\n    <met
 ```
 
 #### history
-
-
 
 #### is_redirect
 
@@ -562,8 +486,6 @@ True
 'https://www.example.com/'
 ```
 
-
-
 ## 会话
 
 ### Session
@@ -619,8 +541,6 @@ True
 
 默认的SSL认证。
 
-
-
 ## 身份认证
 
 | 类                    | 描述                   |
@@ -630,13 +550,7 @@ True
 | `auth.HTTPProxyAuth`  | 请求附加的HTTP代理认证 |
 | `auth.HTTPDigestAuth` | 请求附加的HTTP摘要认证 |
 
-
-
 ## Cookie
-
-
-
-
 
 ## 异常
 
@@ -652,15 +566,9 @@ True
 | `requests.ReadTimeout`      | 服务器在预定时间内没有发送任何数据 |
 |                             |                                    |
 
-
-
-
-
 # PyYAML (yaml)
 
 PyYAML 是一个 YAML 编码和解码器，使用方法类似于标准库的 json 包。
-
-
 
 ## load()
 
@@ -760,8 +668,6 @@ theme:
                        'scheme': 'default'}}}
 ```
 
-
-
 ## dump()
 
 将 Python 对象转换为 YAML 文档。
@@ -818,6 +724,4 @@ name: Bart Simpson
 score: 59
 
 ```
-
-
 

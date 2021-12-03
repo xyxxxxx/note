@@ -1,5 +1,3 @@
-[toc]
-
 
 
 # 域名系统DNS
@@ -17,8 +15,6 @@ mail.cctv.com
 三级  二级  顶级域名
 ```
 
-
-
 **顶级域名TLD(Top Level Domain)** 已有326个，分为三类：
 
 (1) 国家顶级域名nTLD，如中国：cn，美国：us，英国：uk，日本：jp
@@ -30,8 +26,6 @@ mail.cctv.com
 国家顶级域名下注册的二级域名由国家自行确定，例如日本的教育和企业机构的二级域名定为ac和co
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/dphom46kumlk3htnj.PNG)
-
-
 
 ## 域名服务器
 
@@ -57,13 +51,7 @@ mail.cctv.com
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/903ykhgohihjeiongj.PNG)
 
-
-
 为了提高DNS查询效率，减轻根域名服务器的负荷，减少互联网上DNS查询报文的数量，在域名服务器中广泛采用了**高速缓存**，用来存放最近查询过的域名以及从何处获得域名映射信息的记录。
-
-
-
-
 
 # 文件传送协议FTP
 
@@ -81,15 +69,9 @@ FTP使用客户服务器方式，一个FTP服务器进程可同时为多个客�
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/iofdnho3j5ntj5oyujooewf.PNG)
 
-
-
-
-
 ## 网络文件系统NFS
 
 NFS允许应用进程打开一个远地文件，并在该文件的某一个位置上读写数据。
-
-
 
 ## 简单文件传送协议TFTP
 
@@ -102,17 +84,9 @@ TFTP的主要特点是：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/jy829jgr2ionhtogrnoqj.PNG)
 
-
-
-
-
 # 远程终端协议TELNET
 
 TELNET提供远程服务，即用户通过TELNET即可使用主机通过TCP连接登录到远地的另一主机上，用户的击键传到远地主机，而远地主机的输出通过TCP连接返回到用户屏幕。
-
-
-
-
 
 # 万维网WWW
 
@@ -121,8 +95,6 @@ TELNET提供远程服务，即用户通过TELNET即可使用主机通过TCP连�
 万维网上的站点必须都连接在互联网上，每个站点都存放了许多文档。
 
 万维网以客户服务器方式工作，浏览器就是用户主机上的万维网客户程序，万维网文档所在的主机运行服务器程序. 客户程序向服务器程序发出请求，服务器程序向客户程序送回客户需要的万维网文档。
-
-
 
 ## 统一资源定位符URL
 
@@ -145,8 +117,6 @@ HTTP的默认端口号是80，HTTPS的默认端口号是443，通常可省略. �
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/dfnklnhjklgnjkh5yq.PNG)
 
-
-
 ## 超文本传送协议HTTP
 
 HTTP是**面向事务的**应用层协议，是万维网上能够可靠地交换文件的重要基础。
@@ -159,8 +129,6 @@ HTTP协议默认端口号是80。
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/etjiojy5oirgjkg25yg.PNG)
 
-
-
 ### HTTP报文
 
 HTTP报文分为请求报文和响应报文：
@@ -168,8 +136,6 @@ HTTP报文分为请求报文和响应报文：
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/dgolkhmklgfnjkbgrkhwg.PNG)
 
 HTTP是**面向文本的(text-oriented)**，报文中每个字段都是ASCII码串，字段长度也不固定。
-
-
 
 请求报文中的方法有4种，分别是`GET`，`POST`，`PUT`，`DELETE`：
 
@@ -211,10 +177,6 @@ Content-Length:112
 <html>...
 ```
 
-
-
-
-
 **状态码(Status-Code)**是三位数字，分为5大类，分别以不同数字开头：
 
 + 1xx表示通知信息
@@ -237,13 +199,9 @@ Content-Length:112
 | `500 Internal Server Error` | 服务器发生不可预期的错误，导致无法完成客户端的请求。         |
 | `503 Service Unavailable`   | 服务器当前不能够处理客户端的请求，在一段时间之后，服务器可能会恢复正常。 |
 
-
-
 ### 持续连接
 
 HTTP/1.0的主要缺点是，每请求一个文档就需要两倍的RTT开销。HTTP/1.1协议则使用了持续连接(persistent connection)，有两种工作方式：非流水线方式(without pipelining)和流水线方式(with pipelining)。
-
-
 
 ### 会话跟踪
 
@@ -255,13 +213,9 @@ HTTP/1.0的主要缺点是，每请求一个文档就需要两倍的RTT开销。
 
 URL重写的技术就是在URL结尾添加一个附加数据以标识该会话，把会话ID通过URL的信息传递过去，以便在服务器端进行识别不同的用户。
 
-
-
 **隐藏表单域**
 
 将会话ID添加到HTML表单元素中提交到服务器，此表单元素并不在客户端显示
-
-
 
 **Cookie**
 
@@ -291,13 +245,7 @@ Cookie可以被客户端禁用。
 
 使用Cookie可能造成用户隐私的保护问题，网站服务器可能把用户的信息出卖给第三方。
 
-
-
 **Session**
-
-
-
-
 
 ### 代理服务器
 
@@ -309,10 +257,6 @@ Cookie可以被客户端禁用。
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/fdgoiyn3u6ojgrnkwht.PNG)
 
-
-
-
-
 ### 万维网的文档
 
 **超文本标记语言HTML**
@@ -321,23 +265,15 @@ Cookie可以被客户端禁用。
 
 **层叠样式表CSS**
 
-
-
 通用网关接口CGI定义了动态文档应如何创建，万维网服务器中新增加的应用程序称为CGI程序：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/gkpfohju46oiyrejdgowr.PNG)
 
 CGI程序的正式名字是CGI**脚本(script)**，脚本指被另一个程序解释或执行的程序。有一些专门的脚本语言，如Perl，REXX，JavaScript等。
 
-
-
 **活动文档(active document)**技术支持屏幕连续更新，即把所有的工作都转移给浏览器端。每当浏览器请求一个活动文档，服务器就返回一段活动文档程序副本，并在浏览器端运行。
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/fdionywkrgljnvjkw4t.PNG)
-
-
-
-
 
 ## 电子邮件
 
@@ -359,15 +295,9 @@ SMTP规定了两个相互通信的SMTP进程之间应如何交换信息，使用
 
 ### POP3和IMAP
 
-
-
 ### 基于万维网的电子邮件
 
-
-
 ### 通用互联网扩充MIME
-
-
 
 ## 动态主机配置协议DHCP
 
@@ -381,21 +311,9 @@ DHCP提供了**即插即用连网(plug-and-play networking)**机制，允许一�
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\jh90jheoifsnoiwrtyongjwr.PNG" alt="jh90jheoifsnoiwrtyongjwr" style="zoom:67%;" />
 
-
-
 ## 简单网络管理协议SNMP
 
-
-
 ## 系统调用和应用编程接口API
-
-
-
-
-
-
-
-
 
 ## P2P应用
 
@@ -411,10 +329,6 @@ P2P应用即具有P2P体系结构的应用，而P2P体系结构即在网络应�
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\nfdbjklnhu64oynhtgjeht.PNG" alt="nfdbjklnhu64oynhtgjeht" style="zoom:67%;" />
 
-
-
-
-
 # 安全外壳协议SSH
 
 > 参考：
@@ -422,8 +336,6 @@ P2P应用即具有P2P体系结构的应用，而P2P体系结构即在网络应�
 > [SSH原理与运用（一）：远程登录](http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html)
 >
 > [SSH 教程](https://wangdoc.com/ssh/index.html)
-
-
 
 ## ssh
 
@@ -441,8 +353,6 @@ $ ssh -l user host
 $ ssh -p port host
 ```
 
-
-
 ### 命令
 
 ```shell
@@ -452,8 +362,6 @@ $ ssh user@host command
 # 执行远程命令(启动互动式Shell环境)
 $ ssh -t user@host command
 ```
-
-
 
 ### 密钥
 
@@ -477,8 +385,6 @@ $ cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/author
 $ ssh-keygen -R host
 ```
 
-
-
 ## sshd
 
 ### 启动
@@ -498,16 +404,12 @@ $ sudo systemctl restart sshd.service
 $ sudo systemctl enable sshd.service
 ```
 
-
-
 ### 密码
 
 ```shell
 # 修改连接密码
 $ sudo passwd
 ```
-
-
 
 ### 密钥
 
@@ -518,8 +420,6 @@ $ sudo ssh-keygen -A
 # 查看主机公钥的指纹
 $ ssh-keygen -l -f /etc/ssh/ssh_host_rsa_key.pub
 ```
-
-
 
 ## 端口转发
 

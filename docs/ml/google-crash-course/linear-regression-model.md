@@ -7,8 +7,6 @@ y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\varepsilon_i=\boldsymbol x_i^T \
 \boldsymbol y =\boldsymbol X \boldsymbol \beta + \boldsymbol\varepsilon
 $$
 
-
-
 ## ML model
 
 $$
@@ -19,10 +17,6 @@ $$
 + $b$ is the bias, sometimes referred to as $w_0$ 
 + $w_i$ is the weight of feature i
 + $x_i$ is a feature (a known input).
-
-
-
-
 
 # Feature Crosses
 
@@ -47,8 +41,6 @@ Now look at the following figure:
 
 Can you draw a single straight line that neatly separates the sick trees from the healthy trees? No, you can't. This is a nonlinear problem. Any line you draw will be a poor predictor of tree health.
 
-
-
 To solve the nonlinear problem shown in Figure 2, create a feature cross. A **feature cross** is a synthetic feature that encodes nonlinearity in the feature space by multiplying two or more input features together. (The term *cross* comes from [*cross product*](https://wikipedia.org/wiki/Cross_product).) Let's create a feature cross named $x_3$ by crossing $x_1$ and $x_2$ :
 $$
 x_3 = x_1x_2
@@ -60,8 +52,6 @@ $$
 A linear algorithm can learn a weight for $w_3$ just as it would for $w_1$ and $w_2$ . In other words, although $w_3$ encodes nonlinear information, you don’t need to change how the linear model trains to determine the value of $w_3$ .
 
 Thanks to stochastic gradient descent, linear models can be trained efficiently. Consequently, supplementing scaled linear models with feature crosses has traditionally been an efficient way to train on massive-scale data sets.
-
-
 
 ## Crossing One-Hot Vectors
 
@@ -100,5 +90,4 @@ If we build a feature cross from both these features:
 then we'll end up with vastly more predictive ability than either feature on its own. For example, if a dog cries (happily) at 5:00 pm when the owner returns from work will likely be a great positive predictor of owner satisfaction. Crying (miserably, perhaps) at 3:00 am when the owner was sleeping soundly will likely be a strong negative predictor of owner satisfaction.
 
 Linear learners scale well to massive data. Using feature crosses on massive data sets is one efficient strategy for learning highly complex models. Neural networks provide another strategy.
-
 

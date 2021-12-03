@@ -34,10 +34,6 @@ a_{n1}x_1+a_{n2}x_2+⋯+a_{nn}x_n=b_n
 $$
 其中 $b_i$ 不全为零。
 
-
-
-
-
 # 行列式
 
 ## 二阶与三阶行列式
@@ -59,8 +55,6 @@ a_{31}&a_{32}&a_{33}
 =a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}-a_{11}a_{23}a_{32}-a_{12}a_{21}a_{33}-a_{13}a_{22}a_{31}
 $$
 
-
-
 ## 逆序数与对换
 
 对于n个自然数元素组成的排列 $p_1p_2⋯p_n$，令排在 $p_i$ 之前且大于其的元素有 $t_i$ 个，则排列的逆序数为
@@ -70,8 +64,6 @@ $$
 逆序数为奇数的排列为奇排列，逆序数为偶数的排列为偶排列。
 
 **定理1 一个排列中任意两个元素对换，排列改变奇偶性。**
-
-
 
 ## n阶行列式
 
@@ -85,8 +77,6 @@ a_{n1}&a_{n2}&⋯&a_{nn}
 =\mathrm{det}(a_{ij})
 =\sum(-1)^ta_{1p_1}a_{2p_2}⋯a_{np_n}
 $$
-
-
 
 ## 行列式的性质
 
@@ -132,9 +122,6 @@ C&B
 =\begin{vmatrix}A\end{vmatrix}\begin{vmatrix}B\end{vmatrix}
 $$
 
-
-
-
 ## 行列式的展开
 
 $n$ 阶行列式中去掉第 $i$ 行和第 $j$ 列后的 $n-1$ 阶行列式为 $a_{ij}$ 的**余子式** $M_{ij}$，**代数余子式** $A_{ij}=(-1)^{i+j}M_{ij}$ 
@@ -154,7 +141,6 @@ a_{n1}x_1+a_{n2}x_2+⋯+a_{nn}x_n=b_n
 \end{array}
 \right.
 $$
-
 
 **如果的系数行列式即**
 $$
@@ -177,10 +163,6 @@ a_{n1}&⋯&a_{n,j-1}&b_n&a_{n,j-1}&⋯&a_{nn}
 \end{vmatrix}
 $$
 **定理4 如果线性方程组的系数行列式 $D≠0$，则具有唯一解；如果 $D=0$ 则无解或有复数解。**
-
-
-
-
 
 # 矩阵
 
@@ -253,8 +235,6 @@ $$
 $$
 对应把向量 $\vec{OP}$ 逆时针旋转 $\varphi$ 角的旋转变换。
 
-
-
 ## 矩阵运算
 
 设有两个 $m×n$ 矩阵 ${\pmb A}$ 和 ${\pmb B}$，那么矩阵 ${\pmb A}$ 与 $\pmb{B}$ 的和记作 $\pmb{ A+B}$，规定为
@@ -323,8 +303,6 @@ $$
 \vert \pmb{A}\vert \pmb{E}
 $$
 
-
-
 ## 逆矩阵
 
 对于 $n$ 阶矩阵 $\pmb{A}$，如果有一个 $n$ 阶矩阵 $\pmb{B}$ 使
@@ -346,15 +324,9 @@ $$
 ({\pmb A \pmb B})^{-1}=\pmb B^{-1}\pmb A^{-1}
 $$
 
-
-
 ## 分块矩阵
 
 如果矩阵 $\pmb{A}$ 和 $\pmb{B}$ 行列数相同且有相同的分块法，则分块加法和乘法的方法与不分块时一致。
-
-
-
-
 
 # 矩阵的初等变换
 
@@ -383,8 +355,6 @@ $$
 
 方阵 ${\pmb A}$ 可逆 $\iff {\pmb A=P_1P_2 \cdots P_i}$ （ $\pmb{P}_i$ 为初等矩阵） $\iff \pmb{A} \sim^r \pmb{E}$ 
 
-
-
 ## 秩
 
 矩阵 $\pmb{A}$ 的标准形 $\pmb{F}$ 中 $r$ 即为其秩。
@@ -404,8 +374,6 @@ $m ×n$ 矩阵 $\pmb{A}$ 中任取 $k$ 行 $k$ 列，位于行列交叉处的 $k
 - $R(\pmb{ AB}) \le {\rm min}\{R({\pmb A}),R({\pmb B})\} $ 
 - 若 ${\pmb A_{m×n}\pmb B_{n×i}=\pmb O}$，则 $R({\pmb A})+R({\pmb B}) \le n$ 
 
-
-
 ## 线性方程组的解
 
 **定理 $n$ 元线性方程组 $\pmb{Ax=b}$ **
@@ -421,10 +389,6 @@ $m ×n$ 矩阵 $\pmb{A}$ 中任取 $k$ 行 $k$ 列，位于行列交叉处的 $k
 3. 若 $R(\pmb{A})=R(\pmb{B})=r$，写出含 $n-r$ 个参数的通解
 
 定理 矩阵方程 $\pmb{AX=B}$ 有解的充要条件是 $R(\pmb{ A}) = R({\pmb A,\pmb B})$ 
-
-
-
-
 
 # 向量空间
 
@@ -442,15 +406,11 @@ $n$ 个有次序的数 $\pmb{a_1,a_2,\cdots,a_n}$ 组成的数组称为 $n$ 维�
 
 向量组 $\pmb{B}$ 能被向量组 $\pmb{A}$ 线性表示 $\iff$ 存在矩阵 ${\pmb K}$，使 $\pmb{ B=AK} \iff$ 方程 $\pmb{AX=B}$ 有解
 
-
-
 ## 向量组的线性相关
 
 对于给定的向量组 $\pmb{A:a_1,a_2,\cdots,a_m}$，如果存在不全为零的数 $k_1,k_2,\cdots,k_m$ 使 $k_1{\pmb a}_1+k_2{\pmb a}_2+\cdots+k_m{\pmb a}_m=\bf 0$，则称向量组 $\pmb{A}$ 是**线性相关**的，否则称其**线性无关**。
 
 **定理 向量组 $\pmb{a_1,a_2,\cdots,a_m}$ 线性相关的充要条件是它所构成的矩阵 ${\pmb A}$ 的秩小于 ${\pmb m}$ ；线性无关的充要条件是 $R({\pmb A})=m$。**
-
-
 
 ## 向量组的秩
 
@@ -463,15 +423,11 @@ $n$ 个有次序的数 $\pmb{a_1,a_2,\cdots,a_n}$ 组成的数组称为 $n$ 维�
 
 **定理 矩阵的秩等于其列向量组的秩，也等于其行向量组的秩。**
 
-
-
 ## 线性方程组的解
 
 **定理 设 $m ×n$ 矩阵 $\pmb{A}$ 的秩 $R({\pmb A})=r$，则n元齐次线性方程组 $\pmb{Ax=0}$ 的解集 $S$ 的秩 $R_s=n-r$。**
 
 n元非齐次线性方程组 $\pmb{Ax=b}$ 的解表示为 $\pmb{Ax=b}$ 的1个特解与 $\pmb{Ax=0}$ 的通解。
-
-
 
 ## 向量空间
 
@@ -492,8 +448,6 @@ $$
 
 $\pmb{e_1,e_2,\cdots,e_n}$ 称为 $\Bbb R^n$ 中的**自然基**或**标准基**，向量在自然基上的坐标称为**笛卡尔坐标（Cartesian coordinate）**。
 
-
-
 ## 范数
 
 **范数(Norm)**将向量空间内的所有向量映射到非负实数。对于一个 $N$ 维向量 $\boldsymbol v$ ,一个常见的范数函数为 $\mathcal{l}_p$ 范数
@@ -512,10 +466,6 @@ $$
 下图给出了常见范数的示例，其中红线表示不同范数的 $ \mathcal{l}_p = 1 $ 的点
 
 ![Screenshot from 2020-09-01 19-02-39.png](https://i.loli.net/2020/09/02/2VMxbcDkFCmasPn.png)
-
-
-
-
 
 # 矩阵相似与二次型
 
@@ -548,8 +498,6 @@ $$
 
 若 ${\pmb Q}$ 为正交矩阵，则线性变换 $\pmb{ y=Qx}$ 称为正交变换。正交变换不改变向量的长度。
 
-
-
 ## 方阵的特征值与特征向量
 
 对于n阶矩阵 ${\pmb A}$，如果数 $\lambda$ 和n维非零列向量 ${\pmb x}$ 使式
@@ -579,8 +527,6 @@ $$
 
 定理 设 $\lambda_1,\lambda_2,\cdots,\lambda_m$ 是方阵 ${\pmb A}$ 的m个特征值， $\pmb{p_1,p_2,\cdots,p_m}$ 是对应的特征向量。如果 $\lambda_1,\lambda_2,\cdots,\lambda_m$ 各不相等，则 $\pmb{p_1,p_2,\cdots,p_m}$ 线性无关。
 
-
-
 ## 相似矩阵
 
 设 ${\pmb A, \pmb B}$ 都是n阶矩阵，如果有可逆矩阵 ${\pmb P}$，使
@@ -595,8 +541,6 @@ $$
 
 n阶矩阵 ${\pmb A}$ 的n个特征值互不相等，则 ${\pmb A}$ 与对角阵相似。如果特征方程有重根，则不一定。
 
-
-
 ## 对称矩阵的对角化
 
 **定理 对称矩阵的特征值为实数。**
@@ -608,8 +552,6 @@ n阶矩阵 ${\pmb A}$ 的n个特征值互不相等，则 ${\pmb A}$ 与对角阵
 对角化步骤：……
 
 >求对角矩阵的n次方
-
-
 
 ## 二次型
 
@@ -629,15 +571,11 @@ f=\lambda_1 y_1^2+\lambda_2 y_2^2+\cdots+\lambda_n y_n^2
 $$
 其中 $\lambda_1,\lambda_2,\cdots,\lambda_n$ 是矩阵 ${\pmb A}=(a_{ij})$ 的特征值。
 
-
-
 ### 配方法
 
 > 步骤： $f=(ax_1+bx_2+cx_3)^2+(dx_2+ex_3)^2+fx_3^2$ 
 >
 > 或换元法
-
-
 
 ### 正定二次型
 
@@ -658,19 +596,11 @@ $$
 
 > 实对称矩阵 ${\pmb A}$ 正定 $\iff$  ${\pmb P^{\rm T}\pmb  A\pmb P}$ 正定 $\iff$ 特征值全正 $\iff$  $p=n \iff$  ${\pmb A}$ 与 ${\pmb E}$ 合同 $\iff$  ${\pmb A=\pmb P^{\rm T} \pmb P}$ 
 
-
-
 # 线性空间与线性变换
-
-
-
-
 
 # 矩阵微积分
 
 **矩阵微积分（Matrix Calculus）**是多元微积分的一种表达方式，即使用矩阵和向量表示因变量每个成分关于自变量每个成分的偏导数。
-
-
 
 ## 偏导数
 
@@ -701,8 +631,6 @@ $$
 \in \mathbb{R}^{M\times N}
 $$
 称为函数 $f(\boldsymbol x)$ 的**雅可比矩阵（Jacobian Matrix）**的转置。
-
-
 
 ## 导数计算法则
 
@@ -746,8 +674,6 @@ $$
    \frac{\partial z}{\partial x_{ij}}=\frac{\partial \boldsymbol y}{\partial x_{ij}}\frac{\partial z}{\partial \boldsymbol y} \in \mathbb{R}
    $$
 
-
-
 ## 常见导数
 
 $$
@@ -758,17 +684,11 @@ $$
 \frac{\partial \boldsymbol x^{\rm T} \boldsymbol A \boldsymbol x}{\partial \boldsymbol x}=(\boldsymbol A+\boldsymbol A^{\rm T})\boldsymbol x\\
 $$
 
-
-
-
-
 # 归纳
 
 泰勒公式 伴随矩阵/adjoint matrix $A^*$  正交矩阵/orthogonal matrix $Q$ 
 
 相抵/equivalent 相似/similar 合同/congruent 可交换/commutable
-
-
 
 ## 定理
 
@@ -794,8 +714,6 @@ $\vert {\pmb A} \vert=\Pi \lambda_i$
 
 $\frac{\partial Ax}{\partial x}=A^T,\frac{\partial Ax}{\partial x^T}=A,\frac{\partial x^TAx}{\partial x}=(A+A^T)x\\$ 
 
-
-
 ## 解线性方程组
 
 （克莱姆法则： $x_j=\frac{D_j}{D}$ ）A
@@ -806,27 +724,19 @@ $\frac{\partial Ax}{\partial x}=A^T,\frac{\partial Ax}{\partial x^T}=A,\frac{\pa
 
 非齐次线性方程组 $Ax=b$ ： $r(A)=r(B)$ 有解； $r(A)=r(B)=n$ 有唯一解；
 
-
-
 ## 求特征值和特征向量（相似对角化（求n次方））
 
 > 注意复数域上的求法：酉空间 $(a,b)=\sum a \bar{b},\vert x \vert =\sqrt{x \bar{x}}$ 
 >
 > 要求正交矩阵相似对角化一定要**检查正交**！
 
-
-
 ## 求逆矩阵
 
 $\vert A \; I \vert $ 初等变换
 
-
-
 ## 求文字行列式
 
 递推/数学归纳法
-
-
 
 ## 扩展
 

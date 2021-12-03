@@ -6,8 +6,6 @@ NPM的功能包括允许用户：
 + 从NPM服务器下载并安装别人编写的命令行程序到本地使用
 + 将自己编写的包或命令行程序上传到NPM服务器
 
-
-
 ## 命令
 
 > 参考[npm 常用命令详解](https://www.cnblogs.com/PeunZhang/p/5553574.html)
@@ -29,8 +27,6 @@ $ npm uninstall <Package_Name>
 # aliases: remove, rm, r, un, unlink
 ```
 
-
-
 ### list
 
 ```shell
@@ -41,16 +37,12 @@ $ npm ls grunt  # 查看指定包
 # aliases: list, la, ll
 ```
 
-
-
 ### update
 
 ```shell
 # 更新包
 $ npm update <Package_Name>
 ```
-
-
 
 ### version
 
@@ -59,8 +51,6 @@ $ npm update <Package_Name>
 $ npm version
 ```
 
-
-
 ### search
 
 ```shell
@@ -68,16 +58,12 @@ $ npm version
 $ npm search <Package_Name>
 ```
 
-
-
 ### root
 
 ```shell
 # 输出node_modules的路径
 $ npm root [-g]
 ```
-
-
 
 ### run
 
@@ -97,10 +83,6 @@ $ npm test   # 相当于 npm run test
 }
 ```
 
-
-
-
-
 ### init & publish
 
 ```shell
@@ -111,8 +93,6 @@ $ npm init
 # 发布模块
 $ npm publish
 ```
-
-
 
 ### config
 
@@ -125,18 +105,12 @@ $ npm config set registry="http://r.cnpmjs.org"
 
 ```
 
-
-
 ### cache
 
 ```shell
 # 清除npm本地缓存
 $ npm cache clean
 ```
-
-
-
-
 
 ## `package.json`
 

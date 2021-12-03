@@ -12,11 +12,7 @@
 >
 > ![9130rjfgrijnfedbfvhr](C:\Users\Xiao Yuxuan\Documents\pic\9130rjfgrijnfedbfvhr.PNG)
 
-
-
  
-
-
 
 # 假设检验
 
@@ -32,16 +28,11 @@
 
 ![mbgrwtbeojtt4rgebfvdc](C:\Users\Xiao Yuxuan\Documents\pic\mbgrwtbeojtt4rgebfvdc.PNG)
 
-
-
 **单边检验，双边检验**
 $$
 双边检验\quad H_0:\mu=\mu_0,H_1:\mu\neq\mu_0\\
 单边检验\quad H_0:\mu\le\mu_0,H_1:\mu>\mu_0\\
 $$
-
-
-
 
 ## 两类错误
 
@@ -63,8 +54,6 @@ $$
 
 ![acifeot4gbngofefwgrb](C:\Users\Xiao Yuxuan\Documents\pic\acifeot4gbngofefwgrb.PNG)
 
-
-
 **p值,probability value** 在<u>原假设</u>下，出现<u>观测值或比观测值更极端</u>的概率
 
 **p值检验法**
@@ -72,13 +61,9 @@ $$
 1. 若p值 $\le \alpha$，则在显著性水平 $\alpha$ 下拒绝 $H_0$ 
 2. 若p值 $> \alpha$，则在显著性水平 $\alpha$ 下接受 $H_0$ 
 
-
-
 ## 单个正态总体的假设检验
 
 ![dvsfdwr6u4hymngre](C:\Users\Xiao Yuxuan\Documents\pic\dvsfdwr6u4hymngre.PNG)
-
-
 
 ### $\sigma$ 已知：Z检验
 
@@ -86,13 +71,7 @@ $$
 Z=\frac{\overline{X}-\mu_0}{\sigma/\sqrt{n}}
 $$
 
-
-
 ![cznofwejrgthjnej2t](C:\Users\Xiao Yuxuan\Documents\pic\cznofwejrgthjnej2t.PNG)
-
-
-
-
 
 ![cjiovetyn53gvfdscv](C:\Users\Xiao Yuxuan\Documents\pic\cjiovetyn53gvfdscv.PNG)
 
@@ -100,13 +79,9 @@ $$
 
 ![zdczvnkgt4njborhtb](C:\Users\Xiao Yuxuan\Documents\pic\zdczvnkgt4njborhtb.PNG)
 
-
-
 ### $\sigma$ 未知：t检验
 
 ![zxeqjirwgon524itjnjgb](C:\Users\Xiao Yuxuan\Documents\pic\zxeqjirwgon524itjnjgb.PNG)
-
-
 
 ## 拟合优度检验
 
@@ -120,15 +95,11 @@ $$
 
 ![sfgthmyk523uh5tbgwrf](C:\Users\Xiao Yuxuan\Documents\pic\sfgthmyk523uh5tbgwrf.PNG)
 
-
-
 ![09ijouytresxcyuf](C:\Users\Xiao Yuxuan\Documents\pic\09ijouytresxcyuf.PNG)
 
 ![ohuyfr7s486ct9ugb](C:\Users\Xiao Yuxuan\Documents\pic\ohuyfr7s486ct9ugb.PNG)
 
 ![nojcryd57v9yctu](C:\Users\Xiao Yuxuan\Documents\pic\nojcryd57v9yctu.PNG)
-
-
 
 ### 基于卡方分布的独立性检验
 
@@ -136,35 +107,21 @@ $$
 
 ![jifdvnjwr4tgbewqfevd](C:\Users\Xiao Yuxuan\Documents\pic\jifdvnjwr4tgbewqfevd.PNG)
 
-
-
 ![y8ig7vy8ze5s6d85r](C:\Users\Xiao Yuxuan\Documents\pic\y8ig7vy8ze5s6d85r.PNG)
 
 ![dfjigyt4irgtjehbntgrwf](C:\Users\Xiao Yuxuan\Documents\pic\dfjigyt4irgtjehbntgrwf.PNG)
 
-
-
 ![vnojgt5grwbnjvqer](C:\Users\Xiao Yuxuan\Documents\pic\vnojgt5grwbnjvqer.PNG)
-
-
 
 网球比赛胜率计算
 
 ![gy5t2j4ionjh35yt42](C:\Users\Xiao Yuxuan\Documents\pic\gy5t2j4ionjh35yt42.PNG)
 
-
-
-
-
 # 相关性和回归分析
 
 ## 相关性
 
-
-
 ## 线性回归
-
-
 
 | 年份 | 国内私人汽车保有量(万辆) | 国内人均家庭支出(美元) |
 | ---- | ------------------------ | ---------------------- |
@@ -183,9 +140,5 @@ $$
 > https://data.stats.gov.cn/search.htm?s=%E7%A7%81%E4%BA%BA%E6%B1%BD%E8%BD%A6%E6%8B%A5%E6%9C%89%E9%87%8F
 >
 > https://www.ceicdata.com/zh-hans/indicator/china/annual-household-expenditure-per-capita
-
-
-
-
 
 ## 非线性回归

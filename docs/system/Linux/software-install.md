@@ -29,9 +29,5 @@ $ apt search docker     # 显示相关的包
 
 > `apt`命令可以简单地视作`apt-get`, `apt-cache`和`apt-config`命令的集合。
 
-
-
 ## 源码安装
-
-
 

@@ -21,12 +21,7 @@ $$
 \overline{A\cap B}=\overline{A}\cup\overline{B}\\
 $$
 
-
-
-
 # 关系
-
-
 
 # 映射与函数mapping & funtion
 

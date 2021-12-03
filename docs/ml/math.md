@@ -23,8 +23,6 @@ $$
 σ′(\boldsymbol x) ={\rm diag}(σ(\boldsymbol x) ⊙ (1 − σ(\boldsymbol x)))
 $$
 
-
-
 ## Softmax函数
 
 Softmax函数可以将多个标量映射为一个概率分布。对于 $K$ 个标量 $x_1,\cdots,x_K$，Softmax函数定义为

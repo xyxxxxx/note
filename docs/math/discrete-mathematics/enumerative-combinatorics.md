@@ -4,17 +4,11 @@
 >
 > [OI Wiki](https://oi-wiki.org/math/)
 
-[toc]
-
 # 加法原理和乘法原理
 
 **加法原理** 完成一个工程可以有 $n$ 类办法， $a_i$ 代表第 $i$ 类方法的数目，那么完成这件事共有 $S=a_1+a_2+\cdots+a_n$ 种不同的方法。
 
 **乘法原理** 完成一个工程需要分 $n$ 个步骤， $a_i$ 代表第 $i$ 个步骤的不同方法数目，那么完成这件事共有 $S=a_1×a_2×\cdots×a_n$ 种不同的方法。
-
-
-
-
 
 # 排列和组合
 
@@ -23,8 +17,6 @@
 $$
 A_n^k=n(n-1)\cdots(n-k+1)=\frac{n!}{(n-k)!}
 $$
-
-
 
 ## 组合
 
@@ -43,9 +35,6 @@ $$
 \sum_{r=0}^{n}\begin{pmatrix}n\\r\end{pmatrix}^2=\begin{pmatrix}2n\\n\end{pmatrix}\\
 $$
 
-
-
-
 # 二项式定理
 
 $$
@@ -53,27 +42,13 @@ $$
 (x+y)^n=\sum_{k=0}^{n}\begin{pmatrix}n\\k\end{pmatrix}x^ky^{n-k}=\begin{pmatrix}n\\0\end{pmatrix}y^n+\begin{pmatrix}n\\1\end{pmatrix}xy^{n-1}+\cdots+\begin{pmatrix}n\\n\end{pmatrix}x^n
 $$
 
-
-
-
-
 # 多项式定理
-
-
-
-
 
 # 递推方程
 
 ## 公式解法
 
-
-
 ## 生成函数
-
-
-
-
 
 # Catalan数
 
@@ -139,29 +114,11 @@ $$
 C_{n+1}=\sum_{i=0}^nC_iC_{n-i}=\frac{4n+2}{n+2}C_n
 $$
 
-
-
-
-
 # Stirling数
 
 第一类Stirling数
 
-
-
 第二类Stirling数
 
-
-
-
-
 # Bell数
-
-
-
-
-
-
-
-
 

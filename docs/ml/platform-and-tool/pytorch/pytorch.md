@@ -1,6 +1,6 @@
-[toc]
+# PyTorch
 
-# [Learning PyTorch with Examples](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#)
+## [Learning PyTorch with Examples](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#)
 
 首先使用 numpy 实现一个简单的二层 FNN：
 
@@ -43,8 +43,6 @@ for t in range(500):
     w1 -= learning_rate * grad_w1
     w2 -= learning_rate * grad_w2
 ```
-
-
 
 现在用 torch 实现上述 FNN，并且使用自动梯度计算 autograd：
 
@@ -96,8 +94,6 @@ for t in range(500):
         w2.grad.zero_()
 ```
 
-
-
 `torch.nn` 提供了更高级的抽象（相当于 TensorFlow 的 keras），帮助我们更便捷地搭建网络。使用 `nn` 再次实现上述 FNN：
 
 ```python
@@ -146,18 +142,13 @@ for t in range(500):
 
 （接下来请参照[自定义层](#自定义层)部分）
 
-
-
-
-
-# 自定义层
+## 自定义层
 
 不带参数的自定义层仅对输入张量进行一系列的操作再返回，实现简单。
 
 ```python
 import torch
 from torch import nn
-
 
 class Norm(nn.Module):       # 必须继承nn.Module
     def __init__(self):
@@ -173,15 +164,12 @@ print(y)
 #         0.9045,  1.2060,  1.5076])
 ```
 
-
-
 带参数的自定义层则需要在构造函数中声明作为模型参数的张量或者含有参数的预定义层。
 
 ```python
 # 亦为Learning PyTorch with Examples的示例
 import torch
 import torch.nn as nn
-
 
 class TwoLayerNet(nn.Module):
     def __init__(self, D_in, H, D_out):
@@ -212,7 +200,6 @@ class TwoLayerNet(nn.Module):
         y_pred = torch.mm(h_relu, self.weight2) + self.bias2
 
         return y_pred
-
 
 # batch size; 输入维度; 隐藏层维度; 输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
@@ -245,11 +232,7 @@ for t in range(500):
     optimizer.step()
 ```
 
-
-
-
-
-# MNIST
+## MNIST
 
 准备数据
 
@@ -287,7 +270,6 @@ def imshow(img):
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.show()
-
 
 # get some random training images
 dataiter = iter(trainloader)
@@ -383,9 +365,7 @@ with torch.no_grad():
     print('Accuracy of the network on the 10000 test images: {:.4f}'.format(correct / total))
 ```
 
-
-
-## 使用GPU训练
+### 使用GPU训练
 
 如果你有一块具有 CUDA 功能的 GPU，就可以利用它加速模型计算。首先检查 PyTorch 是否可以使用 GPU：
 
@@ -424,11 +404,7 @@ labels = labels.to(device)
 images = images.to(device)
 ```
 
-
-
-
-
-# CNN
+## CNN
 
 ```python
 import torch
@@ -503,11 +479,7 @@ result = my_nn(random_data)
 print(result)
 ```
 
-
-
-
-
-# 基于注意力的机器翻译
+## 基于注意力的机器翻译
 
 ```python
 # NLP From Scratch: Translation with a Sequence to Sequence Network and Attention
@@ -533,7 +505,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 SOS_token = 0
 EOS_token = 1
 
-
 class Lang:
     def __init__(self, name):
         self.name = name
@@ -555,7 +526,6 @@ class Lang:
         else:
             self.word2count[word] += 1
 
-
 # The files are all in Unicode, to simplify we will turn Unicode
 # characters to ASCII, make everything lowercase, and trim most
 # punctuation.
@@ -565,16 +535,13 @@ def unicodeToAscii(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s)
                    if unicodedata.category(c) != 'Mn')
 
-
 # Lowercase, trim, and remove non-letter characters
-
 
 def normalizeString(s):
     s = unicodeToAscii(s.lower().strip())
     s = re.sub(r"([.!?])", r" \1", s)
     s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
     return s
-
 
 def readLangs(lang1, lang2, reverse=False):
     print("Reading lines...")
@@ -597,7 +564,6 @@ def readLangs(lang1, lang2, reverse=False):
 
     return input_lang, output_lang, pairs
 
-
 MAX_LENGTH = 10
 
 eng_prefixes = (
@@ -615,10 +581,8 @@ def filterPair(p):
         len(p[1].split(' ')) < MAX_LENGTH and \
         p[1].startswith(eng_prefixes)             # reduce number of pairs to 10k+
 
-
 def filterPairs(pairs):
     return [pair for pair in pairs if filterPair(pair)]
-
 
 # The full process for preparing the data is:
 # -  Read text file and split into lines, split lines into pairs
@@ -638,10 +602,8 @@ def prepareData(lang1, lang2, reverse=False):
     print(output_lang.name, output_lang.n_words)
     return input_lang, output_lang, pairs
 
-
 input_lang, output_lang, pairs = prepareData('eng', 'fra', True)
 print(random.choice(pairs))
-
 
 # seq2seq model
 # Encoder
@@ -664,7 +626,6 @@ class EncoderRNN(nn.Module):
     def initHidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
 
-
 # Simple Decoder, not used here
 class DecoderRNN(nn.Module):
     def __init__(self, hidden_size, input_size):
@@ -686,7 +647,6 @@ class DecoderRNN(nn.Module):
 
     def initHidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
-
 
 # Decoder with attention mechanism
 class AttnDecoderRNN(nn.Module):
@@ -732,23 +692,19 @@ class AttnDecoderRNN(nn.Module):
     def initHidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
 
-
 # Preparing Training Data
 def indexesFromSentence(lang, sentence):
     return [lang.word2index[word] for word in sentence.split(' ')]
-
 
 def tensorFromSentence(lang, sentence):
     indexes = indexesFromSentence(lang, sentence)
     indexes.append(EOS_token)
     return torch.tensor(indexes, dtype=torch.long, device=device).view(-1, 1)
 
-
 def tensorsFromPair(pair):
     input_tensor = tensorFromSentence(input_lang, pair[0])
     target_tensor = tensorFromSentence(output_lang, pair[1])
     return (input_tensor, target_tensor)
-
 
 # Training the Model
 #
@@ -764,7 +720,6 @@ def tensorsFromPair(pair):
 # instability <http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.378.4095&rep=rep1&type=pdf>`__.
 
 use_teacher_forcing = True  # use teacher forcing or not
-
 
 def train(
         input_tensor,  # train one pair of input&target tensor
@@ -845,17 +800,14 @@ def train(
 
     return loss.item() / target_length
 
-
 # print time elapsed and estimates time remaining given the current time and progress %.
 import time
 import math
-
 
 def asMinutes(s):
     m = math.floor(s / 60)
     s -= m * 60
     return '%dm %ds' % (m, s)
-
 
 def timeSince(since, percent):
     now = time.time()
@@ -863,7 +815,6 @@ def timeSince(since, percent):
     es = s / (percent)
     rs = es - s
     return '%s (- %s)' % (asMinutes(s), asMinutes(rs))
-
 
 # The whole training process looks like this:
 #
@@ -917,13 +868,11 @@ def trainIters(encoder,
 
     showPlot(plot_losses)
 
-
 # Plotting losses
 import matplotlib.pyplot as plt
 # plt.switch_backend('agg')
 import matplotlib.ticker as ticker
 import numpy as np
-
 
 def showPlot(points):
     plt.figure()
@@ -932,7 +881,6 @@ def showPlot(points):
     loc = ticker.MultipleLocator(base=0.2)
     ax.yaxis.set_major_locator(loc)
     plt.plot(points)
-
 
 # Evaluation is mostly the same as training, but there are no targets so
 # we simply feed the decoder's predictions back to itself for each step.
@@ -975,7 +923,6 @@ def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
 
         return decoded_words, decoder_attentions[:di + 1]
 
-
 # evaluate random sentences from the training set
 def evaluateRandomly(encoder, decoder, n=10):
     print(n, 'examples of evaluation:')
@@ -989,7 +936,6 @@ def evaluateRandomly(encoder, decoder, n=10):
         print('')
     print('end')    
 
-
 # Training and Evaluating
 hidden_size = 256
 encoder1 = EncoderRNN(input_lang.n_words, hidden_size).to(device)
@@ -1000,7 +946,6 @@ trainIters(encoder1, attn_decoder1, 50000, print_every=1000)
 
 evaluateRandomly(encoder1, attn_decoder1)
 
-
 # Visualizing Attention
 # You could simply run ``plt.matshow(attentions)`` to see attention output
 # displayed as a matrix, with the columns being input steps and rows being
@@ -1009,7 +954,6 @@ output_words, attentions = evaluate(encoder1, attn_decoder1,
                                     "je suis trop froid .")
 plt.matshow(attentions.numpy())
 plt.show()
-
 
 # For a better viewing experience we will do the extra work of adding axes
 # and labels:
@@ -1031,14 +975,12 @@ def showAttention(input_sentence, output_words, attentions):
 
     plt.show()
 
-
 def evaluateAndShowAttention(input_sentence):
     output_words, attentions = evaluate(encoder1, attn_decoder1,
                                         input_sentence)
     print('input =', input_sentence)
     print('output =', ' '.join(output_words))
     showAttention(input_sentence, output_words, attentions)
-
 
 evaluateAndShowAttention("elle a cinq ans de moins que moi .")
 
@@ -1050,11 +992,7 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 ```
 
-
-
-
-
-# `torch.autograd` 的简单入门
+## `torch.autograd` 的简单入门
 
 > 推荐阅读：
 >
@@ -1069,9 +1007,7 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 `torch.autograd` 是 PyTorch 的自动微分引擎，用于驱动神经网络训练。
 
-
-
-## 用法
+### 用法
 
 先来看一个单步训练的例子：我们从 `torchvision` 中加载一个预处理 resnet18 模型，创建一个随机的张量代表一张 3 通道、宽 64、高 64 的图片，其相应的标签也用随机数进行初始化：
 
@@ -1107,9 +1043,7 @@ optim = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
 optim.step()
 ```
 
-
-
-## 张量
+### 张量
 
 autograd 使用张量的下列属性：
 
@@ -1119,9 +1053,7 @@ autograd 使用张量的下列属性：
 * `grad_fn`：表示得到张量的运算，叶节点通常为 `None`
 * `is_leaf`：指示张量是否为叶节点
 
-
-
-## 自动微分
+### 自动微分
 
 来看一个简单的例子。我们创建两个张量 `a` 和 `b`，使用选项 `requires_grad=True`：
 
@@ -1171,8 +1103,6 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 # tensor(2.) True tensor(1.) None True
 ```
 
-
-
 再来看一个例子，此时 $c$ 是一个向量：
 
 ```python
@@ -1216,9 +1146,7 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 
 改变 `gradient` 即为多个损失项赋予不同的权重。
 
-
-
-## `Function`
+### `Function`
 
 > 参考：pytorch-lib-torch.autograd.Function
 
@@ -1343,9 +1271,7 @@ class LinearFunction(Function):
         return grad_input, grad_weight, grad_bias
 ```
 
-
-
-## 计算图
+### 计算图
 
 > 参考：
 >
@@ -1441,8 +1367,6 @@ print_tensor(loss)
 
 可以看到，只有 `is_leaf=True` 的张量的 `grad` 不为 None。因为用户一般不会使用中间变量的梯度，为了节约内存/显存，这些梯度在使用之后就被释放了。
 
-
-
 注意 PyTorch 的计算图是动态的：每次反向计算结束，即调用 `.backward()` 返回后，计算图就在内存中被释放了；在下次前向计算过程中 autograd 会再创建一个新的计算图并为其填充数据。而 TensorFlow 使用的静态计算图是预先设计好的。
 
 ```python
@@ -1466,9 +1390,7 @@ loss.backward() # 正常
 
 如今动态图和静态图之间的界限已经开始慢慢模糊。PyTorch 模型转成 Caffe 模型越来越方便，而 TensorFlow 也加入了一些动态图机制。
 
-
-
-## 从DAG中移除
+### 从DAG中移除
 
 autograd 追踪所有 `requires_grad` 属性为 `True` 的张量。对于那些不需要计算梯度的张量，设定该属性为 `False` 以将其移除出 DAG。
 
@@ -1489,8 +1411,6 @@ print(f"Does `b` require gradients?: {b.requires_grad}")
 ```
 
 在神经网络中，不计算梯度的参数通常称为**冻结参数（frozen parameters）**。如果你预先知道模型中的部分参数不需要计算梯度，那么可以冻结这些参数，这将降低 autograd 的计算量从而提升性能。
-
-
 
 另一个从 DAG 中移除参数的常见例子是精调预训练模型。在精调过程中，我们冻结模型的大部分而只修改其中几层。来看下面这个例子，我们加载了预训练 resnet18 模型，并冻结所有参数：
 
@@ -1519,23 +1439,17 @@ optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 optimizer = optim.SGD(model.parameters(), lr=1e-2, momentum=0.9)
 ```
 
-
-
-
-
-# 使用优化器
+## 使用优化器
 
 > 参考：
 >
 > [torch.optim](https://pytorch.org/docs/stable/optim.html#)
 
-## 如何使用优化器
+### 如何使用优化器
 
 要使用 `torch.optim` 包，你需要构造一个优化器实例，其保存了当前状态并会根据计算的梯度更新模型参数。
 
-
-
-### 构造优化器
+#### 构造优化器
 
 为了构造 `Optimizer` 实例，你需要传入一个包含要优化的模型参数（应为 `Variable` 实例）的可迭代对象，然后指定优化器相关的选项，例如学习率、权重衰减等等。
 
@@ -1549,8 +1463,6 @@ optimizer = optim.Adam([var1, var2], lr=0.0001)
 > 如果你需要将模型移动到 GPU（通过调用 `.cuda()` 或 `.to()`），请在为此模型构造优化器之前完成这一操作。`.cuda()` 或 `.to()` 调用之后的模型的参数将会是一组不同的对象。
 >
 > 总的来说，你需要保证在优化器构建和使用的整个过程中，被优化的模型参数存活在一致的位置。
-
-
 
 `Optimizer` 也支持为部分参数单独指定选项，这时需要传入一个字典的可迭代对象，其中每个字典定义一个单独的参数组。字典应包含一个 `params` 键，对应包含要优化的部分模型参数的可迭代对象；其它键应匹配 `Optimizer` 实例接受的关键字参数，并用作这一组参数的选项。
 
@@ -1567,9 +1479,7 @@ optim.SGD([{
           momentum=0.9)
 ```
 
-
-
-### 执行一步优化
+#### 执行一步优化
 
 所有的优化器都实现了 `step()` 方法，用于更新模型参数。可以有两种使用方法：
 
@@ -1599,7 +1509,7 @@ optim.SGD([{
 
   
 
-## 如何调整学习率
+### 如何调整学习率
 
 `torch.optim.lr_scheduler` 提供了数种基于回合数调整学习率的方法。`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于一些验证方法动态降低学习率。
 
@@ -1620,8 +1530,6 @@ for epoch in range(20):
     scheduler.step()
 ```
 
-
-
 大多数学习率规划器都可以连续调用（也被称为连锁规划器），依次作用于学习率，例如：
 
 ```python
@@ -1641,17 +1549,9 @@ for epoch in range(20):
     scheduler2.step()
 ```
 
+### 随机权重平均
 
-
-## 随机权重平均
-
-
-
-
-
-
-
-# 保存和加载模型
+## 保存和加载模型
 
 保存和加载模型主要用到下面三个函数：
 
@@ -1659,13 +1559,9 @@ for epoch in range(20):
 * `torch.load`：使用 pickle 包的 unpickle 功能反序列化对象文件到内存。此函数方便设备加载各种数据。
 * `torch.nn.Module.load_state_dict`：使用一个反序列化的 `state_dict` 加载模型的参数词典
 
-
-
-## `state_dict`是什么
+### `state_dict`是什么
 
 在 PyTorch 中，一个 `torch.nn.Module` 模型的可学习的参数（即权重和偏置）包含在模型的*参数*（`model.parameters()`）中。`state_dict` 就是将每一层映射到其参数张量的一个 Python 词典对象。注意只有带可学习参数的层（卷积层、线性层等）和注册的缓冲区在 `state_dict` 中有词条。优化器对象 `torch.optim` 也有一个 `state_dict`，包含优化器的状态和超参数信息。
-
-
 
 来看一个简单的模型的 `state_dict`：
 
@@ -1727,9 +1623,7 @@ state    {}
 param_groups     [{'lr': 0.001, 'momentum': 0.9, 'dampening': 0, 'weight_decay': 0, 'nesterov': False, 'params': [4675713712, 4675713784, 4675714000, 4675714072, 4675714216, 4675714288, 4675714432, 4675714504, 4675714648, 4675714720]}]
 ```
 
-
-
-## 保存和加载模型
+### 保存和加载模型
 
 > 使用notebook: ml/pytorch/save_and_load_model.ipynb
 
@@ -1751,8 +1645,6 @@ PyTorch 习惯使用 `.pt` 或 `.pth` 扩展名保存模型。
 
 记得在使用前调用 `model.eval()` 以设定模型（丢弃层，批归一化层等）为评价模式。
 
-
-
 **保存/加载整个模型**
 
 ```python
@@ -1766,9 +1658,7 @@ model.eval()
 
 这种保存方式将会使用 Python 的 pickle 模块保存整个模型。这种方法的坏处是序列化数据绑定了保存模型时特定的类和实际的目录结构，原因是 pickle 并不保存模型类 `TheModelClass` 本身，而只保存一个包含该类的文件的路径，供加载时使用。因此在用到其它项目或项目重构后你的代码会失效。
 
-
-
-## 保存和加载检查点
+### 保存和加载检查点
 
 > 使用notebook: ml/pytorch/save_and_load_checkpoint.ipynb
 
@@ -1803,9 +1693,7 @@ model.train()
 
 加载这些项时，首先初始化模型和优化器，再使用 `torch.load()` 加载词典。这里你只需要简单地查询词典就能获取所有保存项。
 
-
-
-## 保存多个模型到一个文件
+### 保存多个模型到一个文件
 
 ```python
 # save
@@ -1841,9 +1729,7 @@ modelB.train()
 
 与保存检查点相同，PyTorch 习惯使用 `.tar` 扩展名。
 
-
-
-## 通过使用预训练参数热启动模型
+### 通过使用预训练参数热启动模型
 
 ```python
 # save
@@ -1860,9 +1746,7 @@ modelB.load_state_dict(torch.load(PATH), strict=False)
 
 如果你想更精细地控制模型每一层加载的参数，只需要修改加载的词典的键和值，使其与模型的层（字段）名匹配。
 
-
-
-## 保存和加载跨设备模型
+### 保存和加载跨设备模型
 
 **保存在 GPU，加载在 CPU**
 
@@ -1875,8 +1759,6 @@ device = torch.device('cpu')
 model = TheModelClass(*args, **kwargs)
 model.load_state_dict(torch.load(PATH, map_location=device))
 ```
-
-
 
 **保存在 GPU，加载在 GPU**
 
@@ -1894,8 +1776,6 @@ model.to(device)
 
 注意 `my_tensor.to(device)` 返回的是 `my_tensor` 在 GPU 中的一个新副本，它不会覆写 `my_tensor`，因此记得手动覆写张量 `my_tensor = my_tensor.to(device)`。
 
-
-
 **保存在 CPU，加载在 GPU**
 
 ```python
@@ -1912,63 +1792,27 @@ model.to(device)
 
 设定参数 `map_location` 为 `cuda:device_id` 将模型加载到指定的 GPU 设备中。之后还要再调用 `model.to(torch.device("cuda"))` 使模型中的所有参数张量转换为 CUDA 张量。
 
-
-
-
-
-# 使用 GPU
+## 使用 GPU
 
 ```python
 
 ```
 
+## 使用 TensorBoard
 
+### 设置 TensorBoard
 
+### 记录图片到 TensorBoard
 
+### 记录模型结构到 TensorBoard
 
-
-
-
-
-# 使用 TensorBoard
-
-## 设置 TensorBoard
-
-
-
-## 记录图片到 TensorBoard
-
-
-
-## 记录模型结构到 TensorBoard
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 分布式训练
+## 分布式训练
 
 > 分布式训练的基本概念参见[tensorflow-分布式训练-基本概念](./tensorflow.md#基本概念)
 
+### 设置
 
-
-## 设置
-
-
-
-
-
-
-
-## 数据并行训练
+### 数据并行训练
 
 PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复杂、从原型到生产的各种应用，常见的升级路径为：
 
@@ -1978,15 +1822,11 @@ PyTorch 提供了几种数据并行训练的选项。对于逐渐从简单到复
 4. 使用**多机分布式数据并行和启动脚本**：如果应用需要在多机之间伸缩。
 5. 使用 torchelastic 以启动分布式训练：如果训练可能出错或者资源会在训练过程中动态地增减。
 
-
-
-### `torch.nn.DataParallel`
+#### `torch.nn.DataParallel`
 
 `DataParallel` 能够以最少的代码修改来启用单机多卡数据并行——它只需要在应用中增加一行代码。尽管如此，我们通常会使用 `DistributedDataParallel` 而不是 `DataParallel`，因为 `DistributedDataParallel` 能提供更好的性能表现，而 `DataParallel` 的具体实现实际上损失了很多性能（详见 [`torch.nn.parallel.DistributedDataParallel`](#`torch.nn.parallel.DistributedDataParallel`) 部分）。
 
-
-
-#### 示例
+**示例**
 
 在 PyTorch 中使用 GPU 非常简单，只需要把模型放到 GPU 中：
 
@@ -2137,15 +1977,11 @@ Outside: input size torch.Size([30, 5]) output_size torch.Size([30, 2])
 Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 ```
 
-
-
-### `torch.nn.parallel.DistributedDataParallel`
+#### `torch.nn.parallel.DistributedDataParallel`
 
 `DistributedDataParallel` 是一种广泛采用的数据并行训练范式。使用 DDP 时，模型被复制到各个进程中，而每个模型副本会传入不同组的输入数据样本（可能是对同一数据集的切分）。DDP 负责梯度通信，以保证各模型副本同步和梯度计算叠加。
 
 `DistributedDataParallel` 实现了模块级别的数据并行，并且可以跨多台机器运行。使用 DDP 的应用应产生多个进程并在每个进程中创建一个 DDP 实例，DDP 使用 `torch.distributed` 包中的集体通信方法来同步梯度和缓冲区。更具体地说，DDP 为每个由 `model.parameters()` 给出的模型参数注册一个 autograd 钩子，这些钩子会在相应的梯度在反向传递过程中被计算时激活，随后 DDP 接收到该信号并引发跨进程的梯度同步。 
-
-
 
 比较 `DataParallel` 和 `DistributedDataParallel`：为什么你会考虑使用 `DistributedDataParallel` 而非 `DataParallel`：
 
@@ -2153,9 +1989,7 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 * 如果你的模型太大以至于不能在单个 GPU 上训练，那么就必须用模型并行来将其切分到多个 GPU 中。`DistributedDataParallel` 兼容模型并行而 `DataParallel` 不能。当 DDP 结合模型并行时，每个 DDP 进程都会使用模型并行，而所有的进程共同使用数据并行。
 * 如果你的模型需要跨多台机器或者不适用于数据并行范式，请参考 [RPC API](#一般分布式训练) 以获取更通用的分布式训练支持。
 
-
-
-#### 示例1
+**示例1**
 
 让我们来看一个简单的 `torch.nn.parallel.DistributedDataParallel` 示例：
 
@@ -2168,7 +2002,6 @@ import torch.multiprocessing as mp
 import torch.nn as nn
 import torch.optim as optim
 from torch.nn.parallel import DistributedDataParallel as DDP
-
 
 def example(rank, world_size):
     # setup distributed environment
@@ -2202,9 +2035,7 @@ if __name__ == "__main__":
 
 其中，模型是一个线性层，将其用 DDP 包装后，对 DDP 模型进行一次前馈计算、反向计算和更新参数。在这之后，模型的参数会被更新，并且所有进程的模型都完全相同。
 
-
-
-#### 示例2
+**示例2**
 
 首先设置进程组。
 
@@ -2219,7 +2050,6 @@ import torch.optim as optim
 import torch.multiprocessing as mp
 
 from torch.nn.parallel import DistributedDataParallel as DDP
-
 
 def setup(rank, world_size):
     os.environ['MASTER_ADDR'] = 'localhost'
@@ -2245,7 +2075,6 @@ class ToyModel(nn.Module):
     def forward(self, x):
         return self.net2(self.relu(self.net1(x)))
 
-
 def demo_basic(rank, world_size):
     print(f"Running basic DDP example on rank {rank}.")
     setup(rank, world_size)
@@ -2265,7 +2094,6 @@ def demo_basic(rank, world_size):
 
     cleanup()
 
-
 def run_demo(demo_fn, world_size):
     mp.spawn(demo_fn,
              args=(world_size,),
@@ -2275,21 +2103,15 @@ def run_demo(demo_fn, world_size):
 
 可以看到，DDP 包装了底层分布式通信的细节并提供了一个简洁的 API。梯度同步通信发生在反向传递过程中，并且与反向计算部分重叠。当 `backward()` 返回时，`param.grad` 已经包含了同步的梯度张量。
 
-
-
-### [注意事项](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html#skewed-processing-speeds)
+#### [注意事项](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html#skewed-processing-speeds)
 
 对于基本使用，DDP 只需要多几行代码来创建进程组；但当 DDP 应用到更高级的用例中，则还需要注意一些问题。
-
-
 
 **不一致的处理速度**
 
 在 DDP 中，（DDP 的）构造函数、前向传递和反向传递是分布式同步点。不同的进程应当启动相同数量的同步，以相同的顺序到达这些同步点，以及在大致相同的时间到达这些同步点，否则快的进程会先到而等待落后的进程。因此用户应负责进程之间的负载均衡。
 
 有时由于网络延迟、资源争夺、无法预测的负载峰值等原因，不一致的处理速度也难以避免。但为了防止这些情形下超时，在调用 `init_process_group()` 时请确保传入了一个足够大的 `timeout` 值。
-
-
 
 **保存和加载检查点**
 
@@ -2340,8 +2162,6 @@ def demo_checkpoint(rank, world_size):
     cleanup()
 ```
 
-
-
 **结合 DDP 和模型并行**
 
 DDP 兼容多 GPU 模型。当用巨量数据训练大型模型时，DDP 包装的多 GPU 模型十分有用。
@@ -2388,7 +2208,6 @@ def demo_model_parallel(rank, world_size):
 
     cleanup()
 
-
 if __name__ == "__main__":
     n_gpus = torch.cuda.device_count()
     if n_gpus < 8:
@@ -2399,24 +2218,16 @@ if __name__ == "__main__":
         run_demo(demo_model_parallel, 4)
 ```
 
-
-
-### [内部设计](https://pytorch.org/docs/stable/notes/ddp.html#internal-design)
+#### [内部设计](https://pytorch.org/docs/stable/notes/ddp.html#internal-design)
 
 * 前提：DDP 依赖 c10d `ProcessGroup` 用于进程间通信，因此应用在构建 DDP 之前必须先创建 `ProcessGroup` 实例
 * 构造：DDP 构造函数引用本地模块，并广播 rank0 进程的 `state_dict()` 到组内的所有进程以确保所有模型副本都从同样的状态开始。随后每个 DDP 进程创建一个本地 `Reducer`，其在之后的反向计算过程中负责梯度同步。为了提高通信效率，`Reducer` 组织参数梯度为桶结构，每次 reduce 一个桶。……
 
-
-
-### TorchElastic
+#### TorchElastic
 
 随着应用的复杂度和规模的增长，故障恢复变成了一个非常迫切的需求。在使用 DDP 时，我们有时会不可避免地遇见诸如 OOM 这样的错误，但 DDP 自己无法从这些错误中恢复，这是因为 DDP 要求所有进程以一种紧密同步的方式工作并且不同进程中启动的 `AllReduce` 通信必须匹配。如果一个进程抛出了 OOM 异常，这将很可能导致不同步（不匹配的 `AllReduce` 操作），进而导致训练崩溃或挂起。如果你预期故障会在训练过程中发生或者资源会动态地增减，那么请使用 TorchElastic 启动分布式数据并行训练。
 
-
-
-
-
-## 一般分布式训练
+### 一般分布式训练
 
 许多训练范式不能由数据并行的形式所包容，例如参数服务器范式、分布式流水线范式、有多个观察者或代理的强化学习应用等。`torch.distributed.rpc` 的目标就是支持一般的分布式训练场景。
 

@@ -1,4 +1,4 @@
-[toc]
+
 
 ## A
 
@@ -30,8 +30,6 @@
 | attribute                              | 属性                 |
 | augment                                | 增强                 |
 
-
-
 ## B
 
 |                                   |                  |
@@ -58,8 +56,6 @@
 | buffer                            | 缓冲区           |
 | bus                               | 总线             |
 |                                   |                  |
-
-
 
 ## C
 
@@ -103,8 +99,6 @@
 | CSS                                | 层叠样式表                   |
 |                                    |                              |
 
-
-
 ## D
 
 |                         |              |
@@ -135,8 +129,6 @@
 | DP, Dynamic Programming | 动态规划     |
 | duplex                  | 双工         |
 
-
-
 ## E
 
 |                                |                              |
@@ -155,8 +147,6 @@
 | Ethernet                       | 以太网                       |
 | exception                      | 异常                         |
 | expected risk                  | 期望风险                     |
-
-
 
 ## F
 
@@ -179,8 +169,6 @@
 | FTP, File Transfer Protocol     | 文件传送协议   |
 | full binary tree                | 满二叉树       |
 
-
-
 ## G
 
 |                               |               |
@@ -201,8 +189,6 @@
 | greedy algorithm              | 贪心算法      |
 | GUI, Graphical User Interface | 图形用户界面  |
 
-
-
 ## H
 
 |                                 |                               |
@@ -220,8 +206,6 @@
 | hyper-parameter                 | 超参数                        |
 | hyper-threading                 | 超线程                        |
 |                                 |                               |
-
-
 
 ## I
 
@@ -247,17 +231,9 @@
 | iterative server                               | 迭代服务器                 |
 | iterator                                       | 迭代器                     |
 
-
-
 ## J
 
-
-
-
-
 ## K
-
-
 
 ## L
 
@@ -291,8 +267,6 @@
 | lower bound              | 下界       |
 | LSM, Least Square Method | 最小二乘法 |
 
-
-
 ## M
 
 |                                      |                |
@@ -314,10 +288,6 @@
 | multicast                            | 多播           |
 | multi-class classification           | 多分类         |
 
-
-
-
-
 ## N
 
 |                                  |                |
@@ -333,8 +303,6 @@
 | NP, Nondeterministic Polynomial  | 非确定性多项式 |
 | null                             | 空值           |
 |                                  |                |
-
-
 
 ## O
 
@@ -354,8 +322,6 @@
 | overfit                          | 过拟合       |
 | overflow                         | 上溢         |
 |                                  |              |
-
-
 
 ## P
 
@@ -406,8 +372,6 @@
 |                                            |                    |
 |                                            |                    |
 
-
-
 ## Q
 
 |            |          |
@@ -416,8 +380,6 @@
 | quick sort | 快速排序 |
 |            |          |
 |            |          |
-
-
 
 ## R
 
@@ -452,8 +414,6 @@
 | router                        | 路由器         |
 | RTT, Round-Trip Time          | 往返时间       |
 | runtime                       | 运行时         |
-
-
 
 ## S
 
@@ -499,8 +459,6 @@
 | synchronous                   | 同步的               |
 |                               |                      |
 
-
-
 ## T
 
 |                                    |                             |
@@ -524,8 +482,6 @@
 | tunneling                          | 隧道技术                    |
 |                                    |                             |
 
-
-
 ## U
 
 |                               |                |
@@ -545,8 +501,6 @@
 |                               |                |
 |                               |                |
 
-
-
 ## V
 
 |                              |              |
@@ -562,8 +516,6 @@
 | virtualization               | 虚拟化       |
 | VPN, Virtual Private Network | 虚拟专用网   |
 
-
-
 ## W
 
 |                                   |            |
@@ -574,8 +526,6 @@
 | WWW, World Wide Web               | 万维网     |
 |                                   |            |
 
-
-
 ## X
 
 |                                 |                |
@@ -583,8 +533,6 @@
 | XML, eXtensible Markup Language | 可扩展标记语言 |
 |                                 |                |
 |                                 |                |
-
-
 
 ## Y
 

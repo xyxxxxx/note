@@ -2,15 +2,11 @@
 
 构造适当的统计量 $\hat\theta=\hat\theta(X_1,X_2,\cdots,X_n)$，估计总体分布的参数 $\theta$，就称 $\hat\theta$ 为参数 $\theta$ 的点估计。
 
-
-
 ## 矩估计法,method of moment
 
 矩估计法的基本思想是，推导总体的矩（原点矩或中心矩），然后取出样本并计算样本的矩，由样本矩近似等于总体矩建立等式，解出需要估计的参数。
 
 用样本矩近似总体矩的依据是，样本原点矩是总体原点矩的无偏估计；样本中心矩虽是总体中心矩的有偏估计，但一般在应用上不做修正，容忍一些偏差存在，当 $n$ 较大时影响可以几乎忽略。
-
-
 
 @设 $x_1,\cdots,x_n$ 是从正态总体 $N(\mu,\sigma^2)$ 抽出的样本，估计 $\mu,\sigma^2,\sigma$。
 $$
@@ -19,14 +15,12 @@ $$
 \sigma=s
 $$
 
-
 @设 $x_1,\cdots,x_n$ 是从均匀总体 $U(a,b)$ 抽出的样本，估计 $a,b$。
 $$
 一阶原点矩\ \frac{a+b}{2}=\overline{x}\\
 二阶中心矩\ \frac{(b-a)^2}{12}=s^2\\
 \Rightarrow a=\overline{x}-\sqrt{3}s,\ b=\overline{x}+\sqrt{3}s
 $$
-
 
 @设 $x_1,\cdots,x_n$ 是从泊松总体 $\pi(\lambda)$ 抽出的样本，估计 $\lambda$。
 $$
@@ -45,8 +39,6 @@ $$
 >
 > 峰度 $\gamma_2$ 用于衡量总体分布的峰态，正峰度表示峰态陡峭（即高尖），负峰度表示峰态平缓（即矮胖），正态分布的峰度为0。
 
-
-
 ## 最大似然估计法maximum likelihood estimation,MLE
 
 设总体分布 $f(X;\theta_1,\cdots,\theta_k)$，抽取样本 $X_1,\cdots,X_n$，那么样本 $(X_1,\cdots,X_n)$ 的分布函数记作
@@ -60,8 +52,6 @@ $$
 \frac{\partial \ln L}{\partial \theta_i}=0,\ i=1,\cdots,k
 $$
 如果该方程组有唯一解，并且解为极大值点，那么它必定是使 $L$ 达到最大的点。有时该方程会出现几组解、难解或不能对 $\theta_i$ 求偏导数，这时只能寻求另外的方法解此优化问题。
-
-
 
 @设 $x_1,\cdots,x_n$ 是从正态总体 $N(\mu,\sigma^2)$ 抽出的样本，估计 $\mu,\sigma^2,\sigma$。
 $$
@@ -78,7 +68,6 @@ $$
 \hat{\sigma}=\sqrt{b_2}
 $$
 
-
 @设 $x_1,\cdots,x_n$ 是从均匀总体 $U(a,b)$ 抽出的样本，估计 $a,b$。
 $$
 似然函数\ L=\prod_{i=1}^n \frac{1}{b-a}=(\frac{1}{b-a})^n\\
@@ -86,7 +75,6 @@ $$
 为使L取最大值，需要使b-a取最小值，\\
 故\hat{b}=\max\{x_1,\cdots,x_n\},\hat{a}=\min\{x_1,\cdots,x_n\}
 $$
-
 
 @设 $x_1,\cdots,x_n$ 是从泊松总体 $\pi(\lambda)$ 抽出的样本，估计 $\lambda$。
 $$
@@ -97,8 +85,6 @@ $$
 $$
 上述解唯一且为极大值点。
 
-
-
 ## 点估计的无偏性和有效性
 
 设某统计总体包含未知参数 $\theta$， $\hat{\theta}=\hat{\theta}(X_1,X_2,\cdots,X_n)$ 是 $\theta$ 的一个估计量，若有 $E(\hat{\theta})=\theta$，则称 $\hat{\theta}$ 是参数 $\theta$ 的**无偏估计量**。
@@ -107,27 +93,13 @@ $$
 
 **无偏性**的含义包括：没有系统偏差（即系统误差），并且正负偏差的期望为0。
 
-
-
 @设 $x_1,\cdots,x_n$ 是从总体抽出的样本，那么 $\overline{x}$ 是总体分布均值 $\mu$ 的无偏估计， $s^2$ 是总体分布方差 $\sigma^2$ 的无偏估计。
-
-
 
 @样本原点矩是总体原点矩的无偏估计。
 
-
-
 **有效性**
 
-
-
 ## 点估计的大样本理论
-
-
-
-
-
-
 
 # 区间估计
 
@@ -138,8 +110,6 @@ $$
 ![cvbgmrhpkuy53gwr](C:\Users\Xiao Yuxuan\Documents\pic\cvbgmrhpkuy53gwr.PNG)
 
 ![spdovjifogehy5t4nr](C:\Users\Xiao Yuxuan\Documents\pic\spdovjifogehy5t4nr.PNG)
-
-
 
 ## 单正态总体
 
@@ -152,14 +122,10 @@ $$
 
 ![249t0gjirwvdnugrdw](C:\Users\Xiao Yuxuan\Documents\pic\249t0gjirwvdnugrdw.PNG)
 
-
-
 $\sigma$ 未知 $\mu$ 的置信区间
 $$
 \frac{\overline{X}-\mu}{S/\sqrt{n}}\sim t(n-1)
 $$
-
-
 
 $\sigma$ 未知 $\sigma^2$ 的置信区间
 $$
@@ -168,13 +134,9 @@ $$
 
 ![t8rgihvubtvndeqfv](C:\Users\Xiao Yuxuan\Documents\pic\t8rgihvubtvndeqfv.PNG)
 
-
-
 ![t2y5gprjibntrfeqm](C:\Users\Xiao Yuxuan\Documents\pic\t2y5gprjibntrfeqm.PNG)
 
 ![t24ij5htnjbfvfeqcdvf](C:\Users\Xiao Yuxuan\Documents\pic\t24ij5htnjbfvfeqcdvf.PNG)
-
-
 
 ## 双正态总体
 
@@ -182,13 +144,9 @@ Behrens-Fisher问题
 
 ![vdbhg3htkj4yoyt4rfv](C:\Users\Xiao Yuxuan\Documents\pic\vdbhg3htkj4yoyt4rfv.PNG)
 
-
-
 $\mu_2-\mu_1:\sigma_1,\sigma_2$ 已知情形
 
 ![czefojr13knjghtbgnyh](C:\Users\Xiao Yuxuan\Documents\pic\czefojr13knjghtbgnyh.PNG)
-
-
 
 $\mu_2-\mu_1:\sigma_1=\sigma_2$ 情形
 
@@ -196,13 +154,9 @@ $\mu_2-\mu_1:\sigma_1=\sigma_2$ 情形
 
 ![hj4jp63i524ntrbjffeq](C:\Users\Xiao Yuxuan\Documents\pic\hj4jp63i524ntrbjffeq.PNG)
 
-
-
 $\sigma_2^2/\sigma_1^2$ 
 
 ![zbfthkoj6nk3y5jhbt](C:\Users\Xiao Yuxuan\Documents\pic\zbfthkoj6nk3y5jhbt.PNG)
-
-
 
 ## 大样本置信区间
 
@@ -211,8 +165,6 @@ $\sigma_2^2/\sigma_1^2$
 Behrens-Fisher问题
 
 ![zvxnkhty5t4kgrnkbbg](C:\Users\Xiao Yuxuan\Documents\pic\zvxnkhty5t4kgrnkbbg.PNG)
-
-
 
 ![y3k5ogmrwvnjfbthgrt](C:\Users\Xiao Yuxuan\Documents\pic\y3k5ogmrwvnjfbthgrt.PNG)
 

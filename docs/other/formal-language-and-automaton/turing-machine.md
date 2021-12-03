@@ -20,8 +20,6 @@ $$
 + $\square\in \Gamma$ 是**空白符（blank）**
 + $F\sube Q$ 是终止状态集合
 
-
-
 @下图展示了转移函数
 $$
 \delta(q_0,a)=(q_1,d,R)
@@ -29,8 +27,6 @@ $$
 执行前后的情况。
 
 ![Screenshot from 2020-09-14 13-49-34.png](https://i.loli.net/2020/09/14/lvp2HG5mkziuFEV.png)
-
-
 
 @考虑图灵机
 $$
@@ -46,8 +42,6 @@ $$
 
 ![Screenshot from 2020-09-14 13-55-23.png](https://i.loli.net/2020/09/14/UNDJT7sKCqVQwYn.png)
 
-
-
 @考虑图灵机的状态转移函数
 $$
 \delta(q_0,a)=\{q_1,a,R\}\\
@@ -59,23 +53,17 @@ $$
 $$
 该图灵机会永远不停地工作，其读写头反复地左右移动，我们称其进入了**无穷循环（infinite loop）**。
 
-
-
 **定义** **标准图灵机（standard Turing machine）**是具有以下特性的图灵机：
 
 1. 图灵机的带在左右方向上都没有限制，并且允许任意数目的左移和右移
 2. 对于每一个格局， $\delta$ 最多之定义了一种迁移，因而它是确定型的
 3. 没有特定的输入文件和输出设备，带的部分内容即是图灵机的输入和输出
 
-
-
 我们使用瞬时描述展示图灵机的格局，下图的格局的瞬时描述为
 $$
 a_1a_2\cdots a_{k-1}qa_{k}a_{k+1}\cdots a_n
 $$
 ![Screenshot from 2020-09-14 14-06-29.png](https://i.loli.net/2020/09/14/bkmLno6FItsfTZS.png)
-
-
 
 **定义** 图灵机 $M=(Q,\Sigma,\Gamma,\delta,q_0,\square,F)$， $a_1a_2\cdots a_{k-1}q_1a_{k}a_{k+1}\cdots a_n$ 是 $M$ 的一个瞬时描述，其中 $a_i\in \Gamma,q_i\in Q$。那么
 $$
@@ -93,8 +81,6 @@ $$
 x_1qx_2\vdash^*\infty
 $$
 
-
-
 ## 作为语言接受器的图灵机
 
 以下讨论中，图灵机视作语言接受器，符号串 $w$ 记录在带上，其它位置为空白符，初始情况下图灵机的状态为 $q_0$，读写头位于 $w$ 的最左符号上。如果经过一系列的移动，图灵机最终进入终态并停机，则认为 $w$ 能够被接受。
@@ -104,7 +90,6 @@ $$
 L(M)=\{w\in \Sigma^+:\exist q_f\in F,x_1,x_2\in \Gamma^*,q_0w\vdash^*x_1q_fx_2\}
 $$
 
-
 @基于 $\Sigma = \{0,1\}$，设计一个图灵机，它能够接受正则表达式00*表示的语言。
 
 设置内部状态 $Q=\{q_0,q_1\}$，终态 $F=\{q_1\}$，转移函数为
@@ -113,8 +98,6 @@ $$
 \delta(q_0,\square)=(q_1,\square,R)
 $$
 一旦读到1，由于 $\delta(q_0,1)$ 没有定义，图灵机将在非终态 $q_0$ 下停机。
-
-
 
 @基于 $\Sigma=\{a,b\}$，设计一个图灵机，它能够接受
 $$
@@ -146,11 +129,6 @@ q_0aabb\vdash xq_1abb\vdash xaq_1bb\vdash xq_2ayb\\
 \vdash xxyy\square q_4\square
 $$
 
-
-
 ……
-
-
-
 
 # 其它形式的图灵机

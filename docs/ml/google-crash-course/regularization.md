@@ -1,7 +1,5 @@
 When training data set is small and slightly noisy, overfitting is a real concern.
 
-
-
 # L2 Regularization
 
 Consider the following **generalization curve**, which shows the loss for both the training set and test set against the number of training iterations.
@@ -34,7 +32,6 @@ $$
 L_2 {\rm \ regularization\ term}=||\boldsymbol w||_2^2=w_1^2+w_2^2+...+w_n^2
 $$
 
-
 In this formula, weights close to zero have little effect on model complexity, while outlier weights can have a huge impact.
 
 For example, a linear model with the following weights:
@@ -51,10 +48,6 @@ w_1^2+w_2^2+w_3^2+w_4^2+w_5^2+w_6^2 \\
 =26.915
 $$
 But $w_3$ , with a squared value of 25, contributes nearly all the complexity. The sum of the squares of all five other weights adds just 1.915 to the *L2* regularization term.
-
-
-
-
 
 # Lambda
 
@@ -78,10 +71,6 @@ The ideal value of lambda produces a model that generalizes well to new, previou
 
 > a regularization rate of either 0.3 or 1 generally produced the lowest test loss
 
-
-
-
-
 # L1 Regularization
 
 Sparse vectors often contain many dimensions. Creating a feature cross results in even more dimensions. Given such high-dimensional feature vectors, model size may become huge and require huge amounts of RAM.
@@ -97,10 +86,6 @@ Would L2 regularization accomplish this task? Unfortunately not. L2 regularizati
 An alternative idea would be to try and create a regularization term that penalizes the count of non-zero coefficient values in a model. Increasing this count would only be justified if there was a sufficient gain in the model's ability to fit the data. Unfortunately, while this count-based approach is intuitively appealing, it would turn our convex optimization problem into a non-convex optimization problem (one of NP-hard problem). So this idea, known as L0 regularization isn't something we can use effectively in practice.
 
 However, there is a regularization term called L1 regularization that serves as an approximation to L0, but has the advantage of being convex and thus efficient to compute. So we can use L1 regularization to encourage many of the uninformative coefficients in our model to be exactly 0, and thus reap RAM savings at inference time.
-
-
-
-
 
 # L1 vs L2
 
@@ -124,8 +109,4 @@ However, there is a regularization term called L1 regularization that serves as 
 You can think of the derivative of L2 as a force that removes x% of the weight every time. Even if you remove x percent of a number *billions of times*, the diminished number will still never quite reach zero. At any rate, L2 does not normally drive weights to zero.
 
 You can think of the derivative of L1 as a force that subtracts some constant from the weight every time. However, thanks to absolute values, L1 has a discontinuity at 0, which causes subtraction results that cross 0 to become zeroed out. For example, if subtraction would have forced a weight from +0.1 to -0.2, L1 will set the weight to exactly 0. Eureka, L1 zeroed out the weight.
-
-
-
-
 

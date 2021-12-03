@@ -4,13 +4,9 @@
 
 即使是单台机器上的同步训练，`torch.nn.parallel.DistributedDataParallel` 包装器也相对于其它数据并行的方法具有优势，因为其每个进程都拥有单独的 Python 解释器，消除了 GIL 锁对于性能的限制。
 
-
-
 ## 后端
 
 `torch.distributed` 支持三种后端：GLOO、MPI 和 NCCL，它们各自的适用条件请参考[官方文档](https://pytorch.org/docs/stable/distributed.html#backends)。
-
-
 
 ## 初始化
 
@@ -30,8 +26,6 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 # group_name   进程组名称
 # pg_options
 ```
-
-
 
 目前支持以下三种初始化方法：
 
@@ -91,25 +85,17 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 True
 ```
 
-
-
 ### is_initialized()
 
 返回默认进程组是否已经初始化。
-
-
 
 ### is_mpi_available()
 
 返回 MPI 后端是否可用。
 
-
-
 ### is_nccl_available()
 
 返回 NCCL 后端是否可用。
-
-
 
 ## 初始化后
 
@@ -119,53 +105,31 @@ True
 
 可以直接调用此类以解析字符串，例如 `Backend('GLOO')` 将返回 `'gloo'`。
 
-
-
 ### get_backend(), get_rank(), get_world_size()
 
 返回指定进程组的后端、rank 和进程数，默认为当前进程组。
-
-
 
 ## 分布式键值存储
 
 分布式键值存储用于在一个进程组的各进程之间共享数据或者初始化进程组，共有 3 种类型：`TCPStore`、`FileStore` 和 `HashStore`。
 
-
-
 ### Store
 
 存储的基类。
 
-
-
 #### add()
-
-
 
 #### delete_key()
 
-
-
 #### get()
-
-
 
 #### num_keys()
 
-
-
 #### wait()
-
-
 
 ### FileStore
 
-
-
 ### HashStore
-
-
 
 ### TCPStore
 
@@ -180,8 +144,6 @@ class torch.distributed.TCPStore(host_name: str, port: int, world_size: int = -1
 # timeout
 # wait_for_worker
 ```
-
-
 
 ## 进程组
 
@@ -200,8 +162,6 @@ torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(0, 1800), bac
 # backend     使用的后端,可以是`gloo`和`nccl`,取决于构建时的设置.默认与world使用相同的后端
 # pg_options  
 ```
-
-
 
 ## 点对点通信
 
@@ -237,8 +197,6 @@ Rank  1  has data  tensor([1.])
 Rank  0  has data  tensor([1.])
 ```
 
-
-
 ### recv()
 
 同步地接收一个张量。
@@ -250,8 +208,6 @@ torch.distributed.recv(tensor, src=None, group=None, tag=0)
 # group     工作的进程组.若为`None`,则设为world
 # tag       用于与远程`send`匹配的标签
 ```
-
-
 
 ### isend()
 
@@ -296,8 +252,6 @@ Rank  0  has data  tensor([1.])
 Rank  1  has data  tensor([1.])
 ```
 
-
-
 ### irecv()
 
 异步地接收一个张量。
@@ -309,8 +263,6 @@ torch.distributed.irecv(tensor, src=None, group=None, tag=0)
 # group     工作的进程组.若为`None`,则设为world
 # tag       用于与远程`send`匹配的标签
 ```
-
-
 
 ## 集体通信
 
@@ -324,8 +276,6 @@ torch.distributed.irecv(tensor, src=None, group=None, tag=0)
 ```python
 
 ```
-
-
 
 ### broadcast()
 
@@ -356,8 +306,6 @@ Rank  2  has data  tensor([1.])
 Rank  3  has data  tensor([1.])
 ```
 
-
-
 ### reduce()
 
 Reduce 操作。原位操作，rank 为 `dst` 的进程的 `tensor` 将放置最终归约结果，其它进程的 `tensor` 将放置中间结果。
@@ -385,8 +333,6 @@ Rank  1  has data  tensor([6.])        # 3. + 2. + 1.
 Rank  0  has data  tensor([6.])        # 3. + 2. + 1. + 0.
 ```
 
-
-
 ### all_reduce()
 
 All-Reduce 操作。
@@ -412,8 +358,6 @@ Rank  3  has data  tensor([6.])
 Rank  2  has data  tensor([6.])
 Rank  1  has data  tensor([6.])
 ```
-
-
 
 ### gather()
 
@@ -448,8 +392,6 @@ Rank  3  has list  []
 Rank  0  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
 ```
 
-
-
 ### all_gather()
 
 All-Gather 操作。
@@ -482,8 +424,6 @@ Rank  1  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
 Rank  3  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
 ```
 
-
-
 ### all_to_all()
 
 All-to-All 操作。
@@ -508,8 +448,6 @@ def run(rank, size):
 ```
 
 ```
-
-
 
 ### scatter()
 
@@ -544,8 +482,6 @@ Rank  0  has list  [tensor([0.]), tensor([1.]), tensor([2.]), tensor([3.])]
 Rank  0  has data  tensor([0.])
 ```
 
-
-
 ### barrier()
 
 同步所有进程，即阻塞进入此函数的进程，直到进程组的所有进程全部进入此函数。
@@ -557,17 +493,11 @@ torch.distributed.barrier(group=None, async_op=False, device_ids=None)
 # device_ids    GPU设备的id列表,仅对NCCL后端有效
 ```
 
-
-
 ### ReduceOp
 
 可用归约操作的枚举类，包括成员：`SUM`, `PRODUCT`, `MIN`, `MAX`, `BAND`, `BOR`, `BXOR`。
 
 注意 `BAND`, `BOR`, `BXOR` 不适用于 `NCCL` 后端；`MAX`, `MIN`, `PRODUCT` 不适用于复张量。
-
-
-
-
 
 ## RPC
 
@@ -583,8 +513,6 @@ torch.distributed.rpc.init_rpc(name, backend=None, rank=- 1, world_size=None, rp
 # world_size  当前组的工作器数量
 # rpc_backend_options
 ```
-
-
 
 ### rpc_sync()
 
@@ -625,8 +553,6 @@ tensor([4., 4.])
 ```
 
 > 使用 `rpc_sync()`、`rpc_async()` 等 API 时，函数传入的张量和返回的张量必须是 CPU 张量（否则当两个进程的设备列表不一致时可能会引起崩溃）。如有必要，应用可以显式地在调用进程中将张量移动到 CPU，再在被调用进程中将其移动到想要的设备中。
-
-
 
 ### rpc_async()
 
@@ -670,8 +596,6 @@ tensor([5., 5.])
 
 > API `rpc_async()`、 `remote()` 会到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `Future` 实例得到返回值。
 
-
-
 ### remote()
 
 ```python
@@ -712,8 +636,6 @@ tensor([6., 6.])
 >>> rpc.shutdown()
 ```
 
-
-
 ### shutdown()
 
 关闭 RPC 代理并随后销毁。这将阻止本地代理接收外部请求，并通过停止所有 RPC 线程关闭 RPC 框架。
@@ -747,13 +669,9 @@ torch.distributed.rpc.shutdown(graceful=True)
 >>> rpc.shutdown()     # 等待worker0结束工作,然后关闭
 ```
 
-
-
 ### WorkerInfo
 
 包装了工作器信息的结构，其中包含工作器的名称和 ID。此类的实例不应直接构造，而应通过 `get_worker_info()` 函数返回获取；实例可用于传入诸如 `rpc_sync()`、`rpc_async()`、`remote()` 等函数以避免每次远程调用都要复制字符串。
-
-
 
 ### get_worker_info()
 
@@ -764,15 +682,11 @@ torch.distributed.rpc.get_worker_info(worker_name=None)
 # worker_name    工作器的字符串名称
 ```
 
-
-
 ### BackendType
 
 可用后端的枚举类。
 
 PyTorch 内置一个 `BackendType.TENSORPIPE` 后端；使用 `register_backend()` 函数以注册更多的后端。
-
-
 
 #### BackendType.TENSORPIPE
 
@@ -780,25 +694,17 @@ PyTorch 内置一个 `BackendType.TENSORPIPE` 后端；使用 `register_backend(
 
 TensorPipe 后端自 PyTorch v1.6 版本被引入。目前它仅支持 CPU 张量，GPU 支持将在不久之后到来。它和 Gloo 一样使用基于 TCP 的连接。它还可以自动切分大型张量，在多个套接字和线程上多路复用以达成高带宽。
 
-
-
 ### RpcBackendOptions
 
 包装了传入到 RPC 后端的选项的抽象结构。此类的实例可被传入到 `init_rpc()` 以使用特定配置初始化 RPC，例如 RPC 超时时间和使用的 `init_method`。
-
-
 
 #### init_method
 
 指定如何初始化进程组的 URL，默认为 `env://`。
 
-
-
 #### rpc_timeout
 
 指定所有 RPC 操作的超时时间的浮点数。
-
-
 
 ### TensorPipeRpcBackendOptions
 
@@ -814,13 +720,9 @@ torch.distributed.rpc.TensorPipeRpcBackendOptions(*, num_worker_threads=16, rpc_
 # devices              RPC代理使用的所有本地CUDA设备.默认从`device_maps`初始化得到.
 ```
 
-
-
 #### device_maps, devices, init_method, num_worker_threads, rpc_timeout
 
 见 `TensorPipeRpcBackendOptions` 初始化函数。
-
-
 
 #### set_device_map()
 
@@ -865,8 +767,6 @@ set_device_map(to, device_map)
 >>> print(rets[1])  # `tensor([2., 2.], device='cuda:1')` on worker 0
 ```
 
-
-
 #### set_devices()
 
 设定 TensorPipe 代理使用的本地设备。
@@ -876,15 +776,11 @@ set_devices(devices)
 # devices      TensorPipe 代理使用的本地设备,是`int`,`str`或`torch.device`列表
 ```
 
-
-
 ### RRef
 
 > RRef 目前尚不支持 CUDA 张量。
 
 一个 `RRef` 实例是对远程工作器上的一个某种类型的值的引用。这种处理方式使被引用的远程值仍位于其所有者上。RRef 可用于多机训练，通过保有对存在于其它工作器上的 `nn.Modules` 实例的引用，并在训练过程中调用适当的函数以获取或修改其参数。
-
-
 
 #### backward()
 
@@ -894,87 +790,47 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 # retain_graph           
 ```
 
-
-
-
-
 #### confirmed_by_owner()
 
 返回此 `RRef` 实例是否被所有者确认。所有者的 `RRef` 实例总是返回 `True`，而使用者的 `RRef` 实例只有当所有者知道此实例时才返回 `True`。
-
-
 
 #### is_owner()
 
 返回当前进程是否是此 `RRef` 实例的所有者。
 
-
-
 #### local_value()
 
 若当前进程是所有者，则返回对本地值的一个引用，否则引发一个异常。
-
-
 
 #### owner()
 
 返回此 `RRef` 实例的所有者的 `WorkerInfo` 实例。
 
-
-
 #### owner_name()
 
 返回此 `RRef` 实例的所有者的名称。
 
-
-
 #### remote()
-
-
 
 #### rpc_async()
 
-
-
 #### rpc_sync()
-
-
 
 #### to_here()
 
 阻塞调用，从所有者复制此 `RRef` 实例的值
 
-
-
 ## autograd
 
 ### backward()
 
-
-
 ### context
 
-
-
 ### get_gradients()
-
-
-
-
-
-
 
 ## optim
 
 ### DistributedOptimizer
-
-
-
-
-
-
-
-
 
 # torch.multiprocessing
 
@@ -983,8 +839,6 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 此 API 100% 兼容原始模块，你完全可以将 `import multiprocessing` 改为 `import torch.multiprocessing` 以将所有张量送入队列或通过其它机制分享。
 
 由于此 API 与原始 API 的相似性，请参考 `multiprocessing` 包的文档以获取更多细节。
-
-
 
 ## 共享CUDA张量
 
@@ -1049,11 +903,7 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 
 ### `file_descriptor`
 
-
-
 ### `file_system`
-
-
 
 ## spawn()
 
@@ -1077,10 +927,4 @@ torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False, star
 启动 `nprocs` 个进程，以使用 `args` 参数运行 `fn` 函数。
 
 如果进程中的任意一个以非零退出状态退出，则剩余进程将被杀掉，并且抛出一个进程退出原因的异常。
-
-
-
-
-
-
 

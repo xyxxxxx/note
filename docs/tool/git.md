@@ -1,5 +1,3 @@
-[toc]
-
 
 
 # 命令
@@ -17,21 +15,11 @@ $ git add .                     # 添加当前目录到暂存区
 # git add -> ga
 ```
 
-
-
 ## branch
-
-
-
-
 
 ## checkout
 
-
-
 ## cherry-pick
-
-
 
 ## clone
 
@@ -43,21 +31,13 @@ $ git clone https://github.com/tensorflow/tensorflow.git
 $ git branch --remotes             # 查看远程跟踪分支
 ```
 
-
-
 ## commit
 
 提交暂存区的文件（或其修改）到本地仓库中。
 
-
-
-
-
 ## config
 
 获取和设定当前仓库和全局配置。
-
-
 
 ### -e, --edit
 
@@ -69,13 +49,7 @@ $ git config -e --system     # 修改系统配置
 $ git config -e --global     # 修改全局配置
 ```
 
-
-
 ### --global
-
-
-
-
 
 ### -l, --list
 
@@ -94,10 +68,6 @@ core.ignorecase=true
 core.precomposeunicode=true
 ```
 
-
-
-
-
 ## diff
 
 比较暂存区快照与当前文件或上一次提交之间的差异。
@@ -111,13 +81,7 @@ $ git diff --cached     # 同上
 $ git diff --stat       # 显示修改的摘要而非详情
 ```
 
-
-
 ## fetch
-
-
-
-
 
 ## init
 
@@ -134,27 +98,15 @@ $ git branch
 * master                             # 初始分支默认名称为`master`
 ```
 
-
-
 ## log
-
-
 
 ## merge
 
-
-
 ## mv
-
-
 
 ## pull
 
-
-
 ## push
-
-
 
 ```shell
 $ git push origin c46e5:branch1              # 推送指定提交到远程分支
@@ -162,55 +114,25 @@ $ git push origin c46e5:refs/heads/branch1   # 推送指定提交到新建的远
 
 ```
 
-
-
-
-
-
-
 ### -f
-
-
 
 ## rebase
 
-
-
 ### --abort
-
-
 
 ### --continue
 
-
-
 ### -i
-
-
-
-
-
-
 
 ## remote
 
-
-
 ## reset
-
-
 
 ## restore
 
-
-
 ## rm
 
-
-
 ## show
-
-
 
 ## status
 
@@ -244,15 +166,7 @@ A  folder1/file2.md          # `A`表示已添加到暂存区但未提交的新�
 ?? folder1/file3.md          # `??`表示未追踪的新文件
 ```
 
-
-
 ## tag
-
-
-
-
-
-
 
 # .gitignore 文件
 
@@ -261,10 +175,6 @@ A  folder1/file2.md          # `A`表示已添加到暂存区但未提交的新�
 + [Git 官方教程](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring)
 + [Git 官方文档](https://git-scm.com/docs/gitignore)
 + [.gitignore 模版合集](https://github.com/github/gitignore)
-
-
-
-
 
 # 使用场景
 
@@ -284,8 +194,6 @@ Update file1                        # 下方的提交是新的提交，将不需
 $ git push -f origin branch1        # 合并之后推送到远程仓库时，需要附加`-f`选项
 ```
 
-
-
 ## 修改上次提交的消息
 
 ```shell
@@ -293,16 +201,6 @@ $ git commit -m "Some messages."                # 提交
 
 $ git commit --amend -m "Modified messages."    # 修改上次提交的消息
 ```
-
-
-
-
-
-
-
-
-
-
 
 **新建**
 
@@ -320,8 +218,6 @@ $ git clone [url]
 $ git clone -b [branch-name] [url]
 ```
 
-
-
 **配置**
 
 ```shell
@@ -335,8 +231,6 @@ $ git config -e [--global]
 $ git config [--global] user.name "[name]"
 $ git config [--global] user.email "[email address]"
 ```
-
-
 
 **增加/删除文件**
 
@@ -364,8 +258,6 @@ $ git rm --cached [file]
 $ git mv [file-original] [file-renamed]
 ```
 
-
-
 **代码提交**
 
 ```shell
@@ -388,8 +280,6 @@ $ git commit --amend -m [message]
 # 重做上一次commit，并包括指定文件的新变化
 $ git commit --amend [file1] [file2] ...
 ```
-
-
 
 **分支管理**
 
@@ -441,8 +331,6 @@ $ git push origin --delete [branch-name]
 $ git branch -dr [remote/branch]
 ```
 
-
-
 **标签管理**
 
 ```shell
@@ -473,8 +361,6 @@ $ git push [remote] --tags
 # 新建一个分支，指向某个tag
 $ git checkout -b [branch] [tag]
 ```
-
-
 
 **查看信息**
 
@@ -544,8 +430,6 @@ $ git show [commit]:[filename]
 $ git reflog
 ```
 
-
-
 **远程同步**
 
 ```shell
@@ -579,8 +463,6 @@ $ git push [remote] --force
 # 推送所有分支到远程仓库
 $ git push [remote] --all
 ```
-
-
 
 **撤销**
 

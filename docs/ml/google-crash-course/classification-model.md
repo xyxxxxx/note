@@ -24,7 +24,6 @@ $$
 z=\log (\frac{y}{1-y})
 $$
 
-
 ## Loss and Regularization
 
 ### Loss function
@@ -39,8 +38,6 @@ where:
 + $y$ is the label in a labeled example. Since this is logistic regression, every value of $y$ must either be 0 or 1.
 + $y′$ is the predicted value (somewhere between 0 and 1), given the set of features in $x$ .
 
-
-
 ## Regularization in Logistic Regression
 
 Regularization is extremely important in logistic regression modeling. Without regularization, the asymptotic nature of logistic regression would keep driving loss towards 0 in high dimensions. Consequently, most logistic regression models use one of the following two strategies to dampen model complexity:
@@ -52,10 +49,6 @@ Imagine that you assign a unique id to each example, and map each id to its own 
 
 Fortunately, using L2 or early stopping will prevent this problem.
 
-
-
-
-
 # Classification
 
 ## Thresholds
@@ -63,8 +56,6 @@ Fortunately, using L2 or early stopping will prevent this problem.
 Logistic regression returns a probability. You can use the returned probability "as is" (for example, the probability that the user will click on this ad is 0.00023) or convert the returned probability to a binary value (for example, this email is spam).
 
 A logistic regression model that returns 0.9995 for a particular email message is predicting that it is very likely to be spam. Conversely, another email message with a prediction score of 0.0003 on that same logistic regression model is very likely not spam. However, what about an email message with a prediction score of 0.6? In order to map a logistic regression value to a binary category, you must define a **classification threshold** (also called the **decision threshold**). Thresholds are problem-dependent, and are therefore values that you must tune.
-
-
 
 ## Accuracy
 
@@ -92,8 +83,6 @@ Accuracy comes out to 0.91, or 91% (91 correct predictions out of 100 total exam
 
 Accuracy alone doesn't tell the full story when you're working with a **class-imbalanced data set**, like this one, where there is a significant disparity between the number of positive and negative labels.
 
-
-
 ## Precision and Recall
 
 **Precision** is defined as follows:
@@ -110,8 +99,6 @@ $$
 {\rm Precision}=\frac{TP}{TP+FP}=\frac{1}{1+1}=0.5
 $$
 
-
-
 **Recall** is defined as follows:
 $$
 {\rm Recall}=\frac{TP}{TP+FN}
@@ -121,10 +108,7 @@ $$
 {\rm Recall}=\frac{TP}{TP+FN}=\frac{1}{1+8}=0.11
 $$
 
-
 To fully evaluate the effectiveness of a model, you must examine **both** precision and recall. Unfortunately, precision and recall are often in tension. That is, improving precision typically reduces recall and vice versa. Explore this notion by looking at the following figure, which shows 30 predictions made by an email classification model. Those to the right of the classification threshold are classified as "spam", while those to the left are classified as "not spam".
-
-
 
 ## ROC Curve and AUC
 
@@ -147,8 +131,6 @@ An ROC curve plots TPR vs. FPR at different classification thresholds. Lowering 
 
 ![ROC Curve showing TP Rate vs. FP Rate at different classification thresholds.](https://developers.google.com/machine-learning/crash-course/images/ROCCurve.svg)
 
-
-
 **AUC** stands for "Area under the ROC Curve." That is, AUC measures the entire two-dimensional area underneath the entire ROC curve (think integral calculus) from (0,0) to (1,1).
 
 ![AUC (Area under the ROC Curve).](https://developers.google.com/machine-learning/crash-course/images/AUC.svg)
@@ -168,8 +150,6 @@ However, both these reasons come with caveats, which may limit the usefulness of
 
 + **Scale invariance is not always desirable.** For example, sometimes we really do need well calibrated probability outputs, and AUC won’t tell us about that.
 + **Classification-threshold invariance is not always desirable.** In cases where there are wide disparities in the cost of false negatives vs. false positives, it may be critical to minimize one type of classification error. For example, when doing email spam detection, you likely want to prioritize minimizing false positives (even if that results in a significant increase of false negatives). AUC isn't a useful metric for this type of optimization.
-
-
 
 ## Prediction Bias
 
@@ -194,8 +174,6 @@ You might be tempted to correct prediction bias by post-processing the learned m
 
 If possible, <u>avoid calibration layers</u>. Projects that use calibration layers tend to become reliant on them—using calibration layers to fix all their model's sins. Ultimately, maintaining the calibration layers can become a nightmare.
 
-
-
 ### Bucketing and Prediction Bias
 
 Prediction bias for logistic regression only makes sense when grouping enough examples together to be able to compare a predicted value (for example, 0.392) to observed values (for example, 0.394).
@@ -219,5 +197,4 @@ Why are the predictions so poor for only *part* of the model? Here are a few pos
 + The training set doesn't adequately represent certain subsets of the data space.
 + Some subsets of the data set are noisier than others.
 + The model is overly regularized. (Consider reducing the value of lambda.)
-
 

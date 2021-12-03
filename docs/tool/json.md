@@ -1,8 +1,6 @@
 > XML 尽管功能全面，但标签繁琐，格式复杂，在 Web 上使用越来越少，而被 JSON 取而代之
 > JSON 更小，更快，更易解析
 
-[toc]
-
 ## JSON
 
 JSON（JavaScript Object Notation）去除了JavaScript的执行代码，而仅保留其对象格式，如：
@@ -34,8 +32,6 @@ JSON格式简单，仅支持以下数据类型：
 - 数值（整数和浮点数）：`12.34`
 - 布尔值：`true`或`false`
 - 空值：`null`
-
-
 
 ## JSON解析
 
@@ -69,15 +65,7 @@ Book book = mapper.readValue(input, Book.class);
 String json = mapper.writeValueAsString(book);
 ```
 
-
-
 ### Go
 
-
-
-
-
 ### Python
-
-
 

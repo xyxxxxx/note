@@ -83,17 +83,17 @@ nav:
         - PyTorch: ml/platform-and-tool/pytorch/pytorch.md
         - torchvision: ml/platform-and-tool/pytorch/torchvision.md
         - torchserve: ml/platform-and-tool/pytorch/torchserve.md
-        - API: torch, torch.Tensor, torch.autograd: ml/platform-and-tool/pytorch/api-tensor-autograd.md
-        - API: torch.nn, torch.optim: ml/platform-and-tool/pytorch/api-nn-optim.md
-        - API: torch.cuda, torch.backend: ml/platform-and-tool/pytorch/api-cuda-backend.md
-        - API: torch.distributed: ml/platform-and-tool/pytorch/api-distributed.md
-        - API: torch.math, torch.fft, torch.linalg: ml/platform-and-tool/pytorch/api-math.md
-        - API: torch.utils: ml/platform-and-tool/pytorch/api-utils.md
+        - "API: torch, torch.Tensor, torch.autograd": ml/platform-and-tool/pytorch/api-tensor-autograd.md
+        - "API: torch.nn, torch.optim": ml/platform-and-tool/pytorch/api-nn-optim.md
+        - "API: torch.cuda, torch.backend": ml/platform-and-tool/pytorch/api-cuda-backend.md
+        - "API: torch.distributed": ml/platform-and-tool/pytorch/api-distributed.md
+        - "API: torch.math, torch.fft, torch.linalg": ml/platform-and-tool/pytorch/api-math.md
+        - "API: torch.utils": ml/platform-and-tool/pytorch/api-utils.md
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
-        - API: lightning: ml/platform-and-tool/pytorch/api-lightning.md
+        - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
   - 工具: 
-    - tools/index.md
-    - Linux 命令: tools/linux-command.md
+    - tool/index.md
+    - Linux 命令: tool/linux-command.md
     
 
 # Customization

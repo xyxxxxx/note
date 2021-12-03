@@ -26,15 +26,11 @@ $$
 
 **定理** 设*为S上可结合的二元运算，对于x存在 $y_l,y_r$ 分别为左逆元和右逆元，则 $y_l=y_r=y$，y为唯一的逆元
 
-
-
 ## 代数系统
 
 **代数系统** 非空集合S和S上k个一元或二元运算 $f_1,f_2,\cdots,f_k$ 组成的系统称为一个代数系统，记作 $\langle S,f_1,f_2,\cdots,f_k \rangle$ . 如 $\langle \mathbb{Z},+,0 \rangle,\langle P(S),\bigcup,\bigcap,\sim,\varnothing,S \rangle$ 
 
 **同类型代数系统** 两个代数系统中运算的个数相同，对应运算的元数相同，且代数常熟个数相同. 如 $V_1=\langle \mathbb{R},+,\cdot,-,0,1\rangle和V_2=\langle P(B),\bigcup,\bigcap,\sim,\varnothing,B\rangle$ 
-
-
 
 **格** $V=\langle S,*,\circ\rangle$，其中 $*和\circ$ 是满足交换律，结合律，幂等律和吸收律的二元运算
 
@@ -52,8 +48,6 @@ $$
 2. 如果e1和e2| $\theta_1,\theta_2$ 分别为 $\circ,*$ 运算的单位元|零元，那么 $\langle e_1,e_2\rangle|\langle \theta_1,\theta_2\rangle$ 也是 $\cdot$ 运算的单位元|零元
 3. 如果x,y分别为 $\circ,*$ 运算的可逆元素，则 $\langle x,y\rangle$ 也是 $\cdot$ 运算的可逆元素，其逆元为 $\langle x^{-1},y^{-1}\rangle$ 
 
-
-
 ## 同态和同构
 
 **同态，同构** $V_1=\langle A,\circ \rangle,V_2=\langle B,*\rangle$ 同类， $f:A→B$ 且 $\forall x,y\in A$ 有 $f(x\circ y)=f(x)*f(y)$，则称f是V1到V2的同态映射，简称同态；如果是满射，则称为同构，记作 $V_1\cong V_2$ 
@@ -61,8 +55,6 @@ $$
 如果 $\circ$ 具有交换律，结合律，幂等律，则*也具有相同性质； $f(e_1)=e_2,f(\theta_1)=\theta_2,f(x^{-1})=f(x)^{-1}$ 
 
 同构是代数系统集合中的<u>等价关系</u>
-
-
 
 # 群group
 
@@ -113,10 +105,6 @@ $$
 1. $a^k=e$ 当且仅当 $r|k$ 
 2. $|a^{-1}|=|a|$ 
 
-
-
-
-
 ## 子群与群的陪集分解
 
 **子群** 群G，H是G的非空子集，且关于G中的运算构成群，则H是G的子群，记作 $H\le G$ ；H是G的真子群记作 $H<G$ 
@@ -130,21 +118,15 @@ $$
 
 **子群判定定理三** H是有穷集， $H\le G$ 当且仅当 $\forall a,b \in H,ab\in H$ 
 
-
-
 **生成子群** $a\in G$，令 $H=\{a^k|k\in \mathbb{Z}\}$，则 $H\le G$，称为a生成的子群，记作 $\langle a \rangle$ 
 
 **中心center** 群G，令 $C=\{ a|a\in G \land\forall x \in G:ax=xa  \}$，则 $C\le G$，称为G的中心
-
-
 
 **子群格** 群G，令 $S=\{H|H\le G \}$，在S上定义关系R：
 $$
 \forall A,B\in S,ARB\Leftrightarrow A\le B\\
 $$
 则 $\langle S,R\rangle$ 构成偏序集，称为群G的子群格
-
-
 
 **陪集coset** $H\le G,a\in G$，令
 $$
@@ -179,8 +161,6 @@ $$
 
 类似地可以定义H的左陪集
 
-
-
 **正规子群|不变子群invariant subgroup** $H\le G$， $\forall a\in G,aH=Ha$，则H为G的正规子群，记作 $H\unlhd G$ . 任何群的平凡子群 $\{e\}$ 和G都是正规的
 
 **指数**  H在G中的陪集数称为指数，记作 $[G:H]$ 
@@ -196,8 +176,6 @@ $$
 + $|G|$ 为素数，则 $\exists a\in G,G=\langle a\rangle$ ；G为Abel群
 
   
-
-
 
 ## 循环群与置换群
 
@@ -220,11 +198,7 @@ $$
 >
 > n阶循环群 $G=\langle a\rangle$，对于n的每个正因子d， $\langle a^{n/d}\rangle$ 是唯一d阶子群
 
-
-
 e.g. 置换 $g=(1234)$，则 $G=\langle g \rangle$，是4阶循环群
-
-
 
 **n元置换permutation** $S=\{1,2,\cdots,n \}$，S上任何双射函数 $\sigma:S→S$ 称为S上的n元置换；n元置换 $\sigma,\tau$， $\sigma \circ\tau$ 也是n元置换，称为 $\sigma和\tau$ 的**乘积**
 
@@ -244,23 +218,17 @@ $$
 
 **n元置换群** $S_n$ 的所有子群统称为n元置换群
 
-
-
 e.g. 3元对称群 $S_3$ 
 
 ![svijhnuj46oy53tfwokijvgrw](C:\Users\Xiao Yuxuan\Documents\pic\svijhnuj46oy53tfwokijvgrw.PNG)
 
 子群： $S_3,A_3=\{(1),(123),(132) \},\{(1),(12)\},\{(1),(13)\},\{(1),(23)\},\{(1)\}$ 
 
-
-
 **Polya定理** 设 $N=\{1,2,\cdots,n\}$ 是被着色物体的集合， $G=\{\sigma_1,\sigma_2,\cdots,\sigma_g \}$ 是N上的置换群，用m种颜色对N种元素进行着色，则在G作用下的着色方案数是
 $$
 M=\frac{1}{|G|}\sum_{k=1}^g m^{c(\sigma_k)}
 $$
 其中 $c(\sigma_k)$ 是置换 $\sigma_k$ 的轮换表达式中包含1-轮换在内的轮换个数
-
-
 
 # 群的同态
 
@@ -276,8 +244,6 @@ $$
 
 **定理** 双射 $f:A→B$，群 $\langle A,\cdot \rangle$，定义B上的二元运算 $x*y=f(f^{-1}(x)\cdot f^{-1}(y))$，则 $\langle B,* \rangle$，且f是群同构映射
 
-
-
 ## 可逆变换
 
 **可逆变换** 群 $\langle G,\cdot \rangle$，将G到G的可逆映射称为G上可逆变换，G上所有可逆变换在映射合成之下构成群，记作 $I(G)$ 
@@ -286,15 +252,12 @@ $$
 
 **定理** G的所有自同构的集合 ${\rm Aut}(G)$ 是 $I(G)$ 的一个子群
 
-
-
 e.g. 群 $\langle \mathbb{Z_4},\oplus \rangle$ 
 $$
 I(G)=\{(0,1,2,3),(0,1,3,2),\cdots \}共24项\\
 Aut(G)=\{(0,1,2,3),(0,3,2,1) \}\\
 L=\{(0,1,2,3),(1,2,3,0),(2,3,0,1),(3,0,1,2) \}
 $$
-
 
 **左乘变换** 群G， $a\in G$，定义变换 $\lambda_a$，即
 $$
@@ -312,11 +275,7 @@ $$
 
 **推论** 每个n阶有限群必定同构于n阶对称群 $S_n$ 的一个子群
 
-
-
 e.g. 群 $\langle \mathbb{Z_4},\oplus \rangle$ 同构于 $S_4$ 中 $(2,3,4,1)$ 生成的循环群
-
-
 
 **内自同构inner automorphism** 群G， $a\in G$，通过a可导出映射 $\gamma:G→G$ :
 $$
@@ -348,13 +307,9 @@ $$
 
 > 子群的子群是子群；不变子群的不变子群
 
-
-
 **换位子群** 群G，所有形如 $a_1b_1a_1^{-1}b_1^{-1}\cdots a_nb_na_n^{-1}b_n^{-1},n=1,2,\cdots$ 的集合称为G的换位子群，换位子群是不变子群
 
 **单群** 不含非平凡的不变子群的群称为单群
-
-
 
 ## 同态homomorphism
 
@@ -367,8 +322,6 @@ $$
 **定理** 同态映射 $f:G→H$，则 $f(e_G)=e_H,f^{-1}(a)=f(a^{-1})$ 
 
 **核kernel** 同态映射 $f:G→H$，H中 $e_H$ 的原像 $f^{-1}(e_H)$ 是G的<u>不变子群</u>，称为核，记作Ker(f)
-
-
 
 **定理** 同态映射的复合是同态映射
 
@@ -392,8 +345,6 @@ $$
 1. B为H的子群，则 $f(f^{-1}(B))=B\bigcap Img(f)$ 
 2. A为G的子群，则 $f^{-1}(f(A))=AKer(f)$ 
 
-
-
 e.g. G=<Z,+>, H=<Z_6,O+>, f=x mod 6,
 $$
 A=\{\cdots,-2,0,2,\cdots \},\quad f(A)=\{0,2,4\}是H的(不变)子群\\
@@ -401,8 +352,6 @@ B=\{1,3,5\},\quad f^{-1}(B)=\{\cdots-1,1,3,5,\cdots\}是G的(不变)子群\\
 f(f^{-1}(B))=\{1,3,5\}\\
 f^{-1}(f(A))=\{\cdots,-2,0,2,\cdots \}
 $$
-
-
 
 ## 商群quotient group
 
@@ -414,15 +363,11 @@ aN\#bN=(a*b)N
 $$
 且 $(G/N,\#)$ 是个群，称为G对N的商群
 
-
-
 e.g. 
 
 ![op3jygvrnj42grvth](C:\Users\Xiao Yuxuan\Documents\pic\op3jygvrnj42grvth.PNG)
 
 ![dajiph6u4nhtjgogr2](C:\Users\Xiao Yuxuan\Documents\pic\dajiph6u4nhtjgogr2.PNG)
-
-
 
 ![grwji6uwrfwvwrfgh](C:\Users\Xiao Yuxuan\Documents\pic\grwji6uwrfwvwrfgh.PNG)
 
@@ -434,8 +379,6 @@ e.g.
 
 ![wrfiphk4gnjh3t3j6](C:\Users\Xiao Yuxuan\Documents\pic\wrfiphk4gnjh3t3j6.PNG)
 
-
-
 **自然同态** 群G，不变子群N，则映射 $f:G→G/N,f(a)=aN$ 是满同态映射，且 $Ker(f)=N$，称为自然同态
 
 **同态基本定理fundamental theorem of homomorphism** 群G，H， $f:G→H$ 是满同态映射， $Ker(f)=K$，则有映射 $\varphi:G/K→H$ 使得
@@ -443,8 +386,6 @@ $$
 \forall aK\in G/K,\varphi(aK)=f(a)
 $$
 且 $\varphi$ 是G/K到H的同构映射
-
-
 
 e.g. G=<Z_6,O+>, N=<0,2,4,O+>, G/N=<024,135>, 则
 $$
@@ -455,12 +396,6 @@ e.g. G=<Z,+>, H=<Z_6,O+>, f=x mod 6, Ker(f)=<6k>=K, G/K=<[0],[1],[2],[3],[4],[5]
 $$
 \forall aK\in G/K, \varphi(aK)=f(a)=a [mod~6],且\varphi为同构映射
 $$
-
-
-
-
-
-
 
 # 环ring
 
@@ -485,15 +420,9 @@ $$
 3.  $\forall a,b,c\in R,a(b-c)=ab-ac,(b-c)a=ba-ca$ 
 4.  $\forall a_1,\cdots,a_n,b_1,\cdots,b_m\in R,(\sum a_i)(\sum b_j)=\sum \sum a_ib_j$ 
 
-
-
 e.g.模n整数环，实矩阵环
 
-
-
 **零环zero ring** 
-
-
 
 **整环，域** 环 $\langle R,+,\cdot\rangle$ ：
 
@@ -511,8 +440,6 @@ e.g.模n整数环，实矩阵环
 
 **定理** 整环的环乘满足消去律
 
-
-
 ## 子环subring
 
 **子环subring** 环 $\langle R,+,\cdot \rangle$，S是R的非空子集，若将 $+,\cdot$ 派生到S上， $\langle S,+,\cdot \rangle$ 也是个环，则其为 $\langle R,+,\cdot \rangle$ 的子环
@@ -529,8 +456,6 @@ e.g.模n整数环，实矩阵环
 **推论** 环R， $a\in R$，则R中形如 $ma,m_1a+m_2a^2,\cdots,m_1a+m_2a^2+\cdots+m_ta^t,\cdots$ 的元素（正整数t，整数m_i）构成的集合即为 $\langle a \rangle$ 
 
 环R， $a,b\in R$，则R中形如 $ma+nb,m_1a^2+m_2ab+n_1ba+n_2b^2,\cdots$ 的元素（整数m_i,n_i）构成的集合即为 $\langle a,b \rangle$ 
-
-
 
 ## 理想ideal
 
@@ -570,8 +495,6 @@ $$
 >
 >  $(a_1,a_2,\cdots,a_n)$ 即 $(a_1)+(a_2)+\cdots+(a_n)$ 
 
-
-
 ## 理想与商环
 
 **商环|剩余环quotient ring商環** 环 $\langle R,+,\cdot \rangle$，A是R的理想. 作为群，得商群 $\overline{R}=R/A$，加法为#，再定义乘法 $\odot$ ：
@@ -582,8 +505,6 @@ $$
 则 $(\overline{R},\#,\odot)$ 是环R关于A的商环
 
 **单环|单纯环** 只有平凡理想的环称为单环
-
-
 
 e.g. 整数环的商环
 $$
@@ -621,15 +542,7 @@ $$
 
 > $\mathbb{P/}(2,X)=\mathbb{P/}\{2p_1+Xp_2|p\in \mathbb{P}\}=\{\{Xp|常数项为奇数\},\{Xp|常数项为偶数\}\}$，表示任意整系数多项式先除以X降次到1，再除以2，得到余数0,1
 
-
-
 > 实数环是1维的，m×n实矩阵环是mn维的，实系数多项式环是无限维的
-
-
-
-
-
-
 
 ## 环同态映射
 
@@ -640,13 +553,9 @@ $$
 $$
 则 $\varphi$ 为环同态映射；特别地， $\varphi$ 是满射时则S是R的同态像， $\varphi$ 是双射时 $\varphi$ 为环同构映射，记作 $R\cong S$ 
 
-
-
 e.g.多项式环到实数环的映射 $\varphi:f(x)→f(a)$ 即环同态映射
 
 Z到<Z_3,O+,O*>的映射 $\varphi(x)=x (\mod 3)$ 
-
-
 
 **像|核** 环R，S，环同态映射 $\varphi:R→S$，集合
 $$
@@ -672,37 +581,17 @@ $$
 
 **环的同态基本定理** 环同态映射 $\varphi:R→S$ 是满射， $Ker(\varphi)=A$，则 $R/A$ 同构于S
 
-
-
 e.g. 多项式环P到实数环R的映射 $\varphi:f(x)→f(a)$ 是满的环同态映射，则 $P/Ker(\varphi)\cong R$，其中 $Ker(\varphi)=((x-a))$ 
-
-
 
 # 域
 
 ## 除环和域
 
-
-
 ## 理想和商环
-
-
 
 ## 嵌入问题
 
-
-
 ## 交换环上的多项式
-
-
-
-
-
-
-
-
-
-
 
 e.g.
 
@@ -740,13 +629,9 @@ $|G|=12$，平凡子群 $G,\{0\}$
 + G是12阶循环群，生成元有 $\phi(12)=4$ 个，即1,5,7,11
 + 对于12的因子1,2,3,4,6,12，G都恰有一个该阶的子群
 
-
-
 子群格
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\hyiet34t9vsfj31rg4u67.PNG" alt="hyiet34t9vsfj31rg4u67" style="zoom:67%;" />
-
-
 
 $H=\{0,6\},~[G:H]=6$，其陪集
 

@@ -6,8 +6,6 @@
 >
 > 数理统计学教程, 陈希孺, 第1章
 
-
-
 ## 常用统计量
 
 **样本均值(sample mean) $\overline{X}$ **
@@ -18,8 +16,6 @@ $$
 
 + 若总体 $X\sim N(\mu,\sigma^2)$，则 $\overline{X}\sim N(\mu,\frac{\sigma^2}{n})$ 
 + 若总体不服从正态分布， $E(X)=\mu,Var(X)=\sigma^2$，则由中心极限定理，n较大时 $\overline{X}$ 渐进分布为 $N(\mu,\frac{\sigma^2}{n})$ 
-
-
 
 **样本方差(sample variance) $S^2$ **
 $$
@@ -32,24 +28,17 @@ $$
 
 前一个解释比较形象，后一个解释则在数学上最严谨。
 
-
-
 **样本k阶原点矩sample moment of order k about the origin $a_k$ **
 $$
 a_k=\frac{1}{n}\sum_{i=1}^nX_i^k
 $$
-
 
 **样本k阶中心矩sample central moment of order k $b_k$ **
 $$
 b_k=\frac{1}{n}\sum_{i=1}^n(X_i-\overline{X})^k
 $$
 
-
-
 **分位点** 连续型随机变量的分布函数 $F(x)$， $F(a)=P(X\le a)=\alpha$，称a为该分布的 $\alpha$ 分位点
-
-
 
 ## 常用统计分布
 
@@ -71,8 +60,6 @@ $X\sim\chi^2(n),则E(X)=n,Var(X)=2n$
 
 $X_1\sim\chi^2(m),X_2\sim\chi^2(n)，则X_1+X_2\sim\chi^2(m+n)$ 
 
-
-
 **t分布** $X_1\sim N(0,1),X_2\sim \chi^2(n),X_1,X_2$ 相互独立，则随机变量
 $$
 Y=\frac{X_1}{\sqrt{X_2/n}}
@@ -81,12 +68,9 @@ $$
 
 > t>30时，t分布基本等同于正态分布
 
-
-
 **F分布** $X_1\sim \chi^2(m),X_2\sim \chi^2(n),X_1,X_2$ 相互独立，则随机变量
 $$
 Y=\frac{X_1/m}{X_2/n}
 $$
 的分布称为自由度为m与n的F分布，记作 $Y\sim F(m,n)$ 
-
 

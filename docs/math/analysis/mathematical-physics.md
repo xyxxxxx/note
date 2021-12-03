@@ -84,33 +84,15 @@ $$
 
 > 函数在某一区域上可导和解析是等价的
 
-
-
-
-
-
-
 ## 平面标量场
 
 ## 多值函数
 
-
-
-
-
 # 积分
-
-
 
 # 幂级数展开
 
-
-
 # 留数定理
-
-
-
-
 
 # 傅里叶变换
 
@@ -143,8 +125,6 @@ $$
 
 **Dirichlet conditions** 若 $f(x)$ 满足：(1)处处连续，或在每个周期内只有有限个第一类间断点；(2)每个周期内只有有限个极值点，则级数**收敛**，且级数和 $=(f(x+0)+f(x-0))/2$ 
 
-
-
 **奇函数和偶函数的傅里叶展开**
 
 若周期函数是奇函数，则 $a_0=a_k=0$，有
@@ -156,7 +136,6 @@ $$
 b_k=\frac{2}{l}\int_{0}^{l}f(\xi)\sin\frac{k\pi \xi}{l}d\xi\\
 $$
 
-
 若周期函数是偶函数，则 $b_k=0$，有
 $$
 f(x)=a_0+\sum_{k=1}^{\infty}a_k\cos\frac{k\pi x}{l}
@@ -166,12 +145,9 @@ $$
 a_k=\frac{2}{\delta_kl}\int_0^lf(\xi)\cos\frac{k\pi \xi}{l}d\xi
 $$
 
-
 **定义在有限区间上函数的傅里叶展开**
 
 （延拓为周期函数
-
-
 
 **复数形式的傅里叶级数**
 
@@ -223,7 +199,6 @@ f(x)=\int_0^\infty A(\omega)\cos \omega xd\omega\\
 A(\omega)=\frac{2}{\pi}\int_{0}^{\infty}f(\xi)\cos \omega \xi d\xi
 $$
 
-
 ### 复数形式的傅里叶变换
 
 傅里叶积分和傅里叶变换
@@ -232,8 +207,6 @@ f(x)=\int_{-\infty}^{\infty}F(\omega)e^{i\omega x}d\omega\\
 F(\omega)=\frac{1}{2\pi}\int_{-\infty}^{\infty}f(x)e^{-i\omega x}dx
 $$
 记作 $F(\omega)=\mathscr{F}[f(x)],f(x)=\mathscr{F}^{-1}[F(\omega)]$，分别称为傅里叶变换的**像函数**和**原函数**
-
-
 
 **基本性质**
 
@@ -285,16 +258,6 @@ u=
 $$
 卷积性质
 
-
-
-
-
-
-
-
-
-
-
 # 拉普拉斯变换
 
 > 拉普拉斯变换主要用于求解线性微分方程/积分方程
@@ -311,8 +274,6 @@ F(s)=\mathscr{L}[f(t)]=\int_{-\infty}^\infty f(t)e^{-st}dt\\
 f(t)=\mathscr{L^{-1}}[F(s)]=\frac{1}{2\pi i}\int_{\sigma-i\infty}^{\sigma+i\infty}F(s)e^{is}ds\\
 $$
 即为拉氏变换， $F(s)$ 和 $f(t)$ 分别为**像函数和原函数**
-
-
 
 **基本性质**
 
@@ -362,15 +323,7 @@ $$
   其中f_1(t)*f_2(t)=\int_0^t f_1(\tau)f_2(t-\tau)d\tau即卷积
   $$
 
-
-
-
-
 ## 反演
-
-
-
-
 
 ## 应用
 
@@ -380,17 +333,12 @@ $$
 2. 根据变换后的方程求解像函数
 3. 对解出的像函数进行反演
 
-
-
-
-
 # 推导
 
 $$
 e^{i\theta}=\cos \theta+i\sin\theta\\
 \cos \theta=(e^{i\theta}+e^{-i\theta})/2,\sin\theta=(e^{i\theta}-e^{-i\theta})/2i
 $$
-
 
 $$
 \mathscr{L}[1]=\int_0^\infty e^{-st}dt=(\frac{-1}{s}e^{-st})|_0^\infty=\frac{1}{s}\\

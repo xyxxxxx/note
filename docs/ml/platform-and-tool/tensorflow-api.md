@@ -1,4 +1,4 @@
-[toc]
+
 
 # tf
 
@@ -15,8 +15,6 @@ array([[1, 2, 3],
        [1, 2, 3]], dtype=int32)>
 ```
 
-
-
 ## cast()
 
 将张量转型为新类型。
@@ -28,8 +26,6 @@ array([[1, 2, 3],
 >>> the_u8_tensor
 <tf.Tensor: shape=(3,), dtype=uint8, numpy=array([2, 3, 4], dtype=uint8)>
 ```
-
-
 
 ## concat()
 
@@ -50,8 +46,6 @@ array([[ 1,  2,  3,  7,  8,  9],
        [ 4,  5,  6, 10, 11, 12]], dtype=int32)>
 ```
 
-
-
 ## constant()
 
 用类似张量的对象（python 数组、numpy 数组等）创建一个常数张量。
@@ -63,8 +57,6 @@ array([[ 1,  2,  3,  7,  8,  9],
 >>> tf.constant(np.arange(1,7))
 <tf.Tensor: shape=(6,), dtype=int64, numpy=array([1, 2, 3, 4, 5, 6])>
 ```
-
-
 
 ## convert_to_tensor()
 
@@ -87,8 +79,6 @@ array([[1, 2],
        [3, 4]], dtype=int32)>
 ```
 
-
-
 ## device()
 
 创建一个上下文，指定其中创建/执行的操作使用的设备。
@@ -106,8 +96,6 @@ array([[1, 2],
 /job:localhost/replica:0/task:0/device:CPU:0
 ```
 
-
-
 ## expand_dims()
 
 返回一个张量，其在输入张量的基础上在指定位置增加一个维度。
@@ -119,8 +107,6 @@ TensorShape([1, 2, 5])
 >>> tf.expand_dims(a, 1).shape
 TensorShape([2, 1, 5])
 ```
-
-
 
 ## GradientTape
 
@@ -159,8 +145,6 @@ print(L, w_grad, b_grad)
 $$
 \mathcal{L}=125，\frac{\partial\mathcal{L}}{\partial\pmb w}=\begin{bmatrix}70\\100\end{bmatrix}，\frac{\partial\mathcal{L}}{\partial b}=30
 $$
-
-
 
 ## matmul()
 
@@ -212,8 +196,6 @@ array([[[ 6.,  6.,  6.],
         [48., 48., 48.]]], dtype=float32)>
 ```
 
-
-
 ## newaxis
 
 用于在张量的起始或末尾位置增加一个维度。
@@ -226,8 +208,6 @@ TensorShape([1, 2, 5])
 TensorShape([2, 5, 1])
 
 ```
-
-
 
 ## ones()
 
@@ -243,8 +223,6 @@ array([[1., 1., 1.],
 array([[1, 1, 1],
        [1, 1, 1]], dtype=int32)>
 ```
-
-
 
 ## one_hot()
 
@@ -276,10 +254,6 @@ array([[1., 0., 0., 0.],
        [0., 0., 1., 0.]], dtype=float32)>
 ```
 
-
-
-
-
 ## RaggedTensor
 
 某些维度上长度可变的张量类型。
@@ -297,8 +271,6 @@ array([[1., 0., 0., 0.],
 TensorShape([4, None])
 ```
 
-
-
 ## range()
 
 根据给定的初值，末值和步长创建一维张量。与 Python 的 `range()` 用法相同。
@@ -310,8 +282,6 @@ TensorShape([4, None])
 <tf.Tensor: shape=(5,), dtype=int32, numpy=array([1, 3, 5, 7, 9], dtype=int32)>
 ```
 
-
-
 ## rank()
 
 返回张量的维数。
@@ -322,8 +292,6 @@ TensorShape([4, None])
 <tf.Tensor: shape=(), dtype=int32, numpy=2>
 #                                   维数=2
 ```
-
-
 
 ## repeat()
 
@@ -345,8 +313,6 @@ array([[1, 1, 2, 2, 2],
 <tf.Tensor: shape=(8,), dtype=int32, numpy=array([1, 1, 2, 2, 3, 3, 4, 4], dtype=int32)>
 ```
 
-
-
 ## reshape()
 
 改变张量的形状。
@@ -364,8 +330,6 @@ array([[0, 1, 2, 3, 4],
 array([[0, 1, 2, 3, 4],
        [5, 6, 7, 8, 9]], dtype=int32)>
 ```
-
-
 
 ## reverse()
 
@@ -387,8 +351,6 @@ array([[4, 3, 2, 1, 0],
        [9, 8, 7, 6, 5]], dtype=int32)>
 ```
 
-
-
 ## shape()
 
 返回张量的形状。
@@ -400,8 +362,6 @@ array([[4, 3, 2, 1, 0],
 #                                             形状=[2,3]
 ```
 
-
-
 ## size()
 
 返回张量的元素总数。
@@ -412,8 +372,6 @@ array([[4, 3, 2, 1, 0],
 <tf.Tensor: shape=(), dtype=int32, numpy=6>
 #                                 元素总数=6
 ```
-
-
 
 ## split()
 
@@ -448,10 +406,6 @@ array([[ 0],
        [30]], dtype=int32)>
 ```
 
-
-
-
-
 ## squeeze()
 
 返回一个张量，其在输入张量的基础上删除所有规模为 1 的维度。
@@ -463,8 +417,6 @@ TensorShape([1, 2, 1, 5, 1])
 >>> tf.squeeze(a).shape
 TensorShape([2, 5])
 ```
-
-
 
 ## stack()
 
@@ -484,8 +436,6 @@ array([[1, 4],
 array([[1, 2, 3],
        [4, 5, 6]], dtype=int32)>
 ```
-
-
 
 ## strided_slice()
 
@@ -557,21 +507,13 @@ array([[[ 0.,  1.,  2.,  3.,  4.]],
 TensorShape([2, 4, 4, 2])
 ```
 
-
-
 ## Tensor
 
 张量类型。
 
-
-
-
-
 ### device
 
 张量位于的设备的名称。
-
-
 
 ### dtype
 
@@ -583,25 +525,17 @@ TensorShape([2, 4, 4, 2])
 tf.float32
 ```
 
-
-
 ### graph
 
 包含张量的图。
-
-
 
 ### name
 
 张量的字符串名称。
 
-
-
 ### op
 
 产生此张量的运算。
-
-
 
 ### shape, ndim
 
@@ -614,8 +548,6 @@ TensorShape([2, 3])
 >>> a.ndim
 2
 ```
-
-
 
 ### index & slice op
 
@@ -659,8 +591,6 @@ print(rank_3_tensor[:, :, 4])
 #  [24 29]], shape=(3, 2), dtype=int32)
 ```
 
-
-
 ## tile()
 
 将张量在各维度上重复指定次数。
@@ -683,15 +613,11 @@ array([[1, 2, 3],
        [4, 5, 6]], dtype=int32)>
 ```
 
-
-
 ## Variable
 
 ```python
 
 ```
-
-
 
 ## zeros()
 
@@ -708,10 +634,6 @@ array([[0, 0, 0],
        [0, 0, 0]], dtype=int32)>
 ```
 
-
-
-
-
 # tf.config
 
 ## get_soft_device_placement()
@@ -726,8 +648,6 @@ True
 >>> tf.config.get_soft_device_placement()
 False
 ```
-
-
 
 ## get_visible_devices()
 
@@ -745,8 +665,6 @@ except:
   # Invalid device or cannot modify virtual devices once initialized.
   pass
 ```
-
-
 
 ## list_logical_devices()
 
@@ -781,8 +699,6 @@ except:
 RuntimeError: Virtual devices cannot be modified after being initialized
 ```
 
-
-
 ## list_physical_devices()
 
 返回运行时可见的物理设备列表。
@@ -800,8 +716,6 @@ RuntimeError: Virtual devices cannot be modified after being initialized
  PhysicalDevice(name='/physical_device:GPU:1', device_type='GPU')]
 ```
 
-
-
 ## LogicalDevice
 
 初始化运行时得到的逻辑设备的抽象。
@@ -811,8 +725,6 @@ tf.config.LogicalDevice(name, device_type)
 ```
 
 一个 `LogicalDevice` 对象对应一个 `PhysicalDevice` 对象或者集群上的远程设备。张量或操作可以通过调用 `tf.device()` 并指定 `LogicalDevice`，而被放置在指定的逻辑设备上。
-
-
 
 ## LogicalDeviceConfiguration
 
@@ -825,8 +737,6 @@ tf.config.LogicalDeviceConfiguration(memory_limit=None, experimental_priority=No
 
 此类用于在初始化运行时过程中，指定配置参数将 `PhysicalDevice` 初始化为 `LogicalDevice`。
 
-
-
 ## PhysicalDevice
 
 本地物理设备的抽象。
@@ -836,8 +746,6 @@ tf.config.PhysicalDevice(name, device_type)
 ```
 
 TensorFlow 可以利用各种设备进行计算，例如 CPU 或者（多个）GPU。在初始化本地设备之前，用户可以自定义设备的一些属性，例如可见性或者内存配置。
-
-
 
 ## set_logical_device_configuration()
 
@@ -873,8 +781,6 @@ TensorFlow 可以利用各种设备进行计算，例如 CPU 或者（多个）G
 [LogicalDevice(name='/device:GPU:0', device_type='GPU'), LogicalDevice(name='/device:GPU:1', device_type='GPU')]
 ```
 
-
-
 ## experimental.set_memory_growth()
 
 设定一个 `PhysicalDevice` 对象是否启用内存增长。
@@ -883,8 +789,6 @@ TensorFlow 可以利用各种设备进行计算，例如 CPU 或者（多个）G
 >>> gpus = tf.config.list_physical_devices('GPU')
 >>> tf.config.experimental.set_memory_growth(gpus[0], True)  # 启用内存增长
 ```
-
-
 
 ## set_soft_device_placement()
 
@@ -898,8 +802,6 @@ True
 >>> tf.config.get_soft_device_placement()
 False
 ```
-
-
 
 ## set_visible_devices()
 
@@ -926,10 +828,6 @@ False
  LogicalDevice(name='/device:GPU:0', device_type='GPU')]
 ```
 
-
-
-
-
 # tf.data
 
 ## Dataset
@@ -941,8 +839,6 @@ False
 3. 迭代数据集并处理数据
 
 迭代以流的方式进行，因此不会将整个数据集全部放到内存中。
-
-
 
 > 以下方法均不是原位操作，即返回一个新的数据集，而不改变原数据集。
 
@@ -960,8 +856,6 @@ False
 [0, 1, 2, 3, 4]
 ```
 
-
-
 ### as_numpy_iterator()
 
 返回一个迭代器，其将数据集的所有元素都转换为 NumPy 数组。常用于检查数据集的内容。
@@ -971,8 +865,6 @@ False
 >>> list(ds.as_numpy_iterator())
 [0, 1, 2, 3, 4]
 ```
-
-
 
 ### batch()
 
@@ -985,15 +877,11 @@ False
 [array([0, 1, 2]), array([3, 4, 5]), array([6, 7, 8])]
 ```
 
-
-
 ### cache()
 
 缓存数据集的元素到内存中。
 
 返回的数据集在第一次迭代后，其元素将被缓存到内存或指定文件中；接下来的迭代将使用缓存的数据。
-
-
 
 ### cardinality()
 
@@ -1014,8 +902,6 @@ False
 <tf.Tensor: shape=(), dtype=bool, numpy=True>
 ```
 
-
-
 ### concatenate()
 
 将数据集与给定数据集进行拼接。
@@ -1028,8 +914,6 @@ False
 [1, 2, 3, 4, 5, 6, 7]
 ```
 
-
-
 ### enumerate()
 
 对数据集的元素进行计数。
@@ -1039,8 +923,6 @@ False
 >>> list(ds.as_numpy_iterator())
 [(1, 2), (2, 4), (3, 6)]
 ```
-
-
 
 ### filter()
 
@@ -1053,13 +935,9 @@ False
 [0, 2, 4, 6, 8]
 ```
 
-
-
 ### from_generator()
 
 创建由生成器生成的元素构成的数据集。
-
-
 
 ### from_tensor_slices()
 
@@ -1085,8 +963,6 @@ False
 [{'a': 1, 'b': 3, 'c': 5}, {'a': 2, 'b': 4, 'c': 6}]    # 字典,元素来自各张量
 ```
 
-
-
 ### from_tensors()
 
 创建由单个张量元素构成的数据集。
@@ -1102,11 +978,7 @@ False
         [4, 5, 6]], dtype=int32)]
 ```
 
-
-
 ### list_files()
-
-
 
 ### map()
 
@@ -1119,13 +991,9 @@ False
 [1, 4, 9]
 ```
 
-
-
 ### options()
 
 返回数据集和其输入的选项。
-
-
 
 ### prefetch()
 
@@ -1139,8 +1007,6 @@ False
 >>> list(Dataset.range(5).prefetch(2).as_numpy_iterator())
 [0, 1, 2, 3, 4]
 ```
-
-
 
 ### range()
 
@@ -1156,8 +1022,6 @@ False
 >>> list(Dataset.range(1, 5, 2, output_type=tf.float32).as_numpy_iterator())
 [1.0, 3.0]
 ```
-
-
 
 ### reduce()
 
@@ -1175,8 +1039,6 @@ reduce(initial_state, reduce_func)
 >>> Dataset.range(5).reduce(np.int64(0), lambda x, _: x + 1)
 <tf.Tensor: shape=(), dtype=int64, numpy=5>
 ```
-
-
 
 ### repeat()
 
@@ -1208,8 +1070,6 @@ reduce(initial_state, reduce_func)
  array([87, 62, 29, 17, 12, 22, 66, 93, 88, 42]),
  array([79,  4, 80, 78, 32, 30, 71,  9, 58, 41])]
 ```
-
-
 
 ### shard()
 
@@ -1258,8 +1118,6 @@ shard(num_shards, index)
 [array([0, 0]), array([3, 3]), array([6, 6]), array([9, 6]), array([3, 0]), array([9, 9])]
 ```
 
-
-
 ### shuffle()
 
 随机打乱数据集中的元素。
@@ -1295,8 +1153,6 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=True)
 [1, 4, 2, 3, 0]
 ```
 
-
-
 ### skip()
 
 去除数据集的前几个元素。
@@ -1306,8 +1162,6 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=True)
 [2, 3, 4]
 ```
 
-
-
 ### take()
 
 取数据集的前几个元素。
@@ -1316,8 +1170,6 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=True)
 >>> list(Dataset.range(5).take(2).as_numpy_iterator())
 [0, 1]
 ```
-
-
 
 ### unbatch()
 
@@ -1331,8 +1183,6 @@ shuffle(buffer_size, seed=None, reshuffle_each_iteration=True)
 >>> list(ds.unbatch().as_numpy_iterator())
 [1, 2, 3, 1, 2, 1, 2, 3, 4]
 ```
-
-
 
 ### window()
 
@@ -1385,8 +1235,6 @@ window(size, shift=None, stride=1, drop_remainder=False)
 [5, 7, 9]
 ```
 
-
-
 ### zip()
 
 组合多个数据集的对应元素。类似于 Python 的内置函数 `zip()`。
@@ -1408,8 +1256,6 @@ window(size, shift=None, stride=1, drop_remainder=False)
 >>> list(ds.as_numpy_iterator())
 [(1, 4, 13), (2, 5, 14)]
 ```
-
-
 
 ## TextLineDataset
 
@@ -1441,23 +1287,15 @@ b'went up'
 b'the hill'
 ```
 
-
-
-
-
 # tf.distribute
 
 > 此模块设计复杂，难以使用，越来越多的用户开始使用 [Horovod](./hovorod.md)。
 
 分布式训练。
 
-
-
 ## CentralStorageStrategy
 
 中央存储策略。
-
-
 
 ## cluster_resolver.ClusterResolver
 
@@ -1465,19 +1303,13 @@ b'the hill'
 
 通过集群解析器和集群管理系统的交流，我们能够自动发现并解析各 TensorFlow 工作器的 IP 地址，进而能够自动从底层机器的故障中恢复，或者对 TensorFlow 工作器进行伸缩。
 
-
-
 ### cluster_spec()
 
 获取集群的当前状态并返回一个 `tf.train.ClusterSpec` 实例。
 
-
-
 ### num_accelerators()
 
 返回每个工作器可用的加速器核心（GPU 和 TPU）数量。
-
-
 
 ### task_id
 
@@ -1505,8 +1337,6 @@ else:
 ```
 
 若 task ID 在当前分布式环境中不适用，则返回 `None`。
-
-
 
 ### task_type
 
@@ -1542,8 +1372,6 @@ TensorFlow 中有效的 task 类型包括：
 
 若 task 类型在当前分布式环境中不适用，则返回 `None`。
 
-
-
 ## cluster_resolver.SimpleClusterResolver
 
 集群解析器的简单实现。
@@ -1552,8 +1380,6 @@ TensorFlow 中有效的 task 类型包括：
 tf.distribute.cluster_resolver.SimpleClusterResolver(cluster_spec, master='', task_type=None, task_id=None, environment='', num_accelerators=None, rpc_layer=None)
 ```
 
-
-
 ## cluster_resolver.TFConfigClusterResolver
 
 读取 `TF_CONFIG` 环境变量的集群解析器。
@@ -1561,8 +1387,6 @@ tf.distribute.cluster_resolver.SimpleClusterResolver(cluster_spec, master='', ta
 ```python
 tf.distribute.cluster_resolver.TFConfigClusterResolver(task_type=None, task_id=None, rpc_layer=None, environment=None)
 ```
-
-
 
 ## coordinator.ClusterCoordinator
 
@@ -1574,13 +1398,9 @@ tf.distribute.cluster_resolver.TFConfigClusterResolver(task_type=None, task_id=N
 
 此类有内置的对于工作器故障的容错机制，即当部分工作器由于任何原因变得对于协调器不可用时，训练过程由剩余的工作器继续完成。……
 
-
-
 ### create_per_worker_dataset()
 
 通过在工作器的设备上调用 `dataset_fn()` 创建工作器的数据集。
-
-
 
 ```python
 strategy = tf.distribute.experimental.ParameterServerStrategy(
@@ -1603,8 +1423,6 @@ remote_value = coordinator.schedule(worker_fn, args=(per_worker_iter,))
 assert remote_value.fetch() == 3
 ```
 
-
-
 ### done()
 
 返回是否所有分派的函数都已经执行完毕。
@@ -1612,8 +1430,6 @@ assert remote_value.fetch() == 3
 如果先前分派的函数引发了错误，此方法将引发这些错误中的任意一个。
 
 当此方法返回或引发错误时，可以保证没有任何函数仍在执行。
-
-
 
 ### fetch()
 
@@ -1643,8 +1459,6 @@ result = coordinator.schedule(worker_fn, args=(distributed_iterator,))
 assert coordinator.fetch(result) == 1
 ```
 
-
-
 ### join()
 
 阻塞直到所有分派的函数执行完毕。
@@ -1652,8 +1466,6 @@ assert coordinator.fetch(result) == 1
 如果先前分派的函数引发了错误，此方法将引发这些错误中的任意一个，并清除已经收集的错误。
 
 当此方法返回或引发错误时，可以保证没有任何函数仍在执行。
-
-
 
 ### schedule()
 
@@ -1676,17 +1488,11 @@ schedule(fn, args=None, kwargs=None)
 
 目前尚不支持为函数指定工作器，或设定函数执行的优先级。
 
-
-
-
-
 ## CrossDeviceOps
 
 跨设备归约和广播算法的基类。`ReductionToOneDevice`, `NcclAllReduce` 和 `HierarchicalCopyAllReduce` 是 `CrossDeviceOps` 的子类，实现了具体的归约算法。
 
 此类的主要目标是被传入到 `MirroredStrategy` 以在不同的跨设备通信实现中进行选择。
-
-
 
 ## DistributedDataset
 
@@ -1723,10 +1529,6 @@ PerReplica:{
    
 
 ## DistributedIterator
-
-
-
-
 
 ## DistributedValues
 
@@ -1788,8 +1590,6 @@ PerReplica:{
 <tf.Tensor: shape=(), dtype=float32, numpy=11.0>
 ```
 
-
-
 ## get_replica_context()
 
 返回当前的 `ReplicaContext` 实例。
@@ -1810,8 +1610,6 @@ PerReplica:{                                      # `strategy.run()`返回镜像
 }
 ```
 
-
-
 ## get_strategy()
 
 返回当前的 `Strategy` 实例。
@@ -1824,8 +1622,6 @@ PerReplica:{                                      # `strategy.run()`返回镜像
   print(tf.distribute.get_strategy())             # `MirroredStrategy`实例
 <tensorflow.python.distribute.mirrored_strategy.MirroredStrategy object at 0x7fb54795bf50>
 ```
-
-
 
 ## has_strategy()
 
@@ -1840,13 +1636,9 @@ False
 True
 ```
 
-
-
 ## HierarchicalCopyAllReduce
 
 hierarchical copy all-reduce 算法的实现。
-
-
 
 ## in_cross_replica_context()
 
@@ -1865,13 +1657,9 @@ True
 False
 ```
 
-
-
 ## InputContext
 
 此类是一个上下文类，其实例包含了关于模型副本和输入流水线的信息，用以传入到用户的输入函数。
-
-
 
 ### get_per_replica_batch_size()
 
@@ -1881,27 +1669,17 @@ get_per_replica_batch_size(global_batch_size)
 
 返回每个模型副本的批次规模。
 
-
-
 ### input_pipeline_id
 
 输入流水线的 ID。
-
-
 
 ### num_input_pipelines
 
 输入流水线的数量。
 
-
-
 ### num_replicas_in_sync
 
 同步的模型副本的数量。
-
-
-
-
 
 ## MirroredStrategy
 
@@ -1926,15 +1704,7 @@ MirroredVariable:{
 }
 ```
 
-
-
 ### cluster_resolver
-
-
-
-
-
-
 
 ## experimental.MultiWorkerMirroredStrategy
 
@@ -1943,15 +1713,9 @@ MirroredVariable:{
 ```python
 ```
 
-
-
-
-
 ## NcclAllReduce
 
 Nvidia NCCL all-reduce 算法的实现。默认使用的 all-reduce 算法。
-
-
 
 ## OneDeviceStrategy
 
@@ -1976,8 +1740,6 @@ tf.distribute.OneDeviceStrategy(device)
 90
 ```
 
-
-
 ## partitioners.FixedShardsPartitioner
 
 将数据（张量）分割为固定份数。
@@ -1989,8 +1751,6 @@ tf.distribute.OneDeviceStrategy(device)
 >>> partitioner(tf.TensorShape([10, 3]), tf.float32, axis=1)
 [1, 2]
 ```
-
-
 
 ## partitioners.MinSizePartitioner
 
@@ -2005,13 +1765,9 @@ tf.distribute.OneDeviceStrategy(device)
 [5, 1]              # 分为5份,每份最小为24字节
 ```
 
-
-
 ## partitioners.Partitioner
 
 所有分割器的基类。
-
-
 
 ### \__call__
 
@@ -2024,13 +1780,9 @@ __call__(shape, dtype, axis=0)
 # axis      沿此轴进行分割
 ```
 
-
-
 ## ReduceOp
 
 表示一组值的归约方法。`ReduceOp.SUM` 表示求和，`ReduceOp.MEAN` 表示求平均值。
-
-
 
 ## ReductionToOneDevice
 
@@ -2041,12 +1793,6 @@ tf.distribute.ReductionToOneDevice(reduce_to_device=None, accumulation_fn=None)
 # reduce_to_device   进行归约的中间设备
 # accumulation_fn
 ```
-
-
-
-
-
-
 
 ## ReplicaContext
 
@@ -2064,39 +1810,23 @@ PerReplica:{
 }
 ```
 
-
-
 ### all_gather
-
-
 
 ### all_reduce
 
-
-
 ### merge_call
-
-
 
 ### num_replicas_in_sync
 
 返回进行梯度汇总的模型副本的数量。
 
-
-
 ### replica_id_in_sync_group
 
 返回模型副本的索引。
 
-
-
 ### strategy
 
 返回当前的 `Strategy` 实例。
-
-
-
-
 
 ## Server
 
@@ -2117,8 +1847,6 @@ tf.distribute.Server(server_or_cluster_def, job_name=None, task_index=None, prot
 # start                    若为`True`,则在创建服务器之后立即启动
 ```
 
-
-
 ### create_local_server()
 
 在本地主机创建一个新的单进程集群。
@@ -2132,27 +1860,17 @@ create_local_server(config=None, start=True)
 # start                    若为`True`,则在创建服务器之后立即启动它
 ```
 
-
-
 ### join()
 
 阻塞直到服务器关闭。
-
-
 
 ### start()
 
 启动服务器。
 
-
-
-
-
 ## Strategy
 
 在一组设备上进行分布式计算的策略。
-
-
 
 ### distribute_datasets_from_function()
 
@@ -2182,8 +1900,6 @@ PerReplica:{
 }
 ```
 
-
-
 ### experimental_distribute_dataset()
 
 将数据集（`tf.data.Dataset` 实例）转换为分布式数据集（`tf.distribute.DistributedDataset` 实例），`tf.data.Dataset` 实例的批次规模就是分布式训练的全局批次规模。如果你没有特定的想要去分割数据集的方法，则推荐使用此方法。
@@ -2206,8 +1922,6 @@ PerReplica:{
   1: tf.Tensor([16.], shape=(1,), dtype=float32)
 }
 ```
-
-
 
 此方法在底层进行了三个关键操作：分批、分割和预取。
 
@@ -2237,8 +1951,6 @@ PerReplica:{
 
 重新分批操作的空间复杂度与模型副本的数量呈线性关系，因此当模型副本数量较多时输入流水线可能会引发 OOM 错误。
 
-
-
 **分割**
 
 对输入数据集进行自动分割（在 `MultiWorkerMirroredStrategy` 下），每个模型副本被（不重复不遗漏地）分配原数据集的一个子集，具体到每个 step 中，每个模型副本被（不重复不遗漏地）分配全局批次的一个子集并处理。
@@ -2265,23 +1977,13 @@ PerReplica:{
   + 文件：`[0, 1, 2, 3, 4, 5, 6, 7]`
   + 副本 1：`[0, 1], [2, 3], [4, 5], [6, 7]`；副本 2：`[0, 1], [2, 3], [4, 5], [6, 7]`
 
-
-
 **预取**
 
 默认对输入数据集增加一个 `prefetch()` 变换，参数 `buffer_size` 取模型副本的数量。
 
-
-
 ### experimental_distribute_values_from_function()
 
-
-
-
-
 ### gather()
-
-
 
 ```python
 >>> strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
@@ -2293,7 +1995,6 @@ INFO:tensorflow:Using MirroredStrategy with devices ('/job:localhost/replica:0/t
 
 strategy.gather(distributed_values, axis=0)
 
-
 INFO:tensorflow:Gather to /job:localhost/replica:0/task:0/device:CPU:0 then broadcast to ('/job:localhost/replica:0/task:0/device:CPU:0',).
 <tf.Tensor: shape=(4, 1), dtype=int32, numpy=
 array([[1],
@@ -2302,19 +2003,11 @@ array([[1],
        [2]], dtype=int32)>
 ```
 
-
-
-
-
 ### num_replicas_in_sync
 
 返回进行梯度汇总的模型副本的数量。
 
-
-
 ### reduce()
-
-
 
 ### run()
 
@@ -2323,10 +2016,6 @@ run(fn, args=(), kwargs=None, options=None)
 ```
 
 在每个模型副本上调用 `fn`，使用给定的参数。
-
-
-
-
 
 ### scope()
 
@@ -2339,18 +2028,11 @@ with strategy.scope():
     mirrored_variable = tf.Variable(1.)
 mirrored_variable
 
-
 # Variable created outside scope:
 regular_variable = tf.Variable(1.)
 regular_variable
 
 ```
-
-
-
-
-
-
 
 # tf.image
 
@@ -2358,21 +2040,11 @@ regular_variable
 
 ## adjust_brightness()
 
-
-
 ## adjust_contrast()
-
-
 
 ## adjust_gamma()
 
-
-
 ## adjust_hue()
-
-
-
-
 
 # tf.linalg
 
@@ -2389,8 +2061,6 @@ array([[1., 2.],
 >>> tf.linalg.det(a)
 <tf.Tensor: shape=(), dtype=float32, numpy=-2.0>
 ```
-
-
 
 ## diag()
 
@@ -2409,21 +2079,13 @@ tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0],  # Output shape: (2, 4, 4)
                                [0, 0, 0, 8]]]
 ```
 
-
-
 ## eigh()
 
 返回张量的一个特征分解 $A=Q\Lambda Q^{-1}$。
 
-
-
 ## svd()
 
 返回张量的一个奇异值分解 $A=U\Sigma V^*$。
-
-
-
-
 
 # tf.math
 
@@ -2435,8 +2097,6 @@ tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0],  # Output shape: (2, 4, 4)
 >>> tf.abs(tf.constant([-1, -2, 3]))
 <tf.Tensor: shape=(3,), dtype=int32, numpy=array([1, 2, 3], dtype=int32)>
 ```
-
-
 
 ## add(), subtract()
 
@@ -2471,8 +2131,6 @@ array([[ 0,  2,  4,  6],
        [16, 18, 20, 22]], dtype=int32)>
 ```
 
-
-
 ## argmax(), argmin()
 
 返回张量沿指定维度的最大值的索引。
@@ -2500,8 +2158,6 @@ array([[ 1.2651453 , -0.9885311 , -1.9029404 ,  1.0343136 ],
 <tf.Tensor: shape=(4,), dtype=int64, numpy=array([2, 3, 1, 3])>
 ```
 
-
-
 ## ceil()
 
 张量逐元素应用向上取整。
@@ -2510,8 +2166,6 @@ array([[ 1.2651453 , -0.9885311 , -1.9029404 ,  1.0343136 ],
 >>> tf.math.ceil([-1.7, -1.5, -0.2, 0.2, 1.5, 1.7, 2.0])
 <tf.Tensor: shape=(7,), dtype=float32, numpy=array([-1., -1., -0.,  1.,  2.,  2.,  2.], dtype=float32)>
 ```
-
-
 
 ## equal()
 
@@ -2529,8 +2183,6 @@ array([[ True,  True,  True],
 array([[ True,  True,  True],
        [ True,  True,  True]])>
 ```
-
-
 
 ## exp()
 
@@ -2550,8 +2202,6 @@ array([[1.0000000e+00, 2.7182817e+00, 7.3890562e+00, 2.0085537e+01,
         8.1030840e+03]], dtype=float32)>
 ```
 
-
-
 ## floor()
 
 张量逐元素应用向下取整。
@@ -2560,8 +2210,6 @@ array([[1.0000000e+00, 2.7182817e+00, 7.3890562e+00, 2.0085537e+01,
 >>> tf.math.floor([-1.7, -1.5, -0.2, 0.2, 1.5, 1.7, 2.0])
 <tf.Tensor: shape=(7,), dtype=float32, numpy=array([-2., -2., -1.,  0.,  1.,  1.,  2.], dtype=float32)>
 ```
-
-
 
 ## greater(), greater_equal(), less(), less_equal()
 
@@ -2580,8 +2228,6 @@ array([[1.0000000e+00, 2.7182817e+00, 7.3890562e+00, 2.0085537e+01,
 <tf.Tensor: shape=(3,), dtype=bool, numpy=array([ True,  True,  True])>
 ```
 
-
-
 ## log()
 
 张量逐元素应用自然对数函数。注意 TensorFlow 没有 `log2()` 和 `log10()` 函数。
@@ -2599,8 +2245,6 @@ array([[     -inf, 0.       , 0.6931472, 1.0986123, 1.3862944],
       dtype=float32)>
 ```
 
-
-
 ## maximum(), minimum()
 
 逐元素取两个张量的较大值、较小值。
@@ -2613,8 +2257,6 @@ array([[     -inf, 0.       , 0.6931472, 1.0986123, 1.3862944],
 >>> tf.math.minimum(a, b)
 <tf.Tensor: shape=(4,), dtype=float32, numpy=array([-2.,  0.,  0.,  0.], dtype=float32)>
 ```
-
-
 
 ## multiply(), divide()
 
@@ -2657,8 +2299,6 @@ array([[ 1,  2,  3,  4],
        [ 3,  6,  9, 12]], dtype=int32)>
 ```
 
-
-
 ## pow()
 
 张量逐元素幂乘。`**` 符号重载了此方法。
@@ -2679,8 +2319,6 @@ array([[1, 2],
 array([[  256, 65536],
        [    9,    27]], dtype=int32)>
 ```
-
-
 
 ## reduce_max(), reduce_min(), reduce_mean(), reduce_std()
 
@@ -2722,8 +2360,6 @@ array([[0., 1., 2., 3., 4.],
 <tf.Tensor: shape=(2,), dtype=float32, numpy=array([1.4142135, 1.4142135], dtype=float32)>
 ```
 
-
-
 ## reduce_sum()
 
 计算张量沿指定维度的元素和。
@@ -2746,8 +2382,6 @@ array([[3],
 <tf.Tensor: shape=(), dtype=int32, numpy=6>
 ```
 
-
-
 ## round()
 
 张量逐元素应用舍入函数，0.5 会向偶数取整。
@@ -2757,8 +2391,6 @@ array([[3],
 >>> tf.round(a)
 <tf.Tensor: shape=(5,), dtype=float32, numpy=array([ 1.,  2.,  2.,  2., -4.], dtype=float32)>
 ```
-
-
 
 ## sigmoid()
 
@@ -2772,8 +2404,6 @@ Sigmoid 激活函数。
 <tf.Tensor: shape=(2,), dtype=float32, numpy=array([0.795352  , 0.57472193], dtype=float32)>
 ```
 
-
-
 ## sign()
 
 张量逐元素应用符号函数。
@@ -2782,8 +2412,6 @@ Sigmoid 激活函数。
 >>> tf.math.sign([0., 2., -3.])
 <tf.Tensor: shape=(3,), dtype=float32, numpy=array([ 0.,  1., -1.], dtype=float32)>
 ```
-
-
 
 ## sin(), cos(), tan(), arcsin(), arccos(), arctan(), sinh(), cosh(), tanh(), arcsinh(), arccosh(), arctanh()
 
@@ -2802,8 +2430,6 @@ array([[ 0.        ,  0.84147096,  0.9092974 ,  0.14112   , -0.7568025 ],
       dtype=float32)>
 ```
 
-
-
 ## sqrt()
 
 张量逐元素开平方。
@@ -2814,8 +2440,6 @@ array([[ 0.        ,  0.84147096,  0.9092974 ,  0.14112   , -0.7568025 ],
 <tf.Tensor: shape=(2,), dtype=float32, numpy=array([2., 3.], dtype=float32)>
 ```
 
-
-
 ## square()
 
 张量逐元素平方。相当于 `**2`。
@@ -2825,10 +2449,6 @@ array([[ 0.        ,  0.84147096,  0.9092974 ,  0.14112   , -0.7568025 ],
 >>> tf.square(a)
 <tf.Tensor: shape=(2,), dtype=float32, numpy=array([16., 81.], dtype=float32)>
 ```
-
-
-
-
 
 # tf.random
 
@@ -2849,8 +2469,6 @@ array([[-0.18030666, -0.95028627, -0.03964049],
 array([[78.19693, 70.49714, 79.60359],
        [72.57459, 93.23152, 73.81452]], dtype=float32)>
 ```
-
-
 
 ## set_seed()
 
@@ -2923,8 +2541,6 @@ array([[78.19693, 70.49714, 79.60359],
 <tf.Tensor: shape=(1,), dtype=float32, numpy=array([0.05554414], dtype=float32)>
 ```
 
-
-
 ## poisson()
 
 生成指定形状的随机张量，其中每个元素服从泊松分布。
@@ -2944,8 +2560,6 @@ array([[1., 0.],
        [1., 2.]], dtype=float32)>
 ```
 
-
-
 ## uniform()
 
 生成指定形状的随机张量，其中每个元素服从均匀分布。
@@ -2964,39 +2578,21 @@ array([[6.263931 , 5.2984324, 7.584572 ],
        [5.084884 , 3.4415376, 3.1959772]], dtype=float32)>
 ```
 
-
-
-
-
 # tf.signal
 
 信号处理操作。
-
-
 
 ## fft()
 
 快速傅立叶变换。
 
-
-
-
-
-
-
 # tf.sparse
 
 ## add
 
-
-
 ## concat
 
-
-
 ## mask
-
-
 
 ## SparseTensor
 
@@ -3012,10 +2608,6 @@ array([[1, 0, 0, 0],
        [0, 0, 2, 0],
        [0, 0, 0, 0]], dtype=int32)>
 ```
-
-
-
-
 
 # tf.strings
 
@@ -3055,57 +2647,29 @@ print(tf.strings.unicode_decode(unicode_string, "UTF-8"))
 # tf.Tensor([129395 128077], shape=(2,), dtype=int32)
 ```
 
-
-
 ## format()
-
-
 
 ## join()
 
-
-
 ## ngrams()
-
-
 
 ## regex_full_match()
 
-
-
 ## regex_replace()
-
-
-
-
 
 ## split()
 
-
-
 ## strip()
-
-
-
-
 
 # tf.train
 
 ## Checkpoint
 
-
-
 ## CheckpointManager
-
-
-
-
 
 ## ClusterDef
 
 协议消息类型。
-
-
 
 ## ClusterSpec
 
@@ -3121,51 +2685,33 @@ cluster_spec = tf.train.ClusterSpec({"worker": ["worker0.example.com:2222",
                                             "ps1.example.com:2222"]})
 ```
 
-
-
 ### as_cluster_def()
 
 返回基于此集群的 `tf.train.ClusterDef` 协议缓冲区。
-
-
 
 ### as_dict()
 
 返回从 job 名称到其包含的 task 的字典。
 
-
-
 ### job_tasks()
 
 返回指定 job 中的从 task ID 到网络地址的映射。
-
-
 
 ### num_tasks()
 
 返回指定 job 中的 task 数量。
 
-
-
 ### task_address()
 
 返回指定 job 中指定索引的 task 的网络地址。
-
-
 
 ### task_indices()
 
 返回指定 job 中的有效 task 索引列表。
 
-
-
-
-
 # tfds
 
 `tfds` 模块定义了一系列 TensorFlow 可以直接使用的数据集的集合。每个数据集都定义为一个 `tfds.core.DatasetBuilder` 实例，该实例封装了下载数据集、构建输入流水线的逻辑，也包含了数据集的文档。
-
-
 
 ## as_dataframe()
 
@@ -3179,8 +2725,6 @@ tfds.as_dataframe(
 # ds        要转换为Pandas dataframe的`Dataset`实例,其中样本不应分批
 # ds_info   `DatasetInfo`实例,用于帮助改善格式
 ```
-
-
 
 ## as_numpy()
 
@@ -3200,8 +2744,6 @@ for ex in ds_numpy:
   print(ex)
 ```
 
-
-
 ## build()
 
 通过数据集名称获取一个 `DatasetBuilder` 实例。
@@ -3214,32 +2756,14 @@ tfds.builder(name: str, *, try_gcs: bool = False, **builder_kwargs) -> tfds.core
 # **builder_kwargs    传递给`DatasetBuilder`的关键字参数字典
 ```
 
-
-
 ```python
 ```
 
-
-
-
-
 ## core.BuilderConfig
-
-
 
 ## core.DatasetBuilder
 
-
-
-
-
 ## core.DatasetInfo
-
-
-
-
-
-
 
 ## load()
 

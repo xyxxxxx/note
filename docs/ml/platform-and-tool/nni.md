@@ -2,8 +2,6 @@
 
 **NNI（Neural Network Intelligence）**是一个工具包，帮助用户设计机器学习模型的神经网络架构，调优模型的超参数等。
 
-[toc]
-
 ## 主要概念
 
 * *Experiment*：一个具体任务，例如寻找给定模型的最优超参或最佳神经网络架构。experiment 由多个 trial 和自动机器学习算法组成。
@@ -20,15 +18,11 @@
 
 ![](https://user-images.githubusercontent.com/23273522/51816627-5d13db80-2302-11e9-8f3e-627e260203d5.jpg)
 
-
-
 ## 核心功能
 
 ### 超参调优
 
 见上。
-
-
 
 ### 通用 NAS 框架
 
@@ -38,19 +32,9 @@ NNI 通过 Trial SDK 支持多种 one-shot（一次性）NAS 算法，如 ENAS�
 
 除了 one-shot NAS 外，NAS 还能以 NNI 模式运行，其中每个候选的网络结构都作为独立 Trial 任务运行。在此模式下，与超参调优类似，必须启用 NNI Experiment 并为 NAS 选择 Tuner。
 
-
-
 ### 模型压缩
 
-
-
-
-
 ### 自动特征工程
-
-
-
-
 
 ## 快速入门
 
@@ -87,7 +71,6 @@ def main(args):
     # report final result
     nni.report_final_result(test_acc)
 
-
 def get_params():
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
@@ -111,10 +94,8 @@ def get_params():
     parser.add_argument('--log_interval', type=int, default=1000, metavar='N',
                         help='how many batches to wait before logging training status')
 
-
     args, _ = parser.parse_known_args()
     return args
-
 
 if __name__ == '__main__':
     try:
@@ -157,8 +138,6 @@ trial:
 
 ```
 
-
-
 然后就可以在命令行通过配置文件 `config.yml` 文件启动 Experiment。
 
 ```shell
@@ -197,11 +176,7 @@ You can use these commands to get more information about the experiment
 
 如果根据上述步骤准备好了相应的 `trial`，`search space`和`configuration`，并成功创建了 NNI 任务。NNI 会根据 `search space`自动地在每次`trial` 使用不同的超参组合。通过 Web 界面可看到 NNI 的进度。
 
-
-
 ## Web界面
 
 在浏览器中打开命令行给出的 `Web UI url`，就可以看到 experiment 的详细信息。
-
-
 

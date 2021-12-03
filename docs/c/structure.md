@@ -17,7 +17,6 @@ struct student //结构体嵌套
    struct date birthday;
 };
 
-
 struct student stu1 = {2001001, "Zhang San", 1990, 1, 1}; //初始化结构体变量
 stu1.num = 2001001; //数据访问和赋值
 stu1.birthday.year = 1990;
@@ -29,19 +28,15 @@ struct student stu[] = {  //初始化结构体数组
     }; 
 stu[1].num = 2001001;     //数据访问和赋值
 
-
 struct date *p, dates[] = {{2001, 1, 1}, {2002, 2, 2}, {2003, 3, 3}}; //结构体指针
 p = dates;                                                            //即p=dates[0]
 //p->year==(*p).year==2001 表示指针p所在结构体变量的year字段，或者使用*p取所在结构变量
 //(++p)->month==2 由于p已经被定义为date结构的指针,结构体变量将被视作一个整体,++p会从第一个结构体变量的起始地址跳到第二个的起始地址,
 //++p->day 将第二个结构变量的day字段+1,因为->的运算优先级高于++
 
-
 sizeof(stu1);                                //结构体变量的大小为所有字段的大小之和
 #define NKEYS (sizeof(stu) / sizeof(stu[0])) //结构体数组的规模
 ```
-
-
 
 ## 联合
 
@@ -55,23 +50,18 @@ union u_tag    //定义联合可以存放char,int,double类型
     double fu;
 }u;
 
-
 u.iu = 65;     // 0x0000000000000041
 printf("%d\n",u.iu);  // 65
 printf("%c\n",u.chu); // A
 printf("%f\n",u.fu);  // 0.000000
 
-
 int *p = &u.u1; //&u==&u.u1==&u.u2 联合仅有一地址
 *p = 65;
-
 
 sizeof(u);     //联合变量的大小为所有类型的大小的最大值
 ```
 
 联合不能初始化、赋值，不能作为函数参数，但可以使用指针访问
-
-
 
 ## 位域
 

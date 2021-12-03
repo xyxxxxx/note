@@ -8,8 +8,6 @@
 
 + `++i`表示`i+=1`再执行该语句，`i++`表示执行该语句再`i+=1`
 
-
-
 ## 关系运算符
 
 ```c
@@ -33,8 +31,6 @@
 + 若逻辑语句的值已经确定，则立即结束该语句的运算
 + `!0 == 1`，`!n == 0`，其中`n != 0`
 
-
-
 ## 位运算符
 
 ```c
@@ -43,23 +39,17 @@
 
 + 将后6位置零的最好方法是：`x & ~077`，因为不必考虑`x`的位数
 
-
-
 ## 赋值运算符
 
 ```c
 =  +=  -=  *=  /=  %=  <<=  >>=  &=  ^=  |=  
 ```
 
-
-
 ## 杂项运算符
 
 ```c
 sizeof()  &  *  ?:
 ```
-
-
 
 ## 三元运算符
 
@@ -68,8 +58,6 @@ a?b:c
 ```
 
 + `(n > 0) ? f : n`返回结果的类型被转换为`float`
-
-
 
 ## 运算顺序
 
@@ -103,10 +91,6 @@ a?b:c
   a[i] = i++; //WRONG
   ```
 
-
-
-
-
 # 类型
 
 ## 数据类型
@@ -127,8 +111,6 @@ a?b:c
 
 + 使用`float`的原因：减少大型数组的存储大小；单精度浮点运算节省时间
 
-
-
 ### 类型转换
 
 + 计算转换： `char/short` → `int` → `long` → `float` → `double` →`long double`
@@ -145,8 +127,6 @@ a?b:c
 
   
 
-
-
 ## 自定义类型
 
 ```c
@@ -154,8 +134,6 @@ typedef float real;  //使用real表示float类型
 typedef int num[100];//声明num为整数数组类型
 typedef char *string;//使用string表示字符指针类型
 ```
-
-
 
 ## 枚举类型
 
@@ -165,8 +143,6 @@ month < Jul //可以比较
 month1=(enum month)3;//赋值4月    
 ```
 
-
-
 ## 其它类型
 
 |        |                                                        |
@@ -174,10 +150,6 @@ month1=(enum month)3;//赋值4月
 | size_t | unsigned int 类型，用来表示数据结构大小，sizeof 返回值 |
 | FILE   | 存储文件流信息的类型                                   |
 |        |                                                        |
-
-
-
-
 
 # 特殊语法
 
@@ -216,8 +188,6 @@ month1=(enum month)3;//赋值4月
 
 ```
 
-
-
 ## const
 
 ```c
@@ -229,8 +199,6 @@ const char msg[] = "warning:";
 int strlen(const char[]);
 ```
 
-
-
 ## extern
 
 > https://blog.csdn.net/xingjiarong/article/details/47656339
@@ -240,8 +208,6 @@ int strlen(const char[]);
 //如果外部变量在同一源文件的首部声明，则省略extern
 //如果外部变量在另一源文件声明
 ```
-
-
 
 ## static & automatic
 

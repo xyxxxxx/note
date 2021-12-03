@@ -1,4 +1,4 @@
-[toc]
+
 
 # torch.nn
 
@@ -27,8 +27,6 @@ class Model(nn.Module):
 
 以此种方式赋值的子模块将被注册，当你对模块调用 `to()` 等方法时这些子模块的参数也会被同样地转换。
 
-
-
 #### add_module()
 
 为当前模块添加一个子模块。添加的子模块可以作为属性访问（使用给定的名称）。
@@ -38,8 +36,6 @@ add_module(name, module)
 # name     子模块的名称
 # module   被添加的子模块
 ```
-
-
 
 #### apply()
 
@@ -72,33 +68,23 @@ Sequential(
 )
 ```
 
-
-
 #### buffers()
 
 返回所有缓冲区的一个迭代器。
-
-
 
 #### children()
 
 返回所有直接子模块的一个迭代器。
 
-
-
 #### cpu()
 
 移动所有的模型参数和缓冲区到 CPU。
-
-
 
 #### cuda()
 
 移动所有的模型参数和缓冲区到 GPU。
 
 如果你需要将模型移动到 GPU（通过调用 `.cuda()` 或 `.to()`），请在为此模型构造优化器之前完成这一操作。`.cuda()` 或 `.to()` 调用之后的模型的参数将会是一组不同的对象。
-
-
 
 #### eval()
 
@@ -108,13 +94,9 @@ Sequential(
 
 等价于 `train(False)`。
 
-
-
 #### forward()
 
 定义每次调用时执行的前向计算。
-
-
 
 #### get_parameter()
 
@@ -123,8 +105,6 @@ get_parameter(target)
 ```
 
 返回由 `target` 给出的参数，若其不存在则引发异常。
-
-
 
 #### get_submodule()
 
@@ -136,8 +116,6 @@ get_submodule(target)
 
 例如，现有模块 `a`，其有一个嵌套的子模块 `net_b`，`net_b` 又有两个子模块 `net_c` 和 `linear`，`net_c` 又有子模块 `conv`。为了检查我们是否有子模块 `linear`，应调用 `get_submodule("net_b.linear")`；为了检查我们是否有子模块 `conv`，应调用 `get_submodule("net_b.net_c.linear")`。
 
-
-
 #### load_state_dict()
 
 ```python
@@ -147,8 +125,6 @@ load_state_dict(state_dict, strict=True)
 ```
 
 从 `state_dict` 复制参数和缓冲区到当前模块及其子模块。
-
-
 
 #### modules()
 
@@ -167,31 +143,21 @@ load_state_dict(state_dict, strict=True)
 2 -> Linear(in_features=2, out_features=2, bias=True)     # 2 -> 子模块2
 ```
 
-
-
 #### named_buffers()
 
 返回所有缓冲区的一个迭代器，产出缓冲区及其名称。
-
-
 
 #### named_children()
 
 返回所有直接子模块的一个迭代器，产出模块及其名称。
 
-
-
 #### named_parameters()
 
 返回所有参数的一个迭代器，产出模块及其名称。
 
-
-
 #### parameters()
 
 返回所有参数的一个迭代器，通常用于传给优化器。
-
-
 
 #### register_buffer()
 
@@ -208,8 +174,6 @@ register_buffer(name, tensor, persistent=True)
 # persistent  若为`True`,则缓冲区是持久的,并会成为模块的`state_dict`的一部分
 ```
 
-
-
 #### register_forward_hook()
 
 为模块注册一个前向钩子。
@@ -221,8 +185,6 @@ hook(module, input, output) -> None or modified output
 ```
 
 其中 `input` 仅包含传给模块（`forward()`）的位置参数，传给模块的关键字参数不会传给钩子。钩子可以修改 `output`，也可以原位修改 `input`，但是这并不会影响到前向计算，因为钩子在 `forward()` 返回后才被调用。
-
-
 
 #### register_pre_hook()
 
@@ -236,8 +198,6 @@ hook(module, input) -> None or modified input
 
 其中 `input` 仅包含传给模块（`forward()`）的位置参数，传给模块的关键字参数不会传给钩子。钩子可以修改 `input`，返回修改后的值。
 
-
-
 #### register_full_backward_hook()
 
 为模块注册一个反向钩子。
@@ -249,8 +209,6 @@ hook(module, grad_input, grad_output) -> tuple(Tensor) or None
 ```
 
 其中 `grad_input` 和 `grad_output` 是分别包含了对于输入和输出的梯度的元组。此钩子不应修改其参数，但可以可选地返回一个新的对于输入的梯度以替代 `grad_input` 用于接下来的计算。`grad_input` 仅对应于传给模块的位置参数，传给模块的关键字参数将被忽略；`grad_input` 和 `grad_output` 中对应于非张量的元素为 `None`。
-
-
 
 #### register_parameter()
 
@@ -264,23 +222,17 @@ register_parameter(name, param)
 # param       要添加的参数
 ```
 
-
-
 #### requires_grad_()
 
 设置 autograd 是否应该记录模块参数参与的运算，通过设置参数的 `requires_grad` 属性。
 
 此方法有助于冻结部分模块以精调，或单独训练模型的各个部分（例如 GAN 训练）。
 
-
-
 #### state_dict()
 
 返回包含了模块完整状态的字典。
 
 参数和持久缓冲区都包含在内；字典的键对应于参数和缓冲区的名称。
-
-
 
 #### to()
 
@@ -337,33 +289,23 @@ tensor([[0.6122+0.j, 0.1150+0.j],
         [0.6122+0.j, 0.1150+0.j]], dtype=torch.complex128)
 ```
 
-
-
 #### train()
 
 设置模块为训练模式。
 
 仅对某些模块有效，请参阅特定模块的文档以了解其在训练/测试模式下的行为细节。
 
-
-
 #### training
 
 若为 `True`，表示模块处于训练模式；若为 `False`，表示模块处于测试模式。
-
-
 
 #### type()
 
 将所有参数和缓冲区转换为指定数据类型。
 
-
-
 #### zero_grad()
 
 设置所有模型参数的梯度为 0。见 `torch.optim.Optimizer.zero_grad()`。
-
-
 
 ### Sequential
 
@@ -386,8 +328,6 @@ model = nn.Sequential(
         )
 ```
 
-
-
 ## 线性层
 
 ### Linear
@@ -408,8 +348,6 @@ class torch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=N
 + 参数：
   + `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
   + `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
-
-
 
 ```python
 >>> linear1 = nn.Linear(10, 4)
@@ -432,8 +370,6 @@ tensor([[-0.0285,  0.0458, -0.0013,  0.2764,  0.0984, -0.1178, -0.1910, -0.0530,
 Parameter containing:
 tensor([ 0.2535, -0.0148, -0.2111,  0.1926], requires_grad=True)
 ```
-
-
 
 ## 卷积层
 
@@ -476,8 +412,6 @@ torch.Size([100, 32, 9])
 >>> conv3(input).shape
 torch.Size([100, 32, 10])
 ```
-
-
 
 ### Conv2d
 
@@ -526,8 +460,6 @@ torch.Size([100, 32, 9, 9])
 torch.Size([100, 32, 10, 10])
 ```
 
-
-
 ### Conv3d
 
 三维卷积层。
@@ -555,8 +487,6 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 + 参数：
   + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
   + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
-
-
 
 ## 汇聚层（池化层）
 
@@ -591,8 +521,6 @@ tensor([[6., 9., 8., 8.]])
 >>> mp3(input)
 tensor([[6., 9., 8., 8., 7.]])
 ```
-
-
 
 ### MaxPool2d
 
@@ -638,8 +566,6 @@ tensor([[[9., 9., 9.],
          [7., 8., 8.]]])
 ```
 
-
-
 ### MaxPool3d
 
 三维最大汇聚层。见 `torch.nn.functional.max_pool3d`。
@@ -657,8 +583,6 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 
 + 输入形状： $(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
 + 输出形状： $(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$。
-
-
 
 ### AvgPool1d
 
@@ -690,8 +614,6 @@ tensor([[[4.6667, 7.0000, 5.3333, 5.0000]]])
 >>> ap3(input)
 tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
 ```
-
-
 
 ### AvgPool2d
 
@@ -737,8 +659,6 @@ tensor([[[[3.4444, 4.8889, 4.5000],
           [4.0000, 3.0000, 2.7500]]]])
 ```
 
-
-
 ### AvgPool3d
 
 三维平均汇聚层。见 `torch.nn.functional.avg_pool3d`。
@@ -757,12 +677,6 @@ class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 + 输入形状： $(N,C,D_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
 + 输出形状： $(N,C,D_{\rm out},H_{\rm out}, W_{\rm out})$。
 
-
-
-
-
-
-
 ## 循环层
 
 ### GRU
@@ -779,8 +693,6 @@ torch.Size([20, 64, 10])
 >>> hn.shape
 torch.Size([2, 64, 10])
 ```
-
-
 
 ### LSTM
 
@@ -805,7 +717,6 @@ torch.Size([20, 64, 10])                   # 从前往后输出最上层的所�
 torch.Size([2, 64, 10])                    # 输出每一(层,方向)的最终隐状态
                                            # 对于单向LSTM, hn[-1]==output[-1]
 
-
 >>> rnn = nn.LSTM(5, 10, 2, bidirectional=True)  # 双向LSTM,相当于将输入向量正向和反向各
                                                  #   输入一次
 >>> input = torch.randn(20, 64, 5)
@@ -820,8 +731,6 @@ torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状�
 
 > 尤其需要注意的是，这里接受的输入张量的形状为`(seq_len, batch, input_size)`，而常见的输入的形状为`(batch, seq_len, input_size)`，为此需要使用`transpose()`或`permute()`方法交换维度。参见[For beginners: Do not use view() or reshape() to swap dimensions of tensors!](https://discuss.pytorch.org/t/for-beginners-do-not-use-view-or-reshape-to-swap-dimensions-of-tensors/75524)
 
-
-
 ## 归一化层
 
 ### BatchNorm1d
@@ -830,10 +739,7 @@ torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状�
 
 ### BatchNorm3d
 
-
 ## Transformer 层
-
-
 
 ## 嵌入层
 
@@ -899,8 +805,6 @@ tensor([[ 1.0000,  1.0000,  1.0000],
 > loss.backward()
 > ```
 
-
-
 ## 丢弃层
 
 ### Dropout
@@ -945,8 +849,6 @@ tensor([[-1.1218,  0.1338, -0.0065, -1.6416],
         [-1.3392, -0.5207, -0.2739, -0.9653],
         [ 0.6608,  0.9212,  0.0579,  0.9670]])
 ```
-
-
 
 ### Dropout2d
 
@@ -1043,8 +945,6 @@ tensor([[[[ 1.7200, -0.7948],
           [ 0.5634, -0.1202]]]])
 ```
 
-
-
 ## 激活函数
 
 ### ReLU
@@ -1063,8 +963,6 @@ tensor([-0.5151,  0.0423, -0.8955,  0.0784])
 tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ```
 
-
-
 ### Sigmoid
 
 Logistic 激活函数层。见 `torch.sigmoid`、`torch.special.expit`。
@@ -1080,8 +978,6 @@ tensor([-0.0796, -0.5545,  1.6273, -1.3333])
 >>> logistic(input)
 tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ```
-
-
 
 ### Softmax, LogSoftmax
 
@@ -1104,8 +1000,6 @@ tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 >>> sm(input).log()
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 ```
-
-
 
 ## 损失函数
 
@@ -1154,8 +1048,6 @@ tensor(0.9293)
 >>> loss(y, t)
 tensor(50.)
 ```
-
-
 
 ### CrossEntropyLoss
 
@@ -1220,11 +1112,7 @@ tensor(0.4197)
 tensor(0.4197)
 ```
 
-
-
 ### KLDivLoss
-
-
 
 ### MSELoss
 
@@ -1258,8 +1146,6 @@ tensor(2.2500)
 >>> loss(y, t)
 tensor(9.)
 ```
-
-
 
 ### NLLLoss
 
@@ -1305,8 +1191,6 @@ tensor(0.4197)         # 0.4197 = (0.4736 + 0.3287 + 0.4566) / 3
 tensor(0.4012)         # 0.4012 = (0.4736 + 0.3287) / 2
 ```
 
-
-
 ### L1Loss
 
 平均绝对误差损失函数层。
@@ -1342,15 +1226,9 @@ tensor(1.2500)
 tensor(5.)
 ```
 
-
-
 ## 数据并行模组
 
 ### DataParallel
-
-
-
-
 
 ### parallel.DistributedDataParallel
 
@@ -1389,8 +1267,6 @@ class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_
 #                    `torch.distributed.init_process_group()`创建的进程组
 ```
 
-
-
 ## 实用功能
 
 ### Flatten
@@ -1406,8 +1282,6 @@ torch.Size([2, 60])
 >>> flatten(input).shape
 torch.Size([2, 12, 5])
 ```
-
-
 
 # torch.nn.functional
 
@@ -1428,8 +1302,6 @@ tensor([[6., 9., 8., 8.]])
 >>> F.max_pool1d(input, 3, stride=2, ceil_mode=True)
 tensor([[6., 9., 8., 8., 7.]])
 ```
-
-
 
 ### max_pool2d()
 
@@ -1458,13 +1330,9 @@ tensor([[[9., 9., 9.],
          [7., 8., 8.]]])
 ```
 
-
-
 ### max_pool3d()
 
 三维最大汇聚函数。用法参见 `torch.nn.MaxPool3d`。
-
-
 
 ### avg_pool1d()
 
@@ -1481,8 +1349,6 @@ tensor([[[4.6667, 7.0000, 5.3333, 5.0000]]])
 >>> F.avg_pool1d(input, 3, stride=2, ceil_mode=True)
 tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
 ```
-
-
 
 ### avg_pool2d()
 
@@ -1511,13 +1377,9 @@ tensor([[[[3.4444, 4.8889, 4.5000],
           [4.0000, 3.0000, 2.7500]]]])
 ```
 
-
-
 ### avg_pool3d()
 
 三维平均汇聚函数。用法参见 `torch.nn.AvgPool3d`。
-
-
 
 ## 激活函数
 
@@ -1542,8 +1404,6 @@ tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
 tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
 ```
 
-
-
 ### leaky_relu()
 
 Leaky ReLU 激活函数。
@@ -1560,8 +1420,6 @@ tensor([-0.0067,  0.3839,  0.7086, -0.0093])
 >>> F.leaky_relu_(input)
 tensor([-0.0067,  0.3839,  0.7086, -0.0093])
 ```
-
-
 
 ### relu()
 
@@ -1580,8 +1438,6 @@ tensor([0.0000, 0.0423, 0.0000, 0.0784])
 tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ```
 
-
-
 ### sigmoid()
 
 Sigmoid 激活函数（实际上是 Logistic 激活函数）。见 `torch.nn.Sigmoid`、`torch.sigmoid`、`torch.special.expit`。
@@ -1598,8 +1454,6 @@ tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ```
 
 > `nn.functional.sigmoid` is deprecated. Use `torch.sigmoid` instead.
-
-
 
 ### softmax()
 
@@ -1619,8 +1473,6 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
         [0.1067, 0.1179, 0.1303, 0.6452]])
 ```
 
-
-
 ### tanh()
 
 tanh 激活函数。
@@ -1634,8 +1486,6 @@ tensor([ 0.6383,  0.9351, -0.0451,  0.3228])
 ```
 
 > `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
-
-
 
 ## 稀疏函数
 
@@ -1659,10 +1509,6 @@ tensor([[1, 0, 0, 0, 0],
         [0, 1, 0, 0, 0]])
 ```
 
-
-
-
-
 ## 距离函数
 
 ### cosine_similarity()
@@ -1679,39 +1525,23 @@ $$
 torch.Size([3, 5])
 ```
 
-
-
 ## 损失函数
 
 ### binary_cross_entropy()
-
-
 
 ### cross_entropy()
 
 交叉熵损失函数。见 `torch.nn.CrossEntropyLoss`。
 
-
-
 ### kl_div()
-
-
 
 ### mse_loss()
 
-
-
 ### nll_loss()
-
-
-
-
 
 # torch.optim
 
 `torch.optim` 包实现了多种优化算法。最常用的优化方法已经得到支持，并且接口足够泛用，使得更加复杂的方法在未来也能够容易地集成进去。
-
-
 
 ## Adam
 
@@ -1727,13 +1557,9 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 # amsgrad       是否使用此算法的AMSGrad变体
 ```
 
-
-
 ## Optimizer
 
 所有优化器的基类。
-
-
 
 ### add_param_group()
 
@@ -1743,13 +1569,9 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 
 ```
 
-
-
 ### load_state_dict()
 
 加载优化器状态字典。
-
-
 
 ### param_groups
 
@@ -1780,8 +1602,6 @@ tensor([1.0020], requires_grad=True)
 [{'params': [tensor([1.0400], requires_grad=True)], 'lr': 0.01, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}, {'params': [tensor([1.0020], requires_grad=True)], 'lr': 0.001, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}]
 ```
 
-
-
 ### state_dict()
 
 返回优化器的状态为一个字典，其中包含两项：
@@ -1789,19 +1609,13 @@ tensor([1.0020], requires_grad=True)
 + `state`：包含当前优化状态的字典
 + `param_groups`：包含所有参数组的字典
 
-
-
 ### step()
 
 执行单步优化。
 
-
-
 ### zero_grad()
 
 将所有参数的梯度置零。
-
-
 
 ## SGD
 
@@ -1824,59 +1638,39 @@ class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, 
 >>> optimizer.step()
 ```
 
-
-
 ## lr_scheduler
 
 学习率规划器。
-
-
 
 ### _LRScheduler
 
 所有学习率规划器的基类。
 
-
-
 #### get_last_lr()
 
 返回规划器计算的最后一个学习率。
-
-
 
 #### load_state_dict()
 
 加载规划器状态字典。
 
-
-
 #### print_lr()
 
 打印规划器的当前学习率。
-
-
 
 #### state_dict()
 
 返回规划器的状态为一个字典。
 
-
-
 #### step()
 
 更新学习率，具体操作取决于规划器的实现以及当前回合数。
-
-
 
 ### CosineAnnealingLR
 
 使用余弦退火算法设定学习率，……
 
-
-
 ### CosineAnnealingWarmRestarts
-
-
 
 ### CyclicLR
 
@@ -1903,8 +1697,6 @@ class torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr, max_lr, step_size_up
 # verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
 ```
 
-
-
 ### ExponentialLR
 
 ```python
@@ -1916,8 +1708,6 @@ class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1, ve
 ```
 
 每回合学习率衰减为原来的 `gamma` 倍。
-
-
 
 ### LambdaLR
 
@@ -1941,8 +1731,6 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1, ver
     scheduler.step()
 ```
 
-
-
 ### MultiplicativeLR
 
 每回合学习率设定为原来的自定义函数返回值的倍数。
@@ -1965,13 +1753,7 @@ class torch.optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda, last_epoch
     scheduler.step()
 ```
 
-
-
 ### OneCycleLR
-
-
-
-
 
 ### StepLR
 
@@ -1999,8 +1781,6 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
     scheduler.step()
 ```
 
-
-
 ### MultiStepLR
 
 ```python
@@ -2026,8 +1806,6 @@ class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, las
     scheduler.step()
 ```
 
-
-
 ### ReduceLROnPlateau
 
 当指标不再改善时降低学习率。每当学习停滞时，降低学习率为原来的二到十分之一一般都能够改善模型。此规划器读取一个指标的值，并在若干个回合内没有看到改善时降低学习率。
@@ -2046,8 +1824,4 @@ class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0
 # eps         应用于学习率的最小衰减,若新旧学习率之间的差值小于此参数,则忽略此次更新
 # verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
 ```
-
-
-
-
 

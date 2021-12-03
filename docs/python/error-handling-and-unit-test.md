@@ -1,12 +1,8 @@
-[toc]
-
 
 
 # 错误和异常
 
 Python 中的错误（error）分为两类：句法错误（syntax error）和异常（exception）。
-
-
 
 ## 句法错误
 
@@ -34,8 +30,6 @@ $ python test.py
 SyntaxError: invalid syntax
 ```
 
-
-
 ## 异常
 
 即使表达式的语法是正确的，执行时仍可能触发错误。<u>执行时检测到的错误称为异常</u>，异常不一定导致严重的后果。大多数异常不会被程序处理，而是显示下列错误信息：
@@ -60,8 +54,6 @@ TypeError: Can't convert 'int' object to str implicitly
 这一行的剩下的部分根据异常类型及其原因提供详细信息。
 
 错误信息的开头部分以堆栈回溯的形式显示发生异常的上下文。 通常它会包含列出源代码行的堆栈回溯；但是，它将不会显示从标准输入读取的行。
-
-
 
 ### 内置异常
 
@@ -134,8 +126,6 @@ BaseException
            +-- ResourceWarning
 ```
 
-
-
 下表列出了各内置异常的含义：
 
 | 异常名称                    | 描述                                                         |
@@ -205,13 +195,7 @@ BaseException
 | `BytesWarning`              |                                                              |
 | `OverflowWarning`           | 旧的关于自动提升为长整型(long)的警告                         |
 
-
-
-
-
 ## try-except-finally 结构
-
-
 
 ```python
 # try-except完整语句
@@ -231,8 +215,6 @@ finally:
     print('finally...')
 print('END')
 ```
-
-
 
 + 在 `try-except-finally` 语句中使用 `return` 语句时注意，由于 `finally` 语句下的代码必定执行，即使 `try` 或 `except` 语句下有 `return` 语句，在返回之前会执行 `finally` 语句下的代码：
 
@@ -258,12 +240,6 @@ print('END')
 
   
 
-
-
-
-
-
-
 ### 异常上抛
 
 下列代码演示了异常层层上抛的过程。
@@ -273,17 +249,14 @@ def grok():
     print('an error raised by grok()')
     raise RuntimeError('Whoa!')  # 引发异常并上抛
 
-
 def spam():
     grok()                       # 继续上抛
-
 
 def bar():
     try:
         spam()
     except RuntimeError as e:    # 处理错误
         print('error handled by bar()')
-
 
 def foo():
     try:
@@ -298,10 +271,6 @@ foo()
 an error raised by grok()
 error handled by bar()
 ```
-
-
-
-
 
 ## 调用栈
 
@@ -328,11 +297,7 @@ Traceback (most recent call last):
 ZeroDivisionError: division by zero
 ```
 
-
-
 ## 记录错误
-
-
 
 ## 抛出错误
 
@@ -347,10 +312,6 @@ import sys
 sys.exit(exitcode)
 ```
 
-
-
-
-
 # 调试
 
 ## 断言assert
@@ -362,8 +323,6 @@ def foo(s):
     return 10 / n
 # 可以用-O参数来关闭assert
 ```
-
-
 
 ## 日志
 
@@ -382,8 +341,6 @@ def foo(s):
 | `WARNING`  | 表明有已经或即将发生的意外（例如：磁盘空间不足），程序仍按预期进行 |
 | `ERROR`    | 由于严重的问题，程序的某些功能已经不能正常执行               |
 | `CRITICAL` | 严重的错误，表明程序已不能继续执行                           |
-
-
 
 ### 示例
 
@@ -444,8 +401,6 @@ logging.warning('is when this event was logged.')
 # 2021/02/18 02:30:46 is when this event was logged.
 ```
 
-
-
 ### 进阶日志教程
 
 日志库采用模块化方法，并提供几类组件：记录器、处理程序、过滤器和格式化程序。
@@ -454,8 +409,6 @@ logging.warning('is when this event was logged.')
 - 处理程序将日志记录（由记录器创建）发送到适当的目标。
 - 过滤器提供了更精细的附加功能，用于确定要输出的日志记录。
 - 格式化程序指定最终输出中日志记录的样式。
-
-
 
 ```python
 import logging
@@ -502,8 +455,6 @@ logger.critical('critical message')
 # critical message
 ```
 
-
-
 ### 格式化输出信息
 
 ```python
@@ -518,8 +469,6 @@ logging.error('{} service is {}!'.format(service_name, 'down'))  # 使用format�
 # ERROR:root:Booking service is down!
 # ERROR:root:Booking service is down!
 ```
-
-
 
 # 测试
 

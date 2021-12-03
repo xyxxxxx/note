@@ -15,8 +15,6 @@ else
 	{语句组3}
 ```
 
-
-
 ### `switch`
 
 ```c
@@ -32,8 +30,6 @@ switch (表达式)/* int or char*/
  	sentence
 }
 ```
-
-
 
 ## 循环结构
 
@@ -54,8 +50,6 @@ break;    //跳出循环
 continue; //立即进行下一次循环
 ```
 
-
-
 ### `do while`
 
 ```c
@@ -64,8 +58,6 @@ do
     sentence;
 	} while(condition)  
 ```
-
-
 
 ### `for`
 

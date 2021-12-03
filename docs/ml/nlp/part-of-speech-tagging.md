@@ -1,10 +1,8 @@
-[toc]
+
 
 **词性(part of speech, POS, word classes, syntactic categories)**包含了词和它的上下文的信息，在成分分析、命名实体检测等任务中十分重要。
 
 本章将介绍两种**词性标注(part of speech tagging)**模型：生成型的**隐马尔可夫模型(Hidden Markov Model, HMM)**和区分型的**最大熵马尔可夫模型(Maximum Entropy Markov Model, MEMM)**。在循环网络部分还会介绍第三种基于循环网络的算法。这三种模型大体上有相当的表现，但使用时需要彼此权衡。
-
-
 
 # 英文词类
 
@@ -44,8 +42,6 @@
 | 修饰动词                                   |      |      | 即形容词的连用形 |
 | 包括位置副词、时间副词、程度副词和方法副词 |      |      |                  |
 
-
-
 不同语言之间的封闭类的差异比开放类大得多，一些重要的封闭类在英文中的表示为：
 
 ​        prepositions: on, under, over, near, by, at, from, to, with
@@ -68,10 +64,6 @@
 
 英文动词中的一个封闭类称为**辅助动词(auxiliary)**。英文的辅助动词包含**系动词(copula)**be, do, have和它们的变形，以及**情态动词(modal verb)**would, could, should, must...
 
-
-
-
-
 # Penn树库词性标注集
 
 英文的一个重要的标注集是45标注Penn树库词性标注集(Marcus et al., 1993)，被用于标注非常多的语料库，如下图所示。
@@ -85,10 +77,6 @@
 ​        Preliminary/JJ findings/NNS were/VBD reported/VBN in/IN today/NN ’s/POS New/NNP England/NNP Journal/NNP of/IN Medicine/NNP ./.
 
 被标注了词性的语料库是标注算法的重要训练和测试集，有三个被标注的语料库常被使用。**Brown**语料库长一百万词，由1961年在美国发表的500篇不同体裁的文章组成；**WSJ**语料库长一百万词，由1989年华尔街日报发表的文章组成；**Switchboard**语料库长两百万词，由1990-1991年搜集的通话记录组成。
-
-
-
-
 
 # 词性标注
 
@@ -109,17 +97,11 @@
 
 最简单的基线算法是对于任意一个给定的歧义词，选择该词在训练集中频率最高的标注。在WSJ语料库上的训练和测试显示，这样一个基线能够达到92.34%的准确率；作为对比，最先进的标注方法（HMMs, MEMMs, 神经网络, 基于规则的算法）在该数据集上可以达到97%的准确率。
 
-
-
-
-
 # HMM词性标注
 
 **HMM(Hidden Markov Model)**是一个同步的序列到序列模型，也是一个概率模型，计算几种可能的标签序列的概率并选择最佳的序列。
 
 HMM基于增强的马尔可夫链，hidden表示标注并非直接观察到，而是通过词序列推断得到。
-
-
 
 ## HMM模型
 
@@ -139,8 +121,6 @@ $$
 $$
 P(o_i|q_1\cdots q_To_1\cdots o_T)=P(o_i|q_i)
 $$
-
-
 
 ## HMM标注器的组成
 
@@ -168,8 +148,6 @@ HMM的A转移概率和B观察似然绘制如下图（简化为只有3个状态�
 
 ![](https://i.loli.net/2021/01/19/VKkfFG4miOS5pqE.png)
 
-
-
 ## HMM标注作为解码
 
 HMM的**解码(decoding)**过程定义为：给定HMM $\lambda=(A,B)$ 和观察序列 $O=o_1o_2\cdots o_T$，寻找最可能的状态序列 $Q=q_1q_2\cdots q_T$。
@@ -193,8 +171,6 @@ $$
 \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad {\rm emission}↑\quad\quad\quad ↑{\rm transition}
 $$
 此公式完全对应先前定义的A转移概率和B发射概率。
-
-
 
 ## Viterbi算法
 
@@ -220,8 +196,6 @@ $$
 + $a_{ij}$ ：从状态 $q_i$ 转移到 $q_j$ 的**转移概率**
 + $b_j(o_t)$ ：给定状态 $j$ 条件下观察 $o_t$ 的**状态观察似然**
 
-
-
 ## 示例
 
 以标注句子Janet will back the bill为例，正确标注（目标）为
@@ -235,8 +209,6 @@ HMM由下图的两个矩阵定义。矩阵数据来源于WSJ语料库中的计�
 下图在图8.6的基础上增加了计算过程，注意 $\pi$ 表示序列开始符SOS：
 
 ![](https://i.loli.net/2021/01/19/whYzE4XABOGecCa.png)
-
-
 
 ## 扩展HMM算法到trigram
 
@@ -267,8 +239,6 @@ $$
 > + $\frac{C(t_2,t_3)-1}{C(t_2)-1}$ 最大，表示 $t_2t_3$ 是一个比较紧密的bigram
 > + $\frac{C(t_3)-1}{N-1}$ 最大，表示 $t_3$ 倾向于是单独出现
 
-
-
 ## 束搜索
 
 Viterbi算法的复杂度为 $O(N^2T)$，对于trigram的情形增加至 $O(N^3T)$，因此当状态数增加到较大时，Viterbi算法会变得很慢。
@@ -276,8 +246,6 @@ Viterbi算法的复杂度为 $O(N^2T)$，对于trigram的情形增加至 $O(N^3T
 一种常用的方法是使用**束搜索(beam search)**解码。在束搜索中，我们计算 $t$ 时刻所有可能状态的概率，但仅保留其中最好的几个状态，其余状态将直接去除。实现束搜索的最简单方法是保留固定数量的状态，该数量称为**束宽(beam width)** $\beta$，下图展示了 $\beta=2$ 的情形。同样也可以设定束宽为状态数的固定比例，或设定概率阈值等。
 
 ![](https://i.loli.net/2021/01/19/i71rKFtGVUZMIkd.png)
-
-
 
 ## 未知词
 
@@ -292,10 +260,6 @@ $$
 由于未知词不太可能属于封闭类，可以只计算训练集中词频不大于10的词的后缀概率（因此不包含封闭类词以及使用方法灵活的常用词）。对于首字母大写和小写的词的处理方式也不一样。
 
 结合所有特征，一个trigram HMM标注器可以在Penn树库上达到96.7%的标注准确率，仅略逊于最好的MEMM和神经标注器的表现。
-
-
-
-
 
 # 最大熵马尔可夫模型
 
@@ -315,8 +279,6 @@ $$
 下图展示了HMM和MEMM计算方向上的差别：
 
 ![](https://i.loli.net/2021/01/19/RlavpwPOC2gjhSF.png)
-
-
 
 ## MEMM的特征
 

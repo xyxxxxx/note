@@ -1,32 +1,16 @@
 > TensorFlow 的官方教程没有系统性，仿佛多篇教程文章的拼凑。此文档的内容是在阅读了官方教程和 API 并实际使用之后，个人总结而成。
 
-[toc]
-
 # Keras 建立模型
-
-
 
 # 执行模式
 
 eager and graph execution
 
-
-
-
-
-
-
 # 保存和加载模型
-
-
-
-
 
 # 使用GPU
 
 TensorFlow 代码和 Keras 模型可以运行在单个 GPU 上而无需修改任何代码。运行在（单机或多机上的）多个 GPU 上的方法请参考[分布式训练](#分布式训练)。
-
-
 
 ## 准备
 
@@ -39,8 +23,6 @@ TensorFlow 代码和 Keras 模型可以运行在单个 GPU 上而无需修改任
  PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
-
-
 > TensorFlow 支持在各种类型的设备上进行计算，包括 CPU 和 GPU。CPU 和 GPU 表示为如下的字符串标识：
 >
 > + `'/CPU:0'`
@@ -48,8 +30,6 @@ TensorFlow 代码和 Keras 模型可以运行在单个 GPU 上而无需修改任
 > + `'/job:localhost/replica:0/task:0/device:GPU:0'`：TensorFlow 运行时可见的第一个 GPU 设备的完整名称
 >
 > 如果一个 TensorFlow 运算同时有 CPU 和 GPU 实现，那么默认情况下该运算将被优先分配给 GPU 设备。例如 `tf.matmul` 同时有 CPU 和 GPU 实现，那么在一个有设备 `CPU:0` 和 `GPU:0` 的系统上，`GPU:0` 将被选择用于运行 `tf.matmul`，除非你显式地请求在另一个设备上运行它。
-
-
 
 ## 记录使用设备
 
@@ -72,8 +52,6 @@ Executing op MatMul in device /job:localhost/replica:0/task:0/device:GPU:0
 可以看到，张量 `a`, `b` 默认分配到了 `CPU:0` 上，而运算 `MatMul` 默认分配到了 `GPU:0` 上，即优先分配给了 GPU 设备。
 
 > TensorFlow 运行时会基于运算的实现和当前的可用设备为运算选择一个设备（这里为 `GPU:0`），并且在需要时自动在设备间复制张量（这里将张量 `a`, `b` 复制到 `GPU:0` 上再进行计算）。
-
-
 
 ## 手动指定设备
 
@@ -115,8 +93,6 @@ InvalidArgumentError: Could not satisfy device specification '/job:localhost/rep
     b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
     c = tf.matmul(a, b)
 ```
-
-
 
 ## 限制GPU使用和显存增长
 
@@ -168,8 +144,6 @@ InvalidArgumentError: Could not satisfy device specification '/job:localhost/rep
 
 这是本地开发时的通常做法，因为需要与其它图形应用共用 GPU。
 
-
-
 ## 使用单个 GPU 模拟多个 GPU
 
 逻辑设备还可以用于在单个 GPU 上模拟多个 GPU，这使我们在单 GPU 系统上也可以测试分布式训练（只是不支持 NCCL 后端）。
@@ -190,23 +164,13 @@ INFO:tensorflow:Using MirroredStrategy with devices ('/job:localhost/replica:0/t
 >>> # 进行分布式训练
 ```
 
-
-
-
-
 # 分布式训练
 
 > TensorFlow 的分布式架构设计复杂，难以使用，越来越多的用户开始使用 [Horovod](./hovorod.md)。
 
-
-
 ## 分布式策略
 
-
-
 ## 使用分布式策略
-
-
 
 使用分布式策略时，所有模型相关的变量的创建都应在 `strategy.scope` 内完成，这些变量将被复制到所有模型副本中，并通过 all-reduce 算法保持同步。
 
@@ -238,15 +202,9 @@ with strategy.scope():
 
 但在 `strategy.scope` 内建立的 Keras 模型的下列高级 API：`model.compile`、`model.fit`、`model.evaluate`、`model.predict` 和 `model.save` 的调用则不必在 `strategy.scope` 内完成。
 
-
-
-
-
 以下操作可以在 `strategy.scope` 内部或外部调用：
 
 + 创建数据集
-
-
 
 ## 集群配置
 

@@ -1,4 +1,4 @@
-[toc]
+
 
 # sklearn.feature_extraction
 
@@ -8,15 +8,9 @@
 
 见 NLP 工具。
 
-
-
 ### TfidfVectorizer
 
 见 NLP 工具。
-
-
-
-
 
 # sklearn.linear_model
 
@@ -61,10 +55,6 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 #   ='multinomial'  多项逻辑回归,即softmax回归
 ```
 
-
-
-
-
 # sklearn.metrics
 
 ### accuracy_score()
@@ -79,15 +69,11 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 0.5
 ```
 
-
-
 ### confusion_matrix()
 
 根据实际结果和预测结果计算混淆矩阵。
 
 见 precision_score（），recall_score（），f1_score（）。
-
-
 
 ### precision_score(), recall_score(), f1_score()
 
@@ -144,10 +130,6 @@ array([0.85714286, 0.57142857, 0.5       ])
 0.6666666666666666
 ```
 
-
-
-
-
 # sklearn.model_selection
 
 ### train_test_split
@@ -194,19 +176,11 @@ train_test_split(*arrays, test_size=None, train_size=None, random_state=None, sh
 # random_state 随机数种子
 ```
 
-
-
-
-
 # sklearn.naive_bayes
 
 ### MultinomialNB
 
 见 NLP 工具。
-
-
-
-
 
 # sklearn.preprocessing
 
@@ -224,8 +198,6 @@ array([ 9,  7,  1,  4,  8, 10,  5,  3,  6,  2,  0])
 >>> minmax_scale(x)
 array([0.9, 0.7, 0.1, 0.4, 0.8, 1. , 0.5, 0.3, 0.6, 0.2, 0. ])
 ```
-
-
 
 ### MinMaxScaler
 
@@ -250,8 +222,6 @@ array([[0. , 0. ],
        [1. , 1. ]])
 ```
 
-
-
 ### scale
 
 归一化到 01 正态分布（每个值减去均值，除以标准差）。
@@ -268,8 +238,6 @@ array([ 1.26491106,  0.63245553, -1.26491106, -0.31622777,  0.9486833 ,
         1.58113883,  0.        , -0.63245553,  0.31622777, -0.9486833 ,
        -1.58113883])
 ```
-
-
 
 ### StandardScaler
 
@@ -293,10 +261,6 @@ array([[-1.41421356, -1.41421356],
        [ 0.        ,  0.        ],
        [ 1.41421356,  1.41421356]])
 ```
-
-
-
-
 
 # sklearn.svm
 

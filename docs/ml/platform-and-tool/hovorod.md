@@ -1,18 +1,12 @@
-[toc]
+
 
 [Horovod](https://horovod.ai/) 是一套面向 TensorFlow、Keras、PyTorch 和 Apache MXNet 的分布式深度学习训练框架。Horovod 的目标是让分布式深度学习快速且易用。
-
-
 
 # 安装
 
 参见 [Horovod Installation Guide](https://github.com/horovod/horovod/blob/master/docs/install.rst)。
 
 建议使用官方镜像 [Dockerfile.cpu](https://github.com/horovod/horovod/blob/master/Dockerfile.cpu) 和 [Dockerfile.gpu](https://github.com/horovod/horovod/blob/master/Dockerfile.gpu)。
-
-
-
-
 
 # 基本概念
 
@@ -22,10 +16,6 @@ Horovod 基于下列 MPI 概念，这里结合实例进行解释。假设我们�
 + **rank**：进程的唯一 ID，这里为 0-15
 + **local rank**：进程在本机的唯一 ID，这里为 0-3
 + **allreduce**, **allgather**, **broadcast**：参见 [MPI 集体通信模式](../distribute/strategy.md)
-
-
-
-
 
 # 脚本示例
 
@@ -111,8 +101,6 @@ verbose = 1 if hvd.rank() == 0 else 0
 mnist_model.fit(dataset, steps_per_epoch=500 // hvd.size(), callbacks=callbacks, epochs=24, verbose=verbose)
 ```
 
-
-
 ## PyTorch
 
 ```python
@@ -155,7 +143,6 @@ parser.add_argument('--gradient-predivide-factor', type=float, default=1.0,
 parser.add_argument('--data-dir',
                     help='location of the training dataset in the local filesystem (will be downloaded if needed)')
 
-
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -173,7 +160,6 @@ class Net(nn.Module):
         x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x)
-
 
 def train(epoch):
     model.train()
@@ -194,12 +180,10 @@ def train(epoch):
                 epoch, batch_idx * len(data), len(train_sampler),
                 100. * batch_idx / len(train_loader), loss.item()))
 
-
 def metric_average(val, name):
     tensor = torch.tensor(val)
     avg_tensor = hvd.allreduce(tensor, name=name)
     return avg_tensor.item()
-
 
 def test():
     model.eval()
@@ -229,7 +213,6 @@ def test():
         print('\nTest set: Average loss: {:.4f}, Accuracy: {:.2f}%\n'.format(
             test_loss, 100. * test_accuracy))
 
-
 if __name__ == '__main__':
     args = parser.parse_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -242,7 +225,6 @@ if __name__ == '__main__':
         # Horovod: pin GPU to local rank.
         torch.cuda.set_device(hvd.local_rank())
         torch.cuda.manual_seed(args.seed)
-
 
     # Horovod: limit # of CPU threads to be used per worker.
     torch.set_num_threads(1)
@@ -315,8 +297,6 @@ if __name__ == '__main__':
         test()
 ```
 
-
-
 ## Lightning
 
 ```python
@@ -365,7 +345,6 @@ parser.add_argument('--gradient-predivide-factor', type=float, default=1.0,
 parser.add_argument('--data-dir',
                     help='location of the training dataset in the local filesystem (will be downloaded if needed)')
 
-
 # Define the PyTorch model without any Horovod-specific parameters
 class Net(LightningModule):
     def __init__(self):
@@ -406,12 +385,10 @@ class Net(LightningModule):
         tensorboard_logs = {'val_loss': avg_loss}
         return {'avg_val_loss': avg_loss, 'log': tensorboard_logs}
 
-
 def metric_average(val, name):
     tensor = torch.tensor(val)
     avg_tensor = hvd.allreduce(tensor, name=name)
     return avg_tensor.item()
-
 
 def test():
     model.eval()
@@ -440,7 +417,6 @@ def test():
     if hvd.rank() == 0:
         print('\nTest set: Average loss: {:.4f}, Accuracy: {:.2f}%\n'.format(
             test_loss, 100. * test_accuracy))
-
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -540,10 +516,6 @@ if __name__ == '__main__':
         test()
 ```
 
-
-
-
-
 # 运行
 
 下面的示例命令展示了如何启动分布式训练：
@@ -560,15 +532,7 @@ if __name__ == '__main__':
    $ horovodrun -np 16 -H server1:4,server2:4,server3:4,server4:4 python train.py
    ```
 
-
-
-
-
 > 参考 https://towardsdatascience.com/distributed-deep-learning-training-with-horovod-on-kubernetes-6b28ac1d6b5d
-
-
-
-
 
 # 弹性训练
 
@@ -580,15 +544,11 @@ Horovod 的弹性训练允许在运行过程中动态地增加或减少工作器
 + 任务运行在可以抢占或发现的实例上，这些实例可能在没有警告的情况下变得可用或不可用
 + 存在不可靠的节点，在部分节点失效时训练能够继续
 
-
-
 **要求**
 
 + TensorFlow >= 1.15 或 PyTorch >= 1.0
 + Horovod >= 0.20.0 并且有 Gloo 支持
 + 运行过程中发现可用主机的方法。
-
-
 
 ## 使用状态同步修改训练脚本
 
@@ -620,8 +580,6 @@ Horovod 的弹性训练允许在运行过程中动态地增加或减少工作器
    
    回调在 Horovod 重新初始化之后、状态在各工作器之间同步之前调用。
 
-
-
 `HorovodInternalError`（出错）或 `HostsUpdatedInterrupt`（增加/移除请求）之后的重置过程如下：
 
 1. 抓取 `hvd.elastic.run` 装饰器内的异常，若为 `HorovodInternalError`，恢复到上一次提交的状态。
@@ -629,15 +587,11 @@ Horovod 的弹性训练允许在运行过程中动态地增加或减少工作器
 3. 通过广播新的 0 号工作器的状态同步各工作器的状态。上一个步骤中，越老的工作器被指定为 0 号工作器的优先级越高，以确保广播的状态是最新的。
 4. 继续训练，执行底层的训练函数。
 
-
-
 ## 脚本示例
 
 [Keras 示例](https://horovod.readthedocs.io/en/stable/elastic_include.html#elastic-keras)
 
 [PyTorch 示例](https://horovod.readthedocs.io/en/stable/elastic_include.html#elastic-pytorch)
-
-
 
 ## 使用 horovodrun 运行
 
@@ -658,15 +612,7 @@ host-3:4
 
 如果此主机发现脚本执行失败（由于权限问题）或
 
-
-
 ## 实践过程中的思考
-
-
-
-
-
-
 
 # API
 
@@ -696,8 +642,6 @@ horovod.torch.allgather(tensor, name=None)
 # tensor         收集的数据,是`torch.Tensor`类型
 ```
 
-
-
 ### allreduce
 
 All-Reduce 操作。
@@ -724,8 +668,6 @@ horovod.torch.allreduce(tensor, average=None, name=None, compression=<class 'hor
 # tensor         归约的数据,是`torch.Tensor`类型
 # compression    用于减少数据通信量的压缩算法
 ```
-
-
 
 ### broadcast
 
@@ -755,27 +697,17 @@ horovod.torch.broadcast(tensor, root_rank, name=None)
 # root_rank     发送数据的进程的秩
 ```
 
-
-
 ### Compression
 
 可选的 All-Reduce 操作中用于减少数据通信量的压缩算法。
 
-
-
 #### NoneCompressor
 
-
-
 #### FP16Compressor
-
-
 
 ### cuda_built()
 
 若 Horovod 编译时包含了 CUDA 支持，返回 `True`。
-
-
 
 ### DistributedOptimizer
 
@@ -808,25 +740,17 @@ horovod.torch.DistributedOptimizer(optimizer, named_parameters=None, compression
 # compression        All-Reduce操作中用于减少数据通信量的压缩算法
 ```
 
-
-
 ### elastic.run()
 
 用于运行弹性训练过程的装饰器。参见[弹性训练](#弹性训练)。
-
-
 
 ### gloo_enabled()
 
 若 Gloo 在当前运行时可用，返回 `True`。
 
-
-
 ### gloo_built()
 
 若 Horovod 编译时包含了 Gloo 支持，返回 `True`。
-
-
 
 ### init()
 
@@ -837,67 +761,45 @@ horovod.tensorflow.init(comm=None)
 # comm     通讯器,给定的通讯器将被复制并使用副本,默认使用`MPI_COMM_WORLD`通讯器
 ```
 
-
-
 ### is_initialized()
 
 若 Horovod 已经初始化，返回 `True`。
-
-
 
 ### local_rank()
 
 返回当前进程的本地 Horovod rank。
 
-
-
 ### local_size()
 
 返回当前进程所在节点上的 Horovod 进程数。
-
-
 
 ### mpi_threads_supported()
 
 若支持 MPI 多线程，返回 `True`。
 
-
-
 ### mpi_enabled()
 
 若 MPI 在当前运行时可用，返回 `True`。
-
-
 
 ### mpi_built()
 
 若 Horovod 编译时包含了 MPI 支持，返回 `True`。
 
-
-
 ### nccl_built()
 
 若 Horovod 编译时包含了 NCCL 支持，返回 `True`。
-
-
 
 ### rank()
 
 返回当前进程的 Horovod rank。
 
-
-
 ### shutdown()
 
 关闭 Horovod。
 
-
-
 ### size()
 
 返回 Horovod 进程数。
-
-
 
 ### start_timeline()
 
@@ -909,13 +811,9 @@ horovod.tensorflow.start_timeline(file_path, mark_cycles=False)
 # mark_cycles  若为`True`,时间线中将标记循环
 ```
 
-
-
 ### stop_timeline()
 
 停止记录时间线并关闭文件。
-
-
 
 ## horovod.tensorflow
 
@@ -930,25 +828,17 @@ horovod.tensorflow.alltoall(tensor, splits=None, name=None, ignore_name_scope=Fa
 #              的所有元素将被均分并发送到每个进程
 ```
 
-
-
 ### cross_rank()
 
 返回当前进程所在节点的 rank。
-
-
 
 ### cross_size()
 
 返回与当前进程具有相同本地 rank 的进程数。
 
-
-
 ### is_homogeneous()
 
 若集群的所有节点上的进程数相同，返回 `True`。
-
-
 
 ## horovod.tensorflow.keras
 
@@ -961,8 +851,6 @@ horovod.tensorflow.keras.broadcast_global_variables(root_rank)
 # root_rank    发送数据的进程的秩
 ```
 
-
-
 ### callbacks.BroadcastGlobalVariablesCallback
 
 根进程向所有（其它）进程广播所有全局变量，以确保所有的进程的模型初始化是一致的。
@@ -972,13 +860,9 @@ horovod.tensorflow.keras.callbacks.BroadcastGlobalVariablesCallback(root_rank, d
 # root_rank    发送数据的进程的秩
 ```
 
-
-
 ### callbacks.MetricAverageCallback
 
 在 epoch 结束后对所有进程的指标求平均，常配合 `ReduceLROnPlateau`, `TensorBoard` 和其它指标相关的回调使用（必须在回调列表中位于这些回调之前）。
-
-
 
 ### callbacks.LearningRateScheduleCallback
 
@@ -986,15 +870,11 @@ horovod.tensorflow.keras.callbacks.BroadcastGlobalVariablesCallback(root_rank, d
 
 计划学习率。
 
-
-
 ### callbacks.LearningRateWarmupCallback
 
 > 建议使用 Keras 的相关回调而非此回调。
 
 学习率 warmup。
-
-
 
 ### load_model
 
@@ -1004,8 +884,6 @@ horovod.tensorflow.keras.callbacks.BroadcastGlobalVariablesCallback(root_rank, d
 horovod.tensorflow.keras.load_model(filepath, custom_optimizers=None, custom_objects=None, compression=<class 'horovod.tensorflow.compression.NoneCompressor'>)
 # filepath    模型的保存路径或h5格式的文件对象
 ```
-
-
 
 ## horovod.keras
 
@@ -1018,19 +896,13 @@ horovod.keras.broadcast_global_variables(root_rank)
 # root_rank    发送数据的进程的秩
 ```
 
-
-
 ### load_model
 
 见 `horovod.tensorflow.keras.load_model`。
 
-
-
 ### callbacks.BroadcastGlobalVariablesCallback, callbacks.MetricAverageCallback, callbacks.LearningRateScheduleCallback, callbacks.LearningRateWarmupCallback
 
 见 `horovod.tensorflow.keras.callbacks.BroadcastGlobalVariablesCallback`, `horovod.tensorflow.keras.callbacks.MetricAverageCallback`, `horovod.tensorflow.keras.callbacks.LearningRateScheduleCallback`, `horovod.tensorflow.keras.callbacks.LearningRateWarmupCallback`。
-
-
 
 ## horovod.torch
 
@@ -1038,13 +910,9 @@ horovod.keras.broadcast_global_variables(root_rank)
 
 All-Gather 操作的异步版本，返回此操作的用于 `poll()` 和 `synchronize()` 调用的柄。
 
-
-
 ### allreduce_async()
 
 All-Reduce 操作的异步版本，返回此操作的用于 `poll()` 和 `synchronize()` 调用的柄。
-
-
 
 ### alltoall()
 
@@ -1057,25 +925,15 @@ horovod.torch.alltoall(tensor, splits=None, name=None)
 #              的所有元素将被均分并发送到每个进程
 ```
 
-
-
 ### alltoall_async()
 
 All-to-all 操作的异步版本，返回此操作的用于 `poll()` 和 `synchronize()` 调用的柄。
-
-
 
 ### broadcast_async()
 
 Broadcast 操作的异步版本，返回此操作的用于 `poll()` 和 `synchronize()` 调用的柄。
 
-
-
 ### broadcast_object()
-
-
-
-
 
 ### broadcast_optimizer_state()
 
@@ -1087,8 +945,6 @@ horovod.torch.broadcast_optimizer_state(optimizer, root_rank)
 # root_rank      进程的rank,该进程的优化器将被广播到所有其它进程
 ```
 
-
-
 ### broadcast_parameters()
 
 从根进程广播参数状态到所有其它进程，主要用于广播 `model.state_dict()`, `model.named_parameters()` 和 `model.parameters()`。
@@ -1099,25 +955,17 @@ horovod.torch.broadcast_parameters(params, root_rank)
 # root_rank      进程的rank,该进程的优化器将被广播到所有其它进程
 ```
 
-
-
 ### cross_rank()
 
 返回当前进程所在节点的 rank。
-
-
 
 ### cross_size()
 
 返回与当前进程具有相同本地 rank 的进程数。
 
-
-
 ### join()
 
 阻塞直到所有进程调用此方法，返回最后调用此方法的进程的 rank。
-
-
 
 ### poll()
 
@@ -1128,8 +976,6 @@ horovod.torch.poll(handle)
 # handle      异步操作返回的柄
 ```
 
-
-
 ### synchronize()
 
 同步异步操作直到其完成，返回该操作的结果。
@@ -1138,6 +984,4 @@ horovod.torch.poll(handle)
 horovod.torch.synchronize(handle)
 # handle      异步操作返回的柄
 ```
-
-
 

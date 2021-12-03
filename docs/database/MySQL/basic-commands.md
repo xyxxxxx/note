@@ -50,10 +50,6 @@ DROP DATABASE [IF EXISTS] <数据库名>
 USE <数据库名>
 ```
 
-
-
-
-
 # 表和字段
 
 **创建表**
@@ -101,8 +97,6 @@ ALTER TABLE 表名 [DEFAULT] CHARACTER SET <字符集名> [DEFAULT] COLLATE <校
 create table like方式会完整地克隆表结构，但不会插入数据，需要单独使用insert into或load data方式加载数据
 create table as  方式会部分克隆表结构，完整保留数据
 
-
-
 **删除表**
 
 ```mysql
@@ -133,10 +127,6 @@ ALTER TABLE <表名> MODIFY <字段名> <数据类型>
 
 ALTER TABLE <表名> DROP <字段名>；
 ```
-
-
-
-
 
 # 约束
 
@@ -286,10 +276,6 @@ mysql> ALTER TABLE tb_dept4
     -> location VARCHAR(50) NULL;
 ```
 
-
-
-
-
 # 计算
 
 **基本运算**
@@ -328,10 +314,6 @@ expr NOT IN ( value1, value2, value3 ... valueN )
 **函数**
 
 http://c.biancheng.net/mysql/function/
-
-
-
-
 
 # 查询
 
@@ -395,7 +377,6 @@ WHERE name LIKE '____y';			-- _占1位
 SELECT name FROM tb_students_info
 WHERE name [NOT] LIKE BINARY 't%';	-- 区分大小写
 
-
 ```
 
 **范围查询**
@@ -455,7 +436,6 @@ ON s.course_id = c.id;		-- 连接条件
 SELECT s.name,c.course_name FROM tb_students_info s, tb_course c 
 WHERE s.course_id = c.id;	-- 隐式内连接
 
-
 ```
 
 **外连接**
@@ -491,10 +471,6 @@ SELECT * FROM tb_students_info
 WHERE name REGEXP '^J';
 ```
 
-
-
-
-
 # 数据操作
 
 **插入**
@@ -521,8 +497,6 @@ mysql> INSERT INTO tb_courses_new	-- 复制表
     -> SELECT course_id,course_name,course_grade,course_info
     -> FROM tb_courses;
 
-
-
 -- INSERT SET语句
 
 ```
@@ -547,10 +521,6 @@ DELETE FROM tb_courses_new;		-- 删除全部
 mysql> DELETE FROM tb_courses
     -> WHERE course_id=4;
 ```
-
-
-
-
 
 # 视图
 
@@ -587,10 +557,6 @@ mysql> UPDATE view_students_info
 ```mysql
 DROP VIEW IF EXISTS <视图名>;
 ```
-
-
-
-
 
 # 索引
 
@@ -636,8 +602,6 @@ SHOW INDEX FROM <表名> FROM <数据库名>;
 
 **修改**
 
-
-
 **删除**
 
 ```mysql
@@ -646,10 +610,6 @@ DROP INDEX <索引名> ON <表名>
 mysql> ALTER TABLE tb_stu_info2
     -> DROP INDEX height;
 ```
-
-
-
-
 
 # 存储过程
 
@@ -706,10 +666,6 @@ ALTER PROCEDURE 存储过程名 [特征...]
 DROP PROCEDURE IF EXISTS <过程名>;
 ```
 
-
-
-
-
 # 触发器
 
 **创建**
@@ -747,7 +703,6 @@ SHOW TRIGGERS \G;
 -- 查询information_schema 数据库的 triggers 表
 SELECT * FROM information_schema.triggers WHERE trigger_name= '触发器名' \G;
 
-
 ```
 
 **删除**
@@ -755,10 +710,6 @@ SELECT * FROM information_schema.triggers WHERE trigger_name= '触发器名' \G;
 ```mysql
 DROP TRIGGER IF EXISTS <触发器名>;
 ```
-
-
-
-
 
 # 备份和还原
 

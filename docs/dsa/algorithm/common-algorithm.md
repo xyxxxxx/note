@@ -1,4 +1,4 @@
-[toc]
+
 
 # 排序算法sorting
 
@@ -7,8 +7,6 @@
 ## 冒泡排序bubble sort
 
 $T(n)=\frac{n(n-1)}{2}=O(n^2)$ 
-
-
 
 ## 选择排序selection sort
 
@@ -25,8 +23,6 @@ for i ← 1 to n-1 do
 ```
 
 $T(n)=O(n^2)$ 
-
-
 
 ## 插入排序insertion sort
 
@@ -47,8 +43,6 @@ for j ← 2 to n do
 ```
 
 $W(n)=W(n-1)+n-1=O(n^2),\quad T(n)=O(n^2)$ 
-
-
 
 ## 堆排序heap sort
 
@@ -101,8 +95,6 @@ for i ← length[A] downto 2 do
 
 $T(n)=O(n\log n)$ 
 
-
-
 ## 归并排序merge sort
 
 > 最优
@@ -146,8 +138,6 @@ else copy B[i..y] into A[k..r]
 
 $W(n)=2W(n/2)+n-1=O(n\log n)$ 
 
-
-
 ## 快速排序quick sort
 
 > 平均时间最优
@@ -186,8 +176,6 @@ while i<j do
 
 最坏情况 $T(n)=O(n^2)$，平均情况 $T(n)=O(n\log n)$ 
 
-
-
 ## 桶排序bucket sort
 
 > 桶排序因为假设输入数据服从均匀分布，平均情况下时间复杂度达到 $O(n)$ 
@@ -197,10 +185,6 @@ while i<j do
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\jksgfiopj2345tiotgnmo.PNG" alt="jksgfiopj2345tiotgnmo" style="zoom:80%;" />
 
 $T(n)=\Theta(n)+\sum_{i=0}^{n-1}O(n_i^2)$，平均情况 $T(n)=\Theta(n)$ 
-
-
-
-
 
 # 查找算法list search
 
@@ -216,8 +200,6 @@ while j <= n and x > L[j] do j ← j+1
 if x < L[j] or j > n then j ← 0
 return j
 ```
-
-
 
 ## 二分查找binary search
 
@@ -237,15 +219,9 @@ while l<=r do
 return 0
 ```
 
-
-
 ## 斐波那契查找Fibnacci search
 
 参考Data Structure
-
-
-
-
 
 # 选择算法
 
@@ -267,8 +243,6 @@ return max
 
 $T(n)=n-1$ 
 
-
-
 ## 双最值
 
 Findmaxmin （最优）
@@ -285,8 +259,6 @@ Findmaxmin （最优）
 ```
 
 $W(n)=\lceil 3n/2 \rceil-2$ 
-
-
 
 ## 第二最值 
 
@@ -311,8 +283,6 @@ second ← max链表中的最大元素
 
 $W(n)=n+\lceil \log n \rceil-2$ 
 
-
-
 ## 第k最值 
 
 Select(S,k) （阶最优）
@@ -326,10 +296,6 @@ Select(S,k) （阶最优）
 ```
 
 $W(n)\leq W(n/5)+W(7n/10)+O(n)=O(n)$ 
-
-
-
-
 
 # 贪心算法
 
@@ -350,19 +316,11 @@ for i←1 to n-1 do
 return Q	
 ```
 
-
-
-
-
 # 图算法graph search
 
 ## breadth-first search
 
-
-
 ## depth-first search
-
-
 
 ## Prim algorithm
 
@@ -379,8 +337,6 @@ while V-S!=emptyset do
 ```
 
 $T(n)=O(n^2)$ 
-
-
 
 ## Kruskal algorithm
 
@@ -403,13 +359,9 @@ $T(n)=O(m\log n)$
 
 > 当 $m=\Theta(n^2)$ 时，Prim算法效率更高；当 $m=\Theta(n)$ 时，Kruskal算法效率更高
 
-
-
 ## Bellman-Ford algorithm
 
 > 一般情形下的单源最短路径算法
-
-
 
 ## Dijkstra algorithm
 
@@ -433,39 +385,21 @@ while V-S!=\empty do
 
 $T(n)=O(n^2)$ 
 
-
-
 ## Floyd-Warshall algorithm
 
 > 所有节点之间的最短路径
-
-
 
 ## Ford-Fulkerson algorithm
 
 > 最大流
 
-
-
-
-
 # 字符串匹配算法
-
-
-
-
 
 # 矩阵算法
 
 ## 高斯消元法
 
-
-
 ## 矩阵乘法
-
-
-
-
 
 # 多项式算法
 
@@ -491,8 +425,6 @@ $T(n)=2T(n/2)+O(1)=O(n)$，计算n个多项式时 $T(n)=2T(n/2)+O(n)=O(n\log n)$
 
 > 参见离散数学-多项式-快速傅里叶变换
 
-
-
 ## 多项式乘法(卷积计算)
 
 考虑多项式乘法 $C(x)=A(x)B(x)$，其中 $A(x)$ 的系数向量为 $(a_0,a_1,\cdots,a_{n-1})$， $B(x)$ 的系数向量为 $(b_0.b_1,\cdots,b_{n-1})$，求 $C(x)$ 的系数向量
@@ -508,8 +440,6 @@ for(int i = 0; i < n; ++i)
 
 $T(n)=O(n^2)$ 
 
-
-
 ### 插值
 
 ```
@@ -518,8 +448,6 @@ $T(n)=O(n^2)$
 插值求得C(x)的系数
 ```
 
-
-
 ### 快速傅里叶变换FFT
 
 > https://zhuanlan.zhihu.com/p/76622485
@@ -527,8 +455,6 @@ $T(n)=O(n^2)$
 > https://zhuanlan.zhihu.com/p/31584464
 >
 > http://blog.miskcoo.com/2015/04/polynomial-multiplication-and-fast-fourier-transform
-
-
 
 选择2n个数为1的2n次根 $\omega_j=e^{\frac{j}{n}\pi i},j=0,1,\cdots,2n-1$ 
 
@@ -539,10 +465,6 @@ $T(n)=O(n^2)$
 计算D(omega_j) //O(nlogn)
 D(omega_j)=2n*c_{2n-j}, D(omega_0)=2n*c_0
 ```
-
-
-
-
 
 # 数论算法number theory
 
@@ -572,21 +494,15 @@ for i ← 1 to n do
 return y
 ```
 
-
-
 # 其他
 
 ## 幂乘
 
 计算 $a^n$ 
 
-
-
 ### 蛮力算法
 
 做n-1次乘法， $T(n)=O(n)$ 
-
-
 
 ### 快速幂/二进制取幂
 
@@ -606,8 +522,6 @@ long long binpow(long long a, long long n) {
 
 $T(n)=O(\log n)+O(\log n)=O(\log n)$ 
 
-
-
 ## Hanoi塔
 
  Hanoi(A,C,n)
@@ -625,8 +539,6 @@ T(n)=2T(n-1)+1\\
 T(1)=1, \;T(n)=2^n-1
 $$
 
-
-
 ## 随机打乱数组次序
 
 ```c++
@@ -639,15 +551,9 @@ void shuffle(int A[],int n)
 
 从后向前，依次将各元素与随机选取的某一元素交换
 
-
-
-
-
 **2-subset**
 
 NP-complete
-
-
 
 **货郎算法**
 

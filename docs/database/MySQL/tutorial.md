@@ -18,8 +18,6 @@
 | INT (INTEGER) | -2147483648〜2147483647                   | 0〜4294967295           |
 | BIGINT        | -9223372036854775808〜9223372036854775807 | 0〜18446744073709551615 |
 
-
-
 ## 浮点数和定点数
 
 | 类型名称            | 说明               | 存储需求   |
@@ -33,15 +31,12 @@ FLOAT 类型的取值范围如下：
 - 有符号的取值范围：-3.402823466E+38～-1.175494351E-38。
 - 无符号的取值范围：0 和 -1.175494351E-38～-3.402823466E+38。
 
-
 DOUBLE 类型的取值范围如下：
 
 - 有符号的取值范围：-1.7976931348623157E+308～-2.2250738585072014E-308。
 - 无符号的取值范围：0 和 -2.2250738585072014E-308～-1.7976931348623157E+308。
 
 > 对精度要求比较高的时候使用DECIMAL的类型较好
-
-
 
 ## 时间
 
@@ -52,8 +47,6 @@ DOUBLE 类型的取值范围如下：
 | DATE      | YYYY-MM-DD          | 1000-01-01 ~ 9999-12-3                            | 3 个字节 |
 | DATETIME  | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59         | 8 个字节 |
 | TIMESTAMP | YYYY-MM-DD HH:MM:SS | 1980-01-01 00:00:01 UTC ~ 2040-01-19 03:14:07 UTC | 4 个字节 |
-
-
 
 ## 字符串
 
@@ -92,8 +85,6 @@ DOUBLE 类型的取值范围如下：
 SET( '值1', '值1', …, '值n' )
 ```
 
-
-
 ## 二进制类型
 
 | 类型名称       | 说明                 | 存储需求               |
@@ -115,8 +106,6 @@ SET( '值1', '值1', …, '值n' )
 
 数据类型的选择http://c.biancheng.net/view/7175.html
 
-
-
 # 存储引擎
 
 ```mysql
@@ -124,8 +113,6 @@ SHOW ENGINES;						--查看所有引擎
 SET default_storage_engine=<引擎名>  --设置默认引擎
 
 ALTER TABLE <表名> ENGINE=<存储引擎名>;	--修改表的存储引擎
-
-
 
 ```
 
@@ -152,8 +139,6 @@ InnoDB 存储引擎在事务上具有优势，即支持具有提交、回滚和�
 
 MEMORY 存储引擎将所有数据保存在 RAM 中，所以该存储引擎的数据访问速度快，但是安全上没有保障。
 
-
-
 # 约束
 
  MySQL 中支持以下 6 种约束：
@@ -176,16 +161,12 @@ MEMORY 存储引擎将所有数据保存在 RAM 中，所以该存储引擎的�
 
 **6）默认值约束**
 
-
-
 ## 主键
 
 - 每个表只能定义一个主键。
 - 主键值必须<u>唯一</u>标识表中的每一行，且不能为 NULL，即表中不可能存在有相同主键值的两行数据
 - 一个字段名只能在联合主键字段表中出现一次。
 - 联合主键不能包含不必要的多余字段。当把联合主键的某一字段删除后，如果剩下的字段构成的主键仍然满足唯一性原则，那么这个联合主键是不正确的
-
-
 
 ## 外键
 
@@ -198,15 +179,7 @@ MEMORY 存储引擎将所有数据保存在 RAM 中，所以该存储引擎的�
 - 外键中列的数目必须和父表的主键中列的数目相同。
 - 外键中列的数据类型必须和父表主键中对应列的数据类型相同。
 
-
-
-
-
 # 视图view
-
-
-
-
 
 # 索引index
 
@@ -245,27 +218,15 @@ MEMORY 存储引擎将所有数据保存在 RAM 中，所以该存储引擎的�
 + 数据量小的表不要使用索引
 + 尽量使用前缀来索引
 
-
-
-
-
 # 存储过程
 
 存储过程一个可编程的函数，它在数据库中创建并保存，一般由 SQL 语句和一些特殊的控制结构组成
-
-
-
-
 
 # 触发器
 
 触发器和存储过程一样，都是嵌入到 MySQL 中的一段程序，但只有执行 INSERT、UPDATE 和 DELETE 操作时才能激活触发器
 
 触发器与数据表关系密切，主要用于保护表中的数据。特别是当有多个表具有一定的相互联系的时候，触发器能够让不同的表保持数据的一致性。
-
-
-
-
 
 # 事务
 
@@ -304,8 +265,6 @@ mysql> COMMIT;
 
 4) **在事务处理过程中尽量不要出现等待用户输入的操作**
 
-
-
 ## 设置自动提交
 
 ```mysql
@@ -316,8 +275,6 @@ SET @@autocommit = 0|1|ON|OFF;		-- 设置自动提交
 
 mysql默认自动提交；若关闭自动提交，则所有改变不会提交，直到出现COMMIT语句；
 
-
-
 ## 事务隔离级别
 
 问题
@@ -327,8 +284,6 @@ mysql默认自动提交；若关闭自动提交，则所有改变不会提交，
 **不可重复读** 一个事务内，多次读取的同一个数据不同
 
 **幻读** 一个事务操作表中的所有记录，另一个事务添加了一条数据
-
-
 
 MySQL 包括的事务隔离级别如下：
 
@@ -354,8 +309,6 @@ MySQL 包括的事务隔离级别如下：
 
 隔离级别越高，安全性越高，效率越低
 
-
-
 ```mysql
 -- 查看TIL
 SELECT @@transaction_isolation;
@@ -364,8 +317,6 @@ SELECT @@transaction_isolation;
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 ```
-
-
 
 # 用户管理
 
@@ -419,8 +370,6 @@ user 表是 MySQL 中最重要的一个权限表，用来记录允许连接到�
 | max_connections        | int(11)  unsigned                 | NO       | 0                     | 规定每小时允许执行的连接操作次数                             |
 | max_user_connections   | int(11)  unsigned                 | NO       | 0                     | 规定允许同时建立的连接次数                                   |
 
-
-
 ## 用户
 
 **创建用户**
@@ -454,8 +403,6 @@ RENAME USER <旧用户> TO <新用户>;
 
 DROP USER 'username'@'host';
 ```
-
-
 
 ## 用户权限
 
@@ -529,10 +476,6 @@ UPDATE mysql.user set authentication_string = password ("rootpwd2")
 WHERE User = "root" and Host = "localhost";
 ```
 
-
-
-
-
 # 数据库备份与恢复
 
 ## 备份与恢复
@@ -549,18 +492,13 @@ mysqldump -u username -p --databases dbname1 dbname2 > filename.sql
 -- 备份所有数据库
 mysqldump -u username -p --all-databases >filename.sql
 
-
 ```
-
-
 
 **mysql**
 
 ```mysql
 mysql -u username -p [dbname] < filename.sql
 ```
-
-
 
 ## 导出与导入
 
@@ -584,8 +522,6 @@ TERMINATED BY '\r\n';			-- 每行以回车换行符结尾
 -5、"Python"、18
 ```
 
-
-
 **LOAD DATA**
 
 ```mysql
@@ -596,10 +532,6 @@ Uploads/file.txt'
     -> OPTIONALLY ENCLOSED BY '\"'
     -> LINES TERMINATED BY '\-';
 ```
-
-
-
-
 
 # 字符集
 
@@ -642,10 +574,6 @@ CHARACTER SET utf8;
 ALTER TABLE tb_students_info MODIFY name VARCHAR(10) CHARACTER SET gbk;
 
 ```
-
-
-
-
 
 # 数据库范式
 

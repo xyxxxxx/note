@@ -6,7 +6,6 @@
 #include <unistd.h>
 //for func that returns int, return 0 if ok, -1 if err
 
-
 //file operation
 ssize_t read(int fd, void *buff, size_t n);   // 从文件描述符(流)fd读取n个字节写入字符数组buff的前n个索引
                                               // return number of bytes transferred, 0 if EOF, -1 if err
@@ -14,12 +13,10 @@ ssize_t write(int fd, void *buff, size_t n);  // 将字符数组buff的前n个�
                                               // return number of bytes written, -1 if err
 int unlink(const char* path);                 // 删除文件
 
-
 //dir
 char *getcwd(char *buf, size_t size); // 获取当前目录的绝对路径并存储到buf中,参数size为buf的长度
 int chdir(const char *path); // 将path设定为当前目录
 int rmdir(const char *path); // 将path目录删除
-
 
 //access
 int access(const char *, int);          // 权限检测
@@ -34,8 +31,6 @@ int chmod(const char *path, mode_t mode); // 权限修改
 //sys
 exit(0)      //退出程序并结束进程,0 正常退出,1 异常退出
 ```
-
-
 
 `sys/stat.h`的`stat`函数用于获取文件信息，并存储在`struct stat`中。
 
@@ -98,8 +93,6 @@ S_ISFIFO(st_mode)	// 是否是一个FIFO文件.
 S_ISSOCK(st_mode)	// 是否是一个SOCKET文件 
 ```
 
-
-
 # 目录管理
 
 `dirent.h`包含了文件系统相关的结构体和函数。
@@ -148,8 +141,6 @@ int main()
     return 0;
 }
 ```
-
-
 
 系统调用`stat`返回文件i节点中的所有信息
 

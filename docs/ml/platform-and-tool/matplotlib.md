@@ -22,8 +22,6 @@ for i in range(25):
 plt.show()
 ```
 
-
-
 ## 折线图line chart
 
 ```python
@@ -48,10 +46,6 @@ ax.grid(True)               # 显示网格
 
 plt.show()
 ```
-
-
-
-
 
 # gallery
 
@@ -92,10 +86,6 @@ fig.tight_layout()
 plt.show()
 ```
 
-
-
-
-
 ![cohere](https://matplotlib.org/_images/sphx_glr_cohere_001.png)
 
 ```python
@@ -128,10 +118,6 @@ axs[1].set_ylabel('coherence')
 fig.tight_layout()             # adjust figure
 plt.show()
 ```
-
-
-
-
 
 ![date](https://matplotlib.org/_images/sphx_glr_date_001.png)
 

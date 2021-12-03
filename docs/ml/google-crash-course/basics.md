@@ -4,13 +4,9 @@
 
 ML systems learn how to combine input to produce useful predictions on never-before-seen data.
 
-
-
 ## labels
 
 A label is the thing we're predicting—the `y` variable in simple linear regression.
-
-
 
 ## features
 
@@ -18,7 +14,6 @@ A feature is the thing we're offering—the `x` variable in simple linear regres
 $$
 x_1,x_2,\cdots,x_n
 $$
-
 
 ## examples
 
@@ -40,8 +35,6 @@ unlabeled examples: {features, ?}: (x, ?)
 
 Once we've trained our model with labeled examples, we use that model to predict the label on unlabeled examples.
 
-
-
 ## models
 
 A model defines the relationship between features and label. There are two phases of a model's life: 
@@ -53,10 +46,6 @@ There are two types of model:
 
 + A **regression** model predicts continuous value.
 + A **classification** model predicts discrete values.
-
-
-
-
 
 # training
 
@@ -73,10 +62,6 @@ $$
 + ${\rm prediction}(x)$ is a function that predicts label with the set of features.
 + $D$ is a data set containing many labeled examples
 + $N$ is the number of examples in D
-
-
-
-
 
 # reducing loss
 
@@ -95,8 +80,6 @@ The model takes one or more features as input and returns one prediction as outp
 5. 3 - 4 loop until overall loss stops changing or at least changes extremely slowly
 6. converged, return
 
-
-
 ## gradient descent
 
 The brute force way of finding the convergence point is calculating the loss for all possible values of the parameters. Another popular mechanism called **gradient descent** is better.
@@ -111,8 +94,6 @@ The brute force way of finding the convergence point is calculating the loss for
 
 4. 2 - 3 loop
 
-
-
 If you specify a learning rate that is too small, learning will take too long; if too large, learning will perpetually bounce haphazardly across the bottom of the well:
 
 ![Same U-shaped curve. Lots of points are very close to each other and their trail is making extremely slow progress towards the bottom of the U.](https://developers.google.com/machine-learning/crash-course/images/LearningRateTooSmall.svg)![Same U-shaped curve. This one contains very few points. The trail of points jumps clean across the bottom of the U and then jumps back over again.](https://developers.google.com/machine-learning/crash-course/images/LearningRateTooLarge.svg)
@@ -120,8 +101,6 @@ If you specify a learning rate that is too small, learning will take too long; i
 There's a **Goldilocks learning rate** for every regression problem. The Goldilocks value is related to how flat the loss function is:
 
 ![Same U-shaped curve. The trail of points gets to the minimum point in about eight steps.](https://developers.google.com/machine-learning/crash-course/images/LearningRateJustRight.svg)
-
-
 
 **batch**
 

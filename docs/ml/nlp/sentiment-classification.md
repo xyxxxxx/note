@@ -1,4 +1,4 @@
-[toc]
+
 
 许多语言处理任务都包含分类任务。本章我们将介绍朴素贝叶斯算法并将其应用到**文本分类(text categorization)**任务。
 
@@ -24,8 +24,6 @@
 人为设定规则在NLP的分类任务中十分重要，许多领域中基于人工规则的分类器都是最先进NLP系统的重要部分。尽管如此，人工规则也十分脆弱，其普适性不够强，划分效果也不够好，因此我们在大多数情况下用有监督的机器学习方法替代。习惯上我们用 $(d_1,c_1),\cdots,(d_N,c_N)$ 表示训练集，其中 $d$ 为文本， $c$ 为正确的类别。
 
 本章介绍的朴素贝叶斯算法和之后介绍的逻辑回归算法分别代表了两种分类的思路：**Generative** classifiers like naive Bayes build a model of how a class could generate some input data. Given an observation, they return the class most likely to have generated the observation. **Discriminative** classifiers like logistic regression instead learn what features from the input are most useful to discriminate between the different possible classes. While discriminative systems are often more accurate and hence more commonly used, generative classifiers still have a role.
-
-
 
 # 朴素贝叶斯分类器
 
@@ -60,10 +58,6 @@ c_{NB}=\arg\max_{c\in C}(\log P(c)+\sum_{i}\log P(w_i|c))
 $$
 上式也可以看作多分类的（对于对数条件概率的）线性分类器。
 
-
-
-
-
 # 训练朴素贝叶斯分类器
 
 那么如何得到 $P(c)$ 和 $P(w_i|c)$？最直接的方法是最大似然估计法，即使用训练集上的频率作为概率
@@ -88,7 +82,6 @@ $$
 \hat{P}(w_i|c)=\frac{{\rm count}(w_i,c)+1}{\sum_{w\in V}({\rm count}(w,c)+1)}=\frac{{\rm count}(w_i,c)+1}{\sum_{w\in V}{\rm count}(w,c)+|V|}
 $$
 
-
 如果测试集中出现了不在词汇表中的词，即**未知词(unknown word)**，处理方法是直接从文本中删除该词。
 
 此外，一些模型也选择忽略一些高频词，称为**停用词(stop word)**，如a, the等。既可以选择词汇表中频率最高的10~100个词作为停用词，也可以使用预定义的停用词表。但实践证明，在大部分文本分类应用下，使用停用词都无法改善模型效果，因此一般都不使用。
@@ -96,8 +89,6 @@ $$
 下面是训练过程的伪代码
 
 ![](https://i.loli.net/2020/12/28/ZE4TNDYLtp6gMV1.png)
-
-
 
 # 示例
 
@@ -122,10 +113,6 @@ P(+)P(S|+)=\frac{2}{5}\cdot\frac{1\cdot1\cdot2}{29^3}=3.2\times 10^{-5}
 $$
 因此预测测试文本为negative。
 
-
-
-
-
 # 情感分析上的优化
 
 尽管标准的朴素贝叶斯算法能够很好地进行语义分析，我们依然能做一些小的改变以提高效果。
@@ -143,10 +130,6 @@ $$
 
 使用这种词汇表的通常方法是增加两个特征：文本中被词汇表标记为positive/negative的总词数。如果我们有非常多的训练数据，并且测试数据与训练数据一致，仅使用这两个特征的效果不如使用所有词（特征）；但如果训练数据较少并且测试数据与训练数据有一些差别，仅使用这两个特征的泛化效果更好。
 
-
-
-
-
 # 朴素贝叶斯应用于其它文本分类任务
 
 朴素贝叶斯当然不一定要把训练数据中出现过的所有词作为特征。例如在垃圾邮件识别任务中，常用的方法并非将每一个词作为独立的特征，而是预定义一些特定的词和短语作为特征，并且还包含一些不纯粹是语言的特征。例如开源的SpamAssassin工具预定义了类似于one hundred percent guaranteed这样的短语，大额数字（用正则表达式匹配）等作为特征，此外还包括一些其它特征：
@@ -156,19 +139,9 @@ $$
 + 邮件标题全是大写字母
 + ……
 
-
-
 而对于语言分类（预测language id）这样的任务，最有效的朴素贝叶斯特征并非词，而是字节n-gram，例如字节trigram: 'nya', ' Vo'。一个广泛使用的朴素贝叶斯模型`langid.py`(Lui and Baldwin, 2012)首先提取文本的所有长度1-4的字符n-gram，然后使用特征选择方法筛选最终的7000个最有信息量的特征。
 
-
-
-
-
 # *朴素贝叶斯与语言模型
-
-
-
-
 
 # 评价：精确率，召回率和F-值
 
@@ -199,8 +172,6 @@ $$
 >
 > 通过上述两个例子可以看到，精确率和召回率哪一个更重要取决于具体问题的具体形式。
 
-
-
 多分类情况下的精确率和召回率定义如下图
 
 ![](https://i.loli.net/2020/12/28/o2BdK9bWU1J4nYf.png)
@@ -210,6 +181,4 @@ $$
 ![](https://i.loli.net/2020/12/28/XjdxBMm7kg98Nvw.png)
 
 可以看到，微平均受主要类别（spam）的影响最大，而宏平均则一视同仁。应根据具体情况选择指标。
-
-
 

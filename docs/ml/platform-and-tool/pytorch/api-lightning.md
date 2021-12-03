@@ -1,10 +1,8 @@
-[toc]
+
 
 # pytorch_lightning.callbacks
 
 > 注意 `keras.callbacks` 同时对应 `pytorch_lightning.callbacks` 和 `pytorch_lightning.loggers`。
-
-
 
 ## Callback
 
@@ -304,8 +302,6 @@ teardown ...                      # teardown
 teardown ...
 ```
 
-
-
 ## EarlyStopping
 
 当监视的参数不再改善时提前停止训练。
@@ -318,8 +314,6 @@ pytorch_lightning.callbacks.EarlyStopping(monitor='early_stop_on', min_delta=0.0
 # mode                  若为'min',则指标减小视为改善;若为'max',则指标增加视为改善;若为'auto',则方向根据指标的名称自动推断
 # strict                若为True,则当监视的指标不存在时抛出异常
 ```
-
-
 
 ## LambdaCallback
 
@@ -336,25 +330,13 @@ pytorch_lightning.callbacks.LambdaCallback(on_before_accelerator_backend_setup=N
 >>> trainer = Trainer(callbacks=[LambdaCallback(setup=lambda *args: print('setup'))])
 ```
 
-
-
-
-
 ## LearningRateMonitor
 
-
-
 ## ModelCheckpoint
-
-
-
-
 
 # pytorch_lightning.LightningModule
 
 `LightningModule` 类汇集了一个模型的所有方面，继承此类……
-
-
 
 ## current_epoch
 
@@ -365,8 +347,6 @@ def training_step(...):
     if self.current_epoch == 0:
 ```
 
-
-
 ## device
 
 此模块位于的设备。
@@ -376,13 +356,9 @@ def training_step(...):
     z = torch.rand(2, 3, device=self.device)
 ```
 
-
-
 ## freeze()
 
 冻结所有参数以推断。
-
-
 
 ## global_rank
 
@@ -390,13 +366,9 @@ def training_step(...):
 
 全局 rank 表示所有 GPU 之中的 GPU 索引。例如，使用 10 台机器，每台有 4 个 GPU，那么第 10 台机器的第 4 个 GPU 有 global_rank=39。
 
-
-
 ## global_step
 
 当前 step 的序号（每个 epoch 不重置）。
-
-
 
 ## hparams
 
@@ -409,8 +381,6 @@ def __init__(self, learning_rate):
 def configure_optimizers(self):
     return Adam(self.parameters(), lr=self.hparams.learning_rate)
 ```
-
-
 
 ## load_from_checkpoint()
 
@@ -458,21 +428,15 @@ pretrained_model.freeze()
 y_hat = pretrained_model(x)
 ```
 
-
-
 ## local_rank
 
 此模块的局部 rank。Lightning 仅从 global_rank=0 保存日志、权重等。
 
 局部 rank 表示当前机器的 GPU 索引。例如，使用 10 台机器，每台有 4 个 GPU，那么第 10 台机器的第 4 个 GPU 有 local_rank=3。
 
-
-
 ## logger
 
 当前使用的日志器。
-
-
 
 ## save_hyperparameters()
 
@@ -518,45 +482,25 @@ y_hat = pretrained_model(x)
 "arg3": 3.14
 ```
 
-
-
 ## trainer
 
 当前使用的训练器。
-
-
 
 ## unfreeze()
 
 解冻所有参数以训练。
 
-
-
-
-
 # pytorch_lightning.LightningDataModule
 
 `LightningDataModule` 类用于组织数据处理的代码以使得复用更加容易，继承此类……
 
-
-
 ## prepare_data()
 
-
-
 ## setup()
-
-
-
-
 
 # pytorch_lightning.loggers
 
 > 注意 `keras.callbacks` 同时对应 `pytorch_lightning.callbacks` 和 `pytorch_lightning.loggers`。
-
-
-
-
 
 # pytorch_lightning.metrics
 
@@ -574,15 +518,11 @@ y_hat = pretrained_model(x)
 tensor(0.5000)
 ```
 
-
-
 ### confusion_matrix()
 
 计算混淆矩阵。
 
 见 precision（），recall（），precision_recall（），f1（）。
-
-
 
 ### precision(), recall(), precision_recall(), f1()
 
@@ -654,8 +594,6 @@ tensor(0.6667)
 
 ```
 
-
-
 ### mean_absolute_error()
 
 ```python
@@ -665,8 +603,6 @@ tensor(0.6667)
 >>> mean_absolute_error(a1, a2)
 tensor(2.)
 ```
-
-
 
 ### mean_squared_error()
 
@@ -678,13 +614,7 @@ tensor(2.)
 tensor(4.)
 ```
 
-
-
-
-
 # pytorch_lightning.Trainer
-
-
 
 ## callback_metrics
 
@@ -699,8 +629,6 @@ def training_step(self, batch, batcbh_idx):
 trainer.callback_metrics['a_val']  # 2
 ```
 
-
-
 ## current_epoch
 
 当前 epoch 序数。
@@ -713,23 +641,17 @@ def training_step(self, batch, batch_idx):
         pass
 ```
 
-
-
 ## fit()
 
 运行完整的优化步骤。
 
 使用方法参考[验证](./pytorch-lightning.md#验证)。
 
-
-
 ## init()
 
 ```python
 Trainer.__init__(logger=True, checkpoint_callback=True, callbacks=None, default_root_dir=None, gradient_clip_val=0, process_position=0, num_nodes=1, num_processes=1, gpus=None, auto_select_gpus=False, tpu_cores=None, log_gpu_memory=None, progress_bar_refresh_rate=1, overfit_batches=0.0, track_grad_norm=-1, check_val_every_n_epoch=1, fast_dev_run=False, accumulate_grad_batches=1, max_epochs=1000, min_epochs=1, max_steps=None, min_steps=None, limit_train_batches=1.0, limit_val_batches=1.0, limit_test_batches=1.0, val_check_interval=1.0, flush_logs_every_n_steps=100, log_every_n_steps=50, accelerator=None, sync_batchnorm=False, precision=32, weights_summary='top', weights_save_path=None, num_sanity_val_steps=2, truncated_bptt_steps=None, resume_from_checkpoint=None, profiler=None, benchmark=False, deterministic=False, reload_dataloaders_every_epoch=False, auto_lr_find=False, replace_sampler_ddp=True, terminate_on_nan=False, auto_scale_batch_size=False, prepare_data_per_node=True, plugins=None, amp_backend='native', amp_level='O2', distributed_backend=None, automatic_optimization=None, move_metrics_to_cpu=False, enable_pl_optimizer=None)
 ```
-
-
 
 ### accelerator
 
@@ -754,8 +676,6 @@ trainer = Trainer(gpus=2, num_nodes=2, accelerator='ddp')
 trainer = Trainer(gpus=2, num_nodes=2, accelerator='ddp2')
 ```
 
-
-
 ### accumulate_grad_batches
 
 每 k 个 batch 累积梯度，trainer 会在最后一个 step 调用 `optimizer.step()`。
@@ -773,15 +693,11 @@ trainer = Trainer(accumulate_grad_batches={5: 3, 10: 20})
 
 `accumulate_grad_batches=4` 等效于 4 倍的 batch size，但区别在于前者占用更小的显存，后者花费更少的时间。例如你的显存不足以训练 batch size=64，但足以训练 batch size=32，就可以通过设置 `accumulate_grad_batches=2` 等效实现 batch size=64。
 
-
-
 ### automatic_optimization
 
 若设为 `False`，则禁用 Lightning 的自动优化过程，此时你需要负责你自己的优化器行为。
 
 当只使用一个优化器时不推荐禁用，但当使用两个优化器并且你是一个专业用户时推荐禁用。通常用于强化学习、稀疏编码和 GAN 研究。
-
-
 
 ### auto_scale_batch_size
 
@@ -800,8 +716,6 @@ trainer.tune(model)
 
 > 注意使用batch的初衷是让优化算法的效果更好，而非充分利用GPU的计算资源。可以假定GPU的运行速度受batch size的影响不大。
 
-
-
 ### auto_select_gpus
 
 若设为 `True` 且 `gpus` 是一个整数，自动选择可用的 GPU。当 GPU 都被设置为独占模式（exclusive mode）时（即同一时刻只有一个进程能访问它），这尤其有用。
@@ -819,8 +733,6 @@ Trainer(gpus=-1, auto_select_gpus=False)
 # specifies all available GPUs (if only one GPU is not occupied, uses one gpu)
 Trainer(gpus=-1, auto_select_gpus=True)
 ```
-
-
 
 ### auto_lr_find
 
@@ -841,8 +753,6 @@ trainer = Trainer(auto_lr_find='my_lr_arg')
 trainer.tune(model)
 ```
 
-
-
 ### callbacks
 
 添加一个回调列表。
@@ -860,8 +770,6 @@ callbacks = [PrintCallback()]
 trainer = Trainer(callbacks=callbacks)        
 ```
 
-
-
 ### check_val_every_n_epoch
 
 每 n 个训练 epoch 运行一次验证 epoch。
@@ -875,8 +783,6 @@ trainer = Trainer(check_val_every_n_epoch=10)
 ```
 
 参见提前停止。
-
-
 
 ### checkpoint_callback
 
@@ -892,8 +798,6 @@ trainer = Trainer(checkpoint_callback=False)
 
 你可以使用 `ModelCheckpoint` 回调重载默认行为，参考保存和加载权重。
 
-
-
 ### default_root_dir
 
 日志和检查点的默认存放路径，如果不传入日志器、`ModelCheckpoint` 回调或 `weights_save_path` 参数。有些集群需要分别存储日志和检查点，如果你不需要，则可以简单地使用此参数。
@@ -904,8 +808,6 @@ trainer = Trainer(default_root_dir=os.getcwd())
 ```
 
 > 详细的路径规则参考日志和保存和加载权重。
-
-
 
 ### fast_dev_run
 
@@ -922,8 +824,6 @@ trainer = Trainer(fast_dev_run=True)
 trainer = Trainer(fast_dev_run=7)
 ```
 
-
-
 ### flush_logs_every_n_steps
 
 将日志写入磁盘的频率。
@@ -932,8 +832,6 @@ trainer = Trainer(fast_dev_run=7)
 # default used by the Trainer
 trainer = Trainer(flush_logs_every_n_steps=100)
 ```
-
-
 
 ### gpus
 
@@ -965,8 +863,6 @@ trainer = Trainer(gpus=2, num_nodes=4)
 trainer = Trainer(gpus=[1, 4], num_nodes=4)
 ```
 
-
-
 ### limit_train_batches
 
 每个训练 epoch 仅运行指定比例的训练集或指定数量的 batch，用于 debug 或测试。
@@ -982,19 +878,13 @@ trainer = Trainer(limit_train_batches=0.25)
 trainer = Trainer(limit_train_batches=10)
 ```
 
-
-
 ### limit_test_batches
 
 同上。
 
-
-
 ### limit_val_batches
 
 同上。
-
-
 
 ### log_every_n_steps
 
@@ -1004,8 +894,6 @@ trainer = Trainer(limit_train_batches=10)
 # default used by the Trainer
 trainer = Trainer(log_every_n_steps=50)
 ```
-
-
 
 ### log_gpu_memory
 
@@ -1021,8 +909,6 @@ trainer = Trainer(log_gpu_memory='all')
 # log only the min and max memory on the master node
 trainer = Trainer(log_gpu_memory='min_max')
 ```
-
-
 
 ### logger
 
@@ -1040,8 +926,6 @@ logger = TensorBoardLogger(
 Trainer(logger=logger)
 ```
 
-
-
 ### max_epochs
 
 最大训练 epoch 数。
@@ -1051,8 +935,6 @@ Trainer(logger=logger)
 trainer = Trainer(max_epochs=1000)
 ```
 
-
-
 ### min_epochs
 
 最小训练 epoch 数。
@@ -1061,8 +943,6 @@ trainer = Trainer(max_epochs=1000)
 # default used by the Trainer
 trainer = Trainer(min_epochs=1)
 ```
-
-
 
 ### max_steps
 
@@ -1078,8 +958,6 @@ trainer = Trainer(max_steps=100)
 
 当 `max_epochs` 或 `max_steps` 之一达到时，训练即终止。
 
-
-
 ### min_steps
 
 最小训练 step 数。
@@ -1094,8 +972,6 @@ trainer = Trainer(min_steps=100, min_epochs=0)
 
 训练数需要同时达到 `min_epochs` 和 `min_steps`。
 
-
-
 ### num_nodes
 
 分布式训练使用的 GPU 节点。
@@ -1108,8 +984,6 @@ trainer = Trainer(num_nodes=1)
 trainer = Trainer(num_nodes=8)
 ```
 
-
-
 ### num_processes
 
 训练的进程数。当使用 `accelerator="ddp"` 时自动设置为 GPU 的数量。当使用 `accelerator="ddp_cpu"` 时，设置大于 1 的数可以在一台没有 GPU 的机器上模拟分布式训练。这对于 debug 有用，但不会有任何加速效果，因为 PyTorch 的单进程已经可以充分利用多核 CPU。
@@ -1118,8 +992,6 @@ trainer = Trainer(num_nodes=8)
 # Simulate DDP for debugging on your GPU-less laptop
 trainer = Trainer(accelerator="ddp_cpu", num_processes=2)
 ```
-
-
 
 ### num_sanity_val_steps
 
@@ -1138,8 +1010,6 @@ trainer = Trainer(num_sanity_val_steps=-1)
 
 合法性检查完成后会重置验证 dataloader。
 
-
-
 ### overfit_batches
 
 仅使用训练集的指定比例或指定数量的样本，并且用其进行验证和测试。如果训练 dataloader 有 `shuffle=True`，Lightning 会自动禁用之。
@@ -1157,11 +1027,7 @@ trainer = Trainer(overfit_batches=0.01)
 trainer = Trainer(overfit_batches=10)
 ```
 
-
-
 ### cluster_environment
-
-
 
 ### prepare_data_per_node
 
@@ -1175,8 +1041,6 @@ Trainer(prepare_data_per_node=True)
 Trainer(prepare_data_per_node=False)
 ```
 
-
-
 ### precision
 
 使用全精度（32）或半精度（16），可以用在 CPU，GPU 或 TPU 上。
@@ -1188,8 +1052,6 @@ trainer = Trainer(precision=32)
 # 16-bit precision
 trainer = Trainer(precision=16)
 ```
-
-
 
 ### profiler
 
@@ -1208,8 +1070,6 @@ trainer = Trainer(profiler="simple")
 trainer = Trainer(profiler="advanced")
 ```
 
-
-
 ### progress_bar_refresh_rate
 
 刷新进度条的频率。已知 notebook 由于屏幕刷新率的问题，使用高刷新率（低数值）会造成崩溃，建议赋值 50 以上。
@@ -1221,8 +1081,6 @@ trainer = Trainer(progress_bar_refresh_rate=1)
 # disable progress bar
 trainer = Trainer(progress_bar_refresh_rate=0)
 ```
-
-
 
 ### reload_dataloaders_every_epoch
 
@@ -1241,13 +1099,7 @@ for epoch in epochs:
     for batch in train_loader:
 ```
 
-
-
 ### replace_sampler_ddp
-
-
-
-
 
 ### resume_from_checkpoint
 
@@ -1261,15 +1113,9 @@ trainer = Trainer(resume_from_checkpoint=None)
 trainer = Trainer(resume_from_checkpoint='some/path/to/my_checkpoint.ckpt')
 ```
 
-
-
 ### sync_batchnorm
 
-
-
 ### track_grad_norm
-
-
 
 ### val_check_interval
 
@@ -1288,8 +1134,6 @@ trainer = Trainer(val_check_interval=0.25)
 trainer = Trainer(val_check_interval=1000)
 ```
 
-
-
 ### weights_save_path
 
 保存权重的目录。
@@ -1303,8 +1147,6 @@ trainer = Trainer(weights_save_path='my/path')
 ```
 
 > 详细的路径规则参考日志和保存和加载权重。
-
-
 
 ### weights_summary
 
@@ -1321,8 +1163,6 @@ trainer = Trainer(weights_summary='full')
 trainer = Trainer(weights_summary=None)
 ```
 
-
-
 ## is_global_zero
 
 确认当前进程是否为多节点训练的全局零。
@@ -1332,8 +1172,6 @@ def training_step(self, batch, batch_idx):
     if self.trainer.is_global_zero:
         print('in node 0, accelerator 0')
 ```
-
-
 
 ## log_dir
 
@@ -1345,13 +1183,9 @@ def training_step(self, batch, batch_idx):
     save_img(img, self.trainer.log_dir)
 ```
 
-
-
 ## logger
 
 当前使用的日志器。
-
-
 
 ## logged_metrics
 
@@ -1361,11 +1195,8 @@ def training_step(self, batch, batch_idx):
 def training_step(self, batch, batch_idx):
     self.log('a_val', 2, log=True)
 
-
 trainer.logged_metrics['a_val']  # 2
 ```
-
-
 
 ## progress_bar_metrics
 
@@ -1378,18 +1209,13 @@ def training_step(self, batch, batch_idx):
 trainer.progress_bar_metrics['a_val']  # 2
 ```
 
-
-
 ## test()
 
 运行测试步骤。与优化步骤分离。
 
 使用方法参考[测试](./pytorch-lightning.md#测试)。
 
-
-
 ## tune()
 
 在训练之前运行调整超参数的步骤，例如 `auto_lr_find,auto_scale_batch_size`。
-
 

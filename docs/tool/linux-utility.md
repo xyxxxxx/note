@@ -1,4 +1,4 @@
-[toc]
+
 
 # 网络
 
@@ -17,8 +17,6 @@ $ curl www.example.com         # 自动选择协议,默认为`GET`方法
 </html>
 ```
 
-
-
 ### -b
 
 向服务器发送Cookie。
@@ -29,8 +27,6 @@ $ curl -b 'foo1=bar1; foo2=bar2' https://www.google.com   # 发送多个Cookie
 $ curl -b cookies.txt https://www.google.com              # 读取本地Cookie文件并发送
 ```
 
-
-
 ### -c
 
 将服务器返回的Cookie写入文件。
@@ -38,8 +34,6 @@ $ curl -b cookies.txt https://www.google.com              # 读取本地Cookie�
 ```shell
 $ curl -c cookies.txt https://www.google.com          # 将响应头的Cookie设置写入`cookie.txt`文件
 ```
-
-
 
 ### -d
 
@@ -52,8 +46,6 @@ $ curl -d 'login=emma' -d 'password=123' [-X POST] https://www.google.com/login 
 $ curl -d '@data.txt' https://www.google.com/login        # 读取本地`data.txt`文件并作为数据体发送
 ```
 
-
-
 ### -F
 
 向服务器上传二进制文件。
@@ -63,8 +55,6 @@ $ curl -d '@data.txt' https://www.google.com/login        # 读取本地`data.tx
 $ curl -F 'file=@photo.png' https://www.google.com/profile                   # 上传`photo.png`文件
 $ curl -F 'file=@photo.png;filename=me.png' https://www.google.com/profile   # 指定服务器接收到的文件名 
 ```
-
-
 
 ### -G
 
@@ -76,8 +66,6 @@ $ curl -G -d 'q=kitties' -d 'count=20' https://www.google.com/search
 # 若去掉`-G`选项,则变为发送`POST`请求的数据体
 ```
 
-
-
 ### -H
 
 增加请求头。
@@ -85,8 +73,6 @@ $ curl -G -d 'q=kitties' -d 'count=20' https://www.google.com/search
 ```shell
 $ curl -H 'accept-language: en-US' https://www.google.com
 ```
-
-
 
 ### -i
 
@@ -117,8 +103,6 @@ content-length: 1256
 </html>
 ```
 
-
-
 ### -I, --head
 
 向服务器发出`HEAD`请求，打印响应头。
@@ -140,8 +124,6 @@ x-cache: HIT
 content-length: 648
 ```
 
-
-
 ### -L
 
 使请求跟随服务器的重定向。默认不跟随重定向。
@@ -150,8 +132,6 @@ content-length: 648
 $ curl -L https://ff.sdo.com
 ```
 
-
-
 ### --limit-rate
 
 限制请求和响应的带宽，用于模拟网速慢的环境。
@@ -159,8 +139,6 @@ $ curl -L https://ff.sdo.com
 ```shell
 $ curl --limit-rate 200k https://www.google.com    # 限速200kB/s
 ```
-
-
 
 ### -o, -O
 
@@ -171,13 +149,9 @@ $ curl -o example.html https://www.example.com     # 保存到`example.html`文�
 $ curl -O https://www.example.com/foo/bar.html     # 保存到`bar.html`文件中
 ```
 
-
-
 ### -T
 
 上传本地文件。
-
-
 
 ### -u
 
@@ -187,8 +161,6 @@ $ curl -O https://www.example.com/foo/bar.html     # 保存到`bar.html`文件�
 $ curl -u 'bob:12345' https://google.com/login     # 设置用户名为`bob`,密码为`12345`
                                                    # 将被转换为请求头`Authorization: Basic Ym9iOjEyMzQ1`
 ```
-
-
 
 ### -v
 
@@ -257,8 +229,6 @@ $ curl -v https://www.example.com
 * Closing connection 0
 ```
 
-
-
 ### -x
 
 指定HTTP请求的代理。
@@ -266,8 +236,6 @@ $ curl -v https://www.example.com
 ```shell
 $ curl -x socks5://james:cats@myproxy.com:8080 https://www.example.com
 ```
-
-
 
 ### -X
 
@@ -277,19 +245,9 @@ $ curl -x socks5://james:cats@myproxy.com:8080 https://www.example.com
 $ curl -X POST https://www.example.com
 ```
 
-
-
 ### 常见应用
 
-
-
-
-
 ## scp
-
-
-
-
 
 ## rsync
 
@@ -312,15 +270,7 @@ $ rsync -a username@host:/path/to/dir/ .
 $ rsync -a username@host1:/path/to/dir1/ username@host2:/path/to/dir2
 ```
 
-
-
 ### -n
-
-
-
-
-
-
 
 ## wget
 

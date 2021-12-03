@@ -1,10 +1,8 @@
-[toc]
+
 
 镜像（`Image`）和容器（`Container`）的关系，就像是面向对象程序设计中的 `类` 和 `实例` 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
 
 容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间，因此容器可以拥有自己的 `root` 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间。容器内的进程是运行在一个隔离的环境里，使用起来就好像是在一个独立于宿主的系统下操作一样。这种特性使得容器封装的应用比直接在宿主运行更加安全。也因为这种隔离的特性，很多人初学 Docker 时常常会混淆容器和虚拟机。
-
-
 
 # 运行容器
 
@@ -53,8 +51,6 @@ $ docker run -dit ubuntu:18.04 [/bin/bash]
 * 执行用户指定的应用程序
 * 执行完毕后终止容器
 
-
-
 其它常用的容器运行命令如下：
 
 ```shell
@@ -70,10 +66,6 @@ $ docker container restart <container ID or name>
 # 终止容器运行
 $ docker kill <container ID or name>
 ```
-
-
-
-
 
 # 管理容器
 
@@ -96,16 +88,12 @@ $ docker container rm <container ID or name>
 $ docker container prune
 ```
 
-
-
 使用 `docker exec` 命令进入正在运行的容器：
 
 ```shell
 $ docker exec -it <container ID or name> /bin/bash
 # 使用`exit`命令退出时不会导致容器的停止
 ```
-
-
 
 使用 `docker export` 命令导出本地容器为快照文件：
 
@@ -116,21 +104,13 @@ CONTAINER ID   IMAGE                          COMMAND       CREATED         STAT
 $ docker export 8f84b6fe9178 > ubuntu.tar
 ```
 
-
-
 使用 `docker import` 命令
 
 ```shell
 $ cat ubuntu.tar | docker import - test/ubuntu:v1.0
 ```
 
-
-
 > `docker export` 
-
-
-
-
 
 # 网络配置
 
@@ -175,8 +155,6 @@ $ docker run -d \
 $ docker port fa 80
 0.0.0.0:32768
 ```
-
-
 
 ## 容器互联
 
@@ -226,25 +204,13 @@ PING busybox2 (172.19.0.3): 56 data bytes
 
 这样 `busybox1` 容器和 `busybox2` 容器建立了互联关系。
 
-
-
-
-
 ## 配置DNS
-
-
-
-
-
-
 
 # 数据管理
 
 > 参考：
 >
 > [Manage data in Docker](https://docs.docker.com/storage/)
-
-
 
 ## 数据卷
 
@@ -292,8 +258,6 @@ $ docker volume rm my-vol
 $ docker volume prune
 ```
 
-
-
 ### 启动容器并挂载数据卷
 
 下面的例子挂载数据卷 `my-vol` 到容器的 `/usr/share/nginx/html` 目录下：
@@ -337,8 +301,6 @@ $ docker inspect web
 # ...
 ```
 
-
-
 若要将数据卷挂载为只读目录，在选项列表中添加 `ro` 或 `readonly`：
 
 ```shell
@@ -375,8 +337,6 @@ $ docker inspect web
 # ...
 ```
 
-
-
 ### 备份、恢复和迁移数据卷
 
 例如我们创建名为 `dbstore` 的容器并挂载（命名或匿名）数据卷：
@@ -409,8 +369,6 @@ $ docker run --rm --volumes-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /
 
 数据卷的备份文件 `backup.tar` 可以十分方便地迁移。
 
-
-
 ## 挂载主机目录
 
 ### 启动容器并挂载主机目录
@@ -435,8 +393,6 @@ $ docker run -d -P \
     # 第二个参数  在容器中挂载的路径
     nginx:latest
 ```
-
-
 
 若要将主机目录挂载为只读目录，在选项列表中添加 `ro` 或 `readonly`：
 
@@ -474,8 +430,6 @@ $ docker inspect web
 # ...
 ```
 
-
-
 上面的命令加载主机的 `/src/webapp` 目录到容器的 `/usr/share/nginx/html` 目录。这个功能在进行测试的时候十分方便，比如用户可以放置一些程序到本地目录中，来查看容器是否正常工作。本地目录的路径必须是绝对路径。
 
 Docker 挂载主机目录的默认权限是 `读写`，用户也可以通过增加 `readonly` 指定为 `只读`。
@@ -487,8 +441,4 @@ $ docker run -d -P \
     --mount type=bind,source=/src/webapp,target=/usr/share/nginx/html,readonly \
     nginx:alpine
 ```
-
-
-
-
 

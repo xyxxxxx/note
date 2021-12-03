@@ -12,10 +12,6 @@ Most machine learning problems require a lot of hyperparameter tuning. Unfortuna
 
 Remember: the ideal combination of hyperparameters is data dependent, so you must always experiment and verify.
 
-
-
-
-
 # Linear Regression with a Real Dataset
 
 + Scaling will keep loss values and learning rates in a friendlier range. Although scaling a label is usually *not* essential, scaling features in a multi-feature model usually *is* essential.
@@ -23,10 +19,6 @@ Remember: the ideal combination of hyperparameters is data dependent, so you mus
 
 + You can use any column or synthetic column as a feature
 + A correlation matrix indicates how each attribute's raw values relate to other raw values
-
-
-
-
 
 # Binary Classification
 
@@ -42,10 +34,6 @@ The raw value 75 would have a Z-score of +1.5:
 ```
   Z-score = (75 - 60) / 10 = +1.5
 ```
-
-
-
-
 
 # Neural Networks
 

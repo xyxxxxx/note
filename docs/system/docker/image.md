@@ -1,10 +1,8 @@
-[toc]
+
 
 操作系统分为内核和用户空间，对于 Linux 而言，内核启动后会挂载 `root` 文件系统为其提供用户空间支持。Docker 镜像（image）就相当于是一个 `root` 文件系统，比如官方镜像 `ubuntu:18.04` 就包含了完整的一套 Ubuntu 18.04 最小系统的 `root` 文件系统。
 
 Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
-
-
 
 # 镜像管理
 
@@ -32,8 +30,6 @@ Digest: sha256:139b3846cee2e63de9ced83cee7023a2d95763ee2573e5b0ab6dea9dfbd4db8f 
 Status: Downloaded newer image for ubuntu:18.04                                   # 用于验证一致性
 docker.io/library/ubuntu:18.04      # 镜像的完整名称
 ```
-
-
 
 ## 列出镜像
 
@@ -65,15 +61,11 @@ $ docker image ls ubuntu:18.04
 # ubuntu              18.04               f753707788c5        4 weeks ago         127 MB
 ```
 
-
-
 ### 镜像体积
 
 这里给出的镜像大小和在 Docker Hub 上看到的镜像大小不同，例如 `ubuntu:18.04` 镜像大小在本地是 `127 MB`，但是在 [Docker Hub](https://hub.docker.com/_/ubuntu?tab=tags) 显示的却是 `50 MB`。这是因为 Docker Hub 中显示的体积是压缩后的体积，镜像在下载和上传过程中保持着压缩状态；而 `docker image ls` 给出的是镜像下载到本地后展开的各层所占空间的总和，是磁盘空间占用的大小。
 
 另一个需要注意的地方在于，实际磁盘空间占用并非 `docker image ls` 给出的镜像大小之和，因为 Docker 镜像是多层存储结构，并且可以继承、复用，不同镜像可能使用相同的基础镜像，即拥有共同的层，共同的层仅需保存一份，因此实际磁盘空间占用很可能远小于镜像大小之和。
-
-
 
 ### 虚悬镜像
 
@@ -85,8 +77,6 @@ $ docker image ls ubuntu:18.04
 $ docker image prune
 ```
 
-
-
 ### 中间层镜像
 
 为了加速镜像构建、重复利用资源，Docker 会利用**中间层镜像**。以下命令列出包含中间层镜像的所有镜像：
@@ -96,8 +86,6 @@ $ docker image ls -a
 ```
 
 中间层镜像也是无标签的，但是它们不应该被删除，否则会导致上层镜像因为依赖丢失而出错。当删除某些上层镜像后，不再被依赖的中间层镜像也会被删除。
-
-
 
 ## 删除本地镜像
 
@@ -118,10 +106,6 @@ $ docker image rm $(docker image ls -q redis)
 ```
 
 删除某个镜像的操作实际上是先取消镜像的标签（`Untagged`），若镜像仍有另外的标签，则得到保留，否则删除（`Deleted`）此镜像。
-
-
-
-
 
 # `commit` 理解镜像构成
 
@@ -184,10 +168,6 @@ sha256:07e33465974800ce65751acc279adc6ed2dc5ed4e0838f8b86f0c87aa1795214
 
 上面这个例子帮助了我们理解镜像的分层存储概念（就如同 git 的版本控制），但实际环境中并不会使用 `docker commit` 定制镜像。
 
-
-
-
-
 # `Dockerfile` 定制镜像
 
 Dockerfile 是一个脚本文件，其中包含了一条条的指令（Instruction），每一条指令构建一层，即每一条指令的内容描述了该层应当如何构建。
@@ -199,8 +179,6 @@ FROM nginx
 RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 ```
 
-
-
 ### FROM
 
 `FROM` 指定基础镜像，我们在这个镜像的基础上进行修改。在 [Docker Hub](https://hub.docker.com/) 上有非常多的高质量的官方镜像，有可以直接拿来使用的服务类的镜像，如[`nginx`](https://hub.docker.com/_/nginx/)、[`redis`](https://hub.docker.com/_/redis/)、[`mongo`](https://hub.docker.com/_/mongo/)、[`mysql`](https://hub.docker.com/_/mysql/)、[`httpd`](https://hub.docker.com/_/httpd/)、[`php`](https://hub.docker.com/_/php/)、[`tomcat`](https://hub.docker.com/_/tomcat/)等；也有一些方便开发、构建、运行各种语言应用的镜像，如[`node`](https://hub.docker.com/_/node)、[`openjdk`](https://hub.docker.com/_/openjdk/)、[`python`](https://hub.docker.com/_/python/)、[`ruby`](https://hub.docker.com/_/ruby/)、[`golang`](https://hub.docker.com/_/golang/)等。可以在其中寻找一个最符合我们最终目标的镜像为基础镜像进行定制。
@@ -208,8 +186,6 @@ RUN echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 如果没有找到对应服务的镜像，官方镜像中还提供了一些更为基础的操作系统镜像，如[`ubuntu`](https://hub.docker.com/_/ubuntu/)、[`debian`](https://hub.docker.com/_/debian/)、[`centos`](https://hub.docker.com/_/centos/)、[`fedora`](https://hub.docker.com/_/fedora/)、[`alpine`](https://hub.docker.com/_/alpine/)等，这些操作系统的软件库为我们提供了更广阔的扩展空间。
 
 除了选择现有镜像为基础镜像外，Docker 还存在一个特殊的镜像，名为 `scratch`。这个镜像是虚拟的概念，并不实际存在，它表示一个空白的镜像。对于 Linux 下静态编译的程序来说，并不需要有操作系统提供运行时支持，所需的一切库都已经在可执行文件里了，因此直接 `FROM scratch` 会让镜像体积更加小巧。使用 Go 语言开发的应用很多会使用这种方式来制作镜像，这也是为什么有人认为 Go 是特别适合容器微服务架构的语言的原因之一。
-
-
 
 ### RUN
 
@@ -250,8 +226,6 @@ RUN buildDeps='gcc libc6-dev make' \
 
 既然所有命令的目的就是编译、安装 redis 可执行文件，那么就只需要建立 1 层。这一组命令的最后还添加了清理工作的命令，删除了为了编译构建所需要的软件，清理了所有下载、展开的文件，并且还清理了 `apt` 缓存文件。这是很重要的一步，在镜像构建时，一定要确保每一层只添加真正需要添加的东西，任何无关的东西都应该清理掉。
 
-
-
 ### 构建
 
 在 Dockerfile 文件所在目录执行：
@@ -270,8 +244,6 @@ Successfully built 44aa4490ce2c
 
 从命令的输出结果中，我们可以清晰地看到镜像的构建过程。在 `Step 2`中，如同我们之前所说的那样，`RUN`指令启动了一个容器`9cdc27646c7b`，执行了所要求的命令，并最后提交了这一层`44aa4490ce2c`，随后删除了所用到的这个容器`9cdc27646c7b`。
 
-
-
 ### 构建上下文
 
 我们注意到 `docker build`命令最后有一个`.`，这个参数表示构建镜像的上下文路径。`docker build` 命令得知这个路径后，会将路径下的所有内容打包，然后上传给 Docker 引擎（由服务器完成构建）。这样 Docker 引擎收到这个上下文包后，展开就会获得构建镜像所需的一切文件。例如在 Dockerfile 中这么写：
@@ -286,8 +258,6 @@ COPY ./package.json /app/
 
 对于 Dockerfile 文件，习惯的做法是使用默认的文件名 `Dockerfile`，以及将其置于镜像构建上下文目录中。
 
-
-
 ## Dockerfile指令详解
 
 > 参考[Dockerfile 指令详解](https://yeasy.gitbook.io/docker_practice/image/dockerfile)
@@ -300,19 +270,13 @@ COPY ./package.json /app/
 COPY package.json /usr/src/app/
 ```
 
-
-
 ### ADD
 
 `ADD` 指令在 `COPY` 基础上增加了一些功能。当 `< 源路径 >`是一个`tar`压缩文件并且压缩格式为`gzip`，`bzip2`以及`xz`的情况下，`ADD`指令将会自动解压缩这个压缩文件到`< 目标路径 >` 去。
 
 在 Docker 官方的 [Dockerfile 最佳实践文档]()中要求，尽可能的使用 `COPY`，因为 `COPY` 的语义很明确，就是复制文件而已，而 `ADD` 则包含了更复杂的功能，其行为也不一定很清晰。最适合使用 `ADD` 的场合，就是所提及的需要自动解压缩的场合。
 
-
-
 ### CMD
-
-
 
 ### EXPOSE
 
@@ -321,6 +285,4 @@ COPY package.json /usr/src/app/
 `EXPOSE` 指令是声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。在 Dockerfile 中写入这样的声明有两个好处，一个是帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；另一个用处则是在运行时使用随机端口映射时，也就是 `docker run -P`时，会自动随机映射`EXPOSE` 的端口。
 
 要将 `EXPOSE` 和在运行时使用 `-p < 宿主端口 >:< 容器端口 >`区分开来。`-p`，是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问，而`EXPOSE` 仅仅是 <u> 声明 </u> 容器打算使用什么端口而已，并不会自动在宿主进行端口映射。
-
-
 

@@ -59,8 +59,6 @@ func main() {
 [2][2][2]float64
 ```
 
-
-
 ## 切片
 
 切片是对数组一个连续片段的引用，所以切片是一个引用类型。
@@ -94,8 +92,6 @@ new([100]int)[0:50]         //隐式间接引用,相当于 (*new([100]int))[0:50
 
 <img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/7.2_fig7.2.1.png?raw=true"style="zoom：50%;"/>
 
-
-
 ```go
 // new() 和 make() 的区别
 p := new([]int)      //如图7.3上,即new了一个int切片(未初始化),返回一个指向该切片的指针
@@ -110,8 +106,6 @@ p := make([]int, 0)  //如图7.3下,即创建了长度和容量为0一个切片,
 >
 > `make()`只用于创建切片、映射和信道，并且返回创建的数据结构。
 
-
-
 ```go
 //分配二维切片: XSize=1920, YSize=1080, 分配切片[1080][1920]picture
 
@@ -120,12 +114,6 @@ for i := range picture {
 	picture[i] = make([]uint8, XSize)
 }
 ```
-
-
-
-
-
-
 
 ## for-range 遍历
 
@@ -148,11 +136,7 @@ func main() {
 
 ```
 
-
-
 ## 切片重组reslice
-
-
 
 ## 切片的复制和追加
 
@@ -194,13 +178,7 @@ len=3 cap=4 [0 1 2]
 s = append(s,t...)    //将t展开再拼接
 ```
 
-
-
 ## 字符串、数组和切片的应用
-
-
-
-
 
 # 映射Map
 
@@ -243,8 +221,6 @@ var m = map[string]Vertex{
 }
 ```
 
-
-
 ## 基本操作
 
 ```go
@@ -271,15 +247,9 @@ func main() {
 
 ```
 
-
-
 ## for-range 遍历
 
-
-
 ## map类型的切片
-
-
 
 ## map的排序
 
@@ -322,13 +292,7 @@ func main() {
 }
 ```
 
-
-
 ## map的键值对调
-
-
-
-
 
 # 其他数据结构
 

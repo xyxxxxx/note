@@ -6,23 +6,17 @@ A linear model is represented as a graph:
 
 Each blue circle represents an input feature, and the green circle represents the weighted sum of the inputs.
 
-
-
 In the model represented by the following graph, we've added a "hidden layer" of intermediary values. Each yellow node in the hidden layer is a weighted sum of the blue input node values. The output is a weighted sum of the yellow nodes.
 
 ![Three blue circles in a row labeled "Input" connected by arrows to a row of yellow circles labeled "Hidden Layer" above them, which are in turn connected to a green circle labeled "Output" at the top.](https://developers.google.com/machine-learning/crash-course/images/1hidden.svg)
 
 However, this model is still linear—its output is still a linear combination of its inputs.
 
-
-
 In the model represented by the following graph, the value of each node in Hidden Layer 1 is transformed by a nonlinear function before being passed on to the weighted sums of the next layer. This nonlinear function is called the **activation function**.
 
 ![The same as the previous figure, except that a row of pink circles labeled 'Non-Linear Transformation Layer' has been added in between the two hidden layers.](https://developers.google.com/machine-learning/crash-course/images/activation.svg)
 
 Now that we've added an activation function, adding layers has more impact. Stacking nonlinearities on nonlinearities lets us model very complicated relationships between the inputs and the predicted outputs. In brief, each layer is effectively learning a more complex, higher-level function over the raw inputs.
-
-
 
 ## Common Activation Functions
 
@@ -33,8 +27,6 @@ $$
 Here's a plot:
 
 ![Sigmoid function](https://developers.google.com/machine-learning/crash-course/images/sigmoid.svg)
-
-
 
 The following **rectified linear unit** activation function (or **ReLU**, for short) often works a little better than a smooth function like the sigmoid, while also being significantly easier to compute.
 $$
@@ -47,10 +39,6 @@ The superiority of ReLU is based on empirical findings, probably driven by ReLU 
 In fact, any mathematical function can serve as an activation function. TensorFlow provides out-of-the-box support for many activation functions. You can find these activation functions within TensorFlow's [list of wrappers for primitive neural network operations](https://www.tensorflow.org/api_docs/python/tf/nn).
 
 > neural networks aren't necessarily always better than feature crosses, but neural networks do offer a flexible alternative that works well in many cases.
-
-
-
-
 
 # Training
 
@@ -78,8 +66,6 @@ Once the weighted sum for a ReLU unit falls below 0, the ReLU unit can get stuck
 
 Lowering the learning rate can help keep ReLU units from dying.
 
-
-
 ## Dropout Regularization
 
 Another form of regularization, called **Dropout**, is useful for neural networks. It works by randomly "dropping out" unit activations in a network for a single gradient step. The more you drop out, the stronger the regularization:
@@ -88,10 +74,6 @@ Another form of regularization, called **Dropout**, is useful for neural network
 + 1.0 = Drop out everything. The model learns nothing.
 + Values between 0.0 and 1.0 = More useful.
 
-
-
-
-
 # Multi-Class Neural Networks
 
 **One vs. all** provides a way to leverage binary classification. Given a classification problem with N possible solutions, a one-vs.-all solution consists of N separate binary classifiers—one binary classifier for each possible outcome. This approach is fairly reasonable when the total number of classes is small, but becomes increasingly inefficient as the number of classes rises.
@@ -99,8 +81,6 @@ Another form of regularization, called **Dropout**, is useful for neural network
 We can create a significantly more efficient one-vs.-all model with a deep neural network in which each output node represents a different class. The following figure suggests this approach:
 
 ![A neural network with five hidden layers and five output layers.](https://developers.google.com/machine-learning/crash-course/images/OneVsAll.svg)
-
-
 
 ## Softmax
 
@@ -120,11 +100,7 @@ Softmax is implemented through a neural network layer just before the output lay
 
 ![A deep neural net with an input layer, two nondescript hidden layers, then a Softmax layer, and finally an output layer with the same number of nodes as the Softmax layer.](https://developers.google.com/machine-learning/crash-course/images/SoftmaxLayer.svg)
 
-
-
  Click the plus icon to see the Softmax equation.
-
-
 
 ## Softmax Options
 
@@ -134,8 +110,6 @@ Consider the following variants of Softmax:
 + **Candidate sampling** means that Softmax calculates a probability for all the positive labels but only for a random sample of negative labels. For example, if we are interested in determining whether an input image is a beagle or a bloodhound, we don't have to provide probabilities for every non-doggy example.
 
 Full Softmax is fairly cheap when the number of classes is small but becomes prohibitively expensive when the number of classes climbs. Candidate sampling can improve efficiency in problems having a large number of classes.
-
-
 
 ## One Label vs. Many Labels
 

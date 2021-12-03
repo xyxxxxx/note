@@ -10,10 +10,6 @@ P(B-A)=P(B)-P(A), if\;A\subseteq B
 \\独立P(AB)=P(A)P(B)
 $$
 
-
-
-
-
 # 离散型随机变量,discrete random variable,確率変数
 
 > 随机变量的取值亦可是随机变量
@@ -29,8 +25,6 @@ $$
 
 > n个伯努利分布相加
 
-
-
 ## 几何分布geometric distribution
 
 $$
@@ -39,8 +33,6 @@ P(X=k)=(1-p)^{k-1}p\\
 E(X)=\frac{1}{p},Var(X)=\frac{1-p}{p^2}
 $$
 
-
-
 ## 超几何分布hyper geometric distribution
 
 $$
@@ -48,8 +40,6 @@ X\sim H(n,K,N)\\
 P(X=k)=\frac{C_K^kC_{N-K}^{n-k}}{C_N^n}\\
 E(X)=n\frac{K}{N}
 $$
-
-
 
 ## 负二项分布
 
@@ -60,8 +50,6 @@ E(X)=n\frac{1}{p},Var(X)=n\frac{1-p}{p^2}
 $$
 
 > n个几何分布相加
-
-
 
 ## 泊松分布Poisson distribution$$
 
@@ -76,10 +64,6 @@ $$
 
 > 二项分布在n较大，p较小时的近似
 
-
-
-
-
 # 连续型随机变量continuous random variable
 
 概率密度函数（probability density function，確率密度関数） $f(x)$，累积分布函数（cumulative distribution function） $F(x)$ 
@@ -87,7 +71,6 @@ $$
 F(x)=\int_{-\infty}^{x}f(t)dt\\
 F'(x)=f(x)\\
 $$
-
 
 ## 均匀分布uniform distribution
 
@@ -97,8 +80,6 @@ f(x)=\frac{1}{b-a},~X\in[a,b]\\
 E(X)=\frac{a+b}{2},~Var(X)=\frac{(b-a)^2}{12}
 $$
 
-
-
 ## 指数分布exponential distribution
 
 $$
@@ -106,8 +87,6 @@ X\sim Exp(\lambda)\\
 f(x)=\lambda e^{-\lambda x}\quad(x>0)\\
 E(X)=\frac{1}{\lambda},~Var(X)=\frac{1}{\lambda^2}
 $$
-
-
 
 ## 正态分布,normal distribution,正規分布
 
@@ -121,8 +100,6 @@ $$
 
 **定理** 设随机变量 $X_1,X_2,\cdots,X_n$ 相互独立，且 $X_i\sim N(\mu_i,\sigma_i^2)$，则 $\sum X_i\sim N(\sum\mu_i,\sum \sigma_i^2)$ 
 
-
-
 ### 二元正态分布
 
 **二元正态分布的性质**
@@ -130,10 +107,6 @@ $$
 + 二元正态分布的边缘分布为一元正态分布
 + 如果 $(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$，则X,Y相互独立当且仅当 $Cov(X,Y)=0$ 
 + 如果 $(X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)$，则 $(a_1X+b_1Y,a_2X+b_2Y)$ 也服从二元正态分布，其中 $aX+bY\sim N(a\mu_1+b\mu_2,a^2\sigma_1^2+b^2\sigma_2^2+2ab\rho\sigma_1\sigma_2)$ 
-
-
-
-
 
 # 多维随机变量,n-dimensional random variable
 
@@ -143,15 +116,11 @@ $$
 
 **边缘分布 $P(X=x_i)$ **
 
-
-
 **独立性**
 $$
 P(X=x_i,Y=y_i)=P(X=x_i)P(Y=y_i)
 $$
 表明随机变量 $X,Y$ 独立
-
-
 
 ### 多项分布
 
@@ -162,11 +131,7 @@ $$
 
 > 多项分布的边缘分布为二项分布
 
-
-
 ## 二维连续型随机变量
-
-
 
 ![xzcngoj5y3htbewfe](C:\Users\Xiao Yuxuan\Documents\pic\xzcngoj5y3htbewfe.PNG)
 
@@ -176,19 +141,13 @@ f(x_i,y_i)=f_X(x_i)f_Y(y_i)
 $$
 表明随机变量 $X,Y$ 独立
 
-
-
 ### 二维均匀分布
-
-
 
 ### 二元正态分布
 
 $$
 (X,Y)\sim N(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2,\rho)
 $$
-
-
 
 ## 条件分布
 
@@ -197,16 +156,12 @@ $$
 连续\quad f(y|x)=\frac{f(x,y)}{f_X(x)}
 $$
 
-
-
 ### 条件独立
 
 $$
 P(x, y|z) = P(x|z)P(y|z)\\
 f(x,y|z)=f(x|z)f(y|z)
 $$
-
-
 
 ### 条件数学期望
 
@@ -215,8 +170,6 @@ $$
 ![gjin24ojfevwfjrgq](C:\Users\Xiao Yuxuan\Documents\pic\gjin24ojfevwfjrgq.PNG)
 
 ![c9i0ieyijo5n3jgrebtoh](C:\Users\Xiao Yuxuan\Documents\pic\c9i0ieyijo5n3jgrebtoh.PNG)
-
-
 
 ### 全期望公式
 
@@ -234,17 +187,11 @@ $$
 
 ![gsroijn436hgdrt4](C:\Users\Xiao Yuxuan\Documents\pic\gsroijn436hgdrt4.PNG)
 
-
-
-
-
 ![vcbf45jiontgfdf](C:\Users\Xiao Yuxuan\Documents\pic\vcbf45jiontgfdf.PNG)
 
 ![ejti3to4n3rvrfwwvwfb](C:\Users\Xiao Yuxuan\Documents\pic\ejti3to4n3rvrfwwvwfb.PNG)
 
 ![hrt903jierwnvirvb](C:\Users\Xiao Yuxuan\Documents\pic\hrt903jierwnvirvb.PNG)
-
-
 
 ## 随机变量函数
 
@@ -269,9 +216,6 @@ $$
 Var(X)=\int_{-\infty}^{+\infty}(x-\mu)^2f(x){\rm d}x
 $$
 
-
-
-
 ![130rjitogrfobqqferwvfwin](C:\Users\Xiao Yuxuan\Documents\pic\130rjitogrfobqqferwvfwin.PNG)
 
 **Jensen不等式**
@@ -281,8 +225,6 @@ $$
 g(E(X))\le E(g(X))
 $$
 等式当且仅当 $X$ 是常数或 $g$ 是线性时成立
-
-
 
 ### 协方差,covariance
 
@@ -303,8 +245,6 @@ Cov(\pmb X,\pmb Y)=E((\pmb X-E(\pmb X))(\pmb Y-E(\pmb Y))^{\rm T})
 $$
 即 $Cov(\pmb X,\pmb Y)$ 的第 $(m,n)$ 个元素是 $X_m$ 和 $Y_n$ 的协方差。
 
-
-
 ### 相关和独立
 
 > 不相关可能不独立
@@ -313,8 +253,6 @@ $$
 
 ![sdfvj2it4njhoy3j47i](C:\Users\Xiao Yuxuan\Documents\pic\sdfvj2it4njhoy3j47i.PNG)
 
-
-
 ## 独立随机变量的和分布
 
 ### 离散型
@@ -322,8 +260,6 @@ $$
 $$
 P(Z=z_k)=\sum_{x_i\in X(\Omega)}P(X=x_i)P(Y=z_k-x_i)
 $$
-
-
 
 ### 连续型
 
@@ -338,10 +274,6 @@ $$
 ## 最大值和最小值分布
 
 ![cxvbeihno63y5mknjhto](C:\Users\Xiao Yuxuan\Documents\pic\cxvbeihno63y5mknjhto.PNG)
-
-
-
-
 
 # 大数定律与中心极限定理
 
@@ -370,11 +302,7 @@ $$
 > \therefore P(|X-\mu|\ge \varepsilon) \le \frac{Var(X)}{\varepsilon^2}
 > $$
 
-
-
 > 大数定律的包含的意义是：频率收敛于概率
-
-
 
 ## 中心极限定理
 

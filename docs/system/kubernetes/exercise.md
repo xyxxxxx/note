@@ -1,4 +1,4 @@
-[toc]
+
 
 # 查看集群信息
 
@@ -40,10 +40,6 @@ $ kubectl exec $POD_NAME env
 $ kubectl proxy --port=8001
 Starting to serve on 127.0.0.1:8001
 ```
-
-
-
-
 
 # Minikube 演示
 
@@ -154,10 +150,6 @@ $ minikube stop
 🛑  1 nodes stopped.
 
 ```
-
-
-
-
 
 # [学习 Kubernetes 基础知识](https://kubernetes.io/zh/docs/tutorials/kubernetes-basics/)——交互式教程
 

@@ -1,10 +1,8 @@
-[toc]
+
 
 [Pandas](https://pandas.pydata.org/) 是一个快速、强大、灵活且易用的开源数据分析和操作工具。很多机器学习框架都支持将 Pandas 数据结构作为输入。
 
 > 官方教程参见[intro_to_pandas](https://colab.research.google.com/notebooks/mlcc/intro_to_pandas.ipynb)
-
-
 
 # 教程
 
@@ -34,8 +32,6 @@
 4           40        15
 ```
 
-
-
 ### 查看属性
 
 ```python
@@ -46,8 +42,6 @@ dtype: object
 >>> my_dataframe.shape   # dataframe形状
 (5, 2)
 ```
-
-
 
 ### 增加series
 
@@ -71,8 +65,6 @@ dtype: object
 3           30        14        16         16
 4           40        15        17         17
 ```
-
-
 
 ### 选择(查询)dataframe
 
@@ -150,8 +142,6 @@ Name: adjusted, dtype: bool
 4           40        15        17         17
 ```
 
-
-
 ## 查看统计量
 
 ```python
@@ -199,8 +189,6 @@ Name: Sex, dtype: int64
 
 ```
 
-
-
 ## pandas函数
 
 ### concat
@@ -241,8 +229,6 @@ Name: Sex, dtype: int64
 5      Frank   M
 ```
 
-
-
 # API
 
 ## dataframe
@@ -270,8 +256,6 @@ Name: Sex, dtype: int64
 2  10  12
 ```
 
-
-
 ### append()
 
 增加一行。
@@ -291,8 +275,6 @@ Name: Sex, dtype: int64
 2  5.0  6.0
 3  7.0  NaN
 ```
-
-
 
 ### apply()
 
@@ -321,8 +303,6 @@ dtype: int64
 dtype: int64
 ```
 
-
-
 ### drop()
 
 删除指定行/列。
@@ -348,8 +328,6 @@ dtype: int64
 3  Germany
 ```
 
-
-
 ### dropna()
 
 删除含有 NaN 的行。
@@ -370,8 +348,6 @@ dtype: int64
      A    B    C  D
 0  1.0  2.0  5.0  0
 ```
-
-
 
 ### fillna()
 
@@ -404,13 +380,9 @@ dtype: int64
 3  0.0  3.0 -2.0  4
 ```
 
-
-
 ### head()
 
 查看 dataframe 的前几行。
-
-
 
 ### iloc()
 
@@ -453,8 +425,6 @@ Name: 0, dtype: int64
 2  1000  2000  3000
 ```
 
-
-
 ### join()
 
 与另一 dataframe 做列拼接。
@@ -494,8 +464,6 @@ K5   A5  NaN
 5  K5  A5  NaN
 ```
 
-
-
 ### merge()
 
 与另一 dataframe 做数据库风格的列拼接，即匹配左键和右键。
@@ -515,8 +483,6 @@ K5   A5  NaN
 5  baz        3  baz        7
 ```
 
-
-
 ### plot()
 
 对 dataframe 或 series 绘图。默认使用 matplotlib。
@@ -535,8 +501,6 @@ K5   A5  NaN
 
 ![](https://datatofish.com/wp-content/uploads/2018/12/001_plot_df.png)
 
-
-
 **折线图**
 
 ```python
@@ -552,8 +516,6 @@ K5   A5  NaN
 
 ![](https://datatofish.com/wp-content/uploads/2018/12/002_plot_df.png)
 
-
-
 **折线图**
 
 ```python
@@ -567,8 +529,6 @@ K5   A5  NaN
 ```
 
 ![](https://datatofish.com/wp-content/uploads/2018/12/Capture_bar-1.jpg)
-
-
 
 **扇形图**
 
@@ -590,8 +550,6 @@ Tasks Completed    700
 ```
 
 ![](https://i.loli.net/2020/12/30/9V8sDLT7hjXJutQ.png)
-
-
 
 ### pop()
 
@@ -623,8 +581,6 @@ Name: class, dtype: object
 3  monkey        NaN
 ```
 
-
-
 ### rename()
 
 重命名 series。
@@ -637,8 +593,6 @@ Name: class, dtype: object
 1    3    4
 2    5    6
 ```
-
-
 
 ### set_index(), reset_index()
 
@@ -669,8 +623,6 @@ year
 3  2014     10    31
 ```
 
-
-
 ### sort_values()
 
 将各行根据指定 series 排序
@@ -696,8 +648,6 @@ year
 
 ```
 
-
-
 ### sampling()
 
 将 dataframe 中的数据按比例做随机抽样。
@@ -718,8 +668,6 @@ year
 >>> test_df = df.drop(train_df.index)  # 删除已取样的行
 ```
 
-
-
 ### to_csv()
 
 将 dataframe 保存到 csv 文件。
@@ -728,11 +676,7 @@ year
 
 ```
 
-
-
 ### to_datetime()
-
-
 
 ## series
 
@@ -760,10 +704,6 @@ Helsinki    2.484907
 dtype: float64
 ```
 
-
-
-
-
 ## 导入数据
 
 ```python
@@ -774,10 +714,4 @@ dtype: float64
 # xlsx
 >>> df = pd.read_excel('titanic.xlsx', sheet_name='passengers')
 ```
-
-
-
-
-
-
 

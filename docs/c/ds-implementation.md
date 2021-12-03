@@ -9,7 +9,6 @@ struct node        　　　　　　　　　 //1.定义结点结构
 };
 typedef struct node NODE;//结点结构重命名
 
-
 NODE *head;　　　　　　　　　　　　　　//2.表头指针head
 head=(NODE *)malloc(sizeof(NODE));//3.为表头结点分配新存储区,强制转换malloc的返回值类型为NODE指针
 head->link=NULL;
@@ -52,17 +51,9 @@ void delete(NODE *head, int i) //删除第i个节点
 }
 ```
 
-
-
-
-
 # 栈
 
 ```c
 
 ```
-
-
-
-
 
