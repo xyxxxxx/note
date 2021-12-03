@@ -83,12 +83,20 @@ nav:
         - PyTorch: ml/platform-and-tool/pytorch/pytorch.md
         - torchvision: ml/platform-and-tool/pytorch/torchvision.md
         - torchserve: ml/platform-and-tool/pytorch/torchserve.md
-        - "API: torch, torch.Tensor, torch.autograd": ml/platform-and-tool/pytorch/api-tensor-autograd.md
-        - "API: torch.nn, torch.optim": ml/platform-and-tool/pytorch/api-nn-optim.md
-        - "API: torch.cuda, torch.backend": ml/platform-and-tool/pytorch/api-cuda-backend.md
+        - "API: torch": ml/platform-and-tool/pytorch/api-torch.md
+        - "API: torch.nn": ml/platform-and-tool/pytorch/api-nn.md
+        - "API: torch.nn.functional": ml/platform-and-tool/pytorch/api-nn-functional.md
+        - "API: torch.optim": ml/platform-and-tool/pytorch/api-optim.md
+        - "API: torch.autograd": ml/platform-and-tool/pytorch/api-autograd.md
+        - "API: torch.cuda": ml/platform-and-tool/pytorch/api-cuda.md
+        - "API: torch.backends": ml/platform-and-tool/pytorch/api-backends.md
         - "API: torch.distributed": ml/platform-and-tool/pytorch/api-distributed.md
-        - "API: torch.math, torch.fft, torch.linalg": ml/platform-and-tool/pytorch/api-math.md
-        - "API: torch.utils": ml/platform-and-tool/pytorch/api-utils.md
+        - "API: torch.multiprocessing": ml/platform-and-tool/pytorch/api-multiprocessing.md
+        - "API: torch.fft, torch.linalg, torch.special": ml/platform-and-tool/pytorch/api-math.md
+        - "API: torch.random": ml/platform-and-tool/pytorch/api-random.md
+        - "API: torch.sparse": ml/platform-and-tool/pytorch/api-sparse.md
+        - "API: torch.utils.data": ml/platform-and-tool/pytorch/api-utils-data.md
+        - "API: torch.utils.tensorboard": ml/platform-and-tool/pytorch/api-utils-tensorboard.md
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
         - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
   - 工具: 

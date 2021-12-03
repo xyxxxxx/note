@@ -1,5 +1,3 @@
-
-
 # torch.cuda
 
 `torch.cuda` 包加入了对于 CUDA 张量类型的支持，其实现了与 CPU 张量同样的函数，但使用 GPU 进行计算。
@@ -219,6 +217,4 @@ torch.cuda.comm.broadcast(tensor, devices=None, *, out=None)
 ### manual_seed_all()
 
 ### seed_all()
-
-# torch.backends
 
