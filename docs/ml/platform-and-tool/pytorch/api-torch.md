@@ -13,7 +13,7 @@
 ```python
 >>> torch.device('cpu')
 device(type='cpu')
->>> torch.device('cpu', 0)    # 0号CPU设备.多核CPU通常被视为一个设备,因此CPU通常只有0号设备.
+>>> torch.device('cpu', 0)    # 0号CPU设备.多核CPU通常被视为一个设备,因此CPU通常只有0号设备
 device(type='cpu', index=0)
 >>> torch.device('cuda:0')    # 0号CUDA设备
 device(type='cuda', index=0)
@@ -46,7 +46,7 @@ device(type='cuda', index=0)  # 0号CUDA设备
 
 [1]：有时被称为 binary16：使用一个符号位、5 个指数位和 10 个有效数字位，可以表示更大的精度。
 
-[2]：有时被称为脑浮点：使用一个符号位、8 个指数位和 7 个有效数字位，可以表示更大的范围。
+[2]：有时被称为脑浮点（brain floating point）：使用一个符号位、8 个指数位和 7 个有效数字位，可以表示更大的范围。
 
 当参与数学运算的张量的数据类型不同时，我们将数据类型转换为满足以下规则的最小数据类型：
 
@@ -74,26 +74,32 @@ device(type='cuda', index=0)  # 0号CUDA设备
 # 整数标量操作数被推断为`torch.int64`类型,因此结果为`torch.int64`类型
 >>> torch.add(5, 5).dtype
 torch.int64
+
 # 整数标量操作数被推断为`torch.int64`类型,不比张量操作数(`torch.int32`)的等级更高,
 # 因此结果为张量操作数的`torch.int32`类型
 >>> (int_tensor + 5).dtype
 torch.int32
+
 # 浮点数标量操作数被推断为`torch.float32`类型,比张量操作数(`torch.int32`)的等级更高,
 # 因此结果为标量操作数的`torch.float32`类型
 >>> (int_tensor + 5.).dtype
 torch.float32
-# 浮点数标量操作数(`torch.float32`)的数据类型比整数标量操作数(`torch.int32`)的等级更高,
+
+# 浮点数标量操作数的数据类型(`torch.float32`)比整数标量操作数(`torch.int64`)的等级更高,
 # 因此结果为浮点数张量操作数的`torch.float32`类型
 >>> torch.add(5, 5.).dtype
 torch.float32
+
 # 零维张量操作数(`torch.int64`)的数据类型不比多维张量操作数(`torch.int32`)的等级更高,
 # 因此结果为多维张量操作数的`torch.int32`类型
 >>> (int_tensor + long_zerodim).dtype
 torch.int32
+
 # 浮点数张量操作数(`torch.float32`)的数据类型比整数张量操作数(`torch.int64`)的等级更高,
 # 因此结果为浮点数张量操作数的`torch.float32`类型
 >>> torch.add(long_tensor, float_tensor).dtype
 torch.float32
+
 # 张量操作数(`torch.int64`)的数据类型比张量操作数(`torch.int32`)的规模更大,
 # 因此结果为能够容纳两者的`torch.int64`类型.下同
 >>> (long_tensor + int_tensor).dtype
@@ -102,6 +108,7 @@ torch.int64
 torch.float64
 >>> (complex_float_tensor + complex_double_tensor).dtype
 torch.complex128
+
 # 布尔类型可以转换为各种整数类型
 >>> (bool_tensor + long_tensor).dtype
 torch.int64
@@ -166,8 +173,6 @@ Tensor.backward(gradient=None, retain_graph=None, create_graph=False, inputs=Non
 
 等价于 `self.to(torch.bool)`。
 
-#### clone()
-
 #### contiguous()
 
 返回张量的一个各元素在内存上相邻的副本。
@@ -179,6 +184,7 @@ Tensor.backward(gradient=None, retain_graph=None, create_graph=False, inputs=Non
 >>> a.is_contiguous()
 True
 >>> a.contiguous() is a
+True
 >>> a = a.transpose(0, 1)
 >>> a.is_contiguous()
 False
@@ -198,10 +204,6 @@ True
 
 如果张量已经位于指定 CUDA 设备的显存中，则直接返回该张量对象。
 
-#### data
-
-……
-
 #### data_ptr()
 
 返回张量的第一个元素的内存地址。
@@ -211,28 +213,14 @@ True
 返回张量的一个视图，其等于原张量，但在计算图之外，不参与梯度计算。
 
 ```python
-# 1
->>> a = torch.tensor([1, 2, 3.], requires_grad=True)
->>> out = a.sigmoid()
->>> c = out.detach()
->>> out.sum().backward()  # 可以计算梯度 
->>> a.grad
-tensor([0.1966, 0.1050, 0.0452])
-
-# 2
->>> a = torch.tensor([1, 2, 3.], requires_grad=True)
->>> out = a.sigmoid()
->>> c = out.detach()
->>> c.sum().backward()    # 不可计算梯度
-RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
-
-# 3
->>> a = torch.tensor([1, 2, 3.], requires_grad=True)
->>> out = a.sigmoid()
->>> c = out.detach()
->>> c.zero_()
->>> out.sum().backward()   # `out`的值被修改而不能计算梯度
-RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: ……
+>>> a = torch.tensor(1., requires_grad=True)
+>>> b = torch.tensor(2., requires_grad=True)
+>>> c = a**2 + b
+>>> c.grad_fn
+<AddBackward0 object at 0x10a928310>
+>>> d = c.detach()
+>>> d.grad_fn
+# None
 ```
 
 #### device
@@ -240,11 +228,11 @@ RuntimeError: one of the variables needed for gradient computation has been modi
 返回张量所位于的设备。
 
 ```python
->>> x = torch.tensor([1, 2, 3])
->>> x.device
+>>> a = torch.tensor([1, 2, 3])
+>>> a.device
 device(type='cpu')
->>> x = torch.tensor([1, 2, 3], device='cuda:0')
->>> x.device
+>>> a = torch.tensor([1, 2, 3], device='cuda:0')
+>>> a.device
 device(type='cuda', index=0)
 ```
 
@@ -354,6 +342,8 @@ tensor([0.])
 ```
 
 #### grad_fn
+
+返回得到此张量的运算相应的 `torch.autograd.Function` 对象。
 
 #### is_contiguous()
 
@@ -499,8 +489,6 @@ tensor([-0.1482, -0.2680,  1.4278,  1.7212])
 tensor([-2.])    # 保留了对此张量的梯度值
 ```
 
-#### scatter()
-
 #### select()
 
 对张量沿指定维度的指定索引进行切片，返回原张量的一个视图。
@@ -515,7 +503,7 @@ tensor([[[ 0,  1,  2,  3],
         [[12, 13, 14, 15],
          [16, 17, 18, 19],
          [20, 21, 22, 23]]])
->>> a.select(0, 1)        # 等价于 a[1]
+>>> a.select(0, 1)        # 等价于 a[1,:,:]
 tensor([[12, 13, 14, 15],
         [16, 17, 18, 19],
         [20, 21, 22, 23]])
@@ -609,7 +597,7 @@ tensor([[ 1.,  2.],
         [ 4.,  5.],
         [ 5.,  6.],
         [ 6.,  7.]])
->>> x.unfold(0, 2, 2)
+>>> a.unfold(0, 2, 2)
 tensor([[ 1.,  2.],
         [ 3.,  4.],
         [ 5.,  6.]])
@@ -625,23 +613,6 @@ tensor([[ 1.,  2.],
 tensor([[0.2333, 0.9299, 0.6257],
         [0.3921, 0.8509, 0.9099],
         [0.0791, 0.0876, 0.1711]])
-```
-
-# torch.view
-
-view 相当于 numpy 中的 resize 功能，即改变张量的形状。
-
-```python
->>> a = torch.arange(12)
->>> b = a.view(2, 6)
-
->>> a
-tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
->>> b
-tensor([[ 0,  1,  2,  3,  4,  5],
-        [ 6,  7,  8,  9, 10, 11]])
->>> c
-tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
 ```
 
 #### view()
@@ -713,6 +684,13 @@ True
 
 ### isfinite()
 
+返回一个布尔张量，其每个元素表示输入张量的对应元素是否是有限的。
+
+```python
+>>> torch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+tensor([True,  False,  True,  False,  False])
+```
+
 ### is_floating_point()
 
 若输入张量的数据类型是浮点类型，即 `torch.float64`、`torch.float32`、`torch.float16` 和 `torch.bfloat16` 其中之一，则返回 `True`。
@@ -725,15 +703,29 @@ True
 
 ### isinf()
 
+返回一个布尔张量，其每个元素表示输入张量的对应元素是否是无限的。
+
+```python
+>>> torch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+tensor([False,  True,  False,  True,  False])
+```
+
 ### isnan()
+
+返回一个布尔张量，其每个元素表示输入张量的对应元素是否是 NaN。
+
+```python
+>>> torch.isnan(torch.tensor([1, float('nan'), 2]))
+tensor([False, True, False])
+```
 
 ### is_tensor()
 
 若实例是 PyTorch 张量，则返回 `True`。
 
 ```python
->>> x = torch.tensor([1, 2, 3])
->>> torch.is_tensor(x)
+>>> a = torch.tensor([1, 2, 3])
+>>> torch.is_tensor(a)
 True
 ```
 
@@ -767,6 +759,24 @@ tensor([ 0,  1,  2,  3,  4])
 tensor([ 1,  2,  3])
 >>> torch.arange(1, 2.5, 0.5)
 tensor([ 1.0000,  1.5000,  2.0000])
+```
+
+### clone()
+
+返回张量的一个副本。亦为 `Tensor` 方法。
+
+!!! note 注意
+    此函数返回的张量副本继承了原张量的 `requires_grad` 和 `grad_fn` 属性。若要创建一个与原张量没有 autograd 关系的张量副本，请使用 `Tensor.detach()` 方法。
+
+```python
+>>> a = torch.tensor(1., requires_grad=True)
+>>> b = torch.tensor(2., requires_grad=True)
+>>> c = a**2 + b
+>>> c.grad_fn
+<AddBackward0 object at 0x10a928310>
+>>> d = c.clone()
+>>> d.grad_fn
+<CloneBackward0 object at 0x10a928310>
 ```
 
 ### eye()
@@ -1380,21 +1390,21 @@ torch.Size([2, 3, 4, 1])
 
 ## 数学运算
 
-> 下列所有数学运算函数都是 `torch.Tensor` 方法，即张量可以调用下列函数的同名方法，相当于将张量自身作为函数的第一个张量参数。张量的这些方法同时有非原位操作和原位操作两个版本，后者的方法名增加了后缀 `_`，例如：
->
-> ```python
-> >>> a = torch.tensor([-1, -2, 3])
-> >>> a.abs()
-> tensor([1, 2, 3])      # 返回新张量
-> >>> a
-> tensor([-1, -2,  3])   # 原张量不变
-> >>> 
-> >>> a = torch.tensor([-1, -2, 3])
-> >>> a.abs_()
-> tensor([1, 2, 3])      # 返回原张量
-> >>> a
-> tensor([1, 2, 3])      # 原张量被修改
-> ```
+!!! info 信息
+    下列所有数学运算函数都是 `torch.Tensor` 方法，即张量可以调用下列函数的同名方法，相当于将张量自身作为函数的第一个张量参数。张量的这些方法同时有非原位操作和原位操作两个版本，后者的方法名增加了后缀 `_`，例如：
+    ```python
+    >>> a = torch.tensor([-1, -2, 3])
+    >>> a.abs()
+    tensor([1, 2, 3])      # 返回新张量
+    >>> a
+    tensor([-1, -2,  3])   # 原张量不变
+    >>> 
+    >>> a = torch.tensor([-1, -2, 3])
+    >>> a.abs_()
+    tensor([1, 2, 3])      # 返回原张量
+    >>> a
+    tensor([1, 2, 3])      # 原张量被修改
+    ```
 
 ### abs()
 
@@ -2524,6 +2534,10 @@ tensor([False, False,  True,  True])
 >>> ~a
 tensor([False, False,  True,  True])
 ```
+
+### isin()
+
+
 
 ### logical_and(), logical_or(), logical_xor(), logical_not()
 
