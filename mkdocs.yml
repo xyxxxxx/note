@@ -1,0 +1,99 @@
+# Project information
+site_name: 笔记
+site_url: https://tbd
+site_author: xyx
+
+# # Copyright
+# copyright: Copyright &copy; 2016 - 2021 TensorStack
+
+# Configuration
+theme:
+  name: material           # https://github.com/squidfunk/mkdocs-material
+  custom_dir: overrides    # any file in 'overrides' directory will override the origin theme
+                           # refer to https://squidfunk.github.io/mkdocs-material/customization/#extending-the-theme
+  language: zh             # language
+  features:
+    - navigation.instant   # instant loading
+                           # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-loading
+    - navigation.indexes   # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#section-index-pages
+    # - navigation.sections  # optional
+                           # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#navigation-sections
+    - navigation.tabs      # enable navigation tabs, recommended for large docs with several parts
+    - navigation.top       # add back-to-top button
+    - search.highlight     # highlight all occurences of the search keyword
+    - search.share         # allow to share current search query and result
+    - search.suggest       # enable search to display completion suggestions (only worked for English)
+  palette:                 # color scheme
+    scheme: default        # 'default' for light mode, 'slate' for dark mode (not recommended)
+    primary: blue          # primary color, used for header, sidebar, text links and several other components
+    accent: cyan           # accent color, used to denote elements that can be interacted with, e.g. hovered links, buttons and scrollbars
+  # favicon: assets/icon.svg # favicon showed as tab icon, can be changed to user-provided image (*.png or *.svg)
+  # logo: assets/logo.png    # logo showed at top left of page, can be changed to user-provided image (*.png or *.svg)
+
+use_directory_urls: false  # prevent generating a directory for each markdown file when building
+
+# Extensions
+markdown_extensions:
+  - admonition             # enable admonition
+                           # refer to https://squidfunk.github.io/mkdocs-material/reference/admonitions/
+  - attr_list              # enable Attribute List extension, which allows to add HTML attributes and CSS classes to Markdown elements
+                           # refer to https://squidfunk.github.io/mkdocs-material/reference/buttons/
+  - meta                   # enable metadata for md docs
+  - pymdownx.arithmatex:   # enable Arithmatex extension, which allows rendering block and inline equations
+      generic: true
+  - pymdownx.caret         # optional, enable underline with double '^^', superscript with connected '^'
+  - pymdownx.details       # make admonitions collapsible
+  - pymdownx.emoji:        # optional, enable Emoji extension, which enables *.svg icons to be integrated inline
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      # options:             # add additional *.svg icons
+      #   custom_icons:
+      #     - overrides/.icons
+  - pymdownx.highlight     # enable Highlight extension, which enables syntax highlight for code block
+                           # refer to https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#highlight
+  - pymdownx.inlinehilite  # enable InlineHilite extension, which enables syntax highlight for inline code
+                           # refer to https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#inlinehilite
+  - pymdownx.keys          # optional, enable keyboard key icon with double '++'
+  - pymdownx.mark          # optional, enable mark with double '=='
+  - pymdownx.superfences   # allow for nesting of code and content blocks inside admonitions
+  - pymdownx.tabbed        # enable tabbed contents
+                           # refet to https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
+  - pymdownx.tilde         # optional, enable strikethrough with double '~~', subscript with connected '~'
+  - toc:                   # Table of contents extension
+      permalink: true      # add an anchor link at the end of each headline
+      slugify: !!python/name:pymdownx.slugs.uslugify
+                           # allow to slugify unicode title
+      toc_depth: 3         # range of levels to be included in toc
+
+# Plugins
+plugins:
+  - git-revision-date      # display date last updated at bottom of page for proofreading
+                           # refer to https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/?h=git+rev#revision-date
+  - search                 # enable search
+
+# Page Tree
+nav:
+  - 首页: index.html
+  - 工具: 
+    - tools/index.md
+    - Linux 命令: tools/linux-command.md
+    
+
+# Customization
+# extra:
+#   version:
+#     provider: mike
+#   social:                  # SNS links, for future use
+#     - icon: fontawesome/brands/twitter
+#       link: https://twitter.com/tensorstack  # for example
+
+
+# CSS Customization
+extra_css:
+  - stylesheets/extra.css
+
+# JS Customization
+extra_javascript:
+  - javascripts/config.js  # MathJax configuration
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

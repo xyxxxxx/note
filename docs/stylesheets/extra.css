@@ -1,0 +1,20 @@
+.md-header__button.md-logo {
+    padding: 4px;
+}
+
+.md-header__button.md-logo img, svg {
+    width: 200px;
+    height: 40px;
+}
+
+.md-typeset figcaption {
+    font-style: normal;
+}
+
+figure.screenshot {
+    margin: 20px auto;
+}
+
+img.screenshot {
+    box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+}
