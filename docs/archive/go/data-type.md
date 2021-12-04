@@ -20,6 +20,10 @@ var b bool = true
 
 格式化输出使用 `%t`。
 
+
+
+
+
 # 数字类型
 
 ## 整数和浮点数
@@ -46,7 +50,8 @@ Go 语言中没有 float 类型和 double 类型。Go 语言中只有 float32 �
 
 浮点型（IEEE-754 标准）：
 
-*float32（+- 1e-45 ->+- 3.4*1e38）
+* float32（+- 1e-45 ->+- 3.4*1e38）
+
 * float64（+- 5*1e-324 ->107*1e308）
 
 int 型是计算最快的一种类型。
@@ -56,6 +61,8 @@ int 型是计算最快的一种类型。
 float32 精确到小数点后 7 位，float64 精确到小数点后 15 位。由于精确度的缘故，你在使用 `==` 或者 `!=` 来比较浮点数时应当非常小心。你最好在正式使用前测试对于精确度要求较高的运算。你应该尽可能地使用 float64，因为 `math` 包中所有有关数学运算的函数都会要求接收这个类型。
 
 你可以通过增加前缀 0 来表示 8 进制数（如：077），增加前缀 0x 来表示 16 进制数（如：0xFF），以及使用 e 来表示 10 的连乘（如：1e3=1000，或者 6.022e23=6.022 x 1e23）。
+
+
 
 Go 也有基于架构的类型，例如：int、uint 和 uintptr。
 
@@ -85,6 +92,8 @@ func main() {
 
 格式化输出中，`%d` 用于格式化整数（`%x` 和 `%X` 用于格式化 16 进制表示的数字），`%g` 用于格式化浮点型（`%f` 输出浮点数，`%e` 输出科学计数表示法），`%0nd` 用于规定输出长度为 n 的整数，其中开头的数字 0 是必须的。`%n.mg` 用于表示数字 n 并精确到小数点后 m 位，除了使用 g 之外，还可以使用 e 或者 f，例如：使用格式化字符串 `%5.2e` 来输出 3.4 的结果为 `3.40e+00`。
 
+
+
 ## 复数
 
 Go 拥有复数类型 complex64（32 位实数和虚数），complex128（64 位实数和虚数）。
@@ -98,6 +107,8 @@ c1 = complex(re, im)
 ```
 
 格式化输出中，可以使用 `%v` 来表示复数，但当你希望只表示其中的一个部分的时候需要使用 `%f`。
+
+
 
 ## 位运算
 
@@ -124,9 +135,13 @@ const (
 )
 ```
 
+
+
 ## 逻辑运算符
 
 Go 中拥有以下逻辑运算符：`==`、`!=`、`<`、`<=`、`>`、`>=`。
+
+
 
 ## 算术运算符
 
@@ -141,6 +156,8 @@ Go 中拥有以下逻辑运算符：`==`、`!=`、`<`、`<=`、`>`、`>=`。
 > 带有 `++` 和 `--` 的只能作为语句，而非表达式（ 虽然在C、C++ 和 Java 中允许）
 
 在运算时**溢出**不会产生错误，Go 会简单地将超出位数抛弃。如果你需要范围无限大的整数或者有理数（意味着只被限制于计算机内存），你可以使用标准库中的 `big` 包，该包提供了类似 `big.Int` 和 `big.Rat` 这样的类型。
+
+
 
 ## 随机数
 
@@ -170,6 +187,8 @@ func main() {
 }
 ```
 
+
+
 ## 运算符的优先级
 
 ```
@@ -182,6 +201,8 @@ func main() {
  2 		&&
  1 		||
 ```
+
+
 
 ## 类型别名
 
@@ -198,6 +219,8 @@ func main() {
 }
 ```
 
+
+
 ## 字符类型
 
 字符类型严格来说不是 Go 语言的一个类型，而是整数的特殊用例，例如：
@@ -208,6 +231,8 @@ var ch byte = 'A' 或 var ch byte = 65 或 var ch byte = '\x41'
 ```
 
 上述 3 种写法是等效的。
+
+
 
 Go 同样支持 Unicode（UTF-8），因此字符同样称为 Unicode 代码点或者 runes，并在内存中使用 int 来表示。在文档中，一般使用格式 U+hhhh 来表示，其中 h 表示一个 16 进制数。其实 `rune` 也是 Go 当中的一个类型，并且是 `int32` 的别名。
 
@@ -239,6 +264,8 @@ U+0041 - U+03B2 - U+101234
 * 判断是否为空白符号：`unicode.IsSpace(ch)`
 
 这些函数返回一个布尔值。包 `utf8` 拥有更多与 rune 相关的函数。
+
+
 
 # 字符串
 
@@ -285,6 +312,10 @@ json := `{
 		}`
 ```
 
+
+
+
+
 # strings和strconv包
 
 ## 包含
@@ -307,6 +338,8 @@ strings.HasSuffix(s, suffix string) bool
 strings.Contains(s, substr string) bool
 ```
 
+
+
 ## 位置
 
 `Index` 返回字符串 `str` 在字符串 `s` 中的索引（`str` 的第一个字符的索引），-1 表示字符串 `s` 不包含字符串 `str`：
@@ -327,6 +360,8 @@ strings.LastIndex(s, str string) int
 strings.IndexRune(s string, r rune) int
 ```
 
+
+
 ## 替换
 
 `Replace` 用于将字符串 `str` 中的前 `n` 个字符串 `old` 替换为字符串 `new`，并返回一个新的字符串，如果 `n =-1`则替换所有字符串`old`为字符串`new`：
@@ -334,6 +369,8 @@ strings.IndexRune(s string, r rune) int
 ```go
 strings.Replace(str, old, new, n) string
 ```
+
+
 
 ## 统计
 
@@ -343,6 +380,8 @@ strings.Replace(str, old, new, n) string
 strings.Count(s, str string) int
 ```
 
+
+
 ## 重复
 
 `Repeat` 用于重复 `count` 次字符串 `s` 并返回一个新的字符串：
@@ -350,6 +389,8 @@ strings.Count(s, str string) int
 ```go
 strings.Repeat(s, count int) string
 ```
+
+
 
 ## 大小写
 
@@ -365,9 +406,13 @@ strings.ToLower(s) string
 strings.ToUpper(s) string
 ```
 
+
+
 ## 裁剪
 
 你可以使用 `strings.TrimSpace(s)` 来剔除字符串开头和结尾的空白符号；如果你想要剔除指定字符，则可以使用 `strings.Trim(s,"cut")` 来将开头和结尾的 `cut` 去除掉。该函数的第二个参数可以包含任何字符，如果你只想剔除开头或者结尾的字符串，则可以使用 `TrimLeft` 或者 `TrimRight` 来实现。
+
+
 
 ## 分割
 
@@ -376,6 +421,8 @@ strings.ToUpper(s) string
 `strings.Split(s,sep)` 用于自定义分割符号来对指定字符串进行分割，同样返回 slice。
 
 因为这 2 个函数都会返回 slice，所以习惯使用 for-range 循环来对其进行处理。
+
+
 
 ## 拼接
 
@@ -386,12 +433,16 @@ strings.Join(sl []string, sep string) string
              //必须是string类型的数组
 ```
 
+
+
 ## 读取
 
 函数 `strings.NewReader(str)` 用于生成一个 `Reader` 并读取字符串中的内容，然后返回指向该 `Reader` 的指针，从其它类型读取内容的函数还有：
 
 * `Read()` 从[]byte 中读取内容。
 * `ReadByte()` 和 `ReadRune()` 从字符串中读取下一个 byte 或者 rune。
+
+
 
 ## 类型转换
 
@@ -404,6 +455,8 @@ strings.Join(sl []string, sep string) string
 
 * `strconv.Atoi(s string)(i int,err error)` 将字符串转换为 int 型。
 * `strconv.ParseFloat(s string,bitSize int)(f float64,err error)` 将字符串转换为 float64 型。
+
+
 
 ```go
 package main
@@ -428,6 +481,10 @@ func main() {
 }
 ```
 
+
+
+
+
 # 时间和日期
 
 `time` 包为我们提供了一个数据类型 `time.Time`（作为值使用）以及显示和测量时间和日期的功能函数。
@@ -435,6 +492,8 @@ func main() {
 当前时间可以使用 `time.Now()` 获取，或者使用 `t.Day()`、`t.Minute()` 等等来获取时间的一部分；你甚至可以自定义时间格式化字符串，例如：`fmt.Printf("%02d.%02d.%4d\n",t.Day(),t.Month(),t.Year())` 将会输出 `21.07.2011`。
 
 `Duration` 类型表示两个连续时刻所相差的纳秒数，类型为 int64。`Location` 类型映射某个时区的时间，UTC 表示通用协调世界时间。
+
+
 
 ```go
 package main
@@ -467,6 +526,10 @@ func main() {
 }
 ```
 
+
+
+
+
 # 指针
 
 Go 语言为程序员提供了控制数据结构的指针的能力；但是，你不能进行指针运算。通过给予程序员基本内存布局，Go 语言允许你控制特定集合的数据结构、分配的数量以及内存访问模式，这些对构建运行良好的系统是非常重要的：指针对于性能的影响是不言而喻的，而如果你想要做的是系统编程、操作系统或者网络应用，指针更是不可或缺的一部分。
@@ -481,6 +544,8 @@ fmt.Printf("An integer: %d, it's location in memory: %p\n", i1, &i1)
 
 指针的格式化标识符为 `%p`
 
+
+
 ```go
 var intP *int
 intP = &i1
@@ -491,6 +556,8 @@ intP = &i1
 **一个指针变量可以指向任何一个值的内存地址**。可以在指针类型前面加上\*号（前缀）来获取指针所指向的内容，这里的\*号是一个类型更改器。使用一个指针引用一个值被称为**间接引用**。
 
 未初始化的指针的零值为 `nil`，未指向任何地址
+
+
 
 ```go
 package main
@@ -514,6 +581,8 @@ Here is the string s: ciao
 <img src="https://github.com/unknwon/the-way-to-go_ZH_CN/raw/master/eBook/images/4.9_fig4.5.png?raw=true"style="zoom：67%;"/>
 
 > 你不能获取字面量或常量的地址
+
+
 
 Go 语言和 C、C++ 以及 D 语言这些低级（系统）语言一样，都有指针的概念。但是对于 <u> 经常导致 C 语言内存泄漏继而程序崩溃的指针运算 </u>（所谓的指针算法，如：`pointer+2`，移动指针指向字符串的字节数或数组的某个位置）<u> 是不被允许的 </u>。Go 语言中的 <u> 指针保证了内存安全 </u>，更像是 Java、C#和 VB.NET 中的引用。
 

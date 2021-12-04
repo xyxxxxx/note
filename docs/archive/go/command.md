@@ -14,6 +14,8 @@ hello world
 
 ```
 
+
+
 ## go clean
 
 ```
@@ -23,6 +25,8 @@ $ go clean
 ```
 -x 打印出来执行的详细命令
 ```
+
+
 
 ## go run
 

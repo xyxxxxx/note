@@ -18,6 +18,8 @@ type Reader interface {
 
 `bufio.Reader` 结构给一个 `io.Reader` 接口对象附加缓冲。
 
+
+
 带缓冲区的读文件（读取到指定字符）：
 
 ```go
@@ -59,6 +61,8 @@ func main() {
 
 `bufio` 包中的 `Reader.ReadString` 和 `Reader.ReadBytes` 用于读取直到指定字符的内容。
 
+
+
 带缓冲区的读文件（读取到缓冲区）：
 
 ```go
@@ -71,6 +75,8 @@ for {
     if (n == 0) { break}
 }
 ```
+
+
 
 将整个文件的内容读到一个字符串中：
 
@@ -98,6 +104,8 @@ func main() {
     }
 }
 ```
+
+
 
 按列读取文件：
 
@@ -133,6 +141,8 @@ func main() {
     fmt.Println(col3)
 }
 ```
+
+
 
 为字符串创建 Reader：
 
@@ -170,6 +180,8 @@ b[:n] = ""
 */
 ```
 
+
+
 ## 写文件
 
 `io.Writer` 接口用于包装基本的写入方法：
@@ -181,6 +193,8 @@ type Writer interface {
 ```
 
 `Write` 方法将 `len(p)` 字节数据从 `p` 写入底层的数据流。它会返回写入的字节数和遇到的任何导致写入提取结束的错误。
+
+
 
 使用缓冲区的写入：
 
@@ -228,6 +242,8 @@ func main () {
 
 不管是 Unix 还是 Windows，文件权限都需要使用 0666。
 
+
+
 不使用缓冲区的写入：
 
 ```go
@@ -243,11 +259,15 @@ func main() {
 }
 ```
 
+
+
 最简单的写入：
 
 ```go
 fmt.Fprintf(outputFile, "Some test data.\n")
 ```
+
+
 
 `[]byte` 和 `string` 之间的转换可以使用简单的类型转换：
 
@@ -256,6 +276,10 @@ str1 := "hello"
 bytes := []byte(str1)
 str2 := string(bytes)
 ```
+
+
+
+
 
 # 文件拷贝
 
@@ -290,6 +314,10 @@ func CopyFile(dstName, srcName string) (written int64, err error) {
 }
 ```
 
+
+
+
+
 # 读取用户输入
 
 从标准输入 `os.Stdin`（键盘）读取输入最简单的方法是使用 `fmt` 包提供的 Scan 和 Sscan 开头的函数。
@@ -321,6 +349,8 @@ func main() {
 
 这些函数返回成功读入数据的个数和错误，可以用于检查。
 
+
+
 也可以使用 `bufio` 包提供的缓冲读取来读取数据，示例如下：
 
 ```go
@@ -344,7 +374,13 @@ func main() {
 }
 ```
 
+
+
 标准输出 `os.Stdout` 和错误输出 `os.Stderr` 是屏幕。
+
+
+
+
 
 # 从命令行读取参数
 
@@ -372,9 +408,15 @@ func main() {
 
 命令行参数会放置在切片 `os.Args[]` 中，从索引 1 开始。
 
+
+
 ## flag包
 
 flag 包有一个扩展功能用来解析命令行选项。
+
+
+
+
 
 # JSON
 
@@ -382,6 +424,8 @@ flag 包有一个扩展功能用来解析命令行选项。
 
 * 数据结构 --> 指定格式 =`序列化` 或 `编码`（传输之前）
 * 指定格式 --> 数据格式 =`反序列化` 或 `解码`（传输之后）
+
+
 
 尽管 XML 被广泛的应用，但是 JSON 更加简洁、轻量（占用更少的内存、磁盘及网络带宽）和更好的可读性，这也使它越来越受欢迎。
 
@@ -392,6 +436,8 @@ JSON 与 Go 类型对应如下：
 * string 对应 JSON 的 string
 * nil 对应 JSON 的 null
 
+
+
 ## 编码
 
 Marshal 函数返回 v 的 json 编码：
@@ -399,6 +445,8 @@ Marshal 函数返回 v 的 json 编码：
 ```go
 func Marshal(v interface{}) ([]byte, error)
 ```
+
+
 
 ```go
 package main
@@ -444,5 +492,11 @@ func main() {
 }
 ```
 
+
+
+
+
 # XML
+
+
 
