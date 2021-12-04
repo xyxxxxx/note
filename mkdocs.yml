@@ -25,8 +25,8 @@ theme:
     - search.suggest       # enable search to display completion suggestions (only worked for English)
   palette:                 # color scheme
     scheme: default        # 'default' for light mode, 'slate' for dark mode (not recommended)
-    primary: blue          # primary color, used for header, sidebar, text links and several other components
-    accent: cyan           # accent color, used to denote elements that can be interacted with, e.g. hovered links, buttons and scrollbars
+    primary: teal          # primary color, used for header, sidebar, text links and several other components
+    accent: light green    # accent color, used to denote elements that can be interacted with, e.g. hovered links, buttons and scrollbars
   # favicon: assets/icon.svg # favicon showed as tab icon, can be changed to user-provided image (*.png or *.svg)
   # logo: assets/logo.png    # logo showed at top left of page, can be changed to user-provided image (*.png or *.svg)
 
