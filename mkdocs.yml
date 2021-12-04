@@ -1,6 +1,6 @@
 # Project information
 site_name: 笔记
-site_url: https://tbd
+site_url: https://xyxxxxx.github.io/note
 site_author: xyx
 
 # # Copyright
@@ -112,9 +112,9 @@ nav:
         - 贝叶斯统计学: math/applied-mathematics/statistics/bayesian-statistics.md
       - 随机过程:
         - math/applied-mathematics/stochastic-process/index.md
-        - 随机过程基础: math/applied-mathematics/statistics/stochastic-process-introduction.md
-        - 马尔可夫链: math/applied-mathematics/statistics/markov-chain.md
-        - 泊松过程: math/applied-mathematics/statistics/poisson-process.md
+        - 随机过程基础: math/applied-mathematics/stochastic-process/stochastic-process-introduction.md
+        - 马尔可夫链: math/applied-mathematics/stochastic-process/markov-chain.md
+        - 泊松过程: math/applied-mathematics/stochastic-process/poisson-process.md
     - 离散数学:
       - math/discrete-mathematics/index.md
       - 数学逻辑: math/discrete-mathematics/mathematical-logic.md
@@ -150,20 +150,20 @@ nav:
       - 应用层: net/net-model/application-layer.md
   - Python:
     - python/index.md
-      - 运行环境与开发工具: python/runtime-environment-devtool.md
-      - 数据类型与操作: python/data-type-and-operation.md
-      - 函数: python/function.md
-      - 控制流: python/control-flow.md
-      - 容器类型: python/container-type.md
-      - 迭代器与生成器: python/iterator-and-generator.md
-      - 面向对象编程: python/oop.md
-      - IO: python/io.md
-      - 进程与线程: python/process-and-thread.md
-      - 错误处理与单元测试: python/error-handling-and-unit-test.md
-      - 模块与包: python/module-and-package.md
-      - 标准库: python/standard-library.md
-      - 常用库: python/common-library.md
-      - 风格指南: python/style-guide.md
+    - 运行环境与开发工具: python/runtime-environment-devtool.md
+    - 数据类型与操作: python/data-type-and-operation.md
+    - 函数: python/function.md
+    - 控制流: python/control-flow.md
+    - 容器类型: python/container-type.md
+    - 迭代器与生成器: python/iterator-and-generator.md
+    - 面向对象编程: python/oop.md
+    - IO: python/io.md
+    - 进程与线程: python/process-and-thread.md
+    - 错误处理与单元测试: python/error-handling-and-unit-test.md
+    - 模块与包: python/module-and-package.md
+    - 标准库: python/standard-library.md
+    - 常用库: python/common-library.md
+    - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
     - 平台和工具:
