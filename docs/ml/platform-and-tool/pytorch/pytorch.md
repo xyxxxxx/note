@@ -1146,9 +1146,9 @@ print(b.data, b.requires_grad, b.grad, b.grad_fn, b.is_leaf)
 
 改变 `gradient` 即为多个损失项赋予不同的权重。
 
-### `Function`
+### Function
 
-> 参考：pytorch-lib-torch.autograd.Function
+> 参考 [torch.autograd.Function](api-autograd.md#Function)
 
 对（`requires_grad=True` 的）张量的每一次运算都会创建一个新的 `Function` 对象，用于执行计算、记录过程。一个最简单的例子：
 

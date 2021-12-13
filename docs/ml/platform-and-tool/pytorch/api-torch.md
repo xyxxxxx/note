@@ -761,6 +761,28 @@ tensor([ 1,  2,  3])
 tensor([ 1.0000,  1.5000,  2.0000])
 ```
 
+### as_tensor()
+
+将数据转换为张量。如果数据是张量，并且转换前后的数据类型和设备相同，则直接返回该张量；如果数据本身是 `numpy.ndarray` 实例，并且转换前后的数据类型和设备相同，则返回的张量是该实例的一个视图。
+
+```python
+>>> a = numpy.array([1, 2, 3])
+>>> t = torch.as_tensor(a)
+>>> t
+tensor([ 1,  2,  3])
+>>> t[0] = -1
+>>> a
+array([-1,  2,  3])
+
+>>> a = numpy.array([1, 2, 3])
+>>> t = torch.as_tensor(a, device=torch.device('cuda'))
+>>> t
+tensor([ 1,  2,  3])
+>>> t[0] = -1
+>>> a
+array([1,  2,  3])
+```
+
 ### clone()
 
 返回张量的一个副本。亦为 `Tensor` 方法。
@@ -857,7 +879,7 @@ tensor([[1, 1, 1],
 
 ```python
 torch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) -> Tensor
-# data           张量的初始数据,可以是数字,列表,元组,`numpy.ndarray`实例等.
+# data           张量的初始数据,可以是数字、列表、元组、`numpy.ndarray`实例等
 # dtype          张量的数据类型,默认从`data`中推断(推断的结果一定是CPU数据类型)
 # device         张量位于的设备,默认使用数据类型相应的设备:若为CPU数据类型,则使用CPU;若为CUDA数据类型,
 #                则使用当前的CUDA设备
@@ -2075,7 +2097,7 @@ tensor([2.4076, 5.4076])
 
 ### lu()
 
-……
+计算矩阵的 LU 分解。
 
 ### matmul()
 
@@ -2148,7 +2170,7 @@ tensor([[[ 6,  6,  6],
 # 须将向量序列扩展为矩阵序列
 ```
 
-### max(), min(), mean(), std()
+### max(), min(), mean(), std(), median()
 
 返回张量元素的统计量。
 
@@ -2176,6 +2198,7 @@ tensor([2.5000, 3.5000, 4.5000, 5.5000, 6.5000])
 >>> a.mean(1)
 tensor([2., 7.])
 
+# 标准差的无偏估计
 >>> a.std(unbiased=False)
 tensor(2.8723)
 >>> a.std(0, unbiased=False)
@@ -2183,13 +2206,24 @@ tensor([2.5000, 2.5000, 2.5000, 2.5000, 2.5000])
 >>> a.std(1, unbiased=False)
 tensor([1.4142, 1.4142])
 
-# 统计学的标准差
+# 标准差的有偏估计
 >>> a.std()
 tensor(3.0277)
 >>> a.std(0)
 tensor([3.5355, 3.5355, 3.5355, 3.5355, 3.5355])
 >>> a.std(1)
 tensor([1.5811, 1.5811])
+
+>>> a.median()
+tensor(4.)          # 返回两个中位数中较小的那一个
+>>> a.median(0)
+torch.return_types.median(
+values=tensor([0., 1., 2., 3., 4.]),
+indices=tensor([0, 0, 0, 0, 0]))
+>>> a.median(1)
+torch.return_types.median(
+values=tensor([2., 7.]),
+indices=tensor([2, 2]))
 ```
 
 ### mm()
@@ -2488,7 +2522,17 @@ tensor([[ 1.,  2.,  3.],
 tensor(15.)
 ```
 
-### trunk()
+### trunc()
+
+对张量的所有元素截断为整数（即向零取整）。
+
+```python
+>>> a = torch.randn(4)
+>>> a
+tensor([ 3.4742,  0.5466, -0.8008, -0.9079])
+>>> torch.trunc(a)
+tensor([ 3.,  0., -0., -0.])
+```
 
 ### vdot()
 
@@ -2512,32 +2556,44 @@ tensor([16.-1.j])
 
 ### bitwise_and(), bitwise_or(), bitwise_xor(), bitwise_not()
 
-张量逐元素求逻辑与/或/异或/非，符号 `&, |, ^, ~` 重载了这些方法。
+张量逐元素求按位与/或/异或/非，符号 `&, |, ^, ~` 重载了这些方法。
 
 ```python
->>> a = torch.tensor([True, True, False, False])
->>> b = torch.tensor([True, False, True, False])
+>>> a = torch.tensor([-1, -2, 3], dtype=torch.int8)
+                    # 11111111 11111110 00000011 
+>>> b = torch.tensor([1, 0, 3], dtype=torch.int8)
+                    # 00000001 00000000 00000011
 >>> a.bitwise_and(b)   # 与
-tensor([ True, False, False, False])
+tensor([1, 0, 3], dtype=torch.int8)
+      # 00000001 00000000 00000011
 >>> a & b
-tensor([ True, False, False, False])
+tensor([1, 0, 3], dtype=torch.int8)
 >>> a.bitwise_or(b)    # 或
-tensor([ True,  True,  True, False])
+tensor([-1, -2,  3], dtype=torch.int8)
+      # 11111111 11111110 00000011
 >>> a | b
-tensor([ True,  True,  True, False])
+tensor([-1, -2,  3], dtype=torch.int8)
 >>> a.bitwise_xor(b)   # 异或
-tensor([False,  True,  True, False])
+tensor([-2, -2,  0], dtype=torch.int8)
+      # 11111110 11111110 00000000
 >>> a ^ b
-tensor([False,  True,  True, False])
+tensor([-2, -2,  0], dtype=torch.int8)
 >>> a.bitwise_not()    # 非
-tensor([False, False,  True,  True])
+tensor([ 0,  1, -4], dtype=torch.int8)
+      # 00000000 00000001 11111100
 >>> ~a
-tensor([False, False,  True,  True])
+tensor([ 0,  1, -4], dtype=torch.int8)
 ```
 
 ### isin()
 
+检查张量中的每个元素是否也是另一张量的元素。
 
+```python
+>>> torch.isin(torch.tensor([[1, 2], [3, 4]]), torch.tensor([2, 3]))
+tensor([[False,  True],
+        [ True, False]])
+```
 
 ### logical_and(), logical_or(), logical_xor(), logical_not()
 
@@ -2622,6 +2678,10 @@ tensor([[0., 0., 0.],
         [0., 1., 0.],
         [1., 0., 0.]])
 ```
+
+### initial_seed()
+
+返回生成随机数的初始种子。
 
 ### manual_seed()
 
@@ -2735,110 +2795,7 @@ tensor([1, 6, 9, 0, 3, 2, 4, 5, 7, 8])
 
 ## 禁用梯度计算
 
-### no_grad()
-
-禁用梯度计算的上下文管理器。也可用作装饰器。
-
-对于模型推断（确定不会调用 `Tensor.backward()`），禁用梯度计算可以降低 `requires_grad=True` 变量参与的计算的内存消耗。
-
-在此模式下，每个计算的结果都有 `requires_grad=False`，即使参与计算的张量有 `requires_grad=True`。
-
-此上下文管理器是线程局部的，它不会影响到其它线程的计算。
-
-```python
->>> x = torch.tensor([1], requires_grad=True)
->>> with torch.no_grad():
-...   y = x * 2
->>> y.requires_grad
-False
->>> 
->>> @torch.no_grad()
-... def doubler(x):
-...     return x * 2
->>> z = doubler(x)
->>> z.requires_grad
-False
-```
-
-### enable_grad()
-
-启用梯度计算的上下文管理器。也可用作装饰器。
-
-用于当梯度计算被 `no_grad()` 或 `set_grad_enabled()` 禁用时启用梯度计算。
-
-此上下文管理器是线程局部的，它不会影响到其它线程的计算。
-
-```python
->>> x = torch.tensor([1.], requires_grad=True)
->>> with torch.no_grad():
-...   with torch.enable_grad():
-...     y = x * 2
->>> y.requires_grad
-True
->>> 
->>> @torch.enable_grad()
-... def doubler(x):
-...     return x * 2
->>> with torch.no_grad():
-...     z = doubler(x)
->>> z.requires_grad
-True
-```
-
-### set_grad_enabled()
-
-设置梯度计算开或关的上下文管理器。也可直接调用。
-
-此上下文管理器是线程局部的，它不会影响到其它线程的计算。
-
-```python
->>> x = torch.tensor([1], requires_grad=True)
->>> is_train = False
->>> with torch.set_grad_enabled(is_train):
-...   y = x * 2
->>> y.requires_grad
-False
->>> 
->>> torch.set_grad_enabled(True)
->>> y = x * 2
->>> y.requires_grad
-True
->>> torch.set_grad_enabled(False)
->>> y = x * 2
->>> y.requires_grad
-False
-```
-
-### is_grad_enabled()
-
-若当前启用了梯度计算，返回 `True`。
-
-### inference_mode()
-
-启用或禁用推断模式的上下文管理器。也可用作装饰器。
-
-推断模式是一种新的上下文，类似于 `no_grad()` 的禁用梯度计算，用于你确定运算不会使用 autograd 的情形下。此模式下运行的代码可以得到更好的性能，通过禁用视图追踪以及 version counter bumps。
-
-此上下文管理器是线程局部的，它不会影响到其它线程的计算。
-
-```python
->>> x = torch.tensor([1], requires_grad=True)
->>> with torch.inference_mode():
-...   y = x * 2
->>> y.requires_grad
-False
->>> 
->>> @torch.inference_mode()
-... def doubler(x):
-...     return x * 2
->>> z = doubler(x)
->>> z.requires_grad
-False
-```
-
-### is_inference_mode_enabled()
-
-若当前启用了推断模式，返回 `True`。
+参见[局部禁用梯度计算](api-autograd.md#局部禁用梯度计算)。
 
 ## 序列化
 

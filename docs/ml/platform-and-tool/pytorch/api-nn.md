@@ -41,11 +41,12 @@ add_module(name, module)
 
 ```python
 >>> @torch.no_grad()
->>> def init_weights(m):
->>>     print(m)
->>>     if type(m) == nn.Linear:
->>>         m.weight.fill_(1.0)
->>>         print(m.weight)
+def init_weights(m):
+    print(m)
+    if type(m) == nn.Linear:
+        m.weight.fill_(1.0)
+        print(m.weight)
+... 
 >>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
 >>> net.apply(init_weights)
 Linear(in_features=2, out_features=2, bias=True)
@@ -112,7 +113,7 @@ get_submodule(target)
 
 返回由 `target` 给出的子模块，若其不存在则引发异常。
 
-例如，现有模块 `a`，其有一个嵌套的子模块 `net_b`，`net_b` 又有两个子模块 `net_c` 和 `linear`，`net_c` 又有子模块 `conv`。为了检查我们是否有子模块 `linear`，应调用 `get_submodule("net_b.linear")`；为了检查我们是否有子模块 `conv`，应调用 `get_submodule("net_b.net_c.linear")`。
+例如，现有模块 `a`，其有一个嵌套的子模块 `net_b`，`net_b` 又有两个子模块 `net_c` 和 `linear`，`net_c` 又有子模块 `conv`。为了检查模块 `a` 是否有子模块 `linear`，应调用 `get_submodule("net_b.linear")`；为了检查模块 `a` 是否有子模块 `conv`，应调用 `get_submodule("net_b.net_c.linear")`。
 
 #### load_state_dict()
 
@@ -129,8 +130,7 @@ load_state_dict(state_dict, strict=True)
 返回所有模块（当前模块及其子模块）的一个迭代器。
 
 ```python
->>> l = nn.Linear(2, 2)
->>> net = nn.Sequential(l, l)
+>>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
 >>> for idx, m in enumerate(net.modules()):
     print(idx, '->', m)
 0 -> Sequential(                                          # 0 -> 当前模块
@@ -330,7 +330,7 @@ model = nn.Sequential(
 
 ### Linear
 
-全连接层。
+全连接层。对输入数据应用线性变换 $y=xA^{\rm T}+b$。
 
 此模块支持 TensorFloat32。
 
@@ -378,7 +378,8 @@ tensor([ 0.2535, -0.0148, -0.2111,  0.1926], requires_grad=True)
 此模块支持 TensorFloat32。
 
 ```python
-class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, 
+dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # in_channels     输入通道数
 # out_channels    输出通道数
 # kernel_size     卷积核大小
@@ -386,9 +387,10 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 # padding         输入的两端填充的个数
 # padding_mode    填充模式.若为`zeros`,则填充零;……
 # dilation        卷积核元素的间隔
-# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
-#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
-#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;
+#                 若为`2`,则输入通道和输出通道各均分为2组,每个输入通道只会连接同组的输出通道;
+#                 若为`in_channels`,则每个输入通道单独生成几个输出通道.此参数必须是
+#                 `in_channels`和`out_channels`的公约数
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
@@ -418,18 +420,20 @@ torch.Size([100, 32, 10])
 此模块支持 TensorFloat32。
 
 ```python
-class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, 
+dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # in_channels     输入通道数
 # out_channels    输出通道数
 # kernel_size     卷积核大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
 # stride          卷积步长
-# padding         输入的四边填充的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组(分别表示
-#                 上下填充的行数和左右填充的列数)
+# padding         输入的四边填充的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或
+#                 两个整数组成的元组(分别表示上下填充的行数和左右填充的列数)
 # padding_mode    填充模式.若为`zeros`,则填充零;……
 # dilation        卷积核元素的间隔
-# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
-#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
-#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;
+#                 若为`2`,则输入通道和输出通道各均分为2组,每个输入通道只会连接同组的输出通道;
+#                 若为`in_channels`,则每个输入通道单独生成几个输出通道.此参数必须是
+#                 `in_channels`和`out_channels`的公约数
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
@@ -465,7 +469,8 @@ torch.Size([100, 32, 10, 10])
 此模块支持 TensorFloat32。
 
 ```python
-class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, 
+dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # in_channels     输入通道数
 # out_channels    输出通道数
 # kernel_size     卷积核大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
@@ -474,9 +479,10 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 #                 深,高,宽三个方向填充的层数)
 # padding_mode    填充模式.若为`zeros`,则填充零;……
 # dilation        卷积核元素的间隔
-# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;若为`2`,则输入通道和
-#                 输出通道各均分为2组,每个输入通道只会连接同组的输出通道;若为`in_channels`,则每个输入通道单独生成几个
-#                 输出通道.此参数必须是`in_channels`和`out_channels`的公约数
+# groups          控制输入通道和输出通道之间的连接.例如若为`1`,则所有的输入通道连接所有的输出通道;
+#                 若为`2`,则输入通道和输出通道各均分为2组,每个输入通道只会连接同组的输出通道;
+#                 若为`in_channels`,则每个输入通道单独生成几个输出通道.此参数必须是
+#                 `in_channels`和`out_channels`的公约数
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
@@ -490,10 +496,11 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 ### MaxPool1d
 
-一维最大汇聚层。见 `torch.nn.functional.max_pool1d`。
+一维最大汇聚层。见 `torch.nn.functional.max_pool1d()`。
 
 ```python
-class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, 
+return_indices=False, ceil_mode=False)
 # kernel_size     滑动窗口的大小
 # stride          滑动窗口的步长,默认为`kernel_size`
 # padding         输入的两端填充的负无穷的个数
@@ -522,14 +529,15 @@ tensor([[6., 9., 8., 8., 7.]])
 
 ### MaxPool2d
 
-二维最大汇聚层。见 `torch.nn.functional.max_pool2d`。
+二维最大汇聚层。见 `torch.nn.functional.max_pool2d()`。
 
 ```python
-class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, 
+return_indices=False, ceil_mode=False)
 # kernel_size     滑动窗口的大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
 # stride          滑动窗口的步长,默认为`kernel_size`
-# padding         输入的四边填充的负无穷的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组
-#                 (分别表示上下填充的行数和左右填充的列数)
+# padding         输入的四边填充的负无穷的行/列数,可以是单个整数(同时表示上下填充的行数和
+#                 左右填充的列数)或两个整数组成的元组(分别表示上下填充的行数和左右填充的列数)
 # dilation        滑动窗口元素的间隔
 # return_indices  若为`True`,将最大值连同索引一起返回,用于之后调用`MaxUnpool2d`
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
@@ -566,14 +574,15 @@ tensor([[[9., 9., 9.],
 
 ### MaxPool3d
 
-三维最大汇聚层。见 `torch.nn.functional.max_pool3d`。
+三维最大汇聚层。见 `torch.nn.functional.max_pool3d()`。
 
 ```python
-class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
+class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, 
+return_indices=False, ceil_mode=False)
 # kernel_size     滑动窗口的大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
 # stride          滑动窗口的步长,默认为`kernel_size`
-# padding         输入的六面填充的负无穷的层数,可以是单个整数(同时表示三个方向填充的层数)或三个整数组成的元组(分别表示
-#                 深,高,宽三个方向填充的层数)
+# padding         输入的六面填充的负无穷的层数,可以是单个整数(同时表示三个方向填充的层数)或
+#                 三个整数组成的元组(分别表示深,高,宽三个方向填充的层数)
 # dilation        滑动窗口元素的间隔
 # return_indices  若为`True`,将最大值连同索引一起返回,用于之后调用`MaxUnpool3d`
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
@@ -584,10 +593,11 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 
 ### AvgPool1d
 
-一维平均汇聚层。见 `torch.nn.functional.avg_pool1d`。
+一维平均汇聚层。见 `torch.nn.functional.avg_pool1d()`。
 
 ```python
-class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
+class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, 
+count_include_pad=True)
 # kernel_size     滑动窗口的大小
 # stride          滑动窗口的步长,默认为`kernel_size`
 # padding         输入的两端填充的零的个数
@@ -615,14 +625,15 @@ tensor([[[4.6667, 7.0000, 5.3333, 5.0000, 6.0000]]])
 
 ### AvgPool2d
 
-二维平均汇聚层。见 `torch.nn.functional.avg_pool2d`。
+二维平均汇聚层。见 `torch.nn.functional.avg_pool2d()`。
 
 ```python
-class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)
+class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, 
+count_include_pad=True, divisor_override=None)
 # kernel_size     滑动窗口的大小,可以是单个整数(同时表示高和宽)或两个整数组成的元组(分别表示高和宽),下同
 # stride          滑动窗口的步长,默认为`kernel_size`
-# padding         输入的四边填充的零的行/列数,可以是单个整数(同时表示上下填充的行数和左右填充的列数)或两个整数组成的元组
-#                 (分别表示上下填充的行数和左右填充的列数)
+# padding         输入的四边填充的零的行/列数,可以是单个整数(同时表示上下填充的行数和
+#                 左右填充的列数)或两个整数组成的元组(分别表示上下填充的行数和左右填充的列数)
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 # count_include_pad  若为`True`,则平均计算将包括填充的零
 # divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
@@ -659,14 +670,14 @@ tensor([[[[3.4444, 4.8889, 4.5000],
 
 ### AvgPool3d
 
-三维平均汇聚层。见 `torch.nn.functional.avg_pool3d`。
+三维平均汇聚层。见 `torch.nn.functional.avg_pool3d()`。
 
 ```python
 class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)
 # kernel_size     滑动窗口的大小,可以是单个整数(同时表示深,高,宽)或三个整数组成的元组(分别表示深,高,宽),下同
 # stride          滑动窗口的步长,默认为`kernel_size`
-# padding         输入的六面填充的零的层数,可以是单个整数(同时表示三个方向填充的层数)或三个整数组成的元组(分别表示
-#                 深,高,宽三个方向填充的层数)
+# padding         输入的六面填充的零的层数,可以是单个整数(同时表示三个方向填充的层数)或
+#                 三个整数组成的元组(分别表示深,高,宽三个方向填充的层数)
 # ceil_mode       若为`True`,则保证输入张量的每个元素都会被一个滑动窗口覆盖
 # count_include_pad  若为`True`,则平均计算将包括填充的零
 # divisor_override   若指定了此参数,则将被用作平均计算的分母,替代滑动窗口的元素数量
@@ -694,21 +705,21 @@ torch.Size([2, 64, 10])
 
 ### LSTM
 
-> 参考：[理解Pytorch中LSTM的输入输出参数含义](https://www.cnblogs.com/marsggbo/p/12123755.html)
+> 参考：[理解 PyTorch 中 LSTM 的输入输出参数含义](https://www.cnblogs.com/marsggbo/p/12123755.html)
 
 LSTM 层。
 
 ```python
 >>> rnn = nn.LSTM(5, 10, 2, [dropout=0.5]) # 输入向量x的维数为5,隐状态h的维数为10,堆叠2层
-										   # 在每层(最上层除外)的输出位置增加一个dropout层
-									       # 多层LSTM中,上层的输入是下层的隐状态
+                                           # 在每层(最上层除外)的输出位置增加一个dropout层
+                                           # 多层LSTM中,上层的输入是下层的隐状态
 >>> input = torch.randn(20, 64, 5)         # 一批64个序列,每个序列有20个5维向量
 >>> h0 = torch.randn(2, 64, 10)            # 第一个参数为层数与方向数的乘积,单向和双向LSTM
-										   #   的方向数分别为1和2
-    									   # 第二个参数为输入序列的数量
+                                           #   的方向数分别为1和2
+                                           # 第二个参数为输入序列的数量
 >>> c0 = torch.randn(2, 64, 10)            # 第三个参数为隐状态维数
 >>> output, (hn, cn) = rnn(input, (h0, c0)) # 输入h,c的初值,输出h,c的终值
-											# 若不输入初值,则默认为0
+                                            # 若不输入初值,则默认为0
 >>> output.shape
 torch.Size([20, 64, 10])                   # 从前往后输出最上层的所有隐状态
 >>> hn.shape
@@ -748,14 +759,16 @@ torch.Size([4, 64, 10])                    # 每一(层,方向)的最终隐状�
 此模块保存固定词汇表规模和维数的嵌入，输入索引列表，输出相应的嵌入。
 
 ```python
-class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False, _weight=None, device=None, dtype=None)
+class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, 
+max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False, 
+_weight=None, device=None, dtype=None)
 # num_embeddings      词汇表规模
 # embedding_dim       嵌入维数
 # padding_idx         指定索引的嵌入向量默认为全0,并且在训练过程中不会更新
 # max_norm            若嵌入向量的范数大于此参数,则重新规范化到范数等于此参数
 # norm_type           lp范数的p值
 # scale_grad_by_freq  若为`True`,则梯度乘以小批次中词频的倒数
-# sparse              若为`True`,则对于`weight`矩阵的梯度将会是一个稀疏张
+# sparse              若为`True`,则对于`weight`矩阵的梯度将会是一个稀疏张量
 ```
 
 ```python
@@ -789,19 +802,19 @@ tensor([[ 1.0000,  1.0000,  1.0000],
         [ 0.6778,  0.5803,  0.2678]], requires_grad=True)
 ```
 
-> 当 `max_norm` 不为 `None` 时，嵌入层的前向方法会原位修改 `weight` 张量的值（如果嵌入向量的范数超限）。由于需要计算梯度的张量不能被原位修改，如果在调用嵌入层的前向方法之前要对 `weight` 张量执行可微运算就需要克隆 `weight` 张量，例如：
->
-> ```python
-> n, d, m = 3, 5, 7
-> embedding = nn.Embedding(n, d, max_norm=1.)
-> W = torch.randn((m, d), requires_grad=True)
-> idx = torch.tensor([1, 2])
-> a = embedding.weight.clone() @ W.t()  # weight must be cloned for this to be differentiable
-> b = embedding(idx) @ W.t()            # modifies weight in-place
-> out = (a.unsqueeze(0) + b.unsqueeze(1))
-> loss = out.sigmoid().prod()
-> loss.backward()
-> ```
+!!! note 注意
+    当 `max_norm` 不为 `None` 时，嵌入层的前向方法会原位修改 `weight` 张量的值（如果嵌入向量的范数超限）。由于需要计算梯度的张量不能被原位修改，如果在调用嵌入层的前向方法之前要对 `weight` 张量执行可微运算就需要克隆 `weight` 张量，例如：
+    ```python
+    n, d, m = 3, 5, 7
+    embedding = nn.Embedding(n, d, max_norm=1.)
+    W = torch.randn((m, d), requires_grad=True)
+    idx = torch.tensor([1, 2])
+    a = embedding.weight.clone() @ W.t()  # weight must be cloned for this to be differentiable
+    b = embedding(idx) @ W.t()            # modifies weight in-place
+    out = (a.unsqueeze(0) + b.unsqueeze(1))
+    loss = out.sigmoid().prod()
+    loss.backward()
+    ```
 
 ## 丢弃层
 
@@ -945,6 +958,12 @@ tensor([[[[ 1.7200, -0.7948],
 
 ## 激活函数
 
+### ELU
+
+ELU 激活函数层。见 `torch.nn.functional.elu`。
+
+
+
 ### ReLU
 
 ReLU 激活函数层。见 `torch.nn.functional.relu`。
@@ -965,7 +984,7 @@ tensor([0.0000, 0.0423, 0.0000, 0.0784])
 
 Logistic 激活函数层。见 `torch.sigmoid`、`torch.special.expit`。
 $$
-f(x)=\frac{1}{1+e^{-x}}
+\sigma(x)=\frac{1}{1+e^{-x}}
 $$
 
 ```python
