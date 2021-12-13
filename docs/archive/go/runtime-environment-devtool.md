@@ -2,11 +2,27 @@
 
 ## 平台与架构
 
-* Go 语言源文件的扩展名是 `.go`。
+
+
+## 安装
+
+请https://golang.org/doc/install
+
+
+
+## 环境变量
+
+
 
 ## runtime
 
 Go 的 runtime 类似 Java 语言用到的虚拟机，其负责管理包括内存分配、垃圾回收、栈处理、goroutine、channel、切片（slice）、map 和反射（reflection）等等。
+
+
+
+
+
+
 
 # 开发工具
 
@@ -17,6 +33,8 @@ Go 的 runtime 类似 Java 语言用到的虚拟机，其负责管理包括内�
 VSCode
 
 ### IDE
+
+
 
 ### 其他工具
 

@@ -1,4 +1,10 @@
-# if-else 结构
+
+
+[toc]
+
+# 条件语句
+
+## if-else 语句
 
 ```go
 if condition1 {
@@ -9,74 +15,150 @@ if condition1 {
 	// catch-all or default
 }
 
-//判断运行 Go 程序的操作系统类型
- if runtime.GOOS == "windows"	 {
- 	.	..
- } else { // Unix-like
- 	.	..
- }
+// `if`和`else`关键字必须和之后的`{`在同一行;如果你使用了else-if结构,则前段代码块的`}`必须和
+// `else (if)`关键字在同一行.这两条规则都是编译器强制规定的.
 ```
 
+如果分支数量较多，建议使用后面将要介绍的 switch 语句；如果需要根据变量的取值分多种情况讨论，那么也建议使用 switch 语句。
+
+当 if 结构内有 break、continue、goto 或者 return 语句时，Go 代码的常见写法是省略 else 部分，例如两个分支返回不同的结果时通常使用以下写法：
+
 ```go
-//条件表达式前执行一个简单语句
-if v := math.Pow(x, n); v < lim {
-	return v
+if condition {
+	return x
+}
+return y
+```
+
+if 语句可以包含一个初始化语句（例如给一个变量赋值），这种写法具有固定的格式：
+
+```go
+if initialization; condition {
+	// do something
 }
 ```
 
-# switch 结构
+例如：
 
 ```go
-switch var1 {
+if value := process(data); value > max {     // 获取函数的返回值并立即作为判定条件
+	...
+}
+
+if err := file.Chmod(0664); err != nil {     // 调用函数并立即检查是否发生错误
+	fmt.Println(err)
+	return err
+}
+
+if value, ok := readData(); ok {             // 调用函数并立即检查是否成功
+    ...
+}
+```
+
+注意初始化语句中使用简短方式 `:=` 声明的变量的作用域只存在于 if 结构中（如果使用 if-else 语句则也存在于 else 结构中）。如果变量在 if 结构之前就已经存在，那么在 if 结构中该变量原来的值会被隐藏。
+
+
+
+## switch 语句
+
+switch 语句的第一种形式是提供一个变量以及多个可能的取值逐一进行测试：
+
+```go
+switch var1 {         // `switch`关键字必须和之后的`{`在同一行
 	case val1:
 		...
-	case val2,val3:
+	case val2, val3:  // 同时测试多个可能的取值
 		...
-    case condition1:
+	case val4:
+    	...
+		fallthrough   // 直接进入下一分支
+	case val5: f()    // 当`var1==val4`时函数也会被调用
+                      // 当代码只有一行时,可以直接放置在`case`语句之后
+	default:          // 剩余情况
 		...
-    	fallthrough
-    case condition2:
+}
+```
+
+* `var1` 和 `val1` , `val2` , `val3` 必须是相同的类型。
+* 每一个 case 分支都是唯一的，从上至下逐一测试，直到匹配为止。
+* 一旦成功地匹配到某个分支，在执行完相应代码后就会退出整个 switch 代码块。如果在执行完某个分支的代码后，还希望继续执行后续分支的代码，则可以使用 `fallthrough` 关键字来达到目的。
+
+
+
+switch 语句的第二种形式是不提供任何变量，然后在每个 case 分支中测试不同的条件：
+
+```go
+switch {
+	case condition1:
+		...
+	case condition2:
+		...
+    	fallthrough   // 测试下一分支
+    case condition3:
 		...
 	default:
 		...
 }
 ```
 
-* `val1`，`val2`，`val3` 必须是相同的类型
-* 每一个 `case` 分支都是唯一的，从上至下逐一测试，直到匹配为止。
-* 一旦成功地匹配到某个分支，在执行完相应代码后就会退出整个 switch 代码块，也就是说不需要特别使用 `break` 语句来表示结束。如果在执行完每个分支的代码后，还希望继续执行后续分支的代码，可以使用 `fallthrough` 关键字来达到目的。
++ 从上至下逐一测试，直到测试结果为 `true` 。
++ 一旦某个分支的测试结果为 `true`，在执行完相应代码后就会退出整个 switch 代码块。如果在执行完某个分支的代码后，还希望继续测试后续分支的条件，则可以使用 `fallthrough` 关键字来达到目的。
++ 这种形式看起来非常像链式的 if-else 语句，但是在测试条件非常多的情况下，提供了可读性更好的书写方式。
+
+
+
+switch 语句同样也可以包含一个初始化语句：
 
 ```go
-switch a, b := x[i], y[j] {	//包含一个初始化语句,隐含一个true条件
-	case a < b: t = -1
-	case a == b: t = 0
-	case a > b: t = 1
+switch initialization; (var1) {
+	// do something
 }
 ```
 
-# select 结构
-
-# for (range) 结构
-
-## 基于计数器的迭代
+例如：
 
 ```go
-package main
+switch value := process(data); value {   // 获取函数的返回值并立即测试可能的取值
+	...
+}
 
-import "fmt"
+switch value := process(data); {         // 获取函数的返回值并立即作为各分支的判定条件
+	...
+}
+```
 
-func main() {
-	for i := 0; i < 5; i++ {
-		fmt.Printf("This is the %d iteration\n", i)
-	}
+同样地，初始化语句中使用简短方式 `:=` 声明的变量的作用域只存在于 switch 结构中。如果变量在 switch 结构之前就已经存在，那么在 switch 结构中该变量原来的值会被隐藏。
+
+
+
+## select 语句
+
+
+
+
+
+# 循环语句
+
+Go 语言中的循环语句只有 for 语句，但它要比其它语言中的 for 语句更加灵活。
+
+
+
+## 基于计数器的循环
+
+```go
+for i := 0; i < 5; i++ {   // 初始化语句; 条件语句; 修饰语句
+                           // `for`关键字必须和之后的`{`在同一行
+	fmt.Println(i)
 }
 ```
 
 ```go
-//同时使用多个计数器
-for i, j := 0, N; i < j; i, j = i+1, j-1 {}
+// 同时使用多个计数器
+for i, j := 0, N; i < j; i, j = i+1, j-1 {
+    ...
+}
 
-//循环嵌套
+// 循环嵌套
 for i:=0; i<5; i++ {
 	for j:=0; j<10; j++ {
 		println(j)
@@ -84,7 +166,9 @@ for i:=0; i<5; i++ {
 }
 ```
 
-## 基于条件判断的迭代（相当于while）
+
+
+## 基于条件判断的循环（相当于while）
 
 ```go
 package main
@@ -101,6 +185,8 @@ func main() {
 }
 ```
 
+
+
 ## 无限循环
 
 ```go
@@ -113,6 +199,8 @@ for true {
     
 }
 ```
+
+
 
 ## for-range 结构
 
@@ -209,13 +297,21 @@ for true {
 > */
 > ```
 
+
+
+
+
 # break和continue
 
 `break` 关键字的作用是退出循环，用于任何形式的 for 循环（计数器、条件判断等）。在 switch 或 select 语句中，`break` 关键字的作用是跳过整个代码块，执行后续的代码。
 
 `continue` 关键字忽略剩余的循环体而直接进入下一次循环的过程，但执行之前依旧需要满足循环的判断条件。
 
-# 标签与goto
+
+
+
+
+# goto 语句
 
 ```go
 package main
@@ -254,6 +350,6 @@ i is: 1, and j is: 3
 */
 ```
 
-<u> 使用标签和 goto 语句是不被鼓励的 </u>：它们很容易导致非常糟糕的程序设计，而且总有更加可读的替代方案来实现相同的需求。
+使用标签和 goto 语句是不被鼓励的：它们很容易导致非常糟糕的程序设计，而且总有更加可读的替代方案来实现相同的需求。
 
 如果必须使用 goto，应当只使用正序的标签（标签位于 goto 语句之后），但注意标签和 goto 语句之间不能出现定义新变量的语句，否则会导致编译失败。
