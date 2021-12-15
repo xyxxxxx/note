@@ -733,6 +733,10 @@ b'data to be encoded'
 
 参见 [自定义容器数据类型](./container-type.md#自定义容器数据类型)。
 
+## configparser——配置文件解析器
+
+> `configparser` 操作的配置文件类型 INI 已经过时，建议直接使用 `json` 或 `yaml` 包操作 JSON 或 YAML 类型的配置文件。
+
 ## copy——浅层和深层复制操作
 
 Python 的赋值语句不复制对象，而是创建目标和对象的绑定关系。对于自身可变，或包含可变项的集合，有时要生成副本用于改变操作，而不必改变原始对象。此模块提供了通用的浅层复制和深层复制操作。
@@ -2848,6 +2852,21 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 ```python
 >>> path.splitext('/path/to/foo.bar.exe')
 ('/path/to/foo.bar', '.exe')
+```
+
+
+## pathlib——面向对象的文件系统路径
+
+### Path
+
+#### home()
+
+返回一个表示用户 Home 目录的路径对象。
+
+```shell
+>>> from pathlib import Path
+>>> str(Path.home())
+/Users/xyx
 ```
 
 ## pickle——Python对象序列化
