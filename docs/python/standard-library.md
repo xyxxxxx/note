@@ -733,6 +733,10 @@ b'data to be encoded'
 
 参见 [自定义容器数据类型](./container-type.md#自定义容器数据类型)。
 
+## configparser——配置文件解析器
+
+> `configparser` 操作的配置文件类型 INI 已经过时，建议直接使用 `json` 或 `yaml` 包操作 JSON 或 YAML 类型的配置文件。
+
 ## copy——浅层和深层复制操作
 
 Python 的赋值语句不复制对象，而是创建目标和对象的绑定关系。对于自身可变，或包含可变项的集合，有时要生成副本用于改变操作，而不必改变原始对象。此模块提供了通用的浅层复制和深层复制操作。
@@ -1719,6 +1723,8 @@ Expecting ':' delimiter
 #### softkwlist
 
 返回解释器定义的所有软关键字组成的列表。
+
+## marshal——内部 Python 对象序列化
 
 ## math——数学函数
 
@@ -2850,7 +2856,22 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 ('/path/to/foo.bar', '.exe')
 ```
 
-## pickle——Python对象序列化
+
+## pathlib——面向对象的文件系统路径
+
+### Path
+
+#### home()
+
+返回一个表示用户 Home 目录的路径对象。
+
+```shell
+>>> from pathlib import Path
+>>> str(Path.home())
+/Users/xyx
+```
+
+## pickle——Python 对象序列化
 
 `pickle` 模块实现了对一个 Python 对象结构的二进制序列化和反序列化。pickle 是将 Python 对象及其所拥有的层次结构转化为一个字节流的过程，而 unpickle 是与之相反的操作，会将（来自一个二进制文件或者字节类对象的）字节流转化回一个对象层次结构。在官方文档中，前者称为**封存**，后者称为**解封**。
 
@@ -2867,6 +2888,25 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 #### dump()
 
 封存对象，并将封存后的对象写入到文件对象。
+
+```shell
+$ python
+>>> import pickle
+>>> data = {
+    'a': [1, 2.0, 3, 4+6j],
+    'b': ("character string", b"byte string"),
+    'c': {None, True, False}
+}
+>>> with open('data.pickle', 'wb') as f:
+    pickle.dump(data, f)
+>>> 
+$ python
+>>> import pickle
+>>> with open('data.pickle', 'rb') as f:
+    data = pickle.load(f)
+>>> data
+{'a': [1, 2.0, 3, (4+6j)], 'b': ('character string', b'byte string'), 'c': {False, True, None}}
+```
 
 #### dumps()
 
@@ -2891,11 +2931,15 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 * 定义在模块最外层的函数（使用 `def` 定义，lambda 函数则不可以）
 * 定义在模块最外层的内置函数
 * 定义在模块最外层的类
-* 某些类实例，如果这些类的 `__dict__` 属性值或 `__getstate__()` 函数的返回值可以被封存（详见封存类实例）。
+* 某些类实例，如果这些类的 `__dict__` 属性值或 `__getstate__()` 函数的返回值可以被封存（详见[封存类实例](#封存类实例)）。
 
 尝试封存不能被封存的对象会抛出 `PicklingError` 异常，异常发生时，可能有部分字节已经被写入指定文件中。尝试封存递归层级很深的对象时，可能会超出最大递归层级限制，此时会抛出 `RecursionError` 异常，可以通过 `sys.setrecursionlimit()` 调整递归层级，不过请谨慎使用这个函数，因为可能会导致解释器崩溃。
 
-需要注意的是，
+需要注意的是，函数（内置函数或用户自定义函数）在被封存时，引用的是函数全名。这意味着只有函数所在的模块名，与函数名会被封存，函数体及其属性不会被封存。因此，在解封的环境中，函数所属的模块必须是可以被导入的，而且模块必须包含这个函数被封存时的名称，否则会抛出异常。
+
+同样地，类也只封存名称，而不会封存类体，所以在解封环境中也有和函数相同的限制。
+
+### 封存类实例
 
 ## platform——获取底层平台的标识数据
 

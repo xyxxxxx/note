@@ -1,6 +1,8 @@
+[toc]
 
+# 常用库
 
-# BeautifulSoup
+## BeautifulSoup
 
 [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.
 
@@ -126,41 +128,45 @@ and they lived at the bottom of a well.
 
 ```
 
-# filelock
+## click
+
+[click](https://click.palletsprojects.com/en/8.0.x/) 是一个用于创建漂亮的命令行界面的 Python 包，其采用可组合的方法，只需要很少的代码修改。
+
+## filelock
 
 支持 `with` 语句的文件锁。
 
-## Timeout
+### Timeout
 
 若未能在 `timeout` 秒之内获得，则引发此异常。
 
-## FileLock
+### FileLock
 
-## UnixFileLock
+### UnixFileLock
 
 在 Unix 系统上使用 `fcntl.flock()` 以硬锁定文件。
 
-## WindowsFileLock
+### WindowsFileLock
 
-# Pillow
+## Pillow
 
 PIL（Python Imaging Library）是 Python 的图像处理包，Pillow 是 PIL 的一个分叉，提供了扩展的文件格式的支持、高效的内部表示和强大的图像处理功能。
 
-## Image
-
 ### Image
+
+#### Image
 
 图像。此类的实例通过工厂函数 `Image.open()`、`Image.new()` 和 `Image.frombytes()` 创建得到。
 
-#### copy()
+##### copy()
 
 返回图像的副本。
 
-#### create()
+##### create()
 
 以给定的模式和大小创建一个新的图像。
 
-#### crop()
+##### crop()
 
 返回图像的一个矩形区域。
 
@@ -169,7 +175,7 @@ with Image.open("hopper.jpg") as im:
     im_crop = im.crop((20, 20, 100, 100))   # 元组(左,上,右,下)定义了裁剪的像素坐标
 ```
 
-#### open()
+##### open()
 
 打开并识别给定的图像文件。
 
@@ -177,7 +183,7 @@ with Image.open("hopper.jpg") as im:
 im = Image.open("hopper.jpg")
 ```
 
-#### rotate()
+##### rotate()
 
 返回图像的旋转后的副本。
 
@@ -187,7 +193,7 @@ with Image.open("hopper.jpg") as im:
     # 顺时针旋转60度,扩展输出图片以容纳旋转后的整个图像,空白部分用白色填充
 ```
 
-#### save()
+##### save()
 
 保存图像。
 
@@ -196,7 +202,7 @@ with Image.open("hopper.jpg") as im:
     im.save('hopper1.jpg')
 ```
 
-#### show()
+##### show()
 
 展示图像。
 
@@ -205,21 +211,21 @@ with Image.open("hopper.jpg") as im:
     im.show()
 ```
 
-# requests
+## requests
 
 requests 是一个简单而优雅的 HTTP 库。[使用教程](https://docs.python-requests.org/zh_CN/latest/user/quickstart.html)
 
-## 使用示例
+### 使用示例
 
-## 接口
+### 接口
 
 requests 所有的功能都可以通过以下 7 个方法访问，它们都会返回一个 `Response` 对象的实例。
 
-### delete()
+#### delete()
 
 发送 `DELETE` 请求。
 
-### get()
+#### get()
 
 发送 `GET` 请求。
 
@@ -244,15 +250,15 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 }
 ```
 
-### head()
+#### head()
 
 发送 `HEAD` 请求。
 
-### options()
+#### options()
 
 发送 `OPTIONS` 请求。
 
-### post()
+#### post()
 
 发送 `POST` 请求。
 
@@ -282,7 +288,7 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 }
 ```
 
-### put()
+#### put()
 
 发送 `PUT` 请求。
 
@@ -312,7 +318,7 @@ requests 所有的功能都可以通过以下 7 个方法访问，它们都会�
 }
 ```
 
-### request()
+#### request()
 
 构造并发送一个请求。
 
@@ -347,13 +353,13 @@ requests.request(method, url, **kwargs)
 
 ```
 
-## 请求和响应
+### 请求和响应
 
-### PreparedRequest
+#### PreparedRequest
 
-### Request
+#### Request
 
-### Response
+#### Response
 
 `Response`对象包含了服务器的对于HTTP请求的响应。
 
@@ -364,11 +370,11 @@ requests.request(method, url, **kwargs)
 
 具有以下属性和方法：
 
-#### close()
+##### close()
 
 释放连接回连接池。
 
-#### content
+##### content
 
 响应内容（响应体），以字节形式。
 
@@ -377,15 +383,15 @@ requests.request(method, url, **kwargs)
 b'<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n\n    <meta charset="utf-8" />\n    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n    <style type="text/css">\n    body {\n        background-color: #f0f0f2;\n        margin: 0;\n        padding: 0;\n        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;\n        \n    }\n    div {\n        width: 600px;\n        margin: 5em auto;\n        padding: 2em;\n        background-color: #fdfdff;\n        border-radius: 0.5em;\n        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);\n    }\n    a:link, a:visited {\n        color: #38488f;\n        text-decoration: none;\n    }\n    @media (max-width: 700px) {\n        div {\n            margin: 0 auto;\n            width: auto;\n        }\n    }\n    </style>    \n</head>\n\n<body>\n<div>\n    <h1>Example Domain</h1>\n    <p>This domain is for use in illustrative examples in documents. You may use this\n    domain in literature without prior coordination or asking for permission.</p>\n    <p><a href="https://www.iana.org/domains/example">More information...</a></p>\n</div>\n</body>\n</html>\n'
 ```
 
-#### cookies
+##### cookies
 
 服务器返回的CookieJar对象。
 
-#### elapsed
+##### elapsed
 
 从发送请求到接收响应经过的时间。
 
-#### headers
+##### headers
 
 响应头字典。
 
@@ -396,13 +402,13 @@ b'<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n\n    <met
 'text/html; charset=UTF-8'
 ```
 
-#### history
+##### history
 
-#### is_redirect
+##### is_redirect
 
 若响应是一个完备的HTTP重定向（即可以自动处理），则为`True`。
 
-#### iter_content()
+##### iter_content()
 
 迭代响应数据。当请求设定了`stream=True`时，这会避免将响应内容一次读进内存。
 
@@ -412,7 +418,7 @@ iter_content(chunk_size=1, decode_unicode=False)
 # decode_unicode
 ```
 
-#### iter_lines()
+##### iter_lines()
 
 逐行迭代响应数据。当请求设定了`stream=True`时，这会避免将响应内容一次读进内存。
 
@@ -420,13 +426,13 @@ iter_content(chunk_size=1, decode_unicode=False)
 iter_lines(chunk_size=512, decode_unicode=None, delimiter=None)
 ```
 
-#### json()
+##### json()
 
 返回json编码的响应内容，调用 `json.loads` 方法。若响应体不包含合法的json，则引发错误 `simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)`。
 
-#### next
+##### next
 
-#### ok
+##### ok
 
 若 `status_code` 小于400，返回 `True`。
 
@@ -435,7 +441,7 @@ iter_lines(chunk_size=512, decode_unicode=None, delimiter=None)
 True
 ```
 
-#### raise_for_status()
+##### raise_for_status()
 
 引发保存的 `HTTPError`，如果发生了一个。
 
@@ -444,11 +450,11 @@ if not r.ok:                    # r.status >= 400, an HTTPError occurred
     r.raise_for_status()        # raise this HTTPError
 ```
 
-#### raw
+##### raw
 
 响应的类似文件的对象表示。需要请求设定 `stream=True`。
 
-#### reason
+##### reason
 
 HTTP状态的文本表示。
 
@@ -457,7 +463,7 @@ HTTP状态的文本表示。
 'OK'
 ```
 
-#### status_code
+##### status_code
 
 HTTP状态码，是一个整数值。
 
@@ -468,7 +474,7 @@ HTTP状态码，是一个整数值。
 True
 ```
 
-#### text
+##### text
 
 响应内容（响应体），以unicode形式。
 
@@ -477,7 +483,7 @@ True
 '<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n\n    <meta charset="utf-8" />\n    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n    <style type="text/css">\n    body {\n        background-color: #f0f0f2;\n        margin: 0;\n        padding: 0;\n        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;\n        \n    }\n    div {\n        width: 600px;\n        margin: 5em auto;\n        padding: 2em;\n        background-color: #fdfdff;\n        border-radius: 0.5em;\n        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);\n    }\n    a:link, a:visited {\n        color: #38488f;\n        text-decoration: none;\n    }\n    @media (max-width: 700px) {\n        div {\n            margin: 0 auto;\n            width: auto;\n        }\n    }\n    </style>    \n</head>\n\n<body>\n<div>\n    <h1>Example Domain</h1>\n    <p>This domain is for use in illustrative examples in documents. You may use this\n    domain in literature without prior coordination or asking for permission.</p>\n    <p><a href="https://www.iana.org/domains/example">More information...</a></p>\n</div>\n</body>\n</html>\n'
 ```
 
-#### url
+##### url
 
 响应的最终url位置。
 
@@ -486,9 +492,9 @@ True
 'https://www.example.com/'
 ```
 
-## 会话
+### 会话
 
-### Session
+#### Session
 
 提供持久cookie，连接池和设置。
 
@@ -505,43 +511,43 @@ True
 
 具有以下属性和方法：
 
-#### auth
+##### auth
 
 默认的认证元组或对象。
 
-#### cert
+##### cert
 
 默认的SSL客户证书。
 
-#### cookies
+##### cookies
 
 一个CookieJar对象，包含了当前会话设定的所有cookies。
 
-#### request(), delete(), get(),  head(), options(), patch(), post(), put()
+##### request(), delete(), get(),  head(), options(), patch(), post(), put()
 
 发送请求。
 
-#### headers
+##### headers
 
 设定请求头的字典。
 
-#### max-redirects
+##### max-redirects
 
 允许的最大重定向次数。
 
-#### params
+##### params
 
 查询字符串的字典。
 
-#### proxies
+##### proxies
 
 将协议映射到代理url的字典，例如`{'http': 'foo.bar:3128'}`。
 
-#### verify
+##### verify
 
 默认的SSL认证。
 
-## 身份认证
+### 身份认证
 
 | 类                    | 描述                   |
 | --------------------- | ---------------------- |
@@ -550,9 +556,9 @@ True
 | `auth.HTTPProxyAuth`  | 请求附加的HTTP代理认证 |
 | `auth.HTTPDigestAuth` | 请求附加的HTTP摘要认证 |
 
-## Cookie
+### Cookie
 
-## 异常
+### 异常
 
 | 异常名称                    | 描述                               |
 | --------------------------- | ---------------------------------- |
@@ -566,11 +572,11 @@ True
 | `requests.ReadTimeout`      | 服务器在预定时间内没有发送任何数据 |
 |                             |                                    |
 
-# PyYAML (yaml)
+## PyYAML (yaml)
 
 PyYAML 是一个 YAML 编码和解码器，使用方法类似于标准库的 json 包。
 
-## load()
+### load()
 
 将 YAML 文档转换为 Python 对象。接受一个 Unicode 字符串、字节字符串、二进制文件对象或文本文件对象，其中字节字符串和文件必须使用 utf-8、utf-16-be 或 utf-16-le 编码（若没有指定编码，则默认为 utf-8 编码）。
 
@@ -668,7 +674,7 @@ theme:
                        'scheme': 'default'}}}
 ```
 
-## dump()
+### dump()
 
 将 Python 对象转换为 YAML 文档。
 
