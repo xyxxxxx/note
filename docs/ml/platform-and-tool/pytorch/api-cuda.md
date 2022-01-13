@@ -6,7 +6,7 @@
 
 ### current_device()
 
-返回当前设备的索引。
+返回当前 CUDA 设备的索引。
 
 ```python
 >>> torch.cuda.current_device()

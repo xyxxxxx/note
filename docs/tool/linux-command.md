@@ -42,6 +42,25 @@ DESCRIPTION
        ...
 ```
 
+### type
+
+查看命令是否是 Shell 的内置命令。
+
+```shell
+$ type echo                     # 内置命令
+echo is a shell builtin
+$ type python                   # 外部程序
+python is /Users/xyx/.pyenv/shims/python
+
+$ type -a echo                  # 既是内置命令,也有对应的外部程序
+echo is a shell builtin
+echo is /usr/local/opt/coreutils/libexec/gnubin/echo
+echo is /bin/echo
+$ type -a python                # 所有对应的外部程序,按照PATH环境变量中各个路径的顺序
+python is /Users/xyx/.pyenv/shims/python
+python is /usr/bin/python
+```
+
 ### whatis
 
 在一些特定的包含系统命令的简短描述的数据库文件中查找关键字，并把结果发送到标准输出。whatis 数据库文件是由 `/usr/sbin/makewhatis` 命令建立的。
@@ -86,6 +105,7 @@ $ cat /dev/null > file1  # 清空文件内容,等同于`:> file1`
 $ chmod u=rwx,g=rx,o=x file1     # rwxr-x--x
 $ chmod 777 file1                # rwxrwxrwx
 $ chmod a+r file1                # ugo增加权限r
+$ chmod +rx file1                # ugo增加权限rx
 $ chmod ug+w, o-w file1          # ug增加权限w,o减少权限w
 ```
 
@@ -122,6 +142,34 @@ $ diff file1 file2
 ```shell
 $ ln -s file1 file2     # 软链接(符号链接),相当于Windows的快捷方式.lnk
 $ ln file1 file2        # 硬链接,相当于文件有多个名称
+```
+
+### mktemp
+
+创建临时文件或目录。
+
+```shell
+$ mktemp                # 创建临时文件
+#        -d             # 创建临时目录
+#        -p [path]      # 在指定路径下创建临时文件
+```
+
+```shell
+$ TMPFILE=$(mktemp)     # 创建临时文件
+$ echo "Our temp file is $TMPFILE"
+$ rm -f "$TMPFILE"
+```
+
+```sh
+#!/bin/bash
+
+trap 'rm -f "$TMPFILE"' EXIT    # 脚本退出时删除临时文件
+
+TMPFILE=$(mktemp) || exit 1
+ls /etc > $TMPFILE
+if grep -qi "kernel" $TMPFILE; then
+  echo 'find'
+fi
 ```
 
 ### more
@@ -327,17 +375,31 @@ $ rmdir dir1
 
 ### echo
 
-打印字符串。
+打印文本。
 
 ```shell
 $ echo abc123            # 打印一般字符串
-$ echo $PATH             # 打印环境变量
+abc123
+$ echo "abc123"          # 打印一般字符串
+abc123
+$ echo $HOME             # 打印环境变量的值
+/Users/xyx
 $ echo \"How are you\?\" \"I\'m fine.\"     # 使用转义符号打印特殊符号
-$ echo abc123 > file1   # 将打印内容写入文件
+"How are you?" "I'm fine."
+$ echo abc123 > file1    # 将打印内容写入文件
+```
+
+```shell
+$ echo -n a; echo b      # 取消末尾自动添加的换行符
+ab
+$ echo -e "Hello\nWorld"    # 解释引号内的转义字符
+Hello
+World
 ```
 
 ```shell
 $ echo `date`            # 打印当前日期时间
+Thu Jan 6 10:24:53 CST 2022
 ```
 
 ### egrep
@@ -360,6 +422,17 @@ $ grep [str] file1          # 查找并打印文本文件中包含该字符串�
 #      -i                     忽略字符的大小写
 #      -r                     递归地查找目录下的所有文件
 #      -v                     查找不包括该字符串的所有行
+```
+
+### printf
+
+打印字符串。
+
+```shell
+$ printf "abc123\n"
+abc123
+$ printf "%-10s %-1s %-2d %-5.1f %-4.1f\n" Alice F 10 140.2 31.5
+Alice      F 10 140.2 31.5
 ```
 
 ### wc
@@ -409,6 +482,7 @@ $ env
 
 ```shell
 $ exit
+$ exit -1             # 以指定状态值退出
 ```
 
 ### export
@@ -421,21 +495,113 @@ $ export MYENV=1      # 定义环境变量,仅在当前Shell中有效
 $ export -n MYENV     # 删除环境变量,仅在当前Shell中有效
 ```
 
-### set
+### history
 
-设置 Shell 的运行参数。
+查看最近执行过的命令。
 
 ```shell
-$ set                 # 显示环境变量和Shell函数
-$ set MYENV=1         # 定义环境变量,仅在当前Shell中有效
+$ history
+...
+498 echo Goodbye
+499 ls ~
+500 cd
+```
+
+### set
+
+设置或显示变量。
+
+```shell
+$ set                 # 显示变量和Shell函数
+$ set MYENV=1         # 定义变量,仅在当前Shell中有效
+```
+
+```shell
+$ set -e              # 任意命令以非零值退出时,脚本终止执行
+$ set -o pipefail     # 任意子命令失败则视作整个管道命令失败
+```
+
+```shell
+$ set -f      # 关闭模式扩展(globbing)
+```
+
+```shell
+$ set -n      # 不执行命令,只检查语法是否正确
+```
+
+```shell
+$ echo $a     # 未定义的变量
+              # 打印空字符串
+$ set -u      # 当执行任意命令遇到未定义的变量时,抛出错误信息
+$ echo $a
+bash: a: unbound variable     # 报错
+$ set +u
+```
+
+```shell
+$ set -x      # 执行任意命令时,先显示该命令及其参数
+$ echo abc
++ echo abc
+abc
+$ ls
++ ls
+folder1 folder2 file1 file2
+$ set +x
++ set +x
+```
+
+### shopt
+
+设置 Bash 的选项。
+
+```shell
+$ shopt               # 查看所有选项的开关状态
+$ shopt -s option     # 打开某个选项
+$ shopt -u option     # 关闭某个选项
+```
+
+### tee
+
+读取标准输入并同时写入到标准输出和文件。
+
+```shell
+$ echo abc | tee file1
+abc
+$ ls
+file1
+$ cat file1
+abc
+```
+
+### time
+
+执行指定命令并计时。
+
+```shell
+$ time ls
+folder1 folder2 file1 file2
+
+real	0m0.007s
+user	0m0.002s
+sys	0m0.002s
+
+$ time sleep 5
+
+real	0m5.021s
+user	0m0.001s
+sys	0m0.002s
 ```
 
 ### unset
 
-删除 Shell 的运行参数。
+删除变量。
 
 ```shell
-$ unset MYENV         # 删除环境变量,仅在当前Shell中有效
+$ unset MYENV         # 删除变量,仅在当前Shell中有效
+# 相当于
+$ MYENV=
+
+$ unset -f myfunc     # 删除函数
 ```
 
 ### xargs
@@ -488,7 +654,7 @@ tmpfs            4028364         0   4028364   0% /dev/shm
 tmpfs               5120         4      5116   1% /run/lock
 tmpfs            4028364         0   4028364   0% /sys/fs/cgroup
 ...
-$ df -h         # 使用人类可读的文件大小格式
+$ df -h         # 使用人类可读的单位格式
 Filesystem      Size  Used Avail Use% Mounted on
 udev            3.9G     0  3.9G   0% /dev
 tmpfs           787M  1.9M  785M   1% /run
@@ -507,7 +673,7 @@ tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup
 $ du                  # 显示所有目录的大小
 $ du dir1             # 显示指定路径下的所有目录的大小
 #    -a                 显示所有目录和文件的大小
-#    -h                 使用人类可读的文件大小格式
+#    -h                 使用人类可读的单位格式
 #    --max-depth=n      只深入n层目录
 #    -s                 只显示总计大小
 ```
@@ -573,8 +739,8 @@ $ netstat -tunlp | grep 8080  # [Linux]显示进程8080占用端口状态
 
 ```shell
 $ ping www.bilibili.com
-#      -c [num]                 发送信息的次数
-#      -i [secs]                发送的间隔秒数
+#      -c [num]    发送信息的次数
+#      -i [secs]   发送的间隔秒数
 ```
 
 ## 系统
@@ -588,9 +754,90 @@ $ date
 Mon Jun 28 10:31:54 CST 2021
 ```
 
+### declare
+
+声明变量。
+
+```shell
+$ declare         # 打印当前环境的所有变量
+$ declare -p      # 打印所有变量的信息
+$ declare -p foo  # 打印指定变量的信息
+$ declare -f      # 打印所有函数的信息
+$ declare -f foo  # 打印指定函数的信息
+$ declare -F      # 打印所有函数的名称
+```
+
+```shell
+$ declare -i a    # 声明整数型变量
+$ a=2*3
+$ echo $a
+6
+
+$ declare -x a    # 声明环境变量
+# 相当于
+$ export a
+
+$ declare -r a=1  # 声明只读变量
+$ a=2
+bash: read-only variable: a
+
+$ declare -A colors   # 声明关联数组(映射)
+$ colors["red"]="#ff0000"
+$ colors["green"]="#00ff00"
+$ colors["blue"]="#0000ff"
+$ echo ${colors["red"]}
+#ff0000
+$ echo ${colors[@]}
+#0000ff #ff0000 #00ff00
+$ echo ${#colors[@]}
+3
+$ echo ${!colors[@]}
+blue red green
+```
+
+### free
+
+显示内存使用情况。
+
+```shell
+$ free     #      显示内存使用情况
+#      -b         以B为单位显示
+#      -k         以kB为单位显示
+#      -m         以MB为单位显示
+#      -h         以合适的单位显示
+#      -s [secs]  每`secs`秒执行一次命令
+```
+
+### groupadd
+
+创建新用户。
+
+```shell
+$ groupadd office      # 创建一般用户
+#          -r            创建系统群组,其ID应小于500
+#          -g 1000       指定群组ID
+```
+
 ### htop
 
 实时显示资源占用和进程状态。
+
+### id
+
+显示用户的 ID 以及所属群组的 ID。
+
+```shell
+$ id          # 显示全部
+uid=0(root) gid=0(root) groups=10(wheel)
+$ id -u       # 用户ID
+501
+$ id -un      # 用户名
+xyx
+$ id -g       # 群组ID
+20
+$ id -gn      # 群组名
+staff
+```
 
 ### kill
 
@@ -641,6 +888,17 @@ $ shutdown now       # 立即关闭计算机
 #          -r          重新启动计算机
 ```
 
+### sleep
+
+等待一段时间。
+
+```shell
+$ sleep 10      # 等待10s
+$ sleep 10m
+$ sleep 2h
+$ sleep 1d
+```
+
 ### sudo
 
 以系统超级用户（管理员）的身份执行命令。
@@ -661,21 +919,47 @@ $ top
 #     -d <secs>        [Linux]每`secs`秒更新
 ```
 
+### uname
+
+显示系统信息。
+
+```shell
+$ uname       # 打印内核名称
+#       -a      打印所有信息
+#       -n      打印网络主机名
+#       -m      打印机器硬件名称
+#       -o      打印操作系统名称 
+```
+
+### useradd
+
+创建新用户。
+
+```shell
+$ useradd xyx         # 创建一般用户
+#         -r            创建系统用户
+#         -d            指定用户的Home目录
+#         -m            创建用户的Home目录,如果其不存在
+#         -u 1000       指定用户ID
+#         -g 1000       指定用户所属群组的名称或ID
+#         -s /bin/bash  指定用户所使用的shell
+```
+
 ## 组合命令
 
 `;`：顺序执行命令，不论成功或失败。
  
 ```shell
-
+$ clear; ls
 ```
 
-`&&`：前一命令成功，则执行后一命令（command1 succeed, then command2）。
+`&&`：如果前一命令成功，则执行后一命令（command1 succeed, then command2）。
 
 ```shell
 $ cp sql.txt sql.bak.txt && cat sql.bak.txt
 ```
 
-`||`：前一命令失败，则执行后一命令（command1 failed, then command2）。
+`||`：如果前一命令失败，则执行后一命令（command1 failed, then command2）。
 
 ```shell
 
@@ -703,4 +987,42 @@ $ gcc -E hello.c -o hello.i    # 预处理(Preprocess)
 $ gcc -S hello.c -o hello.s    # 编译(Compile)
 $ gcc -c hello.c -o hello.o    # 汇编(Assemble)
 $ gcc hello.c -o hello.exe     # 链接(Link)
+```
+
+## 常用命令
+
+展示当前的 Shell：
+
+```shell
+$ echo $SHELL
+/bin/bash
+```
+
+展示当前的类 Unix 系统中安装的所有 Shell：
+
+```shell
+$ cat /etc/shells
+/bin/sh
+/bin/bash
+/bin/rbash
+/bin/dash
+/usr/bin/tmux
+```
+
+展示环境变量 `PATH` 的值（每行一条路径）：
+
+```shell
+$ echo -e ${PATH//:/'\n'}
+/Users/xyx/Library/Python/3.8/bin
+/usr/local/opt/findutils/libexec/gnubin
+/usr/local/opt/gnu-sed/libexec/gnubin
+/usr/local/opt/coreutils/libexec/gnubin
+/Users/xyx/.pyenv/shims
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/Applications/VMware Fusion.app/Contents/Public
+/usr/local/go/bin
 ```

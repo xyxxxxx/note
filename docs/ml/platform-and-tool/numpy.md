@@ -1,27 +1,34 @@
+[toc]
 
-
-[NumPy]() 是 Python 中进行科学计算的基本包。
-
-> tutorial参见[Quickstart tutorial](https://numpy.org/doc/stable/user/quickstart.html)
+[NumPy](https://numpy.org/) 是 Python 中进行科学计算的基本包。
 
 # 教程
 
-> 官方教程参见[NumPy user guide](https://numpy.org/doc/stable/user/index.html)
+> 官方教程参见 [NumPy user guide](https://numpy.org/doc/stable/user/index.html)
 
 ## 数组对象
 
 ```python
+>>> import numpy as np
 >>> a = np.array([[6, 5], [11, 7], [4, 8]])
 >>> a
 array([[ 6,  5],
        [11,  7],
        [ 4,  8]])
+>>> type(a)
+<class 'numpy.ndarray'>
 >>> a[0][0]
 6
->>> a.ndim         #　数组维数
+>>> a.ndim         # 数组维数
 2
->>> a.shape　　　　　# 数组形状
+>>> a.shape        # 数组形状
 (3, 2)
+>>> a.size         # 数组元素总数
+6
+>>> a.dtype        # 数组元素数据类型
+dtype('int64')
+>>> a.itemsize     # 数组元素大小(字节)
+8
 ```
 
 ## 基本操作
@@ -32,7 +39,6 @@ array([[ 6,  5],
 >>> a = np.arange(6).reshape(2,3)
 >>> b = np.arange(6,12).reshape(2,3)
 >>> c = np.ones(3)
->>> d = np.array([[1, 0], [1, 1]])
 >>> a
 array([[0, 1, 2],
        [3, 4, 5]])
@@ -41,44 +47,90 @@ array([[ 6,  7,  8],
        [ 9, 10, 11]])
 >>> c
 array([1., 1., 1.])
->>> d
-array([[1, 0],
-       [1, 1]])
 
 >>> a + b                  # 逐元素加法
 array([[ 6,  8, 10],
        [12, 14, 16]])
->>> a + 1                  # broadcasting
+>>> a + 1                  # 扩张的逐元素加法
 array([[1, 2, 3],
        [4, 5, 6]])
->>> a + c                  # broadcasting
+>>> a + c                  # 扩张的逐元素加法
 array([[1., 2., 3.],
        [4., 5., 6.]])
->>> np.dot(d,d)            # 矩阵乘法(1)
-array([[1, 0],             # 矩阵乘法可以扩展到高维张量之间,具体运算规则与矩阵乘法类似
-       [2, 1]])
->>> d.dot(d)               # 矩阵乘法(2)
-array([[1, 0],
-       [2, 1]])
->>> d * d                  # 逐元素乘法
-array([[1, 0],
-       [1, 1]])
->>> np.transpose(a)        # 转置(1)
+
+>>> np.transpose(a)        # 转置
 array([[0, 3],
        [1, 4],
        [2, 5]])
->>> a.T                    # 转置(2)
+>>> a.T                    # 转置
 array([[0, 3],
        [1, 4],
        [2, 5]])
 
+>>> d = np.array([[1, 0], [1, 1]])
+>>> e = np.array([1, 2])
+>>> d
+array([[1, 0],
+       [1, 1]])
+
+>>> d * d                  # 逐元素乘法
+array([[1, 0],
+       [1, 1]])
+>>> d * e                  # 扩张的逐元素乘法
+array([[1, 0],
+       [1, 2]])
+>>> d ** 2                 # 逐元素乘方
+array([[1, 0],
+       [1, 1]])
+>>> d ** e                 # 扩张的逐元素乘方
+array([[1, 0],
+       [1, 1]])
+
+>>> d @ d                  # 矩阵乘法
+array([[1, 0],
+       [2, 1]])
+>>> np.dot(d, d)           # 矩阵乘法
+array([[1, 0],             # 矩阵乘法可以扩展到高维张量之间,具体运算规则与矩阵乘法类似
+       [2, 1]])
+>>> d.dot(d)               # 矩阵乘法
+array([[1, 0],
+       [2, 1]])
+```
+
+### 切片
+
+```python
+>>> a = np.arange(10) ** 2            # 一维数组切片
+>>> a
+array([ 0,  1,  4,  9, 16, 25, 36, 49, 64, 81])
+>>> a[2:5]
+array([ 4,  9, 16])
+>>> a[:6:2]
+array([ 0,  4, 16])
+>>> a[::-1]
+array([81, 64, 49, 36, 25, 16,  9,  4,  1,  0])
+
+>>> b = np.arange(24).reshape(4, 6)   # 二维数组切片
+>>> b
+array([[ 0,  1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10, 11],
+       [12, 13, 14, 15, 16, 17],
+       [18, 19, 20, 21, 22, 23]])
+>>> b[2][3]
+15
+>>> b[1:3, 2]
+array([ 8, 14])
+>>> b[:, 1]
+array([ 1,  7, 13, 19])
+>>> b[-1]
+array([18, 19, 20, 21, 22, 23])
 ```
 
 ### 复制
 
 # API
 
-> 参见[NumPy Reference](https://numpy.org/doc/stable/reference/index.html)
+> 参见 [NumPy Reference](https://numpy.org/doc/stable/reference/index.html)
 
 ## numpy
 
@@ -111,14 +163,14 @@ array([ 0,  1,  2,  3,  4,  5, 10])
 
 ### arange()
 
-根据给定的初值，末值和步长创建向量。与 python 的 `range()` 用法相同。
+根据给定的初值、末值和步长创建向量。与 Python 的 `range()` 用法相同。
 
 ```python
 >>> np.arange(10)
 array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
->>> np.arange(0,10)
+>>> np.arange(0, 10)
 array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
->>> np.arange(0,10,0.5)
+>>> np.arange(0, 10, 0.5)
 array([0. , 0.5, 1. , 1.5, 2. , 2.5, 3. , 3.5, 4. , 4.5, 5. , 5.5, 6. ,
        6.5, 7. , 7.5, 8. , 8.5, 9. , 9.5])
 ```
@@ -149,11 +201,28 @@ array([[ 6,  5],
        [11,  7],
        [ 4,  8]])
 
->>> type(vector)
-<class 'numpy.ndarray'>
+>>> cmatrix = np.array([[6, 5], [11, 7], [4, 8]], dtype=complex)   # 指定数据类型
+>>> cmatrix
+array([[ 6.+0.j,  5.+0.j],
+       [11.+0.j,  7.+0.j],
+       [ 4.+0.j,  8.+0.j]])
 ```
 
 ### array_equal()
+
+### asarray()
+
+将输入数据转换为数组。
+
+```python
+>>> a = np.asarray([1, 2])
+>>> a
+array([1, 2])
+>>> np.asarray(a) is a
+True
+>>> np.asarray(a, dtype=np.int8) is a
+False
+```
 
 ### concatenate()
 
@@ -178,13 +247,13 @@ array([1, 2, 3, 4, 5, 6])
 计算两个向量的相关系数。
 
 ```python
->>> a = np.array([1.,2,3])
->>> b = np.array([3.,2,1])
+>>> a = np.array([1., 2, 3])
+>>> b = np.array([3., 2, 1])
 >>> np.corrcoef(a,b)
 array([[ 1., -1.],
        [-1.,  1.]])
 
->>> c = np.array([[10.,20,30],[30,20,10],[20,20,20]])
+>>> c = np.array([[10., 20, 30],[30, 20, 10],[20, 20, 20]])
 >>> np.corrcoef(c)
 array([[ 1., -1., nan],
        [-1.,  1., nan],
@@ -196,13 +265,13 @@ array([[ 1., -1., nan],
 计算两个向量的协方差。
 
 ```python
->>> a = np.array([1.,2,3])
->>> b = np.array([3.,2,1])
+>>> a = np.array([1., 2, 3])
+>>> b = np.array([3., 2, 1])
 >>> np.cov(a,b)
 array([[ 1., -1.],
        [-1.,  1.]])
 
->>> c = np.array([[10.,20,30],[30,20,10],[20,20,20]])
+>>> c = np.array([[10., 20, 30],[30, 20, 10],[20, 20, 20]])
 >>> np.cov(c)
 array([[ 100., -100.,    0.],
        [-100.,  100.,    0.],
@@ -224,7 +293,7 @@ numpy.datetime64('2005-02-25T03:40')
 >>> np.arange('2005-02-25T00:00', '2005-02-26T00:00', np.timedelta64(10, 'm'), dtype='datetime64[s]')
 array(['2005-02-25T00:00:00', '2005-02-25T00:10:00',
        '2005-02-25T00:20:00', '2005-02-25T00:30:00',
-#      ...
+       ...
        '2005-02-25T23:40:00', '2005-02-25T23:50:00'],
       dtype='datetime64[s]')
 
@@ -265,6 +334,18 @@ array([[1, 0, 0, 0],
 array([1, 2, 3, 4])
 ```
 
+### exp()
+
+对数组的每个元素计算自然指数。
+
+```python
+>>> a = np.arange(3)
+>>> a
+array([0, 1, 2])
+>>> np.exp(a)
+array([1.        , 2.71828183, 7.3890561 ])
+```
+
 ### expand_dims()
 
 增加数组的一个维度。
@@ -278,6 +359,8 @@ array([1, 2, 3, 4])
 >>> np.expand_dims(a, 2).shape
 (3, 4, 1)
 ```
+
+### floor()
 
 ### identity()
 
@@ -325,22 +408,22 @@ array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 1.1, 1.2,
 
 ### max(), min()
 
-返回数组中所有元素的最大/最小值。
+返回数组中所有元素的最大/最小值。亦为 `numpy.ndarray` 方法。
 
 ```python
->>> a = np.arange(4).reshape((2,2))
+>>> a = np.arange(4).reshape(2, 2)
 >>> a
 array([[0, 1],
        [2, 3]])
->>> np.max(a)
+>>> a.max()
 3
->>> np.min(a)
+>>> a.min()
 0
 ```
 
 ### mean(), std()
 
-返回数组中所有元素或沿指定轴的平均值/标准差。
+返回数组中所有元素或沿指定轴的平均值/标准差。亦为 `numpy.ndarray` 方法。
 
 ```python
 >>> a = np.random.randn(3,3)
@@ -348,17 +431,17 @@ array([[0, 1],
 array([[ 0.94980824,  1.04584228,  0.83793739],
        [-0.34161272, -0.5179232 ,  0.06009127],
        [ 0.67584914,  0.37504747,  0.43473474]])
->>> np.mean(a)                 # 展开的数组的平均值
+>>> a.mean()                 # 展开的数组的平均值
 0.3910860682553663
->>> np.mean(a, axis=0)         # 沿轴0的平均值;列平均值
+>>> a.mean(axis=0)           # 沿轴0的平均值;列平均值
 array([0.42801489, 0.30098885, 0.44425447])
->>> np.mean(a, axis=1)         # 沿轴1的平均值;行平均值
+>>> a.mean(axis=1)           # 沿轴1的平均值;行平均值
 array([ 0.9445293 , -0.26648155,  0.49521045])
->>> np.std(a)
+>>> a.std()
 0.5266780199541472
->>> np.std(a, axis=0)
+>>> a.std(axis=0)
 array([0.55558281, 0.64054879, 0.31762569])
->>> np.std(a, axis=1)
+>>> a.std(axis=1)
 array([0.08495886, 0.24187973, 0.13003434])
 ```
 
@@ -373,6 +456,9 @@ array([[1., 1.],
 >>> np.ones((2, 2), dtype=int)
 array([[1, 1],
        [1, 1]])
+>>> np.ones((2, 2), dtype=np.int8)
+array([[1, 1],
+       [1, 1]], dtype=int8)
 ```
 
 ### pi
@@ -389,7 +475,7 @@ array([[1, 1],
 以重复输入数组元素的方式构建数组。
 
 ```python
->>> a = np.arange(12).reshape(3,4)
+>>> a = np.arange(12).reshape(3, 4)
 >>> np.repeat(a, 2, 0)           # 沿轴0, 各重复2次
 array([[ 0,  1,  2,  3],
        [ 0,  1,  2,  3],
@@ -408,7 +494,7 @@ array([[ 0,  0,  1,  1,  2,  2,  3,  3],
 改变数组的形状。
 
 ```python
->>> np.arange(6).reshape(2,3)
+>>> np.arange(6).reshape(2, 3)
 array([[0, 1, 2],
        [3, 4, 5]])
 ```
@@ -416,6 +502,18 @@ array([[0, 1, 2],
 ### sin(), cos(), tan(), arcsin(), arccos(), arctan(), sinh(), cosh(), tanh()
 
 对数组的每个元素计算三角函数和双曲函数。
+
+### sqrt()
+
+对数组的每个元素计算平方根。
+
+```python
+>>> a = np.arange(3)
+>>> a
+array([0, 1, 2])
+>>> np.sqrt(a)
+array([0.        , 1.        , 1.41421356])
+```
 
 ### stack()
 
@@ -435,6 +533,16 @@ array([[0, 1, 2],
 (3, 10, 4)
 >>> np.stack(arrays, axis=2).shape
 (3, 4, 10)
+```
+
+### sum()
+
+对数组的所有元素求和。
+
+```python
+>>> a = np.arange(6).reshape(2, 3)
+>>> a.sum()
+15
 ```
 
 ### swapaxes()
@@ -501,6 +609,9 @@ array([[0., 0.],
 >>> np.zeros((2, 2), dtype=int)
 array([[0, 0],
        [0, 0]])
+>>> np.zeros((2, 2), dtype=np.int8)
+array([[0, 0],
+       [0, 0]], dtype=int8)
 ```
 
 ## numpy.ndarray
@@ -670,4 +781,3 @@ array([[1., 0., 0., 0., 2.],
        [ 0.        ,  0.        ,  0.        ,  1.        ,  0.        ],
        [-0.89442719,  0.        ,  0.        ,  0.        ,  0.4472136 ]]))
 ```
-

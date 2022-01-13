@@ -1,4 +1,4 @@
-
+[toc]
 
 # 序列类型——list, tuple, range
 
@@ -528,19 +528,126 @@ dict_items([('Michael', 95), ('Tracy', 85), ('Adam', 67)])
 
 ## 方法
 
-```python
->>> d = {'a':1, 'b':2, 'c':3}
+### clear()
 
-# get() 判定键是否存在,若存在则返回相应的值,不存在则返回指定值
->>> d.get('b', -1)
+移除字典中的所有元素。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> d.clear()
+>>> d
+{}
+```
+
+### copy()
+
+返回字典的一个浅拷贝。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': {'c1': 3, 'c2': 4}}
+>>> e = d.copy()
+>>> d['a'] = 0
+>>> d['c']['c3'] = 5
+>>> e
+{'a': 1, 'b': 2, 'c': {'c1': 3, 'c2': 4, 'c3': 5}}
+```
+
+### get()
+
+若键存在，则返回键对应的值，否则返回默认值。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> d.get('b', 'not found')
 2
 >>> d.get('d', 'not found')
 'not found'
+```
 
-# update() 使用其它字典来更新字典
->>> d.update({'c':4, 'd':8})
+### items()
+
+返回由字典项（即键值对）组成的一个新视图。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> for k, v in d.items():
+...   print(k, v)
+... 
+a 1
+b 2
+c 3
+```
+
+### keys()
+
+返回由字典键组成的一个新视图。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> for k in d.keys():    # 相当于`for k in d:`
+...   print(k)
+... 
+a
+b
+c
+```
+
+### pop()
+
+若键存在，则返回键对应的值并移除这一键值对，否则返回默认值。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> d.pop('b', 'not found')
+2
+>>> d.pop('b', 'not found')
+'not found'
+```
+
+### popitem()
+
+按照后进先出的顺序移除并返回一个键值对。
+
+```python
+>>> d = {}
+>>> d['a'] = 1
+>>> d['b'] = 2
+>>> d['c'] = 3
+>>> d.popitem()
+('c', 3)
+>>> d.popitem()
+('b', 2)
+>>> d.popitem()
+('a', 1)
+>>> d.popitem()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'popitem(): dictionary is empty'
+```
+
+### update()
+
+使用另一个字典的键值对来更新字典，会覆盖已有的键值对。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> d.update({'c': 4, 'd': 8})
 >>> d
 {'a': 1, 'b': 2, 'c': 4, 'd': 8}
+```
+
+### values()
+
+返回由字典值组成的一个新视图。
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> for v in d.values():
+...   print(v)
+... 
+1
+2
+3
 ```
 
 ## 迭代
@@ -802,14 +909,14 @@ Counter({'a': 2})
 
 ## defaultdict
 
-`defaultdict` 是 `dict` 的子类，其实例包含一个名为 `default_factory` 的属性，由构造时的第一个参数传入。当 `default_factory` 不为 `None` 时，它会被不带参数地调用来为新增加的键提供一个默认值。
+`defaultdict` 是 `dict` 的子类，其实例包含一个名为 `default_factory` 的属性，由构造时的第一个参数传入。当 `default_factory` 不为 `None` 时，它会被不带参数地**调用**来为新增加的键提供一个默认值。
 
 其余方法同 `dict`。
 
 ```python
 >>> from collections import defaultdict
 >>> dd = defaultdict(list)
->>> dd['a'].append(1)           # 键'a'本不存在于字典里,但在第一次调用时初始化为默认值`list()`
+>>> dd['a'].append(1)      # 键'a'本不存在于字典里,但在第一次调用时初始化为默认值`list()`
 >>> dd
 defaultdict(<class 'list'>, {'a': [1]})
 >>> dd['b']
@@ -1028,6 +1135,28 @@ def roundrobin(*iterables):
         except StopIteration:
             # Remove an exhausted iterator.
             iterators.popleft()
+```
+
+## OrderedDict
+
+有序字典就像常规字典一样，除了包含一些与排序操作相关的额外功能。由于内置的 `dict` 类获得了记住插入顺序的能力（在 Python 3.7 中保证了这种新行为），有序字典变得不那么重要了。
+
+有序字典与常规字典的不同之处在于：
+
+* 常规的 `dict` 被设计为擅长映射操作，跟踪插入顺序是次要的；`OrderedDict` 被设计为擅长重新排序操作，空间效率、迭代速度和更新操作的性能是次要的。
+* 算法上，`OrderedDict` 可以比 `dict` 更好地处理频繁的重新排序操作。这使其适用于跟踪最近的访问（例如在 LRU cache 中）。
+* 对于 `OrderedDict`，相等操作检查匹配顺序。
+* `OrderedDict` 类的 `popitem()` 方法有不同的签名。它接受一个可选参数来指定弹出哪个元素。
+* `OrderedDict` 类有一个 `move_to_end()` 方法，可以有效地将元素移动到任一端。
+* Python 3.8 之前， `dict` 缺少 `__reversed__()` 方法。
+
+`OrderedDict` 是 `dict` 的子类，其余方法同 `dict`。
+
+```python
+>>> from collections import OrderedDict
+>>> od = OrderedDict()
+>>> od[]
+
 ```
 
 # 自定义容器数据类型

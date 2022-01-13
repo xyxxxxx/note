@@ -3399,6 +3399,10 @@ shutil.rmtree(path, ignore_errors=False, onerror=None)
 # ignore_errors  若为`True`,则删除失败导致的错误将被忽略
 ```
 
+## signal——设置异步事件处理程序
+
+`signal` 模块提供了在 Python 中使用信号处理程序的机制。
+
 ## socket——底层网络接口
 
 ## subprocess——子进程管理

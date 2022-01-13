@@ -331,9 +331,10 @@ requests.request(method, url, **kwargs)
 # json      随请求体发送的json数据
 # headers   设定请求头的字典
 # cookies   设定cookies的字典或CookieJar对象
-# files     形如`{'name': file-like-objects}`或`{'name': file-tuple}`的字典
-#           其中`file-tuple`可以是二元组`{'filename', fileobj}`,三元组`{'filename', fileobj, 'content-type'}`
-#           或四元组`{'filename', fileobj, 'content-type', custom_headers}`
+# files     形如`{'name': file-like-objects}`或`{'name': file-tuple}`的字典,用于上传
+#           多部分编码的文件.其中`file-tuple`可以是二元组`('filename', fileobj)`,三元组
+#           `('filename', fileobj, 'content-type')`或四元组`('filename', fileobj, 
+#           'content-type', custom_headers)`
 # auth      用于HTTP认证的元组
 # timeout   超时时间(s)
 # allow_redirects 若为`True`则启用重定向

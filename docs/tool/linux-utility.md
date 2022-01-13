@@ -147,6 +147,9 @@ $ curl --limit-rate 200k https://www.google.com    # 限速200kB/s
 ```bash
 $ curl -o example.html https://www.example.com     # 保存到`example.html`文件中
 $ curl -O https://www.example.com/foo/bar.html     # 保存到`bar.html`文件中
+
+$ curl -O http://www.example.com/foo/bar_[0-23].gz   # 批量下载`bar_0.gz`到`bar_23.gz`
+$ curl
 ```
 
 ### -T
