@@ -1,14 +1,70 @@
+[toc]
 
 # torch.optim
 
 `torch.optim` 包实现了多种优化算法。最常用的优化方法已经得到支持，并且接口足够泛用，使得更加复杂的方法在未来也能够容易地集成进去。
+
+## 如何使用优化器
+
+要使用 `torch.optim` 包，你必须先构造一个优化器对象，其保存了当前状态并基于计算的梯度来更新参数。
+
+### 构造
+
+要构造一个优化器对象，你必须传入一个包含了要优化的参数的可迭代对象。然后你可以指定优化器特定的选项，例如学习率、权重衰减等。
+
+!!! note "注意"
+
+    如果你需要通过 `.cuda()` 将一个模型移动到 GPU 中，请在为其构建优化器之前完成此操作。在调用 `.cuda()` 之后，模型的参数将会是另一组不同的对象。
+
+    总的来说，你应该保证在构建和使用优化器的过程中，优化的参数存在于固定的位置。
+
+示例：
+
+```python
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+optimizer = optim.Adam([var1, var2], lr=0.0001)
+```
+
+### 分组指定选项
+
+优化器也支持为多组参数分别指定选项。要分组指定选项，传入一个包含多个字典而非参数的可迭代对象。其中每一个字典定义了一个单独的参数组，应包含一个 `params` 键，对应一组参数，其余的键应匹配优化器接受的关键字参数，并将用作这一组参数的选项。
+
+此时你依然可以为优化器传入关键字参数作为选项，它们将作为默认选项，用于那些没有重载相应选项的组。当你只想对于不同的组改变某一个选项，而保持其他选项相同时，这会十分有用。
+
+示例：
+
+```python
+optim.SGD([{'params': model.base.parameters()},
+           {'params': model.classifier.parameters(), 'lr': 1e-3}], 
+           lr=1e-2, momentum=0.9)
+```
+
+在该示例中，`model.classifier` 的参数将使用学习率 `1e-3`，`model.base` 的参数将使用默认的学习率 `1e-2`，所有的参数将使用默认动量系数 `0.9`。
+
+### 进行一步优化
+
+所有的优化器都实现了一个 `step()` 方法，其基于计算的梯度值更新参数。
+
+示例：
+
+```python
+for input, target in dataset:
+    optimizer.zero_grad()
+    output = model(input)
+    loss = loss_fn(output, target)
+    loss.backward()
+    optimizer.step()
+```
 
 ## Adam
 
 实现 Adam 算法。
 
 ```python
-torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
+class torch.optim.Adam(
+    params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, 
+    amsgrad=False
+)
 # params        要优化的参数的可迭代对象,或定义了参数组的字典
 # lr            学习率
 # betas         用于计算梯度的移动平均和其平方的系数
@@ -23,10 +79,10 @@ torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0
 
 ### add_param_group()
 
-向优化器的 `param_groups` 添加一个参数组。
+向优化器的 `param_groups` 添加一个参数组。这在精调一个预训练网络时十分有用。
 
 ```python
-
+optimizer.add_param_group({'params': model.layer.parameters(), 'lr': 1e-3})
 ```
 
 ### load_state_dict()
@@ -50,16 +106,27 @@ tensor([-4.])
 >>> b.grad
 tensor([-2.])
 >>> optimizer = torch.optim.SGD([
-        {'params': w},
-        {'params': b, 'lr':1e-3},
-    ], lr=1e-2)
+    {'params': w},
+    {'params': b, 'lr': 1e-3},
+], lr=1e-2)
 >>> optimizer.step()
 >>> w
 tensor([1.0400], requires_grad=True)
 >>> b
 tensor([1.0020], requires_grad=True)
->>> optimizer.param_groups      # 两组参数
-[{'params': [tensor([1.0400], requires_grad=True)], 'lr': 0.01, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}, {'params': [tensor([1.0020], requires_grad=True)], 'lr': 0.001, 'momentum': 0, 'dampening': 0, 'weight_decay': 0, 'nesterov': False}]
+>>> pprint(optimizer.param_groups)    # 两个参数组
+[{'dampening': 0,
+  'lr': 0.01,
+  'momentum': 0,
+  'nesterov': False,
+  'params': [tensor([1.0400], requires_grad=True)],
+  'weight_decay': 0},
+ {'dampening': 0,
+  'lr': 0.001,
+  'momentum': 0,
+  'nesterov': False,
+  'params': [tensor([1.0020], requires_grad=True)],
+  'weight_decay': 0}]
 ```
 
 ### state_dict()
@@ -82,7 +149,10 @@ tensor([1.0020], requires_grad=True)
 实现随机梯度下降算法。
 
 ```python
-class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
+class torch.optim.SGD(
+    params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, 
+    nesterov=False
+)
 # params        要优化的参数的可迭代对象,或定义了参数组的字典
 # lr            学习率
 # momentum      动量系数
@@ -101,6 +171,27 @@ class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, 
 ## lr_scheduler
 
 学习率规划器。
+
+### 如何调整学习率
+
+`torch.optim.lr_scheduler` 提供了多种基于回合数调整学习率的规划器。`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于一些验证指标来动态地降低学习率。
+
+学习率的更新应在每个回合结束时、优化器完成参数更新之后应用，例如：
+
+```python
+model = [Parameter(torch.randn(2, 2, requires_grad=True))]
+optimizer = SGD(model, 0.1)
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+
+for epoch in range(20):
+    for input, target in dataset:
+        optimizer.zero_grad()
+        output = model(input)
+        loss = loss_fn(output, target)
+        loss.backward()
+        optimizer.step()
+    scheduler.step()
+```
 
 ### _LRScheduler
 
@@ -126,6 +217,61 @@ class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, 
 
 更新学习率，具体操作取决于规划器的实现以及当前回合数。
 
+### ChainedScheduler
+
+```python
+class torch.optim.lr_scheduler.ChainedScheduler(schedulers)
+# schedulers  组合调用的规划器列表
+```
+
+将多个规划器组合为一个规划器，调用其 `step()` 方法相当于顺序调用其成员的 `step()` 方法。
+
+```python
+# Assuming optimizer uses lr = 1. for all groups
+# lr = 0.09     if epoch == 0
+# lr = 0.081    if epoch == 1
+# lr = 0.729    if epoch == 2
+# lr = 0.6561   if epoch == 3
+# lr = 0.59049  if epoch >= 4
+>>> scheduler1 = ConstantLR(self.opt, factor=0.1, total_iters=2)
+>>> scheduler2 = ExponentialLR(self.opt, gamma=0.9)
+>>> scheduler = ChainedScheduler([scheduler1, scheduler2])
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+### ConstantLR
+
+```python
+class torch.optim.lr_scheduler.ConstantLR(
+    optimizer, factor=0.3333333333333333, total_iters=5, last_epoch=-1, 
+    verbose=False
+)
+# optimzer     包装的优化器
+# factor       到达里程碑之前的学习率折减乘数
+# total_iters  学习率折减的回合数
+# last_epoch   最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose      若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+前 `total_iters` 回合的学习率使用固定乘数进行折减。注意此折减可以与其它规划器引起的学习率变化同时发生。
+
+```python
+# Assuming optimizer uses lr = 0.05 for all groups
+# lr = 0.025   if epoch == 0
+# lr = 0.025   if epoch == 1
+# lr = 0.025   if epoch == 2
+# lr = 0.025   if epoch == 3
+# lr = 0.05    if epoch >= 4
+>>> scheduler = ConstantLR(optimizer, factor=0.5, total_iters=4)
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
 ### CosineAnnealingLR
 
 使用余弦退火算法设定学习率，……
@@ -139,7 +285,12 @@ class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, 
 循环学习率策略在每个批次结束时都要改变学习率，因此 `step()` 应在每个批次训练完毕后调用。
 
 ```python
-class torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr, max_lr, step_size_up=2000, step_size_down=None, mode='triangular', gamma=1.0, scale_fn=None, scale_mode='cycle', cycle_momentum=True, base_momentum=0.8, max_momentum=0.9, last_epoch=-1, verbose=False)
+class torch.optim.lr_scheduler.CyclicLR(
+    optimizer, base_lr, max_lr, step_size_up=2000, step_size_down=None, 
+    mode='triangular', gamma=1.0, scale_fn=None, scale_mode='cycle', 
+    cycle_momentum=True, base_momentum=0.8, max_momentum=0.9, last_epoch=-1, 
+    verbose=False
+)
 # optimzer    包装的优化器
 # base_lr     初始学习率,同时是学习率的下界
 # max_lr      学习率的上界
@@ -148,8 +299,10 @@ class torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr, max_lr, step_size_up
 # mode        `'triangular'`,`'triangular2'`或`'exp_range'`,对应的三种模式见论文
 #             https://arxiv.org/pdf/1506.01186.pdf
 # gamma       `'exp_range'`模式下的学习率上下界的衰减乘数
-# scale_fn    自定义缩放策略,由接收单个参数的匿名函数定义.若指定了此参数,则`mode`参数将被忽略(到底缩放的是上界还是下界?)
-# scale_mode  若为`'cycle'`,则`scale_fn`接收的参数视为回合数;若为`'iterations'`,则`scale_fn`接收的参数视为批次数
+# scale_fn    自定义缩放策略,由接收单个参数的匿名函数定义.若指定了此参数,则`mode`参数将被忽略
+#             (到底缩放的是上界还是下界?)
+# scale_mode  若为`'cycle'`,则`scale_fn`接收的参数视为回合数;若为`'iterations'`,
+#             则`scale_fn`接收的参数视为批次数
 # cycle_momentum  若为`True`,则动量与学习率反相循环
 # base_momentum   动量的下界
 # max_momentum    动量的上界
@@ -160,7 +313,9 @@ class torch.optim.lr_scheduler.CyclicLR(optimizer, base_lr, max_lr, step_size_up
 ### ExponentialLR
 
 ```python
-class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1, verbose=False)
+class torch.optim.lr_scheduler.ExponentialLR(
+    optimizer, gamma, last_epoch=-1, verbose=False
+)
 # optimzer    包装的优化器
 # gamma       学习率衰减乘数
 # last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
@@ -171,20 +326,54 @@ class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1, ve
 
 ### LambdaLR
 
-每回合学习率设定为原来的自定义函数返回值的倍数。
-
 ```python
-class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1, verbose=False)
+class torch.optim.lr_scheduler.LambdaLR(
+    optimizer, lr_lambda, last_epoch=-1, verbose=False
+)
 # optimzer    包装的优化器
 # lr_lambda   接收一个整数参数(回合数)并返回一个乘数的自定义函数,或为每组参数分别指定的自定义函数列表
 # last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
 # verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
 ```
 
+每回合学习率设定为原来的自定义函数返回值的倍数。
+
 ```python
 >>> lambda1 = lambda epoch: epoch // 30
 >>> lambda2 = lambda epoch: 0.95 ** epoch
->>> scheduler = LambdaLR(optimizer, lr_lambda=[lambda1, lambda2])  # 此优化器有两组参数,两个函数分别对应一组
+>>> scheduler = LambdaLR(optimizer, lr_lambda=[lambda1, lambda2])
+                # 此优化器有两组参数,两个函数分别对应一组
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+### LinearLR
+
+```python
+class torch.optim.lr_scheduler.LinearLR(
+    optimizer, start_factor=0.3333333333333333, end_factor=1.0, total_iters=5, 
+    last_epoch=- 1, verbose=False
+)
+# optimzer      包装的优化器
+# start_factor  第一个回合的学习率折减乘数,该乘数会在接下来的回合中向着`end_factor`线性变化
+# end_factor    最终的学习率折减乘数
+# total_iters   学习率折减的回合数
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+前 `total_iters` 回合的学习率使用线性变化的乘数进行折减。注意此折减可以与其它规划器引起的学习率变化同时发生。
+
+```python
+# Assuming optimizer uses lr = 0.1 for all groups
+# lr = 0.05     if epoch == 0
+# lr = 0.0625   if epoch == 1
+# lr = 0.075    if epoch == 2
+# lr = 0.0875   if epoch == 3
+# lr = 0.1      if epoch >= 4
+>>> scheduler = LinearLR(self.opt, start_factor=0.5, total_iters=4)
 >>> for epoch in range(100):
     train(...)
     validate(...)
@@ -193,20 +382,50 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1, ver
 
 ### MultiplicativeLR
 
-每回合学习率设定为原来的自定义函数返回值的倍数。
-
 ```python
-class torch.optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda, last_epoch=-1, verbose=False)
+class torch.optim.lr_scheduler.MultiplicativeLR(
+    optimizer, lr_lambda, last_epoch=-1, verbose=False
+)
 # optimzer    包装的优化器
 # lr_lambda   接收一个整数参数(回合数)并返回一个乘数的自定义函数,或为每组参数分别指定的自定义函数列表
 # last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
 # verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
 ```
 
+每回合学习率设定为原来的自定义函数返回值的倍数。
+
 ```python
 >>> lambda1 = lambda epoch: epoch // 30
 >>> lambda2 = lambda epoch: 0.95 ** epoch
->>> scheduler = MultiplicativeLR(optimizer, lr_lambda=[lambda1, lambda2])  # 此优化器有两组参数,两个函数分别对应一组
+>>> scheduler = MultiplicativeLR(optimizer, lr_lambda=[lambda1, lambda2])  
+                # 此优化器有两组参数,两个函数分别对应一组
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
+### MultiStepLR
+
+```python
+class torch.optim.lr_scheduler.MultiStepLR(
+    optimizer, milestones, gamma=0.1, last_epoch=-1, verbose=False
+)
+# optimzer    包装的优化器
+# milestones  作为里程碑的回合索引列表,必须是递增的
+# gamma       学习率衰减乘数
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+每当回合数到达里程碑之一时学习率衰减为原来的 `gamma` 倍。注意此衰减可以与其它规划器引起的学习率变化同时发生。
+
+```python
+# Assuming optimizer uses lr = 0.05 for all groups
+# lr = 0.05     if epoch < 30
+# lr = 0.005    if 30 <= epoch < 80
+# lr = 0.0005   if epoch >= 80
+>>> scheduler = MultiStepLR(optimizer, milestones=[30, 80], gamma=0.1)
 >>> for epoch in range(100):
     train(...)
     validate(...)
@@ -215,10 +434,43 @@ class torch.optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda, last_epoch
 
 ### OneCycleLR
 
+### SequentialLR
+
+```python
+class torch.optim.lr_scheduler.SequentialLR(
+    optimizer, schedulers, milestones, last_epoch=-1, verbose=False
+)
+# optimzer    包装的优化器
+# schedulers  顺序调用的规划器列表
+# milestones  作为里程碑的回合索引列表,必须是递增的
+# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
+# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
+```
+
+顺序调用多个规划器，每当回合数到达里程碑之一时切换为下一个规划器。
+
+```python
+# Assuming optimizer uses lr = 1. for all groups
+# lr = 0.1     if epoch == 0
+# lr = 0.1     if epoch == 1
+# lr = 0.9     if epoch == 2
+# lr = 0.81    if epoch == 3
+# lr = 0.729   if epoch == 4
+>>> scheduler1 = ConstantLR(optimizer, factor=0.1, total_iters=2)
+>>> scheduler2 = ExponentialLR(optimizer, gamma=0.9)
+>>> scheduler = SequentialLR(optimizer, schedulers=[scheduler1, scheduler2], milestones=[2])
+>>> for epoch in range(100):
+    train(...)
+    validate(...)
+    scheduler.step()
+```
+
 ### StepLR
 
 ```python
-class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoch=-1, verbose=False)
+class torch.optim.lr_scheduler.StepLR(
+    optimizer, step_size, gamma=0.1, last_epoch=-1, verbose=False
+)
 # optimzer    包装的优化器
 # step_size   学习率衰减周期
 # gamma       学习率衰减乘数
@@ -241,40 +493,18 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
     scheduler.step()
 ```
 
-### MultiStepLR
-
-```python
-class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, last_epoch=-1, verbose=False)
-# optimzer    包装的优化器
-# milestones  回合索引列表,必须是递增的
-# gamma       学习率衰减乘数
-# last_epoch  最后一个回合的索引.若为`-1`,则此参数没有作用
-# verbose     若为`True`,则每次更新学习率时向标准输出打印一条消息
-```
-
-每当回合数到达里程碑之一时学习率衰减为原来的 `gamma` 倍。注意此衰减可以与其它规划器引起的学习率变化同时发生。
-
-```python
-# Assuming optimizer uses lr = 0.05 for all groups
-# lr = 0.05     if epoch < 30
-# lr = 0.005    if 30 <= epoch < 80
-# lr = 0.0005   if epoch >= 80
->>> scheduler = MultiStepLR(optimizer, milestones=[30,80], gamma=0.1)
->>> for epoch in range(100):
-    train(...)
-    validate(...)
-    scheduler.step()
-```
-
 ### ReduceLROnPlateau
 
 当指标不再改善时降低学习率。每当学习停滞时，降低学习率为原来的二到十分之一一般都能够改善模型。此规划器读取一个指标的值，并在若干个回合内没有看到改善时降低学习率。
 
 ```python
-class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08, verbose=False)
+class torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, mode='min', factor=0.1, patience=10, threshold=0.0001, 
+    threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08, verbose=False
+)
 # optimzer    包装的优化器
 # mode        若为`min`,则在监视的量不再减小时降低学习率;若为`max`,则在监视的量不再增加时降低学习率
-# factor      学习率衰减的乘数
+# factor      学习率衰减乘数
 # patience    等待的没有改善的回合数.例如此参数为2,则会忽略前2次指标没有改善,而在第3次指标仍没有改善时降低学习率
 # threshold   可以被视作指标改善的阈值
 # threshold_mode  若为`rel`,则动态阈值为`best*(1+threshold)`(对于`mode=max`)或`best*(1-threshold)`(对于`mode=min`)

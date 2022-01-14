@@ -962,14 +962,55 @@ tensor([[[[ 1.7200, -0.7948],
 
 ELU 激活函数层。见 `torch.nn.functional.elu`。
 
+$$
+{\rm ELU}(x)=\max(0,x)+\min(0,\alpha(\exp(x)-1))
+$$
 
+```python
+class torch.nn.ELU(alpha=1.0, inplace=False)
+# alpha    α值
+# inplace  若为`True`,则进行原位操作
+```
+
+![](https://pytorch.org/docs/stable/_images/ELU.png)
+
+```python
+>>> elu = nn.ELU()
+>>> input = torch.randn(4)
+>>> input
+tensor([-1.0358, -0.9567, -0.9125,  0.7638])
+>>> elu(input)
+tensor([-0.6451, -0.6159, -0.5985,  0.7638])
+```
+
+### LeakyReLU
+
+Leaky ReLU 激活函数层。见 `torch.nn.functional.leaky_relu`。
+
+$$
+{\rm LeakyReLU}(x)=\max(0,x)+{\rm negative\_slope*\min(0,x)}
+$$
+
+![](https://pytorch.org/docs/stable/_images/LeakyReLU.png)
+
+```python
+>>> lrelu = nn.LeakyReLU()
+>>> input = torch.randn(4)
+>>> input
+tensor([-1.4089, -1.1398,  1.3921, -0.5492])
+>>> lrelu(input)
+tensor([-0.0141, -0.0114,  1.3921, -0.0055])
+```
 
 ### ReLU
 
 ReLU 激活函数层。见 `torch.nn.functional.relu`。
+
 $$
 {\rm ReLU}(x)=\max(0,x)
 $$
+
+![](https://pytorch.org/docs/stable/_images/ReLU.png)
 
 ```python
 >>> relu = nn.ReLU()
@@ -983,9 +1024,12 @@ tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ### Sigmoid
 
 Logistic 激活函数层。见 `torch.sigmoid`、`torch.special.expit`。
+
 $$
-\sigma(x)=\frac{1}{1+e^{-x}}
+\sigma(x)=\frac{1}{1+\exp(-x)}
 $$
+
+![](https://pytorch.org/docs/stable/_images/Sigmoid.png)
 
 ```python
 >>> logistic = nn.Sigmoid()
@@ -999,6 +1043,7 @@ tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ### Softmax, LogSoftmax
 
 Softmax 层。`torch.nn.LogSoftmax` 相当于在 Softmax 层的基础上再对所有元素求（自然）对数。
+
 $$
 {\rm Softmax}(x_i)=\frac{\exp(x_i)}{\sum_j\exp(x_j)}\\
 {\rm LogSoftmax}(x_i)=\ln \frac{\exp(x_i)}{\sum_j\exp(x_j)}
@@ -1016,6 +1061,25 @@ tensor([0.0321, 0.0871, 0.2369, 0.6439])
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
 >>> sm(input).log()
 tensor([-3.4402, -2.4402, -1.4402, -0.4402])
+```
+
+### Tanh
+
+tanh 激活函数层。见 `torch.tanh`。
+
+$$
+\tanh(x)=\frac{\exp(x)-\exp(-x)}{\exp(x)+\exp(-x)}
+$$
+
+![](https://pytorch.org/docs/stable/_images/Tanh.png)
+
+```python
+>>> tanh = nn.Tanh()
+>>> input = torch.randn(4)
+>>> input
+tensor([ 1.1921, -1.0885,  0.2970,  0.3345])
+>>> tanh(input)
+tensor([ 0.8312, -0.7963,  0.2886,  0.3225])
 ```
 
 ## 损失函数

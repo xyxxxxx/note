@@ -101,6 +101,7 @@ tensor([[[[3.4444, 4.8889, 4.5000],
 ### elu()
 
 ELU 激活函数。
+
 $$
 {\rm ELU}(x)=\max(0,x)+\min(0,\alpha(e^x-1))
 $$
@@ -122,6 +123,7 @@ tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
 ### leaky_relu()
 
 Leaky ReLU 激活函数。
+
 $$
 {\rm LeakyReLU}(x)=\max(0,x)+{\rm negative\_slope*\min(0,x)}
 $$
@@ -192,6 +194,10 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
 
 tanh 激活函数。
 
+!!! warning "警告"
+
+    `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
+
 ```python
 >>> input = torch.randn(4)
 >>> input
@@ -199,8 +205,6 @@ tensor([ 0.7553,  1.6975, -0.0451,  0.3348])
 >>> F.tanh(input)
 tensor([ 0.6383,  0.9351, -0.0451,  0.3228])
 ```
-
-> `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
 
 ## 稀疏函数
 
