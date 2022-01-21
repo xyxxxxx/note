@@ -216,11 +216,16 @@ True
 >>> a = torch.tensor(1., requires_grad=True)
 >>> b = torch.tensor(2., requires_grad=True)
 >>> c = a**2 + b
->>> c.grad_fn
-<AddBackward0 object at 0x10a928310>
 >>> d = c.detach()
->>> d.grad_fn
-# None
+>>> e = c.detach().clone()
+>>> c += 1
+>>> c
+tensor(4., grad_fn=<AddBackward0>)
+>>> d
+tensor(4.)       # 在计算图之外,共享内存
+>>> e
+tensor(3.)       # 在计算图之外,不共享内存
+>>> 
 ```
 
 #### device
@@ -428,6 +433,18 @@ tensor([ 0.7129, -1.6347,  0.4912, -2.3418])
 array([ 0.7128906 , -1.6347297 ,  0.49121562, -2.3418238 ], dtype=float32)
 ```
 
+#### random_()
+
+填充张量，其中每个元素服从给定区间内的离散均匀分布。
+
+```python
+>>> a = torch.zeros(3, 3)
+>>> a.random_(0, 10)
+tensor([[2., 1., 0.],
+        [4., 4., 5.],
+        [9., 9., 3.]])
+```
+
 #### repeat()
 
 将张量在某些维度上重复。
@@ -487,6 +504,67 @@ tensor([-0.1482, -0.2680,  1.4278,  1.7212])
 >>> l.backward()
 >>> z.grad
 tensor([-2.])    # 保留了对此张量的梯度值
+```
+
+#### scatter()
+
+`scatter_()` 的非原位版本。
+
+#### scatter_()
+
+```python
+Tensor.scatter_(dim, index, src, reduce=None) -> Tensor
+```
+
+将张量 `src` 的所有值写入到张量 `self` 中由 `dim` 和张量 `index` 指定的索引位置。
+
+例如，对于二维张量，`self` 被更新为：
+
+```python
+self[index[i][j]][j] = src[i][j]  # if dim == 0
+self[i][index[i][j]] = src[i][j]  # if dim == 1
+```
+
+对于三维张量，`self` 被更新为：
+
+```python
+self[index[i][j][k]][j][k] = src[i][j][k]  # if dim == 0
+self[i][index[i][j][k]][k] = src[i][j][k]  # if dim == 1
+self[i][j][index[i][j][k]] = src[i][j][k]  # if dim == 2
+```
+
+```python
+>>> src = torch.arange(1, 11).reshape((2, 5))
+>>> src
+tensor([[ 1,  2,  3,  4,  5],
+        [ 6,  7,  8,  9, 10]])
+>>> index = torch.tensor([[0, 1, 2, 0]])
+>>> torch.zeros(3, 5, dtype=src.dtype).scatter_(0, index, src)
+tensor([[1, 0, 0, 4, 0],
+        [0, 2, 0, 0, 0],
+        [0, 0, 3, 0, 0]])
+>>> index = torch.tensor([[0, 1, 2], [0, 1, 4]])
+>>> torch.zeros(3, 5, dtype=src.dtype).scatter_(1, index, src)
+tensor([[1, 2, 3, 0, 0],
+        [6, 7, 0, 0, 8],
+        [0, 0, 0, 0, 0]])
+```
+
+```python
+>>> batch_size = 4
+>>> num_classes = 10
+>>> indices = torch.LongTensor(batch_size).random_(0, num_classes).view(batch_size, 1)
+>>> indices
+tensor([[1],
+        [6],
+        [2],
+        [9]])
+>>> labels = torch.zeros(batch_size, num_classes).scatter_(1, indices, 1)
+>>> labels
+tensor([[0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+        [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]])
 ```
 
 #### select()
@@ -923,7 +1001,9 @@ tensor([[0, 0, 0],
 
 ## 张量操作
 
-> 下列张量操作函数中的大部分都是 `torch.Tensor` 方法，即张量可以调用下列函数的同名方法，相当于将张量自身作为函数的第一个张量参数。
+!!! tip "提示"
+    
+    下列张量操作函数中的大部分都是 `torch.Tensor` 方法，即张量可以调用下列函数的同名方法，相当于将张量自身作为函数的第一个张量参数。
 
 ### cat()
 
@@ -1230,6 +1310,10 @@ tensor([[[2, 3],
         [[0, 1],
          [4, 5]]])
 ```
+
+### scatter()
+
+`torch.Tensor.scatter_()` 的非原位版本。
 
 ### split()
 
@@ -2679,13 +2763,17 @@ tensor([[0., 0., 0.],
         [1., 0., 0.]])
 ```
 
+### get_rng_state()
+
+返回随机数生成器的状态为一个 `torch.ByteTensor` 实例。
+
 ### initial_seed()
 
 返回生成随机数的初始种子。
 
 ### manual_seed()
 
-设置产生随机数的种子。
+设置生成随机数的种子。
 
 ```python
 >>> torch.manual_seed(1)
@@ -2791,7 +2879,24 @@ tensor([1, 6, 9, 0, 3, 2, 4, 5, 7, 8])
 
 ### seed()
 
-设置产生随机数的种子为一个不确定的随机数。
+设置生成随机数的种子为一个不确定的随机数。
+
+### set_rng_state()
+
+设置随机数生成器的状态。
+
+```python
+>>> state = torch.get_rng_state()
+>>> torch.rand(4)
+tensor([0.0290, 0.4019, 0.2598, 0.3666])
+>>> torch.rand(4)
+tensor([0.0583, 0.7006, 0.0518, 0.4681])
+>>> torch.set_rng_state(state)
+>>> torch.rand(4)
+tensor([0.0290, 0.4019, 0.2598, 0.3666])
+>>> torch.rand(4)
+tensor([0.0583, 0.7006, 0.0518, 0.4681])
+```
 
 ## 禁用梯度计算
 

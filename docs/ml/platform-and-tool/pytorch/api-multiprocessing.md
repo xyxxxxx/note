@@ -78,11 +78,12 @@
 下面的 `spawn` 函数解决了上述问题，其支持误差传播、任意顺序终止，并且当检测到错误时可以动态地终止进程。
 
 ```python
-torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False, start_method='spawn')
-# fn        启动进程的作为进入点的调用函数,此函数必须定义在模块的顶级作用域以能够被序列化和启动,
-#           这也是`multiprocessing`规定的必要条件
-# args      传递给`fn`的参数列表.注意`fn`的第一个参数应为`rank`,由`spawn()`自动传入,此参数传递的参数列表对应
-#           `fn`的第二个及以后的所有参数
+torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False, 
+start_method='spawn')
+# fn        启动进程的作为进入点的调用函数,此函数必须定义在模块的顶级作用域以能够
+#           被序列化和启动,这也是`multiprocessing`规定的必要条件
+# args      传递给`fn`的参数列表.注意`fn`的第一个参数应为`rank`,由`spawn()`自动传入,
+#           此参数传递的参数列表对应`fn`的第二个及以后的所有参数
 # nprocs    启动的进程数
 # join      join所有进程并阻塞
 # daemon    启动进程的守护进程标识.若为`True`,则将创建守护进程

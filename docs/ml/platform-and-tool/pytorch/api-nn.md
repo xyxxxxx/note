@@ -773,7 +773,7 @@ _weight=None, device=None, dtype=None)
 
 ```python
 >>> embedding = nn.Embedding(10, 3)   # 词汇表规模 = 10, 嵌入维数 = 3, 共30个参数
-                                      # 注意10表示词汇表规模,输入为0~9的整数而非10维向量
+                                      # 注意10表示词汇表规模,输入为0-9之间的整数而非10维向量
 >>> input = torch.LongTensor([[1, 2, 4, 5], [4, 3, 2, 9]])
 >>> embedding(input)
 tensor([[[-0.0251, -1.6902,  0.7172],
@@ -1198,10 +1198,12 @@ tensor(0.4197)
 ### MSELoss
 
 均方差损失函数层。
+
 $$
 l_n=(y_n-t_n)^2\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
+
 其中 $N$ 为批次规模。
 
 ```python
@@ -1275,10 +1277,12 @@ tensor(0.4012)         # 0.4012 = (0.4736 + 0.3287) / 2
 ### L1Loss
 
 平均绝对误差损失函数层。
+
 $$
 l_n=|y_n-t_n|\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
+
 其中 $N$ 为批次规模。
 
 支持实数值和复数值输入。

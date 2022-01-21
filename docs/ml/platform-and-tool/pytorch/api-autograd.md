@@ -49,7 +49,7 @@ torch.autograd.grad(outputs: Union[torch.Tensor, Sequence[torch.Tensor]], inputs
 
 禁用梯度计算的上下文管理器。也可用作装饰器。
 
-在此模式下，所有运算的结果都有 `requires_grad = False`，即使参与运算的张量有 `requires_grad = True`。对于模型推断等确定不会调用 `Tensor.backward()` 的情形，禁用梯度计算可以降低 `requires_grad=True` 变量参与的运算的内存消耗。
+在此模式下，所有运算的结果都有 `requires_grad = False`，即使参与运算的张量有 `requires_grad = True`。对于模型推断等确定不会调用 `Tensor.backward()` 的情形，禁用梯度计算可以降低 `requires_grad = True` 变量参与的运算的内存消耗。
 
 此上下文管理器是线程局部的，它不会影响到其它线程的计算。
 
@@ -147,6 +147,8 @@ False
 ### is_inference_mode_enabled()
 
 若当前启用了推断模式，返回 `True`。
+
+## 默认梯度布局
 
 ## 张量的原位操作
 

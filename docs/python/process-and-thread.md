@@ -1,5 +1,3 @@
-
-
 # fork
 
 Python的`os`模块封装了常见的系统调用，其中就包括`fork`：
@@ -442,7 +440,7 @@ thread MainThread ended.
 
 > 参考：
 >
-> [Python的GIL是什么鬼，多线程性能究竟如何](http://cenalulu.github.io/python/gil-in-python/)
+> [Python 的 GIL 是什么鬼，多线程性能究竟如何](http://cenalulu.github.io/python/gil-in-python/)
 
 当多个线程都要修改共享的变量时，可以创建一个`Lock`对象，使每次只能有一个线程进行修改。来看下面的例子：
 

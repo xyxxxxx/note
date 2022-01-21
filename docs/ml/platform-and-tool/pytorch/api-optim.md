@@ -4,58 +4,6 @@
 
 `torch.optim` 包实现了多种优化算法。最常用的优化方法已经得到支持，并且接口足够泛用，使得更加复杂的方法在未来也能够容易地集成进去。
 
-## 如何使用优化器
-
-要使用 `torch.optim` 包，你必须先构造一个优化器对象，其保存了当前状态并基于计算的梯度来更新参数。
-
-### 构造
-
-要构造一个优化器对象，你必须传入一个包含了要优化的参数的可迭代对象。然后你可以指定优化器特定的选项，例如学习率、权重衰减等。
-
-!!! note "注意"
-
-    如果你需要通过 `.cuda()` 将一个模型移动到 GPU 中，请在为其构建优化器之前完成此操作。在调用 `.cuda()` 之后，模型的参数将会是另一组不同的对象。
-
-    总的来说，你应该保证在构建和使用优化器的过程中，优化的参数存在于固定的位置。
-
-示例：
-
-```python
-optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-optimizer = optim.Adam([var1, var2], lr=0.0001)
-```
-
-### 分组指定选项
-
-优化器也支持为多组参数分别指定选项。要分组指定选项，传入一个包含多个字典而非参数的可迭代对象。其中每一个字典定义了一个单独的参数组，应包含一个 `params` 键，对应一组参数，其余的键应匹配优化器接受的关键字参数，并将用作这一组参数的选项。
-
-此时你依然可以为优化器传入关键字参数作为选项，它们将作为默认选项，用于那些没有重载相应选项的组。当你只想对于不同的组改变某一个选项，而保持其他选项相同时，这会十分有用。
-
-示例：
-
-```python
-optim.SGD([{'params': model.base.parameters()},
-           {'params': model.classifier.parameters(), 'lr': 1e-3}], 
-           lr=1e-2, momentum=0.9)
-```
-
-在该示例中，`model.classifier` 的参数将使用学习率 `1e-3`，`model.base` 的参数将使用默认的学习率 `1e-2`，所有的参数将使用默认动量系数 `0.9`。
-
-### 进行一步优化
-
-所有的优化器都实现了一个 `step()` 方法，其基于计算的梯度值更新参数。
-
-示例：
-
-```python
-for input, target in dataset:
-    optimizer.zero_grad()
-    output = model(input)
-    loss = loss_fn(output, target)
-    loss.backward()
-    optimizer.step()
-```
-
 ## Adam
 
 实现 Adam 算法。
@@ -171,27 +119,6 @@ class torch.optim.SGD(
 ## lr_scheduler
 
 学习率规划器。
-
-### 如何调整学习率
-
-`torch.optim.lr_scheduler` 提供了多种基于回合数调整学习率的规划器。`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于一些验证指标来动态地降低学习率。
-
-学习率的更新应在每个回合结束时、优化器完成参数更新之后应用，例如：
-
-```python
-model = [Parameter(torch.randn(2, 2, requires_grad=True))]
-optimizer = SGD(model, 0.1)
-scheduler = ExponentialLR(optimizer, gamma=0.9)
-
-for epoch in range(20):
-    for input, target in dataset:
-        optimizer.zero_grad()
-        output = model(input)
-        loss = loss_fn(output, target)
-        loss.backward()
-        optimizer.step()
-    scheduler.step()
-```
 
 ### _LRScheduler
 

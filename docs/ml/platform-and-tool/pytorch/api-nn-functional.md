@@ -141,6 +141,7 @@ tensor([-0.0067,  0.3839,  0.7086, -0.0093])
 ### relu()
 
 ReLU 激活函数。见 `torch.nn.ReLU`。
+
 $$
 {\rm ReLU}(x)=\max(0,x)
 $$
@@ -254,6 +255,12 @@ torch.Size([3, 5])
 
 ### kl_div()
 
+### l1_loss()
+
+平均绝对误差损失函数。见 `torch.nn.L1Loss`。
+
 ### mse_loss()
+
+均方差损失函数。见 `torch.nn.MSELoss`。
 
 ### nll_loss()

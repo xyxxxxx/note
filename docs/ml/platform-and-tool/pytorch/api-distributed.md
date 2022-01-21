@@ -41,8 +41,6 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
                           rank=args.rank, world_size=4)
   ```
 
-  
-
 + **共享文件系统初始化**
 
   此方法需要指定一个对所有进程可见的共享文件系统，以及 `world_size`。URL 应以 `file://` 开头，并且包含一个到已经存在的目录下的不存在的文件的路径。
@@ -54,8 +52,6 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
   dist.init_process_group(backend, init_method='file:///mnt/nfs/sharedfile',
                           world_size=4, rank=args.rank)
   ```
-
-  
 
 + **环境变量初始化**
 
@@ -73,8 +69,6 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
   os.environ['MASTER_PORT'] = '29500'
   dist.init_process_group(backend, rank=args.rank, world_size=4)
   ```
-
-  
 
 ### is_available()
 
@@ -161,6 +155,21 @@ torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(0, 1800), bac
 # timeout     进程组执行操作的超时时间,默认为30min,对于gloo后端适用
 # backend     使用的后端,可以是`gloo`和`nccl`,取决于构建时的设置.默认与world使用相同的后端
 # pg_options  
+```
+
+```python
+def run(rank, size):
+    group = dist.new_group([0, 1])
+    tensor = torch.tensor([1.])
+    dist.all_reduce(tensor, op=dist.ReduceOp.SUM, group=group)
+    print('Rank ', rank, ' has data ', tensor)
+```
+
+```
+Rank  1  has data  tensor([2.])
+Rank  0  has data  tensor([2.])
+Rank  3  has data  tensor([1.])
+Rank  2  has data  tensor([1.])
 ```
 
 ## 点对点通信
@@ -446,7 +455,7 @@ def run(rank, size):
 ```
 
 ```
-
+RuntimeError: ProcessGroup does not support alltoall
 ```
 
 ### scatter()
@@ -506,11 +515,11 @@ torch.distributed.barrier(group=None, async_op=False, device_ids=None)
 初始化诸如本地 RPC 代理和分布式 autograd 的 RPC 原语，这会立刻使当前进程准备好发送和接收 RPC。
 
 ```python
-torch.distributed.rpc.init_rpc(name, backend=None, rank=- 1, world_size=None, rpc_backend_options=None)
-# name        此进程的全局唯一名称(例如`Master`,`ParameterServer2`,`Worker1`等)
+torch.distributed.rpc.init_rpc(name, backend=None, rank=-1, world_size=None, rpc_backend_options=None)
+# name        此进程的全局唯一名称(例如`Master`,`ps`,`Worker1`等)
 # backend     RPC后端实现的类型,默认为`Backend.TENSORPIPE`
 # rank        此进程的全局唯一rank
-# world_size  当前组的工作器数量
+# world_size  组内的工作器数量
 # rpc_backend_options
 ```
 
@@ -519,13 +528,13 @@ torch.distributed.rpc.init_rpc(name, backend=None, rank=- 1, world_size=None, rp
 ```python
 torch.distributed.rpc.rpc_sync(to, func, args=None, kwargs=None, timeout=-1.0)
 # to          目标工作器的名称/rank/`WorkerInfo`实例
-# func        函数,例如Python可调用对象,Python内置函数和被注解的TorchScript函数
+# func        函数,例如Python可调用对象、Python内置函数和被注解的TorchScript函数
 # args        传递给`func`的参数元组
 # kwargs      传递给`func`的关键字参数字典
-# timeout     此RPC调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
+# timeout     此远程调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
 ```
 
-进行一次阻塞的 RPC 调用以在工作器 `to` 上运行函数 `func`。RPC messages are sent and received in parallel to execution of Python code. 此方法是线程安全的。
+进行一次阻塞的 RPC 调用以在工作器 `to` 上运行函数 `func`。RPC 消息的发送和接收相对于 Python 代码的执行是并行的。此方法是线程安全的。
 
 ```python
 # on worker 0
@@ -552,20 +561,22 @@ tensor([4., 4.])
 >>> rpc.shutdown()
 ```
 
-> 使用 `rpc_sync()`、`rpc_async()` 等 API 时，函数传入的张量和返回的张量必须是 CPU 张量（否则当两个进程的设备列表不一致时可能会引起崩溃）。如有必要，应用可以显式地在调用进程中将张量移动到 CPU，再在被调用进程中将其移动到想要的设备中。
+!!! warning "警告"
+
+    使用 `rpc_sync()`、`rpc_async()` 等 API 时，函数的参数张量和返回值张量都必须是 CPU 张量（否则当两个进程的设备列表不一致时可能会引起崩溃）。如有必要，应用可以显式地在调用进程中将张量移动到 CPU，再在被调用进程中将其移动到想要的设备中。
 
 ### rpc_async()
 
 ```python
 torch.distributed.rpc.rpc_async(to, func, args=None, kwargs=None, timeout=-1.0)
 # to          目标工作器的名称/rank/`WorkerInfo`实例
-# func        函数,例如Python可调用对象,Python内置函数和被注解的TorchScript函数
+# func        函数,例如Python可调用对象、Python内置函数和被注解的TorchScript函数
 # args        传递给`func`的参数元组
 # kwargs      传递给`func`的关键字参数字典
-# timeout     此RPC调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
+# timeout     此远程调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
 ```
 
-进行一次非阻塞的 RPC 调用以在工作器 `to` 上运行函数 `func`，并立即返回一个 `Future` 实例。RPC messages are sent and received in parallel to execution of Python code. 此方法是线程安全的。
+进行一次非阻塞的 RPC 调用以在工作器 `to` 上运行函数 `func`，并立即返回一个 `Future` 实例。RPC 消息的发送和接收相对于 Python 代码的执行是并行的。此方法是线程安全的。
 
 ```python
 # on worker 0
@@ -594,20 +605,22 @@ tensor([5., 5.])
 >>> rpc.shutdown()
 ```
 
-> API `rpc_async()`、 `remote()` 会到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `Future` 实例得到返回值。
+!!! warning "警告"
+
+    `rpc_async()` API 会等到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `Future` 实例得到返回值。
 
 ### remote()
 
 ```python
 torch.distributed.rpc.remote(to, func, args=None, kwargs=None, timeout=-1.0)
 # to          目标工作器的名称/rank/`WorkerInfo`实例
-# func        函数,例如Python可调用对象,Python内置函数和被注解的TorchScript函数
+# func        函数,例如Python可调用对象、Python内置函数和被注解的TorchScript函数
 # args        传递给`func`的参数元组
 # kwargs      传递给`func`的关键字参数字典
-# timeout     此RPC调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
+# timeout     此远程调用的超时时间(秒).0表示永不超时.若此参数没有提供,则使用初始化期间设定的默认值
 ```
 
-进行一次远程 RPC 调用以在工作器 `to` 上运行函数 `func`，并立即返回一个指向返回值的 `RRef` 实例。工作器 `to` 是返回的 `RRef` 实例的所有者，而调用进程则是使用者。所有者管理 `RRef` 实例的全局引用计数，并在计数归零（即全局不再有对它的任何引用）时销毁该实例。
+进行一次远程调用以在工作器 `to` 上运行函数 `func`，并立即返回一个指向返回值的 `RRef` 实例。工作器 `to` 是返回的 `RRef` 实例的所有者，而调用进程则是使用者。所有者管理 `RRef` 实例的全局引用计数，并在计数归零（即全局不再有任何对它的引用）时销毁该实例。
 
 ```python
 # on worker 0
@@ -616,13 +629,13 @@ torch.distributed.rpc.remote(to, func, args=None, kwargs=None, timeout=-1.0)
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker0", rank=0, world_size=2)
+>>> rpc.init_rpc("worker0", rank=0, world_size=2)    # 阻塞
 >>> rref1 = rpc.remote("worker1", torch.add, args=(torch.ones(2), 3))
 >>> rref2 = rpc.remote("worker1", torch.add, args=(torch.ones(2), 1))
 >>> x = rref1.to_here() + rref2.to_here()
 >>> x
 tensor([6., 6.])
->>> rpc.shutdown()
+>>> rpc.shutdown()    # 阻塞
 ```
 
 ```python
@@ -632,9 +645,13 @@ tensor([6., 6.])
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker1", rank=1, world_size=2)
->>> rpc.shutdown()
+>>> rpc.init_rpc("worker1", rank=1, world_size=2)    # 阻塞
+>>> rpc.shutdown()    # 阻塞
 ```
+
+!!! warning "警告"
+
+    `remote()` API 会等到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `RRef` 实例被其所有者确认，可以通过 `torch.distributed.rpc.RRef.confirmed_by_owner()` API 进行检查。
 
 ### shutdown()
 
@@ -655,7 +672,7 @@ torch.distributed.rpc.shutdown(graceful=True)
 >>> import torch.distributed.rpc as rpc
 >>> rpc.init_rpc("worker0", rank=0, world_size=2)
 >>> ret = rpc.rpc_sync("worker1", torch.add, args=(torch.ones(2), 3))
->>> rpc.shutdown()
+>>> rpc.shutdown()    # 阻塞
 ```
 
 ```python
@@ -666,16 +683,16 @@ torch.distributed.rpc.shutdown(graceful=True)
 >>> import torch
 >>> import torch.distributed.rpc as rpc
 >>> rpc.init_rpc("worker1", rank=1, world_size=2)
->>> rpc.shutdown()     # 等待worker0结束工作,然后关闭
+>>> rpc.shutdown()    # 阻塞
 ```
 
 ### WorkerInfo
 
-包装了工作器信息的结构，其中包含工作器的名称和 ID。此类的实例不应直接构造，而应通过 `get_worker_info()` 函数返回获取；实例可用于传入诸如 `rpc_sync()`、`rpc_async()`、`remote()` 等函数以避免每次远程调用都要复制字符串。
+包装了工作器信息的结构，其中包含工作器的名称和 ID。此类的实例不应直接构造，而应通过 `get_worker_info()` 函数获取；实例可用于传入诸如 `rpc_sync()`、`rpc_async()`、`remote()` 等函数以避免每次远程调用都要复制字符串。
 
 ### get_worker_info()
 
-获取指定工作器的 `WorkerInfo`。使用此 `WorkerInfo` 实例以避免每次远程调用都传递非常昂贵的字符串。
+获取指定工作器的 `WorkerInfo`。使用此 `WorkerInfo` 实例以避免每次远程调用都传递昂贵的字符串。
 
 ```python
 torch.distributed.rpc.get_worker_info(worker_name=None)
@@ -686,11 +703,11 @@ torch.distributed.rpc.get_worker_info(worker_name=None)
 
 可用后端的枚举类。
 
-PyTorch 内置一个 `BackendType.TENSORPIPE` 后端；使用 `register_backend()` 函数以注册更多的后端。
+PyTorch 内置一个 `BackendType.TENSORPIPE` 后端；可以使用 `register_backend()` 函数来注册更多的后端。
 
 #### BackendType.TENSORPIPE
 
-默认使用的 TensorPipe 代理利用了 TensorPipe 库，其提供了一个原生的点对点的通信原语，从根本上解决了 Gloo 的一些缺陷，因而特别适用于机器学习。相比 Gloo，其优势在于大量的异步操作可以同时进行，不会互相阻塞或影响运行速度。节点对之间的管道只有在需要时才会打开；当一个节点故障时只有它相关的管道会被关闭，而其它管道都会照常工作。此外，TensorPipe 还支持多种传输方式（TCP、共享内存、NVLink、InfiniBand 等），能够自动检测这些方式的可用性并为每个管道选择最佳的传输方式。
+默认使用的 TensorPipe 代理利用了 TensorPipe 库，其提供了一个原生的点对点的通信原语，从根本上解决了 Gloo 的一些局限性，因而特别适用于机器学习。相比 Gloo，其优势在于它是异步的，允许大量转移操作同时进行，而不会互相阻塞或影响运行速度。进程对之间的管道只有在需要时才会打开；当一个进程故障时只有它相关的管道会被关闭，而其他管道都会照常工作。此外，TensorPipe 还支持多种传输方式（TCP、共享内存、NVLink、InfiniBand 等），能够自动检测这些方式的可用性并为每个管道选择最佳的传输方式。
 
 TensorPipe 后端自 PyTorch v1.6 版本被引入。目前它仅支持 CPU 张量，GPU 支持将在不久之后到来。它和 Gloo 一样使用基于 TCP 的连接。它还可以自动切分大型张量，在多个套接字和线程上多路复用以达成高带宽。
 
@@ -713,11 +730,30 @@ TensorPipe 代理的后端选项，继承自 `RpcBackendOptions`。
 ```python
 torch.distributed.rpc.TensorPipeRpcBackendOptions(*, num_worker_threads=16, rpc_timeout=60.0, init_method='env://', device_maps=None, devices=None, _transports=None, _channels=None)
 # num_worker_threads   TensorPipe代理执行请求时使用的线程池中线程的数量
-# rpc_timeout          默认的RPC请求的超时时间(秒).调用进程可以单独重载`rpc_sync()`和`rpc_async()`的超时时间
+# rpc_timeout          默认的RPC请求的超时时间(秒).如果RPC没有在这一时间范围内完成,则引发一个
+#                      相应的异常.调用进程可以为`rpc_sync()`和`rpc_async()`的RPC单独重载
+#                      这一超时时间
 # init_method          同`init_process_group()`的`init_method`参数
-# device_maps          从调用进程到被调用进程的设备放置映射.其中键是被调用工作器的名称,值是映射调用进程的设备到
-#                      被调用进程的设备的字典(设备用`int`,`str`或`torch.device`表示)
+# device_maps          从调用进程到被调用进程的设备放置映射.其中键是被调用工作器的名称,值是映射
+#                      调用进程的设备到被调用进程的设备的字典(设备用`int`,`str`或`torch.device`
+#                      表示)
 # devices              RPC代理使用的所有本地CUDA设备.默认从`device_maps`初始化得到.
+```
+
+```python
+>>> import os
+>>> os.environ['MASTER_ADDR'] = '127.0.0.1'
+>>> os.environ['MASTER_PORT'] = '29500'
+>>> import torch.distributed.rpc as rpc
+>>> rpc.init_rpc(
+    "worker1",
+    rank=0,
+    world_size=2,
+    rpc_backend_options=rpc.TensorPipeRpcBackendOptions(
+        num_worker_threads=8,
+        rpc_timeout=20    # 20 second timeout
+    )
+)
 ```
 
 #### device_maps, devices, init_method, num_worker_threads, rpc_timeout
@@ -778,11 +814,15 @@ set_devices(devices)
 
 ### RRef
 
-> RRef 目前尚不支持 CUDA 张量。
+!!! warning "警告"
 
-一个 `RRef` 实例是对远程工作器上的一个某种类型的值的引用。这种处理方式使被引用的远程值仍位于其所有者上。RRef 可用于多机训练，通过保有对存在于其它工作器上的 `nn.Modules` 实例的引用，并在训练过程中调用适当的函数以获取或修改其参数。
+    RRef 目前尚不支持 CUDA 张量。
+
+一个 `RRef` 实例是对远程工作器上的一个某种类型的值的引用。这种处理方式使被引用的远程值仍位于其所有者上。RRef 可用于多机训练，通过保有对存在于其他工作器上的 `nn.Modules` 实例的引用，并在训练过程中调用适当的函数以获取或修改其参数。
 
 #### backward()
+
+以此 `RRef` 实例为根进行反向计算。……
 
 ```python
 backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
@@ -792,7 +832,7 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 
 #### confirmed_by_owner()
 
-返回此 `RRef` 实例是否被所有者确认。所有者的 `RRef` 实例总是返回 `True`，而使用者的 `RRef` 实例只有当所有者知道此实例时才返回 `True`。
+返回此 `RRef` 实例是否被其所有者确认。所有者的 `RRef` 实例总是返回 `True`，而使用者的 `RRef` 实例只有当所有者知道此实例时才返回 `True`。
 
 #### is_owner()
 
@@ -812,23 +852,203 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 
 #### remote()
 
+创建一个辅助代理以简单地启动一个 `remote`，其以此 `RRef` 实例的所有者为目标工作器运行此 `RRef` 实例所引用对象的指定方法。更具体地，`rref.remote().func_name(*args, **kwargs)` 相当于：
+
+```python
+>>> def run(rref, func_name, args, kwargs):
+>>>   return getattr(rref.local_value(), func_name)(*args, **kwargs)
+>>>
+>>> rpc.remote(rref.owner(), run, args=(rref, func_name, args, kwargs))
+```
+
+```python
+>>> import torch.distributed.rpc as rpc
+>>> rref = rpc.remote("worker1", torch.add, args=(torch.zeros(2, 2), 1))
+>>> rref.remote().size().to_here()      # returns torch.Size([2, 2])
+>>> rref.remote().view(1, 4).to_here()  # returns tensor([[1., 1., 1., 1.]])
+```
+
 #### rpc_async()
+
+创建一个辅助代理以简单地启动一个 `rpc_async`，其以此 `RRef` 实例的所有者为目标工作器运行此 `RRef` 实例所引用对象的指定方法。更具体地，`rref.rpc_async().func_name(*args, **kwargs)` 相当于：
+
+```python
+>>> def run(rref, func_name, args, kwargs):
+>>>   return getattr(rref.local_value(), func_name)(*args, **kwargs)
+>>>
+>>> rpc.rpc_async(rref.owner(), run, args=(rref, func_name, args, kwargs))
+```
+
+```python
+>>> import torch.distributed.rpc as rpc
+>>> rref = rpc.remote("worker1", torch.add, args=(torch.zeros(2, 2), 1))
+>>> rref.rpc_async().size().wait()      # returns torch.Size([2, 2])
+>>> rref.rpc_async().view(1, 4).wait()  # returns tensor([[1., 1., 1., 1.]])
+```
 
 #### rpc_sync()
 
+创建一个辅助代理以简单地启动一个 `rpc_sync`，其以此 `RRef` 实例的所有者为目标工作器运行此 `RRef` 实例所引用对象的指定方法。更具体地，`rref.rpc_sync().func_name(*args, **kwargs)` 相当于：
+
+```python
+>>> def run(rref, func_name, args, kwargs):
+>>>   return getattr(rref.local_value(), func_name)(*args, **kwargs)
+>>>
+>>> rpc.rpc_sync(rref.owner(), run, args=(rref, func_name, args, kwargs))
+```
+
+```python
+>>> import torch.distributed.rpc as rpc
+>>> rref = rpc.remote("worker1", torch.add, args=(torch.zeros(2, 2), 1))
+>>> rref.rpc_sync().size()      # returns torch.Size([2, 2])
+>>> rref.rpc_sync().view(1, 4)  # returns tensor([[1., 1., 1., 1.]])
+```
+
 #### to_here()
 
-阻塞调用，从所有者复制此 `RRef` 实例的值
+阻塞调用，从所有者复制此 `RRef` 实例的值到本地进程并返回该值。如果当前进程就是所有者，则返回对本地值的一个引用。
 
-## autograd
+## RemoteModule
+
+!!! warning "警告"
+
+    RemoteModule 目前尚不支持 CUDA 张量。
+
+`RemoteModule` 实例只能在 RPC 初始化之后创建，其将用户指定的一个模块创建在指定的远程 RPC 进程上。`RemoteModule` 实例的行为就像是常规的 `nn.Module` 实例，除了其 `forward` 方法在远程进程中执行。它负责 autograd 记录以确保反向计算过程中将梯度传播回相应的远程模块。
+
+它基于原模块类的 `forward` 方法的签名产生了 `forward_async` 和 `forward` 方法。`forward_async` 异步运行并返回一个 `Future`。`forward_async` 和 `forward` 方法的参数与原 `forward` 方法相同。
+
+例如，如果原模块类返回一个 `nn.Linear` 的实例，其有 `forward` 方法签名：
+
+`def forward(input: Tensor) -> Tensor`
+
+那么产生的 `RemoteModule` 实例将有如下的方法签名：
+
+`def forward(input: Tensor) -> Tensor`
+
+`def forward_async(input: Tensor) -> Future[Tensor]`
+
+```python
+class torch.distributed.nn.api.remote_module.RemoteModule(
+    remote_device, module_cls, args, kwargs
+)
+# remote_device   模块放置在目标工作器上的设备,格式应为`"<worker_name>/<device>"`,例如
+#                 `"trainer0/cpu"``"trainer0"``"ps0/cuda:0"`.设备字段默认为"cpu"
+# module_cls      要远程创建的模块的类
+# args            要传给`module_cls`的参数
+# kwargs          要传给`module_cls`的关键字参数
+```
+
+```python
+>>> # On worker 0:
+>>> import torch
+>>> import torch.nn as nn
+>>> import torch.distributed.rpc as rpc
+>>> from torch.distributed.nn.api.remote_module import RemoteModule
+>>>
+>>> rpc.init_rpc("worker0", rank=0, world_size=2)
+>>> remote_linear_module = RemoteModule(
+>>>     "worker1/cpu", nn.Linear, args=(20, 30),
+>>> )
+>>> input = torch.randn(128, 20)
+>>> ret_future = remote_linear_module.forward_async(input)
+>>> ret = ret_future.wait()
+>>> rpc.shutdown()
+
+>>> # On worker 1:
+>>> import torch
+>>> import torch.distributed.rpc as rpc
+>>>
+>>> rpc.init_rpc("worker1", rank=1, world_size=2)
+>>> rpc.shutdown()
+```
+
+### get_module_rref()
+
+返回引用远程模块的 `RRef` 实例。
+
+### remote_parameters()
+
+返回引用远程模块的参数的 `RRef` 实例列表。通常与 `DistributedOptimizer` 一起使用。
+
+## 分布式 Autograd 框架
+
+!!! warning "警告"
+
+    分布式 autograd 目前尚不支持 CUDA 张量。
 
 ### backward()
 
+使用给定的根开始分布式反向计算。当前实现的 [FAST 模式算法](https://pytorch.org/docs/master/rpc/distributed_autograd.html#fast-mode-algorithm)假定在同一个分布式 autograd 上下文各工作器之间发送的所有 RPC 消息都是反向计算过程中 autograd 图的一部分。
+
+我们使用给定的根来发现 autograd 图并计算其中的依赖关系。此方法会阻塞直到整个 autograd 计算完成。
+
+我们在每一个进程中的适当的 `torch.distributed.autograd.context` 上下文中累积梯度。调用 `torch.distributed.autograd.backward()` 时传入的 `context_id` 用于查找使用的 autograd 上下文，如果没有有效的 autograd 上下文对应于给定的 ID，则抛出一个错误。你可以使用 `get_gradients()` API 获取累积的梯度。
+
+```python
+torch.distributed.autograd.backward(context_id: int, roots: List[Tensor], retain_graph=False) -> None
+# context_id     用于获取梯度的autograd上下文ID
+# roots          代表autograd计算的根的张量.所有的张量都应该为标量
+# retain_graph   若为False,计算图在梯度计算完成后(backward()返回后)即被释放.注意在几
+#                乎所有情形下将其设为True都是不必要的,因为总有更好的解决方法
+```
+
+```python
+>>> import torch.distributed.autograd as dist_autograd
+>>> with dist_autograd.context() as context_id:
+>>>   pred = model.forward()             # 在远程进程中
+>>>   loss = loss_func(pred, loss)
+>>>   dist_autograd.backward(context_id, loss)
+```
+
 ### context
+
+使用分布式 autograd 时用于包装前向和反向计算的上下文对象。`with` 语句中生成的 `context_id` 必须在所有工作器上唯一地识别一次分布式反向计算。每个工作器保存与该 `context_id` 相关的元数据，这些对于正确执行分布式 autograd 计算是必须的。
+
+```python
+>>> import torch.distributed.autograd as dist_autograd
+>>> with dist_autograd.context() as context_id:
+>>>   t1 = torch.rand((3, 3), requires_grad=True)
+>>>   t2 = torch.rand((3, 3), requires_grad=True)
+>>>   loss = rpc.rpc_sync("worker1", torch.add, args=(t1, t2)).sum()
+>>>   dist_autograd.backward(context_id, [loss])
+```
 
 ### get_gradients()
 
-## optim
+获取张量到其相应梯度的一个映射，其中梯度累积在给定的 `context_id` 对应的上下文中。
+
+```python
+>>> import torch.distributed.autograd as dist_autograd
+>>> with dist_autograd.context() as context_id:
+...   t1 = torch.rand((3, 3), requires_grad=True)
+...   t2 = torch.rand((3, 3), requires_grad=True)
+...   loss = rpc.rpc_sync("worker1", torch.add, args=(t1, t2)).sum()
+...   dist_autograd.backward(context_id, [loss])
+...   grads = dist_autograd.get_gradients(context_id)
+...   print(grads[t1])
+...   print(grads[t2])
+... 
+tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]])
+tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]])
+>>> grads
+{tensor([[0.9787, 0.3666, 0.9716],
+         [0.6967, 0.4684, 0.0524],
+         [0.8899, 0.0569, 0.2332]], requires_grad=True): tensor([[1., 1., 1.],
+                                                                 [1., 1., 1.],
+                                                                 [1., 1., 1.]]), 
+ tensor([[0.6230, 0.7423, 0.5838],
+         [0.0084, 0.6071, 0.9528],
+         [0.3312, 0.6938, 0.6464]], requires_grad=True): tensor([[1., 1., 1.],
+                                                                 [1., 1., 1.],
+                                                                 [1., 1., 1.]])}
+```
+
+## 分布式优化器
 
 ### DistributedOptimizer
 

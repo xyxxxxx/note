@@ -862,9 +862,11 @@ a,b,c
 
 ## datetime——基本日期和时间类型
 
+`datetime` 模块提供用于处理日期和时间的类。
+
 ### timedelta
 
-`timedelta` 对象表示两个 date 或者 time 之间的时间间隔。
+`timedelta` 对象表示两个 `date` 对象、`time` 对象或 `datetime` 对象之间的时间间隔，精确到微秒。
 
 ```python
 class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
@@ -872,14 +874,14 @@ class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minu
 
 所有这些参数都是可选的并且默认为 `0`，可以是整数或者浮点数，也可以是正数或者负数。
 
-只有 *days*, *seconds* 和 *microseconds* 会存储在内部，各参数单位的换算规则如下：
+只有 *days*、*seconds* 和 *microseconds* 会存储在内部，各参数单位的换算规则如下：
 
 - 1毫秒会转换成1000微秒。
 - 1分钟会转换成60秒。
 - 1小时会转换成3600秒。
 - 1星期会转换成7天。
 
-并且 *days*, *seconds* 和 *microseconds* 会经标准化处理以保证表达方式的唯一性，即：
+并且 *days*、*seconds* 和 *microseconds* 会经标准化处理以保证表达方式的唯一性，即：
 
 - `0 <= microseconds < 1000000`
 - `0 <= seconds < 3600*24`
@@ -3364,7 +3366,8 @@ shutil.copy(src, dst, *, follow_symlinks=True)
 将一个目录树复制到目标位置并返回目标位置。
 
 ```python
-shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False, dirs_exist_ok=False)
+shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, 
+ignore_dangling_symlinks=False, dirs_exist_ok=False)
 # src            要复制的目录
 # dst            目标路径
 ```
@@ -3816,6 +3819,65 @@ time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=8, tm_min=0, tm_sec=
 >>> time.tzname
 ('CST', 'CST')
 ```
+
+## timeit——测量小段代码的执行时间
+
+`timeit` 模块提供了一种简单的方法来计算一小段 Python 代码的耗时。
+
+以下示例展示了如何使用命令行接口来比较三个不同的表达式：
+
+```python
+$ python3 -m timeit '"-".join(str(n) for n in range(100))'
+10000 loops, best of 5: 30.2 usec per loop
+$ python3 -m timeit '"-".join([str(n) for n in range(100)])'
+10000 loops, best of 5: 27.5 usec per loop
+$ python3 -m timeit '"-".join(map(str, range(100)))'
+10000 loops, best of 5: 23.2 usec per loop
+```
+
+这也可以通过 Python 接口实现：
+
+```python
+>>> import timeit
+>>> timeit.timeit('"-".join(str(n) for n in range(100))', number=10000)
+0.3018611848820001
+>>> timeit.timeit('"-".join([str(n) for n in range(100)])', number=10000)
+0.2727368790656328
+>>> timeit.timeit('"-".join(map(str, range(100)))', number=10000)
+0.23702679807320237
+```
+
+### Python 接口
+
+#### timeit()
+
+```python
+timeit.timeit(stmt='pass', setup='pass', timer=<default timer>, number=1000000, 
+globals=None)
+```
+
+使用给定语句、`setup` 代码和 `timer` 函数创建一个 `Timer` 实例，并以给定的 `number` 次数运行其 `timeit()` 方法。可选的 `globals` 参数指定执行代码的命名空间。
+
+```python
+>>> timeit.timeit('"-".join(map(str, range(100)))', number=10000)
+0.17110489700007747
+```
+
+#### repeat()
+
+```python
+timeit.repeat(stmt='pass', setup='pass', timer=<default timer>, repeat=5, 
+number=1000000, globals=None)
+```
+
+使用给定语句、`setup` 代码和 `timer` 函数创建一个 `Timer` 实例，并以给定的 `repeat` 计数和 `number` 次数运行其 `repeat()` 方法。可选的 `globals` 参数指定用于执行代码的命名空间。
+
+```python
+>>> timeit.repeat('"-".join(map(str, range(100)))', number=10000)
+[0.17756178499985253, 0.15232318500056863, 0.16468117500062363, 0.1632813090000127, 0.15658389100008208]
+```
+
+#### Timer
 
 ## types——动态类型创建和内置类型名称
 
