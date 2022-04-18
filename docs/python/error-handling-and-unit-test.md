@@ -207,7 +207,7 @@ except ValueError as e:
     print('ValueError:', e)    
 except ZeroDivisionError as e:	# 捕获该错误类型
     print('ZeroDivisionError:', e)
-except (IOError,LookupError,RuntimeError) as e:  # 捕获多个错误类型
+except (IOError, LookupError, RuntimeError) as e:  # 捕获多个错误类型
     pass    
 else:							# 无错误
     print('no error!')

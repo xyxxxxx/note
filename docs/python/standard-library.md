@@ -864,6 +864,12 @@ a,b,c
 
 `datetime` 模块提供用于处理日期和时间的类。
 
+`date`、`datetime`、`time` 和 `timezone` 类型具有以下通用特性:
+
+* 这些类型的对象是不可变的。
+* 这些类型的对象是可哈希的，这意味着它们可被作为字典的键。
+* 这些类型的对象支持通过 `pickle` 模块进行高效的封存。
+
 ### timedelta
 
 `timedelta` 对象表示两个 `date` 对象、`time` 对象或 `datetime` 对象之间的时间间隔，精确到微秒。
@@ -876,16 +882,16 @@ class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minu
 
 只有 *days*、*seconds* 和 *microseconds* 会存储在内部，各参数单位的换算规则如下：
 
-- 1毫秒会转换成1000微秒。
-- 1分钟会转换成60秒。
-- 1小时会转换成3600秒。
-- 1星期会转换成7天。
+* 1 毫秒会转换成 1000 微秒。
+* 1 分钟会转换成 60 秒。
+* 1 小时会转换成 3600 秒。
+* 1 星期会转换成 7 天。
 
 并且 *days*、*seconds* 和 *microseconds* 会经标准化处理以保证表达方式的唯一性，即：
 
-- `0 <= microseconds < 1000000`
-- `0 <= seconds < 3600*24`
-- `-999999999 <= days <= 999999999`
+* `0 <= microseconds < 1000000`
+* `0 <= seconds < 86400`
+* `-999999999 <= days <= 999999999`
 
 ```python
 >>> from datetime import timedelta
@@ -968,25 +974,17 @@ class datetime.date(year, month, day)
 
 所有参数都是必要的并且必须是在下列范围内的整数：
 
-- `1 <= year <= 9999`
-- `1 <= month <= 12`
-- `1 <= day <= 给定年月对应的天数`
+* `1 <= year <= 9999`
+* `1 <= month <= 12`
+* `1 <= day <= 给定年月对应的天数`
 
 如果参数不在这些范围内，则抛出 `ValueError` 异常。
 
 ```python
-import datetime
-from datetime import date
-
->>> date(
-...     year=2020,
-...     month=11,
-...     day=27
-... )
+>>> from datetime import date
+>>> date(year=2020, month=11, day=27)
 datetime.date(2020, 11, 27)
 >>> date.today()
-datetime.date(2020, 11, 27)
->>> date.fromtimestamp(1606468517.547344)
 datetime.date(2020, 11, 27)
 >>> date.today().weekday()
 4                              # Friday
@@ -994,52 +992,144 @@ datetime.date(2020, 11, 27)
 5                              # Friday
 ```
 
+下面演示了 `date` 对象支持的运算：
+
+```python
+>>> d1 = date(2020, 11, 27)
+>>> d2 = date(2019, 12, 4)
+>>> t1 = timedelta(days=100)
+>>> d1 + t1
+datetime.date(2021, 3, 7)
+>>> d2 - t1
+datetime.date(2019, 8, 26)
+>>> d1 - d2
+datetime.timedelta(days=359)
+>>> d1 > d2
+True
+```
+
+#### ctime()
+
+（实例方法）返回一个表示日期的字符串。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.ctime()
+'Fri Nov 27 00:00:00 2020'
+```
+
 #### day
 
-（实例属性）
+（实例属性）日。
+
+#### fromisoformat()
+
+（类方法）返回一个对应于以 `YYYY-MM-DD` 格式给出的日期字符串的 `date` 对象。
+
+```python
+>>> date.fromisoformat('2020-11-27')
+datetime.date(2020, 11, 27)
+```
+
+#### fromordinal()
+
+（类方法）返回对应于公历序号的日期，其中公元 1 年 1 月 1 日的序号为 1。
+
+```python
+>>> date.fromordinal(737756)
+datetime.date(2020, 11, 27)
+```
+
+#### fromtimestamp()
+
+（类方法）返回对应于 POSIX 时间戳的日期。
+
+```python
+>>> date.fromtimestamp(1606468517.547344)
+datetime.date(2020, 11, 27)
+```
+
+#### isoformat()
+
+（实例方法）返回一个以 `YYYY-MM-DD` 格式表示的日期字符串。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.isoformat()
+'2020-11-27'
+```
+
+#### isoweekday()
+
+（实例方法）返回日期是星期几，星期一为 1，星期日为 7。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.isoweekday()
+5
+```
 
 #### month
 
-（实例属性）
+（实例属性）月。
+
+#### replace()
+
+（实例方法）替换日期中的部分值。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.replace(day=26)
+datetime.date(2020, 11, 26)
+```
+
+#### strftime()
+
+（实例方法）返回一个由显式格式字符串所指明的代表日期的字符串。表示时、分或秒的格式代码值将为 0。详见 `datetime` 实例的 `strftime()` 方法。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.strftime("%d/%m/%y")
+'27/11/20'
+>>> d.strftime("%B %d %Y, %A")
+'November 27 2020, Friday'
+```
 
 #### today()
 
-（类方法）
+（类方法）返回当前的本地日期。
+
+```python
+>>> date.today()
+datetime.date(2020, 11, 27)
+```
+
+#### toordinal()
+
+（实例方法）返回日期的公历序号，其中公元 1 年 1 月 1 日的序号为 1。
+
+```python
+>>> d1 = date(2020, 11, 27)
+>>> d1.toordinal()
+737756
+>>> d2 = date(1, 2, 3)
+>>> d2.toordinal()
+34
+```
+
+#### weekday()
+
+（实例方法）返回日期是星期几，星期一为 0，星期日为 6。
+
+```python
+>>> d = date(2020, 11, 27)
+>>> d.weekday()
+4
+```
 
 #### year
 
-（实例属性）
-
-### datetime
-
-`date` 和 `time` 类的结合。
-
-```python
-import datetime
-from datetime import datetime, timedelta
-
->>> datetime(
-...     year=2020,
-...     month=11,
-...     day=27,
-...     hour=17,
-...     minute=15,
-...     second=17,
-...     microsecond=547344
-... )
-datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
->>> datetime.now()             # 返回当地当前的datetime
-datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
->>> datetime.utcnow()          # 返回当前的UTC datetime
-datetime.datetime(2020, 11, 27, 9, 15, 17, 547344)
->>> datetime.now().timestamp()                  # 转换为timestamp
-1606468517.547344
->>> datetime.fromtimestamp(1606468517.547344)   # 转换自timestamp
-datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
->>> d1 = timedelta(minutes=5)
->>> datetime.now() + d1
-datetime.datetime(2020, 11, 27, 17, 20, 17, 547344)
-```
+（实例属性）年。
 
 ### time
 
@@ -1084,9 +1174,38 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
 
 作为 tzinfo 参数被传给 `time` 构造器的对象，如果没有传入值则为 `None`。
 
-### timedelta
+### datetime
 
-表示两个 `date`、`time` 或 `datetime` 对象之间的时间间隔，精确到微秒。
+`datetime` 对象组合了 `date` 对象和 `time` 对象的所有信息。
+
+```python
+from datetime import datetime, timedelta
+
+>>> datetime(
+...     year=2020,
+...     month=11,
+...     day=27,
+...     hour=17,
+...     minute=15,
+...     second=17,
+...     microsecond=547344
+... )
+datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
+>>> datetime.now()             # 返回当地当前的datetime
+datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
+>>> datetime.utcnow()          # 返回当前的UTC datetime
+datetime.datetime(2020, 11, 27, 9, 15, 17, 547344)
+>>> datetime.now().timestamp()                  # 转换为timestamp
+1606468517.547344
+>>> datetime.fromtimestamp(1606468517.547344)   # 转换自timestamp
+datetime.datetime(2020, 11, 27, 17, 15, 17, 547344)
+>>> d1 = timedelta(minutes=5)
+>>> datetime.now() + d1
+datetime.datetime(2020, 11, 27, 17, 20, 17, 547344)
+```
+
+#### now()
+
 
 ### tzinfo
 

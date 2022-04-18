@@ -371,7 +371,7 @@ $ rmdir dir1
 #       -p       若空目录被删除后其上级目录成为空目录,则一并删除
 ```
 
-##  文本
+## 文本
 
 ### echo
 
@@ -433,6 +433,72 @@ $ printf "abc123\n"
 abc123
 $ printf "%-10s %-1s %-2d %-5.1f %-4.1f\n" Alice F 10 140.2 31.5
 Alice      F 10 140.2 31.5
+```
+
+### tr
+
+替换或删除文本中的字符。
+
+```shell
+$ echo "New York" | tr 'a-z' 'A-z'                         # 替换字符
+NEW YORK
+
+$ echo "a1b2c3d4e5f6" | tr -d '0-9'                        # 删除字符
+abcdef
+
+$ echo "How are you? I'm fine." | tr -cs 'A-Za-z' '\n'     # 分词
+How
+are
+you
+I
+m
+fine
+
+```
+
+### uniq
+
+报告文本中的重复行。
+
+```shell
+$ cat text
+a
+b
+c
+a
+b
+a
+           # 空行
+
+$ sort text
+
+a
+a
+a
+b
+b
+c
+
+$ sort text | uniq      # 去掉重复的行
+
+a
+b
+c
+
+$ sort text | uniq -c   # 同时计数
+      1 
+      3 a
+      2 b
+      1 c
+
+$ sort text | uniq -u   # 出现一次的行
+
+c
+
+$ sort text | uniq -dc  # 出现多次的行
+      3 a
+      2 b
+
 ```
 
 ### wc
