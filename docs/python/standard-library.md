@@ -1606,9 +1606,31 @@ def partial(func, /, *args, **keywords):
 13579
 ```
 
+## glob——Unix 风格路径名模式扩展
+
+`glob` 模块可根据 Unix 终端所用规则找出所有匹配特定模式的路径名，但会按不确定的顺序返回结果。波浪号扩展不会生效，但 `*`、`?` 以及表示为 `[]` 的字符范围将被正确地匹配。这项功能是通过配合使用 `os.scandir()` 和 `fnmatch.fnmatch()` 函数来实现的，而不是通过实际发起调用子终端。
+
+### glob()
+
+```python
+glob(pathname, *, recursive=False)
+```
+
+返回匹配 *pathname* 的可能为空的路径名列表，其中的元素为包含路径信息的字符串。*pathname* 可以是绝对路径 (如 `/usr/src/Python-1.5/Makefile`) 或相对路径 (如 `../../Tools/*/*.gif`)，并且可包含 shell 风格的通配符。结果也将包含无效的符号链接（与在 shell 中一样）。结果是否排序取决于具体的文件系统。如果某个符合条件的文件在调用此函数期间被移除或添加，是否包括该文件的路径是没有规定的。
+
+如果 *recursive* 为 `True`，则模式 `**` 将匹配目录中的任何文件以及零个或多个目录、子目录和符号链接。如果模式加了一个 `os.sep` 或 `os.altsep` 则将不匹配文件。
+
+```python
+>>> from glob import glob
+>>> glob('*.png')
+['2.png', '1.png', '0.png']
+>>> glob('**/*.png', recursive=True)
+['2.png', '1.png', '0.png', 'images/b.png', 'images/a.png']
+```
+
 ## hmac——基于密钥的消息验证
 
-## importlib——import的实现
+## importlib——import 的实现
 
 ### \__import__()
 
@@ -1825,7 +1847,7 @@ Expecting ':' delimiter
 35                              # ↑
 ```
 
-## keyword——检验Python关键字
+## keyword——检验 Python 关键字
 
 `keyword` 模块用于确定某个某个字符串是否为 Python 关键字。
 
@@ -2209,15 +2231,15 @@ IEEE 754 风格的余数：对于有限 *x* 和有限非零 *y*，返回 `x - n*
 
 根据不同的平台，`multiprocessing` 支持三种启动进程的方法，包括：
 
-+ *spawn*：父进程会启动一个全新的 Python 解释器进程，子进程将只继承那些运行进程对象的 `run()` 方法所必需的资源。特别地，来自父进程的非必需文件描述符和句柄将不会被继承。 使用此方法启动进程相比使用 *fork* 或 *forkserver* 要慢上许多。
+* *spawn*：父进程会启动一个全新的 Python 解释器进程，子进程将只继承那些运行进程对象的 `run()` 方法所必需的资源。特别地，来自父进程的非必需文件描述符和句柄将不会被继承。 使用此方法启动进程相比使用 *fork* 或 *forkserver* 要慢上许多。
 
   可在 Unix 和 Windows 上使用，是 Windows 上的默认设置。
 
-+ *fork*：父进程使用 `os.fork()` 来产生 Python 解释器分叉，子进程在开始时实际上与父进程相同，继承父进程的所有资源。请注意，安全分叉多线程进程是棘手的。
+* *fork*：父进程使用 `os.fork()` 来产生 Python 解释器分叉，子进程在开始时实际上与父进程相同，继承父进程的所有资源。请注意，安全分叉多线程进程是棘手的。
 
   只存在于 Unix，Unix 中的默认值。
 
-+ *forkserver*：程序启动并选择 *forkserver* 启动方法时，将启动服务器进程。之后每当需要一个新进程时，父进程就会连接到服务器并请求它分叉一个新进程。分叉服务器进程是单线程的，因此使用 `os.fork()` 是安全的。没有不必要的资源被继承。
+* *forkserver*：程序启动并选择 *forkserver* 启动方法时，将启动服务器进程。之后每当需要一个新进程时，父进程就会连接到服务器并请求它分叉一个新进程。分叉服务器进程是单线程的，因此使用 `os.fork()` 是安全的。没有不必要的资源被继承。
 
   可在 Unix 平台上使用，支持通过 Unix 管道传递文件描述符。
 
@@ -2257,7 +2279,7 @@ if __name__ == '__main__':
 
 `multiprocessing` 支持进程之间的两种通信通道：
 
-+ *队列*：先进先出的多生产者多消费者队列。队列是线程和进程安全的。
+* *队列*：先进先出的多生产者多消费者队列。队列是线程和进程安全的。
 
   ```python
   from multiprocessing import Process, Queue
@@ -2273,7 +2295,7 @@ if __name__ == '__main__':
       p.join()
   ```
 
-+ *管道*：`Pipe()` 函数返回由管道连接的两个连接对象，表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法。注意，如果两个进程（或线程）同时尝试读取或写入管道的<u>同一端</u>，则管道中的数据可能会损坏。在不同进程中同时使用管道的<u>不同端</u>则不存在损坏的风险。
+* *管道*：`Pipe()` 函数返回由管道连接的两个连接对象，表示管道的两端，每个连接对象都有 `send()` 和 `recv()` 方法。注意，如果两个进程（或线程）同时尝试读取或写入管道的<u>同一端</u>，则管道中的数据可能会损坏。在不同进程中同时使用管道的<u>不同端</u>则不存在损坏的风险。
 
   ```python
   from multiprocessing import Process, Pipe
@@ -2337,7 +2359,7 @@ hello world 3
 
 但是，如果你真的需要使用一些共享数据，那么 `multiprocessing` 提供了两种方法：
 
-+ *共享内存*：可以使用 `Value` 或 `Array` 将数据存储在共享内存映射中。
+* *共享内存*：可以使用 `Value` 或 `Array` 将数据存储在共享内存映射中。
 
   ```python
   from multiprocessing import Process, Value, Array
@@ -2361,7 +2383,7 @@ hello world 3
 
   这些共享对象是进程和线程安全的。
 
-+ *服务进程*：由 `Manager()` 返回的管理器对象控制一个服务进程，该进程保存 Python 对象并允许其他进程使用代理操作它们。管理器支持下列类型：`list`、`dict`、`Namespace`、`Lock`、`RLock`、`Semaphore`、`BoundedSemaphore`、`Condition`、`Event`、`Barrier`、`Queue`、`Value` 和 `Array`。
+* *服务进程*：由 `Manager()` 返回的管理器对象控制一个服务进程，该进程保存 Python 对象并允许其他进程使用代理操作它们。管理器支持下列类型：`list`、`dict`、`Namespace`、`Lock`、`RLock`、`Semaphore`、`BoundedSemaphore`、`Condition`、`Event`、`Barrier`、`Queue`、`Value` 和 `Array`。
 
   ```python
   from multiprocessing import Process, Manager
@@ -2780,8 +2802,8 @@ os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
 
 将文件或目录 *src* 重命名为 *dst*。若 *dst* 已存在，则下列情况下操作将会失败，并引发 `OSError` 的子类：
 
-+ 在 Windows 上，引发 `FileExistsError` 异常
-+ 在 Unix 上，若 *src* 是文件而 *dst* 是目录，将抛出 `IsADirectoryError` 异常，反之则抛出 `NotADirectoryError` 异常；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则抛出 `OSError` 异常；若两者都是文件，则在用户具有权限的情况下，将对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
+* 在 Windows 上，引发 `FileExistsError` 异常
+* 在 Unix 上，若 *src* 是文件而 *dst* 是目录，将抛出 `IsADirectoryError` 异常，反之则抛出 `NotADirectoryError` 异常；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则抛出 `OSError` 异常；若两者都是文件，则在用户具有权限的情况下，将对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
 
 ### rmdir()
 
@@ -4061,11 +4083,123 @@ Succeeded.
 
 > 注意：Python 运行时不强制执行函数和变量类型注解，但这些注解可用于类型检查器、IDE、静态检查器等第三方工具。
 
+此模块为运行时提供了 PEP 484、PEP 526、PEP 544、PEP 586、PEP 589 和 PEP 591 规定的类型提示。最基本的支持由 `Any`，`Union`，`Tuple`，`Callable`，`TypeVar` 和 `Generic` 类型组成。有关完整的规范，请参阅 PEP 484。有关类型提示的简单介绍，请参阅 PEP 483。
+
+函数接受并返回一个字符串，注解如下:
+
+```python
+def greeting(name: str) -> str:
+    return 'Hello ' + name
+```
+
+在函数 `greeting` 中，参数 `name` 预期是 `str` 类型，并且返回 `str` 类型。
+
 ### 类型别名
+
+可以为类型定义别名。在下面的例子中，`Vector` 和 `List[float]` 将被视为可互换的同义词:
+
+```python
+from typing import List
+Vector = List[float]
+
+def scale(scalar: float, vector: Vector) -> Vector:
+    return [scalar * num for num in vector]
+
+# typechecks; a list of floats qualifies as a Vector.
+new_vector = scale(2.0, [1.0, -4.2, 5.4])
+```
+
+类型别名可用于简化复杂的类型签名。例如:
+
+```python
+from typing import Dict, Tuple, Sequence
+
+ConnectionOptions = Dict[str, str]
+Address = Tuple[str, int]
+Server = Tuple[Address, ConnectionOptions]
+
+def broadcast_message(message: str, servers: Sequence[Server]) -> None:
+    ...
+```
 
 ### 泛型
 
 ### 模块内容
+
+#### 泛型具象容器
+
+##### ChainMap
+
+`collections.ChainMap` 的泛型版本。
+
+##### Counter
+
+`collections.Counter` 的泛型版本。
+
+##### DefaultDict
+
+`collections.defaultdict` 的泛型版本。
+
+##### Deque
+
+`collections.deque` 的泛型版本。
+
+##### Dict
+
+`dict` 的泛型版本，适用于注解返回类型。注解参数时，最好使用 `Mapping` 等抽象容器类型。
+
+```python
+def count_words(text: str) -> Dict[str, int]:
+    ...
+```
+
+##### FrozenSet
+
+`builtins.frozenset` 的泛型版本。
+
+##### List
+
+`list` 的泛型版本，适用于注解返回类型。注解参数时，最好使用 `Sequence` 和 `Iterable` 等抽象容器类型。
+
+```python
+T = TypeVar('T', int, float)
+
+def vec2(x: T, y: T) -> List[T]:
+    return [x, y]
+
+def keep_positives(vector: Sequence[T]) -> List[T]:
+    return [item for item in vector if item > 0]
+```
+
+##### OrderedDict
+
+`collections.OrderedDict` 的泛型版本。
+
+##### Set
+
+`builtins.set` 的泛型版本，适用于注解返回类型。注解参数时，最好使用 `AbstractSet` 等抽象容器类型。
+
+#### 抽象容器
+
+##### AbstractSet
+
+`collections.abc.Set` 的泛型版本。
+
+##### Collection
+
+`collections.abc.Collection` 的泛型版本。
+
+##### Container
+
+`collections.abc.Container` 的泛型版本。
+
+##### Mapping
+
+`collections.abc.Mapping` 的泛型版本。
+
+##### Sequence
+
+`collections.abc.Sequence` 的泛型版本。
 
 #### 特殊类型原语
 
@@ -4088,34 +4222,43 @@ def stop() -> NoReturn:
 
 联合类型，`Union[X, Y]` 表示非 X 即 Y。联合类型具有以下特征：
 
-+ 参数必须是其中某种类型
+* 参数必须是其中某种类型
 
-+ 联合类型的嵌套会被展开，例如：
+* 联合类型的嵌套会被展开，例如：
 
   ```python
   Union[Union[int, str], float] == Union[int, str, float]
   ```
 
-+ 仅有一种类型的联合类型就是该类型自身，例如：
+* 仅有一种类型的联合类型就是该类型自身，例如：
 
   ```python
   Union[int] == int
   ```
 
-+ 重复的类型会被忽略，例如：
+* 重复的类型会被忽略，例如：
 
   ```python
   Union[int, str, int] == Union[int, str]
   ```
   
-+ 联合类型不能创建子类，也不能实例化
-  
-  
-  
+* 联合类型不能创建子类，也不能实例化
 
 ##### Optional
 
 可选类型，`Optional[X]` 等价于 `Union[X, None]` 。
+
+##### Tuple
+
+元组类型，例如 `Tuple[X, Y]` 标注了一个二元组类型，其第一个元素的类型为 `X`，第二个元素的类型为 `Y`。
+
+为表达一个同类型元素的变长元组，使用省略号字面量，如 `Tuple[int, ...]`。
+
+单独的 `Tuple` 等价于 `Tuple[Any, ...]`，进而等价于 `tuple`。
+
+##### Callable
+
+可调用类型，例如 `Callable[[int], str]` 是一个函数，其接受一个 `int` 参数，返回一个 `str`。
 
 ## urllib.request——用于打开 URL 的可扩展库
 
