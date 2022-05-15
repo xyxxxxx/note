@@ -1,18 +1,28 @@
+[toc]
 
+# sklearn
 
-# sklearn.feature_extraction
+## sklearn.compose
 
-## text
+### ColumnTransformer
 
-### CountVectorizer
+## sklearn.feature_extraction
+
+### text
+
+#### CountVectorizer
 
 见 NLP 工具。
 
-### TfidfVectorizer
+#### TfidfVectorizer
 
 见 NLP 工具。
 
-# sklearn.linear_model
+## sklearn.impute
+
+### SimpleImputer
+
+## sklearn.linear_model
 
 ### LogisticRegression
 
@@ -55,7 +65,7 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 #   ='multinomial'  多项逻辑回归,即softmax回归
 ```
 
-# sklearn.metrics
+## sklearn.metrics
 
 ### accuracy_score()
 
@@ -73,7 +83,11 @@ LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept
 
 根据实际结果和预测结果计算混淆矩阵。
 
-见 precision_score（），recall_score（），f1_score（）。
+见 `precision_score()`、`recall_score()`、`f1_score()`。
+
+### mean_squared_error()
+
+
 
 ### precision_score(), recall_score(), f1_score()
 
@@ -130,7 +144,9 @@ array([0.85714286, 0.57142857, 0.5       ])
 0.6666666666666666
 ```
 
-# sklearn.model_selection
+## sklearn.model_selection
+
+### cross_val_score
 
 ### train_test_split
 
@@ -176,17 +192,21 @@ train_test_split(*arrays, test_size=None, train_size=None, random_state=None, sh
 # random_state 随机数种子
 ```
 
-# sklearn.naive_bayes
+## sklearn.naive_bayes
 
 ### MultinomialNB
 
 见 NLP 工具。
 
-# sklearn.preprocessing
+## sklearn.pipeline
+
+### Pipeline
+
+## sklearn.preprocessing
 
 ### minmax_scale
 
-线性归一化到[0，1]区间。
+线性归一化到 [0，1] 区间。
 
 ```python
 >>> from sklearn.preprocessing import minmax_scale
@@ -201,7 +221,7 @@ array([0.9, 0.7, 0.1, 0.4, 0.8, 1. , 0.5, 0.3, 0.6, 0.2, 0. ])
 
 ### MinMaxScaler
 
-线性归一化到[0，1]区间的归一器。
+线性归一化到 [0，1] 区间的归一器。
 
 ```python
 >>> from sklearn.preprocessing import MinMaxScaler
@@ -222,9 +242,13 @@ array([[0. , 0. ],
        [1. , 1. ]])
 ```
 
+### OneHotEncoder
+
+### OrdinalEncoder
+
 ### scale
 
-归一化到 01 正态分布（每个值减去均值，除以标准差）。
+归一化到 0-1 正态分布（每个值减去均值，除以标准差）。
 
 ```python
 >>> from sklearn.preprocessing import scale
@@ -241,7 +265,7 @@ array([ 1.26491106,  0.63245553, -1.26491106, -0.31622777,  0.9486833 ,
 
 ### StandardScaler
 
-归一化到 01 正态分布的归一器。
+归一化到 0-1 正态分布的归一器。
 
 ```python
 >>> from sklearn.preprocessing import StandardScaler
@@ -262,7 +286,7 @@ array([[-1.41421356, -1.41421356],
        [ 1.41421356,  1.41421356]])
 ```
 
-# sklearn.svm
+## sklearn.svm
 
 ### SVC
 
@@ -298,4 +322,9 @@ SVC(*, C=1.0, kernel='rbf', degree=3, gamma='scale', coef0=0.0, shrinking=True, 
 #             参考https://scikit-learn.org/stable/modules/svm.html#kernel-functions中的公式
 
 ```
+
+## sklearn.tree
+
+### DecisionTreeRegressor
+
 

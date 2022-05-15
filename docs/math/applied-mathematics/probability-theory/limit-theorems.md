@@ -2,7 +2,8 @@
 
 ## 大数定律LLN
 
-**弱大数定律** 设 $X_1,X_2,\cdots$ 是相互独立，服从同一分布的随机变量序列，且具有数学期望 $E(X_i)=\mu(i=1,2,\cdots)$，作前n个变量的算数平均 $\frac{1}{n}\sum_{i=1}^{n}X_i$，则对于任意 $\varepsilon>0$，有
+**弱大数定律** 设 $X_1,X_2,\cdots$ 是相互独立，服从同一分布的随机变量序列，且具有数学期望 $E(X_i)=\mu(i=1,2,\cdots)$，作前 $n$ 个变量的算数平均 $\frac{1}{n}\sum_{i=1}^{n}X_i$，则对于任意 $\varepsilon>0$，有
+
 $$
 \lim_{n\to \infty}P(\left | \frac{1}{n}\sum_{i=1}^nX_i-\mu \right |<\varepsilon)=1
 $$
@@ -30,19 +31,25 @@ $$
 ## 中心极限定理CLT
 
 **独立同分布的中心极限定理** 设随机变量 $X_1,X_2,\cdots,X_n,\cdots$ 独立同分布，且具有有限的数学期望和方差 $\mu,\sigma^2>0$，记 $\overline{X}=\frac{1}{n}\sum_{i=1}^{n}X_i$， $Y_n=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$，则 $Y_n$ 的分布函数满足
+
 $$
 \lim_{n\to \infty}F_n(x)=\Phi(x)
 $$
+
 亦即近似有
+
 $$
 \overline{X} \sim N(\mu,\sigma^2/n)
 $$
 
 **李雅普诺夫中心极限定理** 设随机变量 $X_1,X_2,\cdots,X_n,\cdots$ 独立，且具有有限的数学期望和方差 $\mu_i,\sigma_i^2>0,\ i=1,2,\cdots,n,\cdots$，定义
+
 $$
 s_n^2=\sum_{i=1}^n\sigma_i^2
 $$
+
 若存在 $\delta>0$，使得李雅普诺夫条件
+
 $$
 \lim_{n\to \infty}\frac{1}{s_n^{2+\delta}}\sum_{i=1}^nE(|X_i-\mu_i|^{2+\delta})=0
 $$
@@ -52,7 +59,9 @@ $$
 $$
 \lim_{n\to \infty}F_n(x)=\Phi(x)
 $$
+
 亦即近似有
+
 $$
 \frac{1}{s_n}\sum_{i=1}^n(X_i-\mu_i) \sim N(0,1)
 $$

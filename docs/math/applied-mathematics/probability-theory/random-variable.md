@@ -1,28 +1,36 @@
 设随机试验的样本空间为 $S=\{e_1,e_2,\cdots\}$， $X=X(e)$ 是定义在样本空间 $S$ 上的实值单值函数，称 $X=X(e)$ 为随机变量。
 
 @将一枚硬币抛掷三次，观察正反面情况，样本空间为
+
 $$
 S=\{HHH,HHT,HTH,THH,HTT,THT,TTH,TTT\}
 $$
+
 随机变量 $X$ 可以定义为
+
 $$
-X=\begin{cases}3,\quad e=HHH\\
+X=\begin{cases}
+3,\quad e=HHH\\
 2,\quad e=HHT,HTH,THH\\
 1,\quad e=HTT,THT,TTH\\
 0,\quad e=TTT
 \end{cases}
 $$
+
 $X$ 的定义域为样本空间，值域为实数集合 $\{0,1,2,3\}$ ； $X$ 的值表示三次抛掷中得到 $H$ 的总数。
 
 随机变量的取值随试验的结果而定，而试验的各个样本点单独组成的事件上都定义了概率，因而随机变量的取值也对应着一定的概率。一般地，若 $L$ 是一个实数集合，事件 $B=\{e|X(e)\in L\}$，即 $B$ 是 $S$ 中使得 $X(e)\in L$ 的所有样本点 $e$ 所组成的事件，此时有
+
 $$
 P(B)=P(e|X(e)\in L)
 $$
+
 由于随机变量的取值在试验之前不能预知，且其取值有一定的概率，因此随机变量与普通函数有着本质的差异。
 
 # 离散型随机变量
 
-取值是有限多个或可列无限多个的随机变量称为离散型随机变量。设离散型随机变量 $X$ 所有可能的取值为 $x_k(k=1,2,\cdots)$， $X$ 取各个可能值得概率为
+取值是有限多个或可列无限多个的随机变量称为离散型随机变量。设离散型随机变量 $X$ 所有可能的取值为 $x_k(k=1,2,\cdots)$， $X$ 取各个可能值的概率为
+
 $$
 P(X=x_k)=p_k,\ k=1,2,\cdots
 $$
@@ -32,6 +40,7 @@ $$
 2. $\sum_{k=1}^\infty p_k=1$ 
 
 上式称为离散型随机变量 $X$ 的**分布律**，分布律也可以用表格表示
+
 $$
 \begin{array}{c|ccccc}
 X & x_1 & x_2 & \cdots & x_n & \cdots\\
@@ -55,16 +64,18 @@ $$
 ## 二项分布
 
 将上述伯努利试验独立地重复n次，以随机变量 $X$ 表示n次中成功的次数，则称 $X$ 服从**二项分布(binomial distribution)**，其分布律为
+
 $$
-P(X=k)=C_n^kp^k(1-p)^{n-k},\ k=0,1,\cdots, n
+P(X=k)=\begin{pmatrix}n\\k\end{pmatrix}p^k(1-p)^{n-k},\ k=0,1,\cdots, n
 $$
+
 记作 $X\sim b(n,p)$。
 
-> $C_n^kp^k(1-p)^{n-k}$ 是 $(p+(1-p))^n$ 的二项式展开项，故称二项分布
+> $\begin{pmatrix}n\\k\end{pmatrix}p^k(1-p)^{n-k}$ 是 $(p+(1-p))^n$ 的二项式展开项，故称二项分布
 
 @抛掷4枚均匀的硬币，各次结果独立，求得到2个正面的概率。
 $$
-X\sim b(4,\frac{1}{2}),\quad P(X=2)=C_4^2(\frac{1}{2})^2(\frac{1}{2})^2=\frac{3}{8}
+X\sim b(4,\frac{1}{2}),\quad P(X=2)=\begin{pmatrix}4\\2\end{pmatrix}(\frac{1}{2})^2(\frac{1}{2})^2=\frac{3}{8}
 $$
 
 ## 几何分布
@@ -78,27 +89,32 @@ $$
 ## *负二项分布
 
 独立地重复上述伯努利试验，以随机变量 $X$ 表示第 $n$ 次成功时的总试验次数，则称 $X$ 服从**负二项分布**，其分布律为
+
 $$
 P(X=k)=C_{k-1}^{k-n}(1-p)^{k-n}p^n
 $$
+
 记作 $X\sim NB(n,p)$。
 
 ## 泊松分布
 
 设随机变量 $X$ 的可能取值为所有非负整数，分布律为
+
 $$
 P(X=k)=\frac{\lambda^ke^{-\lambda}}{k!},\ k=0,1,2,\cdots
 $$
+
 其中 $\lambda>0$ 为常数，则称 $X$ 服从参数为 $\lambda$ 的**泊松分布(Poisson distribution)**，记作 $X\sim \pi(\lambda)$。
 
 **泊松定理** 设 $\lambda>0$ 是一个常数， $n$ 是任意正整数，设 $np=\lambda$，则对于任一非负整数常数 $k$，有
+
 $$
-\lim_{n\to\infty}C_n^kp^k(1-p)^{n-k}=\frac{\lambda^ke^{-\lambda}}{k!}
+\lim_{n\to\infty}\begin{pmatrix}n\\k\end{pmatrix}p^k(1-p)^{n-k}=\frac{\lambda^ke^{-\lambda}}{k!}
 $$
 
 > 证明：
 > $$
-> \lim_{n\to\infty}C_n^kp^k(1-p)^{n-k}=\lim_{n\to\infty} \frac{n(n-1)\cdots(n-k+1)}{k!}(\frac{\lambda}{n})^k(1-\frac{\lambda}{n})^{n-k}\\
+> \lim_{n\to\infty}\begin{pmatrix}n\\k\end{pmatrix}p^k(1-p)^{n-k}=\lim_{n\to\infty} \frac{n(n-1)\cdots(n-k+1)}{k!}(\frac{\lambda}{n})^k(1-\frac{\lambda}{n})^{n-k}\\
 > =\lim_{n\to\infty}\frac{\lambda^k}{k!}(1\cdot(1-\frac{1}{n})\cdots(1-\frac{k-1}{n}))(1-\frac{\lambda}{n})^{n}(1-\frac{\lambda}{n})^{-k}\\
 > =\lim_{n\to\infty}\frac{\lambda^k}{k!}\cdot 1\cdot e^{-\lambda}\cdot 1=\frac{\lambda^ke^{-\lambda}}{k!}
 > $$
@@ -109,6 +125,7 @@ $$
 @计算机硬件公司生产某种特殊芯片，次品率为0.1%，假设各芯片成为次品相互独立，求在1000只产品中至少有2只次品的概率。
 
 $X\sim b(1000,0.001)$ 近似有 $X\sim \pi(1)$，因此
+
 $$
 P(X\ge 2)=1-P(X=0)-P(X=1)\\
 =1-e^{-1}-e^{-1}\approx0.264
@@ -119,9 +136,11 @@ $$
 # 连续型随机变量
 
 设 $X$ 是一个随机变量， $x$ 是任意实数，函数
+
 $$
 F(x)=P(X\le x),\ -\infty<x<\infty
 $$
+
 称为 $X$ 的**分布函数(cumulative function)**。
 
 分布函数具有以下性质：
@@ -139,21 +158,20 @@ $$
 概率密度函数具有以下性质：
 
 1. $f(x)\ge 0$ 
-
 2. $\int_{-\infty}^{+\infty}f(x){\rm d}x=1$ 
-
 3. 对于任意实数 $x_1\le x_2$，
    $$
    P(x_1<X\le x_2)=F(x_2)-F(x_1)=\int_{x_1}^{x_2}f(x){\rm d}x
    $$
-
 4. 若 $f(x)$ 在点 $x$ 处连续，则有 $F'(x)=f(x)$ 
 
 由性质2知曲线 $y=f(x)$ 与 $x$ 轴之间的面积等于1；由性质3知概率 $P(x_1<X\le x_2)$ 等于区间 $(x_1,x_2]$ 上曲线 $y=f(x)$ 之下的曲边梯形的面积；由性质4知 $f(x)$ 的连续点处有
+
 $$
 f(x)=\lim_{\Delta x\to 0^+}\frac{F(x+\Delta x)-F(x)}{\Delta x}\\
 =\lim_{\Delta x\to 0^+}\frac{P(x<X\le x+\Delta x)}{\Delta x}
 $$
+
 若忽略高阶无穷小，则有
 $$
 P(x<X\le x+\Delta x)\approx f(x)\Delta x
@@ -167,43 +185,55 @@ $$
 ## 均匀分布
 
 若连续型随机变量 $X$ 具有概率密度
+
 $$
-f(x)=\cases{
+f(x)=\begin{cases}
 \frac{1}{b-a},\ a<x<b\\
 0,\quad\ 其它
-}
+\end{cases}
 $$
+
 则称 $X$ 在区间 $(a,b)$ 上服从**均匀分布(uniform distribution)**，记作 $X\sim U(a,b)$。
 
 $X$ 的分布函数为
+
 $$
-F(x)=\cases{0,\quad\ x<a\\
+F(x)=\begin{cases}
+0,\quad\ x<a\\
 \frac{x-a}{b-a},\ a\le x<b\\
 1,\quad\ x\ge b
-}
+\end{cases}
 $$
 
 ## 指数分布
 
 若连续型随机变量 $X$ 具有概率密度
+
 $$
-f(x)=\cases{\lambda e^{-\lambda x},\ x>0\\
+f(x)=\begin{cases}
+\lambda e^{-\lambda x},\ x>0\\
 0,\quad\quad\ \ 其它
-}
+\end{cases}
 $$
+
 其中 $\lambda>0$ 为常数，则称 $X$ 服从参数为 $\lambda$ 的**指数分布(exponential distribution)**，记作 $X\sim Exp(\lambda)$。
 
 $X$ 的分布函数为
+
 $$
-F(x)=\cases{1-e^{-x/\theta},\ x>0\\
+F(x)=\begin{cases}
+1-e^{-x/\theta},\ x>0\\
 0,\quad\quad\quad\ \ 其它
-}
+\end{cases}
 $$
+
 对于任意 $s,t>0$，有
+
 $$
-P(X>s+t|X>s)=\frac{P(X>s+t\and X>s)}{P(X>s)}=\frac{P(X>s+t)}{P(X>s)}\\
+P(X>s+t|X>s)=\frac{P(X>s+t\wedge X>s)}{P(X>s)}=\frac{P(X>s+t)}{P(X>s)}\\
 =\frac{1-F(s+t)}{1-F(s)}=\frac{e^{-(s+t)/\theta}}{e^{-s/\theta}}=e^{-t/\theta}=P(X>t)
 $$
+
 上式称为随机变量 $X$ 的**无记忆性**。若 $X$ 是某一元件的寿命，则元件能够继续使用的时长的概率分布与元件已经使用的时长无关。
 
 ## 正态分布
