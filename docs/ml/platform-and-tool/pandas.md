@@ -1,20 +1,21 @@
-
+# Pandas
 
 [Pandas](https://pandas.pydata.org/) 是一个快速、强大、灵活且易用的开源数据分析和操作工具。很多机器学习框架都支持将 Pandas 数据结构作为输入。
 
-> 官方教程参见[intro_to_pandas](https://colab.research.google.com/notebooks/mlcc/intro_to_pandas.ipynb)
+!!! abstract "参考"
+    * [User Guide](https://pandas.pydata.org/docs/user_guide/index.html#user-guide)
+    * [API reference](https://pandas.pydata.org/docs/reference/index.html#api)
 
-# 教程
+## 快速入门
 
-## dataframe基本操作
-
-### 创建
+### 创建 DataFrame
 
 ```python
->>> my_data = np.array([[0, 3], [10, 7], [20, 9], [30, 14], [40, 15]])  # 创建numpy数组
->>> my_column_names = ['temperature', 'activity']                       # 创建Python list包含2个series的名称
->>> my_dataframe = pd.DataFrame(data=my_data, columns=my_column_names)  # 创建dataframe
->>> my_dataframe
+# 使用numpy数组和字符串列表创建
+>>> data = np.array([[0, 3], [10, 7], [20, 9], [30, 14], [40, 15]])
+>>> columns = ['temperature', 'activity']
+>>> df = pd.DataFrame(data=data, columns=columns)
+>>> df
    temperature  activity
 0            0         3
 1           10         7
@@ -22,8 +23,12 @@
 3           30        14
 4           40        15
 
->>> my_dataframe1 = pd.DataFrame({'temperature':np.arange(0,50,10),'activity':[3,7,9,14,15]}) # 另一种方法创建dataframe:使用词典
->>> my_dataframe1
+# 使用字典创建
+>>> df = pd.DataFrame({
+    'temperature': np.arange(0, 50, 10),
+    'activity': [3, 7, 9, 14, 15]
+})
+>>> df
    temperature  activity
 0            0         3
 1           10         7
@@ -32,22 +37,24 @@
 4           40        15
 ```
 
-### 查看属性
+### 检查属性
 
 ```python
->>> my_dataframe.dtypes  # 各series数据类型
-temperature    int64
+>>> df.dtypes           # 各Series数据类型
+temperature    int64    # Dataframe的每一列就是一个Series
 activity       int64
 dtype: object
->>> my_dataframe.shape   # dataframe形状
+>>> df.shape            # 形状
 (5, 2)
 ```
 
-### 增加series
+
+### 增加 Series
 
 ```python
->>> my_dataframe['adjusted'] = my_dataframe['activity'] + 2  # dataframe基于已有series增加series
->>> my_dataframe
+# 基于已有的Series增加Series
+>>> df['adjusted'] = df['activity'] + 2  
+>>> df
    temperature  activity  adjusted
 0            0         3         5
 1           10         7         9
@@ -55,9 +62,10 @@ dtype: object
 3           30        14        16
 4           40        15        17
 
->>> adjusted1 = pd.Series([5,9,11,16,17], name='adjusted1')  # dataframe增加新建的series
->>> my_dataframe['adjusted1'] = adjusted1
->>> my_dataframe
+# 增加新建的Series
+>>> adjusted1 = pd.Series([5, 9, 11, 16, 17], name='adjusted1')
+>>> df['adjusted1'] = adjusted1
+>>> df
    temperature  activity  adjusted  adjusted1
 0            0         3         5          5
 1           10         7         9          9
@@ -66,41 +74,41 @@ dtype: object
 4           40        15        17         17
 ```
 
-### 选择(查询)dataframe
+### 选择和查询 DataFrame
 
 ```python
->>> my_dataframe.head(3)  # 前3行
+>>> df.head(3)     # 前3行
    temperature  activity  adjusted  adjusted1
 0            0         3         5          5
 1           10         7         9          9
 2           20         9        11         11
->>> my_dataframe[1:4]     # 行1~3, 必须使用范围
+>>> df[1:4]        # 1-3行
    temperature  activity  adjusted  adjusted1
 1           10         7         9          9
 2           20         9        11         11
 3           30        14        16         16
->>> my_dataframe.iloc[2]         # 第2行
+>>> df.iloc[2]     # 第2行
 temperature    20
 activity        9
 adjusted       11
 adjusted1      11
 Name: 2, dtype: int64
 
->>> my_dataframe['temperature']  # 指定series
+>>> df['temperature']  # 指定series
 0     0
 1    10
 2    20
 3    30
 4    40
 Name: temperature, dtype: int64
->>> my_dataframe.temperature     # 指定series
+>>> df.temperature     # 指定series
 0     0
 1    10
 2    20
 3    30
 4    40
 Name: temperature, dtype: int64
->>> my_dataframe[['temperature', 'activity']]  # 指定多个series
+>>> df[['temperature', 'activity']]  # 指定多个series
    temperature  activity
 0            0         3
 1           10         7
@@ -108,26 +116,26 @@ Name: temperature, dtype: int64
 3           30        14
 4           40        15
 
->>> my_dataframe.iloc[2:4, 1:]   # 行2~3,列1~
+>>> df.iloc[2:4, 1:]   # 行2~3,列1~
    activity  adjusted  adjusted1
 2         9        11         11
 3        14        16         16
 
->>> my_dataframe["adjusted"] > 10              # 条件查询,返回True或False
+>>> df["adjusted"] > 10              # 条件查询,返回True或False
 0    False
 1    False
 2     True
 3     True
 4     True
 Name: adjusted, dtype: bool
->>> my_dataframe["adjusted"].isin([15,16,17])  # 是否属于集合
+>>> df["adjusted"].isin([15,16,17])  # 是否属于集合
 0    False
 1    False
 2    False
 3     True
 4     True
 Name: adjusted, dtype: bool
->>> my_dataframe["adjusted"].notna()           # 是否为NaN
+>>> df["adjusted"].notna()           # 是否为NaN
 0    True
 1    True
 2    True
@@ -135,14 +143,14 @@ Name: adjusted, dtype: bool
 4    True
 Name: adjusted, dtype: bool
         
->>> my_dataframe[my_dataframe["adjusted"] > 10]  # 条件选择
+>>> df[df["adjusted"] > 10]  # 条件选择
    temperature  activity  adjusted  adjusted1
 2           20         9        11         11
 3           30        14        16         16
 4           40        15        17         17
 ```
 
-## 查看统计量
+### 查看统计量
 
 ```python
 >>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
@@ -162,7 +170,7 @@ Name: adjusted, dtype: bool
 
 [891 rows x 12 columns]
 
->>> df.describe()  # 查看基本统计量
+>>> df.describe()            # 所有Series的基本统计量
        PassengerId    Survived      Pclass         Age       SibSp       Parch        Fare
 count   891.000000  891.000000  891.000000  714.000000  891.000000  891.000000  891.000000
 mean    446.000000    0.383838    2.308642   29.699118    0.523008    0.381594   32.204208
@@ -173,25 +181,107 @@ min       1.000000    0.000000    1.000000    0.420000    0.000000    0.000000  
 75%     668.500000    1.000000    3.000000   38.000000    1.000000    0.000000   31.000000
 max     891.000000    1.000000    3.000000   80.000000    8.000000    6.000000  512.329200
 
->>> df['Age'].max()  # 返回指定统计量: max, min, mean, median, std
+>>> df['Age'].describe()     # Series的基本统计量
+count    714.000000
+mean      29.699118
+std       14.526497
+min        0.420000
+25%       20.125000
+50%       28.000000
+75%       38.000000
+max       80.000000
+Name: Age, dtype: float64
+
+>>> df['Age'].max()          # Series的指定统计量
 80.0
 
->>> df.groupby('Sex').mean()  # 各性别的指定统计量
-        PassengerId  Survived    Pclass        Age     SibSp     Parch       Fare
-Sex                                                                              
-female   431.028662  0.742038  2.159236  27.915709  0.694268  0.649682  44.479818
-male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.523893
-
->>> df['Sex'].value_counts()  # 各性别计数
+>>> df['Sex'].value_counts()     # Series计数
 male      577
 female    314
 Name: Sex, dtype: int64
 
+>>> df.groupby('Sex').mean()     # 按指定Series分组
+        PassengerId  Survived    Pclass        Age     SibSp     Parch       Fare
+Sex                                                                              
+female   431.028662  0.742038  2.159236  27.915709  0.694268  0.649682  44.479818
+male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.523893
 ```
 
-## pandas函数
+## API
 
-### concat
+### dataframe
+
+#### add(), sub(), mul(), div(), floordiv(), mod(), pow()
+
+基本算术运算。符号 `+, -, *, /, //, %, **` 重载了这些方法。
+
+```python
+>>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
+>>> df
+   A  B
+0  1  2
+1  3  4
+2  5  6
+>>> df + 1   # 或df.add(1)
+   A  B
+0  2  3
+1  4  5
+2  6  7
+>>> df * 2   # 或df.mul(2)
+    A   B
+0   2   4
+1   6   8
+2  10  12
+```
+
+#### append()
+
+增加一行。
+
+```python
+>>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
+>>> df.append({'A':7,'B':8}, ignore_index=True)
+   A  B
+0  1  2
+1  3  4
+2  5  6
+3  7  8
+>>> df.append({'A':7}, ignore_index=True)
+     A    B
+0  1.0  2.0
+1  3.0  4.0
+2  5.0  6.0
+3  7.0  NaN
+```
+
+#### apply()
+
+对所有元素应用函数。
+
+```python
+>>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
+>>> df
+   A  B
+0  1  2
+1  3  4
+2  5  6
+>>> df.apply(lambda x: x**2)   # 作用于每个元素
+    A   B
+0   1   4
+1   9  16
+2  25  36
+>>> df.apply(np.sum, axis=0)   # 作用于每列
+A     9
+B    12
+dtype: int64
+>>> df.apply(np.sum, axis=1)   # 作用于每行
+0     3
+1     7
+2    11
+dtype: int64
+```
+
+#### concat()
 
 拼接 dataframe。
 
@@ -229,81 +319,7 @@ Name: Sex, dtype: int64
 5      Frank   M
 ```
 
-# API
-
-## dataframe
-
-### add(), sub(), mul(), div(), floordiv(), mod(), pow(), \_\_add\_\_(), \_\_sub\_\_(), \_\_mul\_\_(), \_\_div\_\_(), \_\_mod()\_\_, \_\_pow()\_\_
-
-基本算术运算。
-
-```python
->>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
->>> df
-   A  B
-0  1  2
-1  3  4
-2  5  6
->>> df + 1   # 或df.add(1)
-   A  B
-0  2  3
-1  4  5
-2  6  7
->>> df * 2   # 或df.mul(2)
-    A   B
-0   2   4
-1   6   8
-2  10  12
-```
-
-### append()
-
-增加一行。
-
-```python
->>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
->>> df.append({'A':7,'B':8}, ignore_index=True)
-   A  B
-0  1  2
-1  3  4
-2  5  6
-3  7  8
->>> df.append({'A':7}, ignore_index=True)
-     A    B
-0  1.0  2.0
-1  3.0  4.0
-2  5.0  6.0
-3  7.0  NaN
-```
-
-### apply()
-
-对所有元素应用函数。
-
-```python
->>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
->>> df
-   A  B
-0  1  2
-1  3  4
-2  5  6
->>> df.apply(lambda x: x**2)   # 作用于每个元素
-    A   B
-0   1   4
-1   9  16
-2  25  36
->>> df.apply(np.sum, axis=0)   # 作用于每列
-A     9
-B    12
-dtype: int64
->>> df.apply(np.sum, axis=1)   # 作用于每行
-0     3
-1     7
-2    11
-dtype: int64
-```
-
-### drop()
+#### drop()
 
 删除指定行/列。
 
@@ -328,7 +344,7 @@ dtype: int64
 3  Germany
 ```
 
-### dropna()
+#### dropna()
 
 删除含有 NaN 的行。
 
@@ -349,7 +365,7 @@ dtype: int64
 0  1.0  2.0  5.0  0
 ```
 
-### fillna()
+#### fillna()
 
 替换 NaN。
 
@@ -380,11 +396,11 @@ dtype: int64
 3  0.0  3.0 -2.0  4
 ```
 
-### head()
+#### head()
 
 查看 dataframe 的前几行。
 
-### iloc()
+#### iloc()
 
 查看指定行/列。
 
@@ -425,7 +441,7 @@ Name: 0, dtype: int64
 2  1000  2000  3000
 ```
 
-### join()
+#### join()
 
 与另一 dataframe 做列拼接。
 
@@ -464,7 +480,7 @@ K5   A5  NaN
 5  K5  A5  NaN
 ```
 
-### merge()
+#### merge()
 
 与另一 dataframe 做数据库风格的列拼接，即匹配左键和右键。
 
@@ -483,7 +499,7 @@ K5   A5  NaN
 5  baz        3  baz        7
 ```
 
-### plot()
+#### plot()
 
 对 dataframe 或 series 绘图。默认使用 matplotlib。
 
@@ -551,7 +567,7 @@ Tasks Completed    700
 
 ![](https://i.loli.net/2020/12/30/9V8sDLT7hjXJutQ.png)
 
-### pop()
+#### pop()
 
 删除 series 并返回。
 
@@ -581,7 +597,7 @@ Name: class, dtype: object
 3  monkey        NaN
 ```
 
-### rename()
+#### rename()
 
 重命名 series。
 
@@ -594,7 +610,7 @@ Name: class, dtype: object
 2    5    6
 ```
 
-### set_index(), reset_index()
+#### set_index(), reset_index()
 
 使用既有的 series 作为 index。重置 index。
 
@@ -623,7 +639,7 @@ year
 3  2014     10    31
 ```
 
-### sort_values()
+#### sort_values()
 
 将各行根据指定 series 排序
 
@@ -648,7 +664,7 @@ year
 
 ```
 
-### sampling()
+#### sampling()
 
 将 dataframe 中的数据按比例做随机抽样。
 
@@ -668,7 +684,7 @@ year
 >>> test_df = df.drop(train_df.index)  # 删除已取样的行
 ```
 
-### to_csv()
+#### to_csv()
 
 将 dataframe 保存到 csv 文件。
 
@@ -676,11 +692,11 @@ year
 
 ```
 
-### to_datetime()
+#### to_datetime()
 
-## series
+### series
 
-### apply()
+#### apply()
 
 对所有元素应用函数。
 
@@ -704,7 +720,7 @@ Helsinki    2.484907
 dtype: float64
 ```
 
-## 导入数据
+### 导入数据
 
 ```python
 # csv

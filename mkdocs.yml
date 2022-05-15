@@ -63,7 +63,7 @@ markdown_extensions:
       permalink: true      # add an anchor link at the end of each headline
       slugify: !!python/name:pymdownx.slugs.uslugify
                            # allow to slugify unicode title
-      toc_depth: 3         # range of levels to be included in toc
+      toc_depth: 4         # range of levels to be included in toc
 
 # Plugins
 plugins:
@@ -168,6 +168,9 @@ nav:
     - ml/index.md
     - 平台和工具:
       - ml/platform-and-tool/index.md
+      - numpy: ml/platform-and-tool/numpy.md
+      - pandas: ml/platform-and-tool/pandas.md
+      - matplotlib: ml/platform-and-tool/matplotlib.md
       - PyTorch:
         - ml/platform-and-tool/pytorch/index.md
         - PyTorch: ml/platform-and-tool/pytorch/pytorch.md
@@ -194,7 +197,11 @@ nav:
     - Linux 命令: tool/linux-command.md
     - Linux 工具: tool/linux-utility.md
     - Git: tool/git.md
-    
+  - 前端:
+    - web/index.md
+    - Simple HTML: web/simple-html.md
+    - Simple CSS: web/simple-css.md
+
 
 # Customization
 # extra:
