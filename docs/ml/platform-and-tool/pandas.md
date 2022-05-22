@@ -53,7 +53,7 @@ dtype: object
 
 ```python
 # 基于已有的Series增加Series
->>> df['adjusted'] = df['activity'] + 2  
+>>> df['adjusted'] = df['activity'] + 2
 >>> df
    temperature  activity  adjusted
 0            0         3         5
@@ -82,33 +82,33 @@ dtype: object
 0            0         3         5          5
 1           10         7         9          9
 2           20         9        11         11
->>> df[1:4]        # 1-3行
+>>> df[1:4]        # 行1-3
    temperature  activity  adjusted  adjusted1
 1           10         7         9          9
 2           20         9        11         11
 3           30        14        16         16
->>> df.iloc[2]     # 第2行
+>>> df.iloc[2]     # 行2
 temperature    20
 activity        9
 adjusted       11
 adjusted1      11
 Name: 2, dtype: int64
 
->>> df['temperature']  # 指定series
+>>> df['temperature']  # 指定Series
 0     0
 1    10
 2    20
 3    30
 4    40
 Name: temperature, dtype: int64
->>> df.temperature     # 指定series
+>>> df.temperature     # 指定Series
 0     0
 1    10
 2    20
 3    30
 4    40
 Name: temperature, dtype: int64
->>> df[['temperature', 'activity']]  # 指定多个series
+>>> df[['temperature', 'activity']]  # 指定多个Series
    temperature  activity
 0            0         3
 1           10         7
@@ -143,7 +143,7 @@ Name: adjusted, dtype: bool
 4    True
 Name: adjusted, dtype: bool
         
->>> df[df["adjusted"] > 10]  # 条件选择
+>>> df[df["adjusted"] > 10]          # 条件选择
    temperature  activity  adjusted  adjusted1
 2           20         9        11         11
 3           30        14        16         16
@@ -209,7 +209,7 @@ male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.52389
 
 ## API
 
-### dataframe
+### DataFrame
 
 #### add(), sub(), mul(), div(), floordiv(), mod(), pow()
 
@@ -281,12 +281,51 @@ dtype: int64
 dtype: int64
 ```
 
-#### concat()
+#### astype()
 
-拼接 dataframe。
+将 Series/DataFrame 转换为指定数据类型。
 
 ```python
-# series相同的dataframe的行拼接
+>>> data = {'col1': [1, 2], 'col2': [3, 4]}
+>>> df = pd.DataFrame(data=data)
+>>> df.dtypes
+col1    int64
+col2    int64
+dtype: object
+>>> df.astype('int32').dtypes            # 所有列转换为int32类型
+col1    int32
+col2    int32
+dtype: object
+>>> df.astype({'col1': 'int32'}).dtypes  # 列col1转换为int32类型
+col1    int32
+col2    int64
+dtype: object
+
+>>> sr = pd.Series([1, 2], dtype='int32')
+>>> sr.dtypes
+dtype('int32')
+>>> sr.astype('int64').dtypes
+dtype('int64')
+```
+
+#### at()
+
+
+
+```python
+
+```
+
+#### columns
+
+返回 DataFrame 的列标签。
+
+#### concat()
+
+拼接 DataFrame。
+
+```python
+# Series相同的DataFrame的行拼接
 >>> df1 = pd.DataFrame({'name': ['Alice', 'Bob', 'Cindy'],
                         'sex': ['F', 'M', 'F']})
 >>> df1
@@ -319,6 +358,38 @@ dtype: int64
 5      Frank   M
 ```
 
+#### copy()
+
+返回 Series/DataFrame 的深/浅拷贝。
+
+```python
+>>> s = pd.Series([1, 2], index=["a", "b"])
+>>> deep = s.copy()                 # 深拷贝
+>>> shallow = s.copy(deep=False)    # 浅拷贝
+>>> s is deep
+False
+>>> s.values is deep.values or s.index is deep.index         # 不共享数据
+False
+>>> s is shallow
+False
+>>> s.values is shallow.values and s.index is shallow.index  # 共享数据
+True
+>>> s[0] = 3
+>>> shallow[1] = 4
+>>> s
+a    3
+b    4
+dtype: int64
+>>> shallow
+a    3
+b    4
+dtype: int64
+>>> deep
+a    1
+b    2
+dtype: int64
+```
+
 #### drop()
 
 删除指定行/列。
@@ -326,11 +397,11 @@ dtype: int64
 ```python
 >>> df = pd.DataFrame({'Country': ['US', 'China', 'Japan', 'Germany'],
 ...                    'GDP': [21.4, 14.3, 5.1, 3.8]})
->>> df.drop([0,3])  # 删除多行
+>>> df.drop([0, 3])           # 删除多行
   Country   GDP
 1   China  14.3
 2   Japan   5.1
->>> df              # 原dataframe不变
+>>> df                        # 原DataFrame不变
    Country   GDP
 0       US  21.4
 1    China  14.3
@@ -346,7 +417,7 @@ dtype: int64
 
 #### dropna()
 
-删除含有 NaN 的行。
+移除缺失值。
 
 ```python
 >>> df = pd.DataFrame([[1, 2, 5, 0],
@@ -360,10 +431,35 @@ dtype: int64
 1  3.0  4.0  NaN  1
 2  NaN  NaN  NaN  5
 3  NaN  3.0  NaN  4
->>> df.dropna()
+>>> df.dropna()                # 移除缺失至少一个值的行
      A    B    C  D
 0  1.0  2.0  5.0  0
+>>> df.dropna(axis='columns')  # 移除缺失至少一个值的列
+   D
+0  0
+1  1
+2  5
+3  4
+>>> df.dropna(how='all')       # 移除缺失所有值的行
+     A    B    C  D
+0  1.0  2.0  5.0  0
+1  3.0  4.0  NaN  1
+2  NaN  NaN  NaN  5
+3  NaN  3.0  NaN  4
+>>> df.dropna(thresh=2)        # 保留有至少两个值的行
+     A    B    C  D
+0  1.0  2.0  5.0  0
+1  3.0  4.0  NaN  1
+3  NaN  3.0  NaN  4
+>>> df.dropna(subset=['A', 'B'])   # 仅检查指定列
+     A    B    C  D
+0  1.0  2.0  5.0  0
+1  3.0  4.0  NaN  1
 ```
+
+#### dtypes
+
+返回 DataFrame 的（所有 Series 的）数据类型。
 
 #### fillna()
 
@@ -396,9 +492,38 @@ dtype: int64
 3  0.0  3.0 -2.0  4
 ```
 
-#### head()
+#### head(), tail()
 
-查看 dataframe 的前几行。
+查看 DataFrame 的前/后几行。
+
+```python
+>>> df = pd.DataFrame({'animal': ['alligator', 'bee', 'falcon', 'lion',
+...                    'monkey', 'parrot', 'shark', 'whale', 'zebra']})
+>>> df.head()      # 前5行
+      animal
+0  alligator
+1        bee
+2     falcon
+3       lion
+4     monkey
+>>> df.head(3)     # 前3行
+      animal
+0  alligator
+1        bee
+2     falcon
+>>> df.tail()      # 后5行
+   animal
+4  monkey
+5  parrot
+6   shark
+7   whale
+8   zebra
+>>> df.tail(3)     # 后3行
+  animal
+6  shark
+7  whale
+8  zebra
+```
 
 #### iloc()
 
@@ -441,9 +566,17 @@ Name: 0, dtype: int64
 2  1000  2000  3000
 ```
 
+#### index
+
+返回 DataFrame 的索引（行标签）。
+
+#### info()
+
+打印 DataFrame 的概要。
+
 #### join()
 
-与另一 dataframe 做列拼接。
+与另一 DataFrame 做列拼接。
 
 ```python
 >>> df1 = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K3', 'K4', 'K5'],
@@ -451,7 +584,7 @@ Name: 0, dtype: int64
 >>> df2 = pd.DataFrame({'key': ['K0', 'K1', 'K2'],
                         'B': ['B0', 'B1', 'B2']})
 
->>> df1.join(df2, lsuffix='_caller', rsuffix='_other')  # 简单拼接,其中同名series分别使用后缀
+>>> df1.join(df2, lsuffix='_caller', rsuffix='_other')  # 简单拼接,其中同名Series分别使用后缀
   key_caller   A key_other    B
 0         K0  A0        K0   B0
 1         K1  A1        K1   B1
@@ -470,7 +603,7 @@ K3   A3  NaN
 K4   A4  NaN
 K5   A5  NaN
 
->>> df1.join(df2.set_index('key'), on='key')            # 合并series
+>>> df1.join(df2.set_index('key'), on='key')            # 合并Series
   key   A    B
 0  K0  A0   B0
 1  K1  A1   B1
@@ -480,9 +613,35 @@ K5   A5  NaN
 5  K5  A5  NaN
 ```
 
+#### memory()
+
+返回 DataFrame 每一列的内存使用量，以字节为单位。
+
+```python
+>>> dtypes = ['int64', 'float64', 'complex128', 'object', 'bool']
+>>> data = dict([(t, np.ones(shape=5000, dtype=int).astype(t))
+...              for t in dtypes])
+>>> df = pd.DataFrame(data)
+>>> df.head()
+   int64  float64  complex128 object  bool
+0      1      1.0    1.0+0.0j      1  True
+1      1      1.0    1.0+0.0j      1  True
+2      1      1.0    1.0+0.0j      1  True
+3      1      1.0    1.0+0.0j      1  True
+4      1      1.0    1.0+0.0j      1  True
+>>> df.memory_usage()
+Index           128
+int64         40000
+float64       40000
+complex128    80000
+object        40000
+bool           5000
+dtype: int64
+```
+
 #### merge()
 
-与另一 dataframe 做数据库风格的列拼接，即匹配左键和右键。
+与另一 DataFrame 做数据库风格的列拼接，即匹配左键和右键。
 
 ```python
 >>> df1 = pd.DataFrame({'lkey': ['foo', 'bar', 'baz', 'foo'],
@@ -499,9 +658,13 @@ K5   A5  NaN
 5  baz        3  baz        7
 ```
 
+#### ndim
+
+若为 Series，返回 1；若为 DataFrame，返回 2。
+
 #### plot()
 
-对 dataframe 或 series 绘图。默认使用 matplotlib。
+对 DataFrame 或 Series 绘图。默认使用 matplotlib。
 
 **散点图**
 
@@ -559,7 +722,7 @@ Tasks Completed    700
 >>> df.plot(kind='pie', y='Tasks', figsize=(5, 5), autopct='%1.1f%%', startangle=90, explode = [0.05,0.05,0.05], shadow=True)
 <AxesSubplot:ylabel='Tasks'>
 >>> plt.show()
-# y: 选择dataframe的series
+# y: 选择DataFrame的Series
 # autopct: 百分数显示格式
 # startangle: 开始角度(从x轴正方向逆时针旋转),默认为0,逆时针划分
 
@@ -569,7 +732,7 @@ Tasks Completed    700
 
 #### pop()
 
-删除 series 并返回。
+删除 Series 并返回。
 
 ```python
 >>> df = pd.DataFrame([('falcon', 'bird', 389.0),
@@ -599,7 +762,7 @@ Name: class, dtype: object
 
 #### rename()
 
-重命名 series。
+重命名 Series。
 
 ```python
 >>> df = pd.DataFrame([[1, 2],[3, 4],[5, 6]], columns=['A', 'B'])
@@ -612,7 +775,7 @@ Name: class, dtype: object
 
 #### set_index(), reset_index()
 
-使用既有的 series 作为 index。重置 index。
+使用既有的 Series 作为 index。重置 index。
 
 ```python
 >>> df = pd.DataFrame({'month': [1, 4, 7, 10],
@@ -639,14 +802,18 @@ year
 3  2014     10    31
 ```
 
+#### size
+
+返回 Series/DataFrame 的元素数量。
+
 #### sort_values()
 
-将各行根据指定 series 排序
+将各行根据指定 Series 排序。
 
 ```python
 >>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
 
->>> df.sort_values(by='Age').head()   # 按series 'Age' 
+>>> df.sort_values(by='Age').head()   # 按Series 'Age' 
      PassengerId  Survived  Pclass                             Name     Sex   Age  ...
 803          804         1       3  Thomas, Master. Assad Alexander    male  0.42  ...
 755          756         1       2        Hamalainen, Master. Viljo    male  0.67  ...
@@ -654,7 +821,7 @@ year
 469          470         1       3    Baclini, Miss. Helene Barbara  female  0.75  ...
 78            79         1       2    Caldwell, Master. Alden Gates    male  0.83  ...
 
->>> df.sort_values(by=['Pclass', 'Age'], ascending=False).head()   # 按series 'Pclass', 'Age' 分类,排降序
+>>> df.sort_values(by=['Pclass', 'Age'], ascending=False).head()   # 按Series 'Pclass', 'Age' 分类,排降序
      PassengerId  Survived  Pclass                       Name     Sex   Age  ...
 851          852         0       3        Svensson, Mr. Johan    male  74.0  ...
 116          117         0       3       Connors, Mr. Patrick    male  70.5  ...
@@ -666,7 +833,7 @@ year
 
 #### sampling()
 
-将 dataframe 中的数据按比例做随机抽样。
+将 DataFrame 中的数据按比例做随机抽样。
 
 ```python
 >>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
@@ -684,9 +851,20 @@ year
 >>> test_df = df.drop(train_df.index)  # 删除已取样的行
 ```
 
+#### shape
+
+返回以元组表示的 DataFrame 的形状。
+
+```python
+>>> df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4],
+...                    'col3': [5, 6]})
+>>> df.shape
+(2, 3)
+```
+
 #### to_csv()
 
-将 dataframe 保存到 csv 文件。
+将 DataFrame 保存到 csv 文件。
 
 ```python
 
@@ -694,7 +872,48 @@ year
 
 #### to_datetime()
 
-### series
+#### values
+
+返回 DataFrame 的 NumPy 表示。
+
+```python
+>>> df = pd.DataFrame({'age':    [ 3,  29],
+...                    'height': [94, 170],
+...                    'weight': [31, 115]})
+>>> df
+   age  height  weight
+0    3      94      31
+1   29     170     115
+>>> df.dtypes
+age       int64
+height    int64
+weight    int64
+dtype: object
+>>> df.values
+array([[  3,  94,  31],
+       [ 29, 170, 115]])
+
+>>> df2 = pd.DataFrame([('parrot',   24.0, 'second'),
+...                     ('lion',     80.5, 1),
+...                     ('monkey', np.nan, None)],
+...                   columns=('name', 'max_speed', 'rank'))
+>>> df2
+     name  max_speed    rank
+0  parrot       24.0  second
+1    lion       80.5       1
+2  monkey        NaN    None
+>>> df2.dtypes
+name          object
+max_speed    float64
+rank          object
+dtype: object
+>>> df2.values
+array([['parrot', 24.0, 'second'],
+       ['lion', 80.5, 1],
+       ['monkey', nan, None]], dtype=object)
+```
+
+### Series
 
 #### apply()
 
@@ -719,6 +938,22 @@ New York    3.044522
 Helsinki    2.484907
 dtype: float64
 ```
+
+#### copy()
+
+见 [DataFrame.copy](#copy)。
+
+#### dropna()
+
+见 [DataFrame.dropna](#dropna)。
+
+#### ndim
+
+见 [DataFrame.ndim](#ndim)。
+
+#### size
+
+见 [DataFrame.size](#size)。
 
 ### 导入数据
 
