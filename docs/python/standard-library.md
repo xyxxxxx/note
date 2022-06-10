@@ -3486,6 +3486,24 @@ random.betavariate(alpha, beta)
 
 见正则表达式。
 
+
+
+
+## shlex——简单的词法分析
+
+`shlex` 模块可以用于编写类似 Unix shell 的简单词法分析程序。通常可用于编写“迷你语言”（如 Python 应用程序的运行控制文件）或解析带引号的字符串。
+
+### split(), join()
+
+```python
+>>> command_line = input()
+/bin/vikings -input eggs.txt -output "spam spam.txt" -cmd "echo '$MONEY'"
+>>> shlex.split(command_line)
+['/bin/vikings', '-input', 'eggs.txt', '-output', 'spam spam.txt', '-cmd', "echo '$MONEY'"]
+>>> shlex.join(shlex.split(command_line))
+'/bin/vikings -input eggs.txt -output \'spam spam.txt\' -cmd \'echo \'"\'"\'$MONEY\'"\'"\'\''
+```
+
 ## shutil——高阶文件操作
 
 `shutil` 模块提供了一系列对文件和文件集合的高阶操作，特别是一些支持文件复制和删除的函数。
@@ -3728,7 +3746,242 @@ $ python my_module.py
 sys.version_info(major=3, minor=6, micro=9, releaselevel='final', serial=0)
 ```
 
+## tarfile——读写 tar 归档文件
+
+`tarfile` 模块可以用来读写 tar 归档，包括使用 gzip, bz2 和 lzma 压缩的归档。对于 `.zip` 文件，请使用 `zipfile` 模块来进行读写，或者使用 shutil 的高层级函数。
+
+### open()
+
+针对路径名返回 `TarFile` 对象。
+
+```python
+with tarfile.open('sample.tar') as tar:
+    # read ops
+
+with tarfile.open('sample.tar.gz') as tar:
+    # read ops
+
+with tarfile.open('sample.tar', 'w') as tar:
+    # write ops
+```
+
+```python
+source_file = 'dir'
+with TemporaryFile() as tar_buffer:
+    with tarfile.open(fileobj=tar_buffer, mode='w') as tar:
+        tar.add(source_file, arcname='pvc/data/dir')
+    tar_buffer.seek(0)
+
+    command = f'tar xvf -'
+    tar_cmd = subprocess.Popen(shlex.split(command),
+                                stdin=subprocess.PIPE,
+                                shell=False)
+    tar_cmd.stdin.write(tar_buffer.read())
+    tar_cmd.stdin.close()
+```
+
+### TarFile
+
+TarFile 对象提供了一个 tar 归档的接口。tar 归档是数据块的序列；一个归档成员（被保存文件）是由一个标头块加多个数据块组成的；一个文件可以在一个 tar 归档中多次被保存；每个归档成员都由一个 TarInfo 对象来代表。
+
+`TarFile` 对象可以在 `with` 语句中作为上下文管理器使用，当语句块结束时它将自动被关闭。请注意在发生异常事件时被打开用于写入的归档将不会被终结；只有内部使用的文件对象将被关闭。
+
+#### getmember()
+
+根据指定名称返回成员的 `TarInfo` 对象。 如果名称在归档中找不到，则会引发 `KeyError`。
+
+#### getmembers()
+
+以 `TarInfo` 对象列表的形式返回归档的成员，列表的顺序与归档中成员的顺序一致。
+
+#### getnames()
+
+以名称列表的形式返回归档的成员，列表的顺序与 `getmembers()` 所返回列表的顺序一致。
+
+#### next()
+
+当 `TarFile` 被打开用于读取时，以 `TarInfo` 对象的形式返回归档的下一个成员。如果不再有可用对象则返回 `None`。
+
+#### extract()
+
+```python
+TarFile.extract(member, path="", set_attrs=True, *, numeric_owner=False)
+```
+
+将归档中的一个成员提取到当前工作目录或 *path* 目录，将使用其完整名称。成员的文件信息会尽可能精确地被提取。*member* 可以是一个文件名或 `TarInfo` 对象。将会设置文件属性 (owner, mtime, mode) 除非 *set_attrs* 为 `False`。
+
+如果 *numeric_owner* 为 True，则将使用来自 tarfile 的 uid 和 gid 数值来设置被提取文件的用户和用户组。在其他情况下，则会使用来自 tarfile 的名称值。
+
+!!! warning "警告"
+    绝不要未经预先检验就从不可靠的源中提取归档文件，这样有可能在 *path* 之外创建文件。例如某些成员具有以 `"/"` 开始的绝对路径文件名或带有两个点号 `".."` 的文件名。
+
+#### extractall()
+
+```python
+TarFile.extractall(path=".", members=None, *, numeric_owner=False)
+```
+
+将归档中的所有成员提取到当前工作目录或 *path* 目录。如果给定了可选的 *members*，则它必须为 `getmembers()` 所返回的列表的一个子集。字典信息例如所有者、修改时间和权限会在所有成员提取完毕后被设置，这样做是为了避免两个问题：目录的修改时间会在每当在其中创建文件时被重置。并且如果目录的权限不允许写入，提取文件到目录的操作将失败。
+
+如果 numeric_owner 为 True，则将使用来自 tarfile 的 uid 和 gid 数值来设置被提取文件的所有者/用户组。 在其他情况下，则会使用来自 tarfile 的名称值。
+
+#### extractfile()
+
+```python
+TarFile.extractfile(member)
+```
+
+将归档中的一个成员提取为文件对象。*member* 可以是一个文件名或 `TarInfo` 对象。如果 *member* 是一个常规文件或链接，则会返回一个 `io.BufferedReader` 对象。在其他情况下将返回 `None`。
+
+#### add()
+
+```python
+TarFile.add(name, arcname=None, recursive=True, *, filter=None)
+```
+
+将文件 *name* 添加到归档，*name* 可以是任意类型的文件（或目录、fifo、符号链接等等）。如果给出 *arcname* 则它将为归档中的文件指定一个替代名称。默认情况下会递归地添加目录，这可以通过将 *recursive* 设为 `False` 来避免。递归操作会按排序顺序添加条目。如果给定了 *filter*，它应当为一个接受 `TarInfo` 对象并返回已修改 `TarInfo` 对象的函数。如果它返回 `None` 则 `TarInfo` 对象将从归档中被排除。
+
+#### addfile()
+
+```python
+TarFile.addfile(tarinfo, fileobj=None)
+```
+
+将 `TarInfo` 对象 *tarinfo* 添加到归档。如果给定了 *fileobj*，它应当是一个二进制文件，并会从中读取 `tarinfo.size` 个字节添加到归档。你可以直接创建 `TarInfo` 对象，或是使用 `gettarinfo()` 来创建。
+
+#### gettarinfo()
+
+```python
+TarFile.gettarinfo(name=None, arcname=None, fileobj=None)
+```
+
+### TarInfo
+
+`TarInfo` 对象代表 `TarFile` 中的一个文件。除了会存储所有必要的文件属性（例如文件类型、大小、时间、权限、所有者等），它还提供了一些确定文件类型的有用方法。此对象**并不**包含文件数据本身。
+
+`TarInfo` 对象可通过 `TarFile` 的方法 `getmember()`、`getmembers()` 和 `gettarinfo()` 返回。
+
+#### gid
+
+最初保存该成员的用户的用户组 ID。
+
+#### gname
+
+用户组名。
+
+#### isdir()
+
+如果为目录则返回 `True`。
+
+#### isfile()
+
+如果为普通文件则返回 `True`。
+
+#### islnk()
+
+如果为硬链接则返回 `True`。
+
+#### issym()
+
+如果为符号链接则返回 `True`。
+
+#### linkname
+
+目标文件名的名称，该属性仅在类型为 `LNKTYPE` 和 `SYMTYPE` 的 `TarInfo` 对象中存在。
+
+#### mode
+
+权限位。
+
+#### mtime
+
+上次修改的时间。
+
+#### name
+
+归档成员的名称。
+
+#### size
+
+以字节表示的大小。
+
+#### type
+
+文件类型。`type` 通常为以下常量之一：`REGTYPE`, `AREGTYPE`, `LNKTYPE`, `SYMTYPE`, `DIRTYPE`, `FIFOTYPE`, `CONTTYPE`, `CHRTYPE`, `BLKTYPE`, `GNUTYPE_SPARSE`。要更方便地确定一个 `TarInfo` 对象的类型，请使用 `is*()` 方法。
+
+#### uid
+
+最初保存该成员的用户的用户 ID。
+
+#### uname
+
+用户名。
+
 ## tempfile——生成临时文件和目录
+
+`tempfile` 模块用于创建临时文件和目录，它可以跨平台使用。
+
+### TemporaryFile
+
+```python
+tempfile.TemporaryFile(mode='w+b', buffering=-1, encoding=None, newline=None, suffix=None, prefix=None, dir=None, *, errors=None)
+```
+
+返回一个类似文件的对象作为临时存储区域。创建该文件使用了与 `mkstemp()` 相同的安全规则。该文件在被关闭后会被立即销毁（包括垃圾回收机制关闭该对象时）。在 Unix 下，该文件在目录中的条目根本不创建，或者创建文件后立即就被删除了，但其他平台不支持此功能。您的代码不应依赖使用此功能创建的临时文件名称，因为它在文件系统中的名称可能是可见的，也可能是不可见的。
+
+生成的对象可以用作上下文管理器。完成上下文或销毁临时文件对象后，临时文件将从文件系统中删除。
+
+*mode* 参数默认值为 `'w+b'`，所以创建的文件不用关闭，就可以读取或写入。因为使用的是二进制模式，所以无论存的是什么数据，它在所有平台上都表现一致。
+
+参数 *buffering*、*encoding*、*errors* 和 *newline* 的含义与 `open()` 中的相同；参数 *dir*、*prefix* 和 *suffix* 的含义和默认值与 `mkstemp()` 中的相同。
+
+### TemporaryDirectory
+
+```python
+tempfile.TemporaryDirectory(suffix=None, prefix=None, dir=None)
+```
+
+安全地创建一个临时目录，且使用与 `mkdtemp()` 相同的规则。此函数返回的对象可用作上下文管理器。完成上下文或销毁临时目录对象后，新创建的临时目录及其所有内容将从文件系统中删除。
+
+可以从返回对象的 `name` 属性中找到临时目录的名称。当返回的对象用作上下文管理器时，这个 `name` 会作为 `with` 语句中 `as` 子句的目标（如果有 `as` 的话）。
+
+可以调用 `cleanup()` 方法来手动清理目录。
+
+### mkstemp()
+
+```python
+tempfile.mkstemp(suffix=None, prefix=None, dir=None, text=False)
+```
+
+以最安全的方式创建一个临时文件。假设所在平台正确实现了 `os.open()` 的 `os.O_EXCL` 标志，则创建文件时不会有竞争的情况。该文件只能由创建者读写，如果所在平台用权限位来标记文件是否可执行，则没有人有执行权。文件描述符不会过继给子进程。
+
+与 `TemporaryFile()` 不同，`mkstemp()` 的用户用完临时文件后需要自行将其删除。
+
+如果 *suffix* 不是 `None` 则文件名将以该后缀结尾，是 `None` 则没有后缀。`mkstemp()` 不会在文件名和后缀之间加点，如果需要加一个点号，请将其放在 *suffix* 的开头。
+
+如果 *prefix* 不是 `None`，则文件名将以该前缀开头，是 `None` 则使用默认前缀。默认前缀是 `gettempprefix()` 或 `gettempprefixb()` 函数的返回值（自动调用合适的函数）。
+
+如果 *dir* 不是 `None`，则在指定的目录创建文件，是 `None` 则使用默认目录。默认目录是从一个列表中选择出来的，这个列表在不同的平台不一样，但是用户可以设置 *TMPDIR*、*TEMP* 或 *TMP* 环境变量来设置目录的位置。因此，不能保证生成的临时文件路径很规范，比如，通过 `os.popen()` 将路径传递给外部命令时仍需要加引号。
+
+如果 *suffix*、*prefix* 和 *dir* 中的任何一个不是 `None`，就要保证它们是同一数据类型。如果它们是 bytes，则返回的名称的类型就是 bytes 而不是 str。如果确实要用默认参数，但又想要返回值是 bytes 类型，请传入 `suffix=b''`。
+
+如果指定了 *text* 且为真值，文件会以文本模式打开，否则文件会（默认）以二进制模式打开。
+
+`mkstemp()` 返回一个元组，元组中第一个元素是句柄，它是一个系统级句柄，指向一个打开的文件（等同于 `os.open()` 的返回值），第二元素是该文件的绝对路径。
+
+### mkdtemp()
+
+```python
+tempfile.mkdtemp(suffix=None, prefix=None, dir=None)
+```
+
+以最安全的方式创建一个临时目录，创建该目录时不会有竞争的情况。该目录只能由创建者读取、写入和搜索。
+
+`mkdtemp()` 用户用完临时目录后需要自行将其删除。
+
+*prefix*、*suffix* 和 *dir* 的含义与它们在 `mkstemp()` 中的相同。
+
+`mkdtemp()` 返回新目录的绝对路径。
 
 ### gettempdir()
 

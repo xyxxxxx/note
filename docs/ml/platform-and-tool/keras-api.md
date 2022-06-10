@@ -1,4 +1,4 @@
-
+[toc]
 
 在 TensorFlow 中，推荐使用 Keras（`tf.keras`）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
 

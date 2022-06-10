@@ -1376,6 +1376,8 @@ torch.Size([2, 1, 3, 1, 4])
 torch.Size([2, 3, 4])
 >>> torch.stack((a1, a2), 1).shape
 torch.Size([3, 2, 4])
+>>> torch.stack((a1, a2), 2).shape
+torch.Size([3, 4, 2])
 ```
 
 ### swapaxes()
@@ -1492,6 +1494,22 @@ tensor([[ 0,  1,  2,  3],
 torch.Size([1, 2, 3, 4])
 >>> a.unsqueeze(3).shape
 torch.Size([2, 3, 4, 1])
+```
+
+### vstack(), hstack()
+
+纵向（沿轴 0）/横向（沿轴 1）堆叠张量。
+
+```python
+>>> a = torch.arange(6).view(2, 3)
+>>> torch.vstack((a, a))
+tensor([[0, 1, 2],
+        [3, 4, 5],
+        [0, 1, 2],
+        [3, 4, 5]])
+>>> torch.hstack((a, a))
+tensor([[0, 1, 2, 0, 1, 2],
+        [3, 4, 5, 3, 4, 5]])
 ```
 
 ## 数学运算
