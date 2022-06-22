@@ -173,7 +173,7 @@ https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0
 
 # 各语言标准库
 
-## Python标准库：re
+## Python 标准库：re
 
 ### compile()
 
