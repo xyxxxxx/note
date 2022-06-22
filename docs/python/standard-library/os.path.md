@@ -33,11 +33,20 @@
 
 ## exists()
 
-若路径指向一个已存在的文件或目录或已打开的文件描述符，返回 `True`。
+若路径指向一个已存在的文件或目录或已打开的文件描述符，返回 `True`。对于失效的符号链接，返回 `False`。在某些平台上，如果使用 `os.stat()` 查询到目标文件没有执行权限，即使文件确实存在，本函数也可能返回 `False`。
 
 ```python
 >>> path.exists('dir1')
+True
 ```
+
+## expanduser()
+
+在 Unix 和 Windows 上，将路径开头部分的 `'~'` 或 `'~user'` 替换为当前用户的 HOME 目录并返回。
+
+在 Unix 上，开头的 `'~'` 会被环境变量 `HOME` 代替，如果变量未设置，则通过内置模块 `pwd` 在 password 目录中查找当前用户的主目录。以 `'~user'` 开头则直接在 password 目录中查找。
+
+在 Windows 上，如果设置了 `USERPROFILE`，就使用这个变量，否则会将 `HOMEPATH` 和 `HOMEDRIVE` 结合在一起使用。以 `~user` 开头则将上述方法生成路径的最后一段目录替换成 user。
 
 ## getsize()
 
