@@ -1,3 +1,5 @@
+[toc]
+
 # Python 风格指南
 
 !!! abstract "参考"
@@ -5,168 +7,97 @@
     * PEP 257
     * [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
 
-## 格式
+## 模块
 
-### 缩进
+### import
 
-* 每个缩进层次为4个空格（而非一个tab`\t`）
+* 使用方法：
+    * `import x`：导入包和模块，例如 `import torch`。
+    * `from x import y`：从包中导入子包、模块或类，例如：
+        * `from tensorflow import keras`
+        * `from tensorflow.keras.datasets import mnist`
+        * `from pytorch_lightning import LightningModule, LightningDataModule, Trainer`
+    * `from x import y as z`：当导入两个同名为 `y` 的模块，或名称 `y` 非常长。
+    * `import y as z`：仅当 `z` 是一个标准缩写，例如：
+        * `import numpy as np`
+        * `import torch.nn.functional as F`
 
-* 不要使用tab；对于任何编辑器，将tab键设定为输入4个空格
+  不要使用上述方法以外的方法，例如导入全部 `from x import *`。
 
-* 对于拆分到多行的代码，应竖直对齐包装的所有元素，或使用4个空格的缩进并且第一行的括号后直接换行：
+* 不要使用相对路径导入，即使导入的模块在同一个包下，也使用完整的包名。
 
-  ```python
-  # 正确的示范
-  # 竖直对齐元素
-  foo = long_function_name(var_one, var_two,
-                           var_three, var_four)
-  meal = (spam,
-          beans)
-  
-  # 字典中竖直对齐元素
-  foo = {
-      long_dictionary_key: value1 +
-                           value2,
-      ...
-  }
-  
-  # 悬挂缩进4个空格;第一行括号后直接换行
-  foo = long_function_name(
-      var_one, var_two, var_three,
-      var_four)
-  meal = (
-      spam,
-      beans)
-  
-  # 字典中悬挂缩进4个空格
-  foo = {
-      long_dictionary_key:
-          long_dictionary_value,
-      ...
-  }
-  ```
-
-  ```python
-  # 错误的示范
-  # 第一行有元素再换行悬挂缩进
-  foo = long_function_name(var_one, var_two,
-      var_three, var_four)
-  meal = (spam,
-      beans)
-  
-  # 悬挂缩进2个空格
-  foo = long_function_name(
-    var_one, var_two, var_three,
-    var_four)
-  
-  # 字典中没有悬挂缩进
-  foo = {
-      long_dictionary_key:
-      long_dictionary_value,
-      ...
-  }
-  ```
-
-### whitespace
-
-### 行长度
-
-* 一行代码的最大长度应为80个字符。
-
-* 超过80个字符限制的常见例外情况包括：
-
-  + 长的 `import` 语句
-  + 注释中的 URL，路径名和长标记
-  + 长的模块级别的字符串常量，因为不包含 whitespace 而不便于拆分到多行，例如 URL 或路径名
+* 各 `import` 语句应分别占据一行：
 
   ```python
   # 正确的示范
-  # See details at
-  # http://www.example.com/us/developer/documentation/api/content/v2.0/csv_file_name_extension_full_specification.html
+  import os
+  import sys
+  from typing import Mapping, Sequence
   
   # 错误的示范
-  # See details at
-  # http://www.example.com/us/developer/documentation/api/content/\
-  # v2.0/csv_file_name_extension_full_specification.html
+  import os, sys
   ```
 
-* 利用 Python 隐式拼接括号内各行的特性，必要时可以使用圆括号包围表达式
+* `import` 语句应总是放在文件的顶部，在模块的注释和 docstring 之后，全局变量和常量之前。
+
+* `import ` 语句应按照包的类型分组，每个组内再按照字典序排序：
 
   ```python
-  # 正确的示范
-  # 隐式拼接括号内各行
-  foo_bar(self, width, height, color='black', design=None, x='foo',
-          emphasis=None, highlight=0)
+  from __future__ import absolute_import   # `__future__`模块导入
+  from __future__ import division
+  from __future__ import print_function
   
-  # 使用圆括号包围表达式
-  if (width == 0 and height == 0 and
-      color == 'red' and emphasis == 'strong'):
+  import collections                       # 标准库导入
+  import logging
+  import sys
+  
+  import torch                             # 第三方包导入
+  from torch import ScriptModule, Tensor
+  from torch.nn import Module
+  from torch.optim.optimizer import Optimizer
+  
+                                           # 当前项目导入?
   ```
 
-* 当字符串在一行中容纳不下时，使用圆括号隐式拼接
+### 包
 
-  ```python
-  # 正确的示范
-  x = ('This will build a very long long '
-       'long long long long long long string')
-  
-  url = ('http://www.example.com/us/developer/documentation/api/content/v2.0'
-         '/csv_file_name_extension_full_specification.html')
-  ```
+### 全局变量
 
-* 不要使用反斜线拆分行，除非是 `with` 语句需要3个或更多的上下文管理器
+一般应避免使用全局变量。但作为技术指标的全局变量是被允许和鼓励的，例如 `MAX_HOLY_HANDGRENADE_COUNT = 3`。
 
-  ```python
-  # 正确的示范
-  # 3个上下文管理器
-  with very_long_first_expression_function() as spam, \
-       very_long_second_expression_function() as beans, \
-       third_thing() as eggs:
-      place_order(eggs, beans, spam, beans)
-  
-  # 2个上下文管理器    
-  with very_long_first_expression_function() as spam:
-      with very_long_second_expression_function() as beans:
-          place_order(beans, spam)    
-  ```
+对外部隐藏全局变量应为变量名添加前缀 `_`，外部的访问需要通过公开的模块级别的函数完成。
 
-  ```python
-  # 错误的示范
-  with very_long_first_expression_function() as spam, \
-       very_long_second_expression_function() as beans, \
-      place_order(beans, spam)
-  ```
+## 类
 
-* 对于一行超过80个字符的所有其它情况，若 yapf 自动格式化器不能帮助拆分行，则该行可以超过限制。
+### 属性
 
-### 圆括号
+### 继承
 
-* 控制圆括号的使用。
-* 可以对元组使用圆括号包围，但这不是必须的。
+尽量不要使用多重继承。
 
-### 逗号
+## 函数
 
-* 对于拆分到多行的代码，如果反括号与最后一个元素不在一行，则应在最后一个元素之后增加一个逗号。
+### Lambda函数
 
-  ```python
-  # 正确的示范
-  golomb4 = [
-      0,
-      1,
-      4,
-      6,
-  ]
-  
-  # 错误的示范
-  golomb4 = [
-      0,
-      1,
-      4,
-      6
-  ]
-  ```
+对于非常简短的函数可以使用。如果lambda函数的长度超过80个字符，则应考虑使用一般的嵌套函数。
 
-  
+对于乘法这样的通常运算，使用`operator`模块中的函数而不要使用lambda函数，例如使用 `operator.mul` 而非 `lambda x, y: x * y`。
+
+### 默认值参数
+
+不要使用可变对象作为函数或方法定义的默认值。详见函数-参数-默认值参数。
+
+## 控制
+
+### 条件表达式
+
+对于非常简短的判断可以使用。真值表达式、if语句、else语句，每个部分不得超过一行。若条件表达式过长，则应拆分为一般的条件语句。
+
+## 容器
+
+### 生成式
+
+使用列表、字典、集合生成式的目的应是使代码简洁易读。映射表达式、for语句、if语句，每个部分不得超过一行。若生成式过长，或有多个for语句、if语句嵌套，则应拆分为一般的循环体。
 
 ## 命名
 
@@ -191,9 +122,9 @@
 ### 应避免的名称
 
 * 单字符名称，除非一些特殊情况：
-  + 计数或迭代变量（例如 `i`, `j`, `k`, `v` 等）
-  + `e` 作为 `try/except` 语句中的异常标识符
-  + `f` 作为 `with` 语句中的文件操作符
+    * 计数或迭代变量（例如 `i`, `j`, `k`, `v` 等）
+    * `e` 作为 `try/except` 语句中的异常标识符
+    * `f` 作为 `with` 语句中的文件操作符
 * 名称中使用横线 `-` 。
 * 形如 `__my__` 的特殊属性名称（由 Python 保留）
 * 冒犯性的名称
@@ -288,8 +219,6 @@
   Don't do this."""
   ```
 
-  
-
 ### 日志
 
 调用日志函数时，使用模式字符串（即包含 `%` 占位符）（而非 f-string）作为第一个参数，模式参数作为后续的参数。
@@ -344,95 +273,166 @@ raise RuntimeError(
     "Only 2D tensors can be converted to the CSR format but got shape: ", shape)   # 多个字符串
 ```
 
-## 容器
+## 格式
 
-### 生成式
+### 缩进
 
-使用列表、字典、集合生成式的目的应是使代码简洁易读。映射表达式、for语句、if语句，每个部分不得超过一行。若生成式过长，或有多个for语句、if语句嵌套，则应拆分为一般的循环体。
+* 每个缩进层次为4个空格（而非一个tab`\t`）
 
-## 控制
+* 不要使用tab；对于任何编辑器，将tab键设定为输入4个空格
 
-### 条件表达式
-
-对于非常简短的判断可以使用。真值表达式、if语句、else语句，每个部分不得超过一行。若条件表达式过长，则应拆分为一般的条件语句。
-
-## 函数
-
-### Lambda函数
-
-对于非常简短的函数可以使用。如果lambda函数的长度超过80个字符，则应考虑使用一般的嵌套函数。
-
-对于乘法这样的通常运算，使用`operator`模块中的函数而不要使用lambda函数，例如使用 `operator.mul` 而非 `lambda x, y: x * y`。
-
-### 默认值参数
-
-不要使用可变对象作为函数或方法定义的默认值。详见函数-参数-默认值参数。
-
-## 类
-
-### 属性
-
-### 继承
-
-尽量不要使用多重继承。
-
-## 模块
-
-### import
-
-* 使用方法：
-
-  + `import x`：导入包和模块，例如 `import torch`。
-  + `from x import y`：从包中导入子包、模块或类，例如 `from tensorflow import keras `，`from tensorflow.keras.datasets import mnist`，`from pytorch_lightning import LightningModule, LightningDataModule, Trainer`。
-  + `from x import y as z`：当导入两个同名为 `y` 的模块，或名称 `y` 非常长。
-  + `import y as z`：仅当 `z` 是一个标准缩写，例如 `import numpy as np`， `import torch.nn.functional as F`。
-
-  不要使用上述方法以外的方法，例如导入全部 `from x import *`。
-
-* 不要使用相对路径导入，即使导入的模块在同一个包下，也使用完整的包名。
-
-* 各 `import` 语句应分别占据一行：
+* 对于拆分到多行的代码，应竖直对齐包装的所有元素，或使用4个空格的缩进并且第一行的括号后直接换行：
 
   ```python
   # 正确的示范
-  import os
-  import sys
-  from typing import Mapping, Sequence
+  # 竖直对齐元素
+  foo = long_function_name(var_one, var_two,
+                           var_three, var_four)
+  meal = (spam,
+          beans)
   
-  # 错误的示范
-  import os, sys
+  # 字典中竖直对齐元素
+  foo = {
+      long_dictionary_key: value1 +
+                           value2,
+      ...
+  }
+  
+  # 悬挂缩进4个空格;第一行括号后直接换行
+  foo = long_function_name(
+      var_one, var_two, var_three,
+      var_four)
+  meal = (
+      spam,
+      beans)
+  
+  # 字典中悬挂缩进4个空格
+  foo = {
+      long_dictionary_key:
+          long_dictionary_value,
+      ...
+  }
   ```
-
-* `import` 语句应总是放在文件的顶部，在模块的注释和 docstring 之后，全局变量和常量之前
-
-* `import ` 语句应按照包的类型分组，每个组内再按照字典序排序：
 
   ```python
-  from __future__ import absolute_import   # `__future__`模块导入
-  from __future__ import division
-  from __future__ import print_function
+  # 错误的示范
+  # 第一行有元素再换行悬挂缩进
+  foo = long_function_name(var_one, var_two,
+      var_three, var_four)
+  meal = (spam,
+      beans)
   
-  import collections                       # 标准库导入
-  import logging
-  import sys
+  # 悬挂缩进2个空格
+  foo = long_function_name(
+    var_one, var_two, var_three,
+    var_four)
   
-  import torch                             # 第三方包导入
-  from torch import ScriptModule, Tensor
-  from torch.nn import Module
-  from torch.optim.optimizer import Optimizer
-  
-                                           # 当前项目导入?
+  # 字典中没有悬挂缩进
+  foo = {
+      long_dictionary_key:
+      long_dictionary_value,
+      ...
+  }
   ```
 
+### whitespace
+
+### 行长度
+
+* 一行代码的最大长度应为80个字符。
+
+* 超过80个字符限制的常见例外情况包括：
+
+    * 长的 `import` 语句
+    * 注释中的 URL，路径名和长标记
+    * 长的模块级别的字符串常量，因为不包含 whitespace 而不便于拆分到多行，例如 URL 或路径名
+
+  ```python
+  # 正确的示范
+  # See details at
+  # http://www.example.com/us/developer/documentation/api/content/v2.0/csv_file_name_extension_full_specification.html
   
+  # 错误的示范
+  # See details at
+  # http://www.example.com/us/developer/documentation/api/content/\
+  # v2.0/csv_file_name_extension_full_specification.html
+  ```
 
-### 包
+* 利用 Python 隐式拼接括号内各行的特性，必要时可以使用圆括号包围表达式
 
-### 全局变量
+  ```python
+  # 正确的示范
+  # 隐式拼接括号内各行
+  foo_bar(self, width, height, color='black', design=None, x='foo',
+          emphasis=None, highlight=0)
+  
+  # 使用圆括号包围表达式
+  if (width == 0 and height == 0 and
+      color == 'red' and emphasis == 'strong'):
+  ```
 
-一般应避免使用全局变量。但作为技术指标的全局变量是被允许和鼓励的，例如 `MAX_HOLY_HANDGRENADE_COUNT = 3`。
+* 当字符串在一行中容纳不下时，使用圆括号隐式拼接
 
-对外部隐藏全局变量应为变量名添加前缀 `_`，外部的访问需要通过公开的模块级别的函数完成。
+  ```python
+  # 正确的示范
+  x = ('This will build a very long long '
+       'long long long long long long string')
+  
+  url = ('http://www.example.com/us/developer/documentation/api/content/v2.0'
+         '/csv_file_name_extension_full_specification.html')
+  ```
+
+* 不要使用反斜线拆分行，除非是 `with` 语句需要3个或更多的上下文管理器
+
+  ```python
+  # 正确的示范
+  # 3个上下文管理器
+  with very_long_first_expression_function() as spam, \
+       very_long_second_expression_function() as beans, \
+       third_thing() as eggs:
+      place_order(eggs, beans, spam, beans)
+  
+  # 2个上下文管理器    
+  with very_long_first_expression_function() as spam:
+      with very_long_second_expression_function() as beans:
+          place_order(beans, spam)    
+  ```
+
+  ```python
+  # 错误的示范
+  with very_long_first_expression_function() as spam, \
+       very_long_second_expression_function() as beans, \
+      place_order(beans, spam)
+  ```
+
+* 对于一行超过80个字符的所有其它情况，若 yapf 自动格式化器不能帮助拆分行，则该行可以超过限制。
+
+### 圆括号
+
+* 控制圆括号的使用。
+* 可以对元组使用圆括号包围，但这不是必须的。
+
+### 逗号
+
+* 对于拆分到多行的代码，如果反括号与最后一个元素不在一行，则应在最后一个元素之后增加一个逗号。
+
+  ```python
+  # 正确的示范
+  golomb4 = [
+      0,
+      1,
+      4,
+      6,
+  ]
+  
+  # 错误的示范
+  golomb4 = [
+      0,
+      1,
+      4,
+      6
+  ]
+  ```
 
 ## 文档字符串
 
@@ -882,10 +882,10 @@ if i & (i-1) == 0:  # True if i is 0 or a power of 2.
 * 库文件最好有更大的灵活性，以实现广泛的功能
 
 * 使用生成器的好处有：
-  + 表示更清晰
-  + 内存效率更高
-  + 代码重用
-    + 将产生迭代器与使用迭代器的位置分开
+    * 表示更清晰
+    * 内存效率更高
+    * 代码重用
+      * 将产生迭代器与使用迭代器的位置分开
 
 * Python的浮点数类型与C语言的double类型相同
 
