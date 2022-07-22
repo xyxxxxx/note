@@ -48,7 +48,6 @@ dtype: object
 (5, 2)
 ```
 
-
 ### 增加 Series
 
 ```python
@@ -208,6 +207,77 @@ male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.52389
 ```
 
 ## API
+
+### 一般函数
+
+#### concat()
+
+沿指定轴拼接 Pandas 对象。
+
+```python
+>>> df1 = pd.DataFrame([['a', 1], ['b', 2]],
+                       columns=['letter', 'number'])
+>>> df1
+  letter  number
+0      a       1
+1      b       2
+>>> df2 = pd.DataFrame([['c', 3], ['d', 4]],
+                       columns=['letter', 'number'])
+>>> df2
+  letter  number
+0      c       3
+1      d       4
+>>> pd.concat([df1, df2])
+  letter  number
+0      a       1
+1      b       2
+0      c       3
+1      d       4
+>>> 
+>>> df4 = pd.DataFrame([['bird', 'polly'], ['monkey', 'george']],
+                       columns=['animal', 'name'])
+>>> pd.concat([df1, df4], axis=1)
+  letter  number  animal    name
+0      a       1    bird   polly
+1      b       2  monkey  george
+```
+
+#### factorize()
+
+将序列编码为枚举类型或类型变量。亦为 Series 方法。
+
+```python
+>>> codes, uniques = pd.factorize(['b', None, 'a', 'c', 'b'])  # None 编码为 -1
+>>> codes
+array([0, -1, 1, 2, 0])
+>>> uniques
+array(['b', 'a', 'c'], dtype=object)
+
+>>> codes, uniques = pd.factorize(['b', 'b', 'a', 'c', 'b'], sort=True)  # 排序
+>>> codes
+array([1, 1, 0, 2, 1])
+>>> uniques
+array(['a', 'b', 'c'], dtype=object)
+```
+
+#### merge()
+
+将 DataFrame 或命名的 Series（作为单命名列的 DataFrame）作数据库风格的合并，即匹配左键和右键。亦为 DataFrame 方法。
+
+```python
+>>> df1 = pd.DataFrame({'lkey': ['foo', 'bar', 'baz', 'foo'],
+...                     'value': [1, 2, 3, 5]})
+>>> df2 = pd.DataFrame({'rkey': ['foo', 'bar', 'baz', 'foo'],
+...                     'value': [5, 6, 7, 8]})
+>>> df1.merge(df2, left_on='lkey', right_on='rkey')
+  lkey  value_x rkey  value_y
+0  foo        1  foo        5
+1  foo        1  foo        8
+2  foo        5  foo        5
+3  foo        5  foo        8
+4  bar        2  bar        6
+5  baz        3  baz        7
+```
 
 ### DataFrame
 
@@ -576,7 +646,7 @@ Name: 0, dtype: int64
 
 #### join()
 
-与另一 DataFrame 做列拼接。
+与另一 DataFrame 作列拼接。
 
 ```python
 >>> df1 = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K3', 'K4', 'K5'],
@@ -637,25 +707,6 @@ complex128    80000
 object        40000
 bool           5000
 dtype: int64
-```
-
-#### merge()
-
-与另一 DataFrame 做数据库风格的列拼接，即匹配左键和右键。
-
-```python
->>> df1 = pd.DataFrame({'lkey': ['foo', 'bar', 'baz', 'foo'],
-...                     'value': [1, 2, 3, 5]})
->>> df2 = pd.DataFrame({'rkey': ['foo', 'bar', 'baz', 'foo'],
-...                     'value': [5, 6, 7, 8]})
->>> df1.merge(df2, left_on='lkey', right_on='rkey')
-  lkey  value_x rkey  value_y
-0  foo        1  foo        5
-1  foo        1  foo        8
-2  foo        5  foo        5
-3  foo        5  foo        8
-4  bar        2  bar        6
-5  baz        3  baz        7
 ```
 
 #### ndim
