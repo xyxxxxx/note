@@ -82,6 +82,14 @@ True
 '/Users/xyx'
 ```
 
+## relpath()
+
+```python
+os.path.relpath(path, start=os.curdir)
+```
+
+返回从当前目录或可选的 *start* 目录到 *path* 的相对路径。这只是一个路径计算，不会实际访问文件系统来确认 *path* 或 *start* 是否存在。
+
 ## split()
 
 将路径拆分为两部分，以最后一个 `/` 为界。

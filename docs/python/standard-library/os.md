@@ -161,7 +161,6 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 #         file5
 #         file6
 
->>> import os
 >>> for root, dirs, files in os.walk('.'):
 ...     print(root)
 ...     print(dirs)

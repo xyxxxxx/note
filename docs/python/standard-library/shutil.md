@@ -25,6 +25,10 @@ ignore_dangling_symlinks=False, dirs_exist_ok=False)
 # dst            目标路径
 ```
 
+```python
+
+```
+
 ## disk_usage()
 
 返回给定路径所在磁盘的使用统计数据，形式为一个命名的元组，*total*、*used* 和 *free* 属性分别表示总计、已使用和未使用空间的字节数。
