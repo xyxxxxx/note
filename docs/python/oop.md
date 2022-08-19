@@ -354,23 +354,23 @@ class Student(object):
 
 ```
 
-#### __all__
+#### \__all__
 
-#### __author__
+#### \__author__
 
 模块实例的作者信息。
 
-#### __class__
+#### \__class__
 
 实例所属的类。
 
 所有类实例属于 `type` 类；所有函数/方法实例属于 `function` 类。
 
-#### __copyright__
+#### \__copyright__
 
 模块实例的版权信息。
 
-#### __dict__
+#### \__dict__
 
 一个字典对象，用于存储实例的（可写）属性。
 
@@ -388,11 +388,11 @@ class Student(object):
 {'name': 'Bart Simpson', 'score': 59, 'age': 10}    # 保存实例的属性
 ```
 
-#### __doc__
+#### \__doc__
 
 模块、类、函数/方法、描述器或生成器实例的 docstring。
 
-#### __file__
+#### \__file__
 
 模块实例的文件的本地路径。
 
@@ -417,23 +417,23 @@ print(__file__)          # 模块作为脚本执行
 test.py                  # 脚本名称
 ```
 
-#### __module__
+#### \__module__
 
 类、函数/方法、描述器或生成器实例所属的模块的名称。
 
-#### __name__
+#### \__name__
 
 模块、类、函数/方法、描述器或生成器实例的名称。
 
 作为脚本运行的模块的 `__name__` 属性被赋值为 `'__main__'`。
 
-#### __package__
+#### \__package__
 
 模块实例所属的包的名称。
 
-#### __path__
+#### \__path__
 
-#### `__slots__`
+#### \__slots__
 
 类属性，可赋值为字符串、字符串序列或其它可迭代对象。`__slots__` 会为已声明的变量保留空间，并阻止自动为每个实例创建 `__dict__` 和 `__weakref__`。
 
@@ -476,9 +476,9 @@ AttributeError: 'Student' object has no attribute 'age'        # 不能动态绑
 {'age': 10}                                                    # 保存 `__slots__` 声明的变量以外的属性
 ```
 
-#### __spec__
+#### \__spec__
 
-#### __version__
+#### \__version__
 
 模块实例的版本信息。
 
@@ -691,7 +691,7 @@ class Dog(Animal):
 
 ### 基本定制
 
-#### __new__()
+#### \__new__()
 
 调用以创建一个 *cls* 类的新实例。`__new__()` 是一个静态方法，它会将所请求实例所属的类作为第一个参数，其余的参数会被传递给对象构造器表达式。`__new__()` 的返回值应为新对象实例（通常是 *cls* 的实例）。
 
@@ -717,21 +717,21 @@ print(new2)
 <__main__.NewInt object at 0x000002BB02FF6080>
 ```
 
-#### __init__()
+#### \__init__()
 
 在实例（通过 `__new__()`）被创建之后，返回调用者之前调用，用于初始化实例的属性。其参数与传递给对象构造器表达式的参数相同。如果一个派生类的基类也有 `__init__()` 方法，就必须显式地调用它以确保实例基类部分的正确初始化，例如 `super().__init__([args...])`.
 
 因为对象是由 `__new__()` 和 `__init__()` 协作构造完成的（由 `__new__()` 创建，并由 `__init__()` 定制），所以 `__init__()` 返回的值只能是 `None`，否则会在运行时引发 `TypeError`。
 
-#### __del__()
+#### \__del__()
 
 在实例将被销毁时调用。这还被称为终结器或析构器（不适当）。如果一个派生类的基类也有 `__del__()` 方法，就必须显式地调用它以确保实例基类部分的正确清除。
 
-#### __dir__()
+#### \__dir__()
 
 被内置函数 `dir()` 调用以返回对象的属性列表。
 
-#### __repr__()
+#### \__repr__()
 
 被内置函数 `repr()` 调用以返回对象的“标准”字符串表示，返回一个字符串。
 
@@ -750,7 +750,7 @@ print(new2)
 Student({name: Bart Simpson, score: 59})
 ```
 
-#### __str__()
+#### \__str__()
 
 被内置函数 `str()`，`format()` 或 `print()` 调用以返回对象的格式良好的字符串表示，返回一个字符串。
 
@@ -771,7 +771,7 @@ Student({name: Bart Simpson, score: 59})
 Student Bart Simpson with score 59.
 ```
 
-#### __format__()
+#### \__format__()
 
 被内置函数 `format()`，格式化字符串的求值或 `str.format()` 调用以返回对象的格式化字符串表示，返回一个字符串。
 
@@ -831,13 +831,13 @@ ValueError: Unknown format code 'b' for object of type 'Student'
 True
 ```
 
-#### __bool__()
+#### \__bool__()
 
 在对象进行真值检测或被内置函数 `bool()` 调用时调用，返回一个布尔值。如果未定义此方法，则会查找并调用 `__len__()` 并在其返回非零值时视对象的逻辑值为真。如果一个类既未定义 `__len__()` 也未定义 `__bool__()` 则视其所有实例的逻辑值为真。
 
 ### 自定义属性访问
 
-#### __getattr__()
+#### \__getattr__()
 
 当默认属性访问因引发 `AttributeError` 而失败时被调用（可能是调用 `__getattribute__()` 时由于 *name* 不是一个实例属性或 `self` 的类关系树中的属性而引发了 `AttributeError`；或者是对 *name* 特性属性调用 `__get__()` 时引发了 `AttributeError`）。此方法应当返回（找到的）属性值或是引发一个 `AttributeError` 异常。
 
@@ -873,11 +873,11 @@ Traceback (most recent call last):
 AttributeError: 'Student' object has no attribute 'gender' or key 'gender' in info dict
 ```
 
-#### __getattribute__()
+#### \__getattribute__()
 
 此方法会无条件地被调用以实现对类实例属性的访问。如果类还定义了 `__getattr__()`，则后者不会被调用，除非 `__getattribute__()` 显式地调用它或是引发了 `AttributeError`。此方法应当返回（找到的）属性值或是引发一个 `AttributeError` 异常。为了避免此方法中的无限递归，其实现应该总是调用具有相同名称的基类方法来访问它所需要的任何属性，例如 `object.__getattribute__(self,name)`。
 
-#### __setattr__()
+#### \__setattr__()
 
 ```python
 object.__setattr__(self, name, value)
@@ -913,23 +913,23 @@ To assign: age = 10
 {'name': 'Bart Simpson', 'score': 59, 'age': 10}
 ```
 
-#### __delattr__()
+#### \__delattr__()
 
 类似于 `__setattr__()` 但其作用为删除而非赋值。
 
-#### __dir__()
+#### \__dir__()
 
 被内置函数 `dir()` 调用，返回值必须为一个序列。`dir()` 会把返回的序列转换为列表并对其排序。
 
 ### 模拟可调用对象
 
-#### __call__()
+#### \__call__()
 
 在对象作为一个函数被调用时调用。如果定义了此方法，则 `x(arg1,arg2,...)` 就大致可以被改写为 `type(x).__call__(x,arg1,...)`。
 
 ### 模拟容器类型
 
-#### __len__()
+#### \__len__()
 
 被内置函数 `len()` 调用以返回对象的长度，返回一个非负整数。
 
@@ -973,19 +973,19 @@ To assign: age = 10
 59      
 ```
 
-#### __iter__()
+#### \__iter__()
 
 在需要为容器对象创建迭代器时被调用，返回一个迭代器对象，它能够逐个迭代容器中的所有对象。
 
 详见[容器提供迭代支持](./iterator-and-generator.md#容器提供迭代支持)。
 
-#### __reverse__()
+#### \__reverse__()
 
 被内置函数 `reverse()` 调用以实现逆向迭代，返回一个迭代器对象，它能够逆序逐个迭代容器中的所有对象。
 
 详见
 
-#### __contains__()
+#### \__contains__()
 
 ```python
 object.__contains__(self, item)
