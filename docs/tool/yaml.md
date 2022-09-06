@@ -1,6 +1,4 @@
-> yml2json在线工具https://onlineyamltools.com/convert-yaml-to-json
-
-## YAML
+# YAML
 
 YAML 是 "YAML Ain't a Markup Language"（YAML 不是一种标记语言）的递归缩写。
 
@@ -221,3 +219,5 @@ test:
 ```yaml
 [ 'Steve', 'Clark', 'Brian', 'Oren', 'Steve' ]
 ```
+
+## 常用解析工具

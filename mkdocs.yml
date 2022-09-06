@@ -15,7 +15,7 @@ theme:
   features:
     # - navigation.instant   # instant loading
                            # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-loading
-    - navigation.indexes   # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#section-index-pages
+    # - navigation.indexes   # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#section-index-pages
     # - navigation.sections  # optional
                            # refer to https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#navigation-sections
     - navigation.tabs      # enable navigation tabs, recommended for large docs with several parts
@@ -249,12 +249,16 @@ nav:
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
         - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
   - 工具: 
-    - tool/index.md
     - Linux 命令: tool/linux-command.md
     - Linux 工具: tool/linux-utility.md
     - Git: tool/git.md
+    - 字符集和字符编码: tool/charset-and-encoding.md
+    - 正则表达式: tool/regular-expression.md
+    - Base64: tool/base64.md
+    - json: tool/json.md
+    - yaml: tool/yaml.md
+    - xml: tool/xml.md
   - 前端:
-    - web/index.md
     - Simple HTML: web/simple-html.md
     - Simple CSS: web/simple-css.md
 

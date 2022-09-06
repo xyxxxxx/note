@@ -1,8 +1,11 @@
-## XML
+# XML
 
-XML是可扩展标记语言（eXtensible Markup Language）的缩写，是一种数据表示格式，可以描述复杂的数据结构，常用于传输和存储数据。
+XML（eXtensible Markup Language，可扩展标记语言）是一种数据表示格式，可以描述复杂的数据结构，常用于传输和存储数据。
 
-例如一个描述书籍的XML文档：
+!!! tip "提示"
+    XML 尽管功能全面，但标签繁琐，格式复杂，在 Web 上使用越来越少，而逐渐被更小、更快、更容易解析的 JSON 取而代之。
+
+例如一个描述书的信息的 XML 文档：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -19,13 +22,13 @@ XML是可扩展标记语言（eXtensible Markup Language）的缩写，是一种
 </book>
 ```
 
-XML的特点：
+XML 的特点：
 
-+ 纯文本，默认使用UTF-8编码
-+ 可嵌套，适合表示结构化数据
-+ XML内容保存为.xml文件，常通过网络传输
+* 纯文本，默认使用 UTF-8 编码
+* 可嵌套，适合表示结构化数据
+* XML 内容保存为 `.xml` 文件，常通过网络传输
 
-## XML结构
+## XML 结构
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>	 <!--首行必定是?xml version="1.0"以及可选编码-->
@@ -42,13 +45,13 @@ XML的特点：
 </book>									 <!-- -->
 ```
 
-合法的XML指XML不但格式正确，而且其数据结构可以被DTD或XSD验证。DTD文档可以指定一系列规则，例如book.dtd可以规定：
+合法的 XML 指 XML 不但格式正确，而且其数据结构可以被 DTD 或 XSD 验证。DTD 文档可以指定一系列规则，例如 book.dtd 可以规定：
 
-+ 根元素必须是`book`
-+ `book`元素必须包含`name`，`author`等指定元素
-+ `isbn`元素必须包含属性`lang`
+* 根元素必须是 `book`。
+* `book` 元素必须包含 `name`，`author` 等指定元素。
+* `isbn` 元素必须包含属性 `lang`。
 
-XML文件格式的正确性可以通过拖拽至浏览器验证
+XML 文件格式的正确性可以通过拖拽至浏览器验证。
 
 **转义**
 
@@ -64,23 +67,23 @@ XML文件格式的正确性可以通过拖拽至浏览器验证
 <name>Java&lt;tm&gt;</name>
 ```
 
-## XML解析
+## 常用解析工具
 
 ### Java
 
 #### DOM
 
-DOM一次性读取XML，并在内存中表示为树形结构。以之前的Java核心技术.xml为例，解析为DOM结构：
+DOM 一次性读取 XML，并在内存中表示为树形结构。以之前的 Java 核心技术.xml 为例，解析为 DOM 结构：
 
 ![](https://raw.githubusercontent.com/xyxxxxx/image/master/adipfojh4ovejnthkfqe.PNG)
 
-顶端的document代表XML文档，book是其根元素
+顶端的 document 代表 XML 文档，book 是其根元素
 
-Java提供DOM API以解析XML，其使用以下对象：
+Java 提供 DOM API 以解析 XML，其使用以下对象：
 
-- Document：代表整个XML文档；
-- Element：代表一个XML元素；
-- Attribute：代表一个元素的某个属性
+* Document：代表整个 XML 文档；
+* Element：代表一个 XML 元素；
+* Attribute：代表一个元素的某个属性
 
 ```java
 //DOM API解析XML
@@ -118,15 +121,15 @@ void printNode(Node n, int indent) {
 
 #### SAX
 
-SAX（Simple API for XML）是一种基于流的解析方式，边读取XML边解析，并以事件回调的方式让调用者获取数据
+SAX（Simple API for XML）是一种基于流的解析方式，边读取 XML 边解析，并以事件回调的方式让调用者获取数据。
 
-SAX解析会触发一系列事件：
+SAX 解析会触发一系列事件：
 
-- startDocument：开始读取XML文档；
-- startElement：读取到了一个元素，例如`<book>`；
-- characters：读取到了字符；
-- endElement：读取到了一个结束的元素，例如`</book>`；
-- endDocument：读取XML文档结束。
+* startDocument：开始读取 XML 文档；
+* startElement：读取到了一个元素，例如 `<book>`；
+* characters：读取到了字符；
+* endElement：读取到了一个结束的元素，例如 `</book>`；
+* endDocument：读取 XML 文档结束。
 
 ```java
 //SAX解析XML
@@ -173,7 +176,7 @@ class MyHandler extends DefaultHandler {
 
 #### Jackson
 
-观察Java核心技术.xml，发现其完全对应类：
+观察 Java 核心技术.xml，发现其完全对应类：
 
 ```java
 public class Book {
@@ -186,7 +189,7 @@ public class Book {
 }
 ```
 
-开源的第三方库Jackson可以轻松做到XML到JavaBean的转换，先添加Maven的依赖：
+开源的第三方库 Jackson 可以轻松做到 XML 到 JavaBean 的转换，先添加 Maven 的依赖：
 
 ```xml
 <dependency>
@@ -216,9 +219,8 @@ System.out.println(book.tags);
 System.out.println(book.pubDate);
 ```
 
-| DOM                          | SAX      |      |
-| ---------------------------- | -------- | ---- |
-| 操作方便，可以对文档进行CRUD | 不占内存 |      |
-| 占内存                       | 只读     |      |
-| 服务端                       | 客户端   |      |
-
+| DOM                           | SAX      |     |
+| ----------------------------- | -------- | --- |
+| 操作方便，可以对文档进行 CRUD | 不占内存 |     |
+| 占内存                        | 只读     |     |
+| 服务端                        | 客户端   |     |

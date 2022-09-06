@@ -1,12 +1,16 @@
-> 参考https://www.w3school.com.cn/html/index.asp
+# Simple HTML
 
-HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
+HTML（**H**yper**T**ext **M**arkup **L**anguage，超文本标记语言）是一种用于创建网页的标准标记语言。
 
-# 元素
+!!! abstract "参考"
+    * [HTML 教程](https://www.w3school.com.cn/html/index.asp)
 
-> 参考[HTML 标签参考手册](https://www.w3school.com.cn/tags/index.asp)
+## 元素
 
-## \<a>
+!!! abstract "参考"
+    * [HTML 标签参考手册](https://www.w3school.com.cn/tags/index.asp)
+
+### <a\>
 
 锚（链接）。
 
@@ -14,7 +18,7 @@ HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
 
 <a href="http://www.w3school.com.cn">This is a link</a>
 
-## \<addr>
+### <addr\>
 
 缩写。
 
@@ -22,13 +26,13 @@ HTML(**H**yper **T**ext **M**arkup **L**anguage，超文本标记语言)
 
 The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 
-## \<area>
+### <area\>
 
 图像映射内部的区域。
 
-示例参见[\<map>](#\<map>)。
+示例参见 [<map\>](#_26)。
 
-## \<artical>
+### <artical\>
 
 文章。
 
@@ -41,7 +45,7 @@ The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 </article>
 ```
 
-## \<audio>
+### <audio\>
 
 音频。
 
@@ -51,7 +55,7 @@ The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.
 Your browser does not support the audio element.
 </audio>
 
-## \<body>
+### <body\>
 
 文档主体。
 
@@ -63,7 +67,7 @@ Your browser does not support the audio element.
 </body>
 ```
 
-## \<br />
+### <br\>
 
 换行。
 
@@ -71,7 +75,7 @@ Your browser does not support the audio element.
 
 123<br />456
 
-## \<button>
+### <button\>
 
 按钮。
 
@@ -79,13 +83,13 @@ Your browser does not support the audio element.
 
 <button type="button">Click Me!</button>
 
-## \<caption>
+### <caption\>
 
 表格标题。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<del>
+### <del\>
 
 被删除文本。
 
@@ -93,7 +97,7 @@ Your browser does not support the audio element.
 
 <del>删除文本</del>
 
-## \<details>
+### <details\>
 
 细节。
 
@@ -104,7 +108,7 @@ Your browser does not support the audio element.
 <p>All pages and graphics on this web site are the property of W3School.</p>
 </details>
 
-## \<div>
+### <div\>
 
 文档的节。
 
@@ -117,18 +121,20 @@ Your browser does not support the audio element.
   <p>This is a paragraph.</p>
 </div>
 
-## \<footer>
+### <footer\>
 
 页脚。
 
 示例：
 
+```html
 <footer>
   <p>Posted by: W3School</p>
   <p>Contact information: <a href="mailto:someone@example.com">someone@example.com</a>.</p>
 </footer>
+```
 
-## \<form>
+### <form\>
 
 用户表单。
 
@@ -154,7 +160,7 @@ Last name:<br>
 <input type="radio" name="sex" id="female" />
 </form>
 
-## \<h1> - \<h6>
+### <h1\> - <h6\>
 
 标题，`<h1>` 最大，`<h6>` 最小。
 
@@ -164,7 +170,7 @@ Last name:<br>
 <h2>This is a heading</h2>
 <h3>This is a heading</h3>
 
-## \<head>
+### <head\>
 
 文档信息。
 
@@ -176,7 +182,7 @@ Last name:<br>
 </head>
 ```
 
-## \<header>
+### <header\>
 
 页眉。
 
@@ -189,7 +195,7 @@ Last name:<br>
 </header>
 ```
 
-## \<hr>
+### <hr\>
 
 水平线。
 
@@ -197,7 +203,7 @@ Last name:<br>
 
 <hr />
 
-## \<html>
+### <html\>
 
 整个 HTML 文档。
 
@@ -213,7 +219,7 @@ Last name:<br>
 </html>
 ```
 
-## \<img>
+### <img\>
 
 图像。
 
@@ -221,13 +227,13 @@ Last name:<br>
 
 <img src="https://dummyimage.com/480x320/eee/aaa&text=-image-" width="240" height="160" />
 
-## \<input>
+### <input\>
 
 输入控件。
 
-示例参见[\<form>](#\<form>)。
+示例参见 [<form\>](#_14)。
 
-## \<ins>
+### <ins\>
 
 被插入文本（下划线文本）。
 
@@ -235,19 +241,19 @@ Last name:<br>
 
 <ins>下划线文本</ins>
 
-## \<label>
+### <label\>
 
 input 元素的标注。
 
-示例参见[\<form>](#\<form>)。
+示例参见 [<form\>](#_14)。
 
-## \<li>
+### <li\>
 
 列表的项目。
 
-示例参见[\<ol>](#\<ol>)，[\<ul>](#\<ul>)。
+示例参见 [<ol\>](#_31)、[<ul\>](#_57)。
 
-## \<link>
+### <link\>
 
 外部资源的链接，常用于链接外部样式表。
 
@@ -259,7 +265,7 @@ input 元素的标注。
 </head>
 ```
 
-## \<main>
+### <main\>
 
 文档的主要内容。
 
@@ -287,7 +293,7 @@ input 元素的标注。
 </main> 
 ```
 
-## \<map>
+### <map\>
 
 图像映射。
 
@@ -327,7 +333,7 @@ alt="Sun" />
 </map>
 ```
 
-## \<mark>
+### <mark\>
 
 高亮显示文本。
 
@@ -335,7 +341,7 @@ alt="Sun" />
 
 <mark>高亮文本</mark>
 
-## \<meta>
+### <meta\>
 
 文档的元信息，用于向浏览器、搜索引擎、爬虫等提供文档信息。
 
@@ -361,7 +367,7 @@ alt="Sun" />
 </html>
 ```
 
-## \<nav>
+### <nav\>
 
 导航链接集合。
 
@@ -376,11 +382,11 @@ alt="Sun" />
 </nav>
 ```
 
-## \<object>
+### <object\>
 
 内嵌对象，例如图像、音频、视频、ActiveX、pdf、Flash等。其中定义了对象的数据和参数，以及可用来显示和操作数据的代码。
 
-## \<ol>
+### <ol\>
 
 有序列表。
 
@@ -393,13 +399,13 @@ alt="Sun" />
   <li>关上冰箱门</li>
 </ol>
 
-## \<option>
+### <option\>
 
 选择列表的选项。
 
-示例参见[\<select>](#\<select>)。
+示例参见 [<select\>](#_39)。
 
-## \<output>
+### <output\>
 
 输出结果。
 
@@ -413,7 +419,7 @@ alt="Sun" />
 </form> 
 ```
 
-## \<p>
+### <p\>
 
 段落。
 
@@ -422,13 +428,13 @@ alt="Sun" />
 <p>This is a paragraph.</p>
 <p>This is another paragraph.</p>
 
-## \<param>
+### <param\>
 
 对象的参数。
 
-示例参见[\<object>](#\<object>)。
+示例参见 [<object\>](#_30)。
 
-## \<progress>
+### <progress\>
 
 进度条。
 
@@ -438,9 +444,9 @@ alt="Sun" />
 <progress value="22" max="100">
 </progress>
 
-## \<script>
+### <script\>
 
-客户端脚本，通常是 JavaScript 脚本，常用于图像操作、表单验证、动态内容更新等。其既可以包含脚本语句，也可以通过 src 属性指向外部脚本文件。
+客户端脚本，通常是 JavaScript 脚本，常用于图像操作、表单验证、动态内容更新等。其既可以包含脚本语句，也可以通过 `src` 属性指向外部脚本文件。
 
 示例：
 
@@ -450,7 +456,7 @@ document.write("Hello World!")
 </script>
 ```
 
-## \<section>
+### <section\>
 
 小节。
 
@@ -463,7 +469,7 @@ document.write("Hello World!")
 </section>
 ```
 
-## \<select>
+### <select\>
 
 选择列表（下拉列表）。
 
@@ -476,7 +482,7 @@ document.write("Hello World!")
   <option value="audi">Audi</option>
 </select>
 
-## \<source>
+### <source\>
 
 媒介源，用于为媒介元素（video 和 audio）定义资源，并且可以提供可替换的视频/音频文件供浏览器根据它对媒体类型或者编解码器的支持进行选择。
 
@@ -488,7 +494,7 @@ document.write("Hello World!")
 Your browser does not support the audio element.
 </audio>
 
-## \<span>
+### <span\>
 
 片断，用于组合行内元素，以便通过样式来格式化它们。
 
@@ -502,10 +508,10 @@ Your browser does not support the audio element.
 p.tip span {
 	font-weight:bold;
 	color:#ff9955;
-	}
+}
 ```
 
-## \<style>
+### <style\>
 
 文档的样式。
 
@@ -527,13 +533,18 @@ p {color:blue}
 </html>
 ```
 
-## \<summary>
+### <summary\>
 
 为 details 元素定义可见的标题。
 
-示例参见[\<summary>](#\<summary>)。
+示例：（markdown 支持此语法）
 
-## \<svg>
+<details>
+<summary>HTML 5</summary>
+This document teaches you everything you have to learn about HTML 5.
+</details>
+
+### <svg\>
 
 SVG 图形的容器。
 
@@ -559,7 +570,7 @@ SVG 图形的容器。
 <text fill="#ffffff" font-size="45" font-family="Verdana" x="50" y="86">SVG</text>
 </svg>
 
-## \<table>
+### <table\>
 
 表格。
 
@@ -604,19 +615,19 @@ SVG 图形的容器。
   </tfoot>
 </table>
 
-## \<tbody>
+### <tbody\>
 
 表格的主体。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<td>
+### <td\>
 
 表格的单元。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<template>
+### <template\>
 
 页面加载时的隐藏内容的容器，通常与 js 配合使用。
 
@@ -650,7 +661,7 @@ function showContent() {
 </html>
 ```
 
-## \<textarea>
+### <textarea\>
 
 多行文本输入控件。
 
@@ -660,34 +671,36 @@ function showContent() {
 在w3school，你可以找到你所需要的所有的网站建设教程。
 </textarea>
 
-## \<tfoot>
+### <tfoot\>
 
 表格的脚注。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<th>
+### <th\>
 
 表格的表头单元。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<thead>
+### <thead\>
 
 表格的表头。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<time>
+### <time\>
 
 日期/时间，用于对日期和时间进行编码，以便于，例如，用户代理将排定的事件添加到用户日程表中，为搜索引擎提供更详细的日期/时间信息，等等。
 
 示例：
 
+```html
 <p>我们在每天早上 <time>9:00</time> 开始营业。</p>
 <p>我在 <time datetime="2008-02-14">情人节</time> 有个约会。</p>
+```
 
-## \<title>
+### <title\>
 
 文档的标题，通常被浏览器放置在标签页的标题栏，并作为收藏页面时的默认名称。
 
@@ -708,13 +721,13 @@ function showContent() {
 </html>
 ```
 
-## \<tr>
+### <tr\>
 
 表格的行。
 
-示例参见[\<table>](#\<table>)。
+示例参见 [<table\>](#_45)。
 
-## \<track>
+### <track\>
 
 媒体播放器的文本轨道，例如视频的字幕。
 
@@ -727,7 +740,7 @@ function showContent() {
 </video>
 ```
 
-## \<ul>
+### <ul\>
 
 无序列表。
 
@@ -740,7 +753,7 @@ function showContent() {
   <li>凉茶</li>
 </ul>
 
-## \<video>
+### <video\>
 
 视频。
 
@@ -750,11 +763,11 @@ function showContent() {
 your browser does not support the video tag
 </video>
 
-# 属性
+## 属性
 
-下面仅介绍一些常用属性，各元素可使用的合法属性的完整列表请参考[HTML 参考手册](https://www.w3school.com.cn/tags/tag_a.asp)。
+下面仅介绍一些常用属性，各元素可使用的合法属性的完整列表请参考 [HTML 参考手册](https://www.w3school.com.cn/tags/tag_a.asp)。
 
-## align
+### align
 
 对齐方式。可以取下列值：
 
@@ -768,7 +781,7 @@ your browser does not support the video tag
 <h2 align="center">This is a heading</h2>
 <h3 align="right">This is a heading</h3>
 
-## bgcolor
+### bgcolor
 
 背景颜色。
 
@@ -786,19 +799,19 @@ your browser does not support the video tag
 </body>
 ```
 
-## border
+### border
 
 边框线宽。
 
-## href
+### href
 
-链接的 url。
+链接的 URL。
 
-## style
+### style
 
-# 颜色
+## 颜色
 
-## 颜色值
+### 颜色值
 
 使用 6 位十六进制符号定义，例如：
 
@@ -808,11 +821,11 @@ your browser does not support the video tag
 | **fuchsia** | **gray** | **white** |         |         |         |
 | #FF00FF     | #C0C0C0  | #FFFFFF   |         |         |         |
 
-## 颜色名
+### 颜色名
 
-参见[HTML 颜色名](https://www.w3school.com.cn/html/html_colornames.asp)。
+参见 [HTML 颜色名](https://www.w3school.com.cn/html/html_colornames.asp)。
 
-# 练习
+## 练习
 
 ```html
 <!DOCTYPE html>
