@@ -248,16 +248,26 @@ nav:
         - "API: torch.utils.tensorboard": ml/platform-and-tool/pytorch/api-utils-tensorboard.md
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
         - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
-  - 工具: 
-    - Linux 命令: tool/linux-command.md
-    - Linux 工具: tool/linux-utility.md
-    - Git: tool/git.md
-    - 字符集和字符编码: tool/charset-and-encoding.md
-    - 正则表达式: tool/regular-expression.md
-    - Base64: tool/base64.md
-    - json: tool/json.md
-    - yaml: tool/yaml.md
-    - xml: tool/xml.md
+  - 参考和工具:
+    - Linux:
+      - Linux 命令: reference-and-tool/linux/linux-command.md
+      - Linux 命令行工具: reference-and-tool/linux/linux-command-line-tool.md
+    - 文件格式:
+      - json: reference-and-tool/file-format/json.md
+      - yaml: reference-and-tool/file-format/yaml.md
+      - xml: reference-and-tool/file-format/xml.md
+      - markdown: reference-and-tool/file-format/markdown.md
+    - 编码:
+      - 字符集和字符编码: reference-and-tool/encoding/charset-and-encoding.md
+      - Base64: reference-and-tool/encoding/base64.md
+    # - 包管理工具:
+    - 文本工具:
+      - 正则表达式: reference-and-tool/text-tool/regular-expression.md
+      - Vim: reference-and-tool/text-tool/vim.md
+    - 构建工具:
+      - make: reference-and-tool/build-tool/make.md
+    - Git: reference-and-tool/git.md
+    - 词汇表: reference-and-tool/vocabulary.md
   - 前端:
     - Simple HTML: web/simple-html.md
     - Simple CSS: web/simple-css.md

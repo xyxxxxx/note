@@ -16,7 +16,7 @@
 | ancestor                               | 祖先节点             |
 | annotation                             | 注解                 |
 | ANSI standard                          | 美国国家标准协会标准 |
-| apache                                 | Java组织             |
+| Apache                                 | Apache 软件基金会    |
 | append                                 | 在末尾增加           |
 | API, Application Programming Interface | 应用程序接口         |
 | application layer                      | 应用层               |
@@ -46,7 +46,6 @@
 | big-end                           | 大端             |
 | binary search                     | 二分查找         |
 | binary tree                       | 二叉树           |
-|                                   |                  |
 | BIOS, Basic Input Output System   | 基本输入输出系统 |
 | bitwise                           | 位的             |
 | bottleneck                        | 瓶颈             |
@@ -55,7 +54,6 @@
 | bucket                            | 桶               |
 | buffer                            | 缓冲区           |
 | bus                               | 总线             |
-|                                   |                  |
 
 ## C
 
@@ -96,14 +94,12 @@
 | crawler                            | 爬虫                         |
 | cross-platform                     | 跨平台                       |
 | CRUD, Create, Read, Update, Delete | 增删改查（数据库的基本操作） |
-| CSS                                | 层叠样式表                   |
-|                                    |                              |
+| CSS, Cascading Style Sheets        | 层叠样式表                   |
 
 ## D
 
 |                         |              |
 | ----------------------- | ------------ |
-|                         |              |
 | data structure          | 数据结构     |
 | database                | 数据库       |
 | deadlock                | 死锁         |
@@ -135,7 +131,6 @@
 | ------------------------------ | ---------------------------- |
 | early stop                     | 提前停止                     |
 | EEPROM                         | 电子式可清除程序化只读存储器 |
-|                                |                              |
 | EGP, External Gateway Protocol | 外部网关协议                 |
 | embedded system                | 嵌入式系统                   |
 | embedding                      | 嵌入                         |
@@ -152,7 +147,6 @@
 
 |                                 |                |
 | ------------------------------- | -------------- |
-|                                 |                |
 | failure                         | 故障           |
 | FAT, File Allocation Table      | 文件分配表     |
 | feature                         | 特征           |
@@ -171,41 +165,38 @@
 
 ## G
 
-|                               |               |
-| ----------------------------- | ------------- |
-| gate                          | 门            |
-| gateway                       | 网关          |
-|                               |               |
-| GCC, GNU Compiler Collection  | GNU编译器套装 |
-| generalization                | 泛化          |
-| generator                     | 生成器        |
-|                               |               |
-| GPU, Graphics Processing Unit | 图形处理器    |
-| gradient                      | 梯度          |
-| gradient descent (method)     | 梯度下降法    |
-| graph                         | 图            |
-| graphics                      | 图像          |
-| Graphics                      | 图形学        |
-| greedy algorithm              | 贪心算法      |
-| GUI, Graphical User Interface | 图形用户界面  |
+|                               |                |
+| ----------------------------- | -------------- |
+| gate                          | 门             |
+| gateway                       | 网关           |
+| GCC, GNU Compiler Collection  | GNU 编译器套装 |
+| generalization                | 泛化           |
+| generator                     | 生成器         |
+| GPU, Graphics Processing Unit | 图形处理器     |
+| gradient                      | 梯度           |
+| gradient descent (method)     | 梯度下降法     |
+| graph                         | 图             |
+| graphics                      | 图像           |
+| Graphics                      | 图形学         |
+| greedy algorithm              | 贪心算法       |
+| GUI, Graphical User Interface | 图形用户界面   |
 
 ## H
 
-|                                 |                               |
-| ------------------------------- | ----------------------------- |
-| hash function                   | 散列函数                      |
-| hash table                      | 散列表                        |
-| header                          | （报文）首部；（C语言）头文件 |
-| heap                            | 堆                            |
-| heap sort                       | 堆排序                        |
-| hole                            | 空洞                          |
-| homepage                        | 首页                          |
-| hop                             | 跳数                          |
-| HTML, HyperText Markup Language | 超文本标记语言                |
-| HTTP                            |                               |
-| hyper-parameter                 | 超参数                        |
-| hyper-threading                 | 超线程                        |
-|                                 |                               |
+|                                   |                               |
+| --------------------------------- | ----------------------------- |
+| hash function                     | 散列函数                      |
+| hash table                        | 散列表                        |
+| header                            | （报文）首部；（C语言）头文件 |
+| heap                              | 堆                            |
+| heap sort                         | 堆排序                        |
+| hole                              | 空洞                          |
+| homepage                          | 首页                          |
+| hop                               | 跳数                          |
+| HTML, HyperText Markup Language   | 超文本标记语言                |
+| HTTP, HyperText Transfer Protocol | 超文本传输协议                |
+| hyper-parameter                   | 超参数                        |
+| hyper-threading                   | 超线程                        |
 
 ## I
 
@@ -293,7 +284,6 @@
 |                                  |                |
 | -------------------------------- | -------------- |
 | NAT, Network Address Translation | 网络地址转换   |
-|                                  |                |
 | nest                             | 嵌套           |
 | neuron                           | 神经元         |
 | neural network                   | 神经网络       |
@@ -302,7 +292,6 @@
 | non-volatile storage / memory    | 非易失性存储   |
 | NP, Nondeterministic Polynomial  | 非确定性多项式 |
 | null                             | 空值           |
-|                                  |                |
 
 ## O
 
@@ -314,14 +303,12 @@
 | open-source                      | 开源         |
 | operand                          | 操作数       |
 | operator                         | 算子         |
-|                                  |              |
 | optimize                         | 优化         |
 | optimizer                        | 优化器       |
 | OS, Operating System             | 操作系统     |
 | output                           | 输出         |
 | overfit                          | 过拟合       |
 | overflow                         | 上溢         |
-|                                  |              |
 
 ## P
 
@@ -369,8 +356,6 @@
 | PSW, Program Status Word                   | 程序状态字         |
 | pull                                       | 拉取               |
 | push                                       | 压栈/进栈；推送    |
-|                                            |                    |
-|                                            |                    |
 
 ## Q
 
@@ -378,8 +363,6 @@
 | ---------- | -------- |
 | queue      | 队列     |
 | quick sort | 快速排序 |
-|            |          |
-|            |          |
 
 ## R
 
@@ -457,7 +440,6 @@
 | swapping                      | 交换                 |
 | synchronize                   | 同步                 |
 | synchronous                   | 同步的               |
-|                               |                      |
 
 ## T
 
@@ -467,7 +449,6 @@
 | tensor                             | 张量                        |
 | terminal                           | 终端                        |
 | thread                             | 线程                        |
-|                                    |                             |
 | three-way handshake                | 三路握手                    |
 | throughput                         | 吞吐量                      |
 | TLB, Translation Lookaside Buffer  | 转换检测缓冲区              |
@@ -480,14 +461,13 @@
 | traverse                           | 遍历                        |
 | tree                               | 树                          |
 | tunneling                          | 隧道技术                    |
-|                                    |                             |
 
 ## U
 
 |                               |                |
 | ----------------------------- | -------------- |
 | UA, User Agent                | 用户代理       |
-| UDP, User Datagram Protocol   |                |
+| UDP, User Datagram Protocol   | 用户数据报协议 |
 | UID, User IDentification      |                |
 | underfit                      | 欠拟合         |
 | underflow                     | 下溢           |
@@ -498,8 +478,6 @@
 | upper bound                   | 上界           |
 | URL, Uniform Resource Locator | 统一资源定位符 |
 | USB, Universal Serial Bus     | 通用串行总线   |
-|                               |                |
-|                               |                |
 
 ## V
 
@@ -524,15 +502,12 @@
 | word                              | 字         |
 | working directory                 | 工作目录   |
 | WWW, World Wide Web               | 万维网     |
-|                                   |            |
 
 ## X
 
 |                                 |                |
 | ------------------------------- | -------------- |
 | XML, eXtensible Markup Language | 可扩展标记语言 |
-|                                 |                |
-|                                 |                |
 
 ## Y
 
@@ -541,6 +516,3 @@
 |      |      |
 | ---- | ---- |
 | zone | 区   |
-|      |      |
-|      |      |
-

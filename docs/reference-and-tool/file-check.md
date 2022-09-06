@@ -43,18 +43,24 @@ AFGG2piXh0ht6dmXUxqv4nA1PU120r0yMAQhuc13i8
 #### 生日攻击
 
 哈希碰撞问题在数学上早有原型，称为生日问题：一个班级有 $n$ 个学生，其中有人生日相同的概率为
+
 $$
 p(n)=1-\frac{365}{365}\frac{364}{365}\cdots \frac{365-n+1}{365}\approx 1-1\cdot e^{-\frac{1}{365}}\cdot e^{-\frac{2}{365}}\cdots e^{-\frac{n-1}{365}}\\
 =1-e^{-\frac{n(n-1)}{730}}\approx 1-e^{-\frac{n^2}{730}}
 $$
+
 由此得到哈希碰撞概率的近似公式
+
 $$
 p(n,d)\approx 1-e^{-\frac{n^2}{2d}}
 $$
+
 其中 $d$ 为哈希的取值空间规模。令 $p(n,d)=0.5$，则有
+
 $$
 n\approx \sqrt{2\ln 2 d}
 $$
+
 可以看到，计算 $n$ 个值就有0.5的概率发生碰撞，而 $n$ 正比于 $\sqrt{d}$。
 
 这种利用哈希的取值空间不够大而制造碰撞的攻击方法，称为生日攻击(birthday attack)。
