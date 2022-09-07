@@ -223,18 +223,18 @@ for batch_ndx, sample in enumerate(loader):
 class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=None, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None, multiprocessing_context=None, generator=None, *, prefetch_factor=2, persistent_workers=False)
 # dataset        加载的数据集
 # batch_size     批次规模,即每个批次加载多少个样本
-# shuffle        若为`True`,则每完成一次迭代都重新打乱数据
+# shuffle        若为True,则每完成一次迭代都重新打乱数据
 # sampler        采样器,其定义了从数据集中采样的策略,可以是任何实现了`__len__`方法的可迭代对象.与`shuffle`互斥
 # batch_sampler  与`sampler`类似,但每次返回一个批次的索引.与`batch_size`,`shuffle`,`sample`,`drop_last`互斥
 # num_workers    用于加载数据的工作进程数量,`0`表示在主进程中加载数据
 # collate_fn     将样本列表合并为一个批次的张量的函数.当从映射数据集分批加载数据时调用
-# pin_memory     若为`True`,则数据加载器将在返回张量之前将它们复制到CUDA锁页内存中
-# drop_last      若为`True`,则丢弃末尾的达不到批次规模的剩余样本;若为`False`,则剩余样本将组成一个较小的批次
+# pin_memory     若为True,则数据加载器将在返回张量之前将它们复制到CUDA锁页内存中
+# drop_last      若为True,则丢弃末尾的达不到批次规模的剩余样本;若为False,则剩余样本将组成一个较小的批次
 # timeout        从工作进程收集一个批次数据的超时时间
 # worker_init_fn    工作进程初始化函数,其接收一个索引参数,在每个工作进程上调用(设置随机种子之后,加载数据之前)
 # generator         随机数生成器,被`RandomSampler`用于生成随机索引,或在多进程加载数据时用于为各工作进程生成`base_seed`
 # prefetch_factor   每个工作进程预先加载的样本数量
-# persistant_workers   若为`True`,则数据集被使用过一次之后数据加载器不会关闭工作进程,即保持工作进程存活
+# persistant_workers   若为True,则数据集被使用过一次之后数据加载器不会关闭工作进程,即保持工作进程存活
 ```
 
 > 若多进程使用 `spawn` 启动方法，则 `worker_init_fn` 不能是一个不可序列化对象，例如匿名函数。
@@ -365,9 +365,9 @@ torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank
 # dataset           采样的数据集
 # num_replicas      参与分布式训练的进程数,默认从当前进程组获取`WORLD_SIZE`
 # rank              当前进程的rank,默认从当前进程组获取`RANK`
-# shuffle           若为`True`,则采样器打乱索引的顺序
+# shuffle           若为True,则采样器打乱索引的顺序
 # seed              当`shuffle=True`时采样器打乱使用的随机种子.此参数应在进程组的各进程中保持一致
-# drop_last         若为`True`,则采样器将会丢弃末尾的样本以使样本平分到各进程;若为`False`,则采样器将会
+# drop_last         若为True,则采样器将会丢弃末尾的样本以使样本平分到各进程;若为False,则采样器将会
 #                   添加起始的样本以使样本平分到各进程
 ```
 

@@ -76,7 +76,7 @@ os.kill(pid, sig)
 递归地创建指定名称和权限的目录。与 `mkdir()` 类似，但会自动创建到达最后一级目录所需要的中间目录。
 
 ```python
->>> os.mkdir('dir1/dir2', mode=0o755)
+>>> os.makedirs('dir1/dir2', mode=0o755)
 ```
 
 ## mkdir()

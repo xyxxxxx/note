@@ -1,5 +1,3 @@
-
-
 # 迭代器
 
 ## 迭代器
@@ -586,4 +584,3 @@ a = producer()
 b = processing(a)
 c = consumer(b)        
 ```
-
