@@ -11,7 +11,19 @@
 
 ## current_thread()
 
-返回当前调用者的控制线程的 `Thread` 对象。
+返回当前调用者的控制线程的 `Thread` 对象。如果调用者的控制线程不是由 `threading` 模块创建，则会返回一个功能受限的虚拟线程对象。
+
+## enumerate()
+
+以列表形式返回当前所有存活的 `Thread` 对象。该列表包含守护线程、`current_thread()` 创建的虚拟线程对象和主线程，但不包含已终止的线程和尚未开始的线程。
+
+## get_indent()
+
+返回当前线程的“线程标识符”。它的值是一个正整数，没有直接含义，主要是用作 magic cookie，比如作为包含线程相关数据的字典的索引。线程标识符可能会在线程退出、新线程创建时被复用。
+
+## get_native_id()
+
+返回内核分配给当前线程的原生集成线程 ID。它的值是一个非负整数，可以被用来在整个系统中唯一地标识这个特定线程（直到线程终结，在那之后该值可能会被 OS 回收再利用）。
 
 ## main_thread()
 
@@ -56,9 +68,9 @@ class threading.Thread(group=None, target=None, name=None, args=(), kwargs={}, *
 
 开始线程活动。
 
-该方法安排对象的 `run()` 方法在一个独立的控制进程中调用。
+此方法安排对象的 `run()` 方法在一个独立的控制进程中调用。
 
-每个线程对象只能调用一次该方法。一个线程对象第二次调用该方法将引发 `RuntimeError`。
+每个线程对象只能调用一次此方法。一个线程对象第二次调用此方法将引发 `RuntimeError`。
 
 ### run()
 
@@ -103,7 +115,7 @@ join(timeout=None)
 
 返回线程是否存活。
 
-从 `run()` 方法刚开始之前到 `run()` 方法刚结束之后，该方法返回 True。模块函数 `enumerate()` 返回包含所有存活线程的列表。
+从 `run()` 方法刚开始之前到 `run()` 方法刚结束之后，此方法返回 True。模块函数 `enumerate()` 返回包含所有存活线程的列表。
 
 ### daemon
 
@@ -139,11 +151,11 @@ acquire(blocking=True, timeout=-1)
 
 阻塞或非阻塞地获得锁。
 
-*blocking* 设为 True 时调用该方法，会一直阻塞直到锁被释放，然后将锁锁定并返回 True。
+*blocking* 设为 True 调用此方法，会一直阻塞直到锁被释放，然后将锁锁定并返回 True。
 
-*blocking* 设为 False 时调用该方法，则不会阻塞。如果调用时锁未被释放，则立即返回 False；否则将锁锁定并返回 True。
+*blocking* 设为 False 调用此方法，则不会阻塞。如果调用时锁未被释放，则立即返回 False；否则将锁锁定并返回 True。
 
-浮点型参数 *timeout* 设为正值时调用该方法，只要无法获得锁，将最多阻塞 *timeout* 设定的秒数。*timeout* 参数设为 `-1` 时将无限等待。当 *blocking* 为 False 时，*timeout* 指定的值将被忽略。
+浮点型参数 *timeout* 设为正值调用此方法，只要无法获得锁，将最多阻塞 *timeout* 设定的秒数。*timeout* 参数设为 `-1` 时将无限等待。当 *blocking* 为 False 时，*timeout* 指定的值将被忽略。
 
 如果成功获得锁，则返回 True，否则返回 False（例如发生超时）。
 

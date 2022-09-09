@@ -1,14 +1,13 @@
 # os——多种操作系统接口
 
-## chdir()
+`os` 模块提供了一种使用与操作系统相关的功能的便捷式途径。
 
-切换当前工作目录为指定路径。
+!!! note "注意"
+    如果使用无效或无法访问的文件名与路径，或者其他类型正确但操作系统不接受的参数，此模块的所有函数都会抛出 `OSError` 或者它的子类。
 
-```python
->>> os.chdir('dir1')
-```
+## 进程参数
 
-## environ
+### environ
 
 进程的环境变量，可以直接操作该映射以查询或修改环境变量。
 
@@ -25,26 +24,13 @@ environ({'SHELL': '/bin/zsh', ...
 # KeyError: 'MYENV'
 ```
 
-## fork()
-
-分叉出一个子进程，在子进程中返回 `0`，在父进程中返回子进程的进程号。
-
-## fspath()
+### fspath()
 
 返回路径的文件系统表示。
 
 如果传入的是 `str` 或 `bytes` 类型的字符串，则原样返回；否则 `__fspath__()` 将被调用，如果得到的是一个 `str` 或 `bytes` 类型的对象，那就返回这个值。其他所有情况会抛出 `TypeError` 异常。
 
-## getcwd()
-
-返回当前工作目录的路径。
-
-```python
->>> os.getcwd()
-'/Users/xyx'
-```
-
-## getenv()
+### getenv()
 
 获取环境变量的值。
 
@@ -54,15 +40,52 @@ os.getenv(key, default=None)
 # default    若环境变量不存在,返回此默认值
 ```
 
-## kill()
+### getpid()
+
+返回当前进程 ID。
+
+## 文件描述符操作
+
+### close()
+
+### pipe()
+
+### pread()
+
+### pwrite()
+
+### read()
+
+### write()
+
+## 文件和目录
+
+### access()
+
+### chdir()
+
+切换当前工作目录为指定路径。
 
 ```python
-os.kill(pid, sig)
+>>> os.chdir('dir1')
 ```
 
-将信号 *sig* 发送至进程 *pid*。
+### chmod()
 
-## listdir()
+### chown()
+
+### getcwd()
+
+返回当前工作目录的路径。
+
+```python
+>>> os.getcwd()
+'/Users/xyx'
+```
+
+### link()
+
+### listdir()
 
 返回指定目录下各项目名称组成的列表，该列表按任意顺序排列，且不包括特殊项目 `.` 和 `..`。
 
@@ -71,33 +94,70 @@ os.kill(pid, sig)
 ['dir1', 'dir2', 'file1', 'file2']
 ```
 
-## makedirs()
-
-递归地创建指定名称和权限的目录。与 `mkdir()` 类似，但会自动创建到达最后一级目录所需要的中间目录。
+### makedirs()
 
 ```python
->>> os.makedirs('dir1/dir2', mode=0o755)
+os.makedirs(name, mode=0o777, exist_ok=False)
 ```
 
-## mkdir()
+递归地创建目录。与 `mkdir()` 类似，但会自动创建到达最后一级目录所需要的中间目录。
 
-创建指定名称和权限的目录。若目录已存在，则引发 `FileExistsError` 异常。
+*mode* 参数会传递给 `mkdir()`，用来创建最后一级目录，对于该参数的解释请参阅 `mkdir()` 中的描述。要设置某些新建的父目录的权限，可以在调用 `makedirs()` 之前设置 umask。现有父目录的权限不会更改。
+
+如果 *exist_ok* 为 False 且目标目录已存在，则引发 `FileExistsError`。
+
+### mkdir()
 
 ```python
->>> os.mkdir('dir1', mode=0o755)
+os.mkdir(path, mode=0o777, *, dir_fd=None)
 ```
 
-要递归地创建目录（一次创建多级目录），请使用 `makedirs()`。
+创建一个名为 *path* 的目录，应用以数字表示的权限模式 *mode*。
 
-## remove()
+如果目录已存在，则引发 `FileExistsError` 异常。
 
-删除指定文件。若文件不存在，则引发 `FileNotFoundError` 异常；若路径指向目录，则引发 `IsADirectoryError` 异常。
+本函数支持基于目录描述符的相对路径。
+
+要创建临时目录，请使用 `tempfile` 模块的 `tempfile.mkdtemp()` 函数；要递归地创建目录（一次性创建多级目录），请使用 `makedirs()`。
+
+### readlink()
 
 ```python
->>> os.remove('file1')
+os.readlink(path, *, dir_fd=None)
 ```
 
-## rename()
+返回一个字符串，代表符号链接指向的实际路径。其结果可能是绝对或相对路径；如果是相对路径，可以通过 `os.path.join(os.path.dirname(path), result)` 将其转换为绝对路径。
+
+如果 *path* 是字符串对象（直接或通过 `PathLike` 接口间接传入），则结果也是字符串对象，并且此调用可能引发 `UnicodeDecodeError`。如果 *path* 是字节对象（直接或间接传入），则结果也是字节对象。
+
+本函数支持基于目录描述符的相对路径。
+
+当符号链接可能指向另一个符号链接时，请改用 `realpath()` 以正确处理递归和平台差异。
+
+```python
+>>> os.symlink('file', 'ln1')
+>>> os.symlink('ln1', 'ln2')
+>>> os.readlink('ln2')
+'ln1'
+>>> os.readlink('ln1')
+'file'
+>>> os.path.realpath('ln2')
+'/Users/xyx/Codes/test/file'
+```
+
+可用性: Unix, Windows。
+
+### remove()
+
+```python
+os.remove(path, *, dir_fd=None)
+```
+
+删除文件 *path*。若文件不存在，则引发 `FileNotFoundError` 异常；若路径指向目录，则引发 `IsADirectoryError` 异常。
+
+### removedirs()
+
+### rename()
 
 ```python
 os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
@@ -108,7 +168,7 @@ os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
 * 在 Windows 上，引发 `FileExistsError` 异常
 * 在 Unix 上，若 *src* 是文件而 *dst* 是目录，将抛出 `IsADirectoryError` 异常，反之则抛出 `NotADirectoryError` 异常；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则抛出 `OSError` 异常；若两者都是文件，则在用户具有权限的情况下，将对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
 
-## rmdir()
+### rmdir()
 
 删除指定目录。若目录不存在，则引发 `FileNotFoundError` 异常；若目录不为空，则引发 `OSError` 异常。若要删除整个目录树，请使用 `shutil.rmtree()`。
 
@@ -116,30 +176,21 @@ os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
 >>> os.rmdir('dir1')
 ```
 
-## system()
+### stat()
 
-创建一个 Shell 子进程并执行指定命令（一个字符串），执行命令过程中产生的任何输出都将发送到解释器的标准输出流。
+### symlink()
 
 ```python
->>> os.system('pwd')
-/Users/xyx
+os.symlink(src, dst, target_is_directory=False, *, dir_fd=None)
 ```
 
-## times()
+创建一个指向 *src* 的名为 *dst* 的符号链接。
 
-返回当前的全局进程时间。
+本函数支持基于目录描述符的相对路径。
 
-## wait()
+可用性：Unix，Windows。
 
-等待子进程执行完毕，返回一个元组，包含其 pid 和退出状态指示——一个 16 位数字，其低字节是终止该进程的信号编号，高字节是退出状态码（信号编号为零的情况下）。
-
-## waitid()
-
-## waitpid()
-
- 
-
-## walk()
+### walk()
 
 遍历目录。对于以 `top` 为根的目录树中的每个目录（包括 `top` 本身）都生成一个三元组 `(dirpath,dirnames,filenames)`。
 
@@ -203,3 +254,62 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 ./file1
 
 ```
+
+## 进程管理
+
+### fork()
+
+分叉出一个子进程，在子进程中返回 `0`，在父进程中返回子进程的进程号。
+
+### kill()
+
+```python
+os.kill(pid, sig)
+```
+
+将信号 *sig* 发送至进程 *pid*。
+
+### system()
+
+创建一个 Shell 子进程并执行指定命令（一个字符串），执行命令过程中产生的任何输出都将发送到解释器的标准输出流。
+
+```python
+>>> os.system('pwd')
+/Users/xyx
+```
+
+### times()
+
+返回当前的全局进程时间。返回值是一个有 5 个属性的对象：
+
+* `user`：用户时间
+* `system`：系统时间
+* `children_user`：所有子进程的用户时间
+* `children_system`：所有子进程的系统时间
+* `elapsed`：从过去的固定时间点起，经过的真实时间
+
+在 Unix 上请参阅 [times(2)](https://manpages.debian.org/times(2)) 和 [times(3)](https://manpages.debian.org/times(3)) 手册页。
+
+可用性：Unix，Windows。
+
+### wait()
+
+等待子进程执行完毕，返回一个元组，包含其 pid 和退出状态指示——一个 16 位数字，其低字节是终止该进程的信号编号，高字节是退出状态码（信号编号为零的情况下）。
+
+可用性：Unix。
+
+### waitpid()
+
+```python
+waitpid(pid, options)
+```
+
+本函数的细节在 Unix 和 Windows 上有所不同。
+
+在 Unix 上：等待进程号为 *pid* 的子进程执行完毕，返回一个元组，包含其进程 ID 和退出状态指示（编码与 `wait()` 相同）。调用的语义受整数 *options* 的影响，常规操作下该值应为 `0`。
+
+如果 *pid* 大于 0，则 `waitpid()` 会获取该指定进程的状态信息。如果 pid 为 0，则获取当前进程所在进程组中的所有子进程的状态。如果 pid 为 -1，则获取当前进程的子进程状态。如果 pid 小于 -1，则获取进程组 -pid （ pid 的绝对值）中所有进程的状态。
+
+当系统调用返回 -1 时，将抛出带有错误码的 OSError 异常。
+
+在 Windows 上：……

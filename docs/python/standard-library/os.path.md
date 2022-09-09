@@ -1,5 +1,13 @@
 # os.path——常用路径操作
 
+`os.path` 模块在路径名上实现了一些有用的功能。
+
+!!! abstract "参考"
+    * [`pathlib`](./pathlib.md) 模块提供高级路径对象
+
+!!! note "注意"
+    下列所有函数都仅接受字节或字符串对象作为其参数。如果返回路径或文件名，则结果是相同类型的对象。
+
 ## abspath()
 
 返回路径的绝对路径。
@@ -80,6 +88,21 @@ True
 ```python
 >>> path.join('/Users', 'xyx')
 '/Users/xyx'
+```
+
+## realpath()
+
+返回指定路径的规范路径，消除路径中存在的任何符号链接（如果操作系统支持）。
+
+```python
+>>> os.symlink('file', 'ln1')
+>>> os.symlink('ln1', 'ln2')
+>>> os.readlink('ln2')
+'ln1'
+>>> os.readlink('ln1')
+'file'
+>>> os.path.realpath('ln2')
+'/Users/xyx/Codes/test/file'
 ```
 
 ## relpath()

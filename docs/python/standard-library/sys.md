@@ -6,28 +6,38 @@
 
 被传递给 Python 脚本的命令行参数列表，`argv[0]` 为脚本的名称（是否是完整的路径名取决于操作系统）。
 
+## byteorder
+
+本地字节顺序的指示符。在大端序操作系统上值为 `'big'`，在小端序操作系统上为 `'little'`。
+
 ## executable
 
-返回当前 Python 解释器的可执行文件的绝对路径。
+当前 Python 解释器的可执行二进制文件的绝对路径。
 
 ```python
->>> import sys
 >>> sys.executable
 '/Users/xyx/.pyenv/versions/3.8.7/bin/python'
 ```
 
 ## exit()
 
+```python
+sys.exit([arg])
+```
+
 从 Python 中退出，实现方式是引发一个 `SystemExit` 异常。
 
-可选参数可以是表示退出状态的整数（默认为整数 0），也可以是其他类型的对象。如果它是整数，则 shell 等将 0 视为“成功终止”，非零值视为“异常终止”。
+可选参数 *arg* 可以是表示退出状态的整数（默认为 0），也可以是其他类型的对象。如果它是整数，则 shell 等将 0 视为“成功终止”，非零值视为“异常终止”。大多数系统要求该值的范围是 0-127，否则会产生未定义的结果。某些系统为特定的退出代码约定了特定的含义，但通常尚不完善；Unix 程序通常用 2 表示命令行语法错误，用 1 表示所有其他类型的错误。如果传入其他类型的对象，None 相当于传入 0，任何其他对象会被打印到 `stderr`，且退出代码为 1。特别地，`sys.exit("some error message")` 可以在发生错误时快速退出程序。
+
+## getallocatedblocks()
+
+返回
 
 ## modules
 
 返回当前已加载模块的名称到模块实例的字典。
 
 ```python
->>> import sys
 >>> from pprint import pprint
 >>> import numpy
 >>> pprint(sys.modules)

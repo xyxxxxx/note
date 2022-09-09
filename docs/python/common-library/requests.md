@@ -1,6 +1,6 @@
 # requests
 
-requests 是一个简单而优雅的 HTTP 库。[使用教程](https://docs.python-requests.org/zh_CN/latest/user/quickstart.html)
+[requests](https://requests.readthedocs.io/en/latest/) 是一个简单而优雅的 HTTP 库。
 
 ## 使用示例
 

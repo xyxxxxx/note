@@ -2,8 +2,6 @@
 
 [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) 是一个可以从 HTML 或 XML 文件中提取数据的 Python 库。它能够通过你喜欢的转换器实现惯用的文档导航、查找、修改文档的方式。Beautiful Soup 会帮你节省数小时甚至数天的工作时间.
 
-参考 [Beautiful Soup 4.4.0 文档](https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/)
-
 下面一段 HTML 代码将作为例子被多次用到.这是*爱丽丝梦游仙境的*的一段内容：
 
 ```html

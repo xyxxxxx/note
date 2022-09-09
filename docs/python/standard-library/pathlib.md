@@ -385,7 +385,7 @@ NotImplementedError: cannot instantiate 'WindowsPath' on your system
 
 ```shell
 >>> Path.cwd()
-PosixPath('/Users/xyx/Codes/gitbooks/note')
+PosixPath('/Users/xyx/Codes/test')
 ```
 
 #### exists()
