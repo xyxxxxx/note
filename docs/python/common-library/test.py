@@ -1,20 +1,22 @@
-import sys
+import threading, queue
 
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open("output.log", "a")
-   
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)  
+q = queue.Queue()
 
-    def flush(self):
-        # this flush method is needed for python 3 compatibility.
-        # this handles the flush command by doing nothing.
-        # you might want to specify some extra behavior here.
-        pass    
+def worker():
+    while True:
+        item = q.get()
+        print(f'Working on {item}')
+        print(f'Finished {item}')
+        q.task_done()
 
-sys.stdout = Logger()
-print('123')
-print('abc')
+# turn-on the worker thread
+threading.Thread(target=worker, daemon=True).start()
+
+# send thirty task requests to the worker
+for item in range(30):
+    q.put(item)
+print('All task requests sent\n', end='')
+
+# block until all tasks are done
+q.join()
+print('All work completed')
