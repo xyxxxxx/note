@@ -11,15 +11,19 @@ $$
 ## 特殊数列
 
 **等差数列**
+
 $$
 a_1=a,\;a_n=a_1+(n-1)d,\; S_n=na_1+\frac{n(n-1)}{2}d
 $$
+
 **等比数列**
+
 $$
 a_1=a,\;a_n=aq^{n-1}， S_n=a_1\frac{1-q^n}{1-q}
 $$
 
-**其它**
+**其他**
+
 $$
 1^2+2^2+3^2+\cdots+n^2=\frac{n(n+1)(2n+1)}{6}\\
 1^3+2^3+3^3+\cdots+n^3=(\frac{n(n+1)}{2})^2
@@ -41,15 +45,20 @@ Aa_{n+1}+Ba_n+Ca_{n-1}+D=0 \Rightarrow Aa_{n+1}+Ea_n+F=k(Aa_{n}+Ea_{n-1}+F)
 $$
 
 **一阶常系数线性递推数列**
+
 $$
 a_{n+1}=pa_n+h \Rightarrow a_{n+1}+\frac{h}{p-1}=p(a_n+\frac{h}{p-1})\\
 a_{n+1}=pa_n+hq^n \Rightarrow (两边同除p^{n+1}/q^{n+1}/不动点)
 $$
+
 **二阶常系数齐次线性递推数列**
+
 $$
 a_{n+2}=c_1a_{n+1}+c_2a_n\\
 $$
+
 其特征方程 $x^2=c_1x+c_2$ 的根为 $\lambda_1,\lambda_2$，如果 $\lambda_1 \neq \lambda_2$，
+
 $$
 \left\{ 
 \begin{array}{c}
@@ -65,12 +74,16 @@ a_{n+1}-\lambda_2a_{n}=\lambda_1^n(a_{1}-\lambda_2a_0)
 \end{array}
 \right.,消去a_n即得
 $$
+
 如果 $\lambda_1 = \lambda_2$，
+
 $$
 a_{n+2}-\lambda a_{n+1}=\lambda (a_{n+1}-\lambda a_n)
 \\\Rightarrow a_{n+1}-\lambda a_{n}=\lambda^{n} (a_{1}-\lambda a_0),同除\lambda^{n}即得
 $$
+
 **分式线性递推数列**
+
 $$
 a_{n+1}=\frac{Aa_n+B}{Ca_n+D}
 \\求特征方程\lambda=\frac{A\lambda+B}{C\lambda+D}的根，在递推两边减去，异根联立，重根进一步化简
@@ -99,4 +112,3 @@ $$
 $$
 \sum x_i^2\sum y_i^2 \ge (\sum(x_iy_i))^2
 $$
-

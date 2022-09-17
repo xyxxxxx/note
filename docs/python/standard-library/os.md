@@ -7,9 +7,20 @@
 
 ## 进程参数
 
+这些函数和数据项提供了操作当前进程和用户的信息。
+
 ### environ
 
-进程的环境变量，可以直接操作该映射以查询或修改环境变量。
+一个表示字符串环境的映射对象。
+
+这个映射是在第一次导入 `os` 模块时捕获的，通常作为 Python 启动过程中处理 `site.py` 的一部分。在此之后对环境所做的更改将不会反映在 `os.environ` 中，除了通过直接修改 `os.environ` 所做的更改。
+
+如果平台支持 `putenv()` 函数，这个映射除了查询环境外还可以用于修改环境。当这个映射被修改时，`putenv()` 将被自动调用。
+
+!!! tip "提示"
+    直接调用 `putenv()` 并不会更新 `os.environ`，所以推荐直接修改 `os.environ`。
+
+如果平台支持 `unsetenv()` 函数，你可以通过删除映射中项的方式来删除对应的环境变量。当一个元素被从 `os.environ` 删除时，以及 `pop()` 或 `clear()` 被调用时，`unsetenv()` 将被自动调用。
 
 ```python
 >>> os.environ
@@ -20,43 +31,193 @@ environ({'SHELL': '/bin/zsh', ...
 >>> os.environ['MYENV']
 '1'
 >>> del os.environ['MYENV']      # 删除环境变量
->>> os.environ['MYENV']
-# KeyError: 'MYENV'
 ```
 
 ### fspath()
 
 返回路径的文件系统表示。
 
-如果传入的是 `str` 或 `bytes` 类型的字符串，则原样返回；否则 `__fspath__()` 将被调用，如果得到的是一个 `str` 或 `bytes` 类型的对象，那就返回这个值。其他所有情况会抛出 `TypeError` 异常。
+如果传入的是 `str` 或 `bytes` 类型的字符串，则原样返回；否则 `__fspath__()` 将被调用，如果得到的是一个 `str` 或 `bytes` 类型的对象，那就返回这个值。其他所有情况会引发 `TypeError` 异常。
 
 ### getenv()
 
-获取环境变量的值。
-
 ```python
 os.getenv(key, default=None)
-# key        环境变量
-# default    若环境变量不存在,返回此默认值
 ```
+
+如果存在，返回环境变量 *key* 的值，否则返回 *default*。*key*、*default* 和返回值均为 `str` 类型。
+
+可用性：大部分 Unix 系统，Windows。
+
+### getgid()
+
+返回当前进程的实际组 ID。
+
+可用性: Unix。
 
 ### getpid()
 
 返回当前进程 ID。
 
+### getppid()
+
+返回父进程 ID。当父进程已经退出，在 Unix 上返回的 ID 是初始进程(1)中的一个，在 Windows 上仍然是同一个进程 ID，该进程 ID 可能已经被另一个进程所重用。
+
+可用性: Unix, Windows。
+
+### getuid()
+
+返回当前进程的真实用户 ID。
+
+可用性: Unix。
+
+### putenv()
+
+```python
+os.putenv(key, value)
+```
+
+将名为 *key* 的环境变量设为 *value*。该环境变量修改会影响由 `os.system()`、`popen()`、`fork()` 和 `execv()` 启动的子进程。
+
+!!! note "注意"
+    在一些平台上，包括 FreeBSD 和 Mac OS X，设置 `environ` 可能导致内存泄露。请参考关于 putenv 的系统文档。
+
+当系统支持 `putenv()` 时，对 `os.environ` 中项的赋值会自动转换为对 `putenv()` 的调用。
+
+!!! tip "提示"
+    直接调用 `putenv()` 并不会更新 `os.environ`，所以推荐直接修改 `os.environ`。
+
+可用性：大部分 Unix 系统，Windows。
+
+### setgid()
+
+设置当前进程的组 ID。
+
+可用性: Unix。
+
+### setuid()
+
+设置当前进程的用户 ID。
+
+可用性: Unix。
+
+### uname()
+
+返回当前操作系统的识别信息。返回值是一个有 5 个属性的对象：
+
+* `sysname`：操作系统名
+* `nodename`：机器的网络名称（由实现定义）
+* `release`：操作系统发行信息
+* `version`：操作系统版本
+* `machine`：硬件标识符
+
+为了向后兼容，该对象也是可迭代的，像是一个按照 `sysname`，`nodename`，`release`、`version` 和 `machine` 顺序组成的五元组。
+
+有些系统会将 `nodename` 截断为 8 个字符或截断至前缀部分；获取主机名的一个更好方式是 `socket.gethostname()` 甚至 `socket.gethostbyaddr(socket.gethostname())`。
+
+可用性：较新的 Unix 版本。
+
+### unsetenv()
+
+```python
+os.unsetenv(key)
+```
+
+取消设置（删除）名为 *key* 的环境变量。该环境变量修改会影响由 `os.system()`、`popen()`、`fork()` 和 `execv()` 启动的子进程。
+
+当系统支持 `unsetenv()` 时，对 `os.environ` 中项的删除会自动转换为对 `unsetenv()` 的调用。
+
+!!! tip "提示"
+    直接调用 `unsetenv()` 并不会更新 `os.environ`，所以推荐直接删除 `os.environ` 的项。
+
+可用性：大部分 Unix 系统。
+
 ## 文件描述符操作
+
+这些函数对文件描述符所引用的 I/O 流进行操作。
+
+文件描述符是一些小的整数，对应于当前进程所打开的文件。例如，标准输入的文件描述符通常是 0，标准输出是 1，标准错误是 2。之后被进程打开的文件的文件描述符会被依次指定为 3、4、5 等。在 Unix 平台上，套接字和管道也被文件描述符所引用。
+
+当需要时，可以使用 `fileno()` 方法来获得文件对象所对应的文件描述符。需要注意的是，直接使用文件描述符会绕过文件对象的方法，忽略如数据内部缓冲等方面。
 
 ### close()
 
+```python
+os.close(fd)
+```
+
+关闭文件描述符 *fd*。
+
+!!! tip "提示"
+    此功能被设计用于低级 I/O 操作，必须用于 `os.open()` 或 `pipe()` 返回的文件描述符。若要关闭由内建函数 `open()`、`popen()` 或 `fdopen()` 返回的“文件对象”，则应使用它的 `close()` 方法。
+
+### closerange()
+
+### isatty()
+
+```python
+os.isatty(fd)
+```
+
+如果文件描述符 *fd* 打开且已连接至 tty 设备（或类 tty 设备），返回 True，否则返回 False。
+
+### open()
+
 ### pipe()
+
+创建一个管道，返回一对分别用于读取和写入的文件描述符 `(r, w)`。新的文件描述符是不可继承的。
+
+可用性: Unix, Windows。
 
 ### pread()
 
+```python
+os.pread(fd, n, offset)
+```
+
+从文件描述符 *fd* 所指向文件的偏移位置 *offset* 开始，读取最多 *n* 个字节，而保持文件偏移量不变。
+
+返回包含读取字节的字节串。如果 *fd* 指向的文件已经到达 EOF，则返回空字节对象。
+
+可用性: Unix。
+
 ### pwrite()
+
+```python
+os.pwrite(fd, str, offset)
+```
+
+将 *str* 中的字节串写入到文件描述符 *fd* 所指向文件的偏移位置 *offset* 处，而保持文件偏移量不变。
+
+返回实际写入的字节数。
+
+可用性: Unix。
 
 ### read()
 
+```python
+os.read(fd, n)
+```
+
+从文件描述符 *fd* 读取最多 *n* 个字节。
+
+返回包含读取字节的字节串。如果 *fd* 指向的文件已经到达 EOF，则返回空字节对象。
+
+!!! note "注意"
+    此功能被设计用于低级 I/O 操作，必须用于 `os.open()` 或 `pipe()` 返回的文件描述符。若要读取由内建函数 `open()`、`popen()` 或 `fdopen()` 返回的“文件对象”，则应使用它的 `read()` 或 `readline()` 方法。
+
 ### write()
+
+```python
+os.write(fd, str)
+```
+
+将 *str* 中的字节串写入文件描述符 *fd*。
+
+返回实际写入的字节数。
+
+!!! note "注意"
+    此功能被设计用于低级 I/O 操作，必须用于 `os.open()` 或 `pipe()` 返回的文件描述符。若要写入由内建函数 `open()`、`popen()` 或 `fdopen()` 返回的“文件对象”，`sys.stdout` 或 `sys.stderr`，则应使用它的 `write()` 方法。
 
 ## 文件和目录
 

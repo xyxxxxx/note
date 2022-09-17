@@ -141,6 +141,7 @@ nav:
       - 哈希表: dsa/data-structure/hash-table.md
       - 图: dsa/data-structure/graph.md
       - 堆: dsa/data-structure/heap.md
+    - Leetcode 例题: dsa/leetcode-examples.md
   - 网络:
     - net/index.md
     - 网络模型:
