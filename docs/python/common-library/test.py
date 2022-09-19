@@ -1,22 +1,18 @@
-import threading, queue
+from multiprocessing import Process
+import os
 
-q = queue.Queue()
+def info(title):
+    print(title)
+    print('module name:', __name__)
+    print('parent process:', os.getppid())
+    print('process id:', os.getpid())
 
-def worker():
-    while True:
-        item = q.get()
-        print(f'Working on {item}')
-        print(f'Finished {item}')
-        q.task_done()
+def f(name):
+    info('function f')
+    print('hello', name)
 
-# turn-on the worker thread
-threading.Thread(target=worker, daemon=True).start()
-
-# send thirty task requests to the worker
-for item in range(30):
-    q.put(item)
-print('All task requests sent\n', end='')
-
-# block until all tasks are done
-q.join()
-print('All work completed')
+if __name__ == '__main__':
+    info('main line')
+    p = Process(target=f, args=('bob',))
+    p.start()
+    p.join()
