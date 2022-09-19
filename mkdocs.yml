@@ -169,6 +169,7 @@ nav:
       - "collections.abc——容器的抽象基类": python/standard-library/collections.abc.md
       - "collections——容器数据类型": python/standard-library/collections.md
       - "configparser——配置文件解析器": python/standard-library/configparser.md
+      - "concurrent.futures——启动并行任务": python/standard-library/concurrent.futures.md
       - "copy——浅层和深层复制操作": python/standard-library/copy.md
       - "csv——CSV 文件读写": python/standard-library/csv.md
       - "datetime——基本日期和时间类型": python/standard-library/datetime.md
@@ -177,9 +178,11 @@ nav:
       - "functools——高阶函数和可调用对象上的操作": python/standard-library/functools.md
       - "glob——Unix 风格路径名模式扩展": python/standard-library/glob.md
       - "graphlib——操作类似图的结构的功能": python/standard-library/graphlib.md
+      - "hashlib——安全哈希与消息摘要": python/standard-library/hashlib.md
       - "hmac——基于密钥的消息验证": python/standard-library/hmac.md
       - "importlib——import 的实现": python/standard-library/importlib.md
       - "inspect——检查对象": python/standard-library/inspect.md
+      - "io——处理流的核心工具": python/standard-library/io.md
       - "itertools——为高效循环而创建迭代器的函数": python/standard-library/itertools.md
       - "json——JSON 编码和解码器": python/standard-library/json.md
       - "keyword——检验 Python 关键字": python/standard-library/keyword.md
@@ -193,8 +196,10 @@ nav:
       - "pickle——Python 对象序列化": python/standard-library/pickle.md
       - "platform——获取底层平台的标识数据": python/standard-library/platform.md
       - "pprint——数据美化输出": python/standard-library/pprint.md
+      - "queue——一个同步的队列类": python/standard-library/queue.md
       - "random——生成伪随机数": python/standard-library/random.md
       - "re——正则表达式操作": python/standard-library/re.md
+      - "secrets——生成安全随机数字用于管理密码": python/standard-library/secrets.md
       - "select——等待 I/O 完成": python/standard-library/select.md
       - "shlex——简单的词法分析": python/standard-library/shlex.md
       - "shutil——高阶文件操作": python/standard-library/shutil.md
@@ -208,23 +213,31 @@ nav:
       - "time——时间的访问和转换": python/standard-library/time.md
       - "timeit——测量小段代码的执行时间": python/standard-library/timeit.md
       - "types——动态类型创建和内置类型名称": python/standard-library/types.md
+      - "typing——类型提示支持": python/standard-library/typing.md
+      - "urllib.parse——用于解析 URL": python/standard-library/urllib.parse.md
       - "urllib.request——用于打开 URL 的可扩展库": python/standard-library/urllib.request.md
+      - "uuid——RFC 4122 定义的 UUID 对象": python/standard-library/uuid.md
       - "weakref——弱引用": python/standard-library/weakref.md
+      - "zipfile——使用 ZIP 存档": python/standard-library/zip.md
     - 常用库:
       - python/common-library/index.md
       - "BeautifulSoup": python/common-library/beautifulsoup.md
       - "click": python/common-library/click.md
       - "filelock": python/common-library/filelock.md
-      - "": python/common-library/index.md
       - "Pillow": python/common-library/pillow.md
       - "PyYAML (yaml)": python/common-library/pyyaml.md
       - "requests": python/common-library/requests.md
+      - "rich": python/common-library/rich.md
+      - "websocket-client (websocket)": python/common-library/websocket.md
     - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
     - 平台和工具:
       - ml/platform-and-tool/index.md
-      - numpy: ml/platform-and-tool/numpy.md
+      - NumPy: 
+        - ml/platform-and-tool/numpy/index.md
+        - 快速入门: ml/platform-and-tool/numpy/get-started.md
+        - API: ml/platform-and-tool/numpy/api.md
       - pandas: ml/platform-and-tool/pandas.md
       - matplotlib: ml/platform-and-tool/matplotlib.md
       - PyTorch:
