@@ -1,18 +1,14 @@
-from multiprocessing import Process
-import os
+def create_trial(trial_path=None,
+                 trial_name=None,
+                 trial_params=None,
+                 folder_id=None,
+                 folder_path=None,
+                 make_folder=False,
+                 conflict_strategy: str = 'new'):
+    a = 1
+    print(locals())
+    print(locals()['trial_name'])
 
-def info(title):
-    print(title)
-    print('module name:', __name__)
-    print('parent process:', os.getppid())
-    print('process id:', os.getpid())
-
-def f(name):
-    info('function f')
-    print('hello', name)
 
 if __name__ == '__main__':
-    info('main line')
-    p = Process(target=f, args=('bob',))
-    p.start()
-    p.join()
+    create_trial()

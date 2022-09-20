@@ -1,216 +1,25 @@
-# Pandas
+[toc]
 
-[Pandas](https://pandas.pydata.org/) 是一个快速、强大、灵活且易用的开源数据分析和操作工具。很多机器学习框架都支持将 Pandas 数据结构作为输入。
+# API
 
-!!! abstract "参考"
-    * [User Guide](https://pandas.pydata.org/docs/user_guide/index.html#user-guide)
-    * [API reference](https://pandas.pydata.org/docs/reference/index.html#api)
+## 导入导出
 
-## 快速入门
-
-### 创建 DataFrame
+### read_csv()
 
 ```python
-# 使用numpy数组和字符串列表创建
->>> data = np.array([[0, 3], [10, 7], [20, 9], [30, 14], [40, 15]])
->>> columns = ['temperature', 'activity']
->>> df = pd.DataFrame(data=data, columns=columns)
->>> df
-   temperature  activity
-0            0         3
-1           10         7
-2           20         9
-3           30        14
-4           40        15
-
-# 使用字典创建
->>> df = pd.DataFrame({
-    'temperature': np.arange(0, 50, 10),
-    'activity': [3, 7, 9, 14, 15]
-})
->>> df
-   temperature  activity
-0            0         3
-1           10         7
-2           20         9
-3           30        14
-4           40        15
+>>> df = pd.read_csv("data/titanic.csv")  # 本地文件
+>>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')        # 在线下载
 ```
 
-### 检查属性
+### read_excel()
 
 ```python
->>> df.dtypes           # 各Series数据类型
-temperature    int64    # Dataframe的每一列就是一个Series
-activity       int64
-dtype: object
->>> df.shape            # 形状
-(5, 2)
+>>> df = pd.read_excel('titanic.xlsx', sheet_name='passengers')
 ```
 
-### 增加 Series
+## 一般函数
 
-```python
-# 基于已有的Series增加Series
->>> df['adjusted'] = df['activity'] + 2
->>> df
-   temperature  activity  adjusted
-0            0         3         5
-1           10         7         9
-2           20         9        11
-3           30        14        16
-4           40        15        17
-
-# 增加新建的Series
->>> adjusted1 = pd.Series([5, 9, 11, 16, 17], name='adjusted1')
->>> df['adjusted1'] = adjusted1
->>> df
-   temperature  activity  adjusted  adjusted1
-0            0         3         5          5
-1           10         7         9          9
-2           20         9        11         11
-3           30        14        16         16
-4           40        15        17         17
-```
-
-### 选择和查询 DataFrame
-
-```python
->>> df.head(3)     # 前3行
-   temperature  activity  adjusted  adjusted1
-0            0         3         5          5
-1           10         7         9          9
-2           20         9        11         11
->>> df[1:4]        # 行1-3
-   temperature  activity  adjusted  adjusted1
-1           10         7         9          9
-2           20         9        11         11
-3           30        14        16         16
->>> df.iloc[2]     # 行2
-temperature    20
-activity        9
-adjusted       11
-adjusted1      11
-Name: 2, dtype: int64
-
->>> df['temperature']  # 指定Series
-0     0
-1    10
-2    20
-3    30
-4    40
-Name: temperature, dtype: int64
->>> df.temperature     # 指定Series
-0     0
-1    10
-2    20
-3    30
-4    40
-Name: temperature, dtype: int64
->>> df[['temperature', 'activity']]  # 指定多个Series
-   temperature  activity
-0            0         3
-1           10         7
-2           20         9
-3           30        14
-4           40        15
-
->>> df.iloc[2:4, 1:]   # 行2~3,列1~
-   activity  adjusted  adjusted1
-2         9        11         11
-3        14        16         16
-
->>> df["adjusted"] > 10              # 条件查询,返回True或False
-0    False
-1    False
-2     True
-3     True
-4     True
-Name: adjusted, dtype: bool
->>> df["adjusted"].isin([15,16,17])  # 是否属于集合
-0    False
-1    False
-2    False
-3     True
-4     True
-Name: adjusted, dtype: bool
->>> df["adjusted"].notna()           # 是否为NaN
-0    True
-1    True
-2    True
-3    True
-4    True
-Name: adjusted, dtype: bool
-        
->>> df[df["adjusted"] > 10]          # 条件选择
-   temperature  activity  adjusted  adjusted1
-2           20         9        11         11
-3           30        14        16         16
-4           40        15        17         17
-```
-
-### 查看统计量
-
-```python
->>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')
->>> df
-     PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
-0              1         0       3  ...   7.2500   NaN         S
-1              2         1       1  ...  71.2833   C85         C
-2              3         1       3  ...   7.9250   NaN         S
-3              4         1       1  ...  53.1000  C123         S
-4              5         0       3  ...   8.0500   NaN         S
-..           ...       ...     ...  ...      ...   ...       ...
-886          887         0       2  ...  13.0000   NaN         S
-887          888         1       1  ...  30.0000   B42         S
-888          889         0       3  ...  23.4500   NaN         S
-889          890         1       1  ...  30.0000  C148         C
-890          891         0       3  ...   7.7500   NaN         Q
-
-[891 rows x 12 columns]
-
->>> df.describe()            # 所有Series的基本统计量
-       PassengerId    Survived      Pclass         Age       SibSp       Parch        Fare
-count   891.000000  891.000000  891.000000  714.000000  891.000000  891.000000  891.000000
-mean    446.000000    0.383838    2.308642   29.699118    0.523008    0.381594   32.204208
-std     257.353842    0.486592    0.836071   14.526497    1.102743    0.806057   49.693429
-min       1.000000    0.000000    1.000000    0.420000    0.000000    0.000000    0.000000
-25%     223.500000    0.000000    2.000000   20.125000    0.000000    0.000000    7.910400
-50%     446.000000    0.000000    3.000000   28.000000    0.000000    0.000000   14.454200
-75%     668.500000    1.000000    3.000000   38.000000    1.000000    0.000000   31.000000
-max     891.000000    1.000000    3.000000   80.000000    8.000000    6.000000  512.329200
-
->>> df['Age'].describe()     # Series的基本统计量
-count    714.000000
-mean      29.699118
-std       14.526497
-min        0.420000
-25%       20.125000
-50%       28.000000
-75%       38.000000
-max       80.000000
-Name: Age, dtype: float64
-
->>> df['Age'].max()          # Series的指定统计量
-80.0
-
->>> df['Sex'].value_counts()     # Series计数
-male      577
-female    314
-Name: Sex, dtype: int64
-
->>> df.groupby('Sex').mean()     # 按指定Series分组
-        PassengerId  Survived    Pclass        Age     SibSp     Parch       Fare
-Sex                                                                              
-female   431.028662  0.742038  2.159236  27.915709  0.694268  0.649682  44.479818
-male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.523893
-```
-
-## API
-
-### 一般函数
-
-#### concat()
+### concat()
 
 沿指定轴拼接 Pandas 对象。
 
@@ -242,7 +51,7 @@ male     454.147314  0.188908  2.389948  30.726645  0.429809  0.235702  25.52389
 1      b       2  monkey  george
 ```
 
-#### factorize()
+### factorize()
 
 将序列编码为枚举类型或类型变量。亦为 Series 方法。
 
@@ -260,7 +69,7 @@ array([1, 1, 0, 2, 1])
 array(['a', 'b', 'c'], dtype=object)
 ```
 
-#### merge()
+### merge()
 
 将 DataFrame 或命名的 Series（作为单命名列的 DataFrame）作数据库风格的合并，即匹配左键和右键。亦为 DataFrame 方法。
 
@@ -279,9 +88,9 @@ array(['a', 'b', 'c'], dtype=object)
 5  baz        3  baz        7
 ```
 
-### DataFrame
+## DataFrame
 
-#### add(), sub(), mul(), div(), floordiv(), mod(), pow()
+### add(), sub(), mul(), div(), floordiv(), mod(), pow()
 
 基本算术运算。符号 `+, -, *, /, //, %, **` 重载了这些方法。
 
@@ -304,7 +113,7 @@ array(['a', 'b', 'c'], dtype=object)
 2  10  12
 ```
 
-#### append()
+### append()
 
 增加一行。
 
@@ -324,7 +133,7 @@ array(['a', 'b', 'c'], dtype=object)
 3  7.0  NaN
 ```
 
-#### apply()
+### apply()
 
 对所有元素应用函数。
 
@@ -351,7 +160,7 @@ dtype: int64
 dtype: int64
 ```
 
-#### astype()
+### astype()
 
 将 Series/DataFrame 转换为指定数据类型。
 
@@ -378,7 +187,7 @@ dtype('int32')
 dtype('int64')
 ```
 
-#### at()
+### at()
 
 
 
@@ -386,11 +195,11 @@ dtype('int64')
 
 ```
 
-#### columns
+### columns
 
 返回 DataFrame 的列标签。
 
-#### concat()
+### concat()
 
 拼接 DataFrame。
 
@@ -428,7 +237,7 @@ dtype('int64')
 5      Frank   M
 ```
 
-#### copy()
+### copy()
 
 返回 Series/DataFrame 的深/浅拷贝。
 
@@ -460,7 +269,7 @@ b    2
 dtype: int64
 ```
 
-#### drop()
+### drop()
 
 删除指定行/列。
 
@@ -485,7 +294,7 @@ dtype: int64
 3  Germany
 ```
 
-#### dropna()
+### dropna()
 
 移除缺失值。
 
@@ -527,11 +336,11 @@ dtype: int64
 1  3.0  4.0  NaN  1
 ```
 
-#### dtypes
+### dtypes
 
 返回 DataFrame 的（所有 Series 的）数据类型。
 
-#### fillna()
+### fillna()
 
 替换 NaN。
 
@@ -562,7 +371,7 @@ dtype: int64
 3  0.0  3.0 -2.0  4
 ```
 
-#### head(), tail()
+### head(), tail()
 
 查看 DataFrame 的前/后几行。
 
@@ -595,7 +404,7 @@ dtype: int64
 8  zebra
 ```
 
-#### iloc()
+### iloc()
 
 查看指定行/列。
 
@@ -636,15 +445,15 @@ Name: 0, dtype: int64
 2  1000  2000  3000
 ```
 
-#### index
+### index
 
 返回 DataFrame 的索引（行标签）。
 
-#### info()
+### info()
 
 打印 DataFrame 的概要。
 
-#### join()
+### join()
 
 与另一 DataFrame 作列拼接。
 
@@ -683,7 +492,7 @@ K5   A5  NaN
 5  K5  A5  NaN
 ```
 
-#### memory()
+### memory()
 
 返回 DataFrame 每一列的内存使用量，以字节为单位。
 
@@ -709,11 +518,11 @@ bool           5000
 dtype: int64
 ```
 
-#### ndim
+### ndim
 
 若为 Series，返回 1；若为 DataFrame，返回 2。
 
-#### plot()
+### plot()
 
 对 DataFrame 或 Series 绘图。默认使用 matplotlib。
 
@@ -781,7 +590,7 @@ Tasks Completed    700
 
 ![](https://i.loli.net/2020/12/30/9V8sDLT7hjXJutQ.png)
 
-#### pop()
+### pop()
 
 删除 Series 并返回。
 
@@ -811,7 +620,7 @@ Name: class, dtype: object
 3  monkey        NaN
 ```
 
-#### rename()
+### rename()
 
 重命名 Series。
 
@@ -824,7 +633,7 @@ Name: class, dtype: object
 2    5    6
 ```
 
-#### set_index(), reset_index()
+### set_index(), reset_index()
 
 使用既有的 Series 作为 index。重置 index。
 
@@ -853,11 +662,11 @@ year
 3  2014     10    31
 ```
 
-#### size
+### size
 
 返回 Series/DataFrame 的元素数量。
 
-#### sort_values()
+### sort_values()
 
 将各行根据指定 Series 排序。
 
@@ -882,7 +691,7 @@ year
 
 ```
 
-#### sampling()
+### sampling()
 
 将 DataFrame 中的数据按比例做随机抽样。
 
@@ -902,7 +711,7 @@ year
 >>> test_df = df.drop(train_df.index)  # 删除已取样的行
 ```
 
-#### shape
+### shape
 
 返回以元组表示的 DataFrame 的形状。
 
@@ -913,7 +722,7 @@ year
 (2, 3)
 ```
 
-#### to_csv()
+### to_csv()
 
 将 DataFrame 保存到 csv 文件。
 
@@ -921,9 +730,9 @@ year
 
 ```
 
-#### to_datetime()
+### to_datetime()
 
-#### values
+### values
 
 返回 DataFrame 的 NumPy 表示。
 
@@ -964,9 +773,9 @@ array([['parrot', 24.0, 'second'],
        ['monkey', nan, None]], dtype=object)
 ```
 
-### Series
+## Series
 
-#### apply()
+### apply()
 
 对所有元素应用函数。
 
@@ -990,30 +799,18 @@ Helsinki    2.484907
 dtype: float64
 ```
 
-#### copy()
+### copy()
 
 见 [DataFrame.copy](#copy)。
 
-#### dropna()
+### dropna()
 
 见 [DataFrame.dropna](#dropna)。
 
-#### ndim
+### ndim
 
 见 [DataFrame.ndim](#ndim)。
 
-#### size
+### size
 
 见 [DataFrame.size](#size)。
-
-### 导入数据
-
-```python
-# csv
->>> df = pd.read_csv("data/titanic.csv")  # 本地文件
->>> df = pd.read_csv('https://raw.githubusercontent.com/jorisvandenbossche/pandas-tutorial/master/data/titanic.csv')        # 在线下载
-
-# xlsx
->>> df = pd.read_excel('titanic.xlsx', sheet_name='passengers')
-```
-

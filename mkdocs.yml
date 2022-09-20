@@ -124,6 +124,14 @@ nav:
       - 图论: math/discrete-mathematics/graph-theory.md
       - 数论: math/discrete-mathematics/number-theory.md
   - 数据结构与算法:
+    - 数据结构:
+      - dsa/data-structure/index.md
+      - 数组和链表: dsa/data-structure/array-and-linked-list.md
+      - 栈和队列: dsa/data-structure/stack-and-queue.md
+      - 二叉搜索树: dsa/data-structure/binary-search-tree.md
+      - 哈希表: dsa/data-structure/hash-table.md
+      - 图: dsa/data-structure/graph.md
+      - 堆: dsa/data-structure/heap.md
     - 算法:
       - dsa/algorithm/index.md
       - 常见算法: dsa/algorithm/common-algorithm.md
@@ -133,14 +141,6 @@ nav:
       - 回溯法: dsa/algorithm/backtracking.md
       - 网络流算法: dsa/algorithm/network-flow-algorithm.md
       - 线性规划: dsa/algorithm/linear-programming.md
-    - 数据结构:
-      - dsa/data-structure/index.md
-      - 数组，链表: dsa/data-structure/array-linked-list.md
-      - 栈，队列: dsa/data-structure/stack-queue.md
-      - 二叉搜索树: dsa/data-structure/binary-search-tree.md
-      - 哈希表: dsa/data-structure/hash-table.md
-      - 图: dsa/data-structure/graph.md
-      - 堆: dsa/data-structure/heap.md
     - Leetcode 例题: dsa/leetcode-examples.md
   - 网络:
     - net/index.md
@@ -239,8 +239,13 @@ nav:
         - ml/platform-and-tool/numpy/index.md
         - 快速入门: ml/platform-and-tool/numpy/get-started.md
         - API: ml/platform-and-tool/numpy/api.md
-      - pandas: ml/platform-and-tool/pandas.md
-      - matplotlib: ml/platform-and-tool/matplotlib.md
+      - pandas:
+        - ml/platform-and-tool/pandas/index.md
+        - 快速入门: ml/platform-and-tool/pandas/get-started.md
+        - API: ml/platform-and-tool/pandas/api.md
+      - matplotlib:
+        - ml/platform-and-tool/matplotlib/index.md
+        - 示例: ml/platform-and-tool/matplotlib/example.md
       - PyTorch:
         - ml/platform-and-tool/pytorch/index.md
         - PyTorch: ml/platform-and-tool/pytorch/pytorch.md
@@ -262,6 +267,9 @@ nav:
         - "API: torch.utils.tensorboard": ml/platform-and-tool/pytorch/api-utils-tensorboard.md
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
         - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
+      - nni:
+        - ml/platform-and-tool/nni/index.md
+        - 调参器: ml/platform-and-tool/nni/tuner.md
   - 参考和工具:
     - Linux:
       - Linux 命令: reference-and-tool/linux/linux-command.md

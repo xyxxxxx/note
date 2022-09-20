@@ -1,5 +1,3 @@
-[toc]
-
 # API
 
 ## 数组对象
@@ -500,49 +498,66 @@ array([[ 1,  3,  4],
 
 ### flip()
 
-### hsplit(), vsplit(), dsplit()
-
-水平/垂直/沿深度拆分数组。
+沿指定轴翻转数组。
 
 ```python
->>> a = np.arange(24).reshape(4, 6)
+>>> a = np.arange(8).reshape((2,2,2))
 >>> a
-array([[ 0,  1,  2,  3,  4,  5],
-       [ 6,  7,  8,  9, 10, 11],
-       [12, 13, 14, 15, 16, 17],
-       [18, 19, 20, 21, 22, 23]])
->>> np.vsplit(a, 2)                 # 垂直拆分
-[array([[ 0,  1,  2,  3,  4,  5],
-       [ 6,  7,  8,  9, 10, 11]]), array([[12, 13, 14, 15, 16, 17],
-       [18, 19, 20, 21, 22, 23]])]
->>> np.hsplit(a, 3)                 # 水平拆分
-[array([[ 0,  1],
-       [ 6,  7],
-       [12, 13],
-       [18, 19]]), array([[ 2,  3],
-       [ 8,  9],
-       [14, 15],
-       [20, 21]]), array([[ 4,  5],
-       [10, 11],
-       [16, 17],
-       [22, 23]])]
+array([[[0, 1],
+        [2, 3]],
+
+       [[4, 5],
+        [6, 7]]])
+>>> np.flip(a, 0)    # 沿轴0翻转
+array([[[4, 5],
+        [6, 7]],
+
+       [[0, 1],
+        [2, 3]]])
+>>> np.flip(a, 1)    # 沿轴1翻转
+array([[[2, 3],
+        [0, 1]],
+
+       [[6, 7],
+        [4, 5]]])
+>>> np.flip(a, 2)    # 沿轴2翻转
+array([[[1, 0],
+        [3, 2]],
+
+       [[5, 4],
+        [7, 6]]])
+>>> np.flip(a)       # 沿所有轴翻转
+array([[[7, 6],
+        [5, 4]],
+
+       [[3, 2],
+        [1, 0]]])
+>>> np.flip(a, (1, 2))    # 沿轴1,2翻转
+array([[[3, 2],
+        [1, 0]],
+
+       [[7, 6],
+        [5, 4]]])
 ```
 
-### hstack(), vstack(), dstack()
+### flipud(), fliplr()
 
-水平/垂直/沿深度堆叠数组。
+垂直（上下）/水平（左右）翻转数组，相当于 `flip(a, 0)`/`flip(a, 1)`。
 
 ```python
->>> a = np.arange(0, 4).reshape(2, 2)
->>> b = np.arange(4, 8).reshape(2, 2)
->>> np.vstack((a, b))     # 垂直堆叠
-array([[0, 1],
-       [2, 3],
-       [4, 5],
-       [6, 7]])
->>> np.hstack((a, b))     # 水平堆叠
-array([[0, 1, 4, 5],
-       [2, 3, 6, 7]])
+>>> a = np.diag([1.0, 2, 3])
+>>> a
+array([[1., 0., 0.],
+       [0., 2., 0.],
+       [0., 0., 3.]])
+>>> np.flipud(a)
+array([[0., 0., 3.],
+       [0., 2., 0.],
+       [1., 0., 0.]])
+>>> np.fliplr(a)
+array([[0., 0., 1.],
+       [0., 2., 0.],
+       [3., 0., 0.]])
 ```
 
 ### insert()
@@ -713,6 +728,51 @@ array([[[ 0, 12],
         [11, 23]]])
 >>> np.transpose(a, (1, 2, 0)).shape
 (3, 4, 2)
+```
+
+### vsplit(), hsplit(), dsplit()
+
+垂直/水平/沿深度拆分数组。
+
+```python
+>>> a = np.arange(24).reshape(4, 6)
+>>> a
+array([[ 0,  1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10, 11],
+       [12, 13, 14, 15, 16, 17],
+       [18, 19, 20, 21, 22, 23]])
+>>> np.vsplit(a, 2)                 # 垂直拆分
+[array([[ 0,  1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10, 11]]), array([[12, 13, 14, 15, 16, 17],
+       [18, 19, 20, 21, 22, 23]])]
+>>> np.hsplit(a, 3)                 # 水平拆分
+[array([[ 0,  1],
+       [ 6,  7],
+       [12, 13],
+       [18, 19]]), array([[ 2,  3],
+       [ 8,  9],
+       [14, 15],
+       [20, 21]]), array([[ 4,  5],
+       [10, 11],
+       [16, 17],
+       [22, 23]])]
+```
+
+### vstack(), hstack(), dstack()
+
+垂直/水平/沿深度堆叠数组。
+
+```python
+>>> a = np.arange(0, 4).reshape(2, 2)
+>>> b = np.arange(4, 8).reshape(2, 2)
+>>> np.vstack((a, b))     # 垂直堆叠
+array([[0, 1],
+       [2, 3],
+       [4, 5],
+       [6, 7]])
+>>> np.hstack((a, b))     # 水平堆叠
+array([[0, 1, 4, 5],
+       [2, 3, 6, 7]])
 ```
 
 ### unique()
@@ -1082,9 +1142,18 @@ array([[ 8,  9, 10, 11],
 
 ### det()
 
+计算数组的行列式。
+
+```python
+>>> from numpy import linalg as LA
+>>> a = np.array([[1, 2], [3, 4]])
+>>> LA.det(a)
+-2.0000000000000004
+```
+
 ### eig()
 
-返回数组的一个特征分解 $A=Q\Lambda Q^{-1}$。
+计算数组的一个特征分解 $A=Q\Lambda Q^{-1}$。
 
 ```python
 >>> from numpy import linalg as LA
@@ -1101,7 +1170,7 @@ array([[ 4.,  6.,  0.],
 
 ### inner(), dot(), cross(), outer()
 
-计算两个数组的点积（内积）/叉积/外积。
+计算两个数组的内积（点积）/叉积/外积。
 
 ```python
 >>> a = np.array([1, 2, 3])
@@ -1118,7 +1187,130 @@ array([[0, 1, 0],
        [0, 3, 0]])
 ```
 
+### matmul()
+
+计算两个数组的矩阵乘积。符号 `@` 重载了此方法。
+
+```python
+>>> a = np.array([[1, 0],
+                  [0, 1]])
+>>> b = np.array([[4, 1],
+                  [2, 2]])
+>>> np.matmul(a, b)
+array([[4, 1],
+       [2, 2]])
+>>> a @ b
+array([[4, 1],
+       [2, 2]])
+```
+
+### matrix_rank()
+
+使用奇异值分解法计算数组的秩。
+
+```python
+>>> from numpy import linalg as LA
+>>> a = np.eye(4)
+>>> a
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+>>> LA.matrix_rank(a)
+4
+>>> a = np.ones((4, 4))
+>>> a
+array([[1., 1., 1., 1.],
+       [1., 1., 1., 1.],
+       [1., 1., 1., 1.],
+       [1., 1., 1., 1.]])
+>>> LA.matrix_rank(a)
+1
+```
+
+### norm()
+
+计算数组的范数。
+
+可以计算下列范数：
+
+| 阶数    | 矩阵范数                   | 向量范数      |
+| ------- | -------------------------- | ------------- |
+| `None`  | Frobenius 范数             | L2 范数       |
+| `'fro'` | Frobenius 范数             | -             |
+| `'nuc'` | 核范数                     | -             |
+| `inf`   | `max(sum(abs(x), axis=1))` | `max(abs(x))` |
+| `-inf`  | `min(sum(abs(x), axis=1))` | `min(abs(x))` |
+| `0`     | -                          | `sum(x != 0)` |
+| `1`     | `max(sum(abs(x), axis=0))` | 同下          |
+| `-1`    | `min(sum(abs(x), axis=0))` | 同下          |
+| `2`     | 最大奇异值                 | 同下          |
+| `-2`    | 最小奇异值                 | 同下          |
+| 其他值  | -                          | Lp 范数       |
+
+
+```python
+>>> from numpy import linalg as LA
+>>> a = np.arange(9) - 4
+>>> a
+array([-4, -3, -2, -1,  0,  1,  2,  3,  4])
+>>> b = a.reshape((3, 3))
+>>> b
+array([[-4, -3, -2],
+       [-1,  0,  1],
+       [ 2,  3,  4]])
+>>> LA.norm(a)
+7.745966692414834
+>>> LA.norm(b)
+7.745966692414834
+>>> LA.norm(b, 'fro')
+7.745966692414834
+>>> LA.norm(b, 'nuc')
+9.797958971132713
+>>> LA.norm(a, np.inf)
+4.0
+>>> LA.norm(b, np.inf)
+9.0
+>>> LA.norm(a, -np.inf)
+0.0
+>>> LA.norm(b, -np.inf)
+2.0
+>>> LA.norm(a, 0)
+8.0
+>>> LA.norm(a, 1)
+20.0
+>>> LA.norm(b, 1)
+7.0
+>>> LA.norm(a, -1)
+/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy/linalg/linalg.py:2564: RuntimeWarning: divide by zero encountered in reciprocal
+  absx **= ord
+0.0
+>>> LA.norm(b, -1)
+6.0
+>>> LA.norm(a, 2)
+7.745966692414834
+>>> LA.norm(b, 2)
+7.3484692283495345
+>>> LA.norm(a, -2)
+/Users/xyx/.pyenv/versions/3.8.7/lib/python3.8/site-packages/numpy/linalg/linalg.py:2564: RuntimeWarning: divide by zero encountered in power
+  absx **= ord
+0.0
+>>> LA.norm(b, -2)
+1.857033188519056e-16
+```
+
+```python
+>>> c = np.array([[ 1, 2, 3],
+                  [-1, 1, 4]])
+>>> LA.norm(c, axis=0)            # 使用axis参数计算向量范数
+array([1.41421356, 2.23606798, 5.        ])
+>>> LA.norm(c, axis=1)
+array([3.74165739, 4.24264069])
+```
+
 ### qr()
+
+计算数组的 QR 分解。
 
 ### svd()
 
@@ -1143,6 +1335,8 @@ array([[1., 0., 0., 0., 2.],
        [ 0.        ,  0.        ,  0.        ,  1.        ,  0.        ],
        [-0.89442719,  0.        ,  0.        ,  0.        ,  0.4472136 ]]))
 ```
+
+## 傅立叶变换（`numpy.fft`）
 
 ## 集合例程
 
