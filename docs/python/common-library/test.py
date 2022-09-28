@@ -1,14 +1,12 @@
-def create_trial(trial_path=None,
-                 trial_name=None,
-                 trial_params=None,
-                 folder_id=None,
-                 folder_path=None,
-                 make_folder=False,
-                 conflict_strategy: str = 'new'):
-    a = 1
-    print(locals())
-    print(locals()['trial_name'])
+from multiprocessing import Process, Pipe
 
+def f(conn):
+    conn.send([42, None, 'hello'])
+    conn.close()
 
 if __name__ == '__main__':
-    create_trial()
+    parent_conn, child_conn = Pipe()
+    p = Process(target=f, args=(child_conn,))
+    p.start()
+    print(parent_conn.recv())   # [42, None, 'hello']
+    p.join()

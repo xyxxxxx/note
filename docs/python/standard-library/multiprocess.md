@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
 ## 进程间同步
 
-对于所有在 `threading` 中存在的同步原语，`multiprocessing` 中都有类似的等价物。例如可以使用锁来确保一次只有一个进程打印到标准输出：
+`multiprocessing` 拥有 `threading` 的所有同步原语的等价物。例如可以使用锁来确保一次只有一个进程打印到标准输出：
 
 ```python
 from multiprocessing import Process, Lock
@@ -175,7 +175,7 @@ hello world 3
 
 ## 进程间共享状态
 
-在进行并发编程时应尽量避免使用共享状态，使用多个进程时尤其如此。
+在进行并发编程时，应尽量避免使用共享状态，使用多个进程时尤其如此。
 
 但是，如果你真的需要使用一些共享数据，那么 `multiprocessing` 提供了两种方法：
 
@@ -227,13 +227,111 @@ hello world 3
           print(l)         # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
   ```
   
-  使用服务进程的管理器比使用共享内存对象更灵活，因为它们可以支持任意对象类型。此外单个管理器也可以通过网络由不同计算机上的进程共享。但是它们比使用共享内存慢。
+  使用服务进程的管理器比使用共享内存对象更灵活，因为它们可以支持任意对象类型。此外，单个管理器也可以通过网络由不同计算机上的进程共享。但是它们比使用共享内存慢。
 
 ## 使用工作进程
 
 `Pool` 类表示一个工作进程池，它具有几种不同的将任务分配到工作进程的方法。
 
+```python
+from multiprocessing import Pool, TimeoutError
+import time
+import os
+
+def f(x):
+    return x*x
+
+if __name__ == '__main__':
+    # start 4 worker processes
+    with Pool(processes=4) as pool:
+
+        # print "[0, 1, 4,..., 81]"
+        print(pool.map(f, range(10)))
+
+        # print same numbers in arbitrary order
+        for i in pool.imap_unordered(f, range(10)):
+            print(i)
+
+        # evaluate "f(20)" asynchronously
+        res = pool.apply_async(f, (20,))      # runs in *only* one process
+        print(res.get(timeout=1))             # prints "400"
+
+        # evaluate "os.getpid()" asynchronously
+        res = pool.apply_async(os.getpid, ()) # runs in *only* one process
+        print(res.get(timeout=1))             # prints the PID of that process
+
+        # launching multiple evaluations asynchronously *may* use more processes
+        multiple_results = [pool.apply_async(os.getpid, ()) for i in range(4)]
+        print([res.get(timeout=1) for res in multiple_results])
+
+        # make a single worker sleep for 10 secs
+        res = pool.apply_async(time.sleep, (10,))
+        try:
+            print(res.get(timeout=1))
+        except TimeoutError:
+            print("We lacked patience and got a multiprocessing.TimeoutError")
+
+        print("For the moment, the pool remains available for more work")
+
+    # exiting the 'with'-block has stopped the pool
+    print("Now the pool is closed and no longer available")
+```
+
+需要注意的是，进程池的方法只能由创建它的进程使用。
+
 ## 模块内容
+
+### 函数
+
+#### active_children()
+
+返回当前进程的所有存活子进程的列表。
+
+调用此方法有“等待”已经结束的进程的副作用。
+
+#### cpu_count()
+
+返回系统的 CPU 数量。
+
+该数量不同于当前进程可以使用的 CPU 数量。可用的 CPU 数量可以通过 `len(os.sched_getaffinity(0))` 获得。
+
+#### current_process()
+
+返回当前进程对应的 `Process` 对象。
+
+#### parent_process()
+
+返回父进程对应的 `Process` 对象。对于主进程，`parent_process()` 会返回 `None`。
+
+3.8 新版功能。
+
+#### get_context()
+
+```python
+get_context(method=None)
+```
+
+返回一个上下文对象。该对象具有和 `multiprocessing` 模块相同的 API。
+
+如果 *method* 为 `None`，则返回默认上下文对象。否则 *method* 应该是 `'fork'`、`'spawn'` 或 `'forkserver'`。如果指定的启动方法不存在，则引发 `ValueError` 异常。
+
+#### get_start_method()
+
+返回用于启动进程的启动方法名。
+
+如果启动方法没有固定并且 *allow_none* 为 `False`，则启动方法将固定为默认方法并返回其名称；如果启动方法没有固定并且 *allow_none* 为 `True`，则返回 `None`。
+
+返回值可以是 `'fork'`、`'spawn'`、`'forkserver'` 或 `None`。Unix 上默认为 `'fork'`，而 Windowns 和 macOS 上默认为 `'spawn'`。
+
+#### set_executable()
+
+设置在启动子进程时使用的 Python 解释器路径，默认使用 `sys.executable`。
+
+#### set_start_method()
+
+设置启动子进程的方法。*method* 可以是 `'fork'`、`'spawn'` 或 `'forkserver'`。
+
+注意此函数最多只能调用一次，并且需要放置在 main 模块的 `if __name__ == '__main__'` 子句中。
 
 ### Array
 
@@ -243,85 +341,101 @@ hello world 3
 
 ### connection.Connection
 
+连接对象允许收发可以序列化的对象或字符串。它们可以被看作是面向消息的连接套接字。
+
+通常使用 `Pipe` 创建连接对象。
+
+```python
+>>> from multiprocessing import Pipe
+>>> a, b = Pipe()
+>>> a.send([1, 'hello', None])
+>>> b.recv()
+[1, 'hello', None]
+>>> b.send_bytes(b'thank you')
+>>> a.recv_bytes()
+b'thank you'
+>>> import array
+>>> arr1 = array.array('i', range(5))
+>>> arr2 = array.array('i', [0] * 10)
+>>> a.send_bytes(arr1)
+>>> count = b.recv_bytes_into(arr2)
+>>> assert count == len(arr1) * arr1.itemsize
+>>> arr2
+array('i', [0, 1, 2, 3, 4, 0, 0, 0, 0, 0])
+```
+
+!!! warning "警告"
+    如果一个进程在试图读写管道时被杀掉，那么管道中的数据很可能是不完整的，因为此时可能无法确定消息的边界。
+
 #### send()
 
 将一个对象发送到连接的另一端，另一端使用 `recv()` 读取。
 
-发送的对象必须是可以序列化的，过大的对象（接近 32MiB+，具体值取决于操作系统）有可能引发 `ValueError` 异常。
+发送的对象必须是可序列化的，过大的对象（接近 32MiB+，具体值取决于操作系统）可能引发 `ValueError` 异常。
 
 #### recv()
 
-返回一个由另一端使用 `send()` 发送的对象。该方法会一直阻塞直到接收到对象。如果对端关闭了连接或者没有东西可接收，则抛出 `EOFError` 异常。
+返回一个由连接的另一端使用 `send()` 发送的对象。此方法会一直阻塞直到接收到对象。如果没有东西可接收并且另一端关闭了连接，则引发 `EOFError` 异常。
 
 #### fileno()
 
-返回由连接对象使用的描述符或者句柄。
+返回由连接对象使用的文件描述符或者句柄。
 
 #### close()
 
-关闭连接对象。
+关闭连接。
 
-当连接对象被垃圾回收时会自动调用。
+当连接被垃圾回收时会自动调用。
 
 #### poll()
 
-返回连接对象中是否有可以读取的数据。
-
 ```python
-poll(self, timeout=0.0)
+poll(timeout=0.0)
 ```
 
-如果未指定 *timeout*，此方法会马上返回；如果 *timeout* 是一个数字，则指定了最大阻塞的秒数；如果 *timeout* 是 `None`，那么将一直等待，不会超时。
+返回是否还有可以读取的数据。
+
+如果未指定 *timeout*，此方法会立即返回；如果 *timeout* 是一个数字，则指定了阻塞的最大秒数；如果 *timeout* 是 `None`，那么将一直等待，不会超时。
 
 #### send_bytes()
 
-从一个字节类对象中取出字节数组并作为一条完整消息发送。
-
 ```python
-send_bytes(self, buf, offset=0, size=None)
+send_bytes(buffer, offset=0, size=None)
 ```
 
-#### recv_bytes()
+从一个类字节对象中取出字节数据并作为一条完整消息发送。
 
-以字符串形式返回一条从连接对象另一端发送过来的字节数据。此方法在接收到数据前将一直阻塞。如果连接对象被对端关闭或者没有数据可读取，将抛出 `EOFError` 异常。
+如果给定了 *offset*，则会从 *buffer* 的该位置读取数据。如果给定了 *size*，则会从 *buffer* 读取这么多个字节。非常大的缓冲区（接近 32MiB+，具体值取决于操作系统）可能引发 `ValueError` 异常。
+
+#### recv_bytes()
 
 ```python
 recv_bytes(self, maxlength=None)
 ```
 
-### cpu_count()
+以字符串形式返回一条从连接的另一端发送过来的由字节数据构成的完整消息。此方法会一直阻塞直到接收到数据。如果没有数据可接收并且另一端关闭了连接，则引发 `EOFError` 异常。
 
-返回系统的 CPU 数量。
+### Event
 
-### current_process()
-
-返回当前进程相对应的 `Process` 对象。
-
-### get_context()
-
-```python
-multiprocessing.get_context(method=None)
-```
-
-返回一个 `Context` 对象，该对象具有和 `multiprocessing` 模块相同的API。
-
-### get_start_method()
-
-返回启动进程时使用的启动方法名。
+类似 `threading.Event` 的事件对象。
 
 ### JoinableQueue
 
 ### Lock
 
-原始锁（非递归锁）对象，类似于 `threading.Lock`。一旦一个进程或者线程拿到了锁，后续的任何其它进程或线程的其它请求都会被阻塞直到锁被释放。任何进程或线程都可以释放锁。除非另有说明，否则 `multiprocessing.Lock`  用于进程或者线程的概念和行为都和 `threading.Lock` 一致。
+类似 `threading.Lock` 的原始锁（非递归锁）对象。一旦一个进程或者线程获得了锁，后续的任何其他进程或线程的获取它的尝试都会阻塞直到它被释放。任何进程或线程都可以释放锁。除非另有说明，`multiprocessing.Lock` 适用于进程或者线程的概念和行为都和 `threading.Lock` 适用于线程的概念和行为一致。
+
+`Lock` 支持上下文管理器协议，因此可以在 `with` 语句中使用。
 
 #### acquire()
 
 ```python
-acquire(self, block=True, timeout=None)
+acquire(block=True, timeout=None)
 ```
 
-获得锁。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，然后将锁设置为锁定状态并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 参数会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则将锁设置成锁定状态并返回 `True`。
+获得锁。
+
+若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，然后将锁设为锁定状态并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则将锁设为锁定状态并返回 `True`。
 
 注意此函数的参数的一些行为与 `threading.Lock.acquire()` 的实现有所不同。
 
@@ -329,7 +443,7 @@ acquire(self, block=True, timeout=None)
 
 释放锁。
 
-可以在任何进程中使用，并不限于锁的拥有者。当尝试释放一个没有被持有的锁时，会抛出 `ValueError` 异常。除此之外其行为与 `threading.Lock.release()` 相同。
+可以在任何进程或线程中调用，并不限于锁的拥有者。当尝试释放一个没有被持有的锁时，会引发 `ValueError` 异常。除此之外其行为与 `threading.Lock.release()` 相同。
 
 ### Manager
 
@@ -341,48 +455,15 @@ acquire(self, block=True, timeout=None)
 
 ```python
 class multiprocessing.Process(group=None, target=None, name=None, args=(), kwargs={}, *, daemon=None)
-# group     始终为`None`,仅用于兼容`threading.Thread`
+# group     始终为None,仅用于兼容`threading.Thread`
 # target    由`run()`方法调用的可调用对象
 # name      进程名称
-# args      目标调用的顺序参数
+# args      目标调用的位置参数
 # kwargs    目标调用的关键字参数
-# daemon    进程的daemon标志.若为`None`,则该标志从创建它的进程继承
+# daemon    进程的daemon标志.若为None,则该标志从创建它的进程继承
 ```
 
-进程对象表示在单独进程中运行的活动。`Process` 类拥有和 `threading.Thread` 等价的大部分方法。
-
-```python
-from multiprocessing import Process
-import os
-
-def info(title):
-    print(title)
-    print('module name:', __name__)
-    print('parent process id:', os.getppid())
-    print('process id:', os.getpid())
-
-def f(name):
-    info('function f')
-    print('hello', name)
-
-if __name__ == '__main__':
-    info('main line')
-    p = Process(target=f, args=('bob',))
-    p.start()
-    p.join()
-```
-
-```
-main line
-module name: __main__
-parent process id: 982
-process id: 27363
-function f
-module name: __mp_main__
-parent process id: 27363
-process id: 27380
-hello bob
-```
+进程对象表示在单独的进程中运行的活动。`Process` 类拥有 `threading.Thread` 的所有方法的等价物。
 
 #### run()
 
@@ -392,15 +473,15 @@ hello bob
 
 启动进程活动。
 
-此方法每个进程对象最多只能调用一次。它会将对象的 `run()` 方法安排在一个单独的进程中调用。
+此方法每个进程对象最多调用一次。它会将对象的 `run()` 方法安排在一个单独的进程中调用。
 
 #### join()
 
 ```python
-join(self, timeout=None)
+join(timeout=None)
 ```
 
-如果可选参数 *timeout* 是 `None`（默认值），则该方法将阻塞，直到调用 `join()` 方法的进程终止；如果 *timeout* 是一个正数，它最多会阻塞 *timeout* 秒。不管是进程终止还是方法超时，该方法都返回 `None`。
+如果可选参数 *timeout* 是 `None`（默认值），则该方法将阻塞，直到调用 `join()` 方法的进程终止；如果 *timeout* 是一个正数，它最多会阻塞 *timeout* 秒。不管是进程终止还是方法超时，此方法都返回 `None`。检查进程的 `exitcode` 以确定它是否终止。
 
 一个进程可以被 `join` 多次。
 
@@ -412,7 +493,9 @@ join(self, timeout=None)
 
 #### is_alive()
 
-返回进程是否处于活动状态。从 `start()` 方法返回到子进程终止之间，进程对象都处于活动状态。
+返回进程是否处于活动状态。
+
+粗略地说，从 `start()` 方法返回到子进程终止之间，进程对象都处于活动状态。
 
 #### daemon
 
@@ -424,7 +507,7 @@ join(self, timeout=None)
 
 #### pid
 
-返回进程 ID。
+返回进程 ID。在进程产生之前为 `None`。
 
 #### exitcode
 
@@ -434,9 +517,20 @@ join(self, timeout=None)
 
 进程的身份验证密钥（字节字符串）。
 
+#### sentinel
+
+系统对象的数字句柄，当进程结束时将变为 ready。
+
+如果要使用 `multiprocessing.connection.wait()` 一次等待多个事件，可以使用此值。否则调用 `join()` 更简单。
+
+在 Windows 上，这是一个操作系统句柄，可以与 `WaitForSingleObject` 和 `WaitForMultipleObjects` 系列 API 调用一起使用。在 Unix 上，这是一个文件描述符，可以与来自 `select` 模块的原语一起使用。
+
 #### terminate()
 
 终止进程。在 Unix 上由 `SIGTERM` 信号完成；在 Windows 上由 `TerminateProcess()` 完成。注意进程终止时不会执行退出处理程序和 finally 子句等。
+
+!!! note "注意"
+    进程的后代进程将不会被终止——它们只会变成孤儿进程。
 
 #### kill()
 
@@ -444,15 +538,15 @@ join(self, timeout=None)
 
 #### close()
 
-关闭 `Process` 对象，释放与之关联的所有资源。如果底层进程仍在运行，则会引发 `ValueError`。一旦 `close()` 成功返回，`Process` 对象的大多数其他方法和属性将引发 `ValueError`。
+关闭 `Process` 对象，释放与之关联的所有资源。如果底层进程仍在运行，则会引发 `ValueError`。一旦 `close()` 成功返回，`Process` 对象的大部分其他方法和属性将引发 `ValueError`。
 
 ### Pipe
 
 ```python
-multiprocessing.Pipe([duplex])
+class multiprocessing.Pipe([duplex])
 ```
 
-返回一对 `Connection` 对象 `(conn1, conn2)` ，分别表示管道的两端。
+返回一对 `Connection` 对象 `(conn1, conn2)`，分别表示管道的两端。
 
 如果 *duplex* 被置为 `True`（默认值），那么该管道是双向的；如果 *duplex* 被置为 `False` ，那么该管道是单向的，即 `conn1` 只能用于接收消息，而 `conn2` 仅能用于发送消息。
 
@@ -464,27 +558,56 @@ multiprocessing.Pipe([duplex])
 
 `Queue` 实现了标准库类 `queue.Queue` 的所有方法，除了 `task_done()` 和 `join()`。一旦超时，将抛出标准库 `queue` 模块中常见的异常 `queue.Empty` 和 `queue.Full`。
 
+!!! warning "警告"
+    如果一个进程在尝试使用 `Queue` 期间被 `Process.terminate()` 或 `os.kill()` 杀掉，那么队列中的数据很可能损坏。这可能导致其他进程在之后尝试使用该队列时发生异常。
+
 #### qsize()
 
 返回队列的大致长度。由于多线程或者多进程的环境，该数字是不可靠的。
 
 #### empty(), full()
 
-如果队列是空/满的，返回 `True`，反之返回 `False` 。由于多线程或多进程的环境，该状态是不可靠的。
+如果队列是空/满的，返回 `True`，反之返回 `False`。由于多线程或多进程的环境，该状态是不可靠的。
 
 #### put()
 
 ```python
-put(self, obj, block=True, timeout=None)
+put(obj, block=True, timeout=None)
 ```
 
-将 *obj* 放入队列。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程，直到有空的缓冲槽；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后还是没有可用的缓冲槽的情况下抛出 `queue.Full` 异常；若 *block* 为 `False`，则会在有可用缓冲槽的情况下放入对象，否则抛出 `queue.Full` 异常（此时 *timeout* 参数会被忽略）。
+将 *obj* 放入队列。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程，直到有空闲槽位；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后还是没有可用的空闲槽位的情况下引发 `queue.Full` 异常；若 *block* 为 `False`，则会在有立即可用的空闲槽位的情况下将对象放入队列，否则引发 `queue.Full` 异常（此时 *timeout* 参数会被忽略）。
+
+#### put_nowait()
+
+```python
+put_nowait(obj)
+```
+
+等同于 `put(obj, False)`。
+
+#### get()
+
+```python
+get(block=True, timeout=None)
+```
+
+从队列中移除并返回对象。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程，直到有可用对象；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后还是没有可用对象的情况下引发 `queue.Empty` 异常；若 *block* 为 `False`，则会在有立即可用的对象的情况下返回对象，否则引发 `queue.Empty` 异常（此时 *timeout* 参数会被忽略）。
+
+#### get_nowait()
+
+等同于 `get(False)`。
+
+#### close()
+
+指示当前进程将不会再往队列中放入更多数据。一旦所有缓冲数据都被写入管道之后，后台的线程会退出。
+
+当队列被垃圾回收时会自动调用。
 
 ### RLock
 
-递归锁对象，类似于 `threading.RLock`。递归锁必须由持有线程、进程亲自释放。如果某个进程或者线程拿到了递归锁，这个进程或者线程可以再次拿到这个锁而不需要等待。但是这个进程或者线程的拿锁操作和释放锁操作的次数必须相同。
+类似 `threading.RLock` 的递归锁对象。递归锁必须由持有进程或线程亲自释放。如果某个进程或线程获得了递归锁，该进程或线程可以再次获得这个锁而无需阻塞。但是这个进程或线程的获得锁操作和释放锁操作的次数必须相同。
 
-`RLock` 支持上下文管理器，因此可在 `with` 语句内使用。
+`RLock` 支持上下文管理器协议，因此可以在 `with` 语句中使用。
 
 #### acquire()
 
@@ -492,26 +615,38 @@ put(self, obj, block=True, timeout=None)
 acquire(self, block=True, timeout=None)
 ```
 
-获得锁。若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，除非当前进程已经持有此锁，然后持有此锁，将锁的递归等级加一，并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 参数会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则持有此锁，将锁的递归等级加一，并返回 `True`。
+获得锁。
 
-注意此函数的参数的一些行为与 `threading.RLock.acquire()` 的实现有所不同。
+若 *block* 为 `True` 并且 *timeout* 为 `None`，则会阻塞当前进程直到锁被释放，除非当前进程已经持有此锁，然后持有此锁，将锁的递归等级加一，并返回 `True`；若 *block* 为 `True` 并且 *timeout* 为正数，则会在阻塞了最多 *timeout* 秒后锁还是没有被释放的情况下返回 `False`；若 *block* 为 `False`（此时 *timeout* 会被忽略），或者 *block* 为 `True` 并且 *timeout* 为 0 或负数，则会在锁被锁定的情况下返回 `False`，否则持有此锁，将锁的递归等级加一，并返回 `True`。
+
+注意此方法的参数的一些行为与 `threading.RLock.acquire()` 的实现有所不同。
 
 #### release()
 
-释放锁，即使锁的递归等级减一。如果释放后锁的递归等级降为 0，则会重置锁的状态为释放状态。
+释放锁，亦即使锁的递归等级减一。
 
-必须在拥有此锁的进程中使用，否则会抛出 `AssertionError` 异常。除了异常类型之外，其行为与 `threading.RLock.release()` 相同。
+如果释放后锁的递归等级降为 0，则会重置锁的状态为释放状态。
+
+必须在持有该锁的进程或线程中使用，否则会引发 `AssertionError` 异常。除了异常类型之外，其行为与 `threading.RLock.release()` 相同。
 
 ### Semaphore
 
-### set_start_method()
-
-```python
-multiprocessing.set_start_method(method)
-```
-
-设置启动子进程的方法。*method* 可以是 `'fork'` , `'spawn'` 或者 `'forkserver'` 。
+类似 `threading.Semaphore` 的递归锁对象。
 
 ### SimpleQueue
+
+一个简化的 `Queue` 类型，很像带锁的 `Pipe`。
+
+#### empty()
+
+如果队列为空返回 `True`，否则返回 `False`。
+
+#### get()
+
+从队列中移除并返回一个对象。
+
+#### put()
+
+将对象放入队列。
 
 ### Value

@@ -8,6 +8,34 @@
 * 这些类型的对象是可哈希的，这意味着它们可被作为字典的键。
 * 这些类型的对象支持通过 `pickle` 模块进行高效的封存。
 
+## 感知型对象和简单型对象
+
+日期和时间对象可以根据它们是否包含时区信息而分为“感知型”和“简单型”两类。
+
+在具有充分的应用性算法和政治性时间调整的信息（例如时区和夏令时）的情况下，一个感知型对象就能相对于其他感知型对象来精确定位自身时间点。感知型对象表示一个没有解释空间的固定时间点。
+
+简单型对象没有包含足够多的信息来无歧义地相对于其他日期和时间对象来定位自身时间点。不管一个简单型对象所表示的是世界标准时间（UTC）、本地时间还是某个其他时区的时间完全取决于具体程序，就像一个特定数字所代表的是米、英里还是质量完全取决于具体程序一样。简单型对象更易于理解和使用，代价则是忽略了某些现实性考量。
+
+对于要求感知型对象的应用，`datetime` 和 `time` 对象具有一个可选的时区信息属性 `tzinfo`，它可被设为抽象类 `tzinfo` 的子类的一个实例。这些 `tzinfo` 对象会捕获与 UTC 时间的偏差、时区名称以及夏令时是否生效等信息。
+
+`datetime` 模块只提供了一个具体的 `tzinfo` 类，即 `timezone` 类。`timezone` 类可以表示相对于 UTC 具有固定时差的简单时区，例如 UTC 本身或北美的 EST 和 EDT 时区等。支持时区的详细程度取决于具体的应用。世界各地的时间调整规则往往是政治性多于合理性，经常会发生变化，除了 UTC 之外并没有一个能适合所有应用的标准。
+
+如何确定一个对象是感知型还是简单型：
+
+`date` 对象都是简单型。
+
+`time` 或 `datetime` 对象可以是感知型或简单型。
+
+`datetime` 对象 *d* 是感知型，当且仅当下列条件同时成立：
+
+* `d.tzinfo` 不为 `None`
+* `d.tzinfo.utcoffset(d)` 不返回 `None`
+
+`time` 对象 *t* 是感知型，当且仅当下列条件同时成立：
+
+* `t.tzinfo` 不为 `None`
+* `t.tzinfo.utcoffset(None)` 不返回 `None`
+
 ## timedelta
 
 `timedelta` 对象表示两个 `date` 对象、`time` 对象或 `datetime` 对象之间的时间间隔，精确到微秒。
@@ -302,7 +330,7 @@ False
 
 ### dst()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.dst(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.dst(None)`，并且在后者不返回 `None` 或值小于一天的 `timedelta` 对象时引发异常。
 
 ### fromisoformat()
 
@@ -352,12 +380,12 @@ time.isoformat(timespec='auto')
 
 可选参数 *timespec* 指定了包含的时间成分 (默认为 `'auto'`)，它可以是以下值之一：
 
-* `'auto'`: 如果 `microsecond` 为 0 则与 `'seconds'` 相同，否则与 `'microseconds'` 相同。
-* `'hours'`: 以两个数码的 `HH` 格式包含 `hour`。
-* `'minutes'`: 以 `HH:MM` 格式包含 `hour` 和 `minute`。
-* `'seconds'`: 以 `HH:MM:SS` 格式包含 `hour`, `minute` 和 `second`。
-* `'milliseconds'`: 包含完整时间，但将秒值的小数部分截断至微秒，格式为 `HH:MM:SS.sss`.。
-* `'microseconds'`: 以 `HH:MM:SS.ffffff` 格式包含完整时间。
+* `'auto'`：如果 `microsecond` 为 0 则与 `'seconds'` 相同，否则与 `'microseconds'` 相同。
+* `'hours'`：以两个数码的 `HH` 格式包含 `hour`。
+* `'minutes'`：以 `HH:MM` 格式包含 `hour` 和 `minute`。
+* `'seconds'`：以 `HH:MM:SS` 格式包含 `hour`, `minute` 和 `second`。
+* `'milliseconds'`：包含完整时间，但将秒值的小数部分截断至微秒，格式为 `HH:MM:SS.sss`.。
+* `'microseconds'`：以 `HH:MM:SS.ffffff` 格式包含完整时间。
 
 ```python
 >>> t = time(hour=12, minute=34, second=56, microsecond=789000)
@@ -369,7 +397,7 @@ time.isoformat(timespec='auto')
 '12:34:56.789000'
 ```
 
-### replace
+### replace()
 
 替换时间中的部分值。
 
@@ -393,15 +421,15 @@ datetime.time(21, 11, 27)
 
 ### tzinfo
 
-作为 *tzinfo* 参数被传给 `time` 构造器的对象，如果没有传入值则为 `None`。
+作为 *tzinfo* 参数被传给 `time` 构造函数的对象，如果没有传入值则为 `None`。
 
 ### tzname()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.tzname(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.tzname(None)`，并且在后者不返回 `None` 或字符串对象时引发异常。
 
 ### utcoffset()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.utcoffset(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.utcoffset(None)`，并且在后者不返回 `None` 或值小于一天的 `timedelta` 对象时引发异常。
 
 ## datetime
 
@@ -424,7 +452,7 @@ class datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecon
 * `0 <= microsecond < 1000000`
 * `fold in [0, 1]`
 
-如果参数不在这些范围内，则抛出 `ValueError` 异常。
+如果参数不在这些范围内，则引发 `ValueError` 异常。
 
 下面演示了 `datetime` 对象支持的运算：
 
@@ -446,15 +474,29 @@ False
 
 ### astimezone()
 
+```python
+astimezone(tz=None)
+```
+
+返回一个具有新的 `tzinfo` 属性 *tz* 的 `datetime` 对象，并且调整日期和时间数据使得结果对应的 UTC 时间与 *self* 相同，但为 `tz` 时区的本地时间。
+
+如果提供了 `tz`，它必须是一个 `tzinfo` 子类的实例，并且其 `utcoffset()` 和 `dst()` 方法不可返回 `None`。如果 *self* 为简单型，它会被假定为基于系统时区表示的时间。
+
+如果调用时不传入参数，则假定目标时区为系统本地时区。转换后的 `datetime` 对象的 `tzinfo` 属性将被设为一个 `timezone` 实例，时区名称和时差值从操作系统获取。
+
+如果 `self.tzinfo` 为 *tz*，则 `self.astimezone(tz)` 等于 *self*。
+
+如果你只是想要附加一个时区对象 *tz* 到一个 `datetime` 对象 *dt* 而不调整日期和时间数据，请使用 `dt.replace(tzinfo=tz)`。如果你只想从一个感知型 `datetime` 对象 *dt* 移除时区对象，请使用 `dt.replace(tzinfo=None)`。
+
 ### combine()
 
 ```python
-combine(date, time, tzinfo=self.tzinfo)
+classmethod datetime.combine(date, time, tzinfo=self.tzinfo)
 ```
 
 （类方法）返回一个新的 `datetime` 对象，其日期部分等于给定的 `date` 对象的值，时间部分等于给定的 `time` 对象的值。如果提供了 *tzinfo* 参数，其值会被用于设置结果的 `tzinfo` 属性，否则将使用 *time* 参数的 `tzinfo` 属性。
 
-如果 *date* 参数是一个 `datetime` 对象，它的时间部分和 `tzinfo` 属性会被忽略。
+如果 *date* 是一个 `datetime` 对象，它的时间部分和 `tzinfo` 属性会被忽略。
 
 对于任意 `datetime` 对象 `d`，`d == datetime.combine(d.date(), d.time(), d.tzinfo)`。
 
@@ -469,11 +511,11 @@ combine(date, time, tzinfo=self.tzinfo)
 
 ### date()
 
-返回具有同样 year、month 和 day 值的 `date` 对象。
+返回具有同样 `year`、`month` 和 `day` 值的 `date` 对象。
 
 ### dst()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.dst(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.dst(None)`，并且在后者不返回 `None` 或值小于一天的 `timedelta` 对象时引发异常。
 
 ### fromisoformat()
 
@@ -499,13 +541,29 @@ datetime.datetime(2011, 11, 4, 0, 5, 23,
     tzinfo=datetime.timezone(datetime.timedelta(seconds=14400)))
 ```
 
+### fromordinal()
+
+（类方法）返回对应于公历序号的 `datetime` 对象，其中公元 1 年 1 月 1 日的序号为 1。结果的 `hour`、`minute`、`second` 和 `microsecond` 值均为 0，`tzinfo` 值为 `None`。
+
 ### fromtimestamp()
+
+```python
+classmethod datetime.fromtimestamp(timestamp, tz=None)
+```
 
 （类方法）返回对应于 POSIX 时间戳的 `datetime` 对象。
 
-### fromordinal()
+如果可选参数 *tz* 为 `None`，则时间戳会被转换为平台的本地日期和时间，返回的 `datetime` 对象为简单型。如果 *tz* 不为 `None`，它必须是 `tzinfo` 子类的一个实例，并且时间戳会被转换到 *tz* 指定的时区。
 
-（类方法）返回对应于公历序号的 `datetime` 对象，其中公元 1 年 1 月 1 日的序号为 1。
+```python
+# timestamp as local datetime
+>>> datetime.fromtimestamp(time.time())
+datetime.datetime(2022, 9, 28, 17, 38, 14, 382039)
+
+# timestamp as local datetime converted to specified time zone
+>>> datetime.fromtimestamp(time.time(), tz=timezone(timedelta(hours=0)))
+datetime.datetime(2022, 9, 28, 9, 38, 14, 382039, tzinfo=datetime.timezone.utc)
+```
 
 ### hour, minute, second, microsecond
 
@@ -522,21 +580,21 @@ isoformat(sep='T', timespec='auto')
 * `YYYY-MM-DDTHH:MM:SS.ffffff`，如果 `microsecond` 不为 0
 * `YYYY-MM-DDTHH:MM:SS`，如果 `microsecond` 为 0
 
-如果 `utcoffset()` 返回值不为 `None`，则增加一个字符串来给出 UTC 时差：
+如果 `utcoffset()` 的返回值不为 `None`，则增加一个字符串来给出 UTC 时差：
 
 * `YYYY-MM-DDTHH:MM:SS.ffffff+HH:MM[:SS[.ffffff]]`，如果 `microsecond` 不为 0
 * `YYYY-MM-DDTHH:MM:SS+HH:MM[:SS[.ffffff]]`，如果 `microsecond` 为 0
 
-可选参数 *sep* (默认为 `'T'`) 为单个分隔字符，会被放在结果的日期和时间两部分之间。
+*sep* 为单个分隔字符，会被放在结果的日期和时间两部分之间。
 
-可选参数 *timespec* 指定了包含的时间成分 (默认为 `'auto'`)，它可以是以下值之一：
+*timespec* 指定了包含的时间成分，它可以是以下值之一：
 
-* `'auto'`: 如果 `microsecond` 为 0 则与 `'seconds'` 相同，否则与 `'microseconds'` 相同。
-* `'hours'`: 以两个数码的 `HH` 格式包含 `hour`。
-* `'minutes'`: 以 `HH:MM` 格式包含 `hour` 和 `minute`。
-* `'seconds'`: 以 `HH:MM:SS` 格式包含 `hour`, `minute` 和 `second`。
-* `'milliseconds'`: 包含完整时间，但将秒值的小数部分截断至微秒，格式为 `HH:MM:SS.sss`.。
-* `'microseconds'`: 以 `HH:MM:SS.ffffff` 格式包含完整时间。
+* `'auto'`：如果 `microsecond` 为 0 则与 `'seconds'` 相同，否则与 `'microseconds'` 相同。
+* `'hours'`：以两个数码的 `HH` 格式包含 `hour`。
+* `'minutes'`：以 `HH:MM` 格式包含 `hour` 和 `minute`。
+* `'seconds'`：以 `HH:MM:SS` 格式包含 `hour`、`minute` 和 `second`。
+* `'milliseconds'`：包含完整时间，但将秒值的小数部分截断至微秒，格式为 `HH:MM:SS.sss`。
+* `'microseconds'`：以 `HH:MM:SS.ffffff` 格式包含完整时间。
 
 ```python
 >>> datetime(2019, 5, 18, 15, 17, 8, 132263).isoformat()
@@ -547,7 +605,7 @@ isoformat(sep='T', timespec='auto')
 
 ### isoweekday()
 
-返回日期是星期几，星期一为 1，星期日为 7。
+返回日期是星期几，星期一为 1，星期日为 7。相当于 `self.date().isoweekday()`。
 
 ```python
 >>> dt = datetime(2020, 11, 27)
@@ -556,6 +614,10 @@ isoformat(sep='T', timespec='auto')
 ```
 
 ### now()
+
+```python
+classmethod datetime.now(tz=None)
+```
 
 （类方法）返回表示当前本地时间的 `datetime` 对象。
 
@@ -615,21 +677,39 @@ datetime.datetime(2020, 11, 26, 15, 17, 8, 132263)
 '01:47 PM, November 27 2020, Friday'
 ```
 
+### strptime()
+
+```python
+classmethod datetime.strptime(date_string, format)
+```
+
+返回一个对应于 *date_string*、根据 *format* 解析得到的 `datetime` 对象。
+
+此方法相当于：
+
+```python
+datetime(*(time.strptime(date_string, format)[0:6]))
+```
+
+如果 *date_string* 和 *format* 无法被 [`time.strptime()`](./time.md#strptime) 解析，或者它返回一个不是时间元组的值，则将引发 `ValueError`。格式化指令的完整列表参见 `strftime()` 方法。
+
 ### time()
 
-返回具有同样 hour、minute、second、microsecond 和 fold 值的 `time` 对象，其 `tzinfo` 值为 `None`。
+返回具有同样 `hour`、`minute`、`second`、`microsecond` 和 `fold` 值的 `time` 对象，其 `tzinfo` 值为 `None`。
 
 ### timestamp()
 
-返回对应于 `datetime` 实例的 POSIX 时间戳。此返回值是与 `time.time()` 返回值类似的浮点数。
+返回对应于 `datetime` 实例的 POSIX 时间戳。此返回值是与 [`time.time()`](./time.md#time-timens) 返回值类似的浮点数。
+
+简单型 `datetime` 对象会被假定为表示本地时间。
 
 ### timetz()
 
-返回具有同样 hour、minute、second、microsecond、fold 和 tzinfo 值的 `time` 对象。
+返回具有同样 `hour`、`minute`、`second`、`microsecond`、`fold` 和 `tzinfo` 值的 `time` 对象。
 
 ### timetuple()
 
-返回一个 `time.struct_time` 对象，即 `time.localtime()` 所返回的类型。
+返回一个 [`time.struct_time`](./time.md#structtime) 对象，即 [`time.localtime()`](./time.md#localtime) 所返回的类型。
 
 `dt.timetuple()` 等价于:
 
@@ -639,7 +719,7 @@ time.struct_time((dt.year, dt.month, dt.day,
                   dt.weekday(), yday, dst))
 ```
 
-其中 `yday = dt.toordinal() - date(dt.year, 1, 1).toordinal() + 1` 是日期在当前年份中的序号，起始序号 1 表示 1 月 1 日。结果的 `tm_isdst` 旗标的设定会依据 `dst()` 方法：如果 `tzinfo` 为 `None` 或 `dst()` 返回 `None`，则 `tm_isdst` 将设为 -1；否则如果 `dst()` 返回一个非零值，则 `tm_isdst` 将设为 1；在其他情况下 `tm_isdst` 将设为 0。
+其中 `yday = dt.toordinal() - date(dt.year, 1, 1).toordinal() + 1` 是日期在当前年份中的序号，起始序号 1 表示 1 月 1 日。结果的 `tm_isdst` 旗标的设定会依据 `dst()` 方法：如果 `tzinfo` 为 `None` 或 `dst()` 返回 `None`，则 `tm_isdst` 将设为 -1；如果 `dst()` 返回一个非零值，则 `tm_isdst` 将设为 1；在其他情况下 `tm_isdst` 将设为 0。
 
 ### today()
 
@@ -651,15 +731,15 @@ datetime.fromtimestamp(time.time())
 
 ### toordinal()
 
-返回日期的公历序号，其中公元 1 年 1 月 1 日的序号为 1。与 `self.date().toordinal()` 相同。
+返回日期的公历序号，其中公元 1 年 1 月 1 日的序号为 1。相当于 `self.date().toordinal()`。
 
 ### tzname()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.tzname(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.tzname(None)`，并且在后者不返回 `None` 或字符串对象时引发异常。
 
 ### tzinfo
 
-作为 *tzinfo* 参数被传给 `datetime` 构造器的对象，如果没有传入值则为 `None`。
+作为 *tzinfo* 参数被传给 `datetime` 构造函数的对象，如果没有传入值则为 `None`。
 
 ### utcnow()
 
@@ -667,11 +747,28 @@ datetime.fromtimestamp(time.time())
 
 ### utcoffset()
 
-如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.utcoffset(None)`，并且在后者不返回 `None` 或者值小于一天的 `timedelta` 对象时引发异常。
+如果 `tzinfo` 为 `None`，则返回 `None`，否则返回 `self.tzinfo.utcoffset(None)`，并且在后者不返回 `None` 或值小于一天的 `timedelta` 对象时引发异常。
+
+### utcfromtimestamp()
+
+```python
+classmethod datetime.utcfromtimestamp(timestamp)
+```
+
+（类方法）返回对应于 POSIX 时间戳的简单型 UTC `datetime` 对象。
+
+```python
+# timestamp as local datetime converted to UTC
+>>> datetime.utcfromtimestamp(time.time())
+datetime.datetime(2022, 9, 28, 9, 38, 14, 382039)
+```
+
+!!! warning "警告"
+    由于简单型 `datetime` 对象会被许多 `datetime` 方法当作本地时间来处理，因此最好是使用感知型 `datetime` 对象来表示 UTC 时间。创建表示特定 UTC 时间戳的 `datetime` 对象的推荐方式是调用 `datetime.fromtimestamp(timestamp, tz=timezone.utc)`。
 
 ### weekday()
 
-返回日期是星期几，星期一为 0，星期日为 6。
+返回日期是星期几，星期一为 0，星期日为 6。相当于 `self.date().weekday()`。
 
 ```python
 >>> dt = datetime(2020, 11, 27)
@@ -687,8 +784,46 @@ datetime.fromtimestamp(time.time())
 
 一个描述时区信息对象的抽象基类。用来给 `datetime` 和 `time` 类提供自定义的时间调整概念（例如处理时区和/或夏令时）。
 
-
-
 ## timezone
 
-一个实现了 `tzinfo` 抽象基类的子类，用于表示相对于 UTC 的偏移量。
+一个实现了 `tzinfo` 抽象基类的子类，用于表示与 UTC 有固定时差的时区。
+
+```python
+class datetime.timezone(offset, name=None)
+```
+
+*offset* 参数必须被指定为一个 `timedelta` 对象，表示本地时间与 UTC 的时差。它必须严格处于 `-timedelta(hours=24)` 和 `timedelta(hours=24)` 之间，否则会引发 `ValueError`。
+
+*name* 参数是可选的。如果指定则必须为一个字符串，它将被用作 `datetime.tzname()` 方法的返回值。
+
+### utcoffset()
+
+```python
+utcoffset(dt)
+```
+
+返回当 `timezone` 对象被构造时指定的固定值。
+
+*dt* 参数会被忽略。返回值是一个 `timedelta` 对象，其值等于当地时间与 UTC 之间的时差。
+
+### tzname()
+
+```python
+tzname(dt)
+```
+
+返回当 `timezone` 对象被构造时指定的固定值。
+
+如果没有在构造函数中提供 *name*，则此方法返回的名称将根据 `offset` 值按以下规则生成。如果 `offset` 为 `timedelta(0)`，则名称为 `"UTC"`，否则为 `"UTC±HH:MM"`，其中 ± 为 `offset` 的正负号，`HH` 和 `MM` 分别为表示 `offset.hours` 和 `offset.minutes` 的两个数码。
+
+### dst()
+
+```python
+dst(dt)
+```
+
+总是返回 `None`。
+
+### utc
+
+（类属性）UTC 时区，即 `timezone(timedelta(0))`。
