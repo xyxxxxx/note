@@ -221,19 +221,77 @@ os.write(fd, str)
 
 ## 文件和目录
 
+* 指定文件描述符
+* 指定基于目录描述符的相对路径
+* 不跟踪符号链接
+
 ### access()
+
+```python
+access(path, mode, *, dir_fd=None, effective_ids=False, follow_symlinks=True)
+```
+
+使用实际用户 ID 或用户组ID 测试对 *path* 的访问。
+
+本函数支持指定基于目录描述符的相对路径和不跟踪符号链接。
+
+### F_OK, R_OK, W_OK, X_OK
+
+作为 `access()` 的 *mode* 参数的可选值，分别测试 *path* 的存在性、可读性、可写性和可执行性。
 
 ### chdir()
 
-切换当前工作目录为指定路径。
-
 ```python
->>> os.chdir('dir1')
+chdir(path)
 ```
+
+切换当前工作目录为 *path*。
+
+本函数支持指定文件描述符为参数。其中描述符必须指向打开的目录，不能是打开的文件。
+
+本函数可以引发 `OSError` 及其子类的异常，如 `FileNotFoundError`、`PermissionError` 和 `NotADirectoryError`。
 
 ### chmod()
 
+```python
+chmod(path, mode, *, dir_fd=None, follow_symlinks=True)
+```
+
+将 *path* 的模式更改为其他由数字表示的 *mode*。*mode* 可以用以下值之一，也可以将它们按位或组合起来（以下值在 `stat` 模块中定义）：
+
+* stat.S_ISUID
+* stat.S_ISGID
+* stat.S_ENFMT
+* stat.S_ISVTX
+* stat.S_IREAD
+* stat.S_IWRITE
+* stat.S_IEXEC
+* stat.S_IRWXU
+* stat.S_IRUSR
+* stat.S_IWUSR
+* stat.S_IXUSR
+* stat.S_IRWXG
+* stat.S_IRGRP
+* stat.S_IWGRP
+* stat.S_IXGRP
+* stat.S_IRWXO
+* stat.S_IROTH
+* stat.S_IWOTH
+* stat.S_IXOTH
+
+本函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
+
 ### chown()
+
+```python
+chown(path, uid, gid, *, dir_fd=None, follow_symlinks=True)
+```
+
+将 *path* 的用户和组 ID 分别修改为数字形式的 *uid* 和 *gid*。若要使其中某个 ID 保持不变，将其置为 -1。
+
+本函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
+
+参见更高阶的函数 `shutil.chown()`，除了数字 ID 之外，它还接受名称。
 
 ### getcwd()
 

@@ -233,6 +233,8 @@ nav:
     - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
+    - 分布式训练:
+      - ml/distributed/index.md
     - 平台和工具:
       - ml/platform-and-tool/index.md
       - NumPy: 

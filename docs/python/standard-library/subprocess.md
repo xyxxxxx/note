@@ -7,7 +7,7 @@
 ## run()
 
 ```python
-subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, capture_output=False, shell=False, cwd=None, timeout=None, check=False, encoding=None, errors=None, text=None, env=None, universal_newlines=None, **other_popen_kwargs)
+run(args, *, stdin=None, input=None, stdout=None, stderr=None, capture_output=False, shell=False, cwd=None, timeout=None, check=False, encoding=None, errors=None, text=None, env=None, universal_newlines=None, **other_popen_kwargs)
 # args       要执行的命令,必须是一个字符串或参数列表.若为字符串,则`shell`必须为True,
 #                或者该字符串仅包含命令的名称而不指定任何参数
 # stdin,stdout,stderr  子进程的标准输入、输出和错误文件句柄,其值可以是`subprocess.PIPE`,
