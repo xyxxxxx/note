@@ -1,4 +1,4 @@
-
+# PyTorch Lightning
 
 PyTorch Lightning 是基于 PyTorch 的一个研究框架，旨在：
 
@@ -8,7 +8,7 @@ PyTorch Lightning 是基于 PyTorch 的一个研究框架，旨在：
 * 通过自动化复杂的工程细节使得更不容易出错
 * 可以在任何硬件上缩放而无需修改模型
 
-# 入门示例
+## 入门示例
 
 ```python
 import os
@@ -21,7 +21,7 @@ from torch.utils.data import DataLoader, random_split
 import pytorch_lightning as pl
 ```
 
-## 1.定义LightningModule
+### 1.定义LightningModule
 
 ```python
 # Define a LightningModule
@@ -74,7 +74,7 @@ LightningModule 的底层依然只是一个 `torch.nn.Module`，它汇集了所�
 * 模型或模型结构
 * 优化器
 
-## 2.使用Lightning Trainer训练
+### 2.使用Lightning Trainer训练
 
 ```python
 dataset = MNIST(os.getcwd(), download=True, transform=transforms.ToTensor())
@@ -103,11 +103,11 @@ trainer.fit(autoencoder, train_loader)
 * TPU 训练支持
 * 16 位训练支持
 
-# 基本特性
+## 基本特性
 
 `LightningModule` 和 `Trainer` 是你唯二需要知道的两个概念，下面的所有内容都是 `LightningModule` 或 `Trainer` 的特性。
 
-## 日志
+### 日志
 
 TensorBoard 需要日志，我们使用 `log()` 方法作为日志器和进度条，其可以在 `LightningModule` 的任何方法中，对需要记录的指标调用：
 
@@ -138,7 +138,7 @@ def training_step(self, batch, batch_idx):
 tensorboard --logdir ./lightning_logs
 ```
 
-## 验证
+### 验证
 
 如同 `training_step` 一样，我们可以定义 `validation_step` 来检查参数，并将其添加到日志中：
 
@@ -193,7 +193,7 @@ for epoch in epochs:
 
 如果想要更精细地控制验证过程，可以使用[数据流](#数据流)部分的钩子。
 
-## 测试
+### 测试
 
 如同 `validation_step` 一样，定义 `test_step`：
 
@@ -219,7 +219,7 @@ trainer.test(test_dataloaders=test_loader)
 # trainer.test(datamodule=dm)  # 如果使用LightningDataModule
 ```
 
-## 预测或部署
+### 预测或部署
 
 训练好的模型可以用于预测：
 
@@ -255,7 +255,7 @@ with tempfile.NamedTemporaryFile(suffix='.onnx', delete=False) as tmpfile:
      os.path.isfile(tmpfile.name)
 ```
 
-## 使用CPUs/GPUs/TPUs
+### 使用CPUs/GPUs/TPUs
 
 Lightning 中使用 CPU、GPU、TPU 非常简单。你无需修改任何代码，只需要修改 `Trainer` 的选项：
 
@@ -292,7 +292,7 @@ trainer = pl.Trainer(gpus=2, precision=16)
 trainer = pl.Trainer(tpu_cores=8)
 ```
 
-## 检查点
+### 检查点
 
 Lightning 自动保存模型的检查点。你可以这样加载检查点：
 
@@ -300,7 +300,7 @@ Lightning 自动保存模型的检查点。你可以这样加载检查点：
 model = LitAutoEncoder.load_from_checkpoint(path)
 ```
 
-## 数据流
+### 数据流
 
 每个（训练、验证、测试）循环有 3 个钩子（回调）可以实现：
 
@@ -360,7 +360,7 @@ def training_step_end(self, losses):
     return (gpu_0_loss + gpu_1_loss) * 1/2
 ```
 
-## 回调
+### 回调
 
 回调是一个 self-contained 的程序，可以执行在训练循环中的任何位置。
 
@@ -397,7 +397,7 @@ decay_callback = DecayLearningRate()
 trainer = Trainer(callbacks=[decay_callback])
 ```
 
-回调的所有钩子见 [Callback](https://pytorch-lightning.readthedocs.io/en/stable/callbacks.html#callbacks)。
+回调的所有钩子见 [Callback](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.Callback.html)。
 
 回调可以帮助你做这些事情：
 
@@ -406,7 +406,7 @@ trainer = Trainer(callbacks=[decay_callback])
 * 可视化梯度
 * ……（任何事情）
 
-## LightningDataModules
+### LightningDataModules
 
 `Dataloader` 和数据处理代码也可能分散在各处，可以将它们组织在一个 `LightningDataModules` 中，让代码复用性更好：
 
@@ -474,7 +474,7 @@ trainer.test(datamodule=dm)
 
 `LightningDataModules` 对于构建基于数据的模型十分有用。
 
-## 手动 vs 自动优化
+### 手动 vs 自动优化
 
 在 Lightning 中，你无需操心何时启用/禁用梯度计算、做反向传播或优化器更新，只要你在 `training_step` 返回一个带有计算图的损失项，Lightning 会自动化优化过程：
 
@@ -508,21 +508,21 @@ def training_step(self, batch, batch_idx, opt_idx):
 
 ……
 
-# 将PyTorch模型转换为LightningModule
+## 将 PyTorch 模型转换为 LightningModule
 
-参考 [How to organize PyTorch into Lightning](https://pytorch-lightning.readthedocs.io/en/latest/starter/converting.html)
+参见 [How to organize PyTorch into Lightning](https://pytorch-lightning.readthedocs.io/en/stable/starter/converting.html)
 
-# 最佳实践
+## 最佳实践
 
-## 代码风格
+### 代码风格
 
 Lightning 的一个主要目标是提高可读性和复现能力。这一部分意在鼓励 Lightning 代码有相似的结构。
 
-### self-contained
+#### self-contained
 
 一个 `LightningModule` 对象应该是 self-contained 的。换言之，用户可以将 `LightningModule` 对象传入一个 `Trainer` 而无需知晓其内部构造。
 
-### init
+#### init
 
 对于 `init` 方法，我们应该显式地定义所有参数，打消用户对于这些重要参数的疑问，例如：
 
@@ -533,7 +533,7 @@ class LitModel(pl.LightningModule):
 
 这样用户就一目了然参数的类型，以及可以用作参考的默认值。
 
-### 方法顺序
+#### 方法顺序
 
 对于一个 `LightningModule` 的完整实现，各方法的推荐顺序是：
 
@@ -567,27 +567,23 @@ class LitModel(pl.LightningModule):
     def any_extra_hook(...)
 ```
 
-### forward vs training_step
+#### forward vs training_step
 
-### 数据
+#### 数据
 
 Lightning 使用 dataloader 处理所有的数据流。
 
-# MNIST示例
+## LightningModule
 
-参考 ml/lightning/tutorial_mnist.ipynb
+参见 [LightningModule](https://pytorch-lightning.readthedocs.io/en/stable/common/lightning_module.html)。
 
-# LightningModule
+## Trainer
 
-> https://pytorch-lightning.readthedocs.io/en/stable/lightning_module.html
+参见 [Trainer](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html)。
 
-# Trainer
+## 日志
 
-> https://pytorch-lightning.readthedocs.io/en/stable/trainer.html
-
-# 日志
-
-Lightning 支持最流行的日志框架（TensorBoard，Comet 等）。使用一个日志器，只需要将其传入 Trianer 的构造函数。Lightning 默认使用 TensorBoard。
+Lightning 支持最流行的日志框架（TensorBoard、Comet 等）。使用一个日志器，只需要将其传入 Trianer 的构造函数。Lightning 默认使用 TensorBoard。
 
 使用 TensorBoard 作为日志器：
 
@@ -598,7 +594,7 @@ tb_logger = TensorBoardLogger('logs/')
 trainer = Trainer(logger=tb_logger)
 ```
 
-> 事实上trainer使用的默认日志器就是：
+> 事实上 trainer 使用的默认日志器就是：
 >
 > ```python
 > from pytorch_lightning.loggers import TensorBoardLogger
@@ -627,7 +623,7 @@ trainer = Trainer(logger=comet_logger)
 trainer = Trainer(logger=[tb_logger, comet_logger])
 ```
 
-> 可以通过设置trainer的`default_root_dir`和`logger`修改日志的保存路径：
+> 可以通过设置 trainer 的`default_root_dir`和`logger`修改日志的保存路径：
 >
 > + 如果你既不设置`default_root_dir`，也不设置`logger`，trainer会使用上面的默认日志器，保存路径为`./lightning_logs/version0/`
 > + 如果你设置了`default_root_dir='mydir/'`，trainer依然会使用上面的默认日志器，保存路径为`./mydir/lightning_logs/version0/`
@@ -635,11 +631,11 @@ trainer = Trainer(logger=[tb_logger, comet_logger])
 > + 如果你设置日志器`logger = TensorBoardLogger(save_dir='savedir/', version=1, name='mylogs')`，保存路径为`./savedir/mylogs/version1/`
 > + 注意设置`logger`会重载`default_root_dir`，即`default_root_dir`无效
 
-## 在LightningModule中记录
+### 在 LightningModule 中记录
 
 Lightning 提供了日志功能，可以自动记录标量、手动记录其它数据。
 
-### 自动记录
+#### 自动记录
 
 调用 `log()` 方法可以在 LightningModule 和回调的任何位置（名称包含 `batch_start` 的函数除外）记录一个标量：
 
@@ -664,7 +660,7 @@ def training_step(self, batch, batch_idx):
 
 > 设置`on_epoch=True`将缓存一个epoch中所有记录的值，并在epoch结束时执行一个折减。
 
-### 手动记录
+#### 手动记录
 
 如果你想要记录一个图片、文本、直方图等，你可以直接使用日志器对象。
 
@@ -678,7 +674,7 @@ def training_step(...):
     tensorboard.add_figure(...)
 ```
 
-### 访问日志
+#### 访问日志
 
 使用日志器访问日志，例如 TensorBoard：
 
@@ -686,9 +682,9 @@ def training_step(...):
 tensorboard --logdir ./lightning_logs
 ```
 
-## 实现自定义日志器
+### 实现自定义日志器
 
-## 控制记录频率
+### 控制记录频率
 
 记录每一个 batch 会降低训练速度。默认情况下，Lightning 每 50 个训练 step 记录一次。可以通过设置 trainer 的 `log_every_n_steps` 改变此行为：
 
@@ -706,7 +702,7 @@ trainer = Trainer(log_every_n_steps=k)
 
 此参数仅适用 TensorBoard 日志器。
 
-## 进度条
+### 进度条
 
 你可以通过调用 `log()` 方法并设置 `prog_bar=True`，来向进度条添加任何指标：
 
@@ -727,7 +723,7 @@ def get_progress_bar_dict(self):
 
 > 默认的训练损失是一个运行中平均值。
 
-## 配置控制台日志
+### 配置控制台日志
 
 Lightning 向控制台记录了关于训练过程和用户警告的有用信息，你可以取回 Lightning 日志器并根据自己的需要进行修改。例如，调整记录等级或者重定向输出到日志文件。
 
@@ -742,19 +738,19 @@ logger = logging.getLogger("pytorch_lightning.core")
 logger.addHandler(logging.FileHandler("core.log"))
 ```
 
-## 记录超参数
+### 记录超参数
 
 当训练模型时，了解模型使用了何种超参数是十分有用的。当 Lightning 创建了一个检查点时，它存储了键 `'hyper_parameters'` 和所有超参数值。
 
 一些日志器也会记录实验中使用的超参数。例如，当使用 `TensorBoardLogger` 时，所有的超参数都会在 HPARAMS 标签页展示。
 
-# 回调
+## 回调
 
-## 持久化状态
+### 持久化状态
 
-## 最佳实践
+### 最佳实践
 
-# 保存和加载权重
+## 保存和加载权重
 
 > https://pytorch-lightning.readthedocs.io/en/stable/weights_loading.html
 
@@ -762,7 +758,7 @@ Lightning 自动保存和加载检查点，检查点包含了模型使用的所�
 
 在训练过程中保存检查点允许你继续训练，不管是因为训练中断（包括 Ctrl+C 终止），想要精调模型，或使用预训练模型。
 
-## 检查点保存
+### 检查点保存
 
 Lightning 检查点包含了恢复一个训练会话所需要的所有内容：
 
@@ -775,7 +771,7 @@ Lightning 检查点包含了恢复一个训练会话所需要的所有内容：
 * 所有回调的状态
 * 作为 hparams 传入的模型超参数
 
-## 自动保存
+### 自动保存
 
 Lightning 自动保存包含最后一个训练 epoch 状态的检查点。换言之，每完成一个训练 epoch，存档就被替换一次，例如从 `epoch=0-step=1718.ckpt` 到 `epoch=1-step=3437.ckpt`。
 
@@ -859,7 +855,7 @@ trainer.fit(model)
 checkpoint_callback.best_model_path     # path to best checkpoint
 ```
 
-### 禁用检查点
+#### 禁用检查点
 
 你可以禁用保存检查点，通过传入
 
@@ -867,7 +863,7 @@ checkpoint_callback.best_model_path     # path to best checkpoint
 trainer = Trainer(checkpoint_callback=False)
 ```
 
-### 保存超参数
+#### 保存超参数
 
 Lightning 检查点同时保存了传入 LightningModule 的参数，保存在检查点的 `hyper_parameters` 键下。
 
@@ -884,7 +880,7 @@ print(checkpoint['hyper_parameters'])                   # access hparam
 # {'learning_rate': the_value}
 ```
 
-## 手动保存
+### 手动保存
 
 你可以手动保存和恢复检查点。
 
@@ -895,7 +891,7 @@ trainer.save_checkpoint("example.ckpt")
 new_model = MyModel.load_from_checkpoint(checkpoint_path="example.ckpt")
 ```
 
-## 使用加速器的手动保存
+### 使用加速器的手动保存
 
 当使用 DDP 加速器时我们的训练脚本跨多个设备同时运行，此时 Lightning 将自动确保模型仅保存在主进程中，其它进程不干扰保存检查点。这一功能不需要改变任何代码：
 
@@ -909,7 +905,7 @@ trainer.save_checkpoint("example.ckpt")
 
 不使用 `trainer.save_checkpoint` 保存而使用其它保存函数会导致所有设备尝试保存检查点，因而会造成意想不到的行为和潜在的死锁。因此我们推荐使用 trainer 的保存功能。
 
-## 加载检查点
+### 加载检查点
 
 加载一个模型，包括它的权重、偏置和超参数，使用以下方法：
 
@@ -943,7 +939,7 @@ model = LitModel.load_from_checkpoint(PATH)
 model = LitModel.load_from_checkpoint(PATH, lr=2e-3)
 ```
 
-## 直接恢复训练
+### 直接恢复训练
 
 如果你加载模型是为了恢复训练，可以直接用 Trainer 加载检查点：
 
@@ -955,17 +951,17 @@ trainer = Trainer(resume_from_checkpoint='some/path/to/my_checkpoint.ckpt')
 trainer.fit(model)
 ```
 
-# 超参数
+## 超参数
 
 > https://pytorch-lightning.readthedocs.io/en/stable/hyperparameters.html
 
 Lightning 具有功能，可以和命令行参数解析器 `ArgumentParser` 无缝衔接，并且和你选择的超参数优化框架可以很好地配合。
 
-## ArgumentParser
+### ArgumentParser
 
 Lightning 被设计为增强内置 Python ArgumentParser 的许多功能。`ArgumentParser` 的用法参考 Python 标准库 `argparse`。
 
-## argparse的最佳实践
+### argparse的最佳实践
 
 最佳实践将所有参数分为三部分：
 
@@ -1032,7 +1028,7 @@ model = LitModel(**dict_args)
 python trainer_main.py --gpus 2 --num_nodes 2 --conda_env 'my_env' --encoder_layers 12
 ```
 
-## LightningModule的超参数
+### LightningModule的超参数
 
 我们经常训练一个模型的很多不同的版本。当你回过头去看几个月前训练的模型时，你可能已经不记得模型是如何训练得到的（例如学习率是多少，何种网络结构等等）。
 
@@ -1078,7 +1074,7 @@ Lightning 有一些方法为你保存这些信息到检查点或 yaml 文件中�
    
    ```
 
-## Trainer参数
+### Trainer参数
 
 简言之，将所有可能的 trainer 参数添加到 argparser 并按如下方法初始化 `Trainer`：
 
@@ -1093,7 +1089,7 @@ trainer = Trainer.from_argparse_args(hparams)
 trainer = Trainer.from_argparse_args(hparams, checkpoint_callback=..., callbacks=[...])
 ```
 
-## 多个LightningModule
+### 多个LightningModule
 
 我们经常使用多个 `LightningModule`，每一个都有不同的参数。你可以在每个 `LightningModule` 中定义参数：
 
@@ -1170,7 +1166,7 @@ $ python main.py --model_name gan --encoder_layers 24
 $ python main.py --model_name mnist --layer_1_dim 128
 ```
 
-# 提前停止
+## 提前停止
 
 > https://pytorch-lightning.readthedocs.io/en/stable/early_stopping.html
 
@@ -1207,13 +1203,13 @@ trainer = Trainer(callbacks=[early_stop_callback])
 
 `EarlyStopping` 回调在每个验证 epoch 结束时运行，而在默认配置下，每个验证 epoch 发生在每个训练 epoch 之后。验证的频率可以通过设置 `Trainer` 的参数进行修改，例如 `check_val_every_n_epoch` 和 `val_check_interval`。注意 `patience` 参数计数的是验证 epoch 没有改善的次数而非训练 epoch，例如设置 `check_val_every_n_epoch=10` 和 `patience=3` 时，trainer 在至少 40 个训练 epoch 后才会停止。
 
-# 性能和瓶颈信息
+## 性能和瓶颈信息
 
 > https://pytorch-lightning.readthedocs.io/en/stable/profiler.html
 
 分析（profile）训练过程可以帮助你理解代码中是否存在任何瓶颈。
 
-## 简单分析(profiling)
+### 简单分析(profiling)
 
 如果只想要分析标准动作，可以在构造 Trainer 对象时设置 `profiler="simple"`：
 
@@ -1240,7 +1236,7 @@ on_epoch_end            |  3.919e-06            |  3.919e-06
 on_train_end            |  5.449e-06            |  5.449e-06
 ```
 
-## 高级分析
+### 高级分析
 
 如果你想获取每个事件中的函数调用信息，那么可以使用 `AdvancedProfiler`。该选项使用 Python 的 cProfiler 提供每一个调用的函数的时间花费报告。
 
@@ -1252,9 +1248,6 @@ trainer = Trainer(..., profiler="advanced")
 
 ……
 
-# 分布式训练
+## 分布式训练
 
-> 分布式训练的基本概念参见[tensorflow-分布式训练-基本概念](./tensorflow.md#基本概念)
-
-## 多GPU训练
-
+### 多GPU训练

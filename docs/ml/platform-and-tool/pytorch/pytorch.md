@@ -994,16 +994,9 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 ## `torch.autograd` 的简单入门
 
-> 推荐阅读：
->
-> [Automatic Differentiation with `torch.autograd`](https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html#)
->
-> 参考：
->
-> [`torch.autograd`](./pytorch-api-0.md#torchautograd)
->
-> Notebook ml/pytorch/autograd.ipynb
->
+!!! abstract "参考"
+    * [`torch.autograd`](./api-autograd.md)
+    * [Automatic Differentiation with `torch.autograd`](https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html#)
 
 `torch.autograd` 是 PyTorch 的自动微分引擎，用于驱动神经网络训练。
 

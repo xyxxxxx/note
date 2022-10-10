@@ -34,6 +34,8 @@ JSON 格式简单，仅支持以下数据类型：
 
 ### Python
 
+参见 [re——正则表达式操作](../../python/standard-library/json.md)。
+
 ### Go
 
 ### Java

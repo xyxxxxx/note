@@ -280,7 +280,6 @@ nav:
         - "API: torch.distributed": ml/platform-and-tool/pytorch/api-distributed.md
         - "API: torch.multiprocessing": ml/platform-and-tool/pytorch/api-multiprocessing.md
         - "API: torch.fft, torch.linalg, torch.special": ml/platform-and-tool/pytorch/api-math.md
-        - "API: torch.random": ml/platform-and-tool/pytorch/api-random.md
         - "API: torch.sparse": ml/platform-and-tool/pytorch/api-sparse.md
         - "API: torch.utils.data": ml/platform-and-tool/pytorch/api-utils-data.md
         - "API: torch.utils.tensorboard": ml/platform-and-tool/pytorch/api-utils-tensorboard.md

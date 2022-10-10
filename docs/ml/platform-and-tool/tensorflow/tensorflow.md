@@ -1,18 +1,19 @@
-> TensorFlow 的官方教程没有系统性，仿佛多篇教程文章的拼凑。此文档的内容是在阅读了官方教程和 API 并实际使用之后，个人总结而成。
+# TensorFlow
 
-# Keras 建立模型
+!!! abstract "参考"
+    * 《Scikit-Learn、Keras 和 TensorFlow 的机器学习实用指南》
+    * [TensorFlow 教程](https://www.tensorflow.org/tutorials)
+    * [TensorFlow 指南](https://www.tensorflow.org/guide)
 
-# 执行模式
+## 使用 Keras 建立模型
 
-eager and graph execution
+## 保存和加载模型
 
-# 保存和加载模型
-
-# 使用GPU
+## 使用 GPU
 
 TensorFlow 代码和 Keras 模型可以运行在单个 GPU 上而无需修改任何代码。运行在（单机或多机上的）多个 GPU 上的方法请参考[分布式训练](#分布式训练)。
 
-## 准备
+### 准备
 
 首先检查当前主机是否有可用的 GPU 设备。
 
@@ -23,15 +24,16 @@ TensorFlow 代码和 Keras 模型可以运行在单个 GPU 上而无需修改任
  PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
-> TensorFlow 支持在各种类型的设备上进行计算，包括 CPU 和 GPU。CPU 和 GPU 表示为如下的字符串标识：
->
-> + `'/CPU:0'`
-> + `'/GPU:0'`：TensorFlow 运行时可见的第一个 GPU 设备的简称
-> + `'/job:localhost/replica:0/task:0/device:GPU:0'`：TensorFlow 运行时可见的第一个 GPU 设备的完整名称
->
-> 如果一个 TensorFlow 运算同时有 CPU 和 GPU 实现，那么默认情况下该运算将被优先分配给 GPU 设备。例如 `tf.matmul` 同时有 CPU 和 GPU 实现，那么在一个有设备 `CPU:0` 和 `GPU:0` 的系统上，`GPU:0` 将被选择用于运行 `tf.matmul`，除非你显式地请求在另一个设备上运行它。
+!!! note "说明"
+    TensorFlow 支持在各种类型的设备上进行计算，包括 CPU 和 GPU。CPU 和 GPU 表示为如下的字符串标识：
 
-## 记录使用设备
+    * `'/CPU:0'`
+    * `'/GPU:0'`：TensorFlow 运行时可见的第一个 GPU 设备的简称
+    * `'/job:localhost/replica:0/task:0/device:GPU:0'`：TensorFlow 运行时可见的第一个 GPU 设备的完整名称
+
+    如果一个 TensorFlow 运算同时有 CPU 和 GPU 实现，那么默认情况下该运算将被优先分配给 GPU 设备。例如 `tf.matmul` 同时有 CPU 和 GPU 实现，那么在一个有设备 `CPU:0` 和 `GPU:0` 的系统上，`GPU:0` 将被选择用于运行 `tf.matmul`，除非你显式地请求在另一个设备上运行它。
+
+### 记录使用设备
 
 为了弄清楚运算到底被分配到了哪个设备上，执行 `tf.debugging.set_log_device_placement(True)` 以启用设备放置记录，这时任何的运算分配都会被打印出来。
 
@@ -51,9 +53,10 @@ Executing op MatMul in device /job:localhost/replica:0/task:0/device:GPU:0
 
 可以看到，张量 `a`, `b` 默认分配到了 `CPU:0` 上，而运算 `MatMul` 默认分配到了 `GPU:0` 上，即优先分配给了 GPU 设备。
 
-> TensorFlow 运行时会基于运算的实现和当前的可用设备为运算选择一个设备（这里为 `GPU:0`），并且在需要时自动在设备间复制张量（这里将张量 `a`, `b` 复制到 `GPU:0` 上再进行计算）。
+!!! note "说明"
+    TensorFlow 运行时会基于运算的实现和当前的可用设备为运算选择一个设备（这里为 `GPU:0`），并且在需要时自动在设备间复制张量（这里将张量 `a`, `b` 复制到 `GPU:0` 上再进行计算）。
 
-## 手动指定设备
+### 手动指定设备
 
 如果你想要一个运算运行在指定的设备上而不是让 TensorFlow 自动为你选择，那么你可以使用 `with tf.device()` 来创建一个设备上下文，此上下文中的所有运算都运行在指定的设备上。
 
@@ -94,7 +97,7 @@ InvalidArgumentError: Could not satisfy device specification '/job:localhost/rep
     c = tf.matmul(a, b)
 ```
 
-## 限制GPU使用和显存增长
+### 限制 GPU 使用和显存增长
 
 默认情况下，TensorFlow 将所有可见的 GPU 的几乎所有显存映射到进程上，这是为了减少显存碎片以更加高效地利用相对宝贵的显存资源。要限制 TensorFlow 使用的 GPU ，我们使用 `tf.config.set_visible_devices()` 方法：
 
@@ -129,7 +132,8 @@ InvalidArgumentError: Could not satisfy device specification '/job:localhost/rep
 [LogicalDevice(name='/device:GPU:0', device_type='GPU')]
 ```
 
-> 另一种开启显存增长的方法是设定环境变量 `TF_FORCE_GPU_ALLOW_GROWTH` 为 `True`，……
+!!! note "说明"
+    另一种开启显存增长的方法是设定环境变量 `TF_FORCE_GPU_ALLOW_GROWTH` 为 `True`，……
 
 调用 `tf.config.set_logical_device_configuration()` 以配置逻辑 GPU 设备，并为分配到其上的显存设置硬性限制：
 
@@ -144,7 +148,7 @@ InvalidArgumentError: Could not satisfy device specification '/job:localhost/rep
 
 这是本地开发时的通常做法，因为需要与其它图形应用共用 GPU。
 
-## 使用单个 GPU 模拟多个 GPU
+### 使用单个 GPU 模拟多个 GPU
 
 逻辑设备还可以用于在单个 GPU 上模拟多个 GPU，这使我们在单 GPU 系统上也可以测试分布式训练（只是不支持 NCCL 后端）。
 
@@ -164,13 +168,11 @@ INFO:tensorflow:Using MirroredStrategy with devices ('/job:localhost/replica:0/t
 >>> # 进行分布式训练
 ```
 
-# 分布式训练
+## 分布式训练
 
-> TensorFlow 的分布式架构设计复杂，难以使用，越来越多的用户开始使用 [Horovod](./hovorod.md)。
+### 分布式策略
 
-## 分布式策略
-
-## 使用分布式策略
+### 使用分布式策略
 
 使用分布式策略时，所有模型相关的变量的创建都应在 `strategy.scope` 内完成，这些变量将被复制到所有模型副本中，并通过 all-reduce 算法保持同步。
 
@@ -204,8 +206,14 @@ with strategy.scope():
 
 以下操作可以在 `strategy.scope` 内部或外部调用：
 
-+ 创建数据集
+* 创建数据集
 
-## 集群配置
+### 集群配置
 
 在多台机器上训练
+
+## 使用回调
+
+## 执行模式
+
+eager and graph execution
