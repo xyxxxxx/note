@@ -1,4 +1,4 @@
-[toc]
+# tf.keras
 
 在 TensorFlow 中，推荐使用 Keras（`tf.keras`）构建模型。Keras 是一个广为流行的高级神经网络 API，简单、快速而不失灵活性，现已得到 TensorFlow 的官方内置和全面支持。
 
@@ -11,32 +11,78 @@ Keras 提供了定义和训练任何类型的神经网络模型的便捷方法�
 
 keras 有两个重要的概念：**模型（model）**和**层（layer）**。层将各种计算流程和变量进行了封装（例如基本的全连接层，CNN 的卷积层、池化层等），而模型则将各种层进行组织和连接，并封装成一个整体，描述了如何将输入数据通过各种层以及运算而得到输出。
 
-# activations
+## activations
 
-## elu
+### elu()
 
 指数线性单元。
+
 $$
-{\rm elu}(x)=\begin{cases}x,& x\ge0\\\alpha(e^x-1),&x<0 \end{cases}
+\begin{aligned}
+{\rm elu}(x) & =\max(0,x)+\min(0,\alpha(e^x-1))\\
+& =\begin{cases}x,& x\ge0\\\alpha(e^x-1),&x<0 \end{cases}
+\end{aligned}
 $$
 
 ```python
 tf.keras.activations.elu(x, alpha=1.0)
 ```
 
-## exponential
+### relu()
 
-## linear
+修正线性单元。
 
-## relu
+$$
+\begin{aligned}
+{\rm relu}(x) & =\max(0,x)\\
+& =\begin{cases}x,& x\ge0\\0,&x<0 \end{cases}
+\end{aligned}
+$$
 
-## softmax
+```python
+tf.keras.activations.relu(x, alpha=0.0, max_value=None, threshold=0.0)
+# 各参数的作用见下列示例
+```
 
-## tanh
+```python
+>>> x = tf.constant([-10, -5, 0.0, 5, 10], dtype = tf.float32)
+>>> tf.keras.activations.relu(x).numpy()
+array([ 0.,  0.,  0.,  5., 10.], dtype=float32)
+>>> tf.keras.activations.relu(x, alpha=0.5).numpy()
+array([-5. , -2.5,  0. ,  5. , 10. ], dtype=float32)
+>>> tf.keras.activations.relu(x, max_value=5.).numpy()
+array([0., 0., 0., 5., 5.], dtype=float32)
+>>> tf.keras.activations.relu(x, threshold=5.).numpy()
+array([-0., -0.,  0.,  0., 10.], dtype=float32)
+```
 
-# callbacks
+### sigmoid()
 
-## Callback
+Sigmoid 函数（实际上是 Logistic 函数）。
+
+$$
+{\rm sigmoid}(x)=\frac{1}{1+e^{-x}}
+$$
+
+### softmax()
+
+Softmax 回归。
+
+$$
+{\rm softmax}(x_k)=\frac{e^{x_k}}{\sum e^{x_i}}
+$$
+
+### tanh()
+
+双曲正切函数。
+
+$$
+\tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}
+$$
+
+## callbacks
+
+### Callback
 
 用于创建新回调的抽象类。若要创建回调，继承此类并任意重载以下方法。
 
@@ -236,7 +282,7 @@ test batch end ...
 test end ...                       # 测试结束
 ```
 
-## EarlyStopping
+### EarlyStopping
 
 当监视的参数不再改善时提前停止训练。
 
@@ -256,7 +302,7 @@ tf.keras.callbacks.EarlyStopping(
 #                       会保留最后一个epoch的权重
 ```
 
-## LambdaCallback
+### LambdaCallback
 
 创建简单的自定义回调。
 
@@ -299,11 +345,11 @@ Epoch 2/10
 1 {'loss': 0.05158458277583122, 'accuracy': 0.9834166765213013, 'val_loss': 0.0502360574901104, 'val_accuracy': 0.9848333597183228}
 ```
 
-## LearningRateScheduler
+### LearningRateScheduler
 
-## ModelCheckpoint
+### ModelCheckpoint
 
-## TensorBoard
+### TensorBoard
 
 为 TensorBoard 可视化记录日志。
 
@@ -318,29 +364,29 @@ tf.keras.callbacks.TensorBoard(
 #              若为整数,则每update_freq个batch记录一次损失和指标.注意过于频繁地写日志会减慢你的训练.
 ```
 
-# datasets
+## datasets
 
-## cifar10
+### cifar10
 
 CIFAR10 数据集。
 
-### load_data()
+#### load_data()
 
 同 `tf.keras.datasets.mnist.load_data()`。
 
-## cifar100
+### cifar100
 
 CIFAR100 数据集。
 
-### load_data()
+#### load_data()
 
 同 `tf.keras.datasets.mnist.load_data()`。
 
-## mnist
+### mnist
 
 MNIST 数据集。
 
-### load_data()
+#### load_data()
 
 ```python
 tf.keras.datasets.mnist.load_data(path='mnist.npz')
@@ -348,11 +394,11 @@ tf.keras.datasets.mnist.load_data(path='mnist.npz')
 #            若该路径不存在,则在线下载并保存到此路径;
 ```
 
-# layers
+## layers
 
 层是进行数据处理的模块，它输入一个张量，然后输出一个张量。尽管有一些层是无状态的，更多的层都有其权重参数，通过梯度下降法学习。`tf.keras.layers` 下内置了深度学习中大量常用的的预定义层，同时也允许我们自定义层。
 
-## Dense
+### Dense
 
 全连接层（densely connected layer，fully connected layer）是 Keras 中最基础和常用的层之一，对输入矩阵 $A$ 进行 $f(A\pmb w+b)$ 的线性变换 + 激活函数操作。如果不指定激活函数,即是纯粹的线性变换 $A\pmb w+b$。具体而言，给定输入张量 `input =[batch_size,input_dim]`，该层对输入张量首先进行 `tf.matmul(input,kernel)+ bias` 的线性变换（`kernel` 和 `bias` 是层中可训练的变量），然后对线性变换后张量的每个元素通过激活函数 `activation`，从而输出形状为 `[batch_size, units]` 的二维张量。
 
@@ -393,7 +439,7 @@ Non-trainable params: 0
 _________________________________________________________________
 ```
 
-## Conv2D
+### Conv2D
 
 卷积层。
 
@@ -437,7 +483,7 @@ model.summary()
 # Non-trainable params: 0
 ```
 
-## MaxPool2D
+### MaxPool2D
 
 对二维数据（图片）进行最大汇聚（池化）操作。具有别名 `MaxPooling2D`。
 
@@ -494,7 +540,7 @@ array([[[[ 6.], [ 8.]],                                     # 右侧不填充,�
         [[10.], [12.]]]], dtype=float32)>
 ```
 
-## Embedding
+### Embedding
 
 > 参考[单词嵌入向量](https://www.tensorflow.org/tutorials/text/word_embeddings)
 
@@ -511,7 +557,7 @@ array([[[[ 6.], [ 8.]],                                     # 右侧不填充,�
 
 示例见 SimpleRNN，LSTM。
 
-## SimpleRNN
+### SimpleRNN
 
 SRN 层是最简单的循环神经网络层。
 
@@ -594,7 +640,7 @@ model.summary()
 # _________________________________________________________________
 ```
 
-## LSTM
+### LSTM
 
 LSTM 层。
 
@@ -651,11 +697,11 @@ model.add(keras.layers.LSTM(64,
 model.add(keras.layers.Dense(1))
 ```
 
-## GRU
+### GRU
 
 GRU 层。
 
-## Bidirectional
+### Bidirectional
 
 双向 RNN 层在某些特定的任务上比一般的 RNN 层表现得更好，经常应用于 NLP。
 
@@ -674,7 +720,7 @@ model.add(keras.layers.Bidirectional(keras.layers.LSTM(32)))
 model.add(keras.layers.Dense(1, activation='sigmoid'))
 ```
 
-## Dropout
+### Dropout
 
 示例：
 
@@ -687,9 +733,9 @@ model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1, activation='sigmoid'))
 ```
 
-# losses
+## losses
 
-## BinaryCrossentropy
+### BinaryCrossentropy
 
 计算标签和预测值之间的交叉熵损失，用于二分类问题。损失函数接受的标签为 `0` 或 `1`，预测值为任意浮点数（若 `from_logits=True`，此时预测值的浮点数通过 logistic 函数映射到 $(0, 1)$ 区间内）或概率值（若 `from_logits=False`）。
 
@@ -703,7 +749,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=0.865458>
 ```
 
-## CategoricalCrossentropy
+### CategoricalCrossentropy
 
 计算标签和预测值之间的交叉熵损失，用于二分类或多分类问题。损失函数接受的预测值为表示各类别概率值的向量，标签为相应的 one-hot 向量。
 
@@ -715,7 +761,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=1.1769392>
 ```
 
-## CosineSimilarity
+### CosineSimilarity
 
 计算标签和预测值之间的余弦相似度。返回值介于 -1 到 1 之间，-1 表示方向相同，1 表示方向相反，0 表示正交。
 
@@ -733,15 +779,15 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=-0.0>
 ```
 
-## Hinge
+### Hinge
 
-## KLDiverence
+### KLDiverence
 
 计算标签和预测值之间的 KL 散度。
 
-## Loss
+### Loss
 
-## MeanAbsoluteError
+### MeanAbsoluteError
 
 计算标签和预测值之间的平均绝对误差。
 
@@ -753,7 +799,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=0.14999999>
 ```
 
-## MeanSquareError
+### MeanSquareError
 
 计算标签和预测值之间的平均平方误差。
 
@@ -765,13 +811,13 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=0.024999999>
 ```
 
-## Poisson
+### Poisson
 
 计算标签和预测值之间的泊松损失。
 
-## Reduction
+### Reduction
 
-## SparseCategoricalCrossentropy
+### SparseCategoricalCrossentropy
 
 计算标签和预测值之间的交叉熵损失，用于二分类或多分类问题。损失函数接受的预测值为表示各类别概率值的向量，标签为类别的序号。
 
@@ -783,11 +829,11 @@ model.add(layers.Dense(1, activation='sigmoid'))
 <tf.Tensor: shape=(), dtype=float32, numpy=1.1769392>
 ```
 
-## SquaredHinge
+### SquaredHinge
 
-# metrics
+## metrics
 
-## Accuracy
+### Accuracy
 
 准确率。
 
@@ -804,7 +850,7 @@ model.compile(optimizer='sgd',
               metrics=[tf.keras.metrics.Accuracy()])
 ```
 
-### update_state
+#### update_state
 
 ```python
 update_state(y_true, y_pred, sample_weight=None)
@@ -813,15 +859,15 @@ update_state(y_true, y_pred, sample_weight=None)
 # sample_weight  样本权重
 ```
 
-## BinaryAccuracy
+### BinaryAccuracy
 
 准确率（）。
 
-### update_state
+#### update_state
 
 见 [Accuracy](#Accuracy)。
 
-## CategoricalAccuracy
+### CategoricalAccuracy
 
 准确率（类别概率对独热标签）。
 
@@ -833,19 +879,19 @@ update_state(y_true, y_pred, sample_weight=None)
 0.6666667
 ```
 
-### update_state
+#### update_state
 
 见 [Accuracy](#Accuracy)。
 
-## FalseNegatives
+### FalseNegatives
 
-## FalsePositives
+### FalsePositives
 
-## KLDivergence
+### KLDivergence
 
 KL 散度。
 
-## Mean
+### Mean
 
 平均值。
 
@@ -856,31 +902,31 @@ KL 散度。
 4.0
 ```
 
-## Metric
+### Metric
 
 指标的基类。
 
-### reset_state
+#### reset_state
 
 重置状态，即移除所有样本。
 
-### result
+#### result
 
 计算并返回指标值张量。
 
-### update_state
+#### update_state
 
 更新状态，即添加样本。
 
-## Precision
+### Precision
 
 精确率。
 
-## Recall
+### Recall
 
 召回率。
 
-## Sum
+### Sum
 
 求和。
 
@@ -891,7 +937,7 @@ KL 散度。
 10.0
 ```
 
-### update_state
+#### update_state
 
 ```python
 update_state(values, sample_weight=None)
@@ -899,18 +945,18 @@ update_state(values, sample_weight=None)
 # sample_weight  样本权重
 ```
 
-## TrueNegatives
+### TrueNegatives
 
 真阴性的数量。
 
 ```python
 ```
 
-### update_state
+#### update_state
 
 见 [TruePositives](#TruePositives)。
 
-## TruePositives
+### TruePositives
 
 真阳性的数量。
 
@@ -921,7 +967,7 @@ update_state(values, sample_weight=None)
 2.0
 ```
 
-### update_state
+#### update_state
 
 ```python
 update_state(y_true, y_pred, sample_weight=None)
@@ -930,11 +976,11 @@ update_state(y_true, y_pred, sample_weight=None)
 # sample_weight  样本权重
 ```
 
-# Model
+## Model
 
 ![](https://i.loli.net/2020/09/27/hvxUc9eyiqJkGVu.png)
 
-### compile()
+#### compile()
 
 配置模型以准备训练。
 
@@ -950,7 +996,7 @@ keras.Model.compile(optimizer='rmsprop', loss=None, metrics=None, loss_weights=N
 # 
 ```
 
-### evaluate()
+#### evaluate()
 
 返回模型在测试模式中的损失和指标值。
 
@@ -968,7 +1014,7 @@ keras.Model.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=N
 
 ```
 
-### fit()
+#### fit()
 
 ```python
 keras.Model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, 
@@ -1006,11 +1052,11 @@ use_multiprocessing=False)
 # use_multiprocessing     若为True,使用基于进程的并行.仅在`x`为生成器或`keras.utils.Sequence`实例时有效
 ```
 
-### get_config()
+#### get_config()
 
-### predict()
+#### predict()
 
-### save()
+#### save()
 
 保存模型为 TensorFlow SavedModel 或 HDF5 文件。参见[`keras.models.save_model()`](#save_model（)。
 
@@ -1025,7 +1071,7 @@ keras.Model.save(filepath, overwrite=True, include_optimizer=True, save_format=N
 # save_traces
 ```
 
-### summary()
+#### summary()
 
 打印模型的概要。
 
@@ -1052,7 +1098,7 @@ Non-trainable params: 0                                             # 不可训�
 _________________________________________________________________
 ```
 
-### to_json()
+#### to_json()
 
 返回一个包含模型配置的 JSON 字符串。
 
@@ -1180,15 +1226,15 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
  'keras_version': '2.4.0'}
 ```
 
-### to_yaml()
+#### to_yaml()
 
 返回一个包含模型配置的 yaml 字符串。参考[`keras.Model.to_json()`](#to_json（)）。
 
-# models
+## models
 
-### load_model()
+#### load_model()
 
-### model_from_config()
+#### model_from_config()
 
 从配置字典初始化一个 keras 模型。
 
@@ -1196,15 +1242,15 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
 
 ```
 
-### model_from_json()
+#### model_from_json()
 
 从模型配置的 JSON 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile（)），网络参数为随机的初始值。参见[`keras.Model.to_json()`](#to_json（)）。
 
-### model_from_yaml()
+#### model_from_yaml()
 
 从模型配置的 yaml 字符串初始化一个 keras 模型实例。返回的模型实例仅包含网络结构，没有被 [compile](#compile（)），网络参数为随机的初始值。参见[`keras.Model.to_yaml()`](#to_yaml（)）。
 
-### save_model()
+#### save_model()
 
 保存模型为 TensorFlow SavedModel 或 HDF5 文件。
 
@@ -1212,7 +1258,7 @@ array([[ 0.46788   , -0.76049685, -0.71987045,  0.07750785, -0.64779675],
 keras.models.save_model(model, filepath, overwrite=True, include_optimizer=True, save_format=None, signatures=None, options=None, save_traces=True)
 ```
 
-# Sequential
+## Sequential
 
 `Sequential` 返回一个 `keras.Model` 对象。`Sequential` 模型将各层线性组合，适用于 FNN，CNN，RNN，其中每一层都有**一个输入张量和一个输出张量**。
 
@@ -1267,7 +1313,7 @@ model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(10))
 ```
 
-### 自定义模型
+#### 自定义模型
 
 Keras 模型以类的形式呈现，我们可以通过继承 `tf.keras.Model` 这个 Python 类来定义自己的模型。在继承类中，我们需要重写 `__init__()`（构造函数，初始化）和 `call(input)`（模型调用）两个方法，同时也可以根据需要增加自定义的方法。
 
@@ -1306,9 +1352,9 @@ class Linear(tf.keras.Model):
         return output
 ```
 
-# optimizers
+## optimizers
 
-## Adadelta
+### Adadelta
 
 实现 Adadelta 算法的优化器。
 
@@ -1321,7 +1367,7 @@ tf.keras.optimizers.Adadelta(
 # rho...          参见官方文档https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adadelta
 ```
 
-## Adagrad
+### Adagrad
 
 实现 Adagrad 算法的优化器。
 
@@ -1335,7 +1381,7 @@ tf.keras.optimizers.Adagrad(
 #                                 https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adagrad
 ```
 
-## Adam
+### Adam
 
 实现 Adam 算法的优化器。
 
@@ -1348,7 +1394,7 @@ tf.keras.optimizers.Adam(
 # beta_1...       参见官方文档https://tensorflow.google.cn/api_docs/python/tf/keras/optimizers/Adam
 ```
 
-## Optimizer
+### Optimizer
 
 Keras 优化器的基类。
 
@@ -1358,27 +1404,27 @@ tf.keras.optimizers.Optimizer(
 )
 ```
 
-### apply_gradients()
+#### apply_gradients()
 
-### from_config()
+#### from_config()
 
 根据设置创建一个优化器。参见 [`get_config()`](#get_config())。
 
-### get_config()
+#### get_config()
 
 返回优化器的设置。参见 [`from_config()`](#from_config())。
 
-### get_weights()
+#### get_weights()
 
 返回优化器的当前参数。
 
-### minimize()
+#### minimize()
 
-### set_weights()
+#### set_weights()
 
 设置优化器的参数。
 
-## SGD
+### SGD
 
 梯度下降优化器。
 
@@ -1392,7 +1438,7 @@ tf.keras.optimizers.SGD(
 # name            
 ```
 
-# regularizers
+## regularizers
 
 ```python
 model = models.Sequential()
@@ -1404,9 +1450,9 @@ activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 ```
 
-# utils
+## utils
 
-## array_to_img()
+### array_to_img()
 
 将 NumPy 数组转换为 PIL 图像实例。
 
@@ -1419,7 +1465,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 >>> img.show()
 ```
 
-## get_file()
+### get_file()
 
 从指定 URL 下载一个文件，如果其不在缓存中。返回到下载的文件的路径。
 
@@ -1442,7 +1488,7 @@ path_to_downloaded_file = tf.keras.utils.get_file(
     untar=True)
 ```
 
-## image_dataset_from_directory()
+### image_dataset_from_directory()
 
 从目录中的图像文件生成一个 `tf.data.Dataset` 实例。
 
@@ -1456,7 +1502,7 @@ tf.keras.utils.image_dataset_from_directory(
 )
 ```
 
-## img_to_array()
+### img_to_array()
 
 将 PIL 图像实例转换为 NumPy 数组。
 
@@ -1469,4 +1515,3 @@ tf.keras.utils.image_dataset_from_directory(
 >>> img.show()
 >>> array = tf.keras.preprocessing.image.img_to_array(img)
 ```
-

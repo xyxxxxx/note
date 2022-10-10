@@ -297,21 +297,27 @@ chown(path, uid, gid, *, dir_fd=None, follow_symlinks=True)
 
 返回当前工作目录的路径。
 
+### link()
+
 ```python
->>> os.getcwd()
-'/Users/xyx'
+link(src, dst, *, src_dir_fd=None, dst_dir_fd=None, follow_symlinks=True)
 ```
 
-### link()
+创建一个指向 *src* 的名为 *dst* 硬链接。
+
+本函数支持指定 *src_dir_fd* 和/或 *dst_dir_fd* 为基于目录描述符的相对路径，支持不跟踪符号链接。
 
 ### listdir()
 
-返回指定目录下各项目名称组成的列表，该列表按任意顺序排列，且不包括特殊项目 `.` 和 `..`。
-
 ```python
->>> os.listdir()
-['dir1', 'dir2', 'file1', 'file2']
+listdir(path='.')
 ```
+
+返回 *path* 目录下各条目名称组成的列表。该列表按任意顺序排列，并且不包括特殊条目 `.` 和 `..`。如果在调用此函数期间有文件在从目录中被移除或被添加到目录中，是否包含该文件的名称并没有规定。
+
+*path* 可以是类路径对象。如果 *path* 是（直接传入或通过 `PathLike` 接口间接传入）`bytes` 类型，则返回的文件名也是 `bytes` 类型，在其他情况下是 `str` 类型。
+
+本函数也支持指定文件描述符，该描述符必须指向目录。
 
 ### makedirs()
 

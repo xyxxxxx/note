@@ -1,6 +1,8 @@
+# TensorFlow 简单示例
+
 | 类型                                                 | 数据类型                              | 结构                     |               |
 | ---------------------------------------------------- | ------------------------------------- | ------------------------ | ------------- |
-| CV/NLP/TS: classify/regression/generation            | database/image/language/series        | FNN, CNN, RNN, embedding |               |
+| CV/NLP/TS: classify/regression/generation            | structured/image/language/series      | FNN, CNN, RNN, embedding |               |
 | **损失函数**                                         | **评价指标**                          | **优化器**               | **回调**      |
 | mse/binary crossentropy/categorical crossentropy/ctc | accuracy, precision, recall, mae, mse | adam, RMSprop,           | EarlyStopping |
 | **训练集规模**                                       | **验证集规模**                        | **测试集规模**           |               |
@@ -28,7 +30,7 @@
 # visualize
 ```
 
-| Problem type                            | Last-layer activation | Loss function                  |
+| Task type                               | Last-layer activation | Loss function                  |
 | --------------------------------------- | --------------------- | ------------------------------ |
 | Binary classification                   | `sigmoid`             | `binary_crossentropy`          |
 | Multiclass, single-label classification | `softmax`             | `categorical_crossentropy`     |
@@ -36,16 +38,16 @@
 | Regression to arbitrary values          | None                  | `mse`                          |
 | Regression to values between 0 and 1    | `sigmoid`             | `mse` or `binary_crossentropy` |
 
-# 预测燃油效率
+## 预测燃油效率
 
 | 类型         | 数据类型     | 结构           |               |
 | ------------ | ------------ | -------------- | ------------- |
-| regression   | database     | FNN            |               |
+| regression   | structured   | FNN            |               |
 | **损失函数** | **评价指标** | **优化器**     | **回调**      |
 | mse          | mae, mse     | RMSprop(0.001) | EarlyStopping |
 
 ```python
-test_prediction = model.predict(test_x).flatten()import pathlib
+import pathlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -209,7 +211,7 @@ for i in range(k):
 1. 使用训练集训练模型的过程中，监视验证集在每个 `epoch` 的损失函数，若此函数在连续几个 `epoch` 中没有改善，则停止训练模型
 2. 使用训练集训练模型的过程中，监视验证集在每个 `epoch` 的损失函数，若此函数在连续几个 `epoch` 中没有改善，则记录最优的超参数 `epochs` 的值，将验证集并入训练集，使用该超参数重新训练
 
-# 识别图片中的服装类型
+## 识别图片中的服装类型
 
 | 类型         | 数据类型     | 结构       |          |
 | ------------ | ------------ | ---------- | -------- |
@@ -337,7 +339,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-# MNIST
+## MNIST
 
 | 类型         | 数据类型     | 结构       |          |
 | ------------ | ------------ | ---------- | -------- |
@@ -437,7 +439,7 @@ results = model.evaluate(test_images, test_labels, verbose=2)
 test_prediction = model.predict(test_images)
 ```
 
-# CIFAR-10
+## CIFAR-10
 
 | 类型         | 数据类型     | 结构       |          |
 | ------------ | ------------ | ---------- | -------- |
@@ -630,7 +632,7 @@ plt.legend(loc='lower right')
 plt.show()
 ```
 
-# 将影评的态度分类
+## 将影评的态度分类
 
 | 类型                | 数据类型     | 结构           |          |
 | ------------------- | ------------ | -------------- | -------- |
@@ -740,7 +742,7 @@ plt.show()
 
 出现过拟合。
 
-# 将影评的态度分类：原始数据处理与嵌入模块
+## 将影评的态度分类：原始数据处理与嵌入模块
 
 | 类型                | 数据类型     | 结构           |          |
 | ------------------- | ------------ | -------------- | -------- |
@@ -878,7 +880,7 @@ plt.legend()
 plt.show()
 ```
 
-# 生成莎士比亚风格的剧本
+## 生成莎士比亚风格的剧本
 
 ```python
 import tensorflow as tf
@@ -921,15 +923,15 @@ for i, sentence in enumerate(sentences):
 
 ```
 
-# 天气预报
+## 天气预报
 
 > https://www.tensorflow.org/tutorials/structured_data/time_series
 
-| 类型           | 数据类型         | 结构           |          |
-| -------------- | ---------------- | -------------- | -------- |
-| TS: generation | database, series | FNN, CNN, RNN, |          |
-| **损失函数**   | **评价指标**     | **优化器**     | **回调** |
-|                |                  |                |          |
+| 类型           | 数据类型           | 结构           |          |
+| -------------- | ------------------ | -------------- | -------- |
+| TS: generation | structured, series | FNN, CNN, RNN, |          |
+| **损失函数**   | **评价指标**       | **优化器**     | **回调** |
+|                |                    |                |          |
 
 ```python
 import os

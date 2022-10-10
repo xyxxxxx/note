@@ -100,10 +100,13 @@ tensor([[[[3.4444, 4.8889, 4.5000],
 
 ### elu()
 
-ELU 激活函数。
+指数线性单元。
 
 $$
-{\rm ELU}(x)=\max(0,x)+\min(0,\alpha(e^x-1))
+\begin{aligned}
+{\rm elu}(x) & =\max(0,x)+\min(0,\alpha(e^x-1))\\
+& =\begin{cases}x,& x\ge0\\\alpha(e^x-1),&x<0 \end{cases}
+\end{aligned}
 $$
 
 ```python
@@ -122,11 +125,18 @@ tensor([ 0.4309, -0.9005,  1.2376,  1.2595])
 
 ### leaky_relu()
 
-Leaky ReLU 激活函数。
+带泄露修正线性单元。
 
 $$
-{\rm LeakyReLU}(x)=\max(0,x)+{\rm negative\_slope*\min(0,x)}
+\begin{aligned}
+{\rm leaky\_relu}(x) & =\max(0,x)+\lambda\min(0,x)\\
+& =\begin{cases}x,& x\ge0\\\lambda x,&x<0 \end{cases}
+\end{aligned}
 $$
+
+```python
+torch.nn.functional.leaky_relu(input, negative_slope=0.01, inplace=False)
+```
 
 ```python
 >>> input = torch.randn(4)
@@ -140,10 +150,13 @@ tensor([-0.0067,  0.3839,  0.7086, -0.0093])
 
 ### relu()
 
-ReLU 激活函数。见 `torch.nn.ReLU`。
+修正线性单元。见 `torch.nn.ReLU`。
 
 $$
-{\rm ReLU}(x)=\max(0,x)
+\begin{aligned}
+{\rm relu}(x) & =\max(0,x)\\
+& =\begin{cases}x,& x\ge0\\0,&x<0 \end{cases}
+\end{aligned}
 $$
 
 ```python
@@ -159,8 +172,9 @@ tensor([0.0000, 0.0423, 0.0000, 0.0784])
 ### sigmoid()
 
 Sigmoid 激活函数（实际上是 Logistic 激活函数）。见 `torch.nn.Sigmoid`、`torch.sigmoid`、`torch.special.expit`。
+
 $$
-f(x)=\frac{1}{1+e^{-x}}
+{\rm sigmoid}(x)=\frac{1}{1+e^{-x}}
 $$
 
 ```python
@@ -171,11 +185,16 @@ tensor([-0.0796, -0.5545,  1.6273, -1.3333])
 tensor([0.4801, 0.3648, 0.8358, 0.2086])
 ```
 
-> `nn.functional.sigmoid` is deprecated. Use `torch.sigmoid` instead.
+!!! warning "警告"
+    `nn.functional.sigmoid` is deprecated. Use `torch.sigmoid` instead.
 
 ### softmax()
 
-softmax 回归。
+Softmax 回归。
+
+$$
+{\rm softmax}(x_k)=\frac{e^{x_k}}{\sum e^{x_i}}
+$$
 
 ```python
 >>> input = torch.arange(5.)
@@ -193,11 +212,7 @@ tensor([[0.1728, 0.1910, 0.2111, 0.4251],
 
 ### tanh()
 
-tanh 激活函数。
-
-!!! warning "警告"
-
-    `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
+双曲正切函数。
 
 ```python
 >>> input = torch.randn(4)
@@ -206,6 +221,9 @@ tensor([ 0.7553,  1.6975, -0.0451,  0.3348])
 >>> F.tanh(input)
 tensor([ 0.6383,  0.9351, -0.0451,  0.3228])
 ```
+
+!!! warning "警告"
+    `nn.functional.tanh` is deprecated. Use `torch.tanh` instead.
 
 ## 稀疏函数
 

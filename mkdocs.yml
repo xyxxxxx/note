@@ -219,7 +219,7 @@ nav:
       - "urllib.request——用于打开 URL 的可扩展库": python/standard-library/urllib.request.md
       - "uuid——RFC 4122 定义的 UUID 对象": python/standard-library/uuid.md
       - "weakref——弱引用": python/standard-library/weakref.md
-      - "zipfile——使用 ZIP 存档": python/standard-library/zip.md
+      - "zipfile——使用 ZIP 存档": python/standard-library/zipfile.md
     - 常用库:
       - python/common-library/index.md
       - "BeautifulSoup": python/common-library/beautifulsoup.md
@@ -229,7 +229,7 @@ nav:
       - "PyYAML (yaml)": python/common-library/pyyaml.md
       - "requests": python/common-library/requests.md
       - "rich": python/common-library/rich.md
-      - "websocket-client (websocket)": python/common-library/websocket.md
+      - "websocket-client (websocket)": python/common-library/websocket-client.md
     - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
@@ -248,6 +248,23 @@ nav:
       - matplotlib:
         - ml/platform-and-tool/matplotlib/index.md
         - 示例: ml/platform-and-tool/matplotlib/example.md
+      - TensorFlow:
+        - ml/platform-and-tool/tensorflow/index.md
+        - TensorFlow: ml/platform-and-tool/tensorflow/tensorflow.md
+        - "API: tf": ml/platform-and-tool/tensorflow/api-tf.md
+        - "API: tf.config": ml/platform-and-tool/tensorflow/api-config.md
+        - "API: tf.data": ml/platform-and-tool/tensorflow/api-data.md
+        - "API: tf.distribute": ml/platform-and-tool/tensorflow/api-distribute.md
+        - "API: tf.image": ml/platform-and-tool/tensorflow/api-image.md
+        - "API: tf.keras": ml/platform-and-tool/tensorflow/api-keras.md
+        - "API: tf.linalg": ml/platform-and-tool/tensorflow/api-linalg.md
+        - "API: tf.math": ml/platform-and-tool/tensorflow/api-math.md
+        - "API: tf.random": ml/platform-and-tool/tensorflow/api-random.md
+        - "API: tf.signal": ml/platform-and-tool/tensorflow/api-signal.md
+        - "API: tf.sparse": ml/platform-and-tool/tensorflow/api-sparse.md
+        - "API: tf.strings": ml/platform-and-tool/tensorflow/api-strings.md
+        - "API: tf.train": ml/platform-and-tool/tensorflow/api-train.md
+        - "API: tfds": ml/platform-and-tool/tensorflow/api-tfds.md
       - PyTorch:
         - ml/platform-and-tool/pytorch/index.md
         - PyTorch: ml/platform-and-tool/pytorch/pytorch.md
@@ -269,6 +286,7 @@ nav:
         - "API: torch.utils.tensorboard": ml/platform-and-tool/pytorch/api-utils-tensorboard.md
         - Lightning: ml/platform-and-tool/pytorch/lightning.md
         - "API: lightning": ml/platform-and-tool/pytorch/api-lightning.md
+      - horovod: ml/platform-and-tool/horovod.md
       - nni:
         - ml/platform-and-tool/nni/index.md
         - 调参器: ml/platform-and-tool/nni/tuner.md
