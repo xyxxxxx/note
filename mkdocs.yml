@@ -189,7 +189,7 @@ nav:
       - "keyword——检验 Python 关键字": python/standard-library/keyword.md
       - "marshal——内部 Python 对象序列化": python/standard-library/marshal.md
       - "math——数学函数": python/standard-library/math.md
-      - "multiprocessing——基于进程的并行": python/standard-library/multiprocess.md
+      - "multiprocessing——基于进程的并行": python/standard-library/multiprocessing.md
       - "operator——标准运算符替代函数": python/standard-library/operator.md
       - "os——多种操作系统接口": python/standard-library/os.md
       - "os.path——常用路径操作": python/standard-library/os.path.md

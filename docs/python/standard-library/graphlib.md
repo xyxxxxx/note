@@ -31,7 +31,7 @@ class graphlib.TopologicalSorter(graph=None)
 ### add()
 
 ```python
-add(node, *predecessors)
+graphlib.add(node, *predecessors)
 ```
 
 将一个新节点及其上级节点添加到图中。*node* 以及 *predecessors* 中的所有元素都必须为可哈希对象。

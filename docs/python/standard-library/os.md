@@ -63,7 +63,7 @@ os.getenv(key, default=None)
 
 返回父进程 ID。当父进程已经退出，在 Unix 上返回的 ID 是初始进程(1)中的一个，在 Windows 上仍然是同一个进程 ID，该进程 ID 可能已经被另一个进程所重用。
 
-可用性: Unix, Windows。
+可用性：Unix，Windows。
 
 ### getuid()
 
@@ -167,7 +167,7 @@ os.isatty(fd)
 
 创建一个管道，返回一对分别用于读取和写入的文件描述符 `(r, w)`。新的文件描述符是不可继承的。
 
-可用性: Unix, Windows。
+可用性：Unix，Windows。
 
 ### pread()
 
@@ -233,7 +233,7 @@ access(path, mode, *, dir_fd=None, effective_ids=False, follow_symlinks=True)
 
 使用实际用户 ID 或用户组ID 测试对 *path* 的访问。
 
-本函数支持指定基于目录描述符的相对路径和不跟踪符号链接。
+此函数支持指定基于目录描述符的相对路径和不跟踪符号链接。
 
 ### F_OK, R_OK, W_OK, X_OK
 
@@ -247,9 +247,9 @@ chdir(path)
 
 切换当前工作目录为 *path*。
 
-本函数支持指定文件描述符为参数。其中描述符必须指向打开的目录，不能是打开的文件。
+此函数支持指定文件描述符。其中描述符必须指向打开的目录，不能是打开的文件。
 
-本函数可以引发 `OSError` 及其子类的异常，如 `FileNotFoundError`、`PermissionError` 和 `NotADirectoryError`。
+此函数可以引发 `OSError` 及其子类的异常，如 `FileNotFoundError`、`PermissionError` 和 `NotADirectoryError`。
 
 ### chmod()
 
@@ -279,7 +279,7 @@ chmod(path, mode, *, dir_fd=None, follow_symlinks=True)
 * stat.S_IWOTH
 * stat.S_IXOTH
 
-本函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
+此函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
 
 ### chown()
 
@@ -289,7 +289,7 @@ chown(path, uid, gid, *, dir_fd=None, follow_symlinks=True)
 
 将 *path* 的用户和组 ID 分别修改为数字形式的 *uid* 和 *gid*。若要使其中某个 ID 保持不变，将其置为 -1。
 
-本函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
+此函数支持指定文件描述符、指定基于目录描述符的相对路径和不跟踪符号链接。
 
 参见更高阶的函数 `shutil.chown()`，除了数字 ID 之外，它还接受名称。
 
@@ -305,7 +305,9 @@ link(src, dst, *, src_dir_fd=None, dst_dir_fd=None, follow_symlinks=True)
 
 创建一个指向 *src* 的名为 *dst* 硬链接。
 
-本函数支持指定 *src_dir_fd* 和/或 *dst_dir_fd* 为基于目录描述符的相对路径，支持不跟踪符号链接。
+此函数支持指定 *src_dir_fd* 和/或 *dst_dir_fd* 为基于目录描述符的相对路径，支持不跟踪符号链接。
+
+可用性：Unix，Windows。
 
 ### listdir()
 
@@ -317,7 +319,7 @@ listdir(path='.')
 
 *path* 可以是类路径对象。如果 *path* 是（直接传入或通过 `PathLike` 接口间接传入）`bytes` 类型，则返回的文件名也是 `bytes` 类型，在其他情况下是 `str` 类型。
 
-本函数也支持指定文件描述符，该描述符必须指向目录。
+此函数也支持指定文件描述符，该描述符必须指向目录。
 
 ### makedirs()
 
@@ -327,9 +329,9 @@ os.makedirs(name, mode=0o777, exist_ok=False)
 
 递归地创建目录。与 `mkdir()` 类似，但会自动创建到达最后一级目录所需要的中间目录。
 
-*mode* 参数会传递给 `mkdir()`，用来创建最后一级目录，对于该参数的解释请参阅 `mkdir()` 中的描述。要设置某些新建的父目录的权限，可以在调用 `makedirs()` 之前设置 umask。现有父目录的权限不会更改。
+*mode* 参数会被传递给 `mkdir()`，用来创建最后一级目录，对于该参数的解释请参阅 `mkdir()` 中的描述。要设置某些新建的父目录的权限，可以在调用 `makedirs()` 之前设置 umask。现有父目录的权限不会更改。
 
-如果 *exist_ok* 为 False 且目标目录已存在，则引发 `FileExistsError`。
+如果 *exist_ok* 为 `False` 且目标目录已存在，则引发 `FileExistsError`。
 
 ### mkdir()
 
@@ -341,9 +343,9 @@ os.mkdir(path, mode=0o777, *, dir_fd=None)
 
 如果目录已存在，则引发 `FileExistsError` 异常。
 
-本函数支持基于目录描述符的相对路径。
+此函数支持基于目录描述符的相对路径。
 
-要创建临时目录，请使用 `tempfile` 模块的 `tempfile.mkdtemp()` 函数；要递归地创建目录（一次性创建多级目录），请使用 `makedirs()`。
+如果要创建临时目录，请使用 `tempfile` 模块的 `tempfile.mkdtemp()` 函数；如果要递归地创建目录（一次性创建多级目录），请使用 `makedirs()`。
 
 ### readlink()
 
@@ -355,7 +357,7 @@ os.readlink(path, *, dir_fd=None)
 
 如果 *path* 是字符串对象（直接或通过 `PathLike` 接口间接传入），则结果也是字符串对象，并且此调用可能引发 `UnicodeDecodeError`。如果 *path* 是字节对象（直接或间接传入），则结果也是字节对象。
 
-本函数支持基于目录描述符的相对路径。
+此函数支持基于目录描述符的相对路径。
 
 当符号链接可能指向另一个符号链接时，请改用 `realpath()` 以正确处理递归和平台差异。
 
@@ -370,7 +372,7 @@ os.readlink(path, *, dir_fd=None)
 '/Users/xyx/Codes/test/file'
 ```
 
-可用性: Unix, Windows。
+可用性：Unix，Windows。
 
 ### remove()
 
@@ -382,6 +384,12 @@ os.remove(path, *, dir_fd=None)
 
 ### removedirs()
 
+```python
+os.removedirs(path)
+```
+
+递归地删除目录。工作方式类似于 `rmdir()`，但不同之处在于，如果成功删除了末尾一级目录，`removedirs()` 会尝试依次删除 *path* 中提及的每个父目录，直到抛出错误为止（但该错误会被忽略，因为这通常表示父目录不是空目录）。例如，`os.removedirs('foo/bar/baz')` 将首先删除目录 `'foo/bar/baz'`，然后如果 `'foo/bar'` 和 `'foo'` 为空，则继续删除它们。如果无法成功删除末尾一级目录，则引发 `OSError`。
+
 ### rename()
 
 ```python
@@ -390,8 +398,18 @@ os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
 
 将文件或目录 *src* 重命名为 *dst*。若 *dst* 已存在，则下列情况下操作将会失败，并引发 `OSError` 的子类：
 
-* 在 Windows 上，引发 `FileExistsError` 异常
-* 在 Unix 上，若 *src* 是文件而 *dst* 是目录，将抛出 `IsADirectoryError` 异常，反之则抛出 `NotADirectoryError` 异常；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则抛出 `OSError` 异常；若两者都是文件，则在用户具有权限的情况下，将对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
+* 在 Windows 上，引发 `FileExistsError`。
+* 在 Unix 上，若 *src* 是文件而 *dst* 是目录，则引发 `IsADirectoryError`，否则引发 `NotADirectoryError`；若两者都是目录且 *dst* 为空，则 *dst* 将被静默替换；若 *dst* 是非空目录，则引发 `OSError`；若两者都是文件，则在用户具有权限的情况下，对 *dst* 进行静默替换；若 *src* 和 *dst* 在不同的文件系统上，则本操作在某些 Unix 分支上可能会失败。
+
+此函数支持指定 *src_dir_fd* 和/或 *dst_dir_fd* 为基于目录描述符的相对路径。
+
+## renames()
+
+```python
+os.renames(old, new)
+```
+
+递归地重命名目录或文件。工作方式类似于 `rename()`，除了会首先创建新路径所需的中间目录。重命名之后，将调用 `removedirs()` 删除旧路径中不再需要的目录。
 
 ### rmdir()
 
@@ -401,7 +419,204 @@ os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
 >>> os.rmdir('dir1')
 ```
 
+### scandir()
+
+```python
+os.scandir(path='.')
+```
+
+返回对应于 *path* 目录下各条目的 `os.DirEntry` 对象的迭代器。这些条目按任意顺序排列，并且不包括特殊条目 `.` 和 `..`。如果在迭代器创建之后有文件在从目录中被移除或被添加到目录中，是否包含该文件对应的条目并没有规定。
+
+如果需要文件类型或文件属性信息，使用 `scandir()` 代替 `listdir()` 可以大大提高这部分代码的性能，因为 `os.DirEntry` 对象公开了这些信息，如果操作系统在扫描目录的过程中提供了它。`os.DirEntry` 的所有方法都要执行一次系统调用，除了 `is_dir()` 和 `is_file()` 通常只对于符号链接才执行一次系统调用；`os.DirEntry.stat()` 在 Unix 上总是需要一次系统调用，而在 Windows 上只对于符号链接才需要。
+
+*path* 可以是类路径对象。如果 *path* 是（直接传入或通过 `PathLike` 接口间接传入）`bytes` 类型，则返回的文件名也是 `bytes` 类型，在其他情况下是 `str` 类型。
+
+此函数也支持指定文件描述符，该描述符必须指向目录。
+
+此函数返回的迭代器支持上下文管理器协议，并具有以下方法：
+
+**close()**
+
+关闭迭代器并释放占用的资源。
+
+当迭代器迭代完毕，或垃圾回收，或迭代过程出错时，将自动调用此方法。但仍建议显式调用它或使用 `with` 语句。
+
+```python
+with os.scandir(path) as it:
+    for entry in it:
+        if not entry.name.startswith('.') and entry.is_file():
+            print(entry.name)    # `entry.is_file()`通常不会执行一次系统调用
+```
+
+### DirEntry
+
+由 `scandir()` 产出的对象，用于公开目录下某个条目的文件路径和其他文件属性。
+
+`scandir()` 将在不执行额外的系统调用的条件下，提供尽可能多的此类信息。每次执行 `stat()` 或 `lstat()` 系统调用时，`os.DirEntry` 对象会缓存其结果。
+
+`os.DirEntry` 实例不适合存储在长期存在的数据结构中；如果你知道文件的元数据已经更改，或者自从调用 `scandir()` 已经经过了很长时间，应调用 `os.stat(entry.path)` 以获取最新信息。
+
+因为 `os.DirEntry` 的方法可以执行系统调用，所以它们也可能引发 `OSError`。如需精确定位错误，可以在调用 `os.DirEntry` 的方法时捕获 `OSError`，并进行适当的处理。
+
+为了可以直接用作类路径对象，`os.DirEntry` 实现了 `PathLike` 接口。
+
+#### name
+
+条目的基本文件名，相对于 `scandir()` 的 *path* 参数。
+
+如果 `scandir()` 的 *path* 参数是 `bytes` 类型，则 `name` 属性也是 `bytes` 类型，否则为 `str` 类型。使用 `fsdecode()` 来解码字节文件名。
+
+#### path
+
+条目的完整路径：等同于 `os.path.join(scandir_path, entry.name)`，其中 `scandir_path` 为 `scandir()` 的 *path* 参数。仅当 `scandir()` 的 *path* 参数为绝对路径时，本路径为绝对路径。如果 `scandir()` 的 *path* 参数是文件描述符，则 `path` 属性与 `name` 属性相同。
+
+如果 `scandir()` 的 *path* 参数是 `bytes` 类型，则 `path` 属性也是 `bytes` 类型，否则为 `str` 类型。使用 `fsdecode()` 来解码字节文件名。
+
+#### inode()
+
+返回条目的 inode number。
+
+该结果缓存在 `os.DirEntry` 对象中。调用 `os.stat(entry.path, follow_symlinks=False).st_ino` 以获取最新信息。
+
+第一次调用此方法并且没有缓存时，在 Windows 上需要一次系统调用，但在 Unix 上不需要。
+
+#### is_dir()
+
+```python
+is_dir(*, follow_symlinks=True)
+```
+
+如果条目是目录或指向目录的符号链接，则返回 `True`；如果条目是或指向任何其他类型的文件，或条目不再存在，则返回 `False`。
+
+如果 *follow_symlinks* 为 `False`，则仅当条目为目录时返回 `True`（不跟踪符号链接）。
+
+该结果缓存在 `os.DirEntry` 对象中，且对于 *follow_symlinks* 为 `True` 和 `False` 的缓存是分开的。调用 `os.stat()` 和 `stat.S_ISDIR()` 以获取最新信息。
+
+第一次调用此方法并且没有缓存时，在大多数情况下不需要系统调用。特别是对于非符号链接，Windows 和 Unix 都不需要系统调用，除非某些 Unix 文件系统（如网络文件系统）返回了 `dirent.d_type == DT_UNKNOWN`。如果条目是符号链接，则需要一次系统调用来跟踪它（除非 *follow_symlinks* 为 `False`）。
+
+此方法可能引发 `OSError`，如 `PermissionError`，但 `FileNotFoundError` 会被内部捕获因而不会引发。
+
+#### is_file()
+
+```python
+is_file(*, follow_symlinks=True)
+```
+
+如果条目是文件或指向文件的符号链接，则返回 `True`；如果条目是或指向目录或其他非文件条目，或条目不再存在，则返回 `False`。
+
+如果 *follow_symlinks* 是 `False`，则仅当条目为文件时返回 `True`（不跟踪符号链接）。
+
+缓存、系统调用、异常引发都与 `is_dir()` 相同。
+
+#### is_symlink()
+
+如果条目是符号链接（即使是断开的链接），返回 `True`；如果条目是目录或任何类型的文件，或条目不再存在，则返回 `False`。
+
+该结果缓存在 `os.DirEntry` 对象中。调用 `os.path.islink()` 以获取最新信息。
+
+第一次调用此方法并且没有缓存时，在大多数情况下不需要系统调用。Windows 和 Unix 都不需要系统调用，除非某些 Unix 文件系统（如网络文件系统）返回了 `dirent.d_type == DT_UNKNOWN`。
+
+此方法可能引发 `OSError`，如 `PermissionError`，但 `FileNotFoundError` 会被内部捕获因而不会引发。
+
+#### stat()
+
 ### stat()
+
+```python
+os.stat(path, *, dir_fd=None, follow_symlinks=True)
+```
+
+获取文件或文件描述符的状态。在给定路径上执行等效于 `stat()` 系统调用的操作。*path* 可以是 `str` 类型，或`bytes` 类型（直接或通过 `PathLike` 接口间接传入），或打开的文件描述符。返回一个 `stat_result` 对象。
+
+此函数默认会跟踪符号链接；如要获取符号链接本身的状态，添加 `follow_symlinks=False` 参数，或使用 `lstat()`。
+
+此函数支持指定文件描述符和不跟踪符号链接。
+
+在 Windows 上，……
+
+```python
+>>> statinfo = os.stat('somefile.txt')
+>>> statinfo
+os.stat_result(st_mode=33188, st_ino=7876932, st_dev=234881026,
+st_nlink=1, st_uid=501, st_gid=501, st_size=264, st_atime=1297230295,
+st_mtime=1297230027, st_ctime=1297230027)
+>>> statinfo.st_size
+264
+```
+
+#### stat_result
+
+此对象的属性大致对应于 `stat` 结构体的成员，用作 `os.stat()`、`os.fstat()` 和 `os.lstat()` 的返回结果。
+
+属性：
+
+**st_mode**
+
+文件模式：文件类型和文件模式位（即权限位）。
+
+**st_ino**
+
+取决于平台，但如果不为零，则对于给定的 `st_dev` 值唯一地标识文件。通常：
+
+* 在 Unix 上表示 inode number。
+* 在 Windows 上表示文件索引号。
+
+**st_dev**
+
+文件所在设备的标识符。
+
+**st_nlink**
+
+硬链接的数量。
+
+**st_uid**
+
+文件所有者的用户 ID。
+
+**st_gid**
+
+文件所有者的组 ID。
+
+**st_size**
+
+文件大小（以字节为单位），如果文件是常规文件或符号链接。符号链接的大小是它包含的路径的长度，不包括末尾的空字节。
+
+时间戳：
+
+**st_atime**
+
+最近访问时间，以秒为单位。
+
+**st_mtime**
+
+最近修改时间，以秒为单位。
+
+**st_ctime**
+
+取决于平台：
+
+* 在 Unix 上表示最近的元数据更改时间。
+* 在 Windows 上表示创建时间，以秒为单位。
+
+**st_atime_ns**
+
+最近访问时间，以纳秒为单位，为整数。
+
+**st_mtime_ns**
+
+最近修改时间，以纳秒为单位，为整数。
+
+**st_ctime_ns**
+
+取决于平台：
+
+* 在 Unix 上表示最近的元数据更改时间。
+* 在 Windows 上表示创建时间，以纳秒为单位，为整数。
+
+!!! note "注意"
+    `st_atime`、`st_mtime` 和 `st_ctime` 属性的确切含义和分辨率取决于操作系统和文件系统。例如，在使用 FAT 或 FAT32 文件系统的 Windows 上，`st_mtime` 有 2 秒的分辨率，而 `st_atime` 仅有 1 天的分辨率。详细信息请参阅操作系统文档。
+
+    类似地，尽管 `st_atime_ns`、`st_mtime_ns` 和 `st_ctime_ns` 始终以纳秒表示，但许多系统并不提供纳秒精度。在确实提供纳秒精度的系统上，用于存储 `st_atime`、`st_mtime` 和 `st_ctime` 的浮点对象无法保留所有精度，因此不够精确。如果需要确切的时间戳，则应始终使用 `st_atime_ns`、`st_mtime_ns` 和 `st_ctime_ns`。
 
 ### symlink()
 
@@ -411,7 +626,7 @@ os.symlink(src, dst, target_is_directory=False, *, dir_fd=None)
 
 创建一个指向 *src* 的名为 *dst* 的符号链接。
 
-本函数支持基于目录描述符的相对路径。
+此函数支持基于目录描述符的相对路径。
 
 可用性：Unix，Windows。
 
@@ -529,7 +744,7 @@ os.kill(pid, sig)
 waitpid(pid, options)
 ```
 
-本函数的细节在 Unix 和 Windows 上有所不同。
+此函数的细节在 Unix 和 Windows 上有所不同。
 
 在 Unix 上：等待进程号为 *pid* 的子进程执行完毕，返回一个元组，包含其进程 ID 和退出状态指示（编码与 `wait()` 相同）。调用的语义受整数 *options* 的影响，常规操作下该值应为 `0`。
 
