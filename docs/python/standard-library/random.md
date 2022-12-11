@@ -48,7 +48,7 @@ random.randrange(stop)
 random.randrange(start, stop[, step])
 ```
 
-从 `range(0,stop)` 或 `range(start,stop,step)` 返回一个随机选择的元素。
+从 `range(0, stop)` 或 `range(start, stop, step)` 返回一个随机选择的元素。
 
 ### randint()
 

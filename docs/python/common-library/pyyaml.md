@@ -8,19 +8,19 @@ PyYAML 是一个 YAML 编码和解码器，使用方法类似于标准库的 jso
 
 出于[安全上的原因](https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation)，调用此函数时需要传入 `Loader` 参数，目前该参数有以下选项：
 
-+ `BaseLoader`
+* `BaseLoader`
 
   仅加载最基本的 YAML，所有的数字都会被加载为字符串。
 
-+ `SafeLoader`
+* `SafeLoader`
 
   安全地加载 YAML 语言的一个子集，是加载不被信任的数据时的推荐选项。对应于快捷函数 `yaml.safe_load()`。
 
-+ `FullLoader`
+* `FullLoader`
 
   加载完整的 YAML 语言，是当前的默认选项。存在明显的漏洞，暂时不要加载不被信任的数据。对应于快捷函数 `yaml.full_load()`。
 
-+ `UnsafeLoader`
+* `UnsafeLoader`
 
   最初的 `Loader` 实现，可以轻易地被不被信任的数据输入利用。对应于快捷函数 `yaml.unsafe_load()`。
 

@@ -233,6 +233,15 @@ nav:
     - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
+    - 自然语言处理:
+      - ml/nlp/index.md
+      - 文本处理: ml/nlp/text-processing.md
+      - 语言模型: ml/nlp/language-model.md
+      - 朴素贝叶斯和情感分类: ml/nlp/sentiment-classification.md
+      - 逻辑回归: ml/nlp/logistic-regression.md
+      - 嵌入: ml/nlp/embedding.md
+      - 神经网络: ml/nlp/neural-network.md
+      - 词性标注和命名实体检测: ml/nlp/part-of-speech-tagging.md
     - 分布式训练:
       - ml/distributed/index.md
     - 平台和工具:

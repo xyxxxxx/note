@@ -1,12 +1,8 @@
-from multiprocessing import Process, Pipe
+import websocket
 
-def f(conn):
-    conn.send([42, None, 'hello'])
-    conn.close()
-
-if __name__ == '__main__':
-    parent_conn, child_conn = Pipe()
-    p = Process(target=f, args=(child_conn,))
-    p.start()
-    print(parent_conn.recv())   # [42, None, 'hello']
-    p.join()
+websocket.enableTrace(True)
+ws = websocket.WebSocket()
+ws.connect("ws://echo.websocket.events/", origin="testing_websockets.com")
+ws.send("Hello, Server")
+print(ws.recv())
+ws.close()

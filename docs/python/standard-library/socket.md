@@ -34,9 +34,9 @@ socket.create_connection(address[, timeout[, source_address]])
 
 连接到一个 TCP 服务，该服务正在侦听 Internet *address* （用二元组 `(host, port)` 表示）。连接后返回套接字对象。这是比 `socket.connect()` 更高级的函数：如果 *host* 是非数字主机名，它将尝试从 `AF_INET` 和 `AF_INET6` 解析它，然后依次尝试连接到所有可能的地址，直到连接成功。这使得编写兼容 IPv4 和 IPv6 的客户端变得容易。
 
-传入可选参数 *timeout* 可以在套接字实例上设置超时（在尝试连接前）。如果未提供 *timeout*，则使用由 getdefaulttimeout() 返回的全局默认超时设置。
+传入可选参数 *timeout* 可以在套接字实例上设置超时（在尝试连接前）。如果未提供 *timeout*，则使用由 `getdefaulttimeout()` 返回的全局默认超时设置。
 
-如果提供了 *source_address*，它必须是二元组 `(host, port)`，以便套接字在连接之前绑定为其源地址。如果 host 或 port 分别为 '' 或 0，则使用操作系统默认行为。
+如果提供了 *source_address*，它必须是二元组 `(host, port)`，以便套接字在连接之前绑定为其源地址。如果 *host* 或 *port* 分别为 `''` 或 `0`，则使用操作系统默认行为。
 
 #### create_server()
 
