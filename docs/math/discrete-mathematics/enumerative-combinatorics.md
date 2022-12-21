@@ -1,9 +1,8 @@
 # 组合数学
 
-> 参考：
->
-> * 《离散数学》(屈婉玲)
-> * [OI Wiki](https://oi-wiki.org/math/)
+!!! abstract "参考"
+    * 《离散数学》（屈婉玲）
+    * [OI Wiki](https://oi-wiki.org/math/)
 
 ## 加法原理和乘法原理
 
@@ -100,8 +99,6 @@ $$
    ![Catalan number binary tree example.png](https://upload.wikimedia.org/wikipedia/commons/0/01/Catalan_number_binary_tree_example.png) 
 
 9. Cn 表示 n 个不同的数依次进栈，不同的出栈结果种数
-
-    
 
 ### Catalan 数列
 

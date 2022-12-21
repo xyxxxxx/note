@@ -1,6 +1,8 @@
-# 命题
+# 数学逻辑
 
-## 命题与连接词
+## 命题
+
+### 命题与连接词
 
 **命题，真值，真命题，假命题，简单命题，复合命题**
 
@@ -15,7 +17,7 @@
 
 ![jgfr02gj2nfvs](C:\Users\Xiao Yuxuan\Documents\pic\jgfr02gj2nfvs.PNG)
 
-## 命题公式
+### 命题公式
 
 **命题常项，命题变项，命题公式，赋值，成真赋值，成假赋值，重言式，矛盾式，可满足式，哑元**
 
@@ -30,9 +32,9 @@
 
 含n个命题变项的公式的真值表只有 $2^{2^n}$ 种不同情况
 
-# 命题逻辑
+## 命题逻辑
 
-## 等值式
+### 等值式
 
 **等值** 命题公式A,B构成的等价式 $A\leftrightarrow B$ 为重言式，则称A与B等值，记作 $A\Leftrightarrow B$ 
 
@@ -59,7 +61,7 @@
 
 **置换规则** 设命题公式 $\Phi(A)$， $\Phi(B)$ 用B替换 $\Phi(A)$ 中的A. 若 $B\Leftrightarrow A$，则 $\Phi(A)\Leftrightarrow \Phi(B)$ 
 
-## 析取范式与合取范式
+### 析取范式与合取范式
 
 **文字** 命题变项及其否定统称为文字
 
@@ -102,7 +104,7 @@ $$
 
 n个命题变项共可产生 $2^n$ 个极小项，故可产生 $2^{2^n}$ 个主析取范式|主合取范式
 
-## 联结词的完备集
+### 联结词的完备集
 
 **n元真值函数** $F:\{0,1\}^n→\{0,1\}$ 
 
@@ -116,7 +118,7 @@ n元真值函数共有 $2^{2^n}$ 个，每个真值函数与唯一的主析取�
 
 **定理** $\{↑\},\{↓\}$ 是联结词完备集
 
-## 可满足性问题与消解法
+### 可满足性问题与消解法
 
 **空简单析取式，补**
 
@@ -130,7 +132,7 @@ n元真值函数共有 $2^{2^n}$ 个，每个真值函数与唯一的主析取�
 
 **消解的完全性定理** 如果合取范式S不可满足，则S有否证
 
-# 推理
+## 推理
 
 **推理，前提，结论**
 $$
@@ -155,7 +157,7 @@ $$
 8. $(A→B)\land (C→D) \land (A \lor C) \Rightarrow (B\lor D)$         构造性二难
 9. $(A→B)\land (C→D) \land (\urcorner B \lor \urcorner D) \Rightarrow (\urcorner A\lor \urcorner C)$ 破坏性二难
 
-# 自然推理系统P
+## 自然推理系统P
 
 **证明**
 
@@ -184,9 +186,9 @@ $$
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\kokn3i1otgrnvberwg.PNG" alt="kokn3i1otgrnvberwg" style="zoom:67%;" />
 
-# 一阶逻辑
+## 一阶逻辑
 
-## 命题符号化
+### 命题符号化
 
 **个体词，个体变项，个体常项，个体域**
 
@@ -196,7 +198,7 @@ $$
 
 <img src="C:\Users\Xiao Yuxuan\Documents\pic\13tgjfmgr2nbbjyk5oy.PNG" alt="13tgjfmgr2nbbjyk5oy" style="zoom:67%;" />
 
-## 公式
+### 公式
 
 **一阶语言，非逻辑符号，逻辑符号，项，公式**
 
@@ -228,7 +230,7 @@ $$
 >
 > 证明永真式|矛盾式：对于任意解释进行证明；证明原命题公式是重言式|矛盾式
 
-## 等值式和置换规则
+### 等值式和置换规则
 
 设A,B是一阶逻辑中任意两个公式，若 $A\leftrightarrow B$ 是永真式，则称A与B等值，记作 $A\Leftrightarrow B$ 
 
@@ -254,7 +256,7 @@ $$
 
 + 代替规则![kp13t24ygjrirtbyh](C:\Users\Xiao Yuxuan\Documents\pic\kp13t24ygjrirtbyh.PNG)
 
-## 前束范式
+### 前束范式
 
 **前束范式**
 
@@ -264,7 +266,7 @@ $$
 
 > ![jm4ytn428y5ihtnbj](C:\Users\Xiao Yuxuan\Documents\pic\jm4ytn428y5ihtnbj.PNG)
 
-## 推理理论
+### 推理理论
 
 蕴涵式 $A_1\land A_2\land \cdots\land A_k→B$ 若为永真式，则**推理正确**
 

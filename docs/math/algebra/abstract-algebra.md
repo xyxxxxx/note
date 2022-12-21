@@ -8,6 +8,7 @@
 2. S对该运算封闭
 
 **一元运算** $f:S→S$ 
+
 $$
 交换律\quad x*y=y*x\\
 结合律associative~law\quad (x*y)*z=x*(y*z)\\
@@ -20,6 +21,7 @@ $$
 逆元inverse\quad x*y=y*x=e\\
 消去律\quad x*y=x*z|y*x=z*x,x\neq \theta\Rightarrow y=z
 $$
+
 **定理** 设*为S上的二元运算， $e_l,e_r$ 分别为左单位元和右单位元，则 $e_l=e_r=e$，e为唯一的单位元
 
 **定理** 设*为S上的二元运算， $\theta_l,\theta_r$ 分别为左零元和右零元，则 $\theta_l=\theta_r=\theta$， $\theta$ 为唯一的零元
@@ -75,6 +77,7 @@ $$
 **交换群|Abel群Abelian group** 群G的二元运算可交换
 
 **幂** $a\in G$，定义
+
 $$
 a^n=\begin{cases}
 e,&n=0\\
@@ -82,9 +85,11 @@ a^{n-1}a,&n>0\\
 (a^{-1})^m,&n<0,n=-m
 \end{cases}
 $$
+
 **阶** $a\in G$ 使得等式 $a^k=e$ 成立的最小正整数k称为a的阶，称a为k阶元，记作 $|a|=k$ ；若不存在这样的k则称a为无限阶元
 
 **定理**
+
 $$
 \begin{align}
 &\forall a\in G,(a^{-1})^{-1}=a\\
@@ -95,6 +100,7 @@ $$
 
 \end{align}
 $$
+
 **消去律** 群G必然满足消去律，即 $\forall a,b,c\in G$，
 
 1. $ab=ac\Rightarrow b=c$ 
@@ -123,15 +129,19 @@ $$
 **中心center** 群G，令 $C=\{ a|a\in G \land\forall x \in G:ax=xa  \}$，则 $C\le G$，称为G的中心
 
 **子群格** 群G，令 $S=\{H|H\le G \}$，在S上定义关系R：
+
 $$
 \forall A,B\in S,ARB\Leftrightarrow A\le B\\
 $$
+
 则 $\langle S,R\rangle$ 构成偏序集，称为群G的子群格
 
 **陪集coset** $H\le G,a\in G$，令
+
 $$
 Ha=\{ha|h\in H \}
 $$
+
 称Ha是子群H在G中的右陪集，a为代表元素
 
 **定理** $H\le G$，
@@ -140,6 +150,7 @@ $$
 2. $\forall a\in G,a\in Ha$ 
 
 **定理** $H\le G,~\forall a,b \in G$ 有
+
 $$
 a=Hb\Leftrightarrow ab^{-1}\in H \Leftrightarrow Ha=Hb
 $$
@@ -147,9 +158,11 @@ $$
 > 右陪集中任何元素都可以作为代表元素
 
 **定理** $H\le G$，定义二元关系R， $\forall a,b \in G$，
+
 $$
 \langle a,b \rangle \in R\Leftrightarrow ab^{-1}\in R
 $$
+
 则R是G上的等价关系，且 $[a]_R=Ha$ 
 
 **推论** $H\le G$，
@@ -166,16 +179,15 @@ $$
 **指数**  H在G中的陪集数称为指数，记作 $[G:H]$ 
 
 **拉格朗日定理** 有限群G， $H\le G$，则
+
 $$
 |G|=|H|\cdot [G:H]
 $$
+
 **推论** 
 
-+ $|G|=n$，则 $\forall a\in G,~|a|$ 是n的因子，且 $a^n=e$ 
-
-+ $|G|$ 为素数，则 $\exists a\in G,G=\langle a\rangle$ ；G为Abel群
-
-  
+* $|G|=n$，则 $\forall a\in G,~|a|$ 是n的因子，且 $a^n=e$ 
+* $|G|$ 为素数，则 $\exists a\in G,G=\langle a\rangle$ ；G为Abel群
 
 ## 循环群与置换群
 
@@ -183,8 +195,8 @@ $$
 
 **定理** 设循环群 $G=\langle a \rangle$ 
 
-+ 若G是无限循环群，则G只有2个生成元： $a和a^{-1}$ 
-+ 若G是n阶循环群，则G含有 $\phi(n)$ 个生成元，对于任何小于n且与n互素的自然数r， $a'$ 是G的生成元
+* 若G是无限循环群，则G只有2个生成元： $a和a^{-1}$ 
+* 若G是n阶循环群，则G含有 $\phi(n)$ 个生成元，对于任何小于n且与n互素的自然数r， $a'$ 是G的生成元
 
 **定理** 
 
@@ -205,9 +217,11 @@ e.g. 置换 $g=(1234)$，则 $G=\langle g \rangle$，是4阶循环群
 > 每个n元置换即对应一个排列
 
 **k阶轮换** $S=\{1,2,\cdots,n\}$ 上的n元置换 $\sigma$ 满足
+
 $$
 \sigma(i_1)=i_2,\sigma(i_2)=i_3,\cdots,\sigma(i_k)=i_1
 $$
+
 而对其余元素保持不变，则 $\sigma$ 为S上的k阶轮换，记作 $(i_1i_2\cdots i_k)$ . 若k=2，则称为**对换**
 
 **奇置换，偶置换** n元置换可以表示成奇数|偶数个对换之积；奇置换数=偶置换数
@@ -225,9 +239,11 @@ e.g. 3元对称群 $S_3$
 子群： $S_3,A_3=\{(1),(123),(132) \},\{(1),(12)\},\{(1),(13)\},\{(1),(23)\},\{(1)\}$ 
 
 **Polya定理** 设 $N=\{1,2,\cdots,n\}$ 是被着色物体的集合， $G=\{\sigma_1,\sigma_2,\cdots,\sigma_g \}$ 是N上的置换群，用m种颜色对N种元素进行着色，则在G作用下的着色方案数是
+
 $$
 M=\frac{1}{|G|}\sum_{k=1}^g m^{c(\sigma_k)}
 $$
+
 其中 $c(\sigma_k)$ 是置换 $\sigma_k$ 的轮换表达式中包含1-轮换在内的轮换个数
 
 # 群的同态
@@ -252,7 +268,8 @@ $$
 
 **定理** G的所有自同构的集合 ${\rm Aut}(G)$ 是 $I(G)$ 的一个子群
 
-e.g. 群 $\langle \mathbb{Z_4},\oplus \rangle$ 
+e.g. 群 $\langle \mathbb{Z_4},\oplus \rangle$
+
 $$
 I(G)=\{(0,1,2,3),(0,1,3,2),\cdots \}共24项\\
 Aut(G)=\{(0,1,2,3),(0,3,2,1) \}\\
@@ -260,9 +277,11 @@ L=\{(0,1,2,3),(1,2,3,0),(2,3,0,1),(3,0,1,2) \}
 $$
 
 **左乘变换** 群G， $a\in G$，定义变换 $\lambda_a$，即
+
 $$
 \lambda_a(x)=ax,\quad x\in G
 $$
+
 则 $\lambda_a$ 是G上的可逆变换，称为左乘变换
 
 **定理** 群G，G中所有元素的左乘变换的集合 $L=\{\lambda_a|a\in G\}$ 是 $I(G)$ 的一个子群
@@ -278,17 +297,21 @@ $$
 e.g. 群 $\langle \mathbb{Z_4},\oplus \rangle$ 同构于 $S_4$ 中 $(2,3,4,1)$ 生成的循环群
 
 **内自同构inner automorphism** 群G， $a\in G$，通过a可导出映射 $\gamma:G→G$ :
+
 $$
 \gamma_a(x)=axa^{-1},\quad x\in G
 $$
+
 则 $\gamma_a$ 必为G到G的同构映射，称为a导出的内自同构
 
 **不变子集** 映射 $f:A→A$，T是A的子集， $f(T)\subseteq T$，则T是f的不变子集
 
 **不变子群|正规子群normal subgroup** 群G，H是G的子群， $\forall a\in G,\forall h\in H$，都有
+
 $$
 aha^{-1}\in H
 $$
+
 则H是G的不变子群或正规子群，记作 $H\unlhd G$ 
 
 > $G\unlhd G,\{e\}\unlhd G$，称为平凡的不变子群
@@ -326,10 +349,12 @@ $$
 **定理** 同态映射的复合是同态映射
 
 **定理** 同态映射 $f:G→H,g:H→K$，则
+
 $$
 Ker(gf)=f^{-1}(Ker(g))\\
 Img(gf)=g(Img(f))
 $$
+
 **定理** 同态映射 $f:G→H$，若A是G的子群，则 $f(A)$ 是H的子群；若B是H的子群，则 $f^{-1}(A)$ 是G的子群
 
 **同态像** 同态映射 $f:G→H$ 是满射，则G同态于H，H是G的同态像
@@ -346,6 +371,7 @@ $$
 2. A为G的子群，则 $f^{-1}(f(A))=AKer(f)$ 
 
 e.g. G=<Z,+>, H=<Z_6,O+>, f=x mod 6,
+
 $$
 A=\{\cdots,-2,0,2,\cdots \},\quad f(A)=\{0,2,4\}是H的(不变)子群\\
 B=\{1,3,5\},\quad f^{-1}(B)=\{\cdots-1,1,3,5,\cdots\}是G的(不变)子群\\
@@ -358,9 +384,11 @@ $$
 群G的不变子群N，等价关系 $a\sim b$ 当且仅当 $a^{-1}b\in N$ 
 
 **商群quotient group** 群<G,*>的不变子群N， $G/N$ 代表G对N的所有陪集构成的集合，规定 $\forall aN,bN\in G/N$，运算#
+
 $$
 aN\#bN=(a*b)N
 $$
+
 且 $(G/N,\#)$ 是个群，称为G对N的商群
 
 e.g. 
@@ -382,17 +410,22 @@ e.g.
 **自然同态** 群G，不变子群N，则映射 $f:G→G/N,f(a)=aN$ 是满同态映射，且 $Ker(f)=N$，称为自然同态
 
 **同态基本定理fundamental theorem of homomorphism** 群G，H， $f:G→H$ 是满同态映射， $Ker(f)=K$，则有映射 $\varphi:G/K→H$ 使得
+
 $$
 \forall aK\in G/K,\varphi(aK)=f(a)
 $$
+
 且 $\varphi$ 是G/K到H的同构映射
 
 e.g. G=<Z_6,O+>, N=<0,2,4,O+>, G/N=<024,135>, 则
+
 $$
 f是满同态映射(同态由商群定义给出)\\
 Ker(f)=\{024\}
 $$
+
 e.g. G=<Z,+>, H=<Z_6,O+>, f=x mod 6, Ker(f)=<6k>=K, G/K=<[0],[1],[2],[3],[4],[5]>
+
 $$
 \forall aK\in G/K, \varphi(aK)=f(a)=a [mod~6],且\varphi为同构映射
 $$
@@ -473,20 +506,27 @@ e.g.模n整数环，实矩阵环
 **生成理想** 环R，T是R的非空子集，令 $B=\{I是R的理想，T\subseteq I \}$ 得到的理想 $\bigcap_{I\in B}I$ 称为R的由子集T生成的理想，记作 $(T)$ ；特别地，如果T只有一个元素a，则记作(a)
 
 **定理** T是环R的非空子集，R中所有形如下式的元素集合即为(T)
+
 $$
 \{\sum na+\sum xa+\sum ay+ \sum xay\}
 $$
+
 其中a为T中元素，n为整数，xy为R中元素
 
 **推论** 环R， $a\in R$，形如下式的元素集合即为(a)
+
 $$
 \{na+\sum xa+\sum ay+\sum xay \}
 $$
+
 若 $e \in R$，则化简为
+
 $$
 \{\sum xay \}
 $$
+
 **定理** A，B是环R的理想，则 $A+B=A\bigcup B$，其中
+
 $$
 A+B=\{x\in R | x=a+b,a\in A,b \in B \}
 $$
@@ -498,15 +538,18 @@ $$
 ## 理想与商环
 
 **商环|剩余环quotient ring商環** 环 $\langle R,+,\cdot \rangle$，A是R的理想. 作为群，得商群 $\overline{R}=R/A$，加法为#，再定义乘法 $\odot$ ：
+
 $$
 (a+A)\odot(b+A)=ab+A\\
 (a+A)\#(b+A)=a+b+A\\
 $$
+
 则 $(\overline{R},\#,\odot)$ 是环R关于A的商环
 
 **单环|单纯环** 只有平凡理想的环称为单环
 
 e.g. 整数环的商环
+
 $$
 \mathbb{Z/Z}=\{\mathbb{Z}\}\\
 \mathbb{Z/\{0\}}=\{\cdots,\{-1\},\{0\},\{1\},\cdots\}\\
@@ -521,13 +564,16 @@ $$
 ![g25kpyo6uktnfqje25y](C:\Users\Xiao Yuxuan\Documents\pic\g25kpyo6uktnfqje25y.PNG)
 
 实系数多项式环的商环
+
 $$
 \mathbb{P/P}=\{\mathbb{P}\}\\
 \mathbb{P/\{0\}}=\{\{0\},\{1\},\{\pi\},\cdots,\{X\},\{2X\},\{\pi X\},\cdots\}=\{\{p\}|p\in \mathbb{P}\}\\
 \mathbb{P/(2)}=\mathbb{P/P}=\{\mathbb{P}\}\\
 \mathbb{P/}(X)=\{\{Xp+C\}|C\in \mathbb{R},p\in \mathbb{P}\}
 $$
+
 整系数多项式环的商环
+
 $$
 \mathbb{P/P}=\{\mathbb{P}\}\\
 \mathbb{P/\{0\}}=\{\{0\},\{1\},\{2\},\cdots,\{X\},\{2X\},\{3X+1\},\cdots\}=\{\{p\}|p\in \mathbb{P}\}\\
@@ -547,10 +593,12 @@ $$
 ## 环同态映射
 
 **环同态映射|环同构映射** 环R,S，映射 $\varphi:R→S$ 满足
+
 $$
 \varphi(a+b)=\varphi(a)\#\varphi(b)\\
 \varphi(a\cdot b)=\varphi(a)\odot\varphi(b)
 $$
+
 则 $\varphi$ 为环同态映射；特别地， $\varphi$ 是满射时则S是R的同态像， $\varphi$ 是双射时 $\varphi$ 为环同构映射，记作 $R\cong S$ 
 
 e.g.多项式环到实数环的映射 $\varphi:f(x)→f(a)$ 即环同态映射
@@ -558,13 +606,17 @@ e.g.多项式环到实数环的映射 $\varphi:f(x)→f(a)$ 即环同态映射
 Z到<Z_3,O+,O*>的映射 $\varphi(x)=x (\mod 3)$ 
 
 **像|核** 环R，S，环同态映射 $\varphi:R→S$，集合
+
 $$
 Img(\varphi)=\{s\in S|\exists r\in R,s=\varphi(r) \}\\
 $$
+
 是映射 $\varphi$ 的像，集合
+
 $$
 Ker(\varphi)=\{r\in R|\varphi(r)=0 \}
 $$
+
 是映射 $\varphi$ 的核
 
 **定理** 环同态映射 $\varphi:R→S$，则 $Img(\varphi)$ 是环S的子环
@@ -612,7 +664,7 @@ e.g.
 
 features：
 
-+ 运算表每一行|列都是群中元素的排列
+* 运算表每一行|列都是群中元素的排列
 
   
 
@@ -624,10 +676,10 @@ $|G|=12$，平凡子群 $G,\{0\}$
 | 3,9 $\langle 3\rangle$      | 4    | 6 $\langle 6\rangle$   | 2    |
 | 12,0 $\langle 12\rangle$    | 1    |                          |      |
 
-+ $|a^{-1}|=|a|$ 
-+ |a|是 $|G|$ 的因子
-+ G是12阶循环群，生成元有 $\phi(12)=4$ 个，即1,5,7,11
-+ 对于12的因子1,2,3,4,6,12，G都恰有一个该阶的子群
+* $|a^{-1}|=|a|$ 
+* |a|是 $|G|$ 的因子
+* G是12阶循环群，生成元有 $\phi(12)=4$ 个，即1,5,7,11
+* 对于12的因子1,2,3,4,6,12，G都恰有一个该阶的子群
 
 子群格
 
@@ -648,6 +700,3 @@ $H=\{0,6\},~[G:H]=6$，其陪集
 + Ha和Hb相等或无交集因此构成一个G的划分
 
 + 拉格朗日定理：12=2*6
-
-  
-

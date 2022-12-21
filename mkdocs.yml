@@ -233,7 +233,32 @@ nav:
     - 风格指南: python/style-guide.md
   - 机器学习:
     - ml/index.md
-    - 自然语言处理:
+    - 统计学习:
+      - 回归: ml/statistical-learning/regression.md
+      - 朴素贝叶斯: ml/statistical-learning/nb.md
+      - 感知器: ml/statistical-learning/perceptron.md
+      - 支持向量机: ml/statistical-learning/svm.md
+    - 深度学习:
+      - 前馈神经网络（FNN）: ml/deep-learning/fnn.md
+      - 卷积神经网络（CNN）: ml/deep-learning/cnn.md 
+      - 循环神经网络（RNN）: ml/deep-learning/rnn.md
+      - 序列到序列模型: ml/deep-learning/seq2seq.md
+      - Transformer: ml/deep-learning/transformer.md
+      - BERT & GPT: ml/deep-learning/bert-and-gpt.md
+      - 生成对抗网络（GAN）: ml/deep-learning/gan.md
+      - 强化学习: ml/deep-learning/rl.md
+      - 自动学习: ml/deep-learning/auto-learning.md
+    - 常用技术:
+      - 优化: ml/technique/optimization.md
+      - 归一化: ml/technique/normalization.md
+      - 泛化: ml/technique/generalization.md
+      - 异常检测: ml/technique/anomaly-detection.md
+      - 敌对攻击: ml/technique/adversarial-attack.md
+      - 模型可解释性: ml/technique/explainable-ml.md
+      - 迁移学习: ml/technique/transfer-learning.md
+      - 模型压缩: ml/technique/model-compression.md
+      - 终身学习: ml/technique/life-long-learning.md
+    - 自然语言处理专题:
       - ml/nlp/index.md
       - 文本处理: ml/nlp/text-processing.md
       - 语言模型: ml/nlp/language-model.md

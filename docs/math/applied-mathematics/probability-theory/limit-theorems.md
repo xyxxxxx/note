@@ -11,6 +11,7 @@ $$
 > 证明：使用切比雪夫不等式
 
 **切比雪夫不等式**
+
 $$
 \forall \varepsilon>0,\ P(|X-\mu)|\ge \varepsilon)\le \frac{Var(X)}{\varepsilon^2}
 $$
@@ -65,4 +66,3 @@ $$
 $$
 \frac{1}{s_n}\sum_{i=1}^n(X_i-\mu_i) \sim N(0,1)
 $$
-
