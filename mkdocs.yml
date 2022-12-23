@@ -61,8 +61,9 @@ markdown_extensions:
   - pymdownx.tilde         # optional, enable strikethrough with double '~~', subscript with connected '~'
   - toc:                   # Table of contents extension
       permalink: true      # add an anchor link at the end of each headline
-      slugify: !!python/name:pymdownx.slugs.uslugify
-                           # allow to slugify unicode title
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower      # allow to slugify unicode title
       toc_depth: 4         # range of levels to be included in toc
 
 # Plugins
@@ -152,6 +153,7 @@ nav:
         - 应用层: cs/net/net-model/application-layer.md
     - 信息论:
       - cs/information-theory/index.md
+
   - Python:
     - python/index.md
     - 运行环境与开发工具: python/runtime-environment-devtool.md
@@ -366,6 +368,7 @@ extra_css:
 
 # JS Customization
 extra_javascript:
-  - javascripts/config.js  # MathJax configuration
+  - javascripts/mathjax.js  # MathJax configuration
+  - javascripts/tex-mml-chtml.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.cs/net/npm/mathjax@3/es5/tex-mml-chtml.js
