@@ -8,7 +8,7 @@
 ## 论文
 
 * [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)：
-    * 提出 ResNet 模型，引入残差连接， 用于训练深层卷积神经网络
+    * 提出 ResNet 模型，引入残差连接，用于训练深层卷积神经网络
 * [SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size](https://arxiv.org/pdf/1602.07360.pdf)：提出 SqueezeNet 模型
 
 ## 项目

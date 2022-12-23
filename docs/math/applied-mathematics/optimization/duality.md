@@ -251,7 +251,8 @@ Slater条件此时是原问题的可行性条件，所以有 $d^*=p^*$。
 
 ## 互补松弛性
 
-设<u>强对偶性成立</u>， $\pmb x^*$ 是原问题的最优解， $(\pmb \lambda^*,\pmb \nu^*)$ 是对偶问题的最优解，这表明
+设<u>强对偶性成立</u>，$\pmb x^*$ 是原问题的最优解， $(\pmb \lambda^*,\pmb \nu^*)$ 是对偶问题的最优解，这表明
+
 $$
 \begin{align}
 f(\pmb x^*)&=\Lambda(\pmb \lambda^*,\pmb \nu^*)\\
@@ -260,19 +261,26 @@ f(\pmb x^*)&=\Lambda(\pmb \lambda^*,\pmb \nu^*)\\
 &\le f(\pmb x^*)
 \end{align}
 $$
+
 第一个等式说明最优对偶间隙为零；第三个不等式说明Lagrange函数 $L(\pmb x,\pmb \lambda^*,\pmb \nu^*)$ 在 $\pmb x^*$ 处取得最小值（ $\pmb x^*$ 可能只是所有最小点之一）；第四个不等式说明
+
 $$
 \sum_{i=1}^m\lambda_i^*g_i(\pmb x^*)=0
 $$
+
 实际上，求和的每一项都非正，因此有
+
 $$
 \lambda_i^*g_i(\pmb x^*)=0,\ i=1,\cdots,m
 $$
+
 上述条件称为**互补松弛条件**，也可以写成
+
 $$
 \lambda_i^*>0\Rightarrow g_i(\pmb x^*)=0\\
 g_i(\pmb x^*)<0\Rightarrow \lambda_i^*=0\\
 $$
+
 互补松弛条件意味着在最优点处，第 $i$ 个约束起作用（即取等），或者Lagrange乘子 $\pmb\lambda$ 的第 $i$ 项为零。
 
 ## KKT最优性条件

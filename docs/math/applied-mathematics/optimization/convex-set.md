@@ -3,9 +3,11 @@
 ## 直线和线段
 
 设 $x_1\neq x_2$ 是 $\mathbb{R}^n$ 空间的两个点，那么具有下列形式的点
+
 $$
 y=\theta x_1+(1-\theta)x_2,\ \theta\in\mathbb{R}
 $$
+
 组成**直线** $x_1x_2$。若限定 $\theta\in [0,1]$，则组成**闭线段** $x_1x_2$。
 
 ## 仿射集合
@@ -291,10 +293,12 @@ $$
 $$
 
 @对于凸锥 $\mathbb{S}_*^2$ 有
+
 $$
 X=\begin{bmatrix}x&y\\y&z
 \end{bmatrix}\in\mathbb{S}_*^2\Leftrightarrow  x\ge 0,z\ge 0,xz\ge y^2
 $$
+
 如图显示了这个凸锥的边界，按 $(x,y,z)$ 表示在 $\mathbb{R}^3$ 上。
 
 ![Screenshot from 2020-10-22 16-34-16.png](https://i.loli.net/2020/10/22/n6QHG9teV3YxgaF.png)
