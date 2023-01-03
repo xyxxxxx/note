@@ -71,12 +71,15 @@ $$
 @$y=\pmb x^{\rm T}A\pmb x$，其中 $\pmb x\in \mathbb{R}^n,A\in\mathbb{R}^{n\times n}$，计算 $\frac{\partial y}{\partial \pmb x}$。
 
 $$
+\displaylines{
 y=\pmb x^{\rm T}A\pmb x=\sum_{i=1}^n \sum_{j=1}^n a_{ij}x_ix_j\quad(二次型)\\
 \frac{\partial y}{\partial x_1}=\sum_{i=1}^na_{i1}x_i+\sum_{j=1}^na_{1j}x_j=(A^{\rm T}\pmb x)_1+(A\pmb x)_1\\
 \therefore \frac{\partial y}{\partial \pmb x}=A\pmb x+A^{\rm T}\pmb x
+}
 $$
 
 @$y={\rm tr}(A)$ 其中 $A\in \mathbb{R}^{n\times n}$，计算 $\frac{\partial y}{\partial A}$。
+
 $$
 \frac{\partial y}{\partial a_{ij}}=\frac{\partial\sum_{k=1}^na_{kk}}{\partial a_{ij}}=\begin{cases}1,&i=j\\
 0,&i\neq j
@@ -98,101 +101,112 @@ $$
 
 1. 若 $\pmb x\in \mathbb{R}^M$， $\pmb y=f(\pmb x)\in \mathbb{R}^N$， $\pmb z=g(\pmb x)\in \mathbb{R}^N$，则
 
-   $$
-   \frac{\partial \pmb y^{\rm T} \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}\pmb z+\frac{\partial \pmb z}{\partial \pmb x}\pmb y \in \mathbb{R}^{M}
-   $$
+    $$
+    \frac{\partial \pmb y^{\rm T} \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}\pmb z+\frac{\partial \pmb z}{\partial \pmb x}\pmb y \in \mathbb{R}^{M}
+    $$
 
 2. 若 $\pmb x\in \mathbb{R}^M$， $\pmb y=f(\pmb x)\in \mathbb{R}^S$， $\pmb z=g(\pmb x)\in \mathbb{R}^T$， $A \in \mathbb{R}^{S\times T}$ 和 $\pmb x$ 无关，则
 
-   $$
-   \frac{\partial \pmb y^{\rm T} A \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}A\pmb z+\frac{\partial \pmb z}{\partial \pmb x} A^{\rm T} \pmb y \in \mathbb{R}^{M}
-   $$
+    $$
+    \frac{\partial \pmb y^{\rm T} A \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}A\pmb z+\frac{\partial \pmb z}{\partial \pmb x} A^{\rm T} \pmb y \in \mathbb{R}^{M}
+    $$
 
 3. 若 $\pmb x\in \mathbb{R}^M$， $y=f(\pmb x)\in \mathbb{R}$， $\pmb z=g(\pmb x)\in \mathbb{R}^N$，则
 
-   $$
-   \frac{\partial y \pmb z}{\partial \pmb x}=y\frac{\partial \pmb z}{\partial \pmb x}+\frac{\partial y}{\partial \pmb x}\pmb z^{\rm T} \in \mathbb{R}^{M\times N}
-   $$
+    $$
+    \frac{\partial y \pmb z}{\partial \pmb x}=y\frac{\partial \pmb z}{\partial \pmb x}+\frac{\partial y}{\partial \pmb x}\pmb z^{\rm T} \in \mathbb{R}^{M\times N}
+    $$
    
 4. 若 $x\in \mathbb{R},Y\in \mathbb{R}^{M\times N},Z\in \mathbb{R}^{N\times P}$，则
 
-   $$
-   \frac{\partial YZ}{\partial x}=Z^{\rm T}\frac{\partial Y}{\partial x}+\frac{\partial Z}{\partial x}Y^{\rm T}
-   $$
+    $$
+    \frac{\partial YZ}{\partial x}=Z^{\rm T}\frac{\partial Y}{\partial x}+\frac{\partial Z}{\partial x}Y^{\rm T}
+    $$
 
 **链式法则（Chain Rule）**
 
 1. 若 $x\in \mathbb{R}$， $\pmb y=f(x)\in \mathbb{R}^M$， $\pmb z=g(\pmb y)\in \mathbb{R}^N$，则
 
-   $$
-   \frac{\partial \pmb z}{\partial x}=\frac{\partial \pmb y}{\partial x}\frac{\partial \pmb z}{\partial \pmb y} \in \mathbb{R}^{1\times N}
-   $$
+    $$
+    \frac{\partial \pmb z}{\partial x}=\frac{\partial \pmb y}{\partial x}\frac{\partial \pmb z}{\partial \pmb y} \in \mathbb{R}^{1\times N}
+    $$
 
 2. 若 $\pmb x\in \mathbb{R}^M$， $\pmb y=f(\pmb x)\in \mathbb{R}^K$， $\pmb z=g(\pmb y)\in \mathbb{R}^N$，则
 
-   $$
-   \frac{\partial \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}\frac{\partial \pmb z}{\partial \pmb y} \in \mathbb{R}^{M\times N}
-   $$
+    $$
+    \frac{\partial \pmb z}{\partial \pmb x}=\frac{\partial \pmb y}{\partial \pmb x}\frac{\partial \pmb z}{\partial \pmb y} \in \mathbb{R}^{M\times N}
+    $$
 
 3. 若 $X\in \mathbb{R}^{M\times N}$， $\pmb y=f(X)\in \mathbb{R}^K$， $z=g(\pmb y)\in \mathbb{R}$，则
 
-   $$
-   \frac{\partial z}{\partial x_{ij}}=\frac{\partial \pmb y}{\partial x_{ij}}\frac{\partial z}{\partial \pmb y} \in \mathbb{R}
-   $$
+    $$
+    \frac{\partial z}{\partial x_{ij}}=\frac{\partial \pmb y}{\partial x_{ij}}\frac{\partial z}{\partial \pmb y} \in \mathbb{R}
+    $$
    
 4. 若 $X\in \mathbb{R}^{M\times N}$， $Y=f(X)\in \mathbb{R}^{M\times N}$， $z=g(Y)\in \mathbb{R}$，则
 
-   $$
-   \frac{\partial z}{\partial x_{ij}}=\sum_{p=1}^{M}\sum_{q=1}^{N}\frac{\partial y_{pq}}{\partial x_{ij}}\frac{\partial z}{\partial y_{pq}} \in \mathbb{R}
-   $$
+    $$
+    \frac{\partial z}{\partial x_{ij}}=\sum_{p=1}^{M}\sum_{q=1}^{N}\frac{\partial y_{pq}}{\partial x_{ij}}\frac{\partial z}{\partial y_{pq}} \in \mathbb{R}
+    $$
 
 ### 导数计算的微分方法
 
 微分方法通过推导出微分与导数的关系式得到导数
 
 $$
+\displaylines{
 {\rm d}y=(\frac{\partial y}{\partial \pmb x})^{\rm T}{\rm d}\pmb x\\
 {\rm d}y={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}{\rm d}X)
+}
 $$
 
 计算对矩阵的偏导数时，一些迹技巧（trace trick）非常有用：
 
 $$
+\displaylines{
 a={\rm tr}(a)\\
 {\rm tr}(A^{\rm T})={\rm tr}(A)\\
 {\rm tr}(A\pm B)={\rm tr}(A)\pm {\rm tr}(B)\\
 {\rm tr}(AB)={\rm tr}(BA)\\
 {\rm tr}(A^{\rm T}(B\odot C))={\rm tr}((A\odot B)^{\rm T} C)
+}
 $$
 
 @$y=\pmb x^{\rm T}A\pmb x$，其中 $\pmb x\in \mathbb{R}^n,A\in\mathbb{R}^{n\times n}$，计算 $\frac{\partial y}{\partial \pmb x}$。
 
 $$
-{\rm d}y={\rm d}(\pmb x^{\rm T})A\pmb x+\pmb x^{\rm T}{\rm d}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
-=({\rm d}\pmb x)^{\rm T}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
-=\pmb x^{\rm T}A^{\rm T}{\rm d}\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
-=(A\pmb x+A^{\rm T}\pmb x)^{\rm T}{\rm d}\pmb x\\
+\begin{align}
+{\rm d}y&={\rm d}(\pmb x^{\rm T})A\pmb x+\pmb x^{\rm T}{\rm d}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+&=({\rm d}\pmb x)^{\rm T}A\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+&=\pmb x^{\rm T}A^{\rm T}{\rm d}\pmb x+\pmb x^{\rm T}A{\rm d}\pmb x\\
+&=(A\pmb x+A^{\rm T}\pmb x)^{\rm T}{\rm d}\pmb x\\
+\end{align}
 \therefore \frac{\partial y}{\partial \pmb x}=A\pmb x+A^{\rm T}\pmb x
 $$
 
-@ $W\in\mathbb{R}^{R\times S}$， $X=g(W)=AWB\in\mathbb{R}^{M\times N}$， $y=f(X)\in \mathbb{R}$， $\frac{\partial y}{\partial X}$ 已知，求 $\frac{\partial y}{\partial W}$。
+@$W\in\mathbb{R}^{R\times S}$， $X=g(W)=AWB\in\mathbb{R}^{M\times N}$， $y=f(X)\in \mathbb{R}$， $\frac{\partial y}{\partial X}$ 已知，求 $\frac{\partial y}{\partial W}$。
 
 $$
+\displaylines{
 \because {\rm d}y={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}{\rm d}X)={\rm tr}((\frac{\partial y}{\partial X})^{\rm T}A{\rm d}WB)={\rm tr}(B(\frac{\partial y}{\partial X})^{\rm T}A{\rm d}W)={\rm tr}((A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T})^{\rm T}{\rm d}W)\\
 \therefore \frac{\partial y}{\partial W}=A^{\rm T}(\frac{\partial y}{\partial X})B^{\rm T}
+}
 $$
 
 ### 常用导数
 
 $$
+\displaylines{
 \frac{\partial}{\partial \pmb x}\pmb x=I\\
 \frac{\partial}{\partial \pmb x}A\pmb x=A^{\rm T},\ 
 \frac{\partial}{\partial \pmb x}A^{\rm T}\pmb x=\frac{\partial}{\partial \pmb x}\pmb x^{\rm T}A =A\quad A换成\pmb a同样成立\\
 \frac{\partial}{\partial \pmb x}\pmb x^{\rm T} A \pmb x=(A+A^{\rm T})\pmb x\\
-\frac{\partial}{\partial \pmb x}||\pmb x||^2=2\pmb x\\
+\frac{\partial}{\partial \pmb x}||\pmb x||^2=2\pmb x
+}
 $$
 
 $$
+\displaylines{
 \frac{\partial}{\partial X}X=I\otimes I\\
 \frac{\partial}{\partial X}AX=I\otimes A^{\rm T}\\
 \frac{\partial}{\partial X}\pmb a^{\rm T}X\pmb b=\pmb a\pmb b^{\rm T},\frac{\partial}{\partial X}\pmb a^{\rm T}X^{\rm T}\pmb b=\pmb b\pmb a^{\rm T}\\
@@ -201,8 +215,8 @@ $$
 \frac{\partial}{\partial X}{\rm tr}(XA)=A^{\rm T},\frac{\partial}{\partial X}{\rm tr}(X^{\rm T}A)=\frac{\partial}{\partial X}{\rm tr}(AX^{\rm T})=A\\
 \frac{\partial}{\partial X}{\rm tr}(AXB)=A^{\rm T}B^{\rm T},\frac{\partial}{\partial X}{\rm tr}(AX^{\rm T}B)=BA\\
 \frac{\partial}{\partial X}{\rm det}(X)=(X^*)^{\rm T},\quad X^*为伴随矩阵\\
-
-\frac{\partial}{\partial X}||X||_F^2=2X\\
+\frac{\partial}{\partial X}||X||_F^2=2X
+}
 $$
 
 > $$

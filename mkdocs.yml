@@ -153,7 +153,7 @@ nav:
         - 应用层: cs/net/net-model/application-layer.md
     - 信息论:
       - cs/information-theory/index.md
-
+      - 熵、相对熵与互信息: cs/information-theory/entropy.md
   - Python:
     - python/index.md
     - 运行环境与开发工具: python/runtime-environment-devtool.md
