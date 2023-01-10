@@ -14,9 +14,9 @@ $$
 
 <br/>
 
-样本空间 $S$ 的任意子集 $A$ 称为一个**事件(event)**。如果试验的结果在 $A$ 之中，就称事件 $A$ 发生。特别地，由一个样本点组成的子集称为**基本事件**。
+样本空间 $S$ 的任意子集 $A$ 称为一个**事件（event）**。如果试验的结果在 $A$ 之中，就称事件 $A$ 发生。特别地，由一个样本点组成的子集称为**基本事件**。
 
-$S$ 自身包含每次试验的结果，因此总是发生，称为**必然事件**；空集 $\varnothing$ 不包含任何试验结果，因此永远不会发生，称为**不可能事件(null event)**。
+$S$ 自身包含每次试验的结果，因此总是发生，称为**必然事件**；空集 $\varnothing$ 不包含任何试验结果，因此永远不会发生，称为**不可能事件（null event）**。
 
 <br/>
 
@@ -24,13 +24,13 @@ $S$ 自身包含每次试验的结果，因此总是发生，称为**必然事�
 
 <br/>
 
-事件 $A$ **包含**事件 $B$ 记作 $B\sub A$，表示事件 $B$ 的发生必定导致事件 $A$ 发生。若 $B\sub A,A\sub B$，即 $A=B$，则称事件 $A$ 和事件 $B$ **相等**。
+事件 $A$ **包含**事件 $B$ 记作 $B\subset A$，表示事件 $B$ 的发生必定导致事件 $A$ 发生。若 $B\subset A,A\subset B$，即 $A=B$，则称事件 $A$ 和事件 $B$ **相等**。
 
-事件 $A$ 和事件 $B$ 的**并集(union)** 记作 $A\cup B$， $A\cup B$ 发生当且仅当事件 $A$ 和事件 $B$ 至少有一个发生。事件 $A$ 和事件 $B$ 的**交集(intersection)** 记作 $A\cap B$ 或 $AB$， $AB$ 发生当且仅当事件 $A$ 和事件 $B$ 同时发生。 $\bigcup_{k=1}^nA_k$ 为事件 $A_1,A_2,\cdots,A_n$ 的并集， $\bigcap_{k=1}^nA_k$ 为事件 $A_1,A_2,\cdots,A_n$ 的交集。
+事件 $A$ 和事件 $B$ 的**并集（union）** 记作 $A\cup B$， $A\cup B$ 发生当且仅当事件 $A$ 和事件 $B$ 至少有一个发生。事件 $A$ 和事件 $B$ 的**交集（intersection）** 记作 $A\cap B$ 或 $AB$， $AB$ 发生当且仅当事件 $A$ 和事件 $B$ 同时发生。 $\bigcup_{k=1}^nA_k$ 为事件 $A_1,A_2,\cdots,A_n$ 的并集， $\bigcap_{k=1}^nA_k$ 为事件 $A_1,A_2,\cdots,A_n$ 的交集。
 
 事件 $A$ 和事件 $B$ 的**差集**记作 $A-B$， $A-B$ 发生当且仅当事件 $A$ 发生且事件 $B$ 不发生。
 
-如果 $AB=\varnothing$，则称 $A$ 与 $B$ **互不相容(mutually exclusive)**。如果 $AB=\varnothing,A\cup B=S$，则称 $A$ 与 $B$ 互为**对立事件(complement)**；对于任意事件 $A$，总存在一个它的对立事件 $\overline{A}$，由样本空间中不属于 $A$ 的所有结果构成。
+如果 $AB=\varnothing$，则称 $A$ 与 $B$ **互斥（mutually exclusive）**。如果 $AB=\varnothing,A\cup B=S$，则称 $A$ 与 $B$ 互为**对立事件（complement）**；对于任意事件 $A$，总存在一个它的对立事件 $\overline{A}$，由样本空间中不属于 $A$ 的所有结果构成。
 
 ## 概率
 
@@ -44,30 +44,30 @@ $$
 P(\bigcup_{n=1}^\infty A_n)=\sum_{n=1}^\infty P(A_n)
 $$
 
-$P(A)$ 称为事件 $A$ 的**概率(probability)**。若 $P(A)=P(B)$，则称事件 $A$ 和 $B$ 的发生是等可能的。
+$P(A)$ 称为事件 $A$ 的**概率（probability）**。若 $P(A)=P(B)$，则称事件 $A$ 和 $B$ 的发生是等可能的。
 
 根据定义，概率具有以下性质：
 
 * $P(\varnothing)=0$ 
 * $P(\bigcup_{i=1}^n A_i)=\sum_{i=1}^n P(A_i)$ 
-* 若 $A\sub B$，则 $P(B-A)=P(B)-P(A)$ 
+* 若 $A\subset B$，则 $P(B-A)=P(B)-P(A)$ 
 * $P(\overline{A})=1-P(A)$ 
 * 考虑 $P(A\cup B)$：
 
-  $$
-  \because P(A)=P((A-B)\cup AB)=P(A-B)+P(AB)\\
-  \because P(B)=P((B-A)\cup AB)=P(B-A)+P(AB)\\
-  \therefore P(A\cup B)=P((A-B)\cup AB\cup (B-A))=P(A-B)+P(AB)+P(B-A)\\
-  =P(A)+P(B)-P(AB)
-  $$
+    $$
+    \because P(A)=P((A-B)\cup AB)=P(A-B)+P(AB)\\
+    \because P(B)=P((B-A)\cup AB)=P(B-A)+P(AB)\\
+    \therefore P(A\cup B)=P((A-B)\cup AB\cup (B-A))=P(A-B)+P(AB)+P(B-A)\\
+    =P(A)+P(B)-P(AB)
+    $$
 
-  事实上，由归纳法可以证明
+    事实上，由归纳法可以证明
 
-  $$
-  P(A_1\cup A_2\cdots\cup A_n)=\sum_i P(A_i)-\sum_{i<j}P(A_iA_j)+\sum_{i<j<k}P(A_iA_jA_k)-\cdots+(-1)^{n+1}P(A_1A_2\cdots A_n)
-  $$
+    $$
+    P(A_1\cup A_2\cdots\cup A_n)=\sum_i P(A_i)-\sum_{i<j}P(A_iA_j)+\sum_{i<j<k}P(A_iA_jA_k)-\cdots+(-1)^{n+1}P(A_1A_2\cdots A_n)
+    $$
 
-  上式即为**容斥原理**。
+    上式即为**容斥原理**。
 
 <br/>
 
@@ -76,7 +76,8 @@ $$
 P(\{2,4,6\})=P(\{2\})+P(\{4\})+P(\{6\})=\frac{1}{2}
 $$
 
-> 均匀的骰子可以定义为，一次试验中事件“骰子点数为1”，“骰子点数为2”，……，“骰子点数为6”的概率相等的骰子。
+!!! note "说明"
+    均匀的骰子可以定义为，一次试验中事件“骰子点数为1”，“骰子点数为2”，……，“骰子点数为6”的概率相等的骰子。
 
 ## 等可能概型（古典概型）
 

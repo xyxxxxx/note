@@ -196,7 +196,7 @@ $$
 * **指数和的对数**：函数 $f(\pmb x)=\log (e^{x_1}+\cdots+e^{x_n})$ 在 $\mathbb{R}^n$ 上是凸函数。这个函数可以看成最大值函数的可微（实际上是解析）近似，因为对任意 $\pmb x$，下面的不等式成立
 
     $$
-    \max{x_1,\cdots,x_n}\le f(\pmb x)\le \max{x_1,\cdots,x_n}+\log n
+    \max\{x_1,\cdots,x_n\}\le f(\pmb x)\le \max\{x_1,\cdots,x_n\}+\log n
     $$
 
 * **几何平均**：几何平均函数 $f(\pmb x)=(\prod_{i=1}^nx_i)^{1/n}$ 在定义域 $\mathbb{R}_+^n$ 上是凹函数。
@@ -221,8 +221,82 @@ y^2 & -xy\\
 \end{bmatrix}=\frac{2}{y^3}\begin{bmatrix}y\\-x\end{bmatrix}\begin{bmatrix}y\\-x\end{bmatrix}^{\rm T}⪰0
 $$
 
-@**指数和的对数**
+@**指数和的对数**：指数和的对数函数的 Hessian 矩阵为 
+
+$$
+\nabla^2f(\pmb x)=\frac{1}{(\pmb 1^{\rm T}\pmb z)^2}((\pmb 1^{\rm T}\pmb z)\textbf{diag}(\pmb z)-\pmb z\pmb z^{\rm T})
+$$
+
+其中 $\pmb z=(e^{x_1},\cdots,e^{x_n})$。为了说明 $\nabla^2f(\pmb x)⪰0$，我们证明对任意 $\pmb v$，有 $\pmb v^{\rm T}\nabla^2f(\pmb x)\pmb v\ge 0$，即
+
+$$
+\pmb v^{\rm T}\nabla^2f(\pmb x)\pmb v=\frac{1}{(\pmb 1^{\rm T}\pmb z)^2}((\sum_{i=1}^nz_i)(\sum_{i=1}^nv_i^2z_i)-(\sum_{i=1}^nv_iz_i)^2)\ge 0
+$$
+
+上述不等式可以应用 Cauchy-Schwarz 不等式 $(\pmb a^{\rm T}\pmb a)(\pmb b^{\rm T}\pmb b)\ge (\pmb a^{\rm T}\pmb b)^2$ 得到，此时向量 $\pmb a$ 和 $\pmb b$ 的分量为 $a_i=v_i\sqrt{z_i},b_i=\sqrt{z_i}$。
+
+@**几何平均**：……
+
+@**对数-行列式**：……
+
+#### 下水平集
+
+函数 $f:\mathbb{R}^n\to\mathbb{R}$ 的 **$\alpha$-下水平集**定义为
+
+$$
+C_\alpha=\{\pmb x\in\textbf{dom}\ f|f(\pmb x)\le\alpha\}
+$$
+
+对于任意 $\alpha$ 值，凸函数的下水平集仍然是凸集。证明可以由凸集的定义直接得到：如果 $\pmb x,\pmb y\in C_\alpha$，则有 $f(\pmb x)\le\alpha,f(\pmb y)\le\alpha$，因此对于任意的 $0\le\theta\le 1$，$f(\theta\pmb x+(1-\theta)\pmb y)\le\alpha$，即 $\theta\pmb x+(1-\theta)\pmb y\in C_\alpha$。
+
+反过来不一定正确：某个函数的所有下水平集都是凸集，但这个函数可能不是凸函数。例如，函数 $f(x)=-e^x$ 在 $\mathbb{R}$ 上不是凸函数（实质上，它是严格凹函数），但是其所有下水平集均为凸集。
+
+如果 $f$ 是凹函数，则由 $\{\pmb x\in\textbf{dom}\ f|f(\pmb x)\ge\alpha\}$ 定义的 $\alpha$-上水平集也是凸集。下水平集的性质可以用来判断集合的凸性，若某个集合可以描述为一个凸函数的下水平集，或者一个凹函数的上水平集，则其为凸集。
+
+@对于 $\pmb x\in R_*^n$，其几何平均和算术平均分别为
+
+$$
+G(\pmb x)=(\prod_{i=1}^nx_i)^{1/n},\quad A(\pmb x)=\frac{1}{n}\sum_{i=1}^nx_i
+$$
+
+（算数几何平均不等式为 $G(\pmb x)\le A(\pmb x)$）
+
+设 $0\le\alpha\le 1$，考虑集合
+
+$$
+\{\pmb x\in R_*^n|G(\pmb x)\ge\alpha A(\pmb x)\}
+$$
+
+即使得几何平均至少大于等于算术平均的 $\alpha$ 倍的集合。此集合是凸集，因为它是凹函数 $G(\pmb x)-\alpha A(\pmb x)$ 的 0-上水平集。事实上，这个集合是正齐次的，因此它是凸锥。
+
+#### 上境图
+
+函数 $f:\mathbb{R}^n\to\mathbb{R}$ 的图像定义为
+
+$$
+\{(\pmb x,f(\pmb x))|\pmb x\in\textbf{dom}\ f\}
+$$
+
+它是 $\mathbb{R}^{n+1}$ 空间的一个子集。函数 $f:\mathbb{R}^n\to\mathbb{R}$ 的**上境图**定义为
+
+$$
+\textbf{epi}\ f=\{(\pmb x,t)|\pmb x\in\textbf{dom}\ f,f(\pmb x)\le t\}
+$$
+
+它也是 $\mathbb{R}^{n+1}$ 空间的一个子集。下图说明了上境图的定义（“epi”是之上的意思，所以上境图的英文 epigraph 是“在函数图像之上”的意思）。
+
+![](https://s2.loli.net/2023/01/05/FKjun4yCacltB8w.png)
+
+凸集和凸函数的联系可以通过上境图来建立：一个函数是凸函数，当且仅当其上境图是凸集；一个函数是凹函数，当且仅当其亚图
+
+$$
+\textbf{hypo}\ f=\{(\pmb x,t)|\pmb x\in\textbf{dom}\ f,f(\pmb x)\ge t\}
+$$
+
+是凸集。
 
 ### Jensen 不等式及其扩展
+
+
 
 ## 保凸运算
