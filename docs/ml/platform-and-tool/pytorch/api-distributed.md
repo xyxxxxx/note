@@ -2,7 +2,7 @@
 
 `torch.distributed` 包为跨多个计算节点的多进程并行提供了 PyTorch 支持和通信原语。建立在此功能上的 `torch.nn.parallel.DistributedDataParallel` 类提供了 PyTorch 模型的同步训练的包装器，它与 `torch.multiprocessing` 提供的并行方法以及 `torch.nn.DataParallel` 的不同之处在于它支持在由网络连接的多台机器上运行，以及用户必须显式地为每个进程启动一个训练脚本的一个单独的副本。
 
-即使是单台机器上的同步训练，`torch.nn.parallel.DistributedDataParallel` 包装器也相对于其它数据并行的方法具有优势，因为其每个进程都拥有单独的 Python 解释器，消除了 GIL 锁对于性能的限制。
+即使是单台机器上的同步训练，`torch.nn.parallel.DistributedDataParallel` 包装器也相对于其他数据并行的方法具有优势，因为其每个进程都拥有单独的 Python 解释器，消除了 GIL 锁对于性能的限制。
 
 ## 后端
 
@@ -29,7 +29,7 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
 
 目前支持以下三种初始化方法：
 
-+ **TCP 初始化**
+* **TCP 初始化**
 
   此方法需要指定一个属于 rank 0 进程的所有进程都可以访问的网络地址，各进程的 rank，以及 `world_size`。
 
@@ -41,7 +41,7 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
                           rank=args.rank, world_size=4)
   ```
 
-+ **共享文件系统初始化**
+* **共享文件系统初始化**
 
   此方法需要指定一个对所有进程可见的共享文件系统，以及 `world_size`。URL 应以 `file://` 开头，并且包含一个到已经存在的目录下的不存在的文件的路径。
 
@@ -53,14 +53,14 @@ torch.distributed.init_process_group(backend, init_method=None, timeout=datetime
                           world_size=4, rank=args.rank)
   ```
 
-+ **环境变量初始化**
+* **环境变量初始化**
 
   此方法从环境变量中读取配置，允许用户完全自定义配置信息。需要设置的变量有：
 
-  + `MASTER_ADDR`：rank 0 进程所在节点的网络地址。
-  + `MASTER_PORT`：rank 0 进程所在节点的一个空闲端口号，rank 0 进程将监听此端口并负责建立所有链接。
-  + `WORLD_SIZE`：进程数，rank 0 进程据此确定要等待来自多少个进程的连接。可以设为环境变量或直接传入初始化函数。
-  + `RANK`：当前进程的 rank，进程据此确定自己是否是 rank 0 进程。可以设为环境变量或直接传入初始化函数。
+  * `MASTER_ADDR`：rank 0 进程所在节点的网络地址。
+  * `MASTER_PORT`：rank 0 进程所在节点的一个空闲端口号，rank 0 进程将监听此端口并负责建立所有链接。
+  * `WORLD_SIZE`：进程数，rank 0 进程据此确定要等待来自多少个进程的连接。可以设为环境变量或直接传入初始化函数。
+  * `RANK`：当前进程的 rank，进程据此确定自己是否是 rank 0 进程。可以设为环境变量或直接传入初始化函数。
 
   此方法为默认方法。
 
@@ -141,7 +141,7 @@ class torch.distributed.TCPStore(host_name: str, port: int, world_size: int = -1
 
 ## 进程组
 
-默认情况下集体通信操作在 world 上执行，并要求所有进程都进入该分布式函数调用。然而，更加细粒度的通信有利于一些工作负载，这时就可以使用进程组。`new_group()` 函数可以对所有进程的任意子集创建新的进程组，返回的不透明组局柄可以用作所有集体通信方法的 `group` 参数。
+默认情况下集体通信操作在 world 上执行，并要求所有进程都进入该分布式函数调用。然而，更加细粒度的通信有利于一些工作负载，这时就可以使用进程组。`new_group()` 函数可以对所有进程的任意子集创建新的进程组，返回的不透明组句柄可以用作所有集体通信方法的 `group` 参数。
 
 ### new_group()
 
@@ -224,8 +224,8 @@ torch.distributed.recv(tensor, src=None, group=None, tag=0)
 
 `isend()` 和 `irecv()` 返回一个分布式请求对象，支持下面两个方法：
 
-+ `is_completed()`：当操作结束时返回 `True`
-+ `wait()`：阻塞进程直到操作结束。当 `wait()` 返回后，`is_completed()` 一定返回 `True`
+* `is_completed()`：当操作结束时返回 `True`
+* `wait()`：阻塞进程直到操作结束。当 `wait()` 返回后，`is_completed()` 一定返回 `True`
 
 ```python
 torch.distributed.isend(tensor, dst, group=None, tag=0)
@@ -277,10 +277,10 @@ torch.distributed.irecv(tensor, src=None, group=None, tag=0)
 
 每个集体通信操作函数都支持下面两种操作类型：
 
-+ **同步操作**：当函数返回时，相应的集体通信操作会确保已经完成。但对于 CUDA 操作则不能确保其已经完成，因为 CUDA 操作是异步的。因此对于 CPU 集体通信操作，对其返回值的操作结果会符合预期；对于 CUDA 集体通信操作，在同一个 CUDA 流上对其返回值的操作结果会符合预期；在运行在不同 CUDA 流上的情形下，用户必须自己负责同步。
-+ **异步操作**：函数返回一个分布式请求对象，支持下面两个方法：
-  + `is_completed()`：对于 CPU 操作，当操作结束时返回 `True`；对于 GPU 操作，当操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）时返回 `True`。
-  + `wait()`：对于 CPU 操作，阻塞进程直到操作结束；对于 GPU 操作，阻塞进程直到操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）。
+* **同步操作**：当函数返回时，相应的集体通信操作会确保已经完成。但对于 CUDA 操作则不能确保其已经完成，因为 CUDA 操作是异步的。因此对于 CPU 集体通信操作，对其返回值的操作结果会符合预期；对于 CUDA 集体通信操作，在同一个 CUDA 流上对其返回值的操作结果会符合预期；在运行在不同 CUDA 流上的情形下，用户必须自己负责同步。
+* **异步操作**：函数返回一个分布式请求对象，支持下面两个方法：
+  * `is_completed()`：对于 CPU 操作，当操作结束时返回 `True`；对于 GPU 操作，当操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）时返回 `True`。
+  * `wait()`：对于 CPU 操作，阻塞进程直到操作结束；对于 GPU 操作，阻塞进程直到操作成功进入排进一个 CUDA 流并且输出可以在默认流上使用（而无需进一步同步）。
 
 ```python
 
@@ -317,11 +317,11 @@ Rank  3  has data  tensor([1.])
 
 ### reduce()
 
-Reduce 操作。原位操作，rank 为 `dst` 的进程的 `tensor` 将放置最终归约结果，其它进程的 `tensor` 将放置中间结果。
+Reduce 操作。原位操作，rank 为 `dst` 的进程的 `tensor` 将放置最终归约结果，其他进程的 `tensor` 将放置中间结果。
 
 ```python
 torch.distributed.reduce(tensor, dst, op=<ReduceOp.SUM: 0>, group=None, async_op=False)
-# tensor      归约的张量兼放置归约结果的张量(原位操作,rank为`dst`的进程将放置最终结果,其它进程将放置中间结果)
+# tensor      归约的张量兼放置归约结果的张量(原位操作,rank为`dst`的进程将放置最终结果,其他进程将放置中间结果)
 # dst         目标rank
 # op          归约操作,是`torch.distributed.ReduceOp`枚举类的实例之一
 # group       工作的进程组.若为`None`,则设为world
@@ -466,7 +466,7 @@ Scatter 操作。
 torch.distributed.scatter(tensor, scatter_list=None, src=0, group=None, async_op=False)
 # tensor        放置分发数据的张量
 # scatter_list  分发的张量列表
-# scr           源rank
+# src           源rank
 # group         工作的进程组.若为`None`,则设为world
 # async_op      是否为异步操作
 ```
@@ -543,8 +543,8 @@ torch.distributed.rpc.rpc_sync(to, func, args=None, kwargs=None, timeout=-1.0)
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker0", rank=0, world_size=2)
->>> ret = rpc.rpc_sync("worker1", torch.add, args=(torch.ones(2), 3))
+>>> rpc.init_rpc('worker0', rank=0, world_size=2)
+>>> ret = rpc.rpc_sync('worker1', torch.add, args=(torch.ones(2), 3))
 >>> ret
 tensor([4., 4.])
 >>> rpc.shutdown()
@@ -557,12 +557,11 @@ tensor([4., 4.])
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker1", rank=1, world_size=2)
+>>> rpc.init_rpc('worker1', rank=1, world_size=2)
 >>> rpc.shutdown()
 ```
 
 !!! warning "警告"
-
     使用 `rpc_sync()`、`rpc_async()` 等 API 时，函数的参数张量和返回值张量都必须是 CPU 张量（否则当两个进程的设备列表不一致时可能会引起崩溃）。如有必要，应用可以显式地在调用进程中将张量移动到 CPU，再在被调用进程中将其移动到想要的设备中。
 
 ### rpc_async()
@@ -585,9 +584,9 @@ torch.distributed.rpc.rpc_async(to, func, args=None, kwargs=None, timeout=-1.0)
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker0", rank=0, world_size=2)
->>> fut1 = rpc.rpc_async("worker1", torch.add, args=(torch.ones(2), 3))
->>> fut2 = rpc.rpc_async("worker1", min, args=(1, 2))
+>>> rpc.init_rpc('worker0', rank=0, world_size=2)
+>>> fut1 = rpc.rpc_async('worker1', torch.add, args=(torch.ones(2), 3))
+>>> fut2 = rpc.rpc_async('worker1', min, args=(1, 2))
 >>> result = fut1.wait() + fut2.wait()
 >>> result
 tensor([5., 5.])
@@ -601,12 +600,11 @@ tensor([5., 5.])
 >>> os.environ['MASTER_PORT'] = '29500'
 >>> import torch
 >>> import torch.distributed.rpc as rpc
->>> rpc.init_rpc("worker1", rank=1, world_size=2)
+>>> rpc.init_rpc('worker1', rank=1, world_size=2)
 >>> rpc.shutdown()
 ```
 
 !!! warning "警告"
-
     `rpc_async()` API 会等到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `Future` 实例得到返回值。
 
 ### remote()
@@ -650,7 +648,6 @@ tensor([6., 6.])
 ```
 
 !!! warning "警告"
-
     `remote()` API 会等到要通过网络发送参数时才复制这些参数（包括其中的张量），这会由另一个线程完成，取决于 RPC 后端的类型。调用进程应确保参数张量的内容保持不变直到返回的 `RRef` 实例被其所有者确认，可以通过 `torch.distributed.rpc.RRef.confirmed_by_owner()` API 进行检查。
 
 ### shutdown()
@@ -815,7 +812,6 @@ set_devices(devices)
 ### RRef
 
 !!! warning "警告"
-
     RRef 目前尚不支持 CUDA 张量。
 
 一个 `RRef` 实例是对远程工作器上的一个某种类型的值的引用。这种处理方式使被引用的远程值仍位于其所有者上。RRef 可用于多机训练，通过保有对存在于其他工作器上的 `nn.Modules` 实例的引用，并在训练过程中调用适当的函数以获取或修改其参数。
@@ -911,8 +907,7 @@ backward(self, dist_autograd_ctx_id=-1, retain_graph=False)
 ## RemoteModule
 
 !!! warning "警告"
-
-    RemoteModule 目前尚不支持 CUDA 张量。
+    `RemoteModule` 目前尚不支持 CUDA 张量。
 
 `RemoteModule` 实例只能在 RPC 初始化之后创建，其将用户指定的一个模块创建在指定的远程 RPC 进程上。`RemoteModule` 实例的行为就像是常规的 `nn.Module` 实例，除了其 `forward` 方法在远程进程中执行。它负责 autograd 记录以确保反向计算过程中将梯度传播回相应的远程模块。
 

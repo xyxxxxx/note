@@ -608,25 +608,21 @@ $$
 性质：
 
 1. ${\rm det}I=1$ 
-
 2. 交换行列式的两行或两列，行列式反号
-
 3. 行列式的某行或某列乘以 $c$，则行列式乘以 $c$ 
-
 4. 行列式对于任意一行或列是线性的，即
 
-   $$
-   \begin{vmatrix}a+a'&b+b'\\c&d\end{vmatrix}=
-   \begin{vmatrix}a&b\\c&d\end{vmatrix}+
-   \begin{vmatrix}a'&b'\\c&d\end{vmatrix}
-   $$
+    $$
+    \begin{vmatrix}a+a'&b+b'\\c&d\end{vmatrix}=
+    \begin{vmatrix}a&b\\c&d\end{vmatrix}+
+    \begin{vmatrix}a'&b'\\c&d\end{vmatrix}
+    $$
 
 * 对于方阵 $A$， ${\rm det}A=0\iff A$ 不可逆。
 
-  考虑对 $A$ 进行高斯消元法，在此过程中 ${\rm det}A$ 不变，最后得到 $n$ 个pivot时，表明 $A$ 可逆，并且 ${\rm det}A$ 等于 $n$ 个pivot之积，即不等于零；最后得到全零的行时，表明 $A$ 不可逆，并且 ${\rm det}A=0$ 
+    考虑对 $A$ 进行高斯消元法，在此过程中 ${\rm det}A$ 不变，最后得到 $n$ 个pivot时，表明 $A$ 可逆，并且 ${\rm det}A$ 等于 $n$ 个pivot之积，即不等于零；最后得到全零的行时，表明 $A$ 不可逆，并且 ${\rm det}A=0$ 
 
 * ${\rm det}AB={\rm det}A{\rm det}B$ 
-
 * ${\rm det}A^{\rm T}={\rm det}A$ 
 
 余子式展开略……
@@ -639,7 +635,7 @@ $$
 >
 > 使用高斯消元法计算行列式的时间复杂度为
 
-行列式的意义是广义的体积
+行列式的意义是广义的体积。
 
 ## 特征值和特征向量
 
