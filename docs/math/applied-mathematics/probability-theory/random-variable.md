@@ -161,7 +161,7 @@ $$
 这个分布称为**负二项分布**。这名称的来由，一是因为“负指数二项展开式”
 
 $$
-(1-x)^{-r}=\sum_{i=0}^\infty\begin{pmatrix}-r\\i\end{pmatrix}(-x)^i=\sum_{i=0}^\infty\begin{pmatrix}i+r-i\\i\end{pmatrix}x^i=\sum_{i=0}^\infty\begin{pmatrix}i+r-i\\r-1\end{pmatrix}x^i
+(1-x)^{-r}=\sum_{i=0}^\infty\begin{pmatrix}-r\\i\end{pmatrix}(-x)^i=\sum_{i=0}^\infty\begin{pmatrix}i+r-1\\i\end{pmatrix}x^i=\sum_{i=0}^\infty\begin{pmatrix}i+r-1\\r-1\end{pmatrix}x^i
 $$
 
 !!! note "说明"
@@ -1775,7 +1775,35 @@ $$
 其次，以 $f_1(x_1)=2nx_1k_n(nx_1^2)$ 和 $f_2(x_2)=\sqrt{2\pi}^{-1}e^{-x_2^2/2}$ 应用 (4.29)，得到 $Y$ 的密度函数，记之为 $t_n(y)$，等于
 
 $$
-t_n(y)=
+\begin{align}
+t_n(y)&=\frac{1}{\sqrt{2\pi}}\frac{1}{2^{n/2}\Gamma(n/2)}\int_0^\infty 2nx_1^2e^{-nx_1^2/2}(nx_1^2)^{n/2-1}\cdot e^{-(x_1y)^2/2}{\rm d}x_1\\
+&=\frac{1}{\sqrt{2\pi}}\frac{1}{2^{n/2}\Gamma(n/2)}2n^{n/2}\int_0^\infty x_1^n\exp(-\frac{1}{2}(nx_1^2+x_1^2y^2)){\rm d}x_1
+\end{align}
 $$
 
+作变数代换 $x_1=\sqrt{2/(n+y^2)}\sqrt{t}$，上面的积分变为
 
+$$
+\frac{1}{2}(\frac{2}{n+y^2})^{(n+1)/2}\int_0^\infty e^{-t}t^{(n-1)/2}{\rm d}t=\frac{1}{2}(\frac{2}{n+y^2})^{(n+1)/2}\Gamma(\frac{n+1}{2})
+$$
+
+以此代入 (4.30)，并略加整理，即得到 $Y=X_2/\sqrt{X_1/n}$ 的密度函数为
+
+$$
+t_n(y)=\frac{\Gamma((n+1)/2)}{\sqrt{n\pi}\Gamma(n/2)}(1+\frac{y^2}{n})^{-(n+1)/2}
+$$
+
+这个密度函数称为**自由度 $n$ 的 t 分布**的密度函数，常记作 $Y\sim t_n$。t 分布是数理统计学中最重要的分布之一，之后我们将见到这个分布在统计学上的许多应用。
+
+这个密度函数关于原点对称，其图形与标准正态分布 $N(0,1)$ 的密度函数的图形相似。之后我们将见到，当自由度 $n$ 很大时，t 分布确实接近于标准正态分布。
+
+**例 4.11** 设 $X_1,X_2$ 独立，$X_1\sim\chi_n^2,X_2\sim\chi_m^2$，而 $Y=m^{-1}X_2/n^{-1}X_1$，求 $Y$ 的密度函数。
+
+$X_1,X_2$ 独立，故 $n^{-1}X_1,m^{-1}X_2$ 也独立。由 $X_1\sim\chi_n^2,X_2\sim\chi_m^2$ 易得到 $n^{-1}X_1,m^{-1}X_2$ 的密度函数分别为 $nk_n(nx_1),mk_m(mx_2)$。以此代入 (4.29)，得到 $Y$ 的密度函数，记作 $f_{mn}(y)$，等于
+
+$$
+\begin{align}
+f_{mn}(y)&=mn\int_0^\infty x_1k_n(nx_1)k_m(mx_1y){\rm d}x_1 \\
+&=mn\frac{1}{2^{m/2}\Gamma(m/2)2^{n/2}\Gamma(n/2)}\int_0^\infty 2nx_1^2e^{-nx_1^2/2}(nx_1^2)^{n/2-1}\cdot e^{-(x_1y)^2/2}{\rm d}x_1
+\end{align}
+$$
