@@ -50,3 +50,9 @@ NLP 的许多任务（阅读理解、机器翻译、文章摘要、情感分析�
 
 * [The Curious Case of Neural Text Degeneration](https://arxiv.org/abs/1904.09751)
     * 指出当前解码策略（取最大概率、随机采样等）存在的问题，并提出新的采样方法——Nucleus Sampling
+
+#### Scheduled Sampling
+
+**论文**
+
+* [Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks](https://arxiv.org/abs/1506.03099)

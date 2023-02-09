@@ -247,9 +247,10 @@ nav:
       - 前馈神经网络（FNN）: ml/deep-learning/fnn.md
       - 卷积神经网络（CNN）: ml/deep-learning/cnn.md 
       - 循环神经网络（RNN）: ml/deep-learning/rnn.md
+      - 嵌入: ml/deep-learning/embedding.md
       - 序列到序列模型: ml/deep-learning/seq2seq.md
       - Transformer: ml/deep-learning/transformer.md
-      - BERT & GPT: ml/deep-learning/bert-and-gpt.md
+      - 自监督学习模型: ml/deep-learning/self-supervised.md
       - 生成对抗网络（GAN）: ml/deep-learning/gan.md
       - 强化学习: ml/deep-learning/rl.md
       - 自动学习: ml/deep-learning/auto-learning.md

@@ -160,6 +160,7 @@ $ git config -e --global     # 修改全局配置
 ```shell
 $ git config --global user.name "xyx"                    # 设定用户名
 $ git config --global user.email "xyx@tensorstack.com"   # 设定email
+$ git config --global http.proxy http://us01.proxy.net   # 设定代理服务器
 ```
 
 #### -l, --list
@@ -666,9 +667,9 @@ $ git push origin --delete v1.11   # 删除远程标签
 
 参考：
 
-+ [Git 官方教程](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring)
-+ [Git 官方文档](https://git-scm.com/docs/gitignore)
-+ [.gitignore 模版合集](https://github.com/github/gitignore)
+* [Git 官方教程](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring)
+* [Git 官方文档](https://git-scm.com/docs/gitignore)
+* [.gitignore 模版合集](https://github.com/github/gitignore)
 
 ## 使用场景
 

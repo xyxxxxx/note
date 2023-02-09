@@ -73,6 +73,8 @@ teacher forcing 训练使用 ground truth 作为输入，如下图所示：
 
 ![](https://s2.loli.net/2023/02/06/jg9Z1YWraPehTiU.png)
 
+适当地在输入的 ground truth 中增加一些噪音，可以提高模型的自我纠错能力以及健壮性。
+
 ## 扩展
 
 ### 自回归解码器和非自回归解码器
@@ -85,3 +87,8 @@ teacher forcing 训练使用 ground truth 作为输入，如下图所示：
 
 * “Another predictor” 指训练另一个模型，其输入编码器的输入数据，输出解码器的输出长度。
 * “controllable output length” 指可以控制输出长度。例如对于 TTS 模型，减小输出长度可以让生成的语音语速更快；对于机器翻译模型，减小输出长度可以让翻译出的文本更简略。
+
+### Transformer 的变体
+
+* [Reformer: The Efficient Transformer](https://arxiv.org/abs/2001.04451)
+* [Longformer: The Long-Document Transformer](https://arxiv.org/abs/2004.05150)

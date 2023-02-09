@@ -875,19 +875,19 @@ $$
 
 由此可知：在给定 $X_2=k_2$ 的条件下，$X_1$ 的条件分布就是分布 $B(N-k_2,\frac{p_1}{1-p_2})$。
 
-## 随机变量的函数的概率分布
+### 连续型随机变量的条件分布
 
 设二维随机向量 $X=(X_1,X_2)$ 有概率密度函数 $f(x_1,x_2)$。先来考虑在限定 $a\le x_2\le b$ 的条件下，$X_1$ 的条件分布，有
 
 $$
-P(X_1le x_1|a\le X_2\le b)=P(X_1le x_1,a\le X_2\le b)/P(a\le X_2\le b)
+P(X_1\le x_1|a\le X_2\le b)=P(X_1\le x_1,a\le X_2\le b)/P(a\le X_2\le b)
 $$
 
 $X_2$ 的边缘分布的密度函数 $f_2$ 由 (2.10) 给出，有
 
 $$
 \displaylines{
-P(X_1le x_1,a\le X_2\le b)=\int_{-\infty}^{x_1}{\rm d}t_1\int_a^bf(t_1,t_2){\rm d}t_2\\
+P(X_1\le x_1,a\le X_2\le b)=\int_{-\infty}^{x_1}{\rm d}t_1\int_a^bf(t_1,t_2){\rm d}t_2\\
 P(a\le X_2\le b)=\int_a^bf_2(t_2){\rm d}t_2
 }
 $$
