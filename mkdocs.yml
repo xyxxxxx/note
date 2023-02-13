@@ -100,17 +100,11 @@ nav:
         - 凸优化: math/applied-mathematics/optimization/convex-optimization.md
         - 对偶性: math/applied-mathematics/optimization/duality.md
         - 非线性优化: math/applied-mathematics/optimization/nlp.md
-      - 概率论:
+      - 概率论与数理统计:
         - math/applied-mathematics/probability-theory/index.md
         - 事件的概率: math/applied-mathematics/probability-theory/probability-of-event.md
         - 随机变量: math/applied-mathematics/probability-theory/random-variable.md
         - 极限定理: math/applied-mathematics/probability-theory/limit-theorems.md
-      - 统计学:
-        - math/applied-mathematics/statistics/index.md
-        - 基本概念: math/applied-mathematics/statistics/basic-concepts.md
-        - 统计推断: math/applied-mathematics/statistics/statistical-inference.md
-        - 假设检验: math/applied-mathematics/statistics/hypothesis-testing.md
-        - 贝叶斯统计学: math/applied-mathematics/statistics/bayesian-statistics.md
       - 随机过程:
         - math/applied-mathematics/stochastic-process/index.md
         - 随机过程基础: math/applied-mathematics/stochastic-process/stochastic-process-introduction.md
