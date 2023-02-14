@@ -1,16 +1,16 @@
+[toc]
 
-
-# 排序算法sorting
+# 排序算法（sorting）
 
 > 排序算法时间复杂度下界为 $O(n\log n)$ 
 
-## 冒泡排序bubble sort
+## 冒泡排序（bubble sort）
 
 $T(n)=\frac{n(n-1)}{2}=O(n^2)$ 
 
-## 选择排序selection sort
+## 选择排序（selection sort）
 
-SelectSort()
+`SelectSort()`
 
 输入：包含n个元素的数组A
 
@@ -24,7 +24,7 @@ for i ← 1 to n-1 do
 
 $T(n)=O(n^2)$ 
 
-## 插入排序insertion sort
+## 插入排序（insertion sort）
 
 InsertSort(A,n)
 
@@ -44,7 +44,7 @@ for j ← 2 to n do
 
 $W(n)=W(n-1)+n-1=O(n^2),\quad T(n)=O(n^2)$ 
 
-## 堆排序heap sort
+## 堆排序（heap sort）
 
 > 最优
 
@@ -95,15 +95,15 @@ for i ← length[A] downto 2 do
 
 $T(n)=O(n\log n)$ 
 
-## 归并排序merge sort
+## 归并排序（merge sort）
 
 > 最优
 
 Mergesort(A,p,r)
 
-输入：数组A[p..r], 1<=p<=r<=n
+输入：数组 `A[p..r], 1<=p<=r<=n`
 
-输出：排好序的区间A[p..r]
+输出：排好序的区间 `A[p..r]`
 
 ```
 if p<r
@@ -115,9 +115,9 @@ Merge(A,p,q,r)
 
 Merge(A,p,q,r)
 
-输入：排好序的区间A[p..q]和A[q+1..r]
+输入：排好序的区间 `A[p..q]` 和 `A[q+1..r]`
 
-输出：排好序的区间A[p..r]
+输出：排好序的区间 `A[p..r]`
 
 ```
 x ← q-p+1, y ← r-q
