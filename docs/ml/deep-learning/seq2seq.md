@@ -19,7 +19,7 @@ NLP 的许多任务（阅读理解、机器翻译、文章摘要、情感分析�
 
 ### 论文
 
-* [Sequence to Sequence Learning with Neural Networks (2014)](https://arxiv.org/abs/1409.3215)
+* [Sequence to Sequence Learning with Neural Networks (Sutskever, 2014)](https://arxiv.org/abs/1409.3215)
 * [Listen, Attend and Spell (2015)](https://arxiv.org/abs/1508.01211)
 
 ### 扩展
@@ -55,7 +55,6 @@ NLP 的许多任务（阅读理解、机器翻译、文章摘要、情感分析�
 
 * Dive into Deep Learning
     * [11.1. Queries, Keys, and Values](https://d2l.ai/chapter_attention-mechanisms-and-transformers/queries-keys-values.html)
-    * [11.2. Attention Pooling by Similarity](https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-pooling.html)
     * [11.3. Attention Scoring Functions](https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html)
     * [11.4. The Bahdanau Attention Mechanism](https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html)
 
@@ -83,6 +82,26 @@ NLP 的许多任务（阅读理解、机器翻译、文章摘要、情感分析�
 
     $$
     {\rm Attention}(\pmb q,\{\pmb k,\pmb v\})=\sum_{i=1}^m\alpha(\pmb q,\pmb k_i)\pmb v_i
+    $$
+
+* 缩放点积注意力（scaled dot-product attention）的打分函数为：
+
+    $$
+    f(\pmb q,\pmb k_i)=\pmb q^{\rm T}\pmb k_i/\sqrt{d}
+    $$
+
+    其中 $\pmb q\in\mathbb{R}^d,\pmb k_i\in\mathbb{R}^d$。假定 $\pmb q$ 和 $\pmb k_i$ 的每个元素都服从期望为 0、方差为 1 的独立同分布，那么点积每一项的期望为 0，方差为 1，点积本身期望为 0，方差为 $d$。为使点积的方差保持为 1（而与向量长度 $d$ 无关），这里取缩放系数 $1/\sqrt{d}$。点积如有较大方差，会导致 softmax 操作中各指数项的大小差距过大，从而梯度过小。
+
+* 双线性注意力的打分函数为：
+
+    $$
+    f(\pmb q,\pmb k_i)=\pmb q^{\rm T}W\pmb k_i
+    $$
+
+* 加性注意力（[Bahdanau，2014](https://arxiv.org/abs/1409.0473)）的打分函数为：
+
+    $$
+    f(\pmb q,\pmb k_i)=\pmb w_v^{\rm T}\tanh(W_q\pmb q+W_k\pmb k_i)
     $$
 
 #### 可视化

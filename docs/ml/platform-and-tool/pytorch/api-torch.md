@@ -1002,7 +1002,6 @@ tensor([[0, 0, 0],
 ## 张量操作
 
 !!! tip "提示"
-    
     下列张量操作函数中的大部分都是 `torch.Tensor` 方法，即张量可以调用下列函数的同名方法，相当于将张量自身作为函数的第一个张量参数。
 
 ### cat()
@@ -1224,6 +1223,28 @@ tensor([[[ 0,  4,  8],
 
         [[ 3,  7, 11],
          [15, 19, 23]]])
+```
+
+### repeat_interleave()
+
+（原位）重复张量的元素。
+
+```python
+>>> a = torch.tensor([[1, 2], [3, 4]])
+>>> a.repeat_interleave(2)         # 展开并重复
+tensor([1, 1, 2, 2, 3, 3, 4, 4]) 
+>>> a.repeat_interleave(2, dim=0)  # 沿轴0重复
+tensor([[1, 2],
+        [1, 2],
+        [3, 4],
+        [3, 4]])
+>>> a.repeat_interleave(2, dim=1)  # 沿轴1重复
+tensor([[1, 1, 2, 2],
+        [3, 3, 4, 4]])
+>>> a.repeat_interleave(torch.tensor([1, 2]), dim=0)
+tensor([[1, 2],                    # 分别重复1/2次
+        [3, 4],
+        [3, 4]])
 ```
 
 ### reshape()

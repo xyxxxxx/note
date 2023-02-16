@@ -268,12 +268,12 @@ $$
 
 证明略。
 
-**推论** 若 $c$ 为常数，则
+**推论** 若 $C$ 为常数，则
 
 $$
 \begin{equation}
 \tag{1.19}
-E(cX)=cE(X)
+E(CX)=CE(X)
 \end{equation}
 $$
 
@@ -461,4 +461,181 @@ $$
 \end{equation}
 $$
 
-称为 $X$（或分布）
+称为 $X$（或分布 $F$）的方差，其算术平方根 $\sqrt{{\rm Var}(X)}$ 称为 $X$（或分布 $F$）的标准差。
+
+暂记 $EX=a$，由于 $(X-a)^2=X^2-2aX+a^2$，按照定理 1.1，得到
+
+$$
+\begin{equation}
+\tag{2.2}
+{\rm Var}(X)=E(X^2)-2aE(X)+a^2=E(X^2)-(EX)^2
+\end{equation}
+$$
+
+方差的这个形式在计算上往往较为方便。
+
+方差之所以成为刻画散布度的最重要的数字特征，原因之一是它具有一些优良的数字性质，反映在以下几个定理中：
+
+**定理 2.1**
+
+1. 常数的方差为 0。
+2. 若 $C$ 为常数，则 ${\rm Var}(X+C)={\rm Var}(X)$。
+3. 若 $C$ 为常数，则 ${\rm Var}(CX)=C^2{\rm Var}(X)$。
+
+证明：
+
+1. 若 $X 为常数 $a$，则 ${\rm Var}(X)=E(X^2)-(EX)^2=a^2-a^2=0$。
+2. 因为 $E(X+C)=E(X)+C$，故有
+
+    $$
+    {\rm Var}(X+C)=E((X+C)-(EX+C))^2=E(X-EX)^2={\rm Var}(X)
+    $$
+
+3. 因为 $E(CX)=CE(X)$，故有
+
+    $$
+    {\rm Var}(CX)=E(CX-CEX)^2=C^2E(X-EX)^2=C^2{\rm Var}(X)
+    $$
+
+**定理 2.2** 独立随机变量之和的方差，等于各变量的方差之和：
+
+$$
+\begin{equation}
+\tag{2.3}
+{\rm Var}(X_1+\cdots+X_n)={\rm Var}(X_1)+\cdots+{\rm Var}(X_n)
+\end{equation}
+$$
+
+证明：记 $E(X_i)=a_i,i=1,\cdots,n$，则因 $E(\sum_{i=1}^nX_i)=\sum_{i=1}^na_i$，有
+
+$$
+\begin{align}
+{\rm Var}(X_1+\cdots+X_n)&=E(\sum_{i=1}^nX_i-\sum_{i=1}^na_i)^2=E(\sum_{i=1}^n(X_i-a_i))^2\\
+&=\sum_{i,j=1}^nE((X_i-a_i)(X_j-a_j))
+\end{align}
+$$
+
+其中有两类项：一类是 $i=j$，按照方差的定义，即为 ${\rm Var}(X_i)$；另一类项是 $i\neq j$，因 $X_i,X_j$ 独立，按照定理 1.2 有 $E(X_iX_j)=E(X_i)E(X_j)=a_ia_j$，故
+
+$$
+E((X_i-a_i)(X_j-a_j))=E(X_iX_j)-E(a_iX_j)-E(a_jX_i)+a_ia_j=a_ia_j-a_ia_j-a_ia_j+a_ia_j=0
+$$
+
+即证明了此定理。
+
+这个定理是方差的一个极重要的性质，它与期望的定理 1.1 相似。但要注意的是：方差的定理要求各变量独立，而期望的定理则不要求。
+
+**例 2.1** 设 $X$ 是一随机变量，$E(X)=a$，而 ${\rm Var}(X)=\sigma^2$。记 $Y=(X-a)/\sigma$，则 $E(Y)=0$，且按照定理 2.1 有 ${\rm Var}(Y)=1$。这样，对 $X$ 作一线性变换后，得到一个期望为 0、方差为 1 的变量 $Y$，常称 $Y$ 是 $X$ 的标准化。
+
+**例 2.2** 设 $X$ 服从泊松分布 $P(\lambda)$，求其方差。前面已求出 $E(X)=\lambda$，又根据定理 1.3，有
+
+$$
+\begin{align}
+E(X^2)&=\sum_{i=0}^\infty i^2e^{-\lambda}\lambda^i/i!\\
+&=\sum_{i=0}^\infty i(i-1)e^{-\lambda}\lambda^i/i!+\sum_{i=0}^\infty ie^{-\lambda}\lambda^i/i!\\
+&=\lambda^2\sum_{i=2}^\infty e^{-\lambda}\lambda^(i-2)/(i-2)!+\lambda\\
+&=\lambda^2e^{-\lambda}\sum_{i=0}^\infty \lambda^(i)/i!+\lambda\\
+&=\lambda^2e^{-\lambda}e^\lambda+\lambda\\
+&=\lambda^2+\lambda\\
+\end{align}
+$$
+
+于是 ${\rm Var}(X)=E(X^2)-(EX)^2=\lambda^2+\lambda-\lambda^2=\lambda$，即泊松分布 $P(\lambda)$ 的期望方差都等于其参数 $\lambda$。
+
+**例 2.3** 设 $X$ 服从二项分布 $B(n,p)$，求 ${\rm Var}(X)$。
+
+与例 1.6 类似地，将 $X$ 表示为 $n$ 个服从伯努利分布的独立随机变量 $X_1,\cdots,X_n$ 之和。因 $X_i$ 只取 1 和 0 两个值，概率分别为 $p$ 和 $1-p$，故 $E(X_i)=p,E(X_i^2)=p,i=1,\cdots,n$，因而有 ${\rm Var}(X_i)=p-p^2=p(1-p)$，从而
+
+$$
+{\rm Var}(X)=np(1-p)
+$$
+
+**例 2.5** 设 $X$ 服从正态分布 $N(\mu,\sigma^2)$，注意到 $E(X)=\mu$，有
+
+$$
+{\rm Var}(X)=E(X-\mu)^2=\frac{1}{\sqrt{2\pi}\sigma}\int_{-\infty}^\infty(x-\mu)^2e^{-(x-\mu)^2/2\sigma^2}{\rm d}x
+$$
+
+作变数代换 $x=\mu+\sigma t$，得
+
+$$
+{\rm Var}(X)=\sigma^2\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty t^2e^{-t^2/2}{\rm d}t
+$$
+
+式中的积分已在例 1.8 中算过，为 $\sqrt{2\pi}$，故
+
+$$
+{\rm Var}(X)=\sigma^2
+$$
+
+**例 2.6** 指数分布的方差为 $1/\lambda^2$。区间 $[a,b]$ 上的均匀分布的方差为 $(b-a)^2/12$。这些都容易根据 (2.2) 直接算出。
+
+**例 2.7** 求“统计三大分布”的方差。
+
+先考虑卡方分布。设 $X\sim\chi_n^2$，将 $X$ 表示为 $X_1^2+\cdots+X_n^2$，$X_1,\cdots,X_n$ 独立同分布且有公共分布 $N(0,1)$，故
+
+$$
+{\rm Var}(X_i^2)=E(X_i^4)-(EX_i^2)^2=E(X_i^4)-1
+$$
+
+而
+
+$$
+E(X_i^4)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty x^4e^{-x^2/2}{\rm d}x=\frac{2}{\sqrt{2\pi}}\int_0^\infty x^4e^{-x^2/2}{\rm d}x
+$$
+
+作变数代换 $x=\sqrt{2t}$，有
+
+$$
+\begin{align}
+E(X_i^4)&=\frac{2}{\sqrt{2\pi}}2\sqrt{2}\int_0^\infty t^{3/2}e^{-t}{\rm d}t=\frac{4}{\sqrt{\pi}}\Gamma(\frac{5}{2})\\
+&=\frac{4}{\sqrt{\pi}}\frac{3}{2}\frac{1}{2}\sqrt{\pi}=3
+\end{align}
+$$
+
+故 ${\rm Var}(X_i^4)=3-1=2$，而 ${\rm Var}(X)=2n$。
+
+然后考虑 $t$ 分布。设 $X=X_1/\sqrt{\frac{1}{n}X_2}$，$X_1,X_2$ 独立而 $X_2\sim\chi_n^2,X_1\sim N(0,1)$。前面已指出 $E(X)=0$，故由独立性有
+
+$$
+{\rm Var}(X)=E(X^2)=E(X_1^2)E(n/X_2)=nE(1/X_2)
+$$
+
+### 矩
+
+**定义 2.2** 设 $X$ 为随机变量，$c$ 为常数，$k$ 为正整数，则 $E(X-c)^k$ 称为 $X$ 关于点 $c$ 的 $k$ 阶矩。
+
+有两种情况比较重要：
+
+1. $c=0$，此时 $a_k=E(X^k)$ 称为 $X$ 的 $k$ 阶原点矩。
+2. $c=E(X)$，此时 $\mu_k=E(X-EX)^k$ 称为 $X$ 的 $k$ 阶中心矩。
+
+一阶原点矩就是期望。一阶中心矩 $\mu_1=0$，二阶中心矩 $\mu_2$ 就是 ${\rm Var}(X)$。在统计学上，高于四阶的矩极少使用，三、四阶的矩有些应用，但也不是很多。
+
+应用之一是用 $\mu_3$ 去衡量分布是否有偏。设 $X$ 的概率密度函数为 $f(x)$。若 $f$ 关于某点 $a$ 对称，即
+
+$$
+f(a+x)=f(a-x)
+$$
+
+如上图所示，则 $a$ 必等于 $E(X)$，且 $\mu_3=E(X-EX)^3=0$。如果 $\mu_3>0$，则称分布正偏或右偏；如果 $\mu_3<0$，则称分布负偏或左偏。特别地，对于正态分布而言有 $\mu_3=0$，故如果 $\mu_3$ 显著异于 0，则是分布与正态有较大偏离的标志。由于 $\mu_3$ 的次数是 $X$ 的次数的三次方，为抵消这一点，以 $X$ 的标准差的三次方，即 $\mu_2^{3/2}$ 去除 $\mu_3$，其商
+
+$$
+\begin{equation}
+\tag{2.8}
+\beta_1=\mu_3/\mu_2^{3/2}
+\end{equation}
+$$
+
+称为 $X$ 或其分布的**偏度系数**。
+
+应用之二是用 $\mu_4$ 去衡量分布（密度）在均值附近的陡峭程度如何。因为 $\mu_4=E(X-EX)^4$，容易看出，若 $X$ 的取值在概率上非常集中在 $E(X)$ 附近，则 $\mu_4$ 就倾向于小，否则就倾向于大。为抵消尺度的影响，类似于 $\mu_3$ 的情况，以标准差的四次方即去除，得到
+
+$$
+\begin{equation}
+\tag{2.9}
+\beta_2=\mu_4/\mu_2^2
+\end{equation}
+$$
+
+称为 $X$ 或其分布的**峰度系数**。

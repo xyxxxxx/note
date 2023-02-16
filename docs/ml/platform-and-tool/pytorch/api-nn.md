@@ -341,11 +341,11 @@ class torch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=N
 # bias           是否使用偏置
 ```
 
-+ 输入形状： $(N,*,H_{\rm in})$，其中 $N$ 表示批次规模， $*$ 表示任意个额外的维度， $H_{\rm in}={\rm in\_features}$。
-+ 输出形状： $(N,*,H_{\rm out})$，其中 $H_{\rm out}={\rm out\_features}$。
-+ 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
-  + `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
+* 输入形状： $(N,*,H_{\rm in})$，其中 $N$ 表示批次规模， $*$ 表示任意个额外的维度， $H_{\rm in}={\rm in\_features}$。
+* 输出形状： $(N,*,H_{\rm out})$，其中 $H_{\rm out}={\rm out\_features}$。
+* 参数：
+    * `weight`：可学习的权重张量，形状为 `[out_features, in_features]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
+    * `bias`：可学习的偏置张量，形状为 `[out_features,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=1/{\rm in\_features}$。
 
 ```python
 >>> linear1 = nn.Linear(10, 4)
@@ -368,6 +368,12 @@ tensor([[-0.0285,  0.0458, -0.0013,  0.2764,  0.0984, -0.1178, -0.1910, -0.0530,
 Parameter containing:
 tensor([ 0.2535, -0.0148, -0.2111,  0.1926], requires_grad=True)
 ```
+
+### LazyLinear
+
+和 `torch.nn.Linear` 模块相同，除了 `in_features` 参数通过推断得到。
+
+此模块中，`weight` 和 `bias` 都属于 `torch.nn.UninitializedParameter` 类。它们将在第一次调用 `forward()` 后被初始化，然后模块会变成一个常规的 `torch.nn.Linear` 模块。`in_features` 参数从 `input.shape[-1]` 推断得到。
 
 ## 卷积层
 
@@ -394,11 +400,11 @@ dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-+ 输入形状： $(N,C_{\rm in},L_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $L$ 表示长，下同。
-+ 输出形状： $(N,C_{\rm out},L_{\rm out})$。
-+ 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+* 输入形状： $(N,C_{\rm in},L_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $L$ 表示长，下同。
+* 输出形状： $(N,C_{\rm out},L_{\rm out})$。
+* 参数：
+    * `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+    * `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 ```python
 >>> conv1 = nn.Conv1d(1, 32, 3, 1)                   # 卷积核长度为3,步长为1
@@ -439,11 +445,11 @@ dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 
 > `kernel_size` 等参数的具体意义请参见 [An Introduction to different Types of Convolutions in Deep Learning](https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d)。
 
-+ 输入形状： $(N,C_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $H$ 表示高， $W$ 表示宽，下同。
-+ 输出形状： $(N,C_{\rm out},H_{\rm out}, W_{\rm out})$。
-+ 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+* 输入形状： $(N,C_{\rm in},H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $H$ 表示高， $W$ 表示宽，下同。
+* 输出形状： $(N,C_{\rm out},H_{\rm out}, W_{\rm out})$。
+* 参数：
+    * `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+    * `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 ```python
 >>> conv1 = nn.Conv2d(1, 32, 3, 1)                 # 卷积核大小为(3,3),步长为1
@@ -486,11 +492,11 @@ dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
 # bias            若为`True`,为输出加上一个可以学习的偏置
 ```
 
-+ 输入形状： $(N,C_{\rm in},D_{\rm in}, H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
-+ 输出形状： $(N,C_{\rm out},D_{\rm out},H_{\rm out}, W_{\rm out})$。
-+ 参数：
-  + `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
-  + `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+* 输入形状： $(N,C_{\rm in},D_{\rm in}, H_{\rm in}, W_{\rm in})$，其中 $N$ 表示批次规模， $C$ 表示通道数， $D$ 表示深， $H$ 表示高， $W$ 表示宽，下同。
+* 输出形状： $(N,C_{\rm out},D_{\rm out},H_{\rm out}, W_{\rm out})$。
+* 参数：
+    * `weight`：可学习的权重张量，形状为 `[out_channels, in_channels // groups, kernel_size[0], kernel_size[1], kernel_size[2]]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
+    * `bias`：可学习的偏置张量，形状为 `[out_channels,]`，初始值服从 $(-\sqrt{k},\sqrt{k})$ 区间上的均匀分布，其中 $k=\cdots$。
 
 ## 汇聚层（池化层）
 
