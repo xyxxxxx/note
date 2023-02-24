@@ -1,5 +1,9 @@
 # Linux 命令行工具
 
+## ariac
+
+[aria2](https://aria2.github.io/) is a lightweight multi-protocol & multi-source command-line download utility. It supports HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink. aria2 can be manipulated via built-in JSON-RPC and XML-RPC interfaces.
+
 ## curl
 
 curl 是一个常用的命令行工具，用于数据传输，支持多种协议，功能十分强大。
@@ -288,9 +292,3 @@ $ wget -o download.log <url>  # 将下载信息保存到日志文件,而不显�
 ```
 
 ### 常见应用
-
-```shell
-# 镜像网站
-$ wget
-```
-

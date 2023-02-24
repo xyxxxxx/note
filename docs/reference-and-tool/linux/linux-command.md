@@ -716,6 +716,26 @@ $ cat url-list.txt | xargs wget -i      # 批量下载`url-list.txt`中的链接
 
 ## 磁盘
 
+### dd
+
+读取、转换和写入文件数据。
+
+```shell
+# 从stdin默认读取512个字节,将其中的小写英文字母转换为大写,再写入到stdout
+$ echo abcd | dd conv=ucase
+ABCD
+0+1 records in
+0+1 records out
+5 bytes copied, 2.4e-05 s, 208 kB/s
+
+# 从file1默认读取512个字节,将其中的小写英文字母转换为大写,再写入到file2
+$ dd if=file1 of=file2 conv=ucase
+
+# 创建指定大小的空字节文件
+$ dd if=/dev/zero of=file bs=<file_size> count=1           # file_size < 1G
+$ dd if=/dev/zero of=file bs=1M count=<file_size_in_MB>    # file_size > 1G
+```
+
 ### df
 
 显示当前文件系统的磁盘使用情况统计。
