@@ -4,18 +4,19 @@
 
 各个大型语言模型的参数量比较如下：
 
-| 模型               | 参数量 |
-| ------------------ | ------ |
-| ELMO               | 94M    |
-| BERT               | 340M   |
-| GPT-2              | 1.5B   |
-| Megatron           | 80B    |
-| Turing NLG         | 17B    |
-| T5                 | 110B   |
-| LamDA              | 137B   |
-| GPT-3              | 175B   |
-| PaLM               | 540B   |
-| Switch Transformer | 1.6T   |
+| 模型               | 参数量 | 训练语料库大小 |
+| ------------------ | ------ | -------------- |
+| ELMO               | 94M    |                |
+| GPT                | 117M   | 1GB            |
+| BERT               | 340M   |                |
+| GPT-2              | 1.5B   | 40GB           |
+| Megatron           | 80B    |                |
+| Turing NLG         | 17B    |                |
+| T5                 | 110B   |                |
+| LamDA              | 137B   |                |
+| GPT-3              | 175B   | 570GB          |
+| PaLM               | 540B   |                |
+| Switch Transformer | 1.6T   |                |
 
 ## ELMo
 
@@ -190,7 +191,7 @@ OpenAI 的研究人员发现，生成 token 序列的 GPT 模型同样可以用�
 
 * [Evaluating Large Language Models Trained on Code (Chen, 2021)](https://arxiv.org/pdf/2107.03374.pdf)
 
-OpenAI 的研究人员使用从 GitHub 上爬取的 Python 代码微调 GPT3 模型，用该模型（称为 Codex）解决（人工编写的）编程问题（给定函数签名和 docstring，生成函数实现）。评估结果显示，Codex 可以解决一些简单的问题，但难以解决稍复杂的问题。
+OpenAI 的研究人员使用从 GitHub 上爬取的 Python 代码微调 GPT-3 模型，用该模型（称为 Codex）解决（人工编写的）编程问题（给定函数签名和 docstring，生成函数实现）。评估结果显示，Codex 可以解决一些简单的问题，但难以解决稍复杂的问题。
 
 使用从编程竞赛网站的题库和 GitHub 上一些项目的 CI 构建的类似的编程问题继续微调，可以改善模型的表现。反复从模型采样（生成函数实现），当中包含正确解答的概率会显著提高，但需要对所有样本进行排序。
 
@@ -202,7 +203,21 @@ GitHub Copilot 就是由 Codex 的一个版本进行驱动。
 
 * [Training language models to follow instructions with human feedback (Ouyang, 2022)](https://arxiv.org/abs/2203.02155)
 
+为了使大型语言模型产生的输出对齐用户的需求（即生成有帮助的、真实的、无害的内容），OpenAI 的研究人员对预训练的 GPT-3 模型进行微调，方法如下：
 
+首先准备一个预训练语言模型、一个 prompt 分布以及一个受过训练的人类标注团队，然后执行以下三个步骤（如下图所示）：
+
+![](https://s2.loli.net/2023/02/28/oLzwBsVuMEh7Crx.png)
+
+1. **收集演示数据，训练有监督策略**：标注员在 prompt 分布上提供期望的行为演示，然后使用有监督学习对预训练的 GPT-3 模型进行微调。
+2. **收集比较数据，训练奖励模型**：收集模型输出之间的比较数据，其中标注员指出他们更喜欢哪一个输出。然后训练一个奖励模型来预测人类更喜欢的输出。
+3. **使用 PPO 算法针对奖励模型优化策略**：使用 RM 的输出作为标量奖励，然后使用 PPO 算法微调有监督策略以优化此奖励。
+
+步骤 2 和 3 可以不断迭代；我们收集更多的比较数据来训练新的 RM 和策略。在实践中，大多数比较数据来自于有监督策略，一些来自于 PPO 策略。
+
+相比 GPT-3，用户更加偏好 InstructGPT 的输出；InstructGPT 在内容的真实性和无害性上也有所提升。
+
+### ChatGPT
 
 ### 讨论
 
