@@ -1140,7 +1140,7 @@ tensor(50.)
 
 交叉熵损失函数层。相当于将 `LogSoftmax` 和 `NLLLoss` 组合为一个模块。
 
-通常用于多分类问题（ $C$ 个类别）；输入张量应当包含的是生的、未归一化的每个类别的分数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
+通常用于多分类问题（$C$ 个类别）；输入张量应当包含的是生的、未归一化的每个类别的分数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
 
 ```python
 class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
@@ -1152,9 +1152,9 @@ class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-10
 #                若为`'mean'`,则对输出的所有元素求平均
 ```
 
-+ 输入形状： $(N,C)$，其中 $N$ 表示批次规模， $C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
-+ 目标形状： $(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
-+ 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
+* 输入形状： $(N,C)$，其中 $N$ 表示批次规模，$C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
+* 目标形状： $(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
+* 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
 
 ```python
 >>> y = torch.tensor([[0.2, 5.0, 0.8]])    # 输出分数
@@ -1239,13 +1239,15 @@ tensor(9.)
 ### NLLLoss
 
 负对数似然损失层。
+
 $$
-l_n = -w_ny_{n,t_n}\\
+l_n = -w_{y_n}x_{n,y_n}\\
 l=\sum_n l_n\ {\rm 或}\ l=\frac{1}{N}\sum_n l_n
 $$
-其中 $N$ 为批次规模， $w_n$ 为  `weight` 参数指定的权重。
 
-通常用于多分类问题（ $C$ 个类别）；输入张量应当包含的是每个类别的概率的（自然）对数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
+其中 $x$ 为输入，$y$ 为目标，$w$ 为 `weight` 参数指定的权重，$N$ 为批次规模。
+
+通常用于多分类问题（$C$ 个类别）；输入张量应当包含的是每个类别的概率的（自然）对数，形状为 $(batch\_size,C)$ ；目标张量应当是批次规模长度的一维张量，其中每个值是 $[0, C-1]$ 范围内的整数索引，代表正确的类别。
 
 ```python
 class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
@@ -1257,9 +1259,9 @@ class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce
 #                若为`'mean'`,则对输出的所有元素求平均
 ```
 
-+ 输入形状： $(N,C)$，其中 $N$ 表示批次规模， $C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
-+ 目标形状： $(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
-+ 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
+* 输入形状：$(N,C)$，其中 $N$ 表示批次规模，$C$ 表示类别数；或 $(N,C,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
+* 目标形状：$(N)$，其中 $N$ 表示批次规模，每一个值是 $[0, C-1]$ 范围内的整数索引；或 $(N,d_1,d_2,\cdots,d_k)$，其中 $d_i$ 表示额外的维度。
+* 输出形状：标量；若 `reduction` 为 `'none'`，则与目标形状相同。
 
 ```python
 >>> y = torch.tensor([[ 0.4377, -0.3976, -1.3221],
