@@ -101,10 +101,10 @@ nav:
         - 对偶性: math/applied-mathematics/optimization/duality.md
         - 非线性优化: math/applied-mathematics/optimization/nlp.md
       - 概率论与数理统计:
-        - math/applied-mathematics/probability-theory/index.md
-        - 事件的概率: math/applied-mathematics/probability-theory/probability-of-event.md
-        - 随机变量: math/applied-mathematics/probability-theory/random-variable.md
-        - 极限定理: math/applied-mathematics/probability-theory/limit-theorems.md
+        - math/applied-mathematics/probability-theory-and-mathematical-statistics/index.md
+        - 事件的概率: math/applied-mathematics/probability-theory-and-mathematical-statistics/probability-of-event.md
+        - 随机变量: math/applied-mathematics/probability-theory-and-mathematical-statistics/random-variable.md
+        - 极限定理: math/applied-mathematics/probability-theory-and-mathematical-statistics/limit-theorems.md
       - 随机过程:
         - math/applied-mathematics/stochastic-process/index.md
         - 随机过程基础: math/applied-mathematics/stochastic-process/stochastic-process-introduction.md
