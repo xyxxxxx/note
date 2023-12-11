@@ -1,0 +1,7997 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="xyx">
+      
+      
+        <link rel="canonical" href="https://xyxxxxx.github.io/note/archived/ml/dl/optimization.html">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.1">
+    
+    
+      
+        <title>Optimization - 笔记</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.45e1311d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#网络优化" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="笔记" class="md-header__button md-logo" aria-label="笔记" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            笔记
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.html" class="md-tabs__link">
+        
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../math/index.html" class="md-tabs__link">
+          
+  
+    
+  
+  数学
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../cs/dsa/data-structure/index.html" class="md-tabs__link">
+          
+  
+    
+  
+  CS
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../python/index.html" class="md-tabs__link">
+          
+  
+    
+  
+  Python
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ml/index.html" class="md-tabs__link">
+          
+  
+    
+  
+  机器学习
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference-and-tool/linux/linux-command.html" class="md-tabs__link">
+          
+  
+    
+  
+  参考和工具
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../web/simple-html.html" class="md-tabs__link">
+          
+  
+    
+  
+  前端
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="笔记" class="md-nav__button md-logo" aria-label="笔记" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    笔记
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    首页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    数学
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            数学
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/algebra/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    代数
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            代数
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/algebra/elementary-algebra.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    基础代数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/algebra/linear-algebra.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    线性代数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/algebra/linear-algebra-understanding.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    线性代数理解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/algebra/abstract-algebra.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    抽象代数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/analysis/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    分析
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            分析
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/calculus.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    微积分
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/multivariate-calculus.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多元微积分
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/matrix-calculus.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    矩阵微积分
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/differential-equation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    微分方程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/complex-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    复分析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/analysis/mathematical-physics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数学物理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/applied-mathematics/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    应用数学
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            应用数学
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/applied-mathematics/optimization/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    数学优化
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4_2" id="__nav_2_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            数学优化
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/optimization/convex-set.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    凸集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/optimization/convex-function.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    凸函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/optimization/convex-optimization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    凸优化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/optimization/duality.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    对偶性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/optimization/nlp.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    非线性优化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/applied-mathematics/probability-theory-and-mathematical-statistics/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    概率论与数理统计
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4_3" id="__nav_2_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            概率论与数理统计
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/probability-theory-and-mathematical-statistics/probability-of-event.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    事件的概率
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/probability-theory-and-mathematical-statistics/random-variable.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    随机变量
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/probability-theory-and-mathematical-statistics/limit-theorems.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    极限定理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/applied-mathematics/stochastic-process/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    随机过程
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4_4" id="__nav_2_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            随机过程
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/stochastic-process/stochastic-process-introduction.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    随机过程基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/stochastic-process/markov-chain.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    马尔可夫链
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/applied-mathematics/stochastic-process/poisson-process.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泊松过程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../math/discrete-mathematics/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    离散数学
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            离散数学
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/mathematical-logic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数学逻辑
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/set-theory.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    集合论
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/enumerative-combinatorics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    组合数学
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/polynomial.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多项式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/graph-theory.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    图论
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../math/discrete-mathematics/number-theory.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数论
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    CS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    数据结构与算法
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            数据结构与算法
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cs/dsa/data-structure/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    数据结构
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            数据结构
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/array-and-linked-list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数组和链表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/stack-and-queue.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    栈和队列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/binary-search-tree.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    二叉搜索树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/hash-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    哈希表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/graph.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    图
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/data-structure/heap.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cs/dsa/algorithm/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    算法
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            算法
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/common-algorithm.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/divide-and-conquer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    分而治之
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/dynamic-programming.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态规划
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/greedy-algorithm.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    贪心算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/backtracking.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    回溯法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/network-flow-algorithm.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络流算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/algorithm/linear-programming.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    线性规划
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/dsa/leetcode-examples.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Leetcode 例题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cs/net/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    网络
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            网络
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cs/net/net-model/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    网络模型
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            网络模型
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/net/net-model/transport-layer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    传输层
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/net/net-model/network-layer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络层
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/net/net-model/application-layer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    应用层
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cs/information-theory/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    信息论
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            信息论
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/information-theory/entropy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    熵、相对熵与互信息
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../python/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/runtime-environment-devtool.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行环境与开发工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/data-type-and-operation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数据类型与操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/function.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/control-flow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    控制流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/container-type.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/iterator-and-generator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    迭代器与生成器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/oop.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    面向对象编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/io.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IO
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/process-and-thread.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程与线程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/error-handling-and-unit-test.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误处理与单元测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/module-and-package.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    模块与包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_13" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../python/standard-library/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_13" id="__nav_4_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_13">
+            <span class="md-nav__icon md-icon"></span>
+            标准库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/argparse.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    argparse——命令行选项、参数和子命令解析器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/base64.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    base64——Base16, Base32, Base64, Base85 数据编码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/builtins.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    builtins——内建对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/collections.abc.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    collections.abc——容器的抽象基类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/collections.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    collections——容器数据类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/configparser.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    configparser——配置文件解析器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/concurrent.futures.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    concurrent.futures——启动并行任务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/copy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    copy——浅层和深层复制操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/csv.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    csv——CSV 文件读写
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/datetime.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    datetime——基本日期和时间类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/enum.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    enum——对枚举的支持
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/functions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/functools.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    functools——高阶函数和可调用对象上的操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/glob.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    glob——Unix 风格路径名模式扩展
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/graphlib.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    graphlib——操作类似图的结构的功能
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/hashlib.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    hashlib——安全哈希与消息摘要
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/hmac.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    hmac——基于密钥的消息验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/importlib.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    importlib——import 的实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/inspect.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inspect——检查对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/io.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    io——处理流的核心工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/itertools.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    itertools——为高效循环而创建迭代器的函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/json.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    json——JSON 编码和解码器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/keyword.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    keyword——检验 Python 关键字
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/marshal.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    marshal——内部 Python 对象序列化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/math.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    math——数学函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/multiprocessing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    multiprocessing——基于进程的并行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/operator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    operator——标准运算符替代函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/os.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    os——多种操作系统接口
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/os.path.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    os.path——常用路径操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/pathlib.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pathlib——面向对象的文件系统路径
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/pickle.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pickle——Python 对象序列化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/platform.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    platform——获取底层平台的标识数据
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/pprint.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pprint——数据美化输出
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/queue.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    queue——一个同步的队列类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/random.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    random——生成伪随机数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/re.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    re——正则表达式操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/secrets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    secrets——生成安全随机数字用于管理密码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/select.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    select——等待 I/O 完成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/shlex.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shlex——简单的词法分析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/shutil.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shutil——高阶文件操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/signal.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    signal——设置异步事件处理程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/socket.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    socket——底层网络接口
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/subprocess.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    subprocess——子进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/sys.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sys——系统相关的参数和函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/tarfile.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    tarfile——读写 tar 归档文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/tempfile.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    tempfile——生成临时文件和目录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/threading.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    threading——基于线程的并行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/time.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    time——时间的访问和转换
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/timeit.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    timeit——测量小段代码的执行时间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/types.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    types——动态类型创建和内置类型名称
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/typing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    typing——类型提示支持
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/urllib.parse.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    urllib.parse——用于解析 URL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/urllib.request.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    urllib.request——用于打开 URL 的可扩展库
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/uuid.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    uuid——RFC 4122 定义的 UUID 对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/weakref.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    weakref——弱引用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/standard-library/zipfile.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    zipfile——使用 ZIP 存档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_14" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../python/common-library/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    常用库
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_14" id="__nav_4_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_14">
+            <span class="md-nav__icon md-icon"></span>
+            常用库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/beautifulsoup.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BeautifulSoup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/click.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    click
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/filelock.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    filelock
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/pillow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pillow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/pyyaml.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyYAML (yaml)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/requests.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    requests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/rich.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rich
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/common-library/websocket-client.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    websocket-client (websocket)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/style-guide.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    风格指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    机器学习
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            机器学习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    统计学习
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            统计学习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/statistical-learning/regression.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    回归
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/statistical-learning/nb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    朴素贝叶斯
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/statistical-learning/perceptron.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    感知器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/statistical-learning/svm.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持向量机
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    深度学习
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/fnn.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    前馈神经网络（FNN）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/cnn.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    卷积神经网络（CNN）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/rnn.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    循环神经网络（RNN）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/embedding.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    嵌入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/seq2seq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    序列到序列模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/transformer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transformer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/self-supervised.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自监督学习模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/gan.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    生成对抗网络（GAN）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/rl.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    强化学习
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/deep-learning/auto-learning.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动学习
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    常用技术
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            常用技术
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/optimization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    优化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/normalization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    归一化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/generalization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/anomaly-detection.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常检测
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/adversarial-attack.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    对抗攻击
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/explainable-ml.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    模型可解释性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/transfer-learning.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    迁移学习
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/model-compression.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    模型压缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/technique/life-long-learning.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    终身学习
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/nlp/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    自然语言处理专题
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            自然语言处理专题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/text-processing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    文本处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/language-model.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    语言模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/sentiment-classification.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    朴素贝叶斯和情感分类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/logistic-regression.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    逻辑回归
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/embedding.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    嵌入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/neural-network.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/nlp/part-of-speech-tagging.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    词性标注和命名实体检测
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/distributed/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    分布式训练
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            分布式训练
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    平台和工具
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            平台和工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/numpy/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    NumPy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_2" id="__nav_5_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            NumPy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/numpy/get-started.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    快速入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/numpy/api.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/pandas/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    pandas
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_3" id="__nav_5_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pandas/get-started.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    快速入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pandas/api.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/matplotlib/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    matplotlib
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_4" id="__nav_5_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            matplotlib
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/matplotlib/example.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    示例
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/tensorflow/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    TensorFlow
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_5" id="__nav_5_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            TensorFlow
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/tensorflow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TensorFlow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-tf.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-distribute.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.distribute
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-image.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.image
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-keras.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.keras
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-linalg.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.linalg
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-math.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.math
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-random.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.random
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-signal.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.signal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-sparse.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.sparse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-strings.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.strings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-train.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tf.train
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/tensorflow/api-tfds.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: tfds
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/pytorch/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_6" id="__nav_5_7_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/pytorch.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/torchvision.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    torchvision
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/torchserve.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    torchserve
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-torch.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-nn.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.nn
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-nn-functional.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.nn.functional
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-optim.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.optim
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-autograd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.autograd
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-cuda.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.cuda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-backends.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.backends
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-distributed.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.distributed
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-multiprocessing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.multiprocessing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-math.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.fft, torch.linalg, torch.special
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-sparse.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.sparse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-utils-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.utils.data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-utils-tensorboard.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: torch.utils.tensorboard
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/lightning.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lightning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/pytorch/api-lightning.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API: lightning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/horovod.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    horovod
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ml/platform-and-tool/nni/index.html" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    nni
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_8" id="__nav_5_7_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7_8">
+            <span class="md-nav__icon md-icon"></span>
+            nni
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ml/platform-and-tool/nni/tuner.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调参器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    参考和工具
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            参考和工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/linux/linux-command.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 命令
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/linux/linux-command-line-tool.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 命令行工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    文件格式
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            文件格式
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/file-format/json.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    json
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/file-format/yaml.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    yaml
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/file-format/xml.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xml
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/file-format/markdown.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    markdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    编码
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            编码
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/encoding/charset-and-encoding.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字符集和字符编码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/encoding/base64.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Base64
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    文本工具
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            文本工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/text-tool/regular-expression.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/text-tool/vim.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vim
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    构建工具
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            构建工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/build-tool/make.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    make
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/git.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference-and-tool/vocabulary.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    前端
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            前端
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../web/simple-html.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simple HTML
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../web/simple-css.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simple CSS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#网络结构多样性" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络结构多样性
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#高维变量的非凸优化" class="md-nav__link">
+    <span class="md-ellipsis">
+      高维变量的非凸优化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#神经网络优化的改善方法" class="md-nav__link">
+    <span class="md-ellipsis">
+      神经网络优化的改善方法
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<p>虽然神经网络具有非常强的表达能力，但是当应用神经网络模型到机器学习时依然存在一些难点问题。主要分为两大类：</p>
+<ol>
+<li>
+<p>优化问题：深度神经网络的优化十分困难。首先，神经网络的损失函数是一个非凸函数，找到全局最优解通常比较困难；其次，深度神经网络的参数通常非常多，训练数据也比较大，因此也无法使用计算代价很高的二阶优化方法，而一阶优化方法的训练效率通常比较低。此外，深度神经网络存在梯度消失或爆炸问题，导致基于梯度的优化方法经常失效。</p>
+</li>
+<li>
+<p>泛化问题：由于深度神经网络的复杂度比较高，并且拟合能力很强，很容易在训练集上产生过拟合。因此在训练深度神经网络时，同时也需要通过一定的正则化方法来改进网络的泛化能力。</p>
+</li>
+</ol>
+<p>目前，研究者从大量的实践中总结了一些经验方法，在神经网络的表示能力、复杂度、学习效率和泛化能力之间找到比较好的平衡，并得到一个好的网络模型。</p>
+<h1 id="网络优化">网络优化<a class="headerlink" href="#网络优化" title="Permanent link">&para;</a></h1>
+<p>网络优化是指寻找一个神经网络模型来使得经验（或结构）风险最小化的过程，包括模型选择以及参数学习等。深度神经网络是一个高度非线性的模型，其风险函数是一个非凸函数，因此风险最小化是一个非凸优化问题。此外， 深度神经网络还存在梯度消失和梯度爆炸问题。因此，深度神经网络的优化是一个具有挑战性的问题。</p>
+<h2 id="网络结构多样性">网络结构多样性<a class="headerlink" href="#网络结构多样性" title="Permanent link">&para;</a></h2>
+<p>神经网络的种类非常多，比如卷积网络、循环网络、图网络等。不同网络的结构也非常不同，有些比较深，有些比较宽。不同参数在网络中的作用也有很大的差异，比如连接权重和偏置的不同，以及循环网络中循环连接上的权重和其他权重的不同。</p>
+<p>由于网络结构的多样性，我们<u>很难找到一种通用的优化方法</u>。<u>不同优化方法在不同网络结构上的表现也有比较大的差异</u>。</p>
+<p>此外，网络的超参数一般比较多，这也给优化带来很大的挑战。</p>
+<h2 id="高维变量的非凸优化">高维变量的非凸优化<a class="headerlink" href="#高维变量的非凸优化" title="Permanent link">&para;</a></h2>
+<p>低维空间的非凸优化问题主要是存在一些局部最优点。基于梯度下降的优化方法会陷入局部最优点，因此在低维空间中非凸优化的主要难点是如何选择初始化参数和逃离局部最优点。深度神经网络的参数非常多，其参数学习是在非常高维空间中的非凸优化问题，其挑战和在低维空间中的非凸优化问题有所不同。</p>
+<p><strong>鞍点</strong></p>
+<p>在高维空间中，非凸优化的难点并不在于如何逃离局部最优点，而是如何逃离<strong>鞍点(saddle point)</strong> [Dauphin et al., 2014]。鞍点的梯度是 0 ，但是在一些维度上是极大值，在另一些维度上是极小值，如下图所示。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/FiWPmMYr8VOf6Ja.png" /></p>
+<p>在高维空间中，<strong>局部最小值(local minima)</strong>要求在每一维度上都是最低点，这种概率非常低。假设网络有 10000 维参数，梯度为 0 的点（即<strong>驻点(stationary point)</strong>）在某一维上是局部最小值的概率为 <span class="arithmatex">\(p\)</span> （在一般的非凸问题中， <span class="arithmatex">\(p\approx 0.5\)</span> ），那么在整个参数空间中，驻点是局部最优点的概率是 <span class="arithmatex">\(p^{10000}\)</span>，这种可能性非常小。也就是说，在高维空间中大部分驻点都是鞍点。</p>
+<blockquote>
+<p>函数的海森矩阵在梯度为0的位置上的特征值全为正时，该函数得到局部最小值。根据随机矩阵理论，对于一个大的高斯随机矩阵来说，任一特征值是正或者是负的概率都是0.5 。</p>
+</blockquote>
+<p>基于梯度下降的优化方法会在鞍点附近接近于停滞，很难从这些鞍点中逃离。因此，<u>随机梯度下降</u>对于高维空间中的非凸优化问题十分重要，通过<u>在梯度方向上引入随机性，可以有效地逃离鞍点</u>。</p>
+<p><strong>平坦最小值</strong></p>
+<p>深度神经网络的参数非常多，并且有一定的冗余性，这使得每单个参数对最终损失的影响都比较小，因此会导致损失函数在局部最小解附近通常是一个平坦的区域，称为<strong>平坦最小值(flat minima)</strong> [Hochreiter et al., 1997; Li et al., 2017a]。下图给出了平坦最小值和<strong>尖锐最小值(sharp minima)</strong>的示例。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/pOBKqjsDebZMy4t.png" /></p>
+<p>在一个平坦最小值的邻域内，所有点对应的训练损失都比较接近，表明我们在训练神经网络时<u>不需要精确地找到一个局部最小解</u>，只要在一个局部最小解的邻域内就足够了。平坦最小值通常被认为和模型泛化能力有一定的关系，一般而言，当一个模型收敛到一个平坦的局部最小值时，其鲁棒性会更好，即微小的参数变动不会剧烈影响模型能力；而当一个模型收敛到一个尖锐的局部最小值时，其鲁棒性也会比较差。具备良好泛化能力的模型通常应该是鲁棒的，因此<u>理想的局部最小值应该是平坦的</u>。</p>
+<blockquote>
+<p>这里的很多描述都是经验性的，并没有很好的理论证明。</p>
+</blockquote>
+<p><strong>局部最小解的等价性</strong></p>
+<p>在非常大的神经网络中，大部分的局部最小解是等价的，它们在测试集上性能都比较相似。此外，<u>局部最小解对应的训练损失都可能非常接近于全局最小解对应的训练损失</u> [Choromanska et al., 2015] 。虽然神经网络有一定概率收敛于比较差的局部最小值，但随着网络规模增加，网络陷入比较差的局部最小值的概率会大大降低。在训练神经网络时，我们通常没有必要找全局最小值，这反而可能导致过拟合。</p>
+<h2 id="神经网络优化的改善方法">神经网络优化的改善方法<a class="headerlink" href="#神经网络优化的改善方法" title="Permanent link">&para;</a></h2>
+<p>改善神经网络优化的目标是找到更好的局部最小值和提高优化效率，目前比较有效的经验性改善方法通常分为以下几个方面：</p>
+<ol>
+<li>
+<p>使用更有效的<u>优化算法</u>来提高梯度下降优化方法的效率和稳定性，比如动态学习率调整、 梯度估计修正等。</p>
+</li>
+<li>
+<p>使用更好的<u>参数初始化方法</u>、 <u>数据预处理方法</u>来提高优化效率。</p>
+</li>
+<li>
+<p>修改网络结构来得到更好的<strong>优化地形(optimization landscape)</strong>， 比如使用 ReLU 激活函数、残差连接、<u>逐层归一化</u>等。</p>
+</li>
+<li>
+<p>使用更好的<u>超参数优化方法</u>。</p>
+</li>
+</ol>
+<p>通过上面的方法，我们通常可以高效地、端到端地训练一个深度神经网络。</p>
+<h1 id="优化算法">优化算法<a class="headerlink" href="#优化算法" title="Permanent link">&para;</a></h1>
+<p>目前，深度神经网络的参数学习主要是通过梯度下降法来寻找一组可以最小化结构风险的参数。在具体实现中，梯度下降法可以分为：批量梯度下降、随机梯度下降以及小批量梯度下降三种形式。根据不同的数据量和参数量，可以选择一种具体的实现形式。这里介绍一些在训练神经网络时常用的优化算法，这些优化算法大体上可以分为两类：(1) 调整学习率, 使得优化更稳定；(2) 梯度估计修正，优化训练速度。</p>
+<h2 id="小批量梯度下降">小批量梯度下降<a class="headerlink" href="#小批量梯度下降" title="Permanent link">&para;</a></h2>
+<p>在训练深度神经网络时，训练数据的规模通常都比较大。如果在梯度下降时，每次迭代都要计算整个训练数据上的梯度，这就需要比较多的计算资源。另外大规模训练集中的数据通常会非常冗余，也没有必要在整个训练集上计算梯度。因此在训练深度神经网络时，经常使用<strong>小批量梯度下降法(mini-batch gradient descent)</strong>。</p>
+<p>令 <span class="arithmatex">\(f(\pmb x;\pmb \theta)\)</span> 表示一个深度神经网络， <span class="arithmatex">\(\pmb \theta\)</span> 为网络参数，在使用小批量梯度下降进行优化时，每次选取 <span class="arithmatex">\(K\)</span> 个训练样本 <span class="arithmatex">\(\mathcal{S}_t=\{(\pmb x)^{(k)},(\pmb y)^{(k)} \}_{k=1}^K\)</span>，第 <span class="arithmatex">\(t\)</span> 次<strong>迭代(iteration)</strong>时损失函数关于参数 <span class="arithmatex">\(\theta\)</span> 的偏导数为
+$$
+g_t(\pmb \theta)=\frac{1}{K}\sum_{(\pmb x,\pmb y)\in \mathcal{S}<em _mathcal_S="\mathcal{S" _pmb="(\pmb" x_pmb="x,\pmb" y_in="y)\in">t}\frac{\partial \mathcal{L}(\pmb y, f(\pmb x;\pmb \theta))}{\partial \pmb \theta}\
+=\frac{\partial \frac{1}{K}\sum</em>_t} \mathcal{L}(\pmb y, f(\pmb x;\pmb \theta))}{\partial \pmb \theta}
+$$
+其中 <span class="arithmatex">\(\mathcal{L}(\cdot)\)</span> 为可微分的损失函数， <span class="arithmatex">\(K\)</span> 为<strong>批量大小(batch size)</strong>。</p>
+<p>使用梯度下降来更新参数
+$$
+\pmb \theta_t \leftarrow \pmb \theta_{t-1}-\alpha g_t(\pmb \theta_{t-1})
+$$
+其中 <span class="arithmatex">\(\alpha&gt;0\)</span> 为学习率。</p>
+<p>从上面公式可以看出，影响小批量梯度下降法的主要因素有：</p>
+<ol>
+<li>
+<p>批量大小 <span class="arithmatex">\(K\)</span> </p>
+</li>
+<li>
+<p>学习率 <span class="arithmatex">\(α\)</span> </p>
+</li>
+<li>
+<p>梯度估计 <span class="arithmatex">\(g_t(\pmb \theta)\)</span> </p>
+</li>
+</ol>
+<p>为了更有效地训练深度神经网络，在标准的小批量梯度下降法的基础上，也经常使用一些改进方法以加快优化速度，比如如何选择批量大小、 如何调整学习率以及如何修正梯度估计。我们分别从这三个方面来介绍在神经网络优化中常用的算法。这些改进的优化算法也同样可以应用在批量或随机梯度下降法上。</p>
+<h2 id="批量大小选择">批量大小选择<a class="headerlink" href="#批量大小选择" title="Permanent link">&para;</a></h2>
+<p>在小批量梯度下降法中，<strong>批量大小(batch size)</strong>对网络优化的影响也非常大。一般而言，批量大小不影响随机梯度的期望，但是会影响随机梯度的方差。<u>批量大小越大，随机梯度的方差越小，引入的噪声也越小，训练也越稳定</u>，因此可以设置较大的学习率；而批量大小较小时，需要设置较小的学习率，否则模型会不收敛。<u>学习率通常要随着批量大小的增大而相应地增大</u>。一个简单有效的方法是<strong>线性缩放规则(Linear Scaling Rule)</strong> [Goyal et al., 2017] ：当批量大小增加 <span class="arithmatex">\(m\)</span> 倍时，学习率也增加 <span class="arithmatex">\(m\)</span> 倍。线性缩放规则往往<u>在批量大小比较小时适用</u>，当批量大小非常大时，线性缩放会使得训练不稳定。</p>
+<p>下图给出了从<strong>回合(epoch)</strong>和迭代(iteration)的角度，批量大小对损失下降的影响。每一次小批量更新为一次迭代，所有训练集的样本更新一遍为一个回合，两者的关系为
+$$
+1 {\rm epoch}=\frac{训练集的样本数 N}{批量大小K} {\rm iteration}
+$$
+<img alt="" src="https://i.loli.net/2020/12/03/Wbasgt3SI476yHm.png" /></p>
+<p>从左图可以看出，按迭代数来看，批量大小越大，下降效果越明显，并且下降曲线越平滑；但从右图可以看出，按回合数来看，适当小的批量大小会导致更快的收敛。</p>
+<p>此外，批量大小和模型的泛化能力也有一定的关系。 [Keskar et al., 2016] 通过实验发现：批量越大，越有可能收敛到尖锐最小值；批量越小，越有可能收敛到平坦最小值。</p>
+<h2 id="学习率调整">学习率调整<a class="headerlink" href="#学习率调整" title="Permanent link">&para;</a></h2>
+<p>学习率是神经网络优化时的重要超参数。在梯度下降法中，学习率 <span class="arithmatex">\(α\)</span> 的取值非常关键，如果过大就会不收敛，如果过小则收敛速度太慢。常用的学习率调整方法包括学习率衰减、学习率预热、周期性学习率调整以及一些自适应调整学习率的方法，比如AdaGrad、RMSprop、AdaDelta等。自适应学习率方法可以针对每个参数设置不同的学习率。</p>
+<h3 id="学习率衰减">学习率衰减<a class="headerlink" href="#学习率衰减" title="Permanent link">&para;</a></h3>
+<p>从经验上看，学习率在<u>一开始要保持大些来保证收敛速度</u>，<u>在收敛到最优点附近时要小些以避免来回振荡</u>。比较简单的学习率调整可以通过<strong>学习率衰减(learning rate decay)</strong>的方式来实现，也称为<strong>学习率退火(learning rate annealing)</strong>。</p>
+<p>不失一般性，这里的衰减方式设置为按迭代次数进行衰减。</p>
+<p>假设初始化学习率为 <span class="arithmatex">\(α_0\)</span>，在第 <span class="arithmatex">\(t\)</span> 次迭代时的学习率 <span class="arithmatex">\(α_t\)</span>。常见的衰减方法有以下几种：</p>
+<p><strong>分段常数衰减(piecewise constant decay)</strong>：即每经过 <span class="arithmatex">\(T_1, T_2 , ⋯ , T_m\)</span> 次迭代将学习率衰减为原来的 <span class="arithmatex">\(β_1, β_2, ⋯, β_m\)</span> 倍，其中 <span class="arithmatex">\(T_m\)</span> 和 <span class="arithmatex">\(β_m &lt; 1\)</span> 为根据经验设置的超参数。分段常数衰减，也称为<strong>阶梯衰减(step decay)</strong>。</p>
+<p><strong>逆时衰减(inverse time decay)</strong>：
+$$
+\alpha_t = \alpha_0\frac{1}{1+\beta t}
+$$
+其中 <span class="arithmatex">\(\beta\)</span> 为衰减率。</p>
+<p><strong>指数衰减(exponential decay)</strong>：
+$$
+\alpha_t=\alpha_0\beta^t
+$$
+其中 <span class="arithmatex">\(\beta&lt;1\)</span> 为衰减率。</p>
+<p><strong>余弦衰减(cosine decay)</strong>：
+$$
+\alpha_t=\frac{1}{2}\alpha_0(1+\cos(\frac{t\pi}{T}))
+$$
+其中 <span class="arithmatex">\(T\)</span> 为总的迭代次数。</p>
+<p>下图给出了不同衰减方法的示例（假设初始学习率为1）。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/NeS3MkR25idKxAZ.png" /></p>
+<h3 id="学习率预热">学习率预热<a class="headerlink" href="#学习率预热" title="Permanent link">&para;</a></h3>
+<p>在小批量梯度下降法中，当批量大小的设置比较大时，通常需要比较大的学习率。但在刚开始训练时，由于参数是随机初始化的，梯度往往也比较大，再加上比较大的初始学习率，会使得训练不稳定。</p>
+<blockquote>
+<p>参数更新差值 <span class="arithmatex">\(\Delta\pmb \theta_t=-\alpha g_t(\pmb \theta)\)</span>，刚开始训练时梯度可能非常大，乘以较大的初始学习率可能导致参数更新差值远大于参数本身。</p>
+</blockquote>
+<p>为了提高训练稳定性，我们可以在最初几轮迭代时，采用比较小的学习率，等梯度下降到一定程度后再恢复到初始的学习率，这种方法称为<strong>学习率预热(learning rate warmup)</strong>。</p>
+<p>一个常用的学习率预热方法是逐渐预热(gradual warmup) [Goyal et al.,2017] 。假设预热的迭代次数为 <span class="arithmatex">\(T′\)</span>，初始学习率为 <span class="arithmatex">\(α_0\)</span>，在预热过程中，每次更新的学习率为
+$$
+\alpha_t'=\frac{t}{T'}\alpha_0,\quad 1\le t\le T'
+$$
+当预热过程结束，再选择一种学习率衰减方法来逐渐降低学习率。</p>
+<h3 id="周期性学习率调整">周期性学习率调整<a class="headerlink" href="#周期性学习率调整" title="Permanent link">&para;</a></h3>
+<p>为了使得梯度下降法能够逃离鞍点或尖锐最小值，一种经验性的方式是在训练过程中周期性地增大学习率。<u>当参数处于尖锐最小值附近时，增大学习率有助于逃离尖锐最小值；当参数处于平坦最小值附近时，增大学习率依然有可能在该平坦最小值的<strong>吸引域(basin of attraction)</strong>内</u>。 因此，周期性地增大学习率虽然可能短期内损害优化过程，使得网络收敛的稳定性变差，但<u>从长期来看有助于找到更好的局部最优解</u>。</p>
+<p>这里介绍两种常用的周期性调整学习率的方法：循环学习率和带热重启的随机梯度下降。</p>
+<p><strong>循环学习率</strong></p>
+<p>一种简单的方法是使用<strong>循环学习率(cyclic learning rate)</strong> [Goyal et al., 2017] ，即让学习率在一个区间内周期性地增大和缩小。通常可以使用线性缩放来调整学习率，称为<strong>三角循环学习率(triangular cyclic learning rate)</strong>。假设每个循环周期的长度相等都为 <span class="arithmatex">\(2ΔT\)</span>，其中前 <span class="arithmatex">\(ΔT\)</span> 步为学习率线性增大阶段，后 <span class="arithmatex">\(ΔT\)</span> 步为学习率线性缩小阶段。在第 <span class="arithmatex">\(t\)</span> 次迭代时，其所在的循环周期数 <span class="arithmatex">\(m\)</span> 为
+$$
+m=\lfloor 1+\frac{t}{2\Delta T} \rfloor
+$$
+第 <span class="arithmatex">\(t\)</span> 次迭代的学习率为
+$$
+\alpha_t=\alpha_{\min}<sup _m_="(m)">{(m)}+(\alpha_{\max}</sup>-\alpha_{\min}^{(m)})(\max(0, 1-b))
+$$
+其中 <span class="arithmatex">\(α^m_{\max}\)</span> 和 <span class="arithmatex">\(α_{\min}^m\)</span> 分别为第 <span class="arithmatex">\(m\)</span> 个周期中学习率的上界和下界，可以随着 <span class="arithmatex">\(m\)</span> 的增大而逐渐降低； <span class="arithmatex">\(b = |\frac{t}{\Delta T}-2m+1| ∈ [0, 1]\)</span>。</p>
+<p><strong>带热重启的随机梯度下降</strong></p>
+<p><strong>带热重启的随机梯度下降(Stochastic Gradient Descent with Warm Restarts , SGDR)</strong> [Loshchilov et al., 2017a] 是用热重启方式来替代学习率衰减的方法。学习率每间隔一定周期后重新初始化为某个预先设定值，然后逐渐衰减。每次重启后模型参数不是从头开始优化，而是从重启前的参数基础上继续优化。</p>
+<p>假设在梯度下降过程中重启 <span class="arithmatex">\(M\)</span> 次，第 <span class="arithmatex">\(m\)</span> 次重启在上次重启开始第 <span class="arithmatex">\(T_m\)</span> 个回合后进行， <span class="arithmatex">\(T_m\)</span> 称为重启周期。在第 <span class="arithmatex">\(m\)</span> 次重启之前，采用余弦衰减来降低学习率。第 <span class="arithmatex">\(t\)</span> 次迭代的学习率为
+$$
+\alpha_t=\alpha_{\min}<sup _m_="(m)">{(m)}+\frac{1}{2}(\alpha_{\max}</sup>-\alpha_{\min}^{(m)})(1+\cos(\frac{T_{cur}}{T_m}\pi))
+$$
+其中 <span class="arithmatex">\(α^m_{\max}\)</span> 和 <span class="arithmatex">\(α_{\min}^m\)</span> 分别为第 <span class="arithmatex">\(m\)</span> 个周期中学习率的上界和下界, 可以随着 <span class="arithmatex">\(m\)</span> 的增大而逐渐降低； <span class="arithmatex">\(T_{cur}\)</span> 为从上次重启之后的回合数；. 重启周期 <span class="arithmatex">\(T_m\)</span> 可以随着重启次数逐渐增加，比如 <span class="arithmatex">\(T_m = T_{m−1} × κ\)</span>，其中 <span class="arithmatex">\(κ ≥ 1\)</span> 为放大因子。</p>
+<p>下图给出了两种周期性学习率调整的示例（假设初始学习率为 1 ），每个周期中学习率的上界也逐步衰减。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/brJsuW73wi1aQxP.png" /></p>
+<h3 id="adagrad-算法">AdaGrad 算法<a class="headerlink" href="#adagrad-算法" title="Permanent link">&para;</a></h3>
+<p>在标准的梯度下降法中，每个参数在每次迭代时都使用相同的学习率。由于每个参数的维度上收敛速度都不相同，因此应根据不同参数的收敛情况分别设置学习率。</p>
+<blockquote>
+<p>例如有的参数已经接近极小值，有的参数仍然梯度较大，分别应设置较小和较大的学习率。</p>
+</blockquote>
+<p><strong>AdaGrad 算法(Adaptive Gradient Algorithm)</strong> [Duchi et al., 2011] 是借鉴 <span class="arithmatex">\(\ell_2\)</span> 正则化的思想，每次迭代时自适应地调整每个参数的学习率。在第 <span class="arithmatex">\(t\)</span> 次迭代时，先计算每个参数梯度平方的累计值
+$$
+\pmb s_t = \sum_{\tau=1}^{t}\pmb g_\tau\odot\pmb g_\tau
+$$</p>
+<p>其中 <span class="arithmatex">\(⊙\)</span> 为逐元素乘法， <span class="arithmatex">\(\pmb g_\tau ∈ \mathbb{R}^{|\pmb θ|}\)</span> 是第 <span class="arithmatex">\(τ\)</span> 次迭代时的梯度。</p>
+<p>AdaGrad 算法的参数更新差值为
+$$
+\Delta\pmb \theta_t=-\frac{\alpha}{\sqrt{\pmb s_t+\epsilon}}\odot\pmb g_t
+$$
+其中 <span class="arithmatex">\(α\)</span> 是初始的学习率， <span class="arithmatex">\(ε\)</span> 是为了保持数值稳定性而设置的非常小的常数，一般取值 <span class="arithmatex">\(e^{−7}\)</span> 到 <span class="arithmatex">\(e^{−10}\)</span>。此外，这里的开方、除、加运算都是按元素进行的操作。</p>
+<p>在 AdaGrad 算法中，如果<u>某个参数的偏导数累积比较大，其学习率相对较小</u>；相反，如果其<u>偏导数累积较小，其学习率相对较大</u>。但<u>整体是随着迭代次数的增加，学习率逐渐缩小</u>。</p>
+<p>AdaGrad 算法的缺点是在<u>经过一定次数的迭代依然没有找到最优点时，由于这时的学习率已经非常小</u>，很难再继续找到最优点。</p>
+<h3 id="rmsprop-算法">RMSprop 算法<a class="headerlink" href="#rmsprop-算法" title="Permanent link">&para;</a></h3>
+<p>RMSprop 算法是 Geoff Hinton 提出的一种自适应学习率的方法 [Tieleman et al., 2012] ，可以在有些情况下避免 AdaGrad 算法中学习率不断单调下降以至于过早衰减的缺点。</p>
+<p>RMSprop 算法首先计算每次迭代梯度 <span class="arithmatex">\(g_t(\pmb \theta)\)</span> 平方的指数衰减移动平均，
+$$
+\pmb s_t = \beta \pmb s_{t-1}+(1-\beta)\pmb g_t\odot\pmb g_t\
+=(1-\beta)\sum_{\tau=1}<sup _t-_tau_="(t-\tau)">t\beta</sup>\pmb g_\tau\odot\pmb g_\tau
+$$</p>
+<p>其中 <span class="arithmatex">\(\beta\)</span> 为衰减率，一般取值为 0.9。</p>
+<p>RMSprop 算法的参数更新差值为
+$$
+\Delta\pmb \theta_t=-\frac{\alpha}{\sqrt{\pmb s_t+\epsilon}}\odot\pmb g_t
+$$
+其中 <span class="arithmatex">\(α\)</span> 是初始的学习率，比如 0.001。</p>
+<p>从上式可以看出，RMSProp 算法和 AdaGrad 算法的区别在于 <span class="arithmatex">\(\pmb s_t\)</span> 的计算由累积方式变成了指数衰减移动平均。在迭代过程中，每个参数的学习率并不是呈衰减趋势，既可以变小也可以变大。</p>
+<blockquote>
+<p>在 RMSprop 算法中，如果某个参数的偏导数在一段时间内累积比较大，其学习率减小；相反，如果其偏导数在一段时间内累积较小，其学习率增大。</p>
+</blockquote>
+<h3 id="adadelta-算法">AdaDelta 算法<a class="headerlink" href="#adadelta-算法" title="Permanent link">&para;</a></h3>
+<p>AdaDelta 算法 [Zeiler, 2012] 也是 AdaGrad 算法的一个改进。和 RMSprop 算法类似，AdaDelta 算法通过梯度平方的指数衰减移动平均来调整学习率。此外，AdaDelta 算法还引入了每次参数更新差值 <span class="arithmatex">\(Δ\pmb θ\)</span> 的平方的指数衰减权移动平均，以替代学习率这一超参数。</p>
+<p>第 <span class="arithmatex">\(t\)</span> 次迭代时，参数更新差值 <span class="arithmatex">\(Δ\pmb θ\)</span> 的平方的指数衰减权移动平均为
+$$
+\Delta \pmb x_{t-1} = \beta_1\Delta \pmb x_{t-2}+(1-\beta_1)\Delta\pmb \theta_{t-1}\odot\Delta\pmb \theta_{t-1}
+$$
+其中 <span class="arithmatex">\(\beta_1\)</span> 为衰减率。</p>
+<p>AdaDelta 算法的参数更新差值为
+$$
+\Delta\pmb \theta_t=-\frac{\sqrt{\Delta \pmb x_{t-1}+\epsilon}}{\sqrt{\pmb s_t+\epsilon}}\odot\pmb g_t
+$$
+其中 <span class="arithmatex">\(\pmb s_t\)</span> 的计算方式和 RMSprop 算法一样， <span class="arithmatex">\(\Delta \pmb x_{t-1}\)</span> 为参数更新差值 $ Δ\pmb θ $ 的指数衰减权移动平均。</p>
+<p>从上式可以看出，AdaDelta 算法将 RMSprop 算法中的初始学习率 <span class="arithmatex">\(α\)</span> 改为动态计算的 <span class="arithmatex">\(\sqrt{\Delta \pmb x_{t-1}+\epsilon}\)</span>，在一定程度上<u>平抑了学习率的波动</u>。</p>
+<blockquote>
+<p>在 AdaDelta 算法中，如果某个参数的变化在一段时间内累积比较大，其学习率增加；相反，如果其变化在一段时间内累积较小，其学习率减小。</p>
+<p>所以分子和分母的综合效果是什么……</p>
+</blockquote>
+<h2 id="梯度估计修正">梯度估计修正<a class="headerlink" href="#梯度估计修正" title="Permanent link">&para;</a></h2>
+<p>除了调整学习率之外，还可以进行<strong>梯度估计(gradient estimation)</strong>的修正。在小批量随机梯度下降法中，如果每次选取样本数量比较小，损失会呈现振荡的方式下降，也就是说随机梯度下降方法中每次迭代的梯度估计和整个训练集上的最优梯度并不一致，具有一定的随机性。一种有效地缓解梯度估计随机性的方式是通过<u>使用最近一段时间内的平均梯度来代替当前时刻的随机梯度来作为参数更新的方向，从而提高优化速度</u>。</p>
+<blockquote>
+<p>增加批量大小也是一种缓解梯度估计随机性的方式。</p>
+</blockquote>
+<h3 id="动量法">动量法<a class="headerlink" href="#动量法" title="Permanent link">&para;</a></h3>
+<p><strong>动量(momentum)</strong>是模拟物理中的概念。一个物体的动量指的是该物体在它运动方向上保持运动的趋势，是该物体的质量和速度的乘积。<strong>动量法(momentum method)</strong>是用之前积累动量来替代真正的梯度，每次迭代的梯度可以看作<u>加速度</u>。</p>
+<p>在第 <span class="arithmatex">\(t\)</span> 次迭代时，计算负梯度的“加权移动平均”作为参数的更新方向
+$$
+\Delta\pmb \theta_t = \rho\Delta\pmb \theta_{t-1}-\alpha g_t(\pmb \theta)\
+=-\alpha\sum_{\tau=1}<sup t-_tau="t-\tau">t\rho</sup> g_\tau(\pmb \theta)
+$$
+其中 <span class="arithmatex">\(ρ\)</span> 为动量因子，通常设为 0.9 ， <span class="arithmatex">\(α\)</span> 为学习率。</p>
+<p>这样，每个参数的实际更新差值取决于<u>最近一段时间内梯度的加权平均值</u>。当某个参数在<u>最近一段时间内的梯度方向不一致时，其真实的参数更新幅度变小</u>；相反，当在<u>最近一段时间内的梯度方向都一致时，其真实的参数更新幅度变大，起到加速作用</u>。一般而言，<u>在迭代初期，梯度方向都比较一致，动量法会起到加速作用，可以更快地到达最优点</u>；<u>在迭代后期，梯度方向会不一致，在收敛值附近振荡，动量法会起到减速作用，增加稳定性</u>。从某种角度来说，当前梯度叠加上部分的上次梯度，一定程度上可以近似看作二阶梯度。</p>
+<h3 id="nesterov-加速梯度">Nesterov 加速梯度<a class="headerlink" href="#nesterov-加速梯度" title="Permanent link">&para;</a></h3>
+<p><strong>Nesterov 加速梯度(Nesterov Accelerated Gradient, NAG)</strong>是一种对动量法的改进 [Nesterov, 2013; Sutskever et al., 2013] ，也称为 Nesterov 动量法(Nesterov momentum)。</p>
+<p>在动量法中，实际的参数更新方向 <span class="arithmatex">\(Δ\pmb θ_t\)</span> 为上一步的参数更新方向 <span class="arithmatex">\(Δ\pmb θ_{t-1}\)</span> 和当前梯度的反方向 <span class="arithmatex">\(g_t(\pmb \theta_{t-1})\)</span> 的叠加，这样将参数更新拆分为两步进行
+$$
+\hat{\pmb \theta}=\pmb θ_{t-1}+\rhoΔ\pmb θ_{t-1}\
+\pmb θ_t=\hat{\pmb \theta}-\alpha g_t(\pmb \theta_{t-1})
+$$
+对于第二步更新，更合理的更新方向应该为 <span class="arithmatex">\(\hat{\pmb \theta}\)</span> 上的梯度。因此修改后的更新方向为
+$$
+\Delta\pmb \theta_t = \rho\Delta\pmb \theta_{t-1}-\alpha g_t(\pmb \theta_{t-1}+\rho\Delta\pmb \theta_{t-1})
+$$
+下图给出了动量法和 Nesterov 加速梯度在参数更新时的比较。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/rhLaXiAGmqveCuF.png" /></p>
+<h3 id="adam-算法">Adam 算法<a class="headerlink" href="#adam-算法" title="Permanent link">&para;</a></h3>
+<p><strong>Adam 算法(Adaptive Moment Estimation Algorithm)</strong> [Kingma et al., 2015] 可以看作<u>动量法和 RMSprop 算法的结合</u>，不但使用动量作为参数更新方向，而且可以自适应调整学习率。</p>
+<p>Adam 算法一方面计算梯度平方 <span class="arithmatex">\(g_t^2(\pmb \theta)\)</span> 的指数加权平均（和 RMSprop 算法类似），另一方面计算梯度 <span class="arithmatex">\(g_t(\pmb \theta)\)</span> 的指数加权平均（和动量法类似）。
+$$
+\pmb m_t=\beta_1\pmb m_{t-1}+(1-\beta_1)g_t(\pmb \theta)\
+\pmb g_t=\beta_2\pmb g_{t-1}+(1-\beta_2)g_t(\pmb \theta)\odot g_t(\pmb \theta)
+$$
+其中 <span class="arithmatex">\(β_1\)</span> 和 <span class="arithmatex">\(β_2\)</span> 分别为两个移动平均的衰减率，通常取值为 <span class="arithmatex">\(β_1 = 0.9, β_2 = 0.99\)</span>。我们可以把 <span class="arithmatex">\(\pmb m_t\)</span> 和 <span class="arithmatex">\(\pmb g_t\)</span> 分别看作梯度的均值（一阶矩）和未减去均值的方差（二阶矩）。</p>
+<p>假设 <span class="arithmatex">\(\pmb m_0 =\pmb 0,\pmb g_0 =\pmb 0\)</span>，那么在迭代初期 <span class="arithmatex">\(\pmb m_t\)</span> 和 <span class="arithmatex">\(\pmb g_t\)</span> 的值会比真实的均值和方差要小，特别是当 <span class="arithmatex">\(β_1\)</span> 和 <span class="arithmatex">\(β_2\)</span> 都接近于 1 时。因此需要对偏差进行修正
+$$
+\hat{\pmb m_t}=\frac{\pmb m_t}{1-\beta_1^t}\
+\hat{\pmb g_t}=\frac{\pmb g_t}{1-\beta_2^t}
+$$
+Adam 算法的参数更新差值为
+$$
+\Delta\pmb\theta_t=-\frac{\alpha}{\sqrt{\hat{\pmb g_t}+\epsilon}}\hat{\pmb m_t}
+$$
+其中学习率 <span class="arithmatex">\(\alpha\)</span> 通常设为 0.001，并且也可以进行衰减，比如 <span class="arithmatex">\(\alpha_t=\alpha_0/\sqrt{t}\)</span>。</p>
+<p>Adam 算法是 RMSProp 算法与动量法的结合，因此一种自然的 Adam 算法的改进方法是引入 Nesterov 加速梯度，称为 Nadam 算法 [Dozat, 2016]。</p>
+<h3 id="梯度截断">梯度截断<a class="headerlink" href="#梯度截断" title="Permanent link">&para;</a></h3>
+<p>在深度神经网络或循环神经网络中，除了梯度消失之外，梯度爆炸也是影响学习效率的主要因素。在基于梯度下降的优化过程中，如果梯度突然增大，用大的梯度更新参数反而会导致其远离最优点。为了避免这种情况，当梯度的模大于一定阈值时，就对梯度进行截断，称为<strong>梯度截断(gradient clipping)</strong> [Pascanu et al., 2013]。</p>
+<p>梯度截断是一种比较简单的启发式方法，把梯度的值限定在一个区间，当梯度的值小于或大于这个区间时就进行截断。一般截断的方式有以下几种：</p>
+<p><strong>按值截断</strong> 在第 <span class="arithmatex">\(t\)</span> 次迭代时，梯度为 <span class="arithmatex">\(g_t(\pmb \theta)\)</span>，给定一个区间 <span class="arithmatex">\([a, b]\)</span>，如果一个参数的梯度小于 <span class="arithmatex">\(a\)</span> 时，就将其设为 <span class="arithmatex">\(a\)</span> ；如果大于 <span class="arithmatex">\(b\)</span> 时，就将其设为 <span class="arithmatex">\(b\)</span> 
+$$
+g_t(\pmb \theta)=\max(\min(g_t(\pmb \theta), b), a)
+$$
+<strong>按模截断</strong> 给定一个截断阈值 <span class="arithmatex">\(b\)</span>，如果 <span class="arithmatex">\(\|g_t(\pmb \theta)\|^2&gt; b\)</span>，令
+$$
+g_t(\pmb \theta)=\frac{b}{|g_t(\pmb \theta)|}g_t(\pmb \theta)
+$$
+截断阈值 <span class="arithmatex">\(b\)</span> 是一个超参数，也可以根据一段时间内的平均梯度来自动调整。实验中发现，训练过程对阈值 <span class="arithmatex">\(b\)</span> 并不十分敏感，通常一个小的阈值就可以得到很好的结果 [Pascanu et al., 2013]。</p>
+<h2 id="优化算法比较">优化算法比较<a class="headerlink" href="#优化算法比较" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="https://img-blog.csdn.net/20180426130002689" /></p>
+<p><img alt="" src="https://img-blog.csdn.net/20180426113728916" /></p>
+<p><img alt="" src="https://img-blog.csdn.net/20180425221525155" /></p>
+<h1 id="参数初始化">参数初始化<a class="headerlink" href="#参数初始化" title="Permanent link">&para;</a></h1>
+<p>神经网络的参数学习是一个非凸优化问题。当使用梯度下降法来进行优化网络参数时，参数初始值的选取十分关键，关系到网络的优化效率和泛化能力。参数初始化的方式通常有以下三种：</p>
+<ol>
+<li>预训练初始化：不同的参数初始值会收敛到不同的局部最优解。虽然这些局部最优解在训练集上的损失比较接近，但是它们的泛化能力差异很大。一个好的初始值会使得网络收敛到一个泛化能力高的局部最优解。通常情况下，一个已经在大规模数据上训练过的模型可以提供一个好的参数初始值, 这种初始化方法称为<strong>预训练初始化(pre-trained initialization)</strong>。</li>
+</ol>
+<blockquote>
+<p>预训练初始化通常会提升模型泛化能力的一种解释是预训练任务起到一定的正则化作用。</p>
+</blockquote>
+<p>预训练任务可以为监督学习或无监督学习任务。由于无监督学习任务更容易获取大规模的训练数据，因此被广泛采用。预训练模型在目标任务上的学习过程也称为<strong>精调(fine-tuning)</strong>。</p>
+<ol>
+<li>
+<p>随机初始化：在线性模型的训练（比如感知器和 Logistic 回归）中， 我们一般将参数全部初始化为 0 。但是这在神经网络的训练中会存在一些问题，因为如果参数都为 0 ，第一遍前向计算时，所有的隐藏层神经元的激活值都相同；在反向传播时，所有权重的更新也都相同，这样会导致隐藏层神经元没有区分性，这种现象也称为<u>对称权重</u>现象。为了打破这个平衡，比较好的方式是对每个参数都<strong>随机初始化(random initialization)</strong>，使得不同神经元之间的区分性更好。</p>
+</li>
+<li>
+<p>固定值初始化：对于一些特殊的参数，我们可以根据经验用一个特殊的固定值来进行初始化。比如偏置(bias)通常用 0 来初始化，但是有时可以设置某些经验值以提高优化效率。在 LSTM 网络的遗忘门中，偏置通常初始化为 1 或 2 ，使得时序上的梯度变大。对于使用 ReLU 的神经元，有时也可以将偏置设为0.01 ，使得 ReLU 神经元在训练初期更容易激活，从而获得一定的梯度来进行误差反向传播。</p>
+</li>
+</ol>
+<p>虽然预训练初始化通常具有更好的收敛性和泛化性，但是灵活性不够，不能在目标任务上任意地调整网络结构。因此，好的随机初始化方法对训练神经网络模型来说依然十分重要。这里我们介绍三类常用的随机初始化方法：基于固定方差的参数初始化、基于方差缩放的参数初始化和正交初始化方法。</p>
+<h2 id="基于固定方差的参数初始化">基于固定方差的参数初始化<a class="headerlink" href="#基于固定方差的参数初始化" title="Permanent link">&para;</a></h2>
+<p>一种最简单的随机初始化方法是从一个固定均值（通常为 0）和方差 <span class="arithmatex">\(σ^2\)</span> 的分布中采样来生成参数的初始值。基于固定方差的参数初始化方法主要有以下两种：</p>
+<ol>
+<li>高斯分布初始化：使用高斯分布 <span class="arithmatex">\(N(0, σ^2)\)</span> 对每个参数进行随机初始化。</li>
+<li>均匀分布初始化：使用区间 <span class="arithmatex">\([−r, r]\)</span> 上的均匀分布对每个参数进行随机初始化。方差 <span class="arithmatex">\(\sigma^2\)</span> 对应的 <span class="arithmatex">\(r\)</span> 的取值为 <span class="arithmatex">\(r=\sqrt{3\sigma^2}\)</span>。</li>
+</ol>
+<p>在基于固定方差的随机初始化方法中，比较关键的是如何设置方差 <span class="arithmatex">\(σ^2\)</span>。如果参数范围取的太小，一是会<u>导致神经元的输出过小</u>，经过多层之后信号就慢慢消失了，二是还会<u>使得 Sigmoid 型激活函数丢失非线性的能力</u>，以 Sigmoid 型函数为例，在 0 附近基本上是近似线性的，这样多层神经网络的优势也就不存在了。如果参数范围取的太大，会<u>导致输入状态过大，对于 Sigmoid 型激活函数来说，激活值变得饱和，梯度接近于 0 ，从而导致梯度消失问题</u>。</p>
+<p>为了降低固定方差对网络性能以及优化效率的影响，基于固定方差的随机初始化方法一般需要配合逐层归一化来使用。</p>
+<h2 id="基于方差缩放的参数初始化">基于方差缩放的参数初始化<a class="headerlink" href="#基于方差缩放的参数初始化" title="Permanent link">&para;</a></h2>
+<p>要高效地训练神经网络，给参数选取一个合适的随机初始化区间是非常重要的。一般而言，参数初始化的区间应该根据神经元的性质进行差异化的设置。如果一个神经元的输入连接很多，它的每个输入连接上的权重就应该小一些，以避免神经元的输出过大（当激活函数为 ReLU 时）或过饱和（当激活函数为Sigmoid 函数时）。</p>
+<p>初始化一个深度网络时，为了缓解梯度消失或爆炸问题，我们尽可能保持每个神经元的输入和输出的方差一致，根据神经元的连接数量来自适应地调整初始化分布的方差，这类方法称为<strong>方差缩放(variance scaling)</strong>。</p>
+<h3 id="xavier-初始化">Xavier 初始化<a class="headerlink" href="#xavier-初始化" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="https://i.loli.net/2020/09/15/Yi1LzNP5mfGgCaH.png" /></p>
+<p>假设在一个神经网络中，第 <span class="arithmatex">\(l\)</span> 层的一个神经元 <span class="arithmatex">\(a^{(l)}\)</span>，其接收前一层的 <span class="arithmatex">\(M_{l−1}\)</span> 个神经元的输出 <span class="arithmatex">\(a_i^{(l-1)}\)</span>， <span class="arithmatex">\(1\le i\le M_{l-1}\)</span>，
+$$
+a<sup M__l-1="M_{l-1">{(l)}=f(\sum_{i=1}</sup>}w_i<sup _l-1_="(l-1)">{(l)}a_i</sup>)
+$$
+其中 <span class="arithmatex">\(f(\cdot)\)</span> 为激活函数， <span class="arithmatex">\(w_i^{(l)}\)</span> 为参数， <span class="arithmatex">\(M_{l−1}\)</span> 为 <span class="arithmatex">\(l-1\)</span> 层神经元个数。为简单起见，这里令激活函数 <span class="arithmatex">\(f(\cdot)\)</span> 为恒等函数。</p>
+<p>假设 <span class="arithmatex">\(w_i^{(l)}\)</span> 和 <span class="arithmatex">\(a_i^{(l-1)}\)</span> 各服从均值为0的独立同分布，则 <span class="arithmatex">\(a^{(l)}\)</span> 的均值为
+$$
+E(a<sup M__l-1="M_{l-1">{(l)})=E(\sum_{i=1}</sup>}w_i<sup _l-1_="(l-1)">{(l)}a_i</sup>)=\sum_{i=1}<sup _l_="(l)">{M_{l-1}}E(w_i</sup>)E(a_i^{(l-1)})=0
+$$
+<span class="arithmatex">\(a^{(l)}\)</span> 的方差为
+$$
+Var(a<sup M__l-1="M_{l-1">{(l)})=Var(\sum_{i=1}</sup>}w_i<sup _l-1_="(l-1)">{(l)}a_i</sup>)=\sum_{i=1}<sup _l_="(l)">{M_{l-1}}Var(w_i</sup>)Var(a_i^{(l-1)})\
+=M_{l-1}Var(w_i<sup _l-1_="(l-1)">{(l)})Var(a_i</sup>)
+$$</p>
+<blockquote>
+<p>对于相互独立的随机变量 <span class="arithmatex">\(X,Y\)</span> 
+$$
+Var(X+Y)=Var(X)+Var(Y)\
+Var(XY)=E<sup>2(X)Var(Y)+E</sup>2(Y)Var(X)+Var(X)Var(Y)
+$$</p>
+</blockquote>
+<p>也就是说，输入信号的方差在经过该神经元后放大或缩小为 <span class="arithmatex">\(M_{l-1}Var(w_i^{(l)})\)</span> 倍。为了使得在经过多层网络后，信号不被过分放大或过分减弱，我们尽可能保持每个神经元的输入和输出的方差一致，这样 <span class="arithmatex">\(M_{l-1}Var(w_i^{(l)})\)</span> 设为1比较合理，即
+$$
+Var(w_i^{(l)}) = \frac{1}{M_{l-1}}
+$$
+同理，为了使得在反向传播中，误差信号也不被放大或缩小，需要将 <span class="arithmatex">\(w_i\)</span> 的方差保持为
+$$
+Var(w_i^{(l)}) = \frac{1}{M_{l}}
+$$
+作为折中，同时考虑信号在前向和反向传播中都不被放大或缩小，可以设置
+$$
+Var(w_i^{(l)}) = \frac{2}{M_{l-1}+M_{l}}
+$$
+在计算出参数的理想方差后，可以通过高斯分布或均匀分布来随机初始化参数。若采用高斯分布来随机初始化参数，连接权重 <span class="arithmatex">\(w_i\)</span> 可以按 <span class="arithmatex">\(N(0, \frac{2}{M_{l-1}+M_{l}})\)</span> 的高斯分布进行初始化；若采用区间为 <span class="arithmatex">\([−r, r]\)</span> 的均分分布来初始化 <span class="arithmatex">\(w_i\)</span>，则 <span class="arithmatex">\(r\)</span> 的取值为 <span class="arithmatex">\(\sqrt{\frac{6}{M_{l-1}+M_{l}}}\)</span>。这种根据每层的神经元数量来自动计算初始化参数方差的方法称为 <strong>Xavier 初始化</strong> [Glorot et al., 2010]。</p>
+<p>虽然在 Xavier 初始化中我们假设激活函数为恒等函数，但是 Xavier 初始化也适用于 Logistic 函数和 Tanh 函数。这是因为神经元的参数和输入的绝对值通常比较小，处于激活函数的线性区间，这时 Logistic 函数和 Tanh 函数可以近似为线性函数。由于 Logistic 函数在线性区间的斜率约为 0.25 ，因此其参数初始化的方差约为 <span class="arithmatex">\(16×\frac{2}{M_{l-1}+M_{l}}\)</span>。在实际应用中，使用 Logistic 函数或 Tanh 函数的神经层通常将方差 <span class="arithmatex">\(\frac{2}{M_{l-1}+M_{l}}\)</span> 乘以一个缩放因子 <span class="arithmatex">\(\rho\)</span>， <span class="arithmatex">\(\rho\)</span> 根据经验进行设定。</p>
+<h3 id="he初始化">He初始化<a class="headerlink" href="#he初始化" title="Permanent link">&para;</a></h3>
+<p>当第 <span class="arithmatex">\(l\)</span> 层神经元使用 ReLU 激活函数时，通常有一半的神经元输出为 0 ，因此其分布的方差也近似为使用恒等函数时的一半。这样，只考虑前向传播时，参数 <span class="arithmatex">\(w_i^{(l)}\)</span> 的理想方差为
+$$
+Var(w_i^{(l)}) = \frac{2}{M_{l-1}}
+$$
+因此当使用 ReLU 激活函数时，若采用高斯分布来初始化参数 <span class="arithmatex">\(w_i^{(l)}\)</span>，其方差为 <span class="arithmatex">\(\frac{2}{M_{l-1}}\)</span> ；若采用区间为 <span class="arithmatex">\([−r, r]\)</span> 的均匀分布来初始化参数 <span class="arithmatex">\(w_i^{(l)}\)</span>，则 <span class="arithmatex">\(r=\sqrt{\frac{6}{M_{l-1}}}\)</span>。这种初始化方法称为 <strong>He 初始化</strong> [He et al., 2015] 。</p>
+<p>下表给出了 Xavier 初始化和 He 初始化的具体设置情况。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/I6DnxtC23blU7BP.png" /></p>
+<h2 id="正交初始化">正交初始化<a class="headerlink" href="#正交初始化" title="Permanent link">&para;</a></h2>
+<p>上面介绍的两种基于方差的初始化方法都是对权重矩阵中的每个参数进行独立采样。由于采样的随机性，采样出来的权重矩阵依然可能存在梯度消失或梯度爆炸问题。</p>
+<p>假设一个 <span class="arithmatex">\(L\)</span> 层的等宽线性网络（激活函数为恒等函数）为
+$$
+\pmb y=W^{(L)}\cdots W^{(1)}\pmb x
+$$
+其中 <span class="arithmatex">\(W^{(l)} ∈\mathbb{R}^{M×M}\ (1 ≤ l ≤ L)\)</span> 为神经网络的第 <span class="arithmatex">\(l\)</span> 层权重矩阵。在反向传播中，误差项 <span class="arithmatex">\(\pmb\delta\)</span> 的反向传播公式为 <span class="arithmatex">\(\pmb \delta^{(l-1)}=W^{(l){\rm T}}\pmb \delta^{(l)}\)</span>。为了避免梯度消失或梯度爆炸问题，我们希望误差项在反向传播中具有<strong>范数保持性(norm-preserving)</strong>，即 <span class="arithmatex">\(\|\pmb \delta^{(l-1)}\|^2=\|W^{(l){\rm T}}\pmb \delta^{(l)}\|^2=\|\pmb \delta^{(l)}\|^2\)</span>。</p>
+<p>一种保证范数保持性的方式是将 <span class="arithmatex">\(W^{(l)}\)</span> 初始化为正交矩阵，这种方法称为<strong>正交初始化(orthogonal initialization)</strong> [Saxe et al., 2014] 。正交初始化的具体实现过程可以分为两步： 1）用均值为 0 、方差为 1 的高斯分布初始化一个矩阵； 2）将这个矩阵用奇异值分解得到两个正交矩阵，并使用其中之一作为权重矩阵。</p>
+<p>根据正交矩阵的性质，这个线性网络在信息的前向传播过程和误差的反向传播过程中都具有范数保持性，从而可以避免在训练开始时就出现梯度消失或梯度爆炸现象。</p>
+<p>当在非线性神经网络中应用正交初始化时，通常需要将正交矩阵乘以一个缩放系数 <span class="arithmatex">\(ρ\)</span>。比如当激活函数为 ReLU 时，为了保持范数不变，缩放系数 <span class="arithmatex">\(ρ\)</span> 可以设置为 <span class="arithmatex">\(\sqrt{2}\)</span>。</p>
+<h1 id="数据预处理">数据预处理<a class="headerlink" href="#数据预处理" title="Permanent link">&para;</a></h1>
+<p>一般而言，样本特征由于来源以及度量单位不同，它们的<strong>尺度(scale)</strong>（即取值范围）往往差异很大。以描述长度的特征为例，当用 “米” 作单位时令其值为 <span class="arithmatex">\(x\)</span>，那么当用 “厘米” 作单位时其值为 <span class="arithmatex">\(100x\)</span>。不同机器学习模型对数据特征尺度的敏感程度不一样，如果一个机器学习算法在缩放全部或部分特征后不影响它的学习和预测，我们就称该算法具有<strong>尺度不变性(scale invariance)</strong>，比如线性分类器是尺度不变的，而最近邻分类器就是尺度敏感的。当我们计算不同样本之间的欧氏距离时，尺度大的特征会起到主导作用。因此对于尺度敏感的模型，<u>必须先对样本进行预处理，将各个维度的特征转换到相同的取值区间</u>，并且消除不同特征之间的相关性，才能获得比较理想的结果。</p>
+<p>从理论上，神经网络应该具有尺度不变性，可以通过参数的调整来适应不同特征的尺度，但尺度不同的输入特征会增加训练难度。假设一个只有一层的网络 <span class="arithmatex">\(y = {\rm tanh}(w_1 x_1 + w_2 x_2 + b)\)</span>，其中 <span class="arithmatex">\(x_1∈ [0, 10] , x_2 ∈ [0, 1]\)</span>。之前我们提到 tanh 函数的导数在区间 <span class="arithmatex">\([−2, 2]\)</span> 上是敏感的，其余的导数接近于 0 。因此，如果 <span class="arithmatex">\(w_1 x_1 + w_2 x_2 + b\)</span> 过大或过小，都会导致梯度过小，难以训练。为了提高训练效率，我们需要使 <span class="arithmatex">\(w_1 x_1 + w_2 x_2 + b\)</span> 在 <span class="arithmatex">\([−2, 2]\)</span> 区间，因此需要将 <span class="arithmatex">\(w_1\)</span> 设得小一点，比如在 <span class="arithmatex">\([−0.1, 0.1]\)</span> 之间。可以想象，如果数据维数很多时，我们很难这样精心去选择每一个参数。因此，如果每一个特征的尺度相似，比如 <span class="arithmatex">\([0, 1]\)</span> 或者 <span class="arithmatex">\([−1, 1]\)</span>，我们就不太需要区别对待每一个参数，从而减少人工干预。</p>
+<p>除了参数初始化比较困难之外，不同输入特征的尺度差异比较大时，梯度下降法的效率也会受到影响。下图给出了数据归一化对梯度的影响，其中，左图为未归一化数据的等高线图。尺度不同会造成在大多数位置上的梯度方向并不是最优的搜索方向，当使用梯度下降法寻求最优解时，会导致需要很多次迭代才能收敛。如果我们把数据归一化为相同尺度，如右图所示，大部分位置的梯度方向近似于最优搜索方向。这样在梯度下降求解时，每一步梯度的方向都基本指向最小值，训练效率会大大提高。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/03/et3lCVqFQJR7NvO.png" /></p>
+<p><strong>归一化(normalization)</strong>方法泛指把数据特征转换为相同尺度的方法，比如把数据特征映射到 <span class="arithmatex">\([0, 1]\)</span> 或 <span class="arithmatex">\([−1, 1]\)</span> 区间内，或者映射为服从均值为 0 、方差为 1的标准正态分布。归一化的方法有很多种，比如之前我们介绍的 Sigmoid 型函数等都可以将不同尺度的特征挤压到一个比较受限的区间。这里，我们介绍几种在神经网络中经常使用的归一化方法。</p>
+<p><strong>最小最大值归一化</strong></p>
+<p><strong>最小最大值归一化(min-max normalization)</strong>是一种非常简单的归一化方法，通过缩放将每一个特征的取值范围归一到 <span class="arithmatex">\([0, 1]\)</span> 或 <span class="arithmatex">\([−1, 1]\)</span> 之间。假设有 <span class="arithmatex">\(N\)</span> 个样本 <span class="arithmatex">\(\{\pmb x^{(n)}\}_{n=1}^N\)</span>，对于每一维特征 <span class="arithmatex">\(x\)</span>，归一化后的特征为
+$$
+\hat{x}=\frac{x-\min(x<sup _n_="(n)">{(n)})}{\max(x</sup>)-\min(x^{(n)})}
+$$
+其中 <span class="arithmatex">\(\min(x^{(n)})\)</span> 和 <span class="arithmatex">\(\max(x^{(n)})\)</span> 分别是特征 <span class="arithmatex">\(x\)</span> 在所有样本上的最小值和最大值。</p>
+<p><strong>标准化</strong></p>
+<p><strong>标准化(standardization)</strong>也叫 <strong>Z 值归一化(Z-score normalization)</strong>，来源于统计上的标准分数，将每一个维特征都调整为均值为 0 ，方差为 1 。假设有 <span class="arithmatex">\(N\)</span> 个样本 <span class="arithmatex">\(\{\pmb x^{(n)}\}_{n=1}^N\)</span>，对于每一维特征 <span class="arithmatex">\(x\)</span>，我们先计算它的均值和方差：
+$$
+\mu = \frac{1}{N}\sum_{n=1}^N x^{(n)}\
+\sigma^2= \frac{1}{N}\sum_{n=1}^N (x<sup>{(n)}-\mu)</sup>2
+$$
+然后将特征 <span class="arithmatex">\(x\)</span> 减去均值，并除以标准差，得到新的特征值 <span class="arithmatex">\(\hat{x}\)</span> ：
+$$
+\hat{x}=\frac{x-\mu}{\sigma}
+$$
+<strong>白化</strong></p>
+<p><strong>白化(whitening)</strong>是一种重要的预处理方法，用来降低输入数据特征之间的冗余性。输入数据经过白化处理后，特征之间相关性较低，并且所有特征具有相同的方差。白化的一个主要实现方式是使用<strong>主成分分析(Principal Component Analysis, PCA)</strong>方法去除掉各个成分之间的相关性。</p>
+<p>下图给出了标准归一化和 PCA 白化的比较。</p>
+<p><img alt="" src="https://i.loli.net/2020/12/04/SXzYqMnO14I7dFv.png" /></p>
+<h1 id="逐层归一化">逐层归一化<a class="headerlink" href="#逐层归一化" title="Permanent link">&para;</a></h1>
+<p><strong>逐层归一化(layer-wise normalization)</strong>是将传统机器学习中的数据归一化方法应用到深度神经网络中，对神经网络中隐藏层的输入进行归一化，从而使得网络更容易训练。</p>
+<blockquote>
+<p>这里的逐层归一化方法是指可以应用在深度神经网络中的任何一个中间层，实际上并不需要对所有层进行归一化。</p>
+</blockquote>
+<p>逐层归一化可以有效提高训练效率的原因有以下几个方面：</p>
+<ol>
+<li>更好的尺度不变性：在深度神经网络中，一个神经层的输入是之前神经层的输出。给定一个神经层 <span class="arithmatex">\(l\)</span>，它之前的神经层 <span class="arithmatex">\((1, ⋯ , l − 1)\)</span> 的参数变化会导致其输入的分布发生较大的改变。当使用随机梯度下降来训练网络时，<u>每次参数更新都会导致该神经层的输入分布发生改变</u>。越高的层，其输入分布会改变得越明显。从机器学习角度来看，<u>如果一个神经层的输入分布发生了改变，那么其参数需要重新学习</u>，这种现象叫作<strong>内部协变量偏移(internal covariate shift)</strong>。为了缓解这个问题，我们可以对每一个神经层的输入进行归一化操作，使其分布保持稳定。</li>
+</ol>
+<p><u>把每个神经层的输入分布都归一化为标准正态分布，可以使得每个神经层对其输入具有更好的尺度不变性</u>。不论低层的参数如何变化，高层的输入保持相对稳定。另外，尺度不变性可以使得我们更加高效地进行参数初始化以及超参数选择。</p>
+<ol>
+<li>更平滑的优化地形：逐层归一化一方面可以使得大部分神经层的输入处于不饱和区域，从而让梯度变大，避免梯度消失问题；另一方面还可以使得神经网络的<strong>优化地形(optimization landscape)</strong>更加平滑，以及使梯度变得更加稳定，从而允许我们使用更大的学习率，并提高收敛速度 [Bjorck et al., 2018; Santurkar et al., 2018]。</li>
+</ol>
+<blockquote>
+<p>优化地形指在高维空间中损失函数的曲面形状，好的优化地形通常比较平滑。</p>
+</blockquote>
+<h2 id="批量归一化">批量归一化<a class="headerlink" href="#批量归一化" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="https://i.loli.net/2020/09/15/Yi1LzNP5mfGgCaH.png" /></p>
+<p><strong>批量归一化(Batch Normalization , BN)</strong>方法 [Ioffe et al., 2015] 是一种有效的逐层归一化方法，可以对神经网络中任意的中间层进行归一化操作。</p>
+<p>对于一个深度神经网络，令第 <span class="arithmatex">\(l\)</span> 层的净输入为 <span class="arithmatex">\(\pmb z^{(l)}\)</span>，神经元的输出为 <span class="arithmatex">\(\pmb a^{(l)}\)</span>，即
+$$
+\pmb a^{(l)}=f(\pmb z^{(l)})=f(W\pmb a^{(l-1)}+\pmb b)
+$$
+为了提高优化效率，就要使得净输入 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的分布一致，比如都归一化到标准正态分布。虽然归一化操作也可以应用在输入 <span class="arithmatex">\(\pmb a^{(l-1)}\)</span> 上，但归一化 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 更加有利于优化。因此，在实践中归一化操作一般应用在仿射变换 <span class="arithmatex">\(W\pmb a^{(l-1)}+\pmb b\)</span> 之后，激活函数之前。</p>
+<p>利用前一节中介绍的数据预处理方法对进行归一化，相当于每一层都进行一次数据预处理，从而加速收敛速度。但是逐层归一化需要在中间层进行操作，要求效率比较高，因此复杂度比较高的白化方法就不太合适。为了提高归一
+化效率，<u>一般使用标准化将净输入 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的每一维都归一到标准正态分布</u>。
+$$
+\hat{\pmb z}^{(l)}=\frac{\pmb z^{(l)}-E(\pmb z^{(l)})}{\sqrt{Var(\pmb z^{(l)})+\epsilon}}
+$$
+其中 <span class="arithmatex">\(E(\pmb z^{(l)})\)</span> 和 <span class="arithmatex">\(Var(\pmb z^{(l)})\)</span> 是指当前参数下， <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的每一维在整个训练集上的期望和方差。因为目前主要的优化算法是基于小批量的随机梯度下降法，所以准确地计算 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的期望和方差是不可行的，因此 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的期望和方差通常用当前小批量样本集的均值和方差近似估计。</p>
+<p>给定一个包含 <span class="arithmatex">\(K\)</span> 个样本的小批量样本集合，第 <span class="arithmatex">\(l\)</span> 层神经元的净输入 <span class="arithmatex">\(\pmb z^{(1,l)},\cdots,\pmb z^{(K,l)}\)</span> 的均值和方差为
+$$
+\pmb \mu_b = \frac{1}{K}\sum_{k=1}^K \pmb z^{(k,l)}\
+\pmb \sigma_b<sup>2=\frac{1}{K}\sum_{k=1}</sup>K(\pmb z^{(k,l)}-\pmb \mu_b)\odot(\pmb z^{(k,l)}-\pmb \mu_b)
+$$
+对净输入 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的标准归一化会使得其取值集中到 0 附近，如果使用 Sigmoid 型激活函数时，这个取值区间刚好是接近线性变换的区间，减弱了神经网络的非线性性质。因此为了使得归一化不对网络的表示能力造成负面影响，可以通过一个附加的缩放和平移变换改变取值区间。
+$$
+\hat{\pmb z}^{(l)}=\frac{\pmb z^{(l)}-\pmb \mu_b}{\sqrt{\pmb \sigma_b^2+\epsilon}}\odot\pmb \gamma + \pmb\beta\
+\triangleq {\rm BN}_{\pmb\gamma,\pmb\beta}(\pmb z^{(l)})
+$$
+其中 <span class="arithmatex">\(\pmb γ\)</span> 和 <span class="arithmatex">\(\pmb β\)</span> 分别代表缩放和平移的参数向量。从最保守的角度考虑，可以通过标准归一化的逆变换来使得归一化后的变量可以被还原为原来的值，即当 <span class="arithmatex">\(\pmb γ =\sqrt{\pmb \sigma_b^2}, \pmb \beta=\pmb \mu_b\)</span> 时， <span class="arithmatex">\(\hat{\pmb z}^{(l)}=\pmb z^{(l)}\)</span>。</p>
+<p>批量归一化操作可以看作一个特殊的神经层，加在每一层非线性激活函数之前，即
+$$
+\pmb a^{(l)}=f({\rm BN}<em _pmb_gamma_pmb_beta="\pmb\gamma,\pmb\beta">{\pmb\gamma,\pmb\beta}(\pmb z^{(l)}))=f({\rm BN}</em>(W\pmb a^{(l-1)}))
+$$
+其中因为批量归一化本身具有平移变换，所以仿射变换 <span class="arithmatex">\(W\pmb a^{(l-1)}\)</span> 不再需要偏置参数。</p>
+<p>这里要注意的是，每次小批量样本的 <span class="arithmatex">\(\pmb \mu_b\)</span> 和方差 <span class="arithmatex">\(\pmb \sigma_b^2\)</span> 是净输入 <span class="arithmatex">\(\pmb z^{(l)}\)</span> 的函数，而不是常量。因此在计算参数梯度时需要考虑 <span class="arithmatex">\(\pmb \mu_b\)</span> 和 <span class="arithmatex">\(\pmb \sigma_b^2\)</span> 的影响。当训练完成时，用整个数据集上的均值 <span class="arithmatex">\(μ\)</span> 和方差 <span class="arithmatex">\(σ\)</span> 来分别代替每次小批量样本的 <span class="arithmatex">\(\pmb \mu_b\)</span> 和方差 <span class="arithmatex">\(\pmb \sigma_b^2\)</span>。在实践中， <span class="arithmatex">\(\pmb \mu_b\)</span> 和 <span class="arithmatex">\(\pmb \sigma_b^2\)</span> 也可以用移动平均来计算。</p>
+<p>值得一提的是，逐层归一化不但可以提高优化效率，还可以作为一种隐形的正则化方法。在训练时，神经网络对一个样本的预测不仅和该样本自身相关，也和同一批次中的其他样本相关。由于在选取批次时具有随机性，因此使得神经网络不会 “过拟合” 到某个特定样本，从而提高网络的泛化能力 [Luo et al., 2018] 。</p>
+<blockquote>
+<p>批量归一化的提出动机是为了解决内部协方差偏移问题，但后来的研究者发现其主要优点是归一化会导致更平滑的优化地形 [Santurkar et al.,2018] 。</p>
+</blockquote>
+<h2 id="层归一化">层归一化<a class="headerlink" href="#层归一化" title="Permanent link">&para;</a></h2>
+<p>批量归一化是对一个中间层的单个神经元进行归一化操作，因此要求小批量样本的数量不能太小，否则难以计算单个神经元的统计信息。此外，如果一个神经元的净输入的分布在神经网络中是动态变化的，比如循环神经网络，那么就无法应用批量归一化操作。</p>
+<p><strong>层归一化(Layer Normalization, LN)</strong> [Ba et al., 2016] 是和批量归一化非常类似的方法。和批量归一化不同的是，层归一化是对一个中间层的所有神经元进行归一化。</p>
+<p>对于一个深度神经网络，令第 <span class="arithmatex">\(l\)</span> 层神经元的净输入为 <span class="arithmatex">\(\pmb z^{(l)}\)</span>，其均值和方差为
+$$
+\mu^{(l)} = \frac{1}{M_l}\sum_{i=1}^{M_l} z_i^{(l)}\
+(\sigma<sup>{(l)})</sup>2 = \frac{1}{M_l}\sum_{i=1}^{M_l} (z_i<sup _l_="(l)">{(l)}-\mu</sup>)^2
+$$
+其中 <span class="arithmatex">\(M_l\)</span> 为第 <span class="arithmatex">\(l\)</span> 层神经元的数量。</p>
+<p>层归一化定义为
+$$
+\hat{\pmb z}^{(l)}=\frac{\pmb z<sup _l_="(l)">{(l)}-\mu</sup>}{\sqrt{(\sigma<sup>{(l)})</sup>2+\epsilon}}\odot\pmb \gamma + \pmb\beta\
+\triangleq {\rm LN}_{\pmb\gamma,\pmb\beta}(\pmb z^{(l)})
+$$
+其中 <span class="arithmatex">\(\pmb γ\)</span> 和 <span class="arithmatex">\(\pmb β\)</span> 分别代表缩放和平移的参数向量。</p>
+<p><strong>循环神经网络中的层归一化</strong></p>
+<p>层归一化可以应用在循环神经网络中，对循环神经层进行归一化操作。假设在时刻 <span class="arithmatex">\(t\)</span>，循环神经网络的隐藏层为 <span class="arithmatex">\(\pmb h_t\)</span>，其层归一化的更新为
+$$
+\pmb z_t = U \pmb h_{t-1}+W\pmb x_t\
+\pmb h_t= f({\rm LN}_{\pmb\gamma,\pmb\beta}(\pmb z_t))
+$$
+其中输入为 <span class="arithmatex">\(\pmb x_t\)</span> 为第 <span class="arithmatex">\(t\)</span> 时刻的输入， <span class="arithmatex">\(U\)</span> 和 <span class="arithmatex">\(W\)</span> 为网络参数。</p>
+<p>在标准循环神经网络中，循环神经层的净输入一般会随着时间慢慢变大或变小，从而导致梯度爆炸或消失。而层归一化的循环神经网络可以有效地缓解这种状况。</p>
+<p>层归一化和批量归一化整体上是十分类似的，差别在于归一化的方法不同。对于 <span class="arithmatex">\(K\)</span> 个样本的一个小批量集合 <span class="arithmatex">\(Z^{(l)}=[\pmb z^{(1,l)},\cdots,\pmb z^{(K,l)}]\)</span>，层归一化是对矩阵 <span class="arithmatex">\(Z^{(l)}\)</span> 的每一列进行归一化，而批量归一化是对每一行进行归一化。一般而言，批量归一化是一种更好的选择。当小批量样本数量比较小时，可以选择层归一化。</p>
+<h2 id="权重归一化">权重归一化<a class="headerlink" href="#权重归一化" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>？参数解耦是归一化吗？</p>
+</blockquote>
+<p><strong>权重归一化(weight normalization)</strong> [Salimans et al., 2016] 是对神经网络的连接权重进行归一化，通过再参数化(reparameterization)方法，将连接权重分解为长度和方向两种参数。假设第 <span class="arithmatex">\(l\)</span> 层神经元 <span class="arithmatex">\(\pmb a^{(l)}=f(W\pmb a^{(l-1)}+\pmb b)\)</span>，我们将 <span class="arithmatex">\(W\)</span> 再参数化为
+$$
+\pmb w_i=\frac{g_i}{|\pmb v_i|}\pmb v_i,\quad 1\le i\le M_l
+$$
+其中 <span class="arithmatex">\(\pmb w_i\)</span> 表示权重 <span class="arithmatex">\(W\)</span> 的第 <span class="arithmatex">\(i\)</span> 行， <span class="arithmatex">\(M_l\)</span> 为神经元数量，参数 <span class="arithmatex">\(g_i\)</span> 代表 <span class="arithmatex">\(\pmb w_i\)</span> 的模， <span class="arithmatex">\(\pmb v_i\)</span> 代表 <span class="arithmatex">\(\pmb w_i\)</span>。由此一个权重参数被拆分为两个。</p>
+<p>由于在神经网络中权重经常是共享的，权重数量往往比神经元数量要少，因此权重归一化的开销会比较小。</p>
+<h2 id="局部响应归一化">局部响应归一化<a class="headerlink" href="#局部响应归一化" title="Permanent link">&para;</a></h2>
+<p><strong>局部响应归一化(Local Response Normalization, LRN)</strong> [Krizhevsky et al., 2012] 是一种受生物学启发的归一化方法，通常用在基于卷积的图像处理上。</p>
+<p>……</p>
+<blockquote>
+<p>参见<a href="https://blog.csdn.net/qq_27825451/article/details/88745034">深度学习饱受争议的局部响应归一化(LRN)详解</a></p>
+</blockquote>
+<h1 id="超参数优化">超参数优化<a class="headerlink" href="#超参数优化" title="Permanent link">&para;</a></h1>
+<p>在神经网络中，除了可学习的参数之外，还存在很多超参数，这些超参数对网络性能的影响也很大。不同的机器学习任务往往需要不同的超参数，常见的超参数有以下三类：</p>
+<ol>
+<li>
+<p>网络结构，包括神经元之间的连接关系、层数、每层的神经元数量、激活函数的类型等</p>
+</li>
+<li>
+<p>优化参数，包括优化方法、 学习率、 小批量的样本数量等</p>
+</li>
+<li>
+<p>正则化系数</p>
+</li>
+</ol>
+<p><strong>超参数优化(hyperparameter optimization, HPO)</strong>主要存在两方面的困难：</p>
+<ol>
+<li>超参数优化是一个组合优化问题，无法像一般参数那样通过梯度下降方法来优化，也没有一种通用有效的优化方法；</li>
+<li>评估一组超参数配置(configuration)的时间代价非常高，从而导致一些优化方法（比如演化算法(evolution algorithm)）需要相当大的计算资源。</li>
+</ol>
+<p>假设一个神经网络中总共有 <span class="arithmatex">\(K\)</span> 个超参数，每个超参数配置表示为一个向量 <span class="arithmatex">\(\pmb x ∈\mathcal{X}, \mathcal{X} ⊂\mathbb{R}^K\)</span> 是超参数配置的取值空间。超参数优化的目标函数定义为 <span class="arithmatex">\(f(\pmb x)∶\mathcal{X}→\mathbb{R}\)</span>， <span class="arithmatex">\(f(\pmb x)\)</span> 是衡量一组超参数配置 <span class="arithmatex">\(\pmb x\)</span> 效果的函数，一般设置为开发集
+上的错误率。目标函数 <span class="arithmatex">\(f(\pmb x)\)</span> 可以看作一个黑盒(black-box)函数，不需要知道其具体形式。虽然在神经网络的超参数优化中， <span class="arithmatex">\(f(\pmb x)\)</span> 的函数形式已知，但 <span class="arithmatex">\(f(\pmb x)\)</span> 不是关于 <span class="arithmatex">\(\pmb x\)</span> 的连续函数，并且 <span class="arithmatex">\(\pmb x\)</span> 不同， <span class="arithmatex">\(f(\pmb x)\)</span> 的函数形式也不同，因此无法使用梯度下降等优化方法。</p>
+<blockquote>
+<p>进一步了解HPO和NAS，请参考：</p>
+<p><a href="https://github.com/microsoft/nni/blob/master/docs/zh_CN/Tuner/BuiltinTuner.md">使用 NNI 内置 Tuner 进行超参数调优</a></p>
+<p><a href="https://github.com/microsoft/nni/blob/master/docs/zh_CN/NAS/Overview.md">NNI 上的神经网络架构搜索</a></p>
+</blockquote>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    2023-12-11
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.indexes", "navigation.tabs", "navigation.top", "search.highlight", "search.share", "search.suggest"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="../../../javascripts/tex-mml-chtml.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.cs/net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
